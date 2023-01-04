@@ -224,7 +224,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>(id: "batchUpdateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchUpdateClusterInput, BatchUpdateClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<BatchUpdateClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchUpdateClusterOutputResponse, BatchUpdateClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -259,7 +262,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>(id: "copySnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopySnapshotInput, CopySnapshotOutputResponse, CopySnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopySnapshotInput, CopySnapshotOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CopySnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopySnapshotOutputResponse, CopySnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -294,7 +300,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateACLInput, CreateACLOutputResponse, CreateACLOutputError>(id: "createACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateACLInput, CreateACLOutputResponse, CreateACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateACLInput, CreateACLOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateACLOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateACLOutputResponse, CreateACLOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -329,7 +338,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>(id: "createCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateClusterInput, CreateClusterOutputResponse, CreateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateClusterInput, CreateClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateClusterOutputResponse, CreateClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -364,7 +376,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateParameterGroupInput, CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>(id: "createParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateParameterGroupInput, CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateParameterGroupInput, CreateParameterGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateParameterGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateParameterGroupOutputResponse, CreateParameterGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -399,7 +414,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>(id: "createSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse, CreateSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSnapshotInput, CreateSnapshotOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSnapshotOutputResponse, CreateSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -434,7 +452,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>(id: "createSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubnetGroupInput, CreateSubnetGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateSubnetGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSubnetGroupOutputResponse, CreateSubnetGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -469,7 +490,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>(id: "createUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserInput, CreateUserOutputResponse, CreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserInput, CreateUserOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<CreateUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserOutputResponse, CreateUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -504,7 +528,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteACLInput, DeleteACLOutputResponse, DeleteACLOutputError>(id: "deleteACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteACLInput, DeleteACLOutputResponse, DeleteACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteACLInput, DeleteACLOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteACLOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteACLOutputResponse, DeleteACLOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -539,7 +566,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>(id: "deleteCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteClusterInput, DeleteClusterOutputResponse, DeleteClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteClusterOutputResponse, DeleteClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -574,7 +604,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>(id: "deleteParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteParameterGroupInput, DeleteParameterGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteParameterGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteParameterGroupOutputResponse, DeleteParameterGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -609,7 +642,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(id: "deleteSnapshot")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSnapshotInput, DeleteSnapshotOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteSnapshotOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSnapshotOutputResponse, DeleteSnapshotOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -644,7 +680,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>(id: "deleteSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubnetGroupInput, DeleteSubnetGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteSubnetGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSubnetGroupOutputResponse, DeleteSubnetGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -679,7 +718,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DeleteUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -714,7 +756,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeACLsInput, DescribeACLsOutputResponse, DescribeACLsOutputError>(id: "describeACLs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeACLsInput, DescribeACLsOutputResponse, DescribeACLsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeACLsInput, DescribeACLsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeACLsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeACLsOutputResponse, DescribeACLsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -749,7 +794,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>(id: "describeClusters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeClustersInput, DescribeClustersOutputResponse, DescribeClustersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeClustersInput, DescribeClustersOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeClustersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeClustersOutputResponse, DescribeClustersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -784,7 +832,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>(id: "describeEngineVersions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEngineVersionsInput, DescribeEngineVersionsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeEngineVersionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEngineVersionsOutputResponse, DescribeEngineVersionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -819,7 +870,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>(id: "describeEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEventsInput, DescribeEventsOutputResponse, DescribeEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEventsInput, DescribeEventsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeEventsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEventsOutputResponse, DescribeEventsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -854,7 +908,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>(id: "describeParameterGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeParameterGroupsInput, DescribeParameterGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeParameterGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeParameterGroupsOutputResponse, DescribeParameterGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -889,7 +946,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>(id: "describeParameters")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeParametersInput, DescribeParametersOutputResponse, DescribeParametersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeParametersInput, DescribeParametersOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeParametersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -902,6 +962,82 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeParametersOutputResponse, DescribeParametersOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Returns information about reserved nodes for this account, or about a specified reserved node.
+    public func describeReservedNodes(input: DescribeReservedNodesInput) async throws -> DescribeReservedNodesOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeReservedNodes")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(id: "describeReservedNodes")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>())
+        guard let region = config.region else {
+            throw SdkError<DescribeReservedNodesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>(xAmzTarget: "AmazonMemoryDB.DescribeReservedNodes"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>(xmlName: "DescribeReservedNodesRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOutputResponse, DescribeReservedNodesOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Lists available reserved node offerings.
+    public func describeReservedNodesOfferings(input: DescribeReservedNodesOfferingsInput) async throws -> DescribeReservedNodesOfferingsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeReservedNodesOfferings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(id: "describeReservedNodesOfferings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>())
+        guard let region = config.region else {
+            throw SdkError<DescribeReservedNodesOfferingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>(xAmzTarget: "AmazonMemoryDB.DescribeReservedNodesOfferings"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>(xmlName: "DescribeReservedNodesOfferingsRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReservedNodesOfferingsInput, DescribeReservedNodesOfferingsOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeReservedNodesOfferingsOutputResponse, DescribeReservedNodesOfferingsOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -924,7 +1060,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(id: "describeServiceUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeServiceUpdatesInput, DescribeServiceUpdatesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeServiceUpdatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeServiceUpdatesOutputResponse, DescribeServiceUpdatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -959,7 +1098,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(id: "describeSnapshots")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeSnapshotsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSnapshotsOutputResponse, DescribeSnapshotsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -994,7 +1136,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>(id: "describeSubnetGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeSubnetGroupsInput, DescribeSubnetGroupsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeSubnetGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeSubnetGroupsOutputResponse, DescribeSubnetGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1029,7 +1174,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>(id: "describeUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUsersInput, DescribeUsersOutputResponse, DescribeUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUsersInput, DescribeUsersOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<DescribeUsersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUsersOutputResponse, DescribeUsersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1064,7 +1212,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<FailoverShardInput, FailoverShardOutputResponse, FailoverShardOutputError>(id: "failoverShard")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<FailoverShardInput, FailoverShardOutputResponse, FailoverShardOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<FailoverShardInput, FailoverShardOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<FailoverShardOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<FailoverShardOutputResponse, FailoverShardOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1099,7 +1250,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>(id: "listAllowedNodeTypeUpdates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAllowedNodeTypeUpdatesInput, ListAllowedNodeTypeUpdatesOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListAllowedNodeTypeUpdatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAllowedNodeTypeUpdatesOutputResponse, ListAllowedNodeTypeUpdatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1134,7 +1288,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>(id: "listTags")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsInput, ListTagsOutputResponse, ListTagsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ListTagsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutputResponse, ListTagsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1147,6 +1304,44 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsOutputResponse, ListTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ListTagsOutputResponse, ListTagsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsOutputResponse, ListTagsOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
+    public func purchaseReservedNodesOffering(input: PurchaseReservedNodesOfferingInput) async throws -> PurchaseReservedNodesOfferingOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "purchaseReservedNodesOffering")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "memorydb")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(id: "purchaseReservedNodesOffering")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse>())
+        guard let region = config.region else {
+            throw SdkError<PurchaseReservedNodesOfferingOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse>(xAmzTarget: "AmazonMemoryDB.PurchaseReservedNodesOffering"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse>(xmlName: "PurchaseReservedNodesOfferingRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PurchaseReservedNodesOfferingInput, PurchaseReservedNodesOfferingOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PurchaseReservedNodesOfferingOutputResponse, PurchaseReservedNodesOfferingOutputError>())
         let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
         return result
     }
@@ -1169,7 +1364,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<ResetParameterGroupInput, ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>(id: "resetParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResetParameterGroupInput, ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResetParameterGroupInput, ResetParameterGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<ResetParameterGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResetParameterGroupOutputResponse, ResetParameterGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1204,7 +1402,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1239,7 +1440,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1274,7 +1478,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateACLInput, UpdateACLOutputResponse, UpdateACLOutputError>(id: "updateACL")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateACLInput, UpdateACLOutputResponse, UpdateACLOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateACLInput, UpdateACLOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateACLOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateACLOutputResponse, UpdateACLOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1309,7 +1516,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>(id: "updateCluster")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateClusterInput, UpdateClusterOutputResponse, UpdateClusterOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateClusterInput, UpdateClusterOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateClusterOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateClusterOutputResponse, UpdateClusterOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1344,7 +1554,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>(id: "updateParameterGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateParameterGroupInput, UpdateParameterGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateParameterGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateParameterGroupOutputResponse, UpdateParameterGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1379,7 +1592,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>(id: "updateSubnetGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubnetGroupInput, UpdateSubnetGroupOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateSubnetGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSubnetGroupOutputResponse, UpdateSubnetGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1414,7 +1630,10 @@ extension MemoryDBClient: MemoryDBClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>(id: "updateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserInput, UpdateUserOutputResponse, UpdateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserInput, UpdateUserOutputResponse>())
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        guard let region = config.region else {
+            throw SdkError<UpdateUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
+        }
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserOutputResponse, UpdateUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

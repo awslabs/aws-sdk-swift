@@ -69,8 +69,8 @@ extension AddLFTagsToResourceInput: Swift.Encodable {
         }
         if let lfTags = lfTags {
             var lfTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTags)
-            for lftagslist0 in lfTags {
-                try lfTagsContainer.encode(lftagslist0)
+            for lftagpair0 in lfTags {
+                try lfTagsContainer.encode(lftagpair0)
             }
         }
         if let resource = self.resource {
@@ -237,8 +237,8 @@ extension LakeFormationClientTypes.AddObjectInput: Swift.Codable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for partitionvalueslist0 in partitionValues {
-                try partitionValuesContainer.encode(partitionvalueslist0)
+            for partitionvaluestring0 in partitionValues {
+                try partitionValuesContainer.encode(partitionvaluestring0)
             }
         }
         if size != 0 {
@@ -610,8 +610,8 @@ extension BatchGrantPermissionsInput: Swift.Encodable {
         }
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchpermissionsrequestentrylist0 in entries {
-                try entriesContainer.encode(batchpermissionsrequestentrylist0)
+            for batchpermissionsrequestentry0 in entries {
+                try entriesContainer.encode(batchpermissionsrequestentry0)
             }
         }
     }
@@ -804,14 +804,14 @@ extension LakeFormationClientTypes.BatchPermissionsRequestEntry: Swift.Codable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let permissionsWithGrantOption = permissionsWithGrantOption {
             var permissionsWithGrantOptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionsWithGrantOption)
-            for permissionlist0 in permissionsWithGrantOption {
-                try permissionsWithGrantOptionContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissionsWithGrantOption {
+                try permissionsWithGrantOptionContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -901,8 +901,8 @@ extension BatchRevokePermissionsInput: Swift.Encodable {
         }
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchpermissionsrequestentrylist0 in entries {
-                try entriesContainer.encode(batchpermissionsrequestentrylist0)
+            for batchpermissionsrequestentry0 in entries {
+                try entriesContainer.encode(batchpermissionsrequestentry0)
             }
         }
     }
@@ -1156,8 +1156,8 @@ extension LakeFormationClientTypes.ColumnLFTag: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lfTags = lfTags {
             var lfTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTags)
-            for lftagslist0 in lfTags {
-                try lfTagsContainer.encode(lftagslist0)
+            for lftagpair0 in lfTags {
+                try lfTagsContainer.encode(lftagpair0)
             }
         }
         if let name = self.name {
@@ -1212,8 +1212,8 @@ extension LakeFormationClientTypes.ColumnWildcard: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludedColumnNames = excludedColumnNames {
             var excludedColumnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedColumnNames)
-            for columnnames0 in excludedColumnNames {
-                try excludedColumnNamesContainer.encode(columnnames0)
+            for namestring0 in excludedColumnNames {
+                try excludedColumnNamesContainer.encode(namestring0)
             }
         }
     }
@@ -1592,8 +1592,8 @@ extension CreateLFTagInput: Swift.Encodable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvaluelist0 in tagValues {
-                try tagValuesContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValues {
+                try tagValuesContainer.encode(lftagvalue0)
             }
         }
     }
@@ -1717,8 +1717,8 @@ extension LakeFormationClientTypes.DataCellsFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for columnnames0 in columnNames {
-                try columnNamesContainer.encode(columnnames0)
+            for namestring0 in columnNames {
+                try columnNamesContainer.encode(namestring0)
             }
         }
         if let columnWildcard = self.columnWildcard {
@@ -1982,44 +1982,44 @@ extension LakeFormationClientTypes.DataLakeSettings: Swift.Codable {
         }
         if let authorizedSessionTagValueList = authorizedSessionTagValueList {
             var authorizedSessionTagValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authorizedSessionTagValueList)
-            for authorizedsessiontagvaluelist0 in authorizedSessionTagValueList {
-                try authorizedSessionTagValueListContainer.encode(authorizedsessiontagvaluelist0)
+            for namestring0 in authorizedSessionTagValueList {
+                try authorizedSessionTagValueListContainer.encode(namestring0)
             }
         }
         if let createDatabaseDefaultPermissions = createDatabaseDefaultPermissions {
             var createDatabaseDefaultPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createDatabaseDefaultPermissions)
-            for principalpermissionslist0 in createDatabaseDefaultPermissions {
-                try createDatabaseDefaultPermissionsContainer.encode(principalpermissionslist0)
+            for principalpermissions0 in createDatabaseDefaultPermissions {
+                try createDatabaseDefaultPermissionsContainer.encode(principalpermissions0)
             }
         }
         if let createTableDefaultPermissions = createTableDefaultPermissions {
             var createTableDefaultPermissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createTableDefaultPermissions)
-            for principalpermissionslist0 in createTableDefaultPermissions {
-                try createTableDefaultPermissionsContainer.encode(principalpermissionslist0)
+            for principalpermissions0 in createTableDefaultPermissions {
+                try createTableDefaultPermissionsContainer.encode(principalpermissions0)
             }
         }
         if let dataLakeAdmins = dataLakeAdmins {
             var dataLakeAdminsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataLakeAdmins)
-            for datalakeprincipallist0 in dataLakeAdmins {
-                try dataLakeAdminsContainer.encode(datalakeprincipallist0)
+            for datalakeprincipal0 in dataLakeAdmins {
+                try dataLakeAdminsContainer.encode(datalakeprincipal0)
             }
         }
         if let externalDataFilteringAllowList = externalDataFilteringAllowList {
             var externalDataFilteringAllowListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalDataFilteringAllowList)
-            for datalakeprincipallist0 in externalDataFilteringAllowList {
-                try externalDataFilteringAllowListContainer.encode(datalakeprincipallist0)
+            for datalakeprincipal0 in externalDataFilteringAllowList {
+                try externalDataFilteringAllowListContainer.encode(datalakeprincipal0)
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let trustedResourceOwners = trustedResourceOwners {
             var trustedResourceOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustedResourceOwners)
-            for trustedresourceowners0 in trustedResourceOwners {
-                try trustedResourceOwnersContainer.encode(trustedresourceowners0)
+            for catalogidstring0 in trustedResourceOwners {
+                try trustedResourceOwnersContainer.encode(catalogidstring0)
             }
         }
     }
@@ -2481,8 +2481,8 @@ extension LakeFormationClientTypes.DeleteObjectInput: Swift.Codable {
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for partitionvalueslist0 in partitionValues {
-                try partitionValuesContainer.encode(partitionvalueslist0)
+            for partitionvaluestring0 in partitionValues {
+                try partitionValuesContainer.encode(partitionvaluestring0)
             }
         }
         if let uri = self.uri {
@@ -2554,8 +2554,8 @@ extension DeleteObjectsOnCancelInput: Swift.Encodable {
         }
         if let objects = objects {
             var objectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objects)
-            for virtualobjectlist0 in objects {
-                try objectsContainer.encode(virtualobjectlist0)
+            for virtualobject0 in objects {
+                try objectsContainer.encode(virtualobject0)
             }
         }
         if let tableName = self.tableName {
@@ -3021,8 +3021,8 @@ extension LakeFormationClientTypes.DetailsMap: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceShare = resourceShare {
             var resourceShareContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceShare)
-            for resourcesharelist0 in resourceShare {
-                try resourceShareContainer.encode(resourcesharelist0)
+            for ramresourcesharearn0 in resourceShare {
+                try resourceShareContainer.encode(ramresourcesharearn0)
             }
         }
     }
@@ -3408,8 +3408,8 @@ extension LakeFormationClientTypes.FilterCondition: Swift.Codable {
         }
         if let stringValueList = stringValueList {
             var stringValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringValueList)
-            for stringvaluelist0 in stringValueList {
-                try stringValueListContainer.encode(stringvaluelist0)
+            for stringvalue0 in stringValueList {
+                try stringValueListContainer.encode(stringvalue0)
             }
         }
     }
@@ -4628,14 +4628,14 @@ extension GetTemporaryGluePartitionCredentialsInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
-            for permissiontypelist0 in supportedPermissionTypes {
-                try supportedPermissionTypesContainer.encode(permissiontypelist0.rawValue)
+            for permissiontype0 in supportedPermissionTypes {
+                try supportedPermissionTypesContainer.encode(permissiontype0.rawValue)
             }
         }
         if let tableArn = self.tableArn {
@@ -4861,14 +4861,14 @@ extension GetTemporaryGlueTableCredentialsInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let supportedPermissionTypes = supportedPermissionTypes {
             var supportedPermissionTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPermissionTypes)
-            for permissiontypelist0 in supportedPermissionTypes {
-                try supportedPermissionTypesContainer.encode(permissiontypelist0.rawValue)
+            for permissiontype0 in supportedPermissionTypes {
+                try supportedPermissionTypesContainer.encode(permissiontype0.rawValue)
             }
         }
         if let tableArn = self.tableArn {
@@ -5459,14 +5459,14 @@ extension GrantPermissionsInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let permissionsWithGrantOption = permissionsWithGrantOption {
             var permissionsWithGrantOptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionsWithGrantOption)
-            for permissionlist0 in permissionsWithGrantOption {
-                try permissionsWithGrantOptionContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissionsWithGrantOption {
+                try permissionsWithGrantOptionContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -5720,8 +5720,8 @@ extension LakeFormationClientTypes.LFTag: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvaluelist0 in tagValues {
-                try tagValuesContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValues {
+                try tagValuesContainer.encode(lftagvalue0)
             }
         }
     }
@@ -5828,8 +5828,8 @@ extension LakeFormationClientTypes.LFTagKeyResource: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvaluelist0 in tagValues {
-                try tagValuesContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValues {
+                try tagValuesContainer.encode(lftagvalue0)
             }
         }
     }
@@ -5897,8 +5897,8 @@ extension LakeFormationClientTypes.LFTagPair: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for tagvaluelist0 in tagValues {
-                try tagValuesContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValues {
+                try tagValuesContainer.encode(lftagvalue0)
             }
         }
     }
@@ -5963,8 +5963,8 @@ extension LakeFormationClientTypes.LFTagPolicyResource: Swift.Codable {
         }
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for expression0 in expression {
-                try expressionContainer.encode(expression0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
         if let resourceType = self.resourceType {
@@ -6566,8 +6566,8 @@ extension ListResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterConditionList = filterConditionList {
             var filterConditionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterConditionList)
-            for filterconditionlist0 in filterConditionList {
-                try filterConditionListContainer.encode(filterconditionlist0)
+            for filtercondition0 in filterConditionList {
+                try filterConditionListContainer.encode(filtercondition0)
             }
         }
         if let maxResults = self.maxResults {
@@ -7188,14 +7188,14 @@ extension LakeFormationClientTypes.PartitionObjects: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objects = objects {
             var objectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objects)
-            for tableobjectlist0 in objects {
-                try objectsContainer.encode(tableobjectlist0)
+            for tableobject0 in objects {
+                try objectsContainer.encode(tableobject0)
             }
         }
         if let partitionValues = partitionValues {
             var partitionValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionValues)
-            for partitionvalueslist0 in partitionValues {
-                try partitionValuesContainer.encode(partitionvalueslist0)
+            for partitionvaluestring0 in partitionValues {
+                try partitionValuesContainer.encode(partitionvaluestring0)
             }
         }
     }
@@ -7256,8 +7256,8 @@ extension LakeFormationClientTypes.PartitionValueList: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for valuestring0 in values {
+                try valuesContainer.encode(valuestring0)
             }
         }
     }
@@ -7517,8 +7517,8 @@ extension LakeFormationClientTypes.PrincipalPermissions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -7580,14 +7580,14 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let permissionsWithGrantOption = permissionsWithGrantOption {
             var permissionsWithGrantOptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionsWithGrantOption)
-            for permissionlist0 in permissionsWithGrantOption {
-                try permissionsWithGrantOptionContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissionsWithGrantOption {
+                try permissionsWithGrantOptionContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -7779,8 +7779,8 @@ extension LakeFormationClientTypes.QueryPlanningContext: Swift.Codable {
         }
         if let queryParameters = queryParameters {
             var queryParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .queryParameters)
-            for (dictKey0, queryparametermap0) in queryParameters {
-                try queryParametersContainer.encode(queryparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, queryParameterMap0) in queryParameters {
+                try queryParametersContainer.encode(queryParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let transactionId = self.transactionId {
@@ -8016,8 +8016,8 @@ extension RemoveLFTagsFromResourceInput: Swift.Encodable {
         }
         if let lfTags = lfTags {
             var lfTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTags)
-            for lftagslist0 in lfTags {
-                try lfTagsContainer.encode(lftagslist0)
+            for lftagpair0 in lfTags {
+                try lfTagsContainer.encode(lftagpair0)
             }
         }
         if let resource = self.resource {
@@ -8517,14 +8517,14 @@ extension RevokePermissionsInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionlist0 in permissions {
-                try permissionsContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0.rawValue)
             }
         }
         if let permissionsWithGrantOption = permissionsWithGrantOption {
             var permissionsWithGrantOptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissionsWithGrantOption)
-            for permissionlist0 in permissionsWithGrantOption {
-                try permissionsWithGrantOptionContainer.encode(permissionlist0.rawValue)
+            for permission0 in permissionsWithGrantOption {
+                try permissionsWithGrantOptionContainer.encode(permission0.rawValue)
             }
         }
         if let principal = self.principal {
@@ -8719,8 +8719,8 @@ extension SearchDatabasesByLFTagsInput: Swift.Encodable {
         }
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for expression0 in expression {
-                try expressionContainer.encode(expression0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8907,8 +8907,8 @@ extension SearchTablesByLFTagsInput: Swift.Encodable {
         }
         if let expression = expression {
             var expressionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expression)
-            for expression0 in expression {
-                try expressionContainer.encode(expression0)
+            for lftag0 in expression {
+                try expressionContainer.encode(lftag0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9395,8 +9395,8 @@ extension LakeFormationClientTypes.StorageOptimizer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let config = config {
             var configContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .config)
-            for (dictKey0, storageoptimizerconfig0) in config {
-                try configContainer.encode(storageoptimizerconfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, storageOptimizerConfig0) in config {
+                try configContainer.encode(storageOptimizerConfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let errorMessage = self.errorMessage {
@@ -9626,8 +9626,8 @@ extension LakeFormationClientTypes.TableWithColumnsResource: Swift.Codable {
         }
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for columnnames0 in columnNames {
-                try columnNamesContainer.encode(columnnames0)
+            for namestring0 in columnNames {
+                try columnNamesContainer.encode(namestring0)
             }
         }
         if let columnWildcard = self.columnWildcard {
@@ -9712,8 +9712,8 @@ extension LakeFormationClientTypes.TaggedDatabase: Swift.Codable {
         }
         if let lfTags = lfTags {
             var lfTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTags)
-            for lftagslist0 in lfTags {
-                try lfTagsContainer.encode(lftagslist0)
+            for lftagpair0 in lfTags {
+                try lfTagsContainer.encode(lftagpair0)
             }
         }
     }
@@ -9768,20 +9768,20 @@ extension LakeFormationClientTypes.TaggedTable: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let lfTagOnDatabase = lfTagOnDatabase {
             var lfTagOnDatabaseContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTagOnDatabase)
-            for lftagslist0 in lfTagOnDatabase {
-                try lfTagOnDatabaseContainer.encode(lftagslist0)
+            for lftagpair0 in lfTagOnDatabase {
+                try lfTagOnDatabaseContainer.encode(lftagpair0)
             }
         }
         if let lfTagsOnColumns = lfTagsOnColumns {
             var lfTagsOnColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTagsOnColumns)
-            for columnlftagslist0 in lfTagsOnColumns {
-                try lfTagsOnColumnsContainer.encode(columnlftagslist0)
+            for columnlftag0 in lfTagsOnColumns {
+                try lfTagsOnColumnsContainer.encode(columnlftag0)
             }
         }
         if let lfTagsOnTable = lfTagsOnTable {
             var lfTagsOnTableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lfTagsOnTable)
-            for lftagslist0 in lfTagsOnTable {
-                try lfTagsOnTableContainer.encode(lftagslist0)
+            for lftagpair0 in lfTagsOnTable {
+                try lfTagsOnTableContainer.encode(lftagpair0)
             }
         }
         if let table = self.table {
@@ -10263,14 +10263,14 @@ extension UpdateLFTagInput: Swift.Encodable {
         }
         if let tagValuesToAdd = tagValuesToAdd {
             var tagValuesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValuesToAdd)
-            for tagvaluelist0 in tagValuesToAdd {
-                try tagValuesToAddContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValuesToAdd {
+                try tagValuesToAddContainer.encode(lftagvalue0)
             }
         }
         if let tagValuesToDelete = tagValuesToDelete {
             var tagValuesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValuesToDelete)
-            for tagvaluelist0 in tagValuesToDelete {
-                try tagValuesToDeleteContainer.encode(tagvaluelist0)
+            for lftagvalue0 in tagValuesToDelete {
+                try tagValuesToDeleteContainer.encode(lftagvalue0)
             }
         }
     }
@@ -10519,8 +10519,8 @@ extension UpdateTableObjectsInput: Swift.Encodable {
         }
         if let writeOperations = writeOperations {
             var writeOperationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .writeOperations)
-            for writeoperationlist0 in writeOperations {
-                try writeOperationsContainer.encode(writeoperationlist0)
+            for writeoperation0 in writeOperations {
+                try writeOperationsContainer.encode(writeoperation0)
             }
         }
     }
@@ -10670,8 +10670,11 @@ extension UpdateTableStorageOptimizerInput: Swift.Encodable {
         }
         if let storageOptimizerConfig = storageOptimizerConfig {
             var storageOptimizerConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .storageOptimizerConfig)
-            for (dictKey0, storageoptimizerconfigmap0) in storageOptimizerConfig {
-                try storageOptimizerConfigContainer.encode(storageoptimizerconfigmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, storageOptimizerConfigMap0) in storageOptimizerConfig {
+                var storageOptimizerConfigMap0Container = storageOptimizerConfigContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, storageOptimizerConfig1) in storageOptimizerConfigMap0 {
+                    try storageOptimizerConfigMap0Container.encode(storageOptimizerConfig1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let tableName = self.tableName {

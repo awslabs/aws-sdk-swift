@@ -43,5 +43,5 @@ rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-cod
 
 # If on Mac, reopen Xcode to the refreshed tests
 if [ -x "$(command -v osascript)" ]; then
-  open -a Xcode
+  open -a Xcode codegen/Package.swift
 fi

@@ -348,8 +348,8 @@ extension QLDBSessionClientTypes.ExecuteStatementRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for statementparameters0 in parameters {
-                try parametersContainer.encode(statementparameters0)
+            for valueholder0 in parameters {
+                try parametersContainer.encode(valueholder0)
             }
         }
         if let statement = self.statement {
@@ -786,8 +786,8 @@ extension QLDBSessionClientTypes.Page: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valueholders0 in values {
-                try valuesContainer.encode(valueholders0)
+            for valueholder0 in values {
+                try valuesContainer.encode(valueholder0)
             }
         }
     }

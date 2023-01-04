@@ -650,14 +650,14 @@ extension ElasticTranscoderClientTypes.Captions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let captionFormats = captionFormats {
             var captionFormatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionFormats)
-            for captionformats0 in captionFormats {
-                try captionFormatsContainer.encode(captionformats0)
+            for captionformat0 in captionFormats {
+                try captionFormatsContainer.encode(captionformat0)
             }
         }
         if let captionSources = captionSources {
             var captionSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionSources)
-            for captionsources0 in captionSources {
-                try captionSourcesContainer.encode(captionsources0)
+            for captionsource0 in captionSources {
+                try captionSourcesContainer.encode(captionsource0)
             }
         }
         if let mergePolicy = self.mergePolicy {
@@ -784,8 +784,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for jobinputs0 in inputs {
-                try inputsContainer.encode(jobinputs0)
+            for jobinput0 in inputs {
+                try inputsContainer.encode(jobinput0)
             }
         }
         if let output = self.output {
@@ -796,8 +796,8 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for createjoboutputs0 in outputs {
-                try outputsContainer.encode(createjoboutputs0)
+            for createjoboutput0 in outputs {
+                try outputsContainer.encode(createjoboutput0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -805,14 +805,14 @@ extension CreateJobInput: Swift.Encodable {
         }
         if let playlists = playlists {
             var playlistsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playlists)
-            for createjobplaylists0 in playlists {
-                try playlistsContainer.encode(createjobplaylists0)
+            for createjobplaylist0 in playlists {
+                try playlistsContainer.encode(createjobplaylist0)
             }
         }
         if let userMetadata = userMetadata {
             var userMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userMetadata)
-            for (dictKey0, usermetadata0) in userMetadata {
-                try userMetadataContainer.encode(usermetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userMetadata0) in userMetadata {
+                try userMetadataContainer.encode(userMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -971,8 +971,8 @@ extension ElasticTranscoderClientTypes.CreateJobOutput: Swift.Codable {
         }
         if let composition = composition {
             var compositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .composition)
-            for composition0 in composition {
-                try compositionContainer.encode(composition0)
+            for clip0 in composition {
+                try compositionContainer.encode(clip0)
             }
         }
         if let encryption = self.encryption {
@@ -998,8 +998,8 @@ extension ElasticTranscoderClientTypes.CreateJobOutput: Swift.Codable {
         }
         if let watermarks = watermarks {
             var watermarksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watermarks)
-            for jobwatermarks0 in watermarks {
-                try watermarksContainer.encode(jobwatermarks0)
+            for jobwatermark0 in watermarks {
+                try watermarksContainer.encode(jobwatermark0)
             }
         }
     }
@@ -1218,8 +1218,8 @@ extension ElasticTranscoderClientTypes.CreateJobPlaylist: Swift.Codable {
         }
         if let outputKeys = outputKeys {
             var outputKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputKeys)
-            for outputkeys0 in outputKeys {
-                try outputKeysContainer.encode(outputkeys0)
+            for key0 in outputKeys {
+                try outputKeysContainer.encode(key0)
             }
         }
         if let playReadyDrm = self.playReadyDrm {
@@ -2252,8 +2252,8 @@ extension ElasticTranscoderClientTypes.InputCaptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let captionSources = captionSources {
             var captionSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionSources)
-            for captionsources0 in captionSources {
-                try captionSourcesContainer.encode(captionsources0)
+            for captionsource0 in captionSources {
+                try captionSourcesContainer.encode(captionsource0)
             }
         }
         if let mergePolicy = self.mergePolicy {
@@ -2390,8 +2390,8 @@ extension ElasticTranscoderClientTypes.Job: Swift.Codable {
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for jobinputs0 in inputs {
-                try inputsContainer.encode(jobinputs0)
+            for jobinput0 in inputs {
+                try inputsContainer.encode(jobinput0)
             }
         }
         if let output = self.output {
@@ -2402,8 +2402,8 @@ extension ElasticTranscoderClientTypes.Job: Swift.Codable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for joboutputs0 in outputs {
-                try outputsContainer.encode(joboutputs0)
+            for joboutput0 in outputs {
+                try outputsContainer.encode(joboutput0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -2411,8 +2411,8 @@ extension ElasticTranscoderClientTypes.Job: Swift.Codable {
         }
         if let playlists = playlists {
             var playlistsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .playlists)
-            for playlists0 in playlists {
-                try playlistsContainer.encode(playlists0)
+            for playlist0 in playlists {
+                try playlistsContainer.encode(playlist0)
             }
         }
         if let status = self.status {
@@ -2423,8 +2423,8 @@ extension ElasticTranscoderClientTypes.Job: Swift.Codable {
         }
         if let userMetadata = userMetadata {
             var userMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userMetadata)
-            for (dictKey0, usermetadata0) in userMetadata {
-                try userMetadataContainer.encode(usermetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userMetadata0) in userMetadata {
+                try userMetadataContainer.encode(userMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2572,8 +2572,8 @@ extension ElasticTranscoderClientTypes.JobAlbumArt: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let artwork = artwork {
             var artworkContainer = encodeContainer.nestedUnkeyedContainer(forKey: .artwork)
-            for artworks0 in artwork {
-                try artworkContainer.encode(artworks0)
+            for artwork0 in artwork {
+                try artworkContainer.encode(artwork0)
             }
         }
         if let mergePolicy = self.mergePolicy {
@@ -2797,8 +2797,8 @@ extension ElasticTranscoderClientTypes.JobOutput: Swift.Codable {
         }
         if let composition = composition {
             var compositionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .composition)
-            for composition0 in composition {
-                try compositionContainer.encode(composition0)
+            for clip0 in composition {
+                try compositionContainer.encode(clip0)
             }
         }
         if let duration = self.duration {
@@ -2848,8 +2848,8 @@ extension ElasticTranscoderClientTypes.JobOutput: Swift.Codable {
         }
         if let watermarks = watermarks {
             var watermarksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watermarks)
-            for jobwatermarks0 in watermarks {
-                try watermarksContainer.encode(jobwatermarks0)
+            for jobwatermark0 in watermarks {
+                try watermarksContainer.encode(jobwatermark0)
             }
         }
         if let width = self.width {
@@ -3802,8 +3802,8 @@ extension ElasticTranscoderClientTypes.Permission: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let access = access {
             var accessContainer = encodeContainer.nestedUnkeyedContainer(forKey: .access)
-            for accesscontrols0 in access {
-                try accessContainer.encode(accesscontrols0)
+            for accesscontrol0 in access {
+                try accessContainer.encode(accesscontrol0)
             }
         }
         if let grantee = self.grantee {
@@ -4103,8 +4103,8 @@ extension ElasticTranscoderClientTypes.PipelineOutputConfig: Swift.Codable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissions0 in permissions {
-                try permissionsContainer.encode(permissions0)
+            for permission0 in permissions {
+                try permissionsContainer.encode(permission0)
             }
         }
         if let storageClass = self.storageClass {
@@ -4276,8 +4276,8 @@ extension ElasticTranscoderClientTypes.Playlist: Swift.Codable {
         }
         if let outputKeys = outputKeys {
             var outputKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputKeys)
-            for outputkeys0 in outputKeys {
-                try outputKeysContainer.encode(outputkeys0)
+            for key0 in outputKeys {
+                try outputKeysContainer.encode(key0)
             }
         }
         if let playReadyDrm = self.playReadyDrm {
@@ -5116,8 +5116,8 @@ extension TestRoleInput: Swift.Encodable {
         }
         if let topics = topics {
             var topicsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topics)
-            for snstopics0 in topics {
-                try topicsContainer.encode(snstopics0)
+            for snstopic0 in topics {
+                try topicsContainer.encode(snstopic0)
             }
         }
     }
@@ -6157,8 +6157,8 @@ extension ElasticTranscoderClientTypes.VideoParameters: Swift.Codable {
         }
         if let codecOptions = codecOptions {
             var codecOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .codecOptions)
-            for (dictKey0, codecoptions0) in codecOptions {
-                try codecOptionsContainer.encode(codecoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, codecOptions0) in codecOptions {
+                try codecOptionsContainer.encode(codecOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let displayAspectRatio = self.displayAspectRatio {
@@ -6193,8 +6193,8 @@ extension ElasticTranscoderClientTypes.VideoParameters: Swift.Codable {
         }
         if let watermarks = watermarks {
             var watermarksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .watermarks)
-            for presetwatermarks0 in watermarks {
-                try watermarksContainer.encode(presetwatermarks0)
+            for presetwatermark0 in watermarks {
+                try watermarksContainer.encode(presetwatermark0)
             }
         }
     }

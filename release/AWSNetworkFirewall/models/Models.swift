@@ -285,8 +285,8 @@ extension AssociateSubnetsInput: Swift.Encodable {
         }
         if let subnetMappings = subnetMappings {
             var subnetMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetMappings)
-            for subnetmappings0 in subnetMappings {
-                try subnetMappingsContainer.encode(subnetmappings0)
+            for subnetmapping0 in subnetMappings {
+                try subnetMappingsContainer.encode(subnetmapping0)
             }
         }
         if let updateToken = self.updateToken {
@@ -481,6 +481,7 @@ extension NetworkFirewallClientTypes.Attachment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpointId = "EndpointId"
         case status = "Status"
+        case statusMessage = "StatusMessage"
         case subnetId = "SubnetId"
     }
 
@@ -491,6 +492,9 @@ extension NetworkFirewallClientTypes.Attachment: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
         }
         if let subnetId = self.subnetId {
             try encodeContainer.encode(subnetId, forKey: .subnetId)
@@ -505,6 +509,8 @@ extension NetworkFirewallClientTypes.Attachment: Swift.Codable {
         endpointId = endpointIdDecoded
         let statusDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.AttachmentStatus.self, forKey: .status)
         status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
     }
 }
 
@@ -513,19 +519,23 @@ extension NetworkFirewallClientTypes {
     public struct Attachment: Swift.Equatable {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
-        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING, DELETING, or FAILED.
+        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
         public var status: NetworkFirewallClientTypes.AttachmentStatus?
+        /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the failure and how to resolve it. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
+        public var statusMessage: Swift.String?
         /// The unique identifier of the subnet that you've specified to be used for a firewall endpoint.
         public var subnetId: Swift.String?
 
         public init (
             endpointId: Swift.String? = nil,
             status: NetworkFirewallClientTypes.AttachmentStatus? = nil,
+            statusMessage: Swift.String? = nil,
             subnetId: Swift.String? = nil
         )
         {
             self.endpointId = endpointId
             self.status = status
+            self.statusMessage = statusMessage
             self.subnetId = subnetId
         }
     }
@@ -584,8 +594,8 @@ extension NetworkFirewallClientTypes.CIDRSummary: Swift.Codable {
         }
         if let ipSetReferences = ipSetReferences {
             var ipSetReferencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ipSetReferences)
-            for (dictKey0, ipsetmetadatamap0) in ipSetReferences {
-                try ipSetReferencesContainer.encode(ipsetmetadatamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ipSetMetadataMap0) in ipSetReferences {
+                try ipSetReferencesContainer.encode(ipSetMetadataMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let utilizedCIDRCount = self.utilizedCIDRCount {
@@ -723,7 +733,7 @@ extension CreateFirewallInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let deleteProtection = self.deleteProtection {
+        if deleteProtection != false {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let description = self.description {
@@ -738,22 +748,22 @@ extension CreateFirewallInput: Swift.Encodable {
         if let firewallPolicyArn = self.firewallPolicyArn {
             try encodeContainer.encode(firewallPolicyArn, forKey: .firewallPolicyArn)
         }
-        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
+        if firewallPolicyChangeProtection != false {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
-        if let subnetChangeProtection = self.subnetChangeProtection {
+        if subnetChangeProtection != false {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let subnetMappings = subnetMappings {
             var subnetMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetMappings)
-            for subnetmappings0 in subnetMappings {
-                try subnetMappingsContainer.encode(subnetmappings0)
+            for subnetmapping0 in subnetMappings {
+                try subnetMappingsContainer.encode(subnetmapping0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -770,7 +780,7 @@ extension CreateFirewallInput: ClientRuntime.URLPathProvider {
 
 public struct CreateFirewallInput: Swift.Equatable {
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
-    public var deleteProtection: Swift.Bool?
+    public var deleteProtection: Swift.Bool
     /// A description of the firewall.
     public var description: Swift.String?
     /// A complex type that contains settings for encryption of your firewall resources.
@@ -782,9 +792,9 @@ public struct CreateFirewallInput: Swift.Equatable {
     /// This member is required.
     public var firewallPolicyArn: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var firewallPolicyChangeProtection: Swift.Bool?
+    public var firewallPolicyChangeProtection: Swift.Bool
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var subnetChangeProtection: Swift.Bool?
+    public var subnetChangeProtection: Swift.Bool
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
     /// This member is required.
     public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
@@ -795,13 +805,13 @@ public struct CreateFirewallInput: Swift.Equatable {
     public var vpcId: Swift.String?
 
     public init (
-        deleteProtection: Swift.Bool? = nil,
+        deleteProtection: Swift.Bool = false,
         description: Swift.String? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
-        firewallPolicyChangeProtection: Swift.Bool? = nil,
-        subnetChangeProtection: Swift.Bool? = nil,
+        firewallPolicyChangeProtection: Swift.Bool = false,
+        subnetChangeProtection: Swift.Bool = false,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         vpcId: Swift.String? = nil
@@ -825,9 +835,9 @@ struct CreateFirewallInputBody: Swift.Equatable {
     let firewallPolicyArn: Swift.String?
     let vpcId: Swift.String?
     let subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
-    let deleteProtection: Swift.Bool?
-    let subnetChangeProtection: Swift.Bool?
-    let firewallPolicyChangeProtection: Swift.Bool?
+    let deleteProtection: Swift.Bool
+    let subnetChangeProtection: Swift.Bool
+    let firewallPolicyChangeProtection: Swift.Bool
     let description: Swift.String?
     let tags: [NetworkFirewallClientTypes.Tag]?
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
@@ -866,11 +876,11 @@ extension CreateFirewallInputBody: Swift.Decodable {
             }
         }
         subnetMappings = subnetMappingsDecoded0
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
         deleteProtection = deleteProtectionDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
         subnetChangeProtection = subnetChangeProtectionDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -988,7 +998,7 @@ extension CreateFirewallPolicyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if let dryRun = self.dryRun {
+        if dryRun != false {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -1002,8 +1012,8 @@ extension CreateFirewallPolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1019,7 +1029,7 @@ public struct CreateFirewallPolicyInput: Swift.Equatable {
     /// A description of the firewall policy.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool?
+    public var dryRun: Swift.Bool
     /// A complex type that contains settings for encryption of your firewall policy resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The rule groups and policy actions to use in the firewall policy.
@@ -1033,7 +1043,7 @@ public struct CreateFirewallPolicyInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyName: Swift.String? = nil,
@@ -1054,7 +1064,7 @@ struct CreateFirewallPolicyInputBody: Swift.Equatable {
     let firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy?
     let description: Swift.String?
     let tags: [NetworkFirewallClientTypes.Tag]?
-    let dryRun: Swift.Bool?
+    let dryRun: Swift.Bool
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
 }
 
@@ -1087,7 +1097,7 @@ extension CreateFirewallPolicyInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -1199,7 +1209,7 @@ extension CreateRuleGroupInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if let dryRun = self.dryRun {
+        if dryRun != false {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -1219,8 +1229,8 @@ extension CreateRuleGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -1251,7 +1261,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     /// A description of the rule group.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool?
+    public var dryRun: Swift.Bool
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
@@ -1272,7 +1282,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     public init (
         capacity: Swift.Int? = nil,
         description: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupName: Swift.String? = nil,
@@ -1303,7 +1313,7 @@ struct CreateRuleGroupInputBody: Swift.Equatable {
     let description: Swift.String?
     let capacity: Swift.Int?
     let tags: [NetworkFirewallClientTypes.Tag]?
-    let dryRun: Swift.Bool?
+    let dryRun: Swift.Bool
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
 }
@@ -1347,7 +1357,7 @@ extension CreateRuleGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -2969,8 +2979,8 @@ extension DisassociateSubnetsInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for azsubnets0 in subnetIds {
-                try subnetIdsContainer.encode(azsubnets0)
+            for azsubnet0 in subnetIds {
+                try subnetIdsContainer.encode(azsubnet0)
             }
         }
         if let updateToken = self.updateToken {
@@ -3255,7 +3265,7 @@ extension NetworkFirewallClientTypes.Firewall: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let deleteProtection = self.deleteProtection {
+        if deleteProtection != false {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let description = self.description {
@@ -3276,22 +3286,22 @@ extension NetworkFirewallClientTypes.Firewall: Swift.Codable {
         if let firewallPolicyArn = self.firewallPolicyArn {
             try encodeContainer.encode(firewallPolicyArn, forKey: .firewallPolicyArn)
         }
-        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
+        if firewallPolicyChangeProtection != false {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
-        if let subnetChangeProtection = self.subnetChangeProtection {
+        if subnetChangeProtection != false {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let subnetMappings = subnetMappings {
             var subnetMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetMappings)
-            for subnetmappings0 in subnetMappings {
-                try subnetMappingsContainer.encode(subnetmappings0)
+            for subnetmapping0 in subnetMappings {
+                try subnetMappingsContainer.encode(subnetmapping0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -3320,11 +3330,11 @@ extension NetworkFirewallClientTypes.Firewall: Swift.Codable {
             }
         }
         subnetMappings = subnetMappingsDecoded0
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
         deleteProtection = deleteProtectionDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
         subnetChangeProtection = subnetChangeProtectionDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -3350,7 +3360,7 @@ extension NetworkFirewallClientTypes {
     /// The firewall defines the configuration settings for an Network Firewall firewall. These settings include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both objects by calling [DescribeFirewall].
     public struct Firewall: Swift.Equatable {
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
-        public var deleteProtection: Swift.Bool?
+        public var deleteProtection: Swift.Bool
         /// A description of the firewall.
         public var description: Swift.String?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall.
@@ -3366,9 +3376,9 @@ extension NetworkFirewallClientTypes {
         /// This member is required.
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-        public var firewallPolicyChangeProtection: Swift.Bool?
+        public var firewallPolicyChangeProtection: Swift.Bool
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-        public var subnetChangeProtection: Swift.Bool?
+        public var subnetChangeProtection: Swift.Bool
         /// The public subnets that Network Firewall is using for the firewall. Each subnet must belong to a different Availability Zone.
         /// This member is required.
         public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
@@ -3379,15 +3389,15 @@ extension NetworkFirewallClientTypes {
         public var vpcId: Swift.String?
 
         public init (
-            deleteProtection: Swift.Bool? = nil,
+            deleteProtection: Swift.Bool = false,
             description: Swift.String? = nil,
             encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
             firewallArn: Swift.String? = nil,
             firewallId: Swift.String? = nil,
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
-            firewallPolicyChangeProtection: Swift.Bool? = nil,
-            subnetChangeProtection: Swift.Bool? = nil,
+            firewallPolicyChangeProtection: Swift.Bool = false,
+            subnetChangeProtection: Swift.Bool = false,
             subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
@@ -3470,8 +3480,8 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statefulDefaultActions = statefulDefaultActions {
             var statefulDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulDefaultActions)
-            for statefulactions0 in statefulDefaultActions {
-                try statefulDefaultActionsContainer.encode(statefulactions0)
+            for collectionmember_string0 in statefulDefaultActions {
+                try statefulDefaultActionsContainer.encode(collectionmember_string0)
             }
         }
         if let statefulEngineOptions = self.statefulEngineOptions {
@@ -3479,32 +3489,32 @@ extension NetworkFirewallClientTypes.FirewallPolicy: Swift.Codable {
         }
         if let statefulRuleGroupReferences = statefulRuleGroupReferences {
             var statefulRuleGroupReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulRuleGroupReferences)
-            for statefulrulegroupreferences0 in statefulRuleGroupReferences {
-                try statefulRuleGroupReferencesContainer.encode(statefulrulegroupreferences0)
+            for statefulrulegroupreference0 in statefulRuleGroupReferences {
+                try statefulRuleGroupReferencesContainer.encode(statefulrulegroupreference0)
             }
         }
         if let statelessCustomActions = statelessCustomActions {
             var statelessCustomActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessCustomActions)
-            for customactions0 in statelessCustomActions {
-                try statelessCustomActionsContainer.encode(customactions0)
+            for customaction0 in statelessCustomActions {
+                try statelessCustomActionsContainer.encode(customaction0)
             }
         }
         if let statelessDefaultActions = statelessDefaultActions {
             var statelessDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessDefaultActions)
-            for statelessactions0 in statelessDefaultActions {
-                try statelessDefaultActionsContainer.encode(statelessactions0)
+            for collectionmember_string0 in statelessDefaultActions {
+                try statelessDefaultActionsContainer.encode(collectionmember_string0)
             }
         }
         if let statelessFragmentDefaultActions = statelessFragmentDefaultActions {
             var statelessFragmentDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessFragmentDefaultActions)
-            for statelessactions0 in statelessFragmentDefaultActions {
-                try statelessFragmentDefaultActionsContainer.encode(statelessactions0)
+            for collectionmember_string0 in statelessFragmentDefaultActions {
+                try statelessFragmentDefaultActionsContainer.encode(collectionmember_string0)
             }
         }
         if let statelessRuleGroupReferences = statelessRuleGroupReferences {
             var statelessRuleGroupReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessRuleGroupReferences)
-            for statelessrulegroupreferences0 in statelessRuleGroupReferences {
-                try statelessRuleGroupReferencesContainer.encode(statelessrulegroupreferences0)
+            for statelessrulegroupreference0 in statelessRuleGroupReferences {
+                try statelessRuleGroupReferencesContainer.encode(statelessrulegroupreference0)
             }
         }
     }
@@ -3729,8 +3739,8 @@ extension NetworkFirewallClientTypes.FirewallPolicyResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3851,8 +3861,8 @@ extension NetworkFirewallClientTypes.FirewallStatus: Swift.Codable {
         }
         if let syncStates = syncStates {
             var syncStatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .syncStates)
-            for (dictKey0, syncstates0) in syncStates {
-                try syncStatesContainer.encode(syncstates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, syncStates0) in syncStates {
+                try syncStatesContainer.encode(syncStates0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4090,8 +4100,8 @@ extension NetworkFirewallClientTypes.IPSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let definition = definition {
             var definitionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .definition)
-            for variabledefinitionlist0 in definition {
-                try definitionContainer.encode(variabledefinitionlist0)
+            for variabledefinition0 in definition {
+                try definitionContainer.encode(variabledefinition0)
             }
         }
     }
@@ -4731,8 +4741,8 @@ extension ListFirewallsInput: Swift.Encodable {
         }
         if let vpcIds = vpcIds {
             var vpcIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcIds)
-            for vpcids0 in vpcIds {
-                try vpcIdsContainer.encode(vpcids0)
+            for vpcid0 in vpcIds {
+                try vpcIdsContainer.encode(vpcid0)
             }
         }
     }
@@ -5235,8 +5245,8 @@ extension NetworkFirewallClientTypes.LogDestinationConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logDestination = logDestination {
             var logDestinationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logDestination)
-            for (dictKey0, logdestinationmap0) in logDestination {
-                try logDestinationContainer.encode(logdestinationmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logDestinationMap0) in logDestination {
+                try logDestinationContainer.encode(logDestinationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let logDestinationType = self.logDestinationType {
@@ -5428,8 +5438,8 @@ extension NetworkFirewallClientTypes.LoggingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logDestinationConfigs = logDestinationConfigs {
             var logDestinationConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logDestinationConfigs)
-            for logdestinationconfigs0 in logDestinationConfigs {
-                try logDestinationConfigsContainer.encode(logdestinationconfigs0)
+            for logdestinationconfig0 in logDestinationConfigs {
+                try logDestinationConfigsContainer.encode(logdestinationconfig0)
             }
         }
     }
@@ -5481,38 +5491,38 @@ extension NetworkFirewallClientTypes.MatchAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationPorts = destinationPorts {
             var destinationPortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPorts)
-            for portranges0 in destinationPorts {
-                try destinationPortsContainer.encode(portranges0)
+            for portrange0 in destinationPorts {
+                try destinationPortsContainer.encode(portrange0)
             }
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for addresses0 in destinations {
-                try destinationsContainer.encode(addresses0)
+            for address0 in destinations {
+                try destinationsContainer.encode(address0)
             }
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocolnumbers0 in protocols {
-                try protocolsContainer.encode(protocolnumbers0)
+            for protocolnumber0 in protocols {
+                try protocolsContainer.encode(protocolnumber0)
             }
         }
         if let sourcePorts = sourcePorts {
             var sourcePortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourcePorts)
-            for portranges0 in sourcePorts {
-                try sourcePortsContainer.encode(portranges0)
+            for portrange0 in sourcePorts {
+                try sourcePortsContainer.encode(portrange0)
             }
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for addresses0 in sources {
-                try sourcesContainer.encode(addresses0)
+            for address0 in sources {
+                try sourcesContainer.encode(address0)
             }
         }
         if let tcpFlags = tcpFlags {
             var tcpFlagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tcpFlags)
-            for tcpflags0 in tcpFlags {
-                try tcpFlagsContainer.encode(tcpflags0)
+            for tcpflagfield0 in tcpFlags {
+                try tcpFlagsContainer.encode(tcpflagfield0)
             }
         }
     }
@@ -5789,8 +5799,8 @@ extension NetworkFirewallClientTypes.PortSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let definition = definition {
             var definitionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .definition)
-            for variabledefinitionlist0 in definition {
-                try definitionContainer.encode(variabledefinitionlist0)
+            for variabledefinition0 in definition {
+                try definitionContainer.encode(variabledefinition0)
             }
         }
     }
@@ -5836,8 +5846,8 @@ extension NetworkFirewallClientTypes.PublishMetricAction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for dimensions0 in dimensions {
-                try dimensionsContainer.encode(dimensions0)
+            for dimension0 in dimensions {
+                try dimensionsContainer.encode(dimension0)
             }
         }
     }
@@ -6005,8 +6015,8 @@ extension NetworkFirewallClientTypes.ReferenceSets: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipSetReferences = ipSetReferences {
             var ipSetReferencesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ipSetReferences)
-            for (dictKey0, ipsetreferencemap0) in ipSetReferences {
-                try ipSetReferencesContainer.encode(ipsetreferencemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ipSetReferenceMap0) in ipSetReferences {
+                try ipSetReferencesContainer.encode(ipSetReferenceMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6253,8 +6263,8 @@ extension NetworkFirewallClientTypes.RuleDefinition: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for statelessactions0 in actions {
-                try actionsContainer.encode(statelessactions0)
+            for collectionmember_string0 in actions {
+                try actionsContainer.encode(collectionmember_string0)
             }
         }
         if let matchAttributes = self.matchAttributes {
@@ -6480,8 +6490,8 @@ extension NetworkFirewallClientTypes.RuleGroupResponse: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -6647,8 +6657,8 @@ extension NetworkFirewallClientTypes.RuleOption: Swift.Codable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for settings0 in settings {
-                try settingsContainer.encode(settings0)
+            for setting0 in settings {
+                try settingsContainer.encode(setting0)
             }
         }
     }
@@ -6734,14 +6744,14 @@ extension NetworkFirewallClientTypes.RuleVariables: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipSets = ipSets {
             var ipSetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ipSets)
-            for (dictKey0, ipsets0) in ipSets {
-                try ipSetsContainer.encode(ipsets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ipSets0) in ipSets {
+                try ipSetsContainer.encode(ipSets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let portSets = portSets {
             var portSetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .portSets)
-            for (dictKey0, portsets0) in portSets {
-                try portSetsContainer.encode(portsets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, portSets0) in portSets {
+                try portSetsContainer.encode(portSets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6811,8 +6821,8 @@ extension NetworkFirewallClientTypes.RulesSource: Swift.Codable {
         }
         if let statefulRules = statefulRules {
             var statefulRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulRules)
-            for statefulrules0 in statefulRules {
-                try statefulRulesContainer.encode(statefulrules0)
+            for statefulrule0 in statefulRules {
+                try statefulRulesContainer.encode(statefulrule0)
             }
         }
         if let statelessRulesAndCustomActions = self.statelessRulesAndCustomActions {
@@ -6884,14 +6894,14 @@ extension NetworkFirewallClientTypes.RulesSourceList: Swift.Codable {
         }
         if let targetTypes = targetTypes {
             var targetTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetTypes)
-            for targettypes0 in targetTypes {
-                try targetTypesContainer.encode(targettypes0.rawValue)
+            for targettype0 in targetTypes {
+                try targetTypesContainer.encode(targettype0.rawValue)
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for ruletargets0 in targets {
-                try targetsContainer.encode(ruletargets0)
+            for collectionmember_string0 in targets {
+                try targetsContainer.encode(collectionmember_string0)
             }
         }
     }
@@ -7102,8 +7112,8 @@ extension NetworkFirewallClientTypes.StatefulRule: Swift.Codable {
         }
         if let ruleOptions = ruleOptions {
             var ruleOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleOptions)
-            for ruleoptions0 in ruleOptions {
-                try ruleOptionsContainer.encode(ruleoptions0)
+            for ruleoption0 in ruleOptions {
+                try ruleOptionsContainer.encode(ruleoption0)
             }
         }
     }
@@ -7506,14 +7516,14 @@ extension NetworkFirewallClientTypes.StatelessRulesAndCustomActions: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customActions = customActions {
             var customActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customActions)
-            for customactions0 in customActions {
-                try customActionsContainer.encode(customactions0)
+            for customaction0 in customActions {
+                try customActionsContainer.encode(customaction0)
             }
         }
         if let statelessRules = statelessRules {
             var statelessRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessRules)
-            for statelessrules0 in statelessRules {
-                try statelessRulesContainer.encode(statelessrules0)
+            for statelessrule0 in statelessRules {
+                try statelessRulesContainer.encode(statelessrule0)
             }
         }
     }
@@ -7647,8 +7657,8 @@ extension NetworkFirewallClientTypes.SyncState: Swift.Codable {
         }
         if let config = config {
             var configContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .config)
-            for (dictKey0, syncstateconfig0) in config {
-                try configContainer.encode(syncstateconfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, syncStateConfig0) in config {
+                try configContainer.encode(syncStateConfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7758,14 +7768,14 @@ extension NetworkFirewallClientTypes.TCPFlagField: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let flags = flags {
             var flagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .flags)
-            for flags0 in flags {
-                try flagsContainer.encode(flags0.rawValue)
+            for tcpflag0 in flags {
+                try flagsContainer.encode(tcpflag0.rawValue)
             }
         }
         if let masks = masks {
             var masksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .masks)
-            for flags0 in masks {
-                try masksContainer.encode(flags0.rawValue)
+            for tcpflag0 in masks {
+                try masksContainer.encode(tcpflag0.rawValue)
             }
         }
     }
@@ -7882,8 +7892,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8129,8 +8139,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -8237,7 +8247,7 @@ extension UpdateFirewallDeleteProtectionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let deleteProtection = self.deleteProtection {
+        if deleteProtection != false {
             try encodeContainer.encode(deleteProtection, forKey: .deleteProtection)
         }
         if let firewallArn = self.firewallArn {
@@ -8261,7 +8271,7 @@ extension UpdateFirewallDeleteProtectionInput: ClientRuntime.URLPathProvider {
 public struct UpdateFirewallDeleteProtectionInput: Swift.Equatable {
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     /// This member is required.
-    public var deleteProtection: Swift.Bool?
+    public var deleteProtection: Swift.Bool
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -8270,7 +8280,7 @@ public struct UpdateFirewallDeleteProtectionInput: Swift.Equatable {
     public var updateToken: Swift.String?
 
     public init (
-        deleteProtection: Swift.Bool? = nil,
+        deleteProtection: Swift.Bool = false,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
@@ -8287,7 +8297,7 @@ struct UpdateFirewallDeleteProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let deleteProtection: Swift.Bool?
+    let deleteProtection: Swift.Bool
 }
 
 extension UpdateFirewallDeleteProtectionInputBody: Swift.Decodable {
@@ -8306,7 +8316,7 @@ extension UpdateFirewallDeleteProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
         deleteProtection = deleteProtectionDecoded
     }
 }
@@ -8354,7 +8364,7 @@ extension UpdateFirewallDeleteProtectionOutputResponse: ClientRuntime.HttpRespon
             self.firewallName = output.firewallName
             self.updateToken = output.updateToken
         } else {
-            self.deleteProtection = nil
+            self.deleteProtection = false
             self.firewallArn = nil
             self.firewallName = nil
             self.updateToken = nil
@@ -8364,7 +8374,7 @@ extension UpdateFirewallDeleteProtectionOutputResponse: ClientRuntime.HttpRespon
 
 public struct UpdateFirewallDeleteProtectionOutputResponse: Swift.Equatable {
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
-    public var deleteProtection: Swift.Bool?
+    public var deleteProtection: Swift.Bool
     /// The Amazon Resource Name (ARN) of the firewall.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -8373,7 +8383,7 @@ public struct UpdateFirewallDeleteProtectionOutputResponse: Swift.Equatable {
     public var updateToken: Swift.String?
 
     public init (
-        deleteProtection: Swift.Bool? = nil,
+        deleteProtection: Swift.Bool = false,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         updateToken: Swift.String? = nil
@@ -8389,7 +8399,7 @@ public struct UpdateFirewallDeleteProtectionOutputResponse: Swift.Equatable {
 struct UpdateFirewallDeleteProtectionOutputResponseBody: Swift.Equatable {
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let deleteProtection: Swift.Bool?
+    let deleteProtection: Swift.Bool
     let updateToken: Swift.String?
 }
 
@@ -8407,7 +8417,7 @@ extension UpdateFirewallDeleteProtectionOutputResponseBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection)
+        let deleteProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteProtection) ?? false
         deleteProtection = deleteProtectionDecoded
         let updateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateToken)
         updateToken = updateTokenDecoded
@@ -8800,7 +8810,7 @@ extension UpdateFirewallPolicyChangeProtectionInput: Swift.Encodable {
         if let firewallName = self.firewallName {
             try encodeContainer.encode(firewallName, forKey: .firewallName)
         }
-        if let firewallPolicyChangeProtection = self.firewallPolicyChangeProtection {
+        if firewallPolicyChangeProtection != false {
             try encodeContainer.encode(firewallPolicyChangeProtection, forKey: .firewallPolicyChangeProtection)
         }
         if let updateToken = self.updateToken {
@@ -8822,14 +8832,14 @@ public struct UpdateFirewallPolicyChangeProtectionInput: Swift.Equatable {
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     /// This member is required.
-    public var firewallPolicyChangeProtection: Swift.Bool?
+    public var firewallPolicyChangeProtection: Swift.Bool
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        firewallPolicyChangeProtection: Swift.Bool? = nil,
+        firewallPolicyChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
     )
     {
@@ -8844,7 +8854,7 @@ struct UpdateFirewallPolicyChangeProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let firewallPolicyChangeProtection: Swift.Bool?
+    let firewallPolicyChangeProtection: Swift.Bool
 }
 
 extension UpdateFirewallPolicyChangeProtectionInputBody: Swift.Decodable {
@@ -8863,7 +8873,7 @@ extension UpdateFirewallPolicyChangeProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
     }
 }
@@ -8913,7 +8923,7 @@ extension UpdateFirewallPolicyChangeProtectionOutputResponse: ClientRuntime.Http
         } else {
             self.firewallArn = nil
             self.firewallName = nil
-            self.firewallPolicyChangeProtection = nil
+            self.firewallPolicyChangeProtection = false
             self.updateToken = nil
         }
     }
@@ -8925,14 +8935,14 @@ public struct UpdateFirewallPolicyChangeProtectionOutputResponse: Swift.Equatabl
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var firewallPolicyChangeProtection: Swift.Bool?
+    public var firewallPolicyChangeProtection: Swift.Bool
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        firewallPolicyChangeProtection: Swift.Bool? = nil,
+        firewallPolicyChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
     )
     {
@@ -8947,7 +8957,7 @@ struct UpdateFirewallPolicyChangeProtectionOutputResponseBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let firewallPolicyChangeProtection: Swift.Bool?
+    let firewallPolicyChangeProtection: Swift.Bool
 }
 
 extension UpdateFirewallPolicyChangeProtectionOutputResponseBody: Swift.Decodable {
@@ -8966,7 +8976,7 @@ extension UpdateFirewallPolicyChangeProtectionOutputResponseBody: Swift.Decodabl
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection)
+        let firewallPolicyChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .firewallPolicyChangeProtection) ?? false
         firewallPolicyChangeProtection = firewallPolicyChangeProtectionDecoded
     }
 }
@@ -8987,7 +8997,7 @@ extension UpdateFirewallPolicyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if let dryRun = self.dryRun {
+        if dryRun != false {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -9018,7 +9028,7 @@ public struct UpdateFirewallPolicyInput: Swift.Equatable {
     /// A description of the firewall policy.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool?
+    public var dryRun: Swift.Bool
     /// A complex type that contains settings for encryption of your firewall policy resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The updated firewall policy to use for the firewall.
@@ -9034,7 +9044,7 @@ public struct UpdateFirewallPolicyInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy? = nil,
         firewallPolicyArn: Swift.String? = nil,
@@ -9058,7 +9068,7 @@ struct UpdateFirewallPolicyInputBody: Swift.Equatable {
     let firewallPolicyName: Swift.String?
     let firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy?
     let description: Swift.String?
-    let dryRun: Swift.Bool?
+    let dryRun: Swift.Bool
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
 }
 
@@ -9085,7 +9095,7 @@ extension UpdateFirewallPolicyInputBody: Swift.Decodable {
         firewallPolicy = firewallPolicyDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -9358,7 +9368,7 @@ extension UpdateRuleGroupInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if let dryRun = self.dryRun {
+        if dryRun != false {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let encryptionConfiguration = self.encryptionConfiguration {
@@ -9398,7 +9408,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     /// A description of the rule group.
     public var description: Swift.String?
     /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request. If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid. If set to FALSE, Network Firewall makes the requested changes to your resources.
-    public var dryRun: Swift.Bool?
+    public var dryRun: Swift.Bool
     /// A complex type that contains settings for encryption of your rule group resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// An object that defines the rule group rules. You must provide either this rule group setting or a Rules setting, but not both.
@@ -9419,7 +9429,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
 
     public init (
         description: Swift.String? = nil,
-        dryRun: Swift.Bool? = nil,
+        dryRun: Swift.Bool = false,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         ruleGroup: NetworkFirewallClientTypes.RuleGroup? = nil,
         ruleGroupArn: Swift.String? = nil,
@@ -9451,7 +9461,7 @@ struct UpdateRuleGroupInputBody: Swift.Equatable {
     let rules: Swift.String?
     let type: NetworkFirewallClientTypes.RuleGroupType?
     let description: Swift.String?
-    let dryRun: Swift.Bool?
+    let dryRun: Swift.Bool
     let encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     let sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
 }
@@ -9486,7 +9496,7 @@ extension UpdateRuleGroupInputBody: Swift.Decodable {
         type = typeDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
         dryRun = dryRunDecoded
         let encryptionConfigurationDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.EncryptionConfiguration.self, forKey: .encryptionConfiguration)
         encryptionConfiguration = encryptionConfigurationDecoded
@@ -9594,7 +9604,7 @@ extension UpdateSubnetChangeProtectionInput: Swift.Encodable {
         if let firewallName = self.firewallName {
             try encodeContainer.encode(firewallName, forKey: .firewallName)
         }
-        if let subnetChangeProtection = self.subnetChangeProtection {
+        if subnetChangeProtection != false {
             try encodeContainer.encode(subnetChangeProtection, forKey: .subnetChangeProtection)
         }
         if let updateToken = self.updateToken {
@@ -9616,14 +9626,14 @@ public struct UpdateSubnetChangeProtectionInput: Swift.Equatable {
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     /// This member is required.
-    public var subnetChangeProtection: Swift.Bool?
+    public var subnetChangeProtection: Swift.Bool
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        subnetChangeProtection: Swift.Bool? = nil,
+        subnetChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
     )
     {
@@ -9638,7 +9648,7 @@ struct UpdateSubnetChangeProtectionInputBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let subnetChangeProtection: Swift.Bool?
+    let subnetChangeProtection: Swift.Bool
 }
 
 extension UpdateSubnetChangeProtectionInputBody: Swift.Decodable {
@@ -9657,7 +9667,7 @@ extension UpdateSubnetChangeProtectionInputBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
         subnetChangeProtection = subnetChangeProtectionDecoded
     }
 }
@@ -9707,7 +9717,7 @@ extension UpdateSubnetChangeProtectionOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.firewallArn = nil
             self.firewallName = nil
-            self.subnetChangeProtection = nil
+            self.subnetChangeProtection = false
             self.updateToken = nil
         }
     }
@@ -9719,14 +9729,14 @@ public struct UpdateSubnetChangeProtectionOutputResponse: Swift.Equatable {
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     public var firewallName: Swift.String?
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
-    public var subnetChangeProtection: Swift.Bool?
+    public var subnetChangeProtection: Swift.Bool
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
 
     public init (
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
-        subnetChangeProtection: Swift.Bool? = nil,
+        subnetChangeProtection: Swift.Bool = false,
         updateToken: Swift.String? = nil
     )
     {
@@ -9741,7 +9751,7 @@ struct UpdateSubnetChangeProtectionOutputResponseBody: Swift.Equatable {
     let updateToken: Swift.String?
     let firewallArn: Swift.String?
     let firewallName: Swift.String?
-    let subnetChangeProtection: Swift.Bool?
+    let subnetChangeProtection: Swift.Bool
 }
 
 extension UpdateSubnetChangeProtectionOutputResponseBody: Swift.Decodable {
@@ -9760,7 +9770,7 @@ extension UpdateSubnetChangeProtectionOutputResponseBody: Swift.Decodable {
         firewallArn = firewallArnDecoded
         let firewallNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firewallName)
         firewallName = firewallNameDecoded
-        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection)
+        let subnetChangeProtectionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subnetChangeProtection) ?? false
         subnetChangeProtection = subnetChangeProtectionDecoded
     }
 }

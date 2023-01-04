@@ -130,8 +130,8 @@ extension CodeartifactClientTypes.AssetSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let hashes = hashes {
             var hashesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .hashes)
-            for (dictKey0, assethashes0) in hashes {
-                try hashesContainer.encode(assethashes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assetHashes0) in hashes {
+                try hashesContainer.encode(assetHashes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -438,14 +438,14 @@ extension CopyPackageVersionsInput: Swift.Encodable {
         }
         if let versionRevisions = versionRevisions {
             var versionRevisionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .versionRevisions)
-            for (dictKey0, packageversionrevisionmap0) in versionRevisions {
-                try versionRevisionsContainer.encode(packageversionrevisionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, packageVersionRevisionMap0) in versionRevisions {
+                try versionRevisionsContainer.encode(packageVersionRevisionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
-            for packageversionlist0 in versions {
-                try versionsContainer.encode(packageversionlist0)
+            for packageversion0 in versions {
+                try versionsContainer.encode(packageversion0)
             }
         }
     }
@@ -741,8 +741,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -908,14 +908,14 @@ extension CreateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let upstreams = upstreams {
             var upstreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .upstreams)
-            for upstreamrepositorylist0 in upstreams {
-                try upstreamsContainer.encode(upstreamrepositorylist0)
+            for upstreamrepository0 in upstreams {
+                try upstreamsContainer.encode(upstreamrepository0)
             }
         }
     }
@@ -1370,8 +1370,8 @@ extension DeletePackageVersionsInput: Swift.Encodable {
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
-            for packageversionlist0 in versions {
-                try versionsContainer.encode(packageversionlist0)
+            for packageversion0 in versions {
+                try versionsContainer.encode(packageversion0)
             }
         }
     }
@@ -2665,14 +2665,14 @@ extension DisposePackageVersionsInput: Swift.Encodable {
         }
         if let versionRevisions = versionRevisions {
             var versionRevisionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .versionRevisions)
-            for (dictKey0, packageversionrevisionmap0) in versionRevisions {
-                try versionRevisionsContainer.encode(packageversionrevisionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, packageVersionRevisionMap0) in versionRevisions {
+                try versionRevisionsContainer.encode(packageVersionRevisionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
-            for packageversionlist0 in versions {
-                try versionsContainer.encode(packageversionlist0)
+            for packageversion0 in versions {
+                try versionsContainer.encode(packageversion0)
             }
         }
     }
@@ -6352,8 +6352,8 @@ extension CodeartifactClientTypes.PackageVersionDescription: Swift.Codable {
         }
         if let licenses = licenses {
             var licensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenses)
-            for licenseinfolist0 in licenses {
-                try licensesContainer.encode(licenseinfolist0)
+            for licenseinfo0 in licenses {
+                try licensesContainer.encode(licenseinfo0)
             }
         }
         if let namespace = self.namespace {
@@ -7375,8 +7375,8 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
         }
         if let externalConnections = externalConnections {
             var externalConnectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalConnections)
-            for repositoryexternalconnectioninfolist0 in externalConnections {
-                try externalConnectionsContainer.encode(repositoryexternalconnectioninfolist0)
+            for repositoryexternalconnectioninfo0 in externalConnections {
+                try externalConnectionsContainer.encode(repositoryexternalconnectioninfo0)
             }
         }
         if let name = self.name {
@@ -7384,8 +7384,8 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
         }
         if let upstreams = upstreams {
             var upstreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .upstreams)
-            for upstreamrepositoryinfolist0 in upstreams {
-                try upstreamsContainer.encode(upstreamrepositoryinfolist0)
+            for upstreamrepositoryinfo0 in upstreams {
+                try upstreamsContainer.encode(upstreamrepositoryinfo0)
             }
         }
     }
@@ -7964,8 +7964,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8146,8 +8146,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -8273,14 +8273,14 @@ extension UpdatePackageVersionsStatusInput: Swift.Encodable {
         }
         if let versionRevisions = versionRevisions {
             var versionRevisionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .versionRevisions)
-            for (dictKey0, packageversionrevisionmap0) in versionRevisions {
-                try versionRevisionsContainer.encode(packageversionrevisionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, packageVersionRevisionMap0) in versionRevisions {
+                try versionRevisionsContainer.encode(packageVersionRevisionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
-            for packageversionlist0 in versions {
-                try versionsContainer.encode(packageversionlist0)
+            for packageversion0 in versions {
+                try versionsContainer.encode(packageversion0)
             }
         }
     }
@@ -8553,8 +8553,8 @@ extension UpdateRepositoryInput: Swift.Encodable {
         }
         if let upstreams = upstreams {
             var upstreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .upstreams)
-            for upstreamrepositorylist0 in upstreams {
-                try upstreamsContainer.encode(upstreamrepositorylist0)
+            for upstreamrepository0 in upstreams {
+                try upstreamsContainer.encode(upstreamrepository0)
             }
         }
     }

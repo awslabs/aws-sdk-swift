@@ -345,8 +345,8 @@ extension IoTSiteWiseClientTypes.AssetCompositeModel: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for assetproperties0 in properties {
-                try propertiesContainer.encode(assetproperties0)
+            for assetproperty0 in properties {
+                try propertiesContainer.encode(assetproperty0)
             }
         }
         if let type = self.type {
@@ -613,8 +613,8 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModel: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for assetmodelproperties0 in properties {
-                try propertiesContainer.encode(assetmodelproperties0)
+            for assetmodelproperty0 in properties {
+                try propertiesContainer.encode(assetmodelproperty0)
             }
         }
         if let type = self.type {
@@ -698,8 +698,8 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelDefinition: Swift.Codab
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
-            for assetmodelpropertydefinitions0 in properties {
-                try propertiesContainer.encode(assetmodelpropertydefinitions0)
+            for assetmodelpropertydefinition0 in properties {
+                try propertiesContainer.encode(assetmodelpropertydefinition0)
             }
         }
         if let type = self.type {
@@ -1742,8 +1742,8 @@ extension IoTSiteWiseClientTypes.AssetSummary: Swift.Codable {
         }
         if let hierarchies = hierarchies {
             var hierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchies)
-            for assethierarchies0 in hierarchies {
-                try hierarchiesContainer.encode(assethierarchies0)
+            for assethierarchy0 in hierarchies {
+                try hierarchiesContainer.encode(assethierarchy0)
             }
         }
         if let id = self.id {
@@ -2131,8 +2131,8 @@ extension IoTSiteWiseClientTypes.AssociatedAssetsSummary: Swift.Codable {
         }
         if let hierarchies = hierarchies {
             var hierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchies)
-            for assethierarchies0 in hierarchies {
-                try hierarchiesContainer.encode(assethierarchies0)
+            for assethierarchy0 in hierarchies {
+                try hierarchiesContainer.encode(assethierarchy0)
             }
         }
         if let id = self.id {
@@ -2314,8 +2314,8 @@ extension BatchAssociateProjectAssetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetIds = assetIds {
             var assetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetIds)
-            for ids0 in assetIds {
-                try assetIdsContainer.encode(ids0)
+            for id0 in assetIds {
+                try assetIdsContainer.encode(id0)
             }
         }
         if let clientToken = self.clientToken {
@@ -2474,8 +2474,8 @@ extension BatchDisassociateProjectAssetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetIds = assetIds {
             var assetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetIds)
-            for ids0 in assetIds {
-                try assetIdsContainer.encode(ids0)
+            for id0 in assetIds {
+                try assetIdsContainer.encode(id0)
             }
         }
         if let clientToken = self.clientToken {
@@ -2672,8 +2672,8 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregateTypes = aggregateTypes {
             var aggregateTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregateTypes)
-            for aggregatetypes0 in aggregateTypes {
-                try aggregateTypesContainer.encode(aggregatetypes0.rawValue)
+            for aggregatetype0 in aggregateTypes {
+                try aggregateTypesContainer.encode(aggregatetype0.rawValue)
             }
         }
         if let assetId = self.assetId {
@@ -2693,8 +2693,8 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesEntry: Swift.Cod
         }
         if let qualities = qualities {
             var qualitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .qualities)
-            for qualities0 in qualities {
-                try qualitiesContainer.encode(qualities0.rawValue)
+            for quality0 in qualities {
+                try qualitiesContainer.encode(quality0.rawValue)
             }
         }
         if let resolution = self.resolution {
@@ -2963,8 +2963,8 @@ extension BatchGetAssetPropertyAggregatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchgetassetpropertyaggregatesentries0 in entries {
-                try entriesContainer.encode(batchgetassetpropertyaggregatesentries0)
+            for batchgetassetpropertyaggregatesentry0 in entries {
+                try entriesContainer.encode(batchgetassetpropertyaggregatesentry0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3236,8 +3236,8 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyAggregatesSuccessEntry: Sw
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aggregatedValues = aggregatedValues {
             var aggregatedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aggregatedValues)
-            for aggregatedvalues0 in aggregatedValues {
-                try aggregatedValuesContainer.encode(aggregatedvalues0)
+            for aggregatedvalue0 in aggregatedValues {
+                try aggregatedValuesContainer.encode(aggregatedvalue0)
             }
         }
         if let entryId = self.entryId {
@@ -3526,8 +3526,8 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistoryEntry: Swift.C
         }
         if let qualities = qualities {
             var qualitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .qualities)
-            for qualities0 in qualities {
-                try qualitiesContainer.encode(qualities0.rawValue)
+            for quality0 in qualities {
+                try qualitiesContainer.encode(quality0.rawValue)
             }
         }
         if let startDate = self.startDate {
@@ -3768,8 +3768,8 @@ extension BatchGetAssetPropertyValueHistoryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchgetassetpropertyvaluehistoryentries0 in entries {
-                try entriesContainer.encode(batchgetassetpropertyvaluehistoryentries0)
+            for batchgetassetpropertyvaluehistoryentry0 in entries {
+                try entriesContainer.encode(batchgetassetpropertyvaluehistoryentry0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4041,8 +4041,8 @@ extension IoTSiteWiseClientTypes.BatchGetAssetPropertyValueHistorySuccessEntry: 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetPropertyValueHistory = assetPropertyValueHistory {
             var assetPropertyValueHistoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetPropertyValueHistory)
-            for assetpropertyvaluehistory0 in assetPropertyValueHistory {
-                try assetPropertyValueHistoryContainer.encode(assetpropertyvaluehistory0)
+            for assetpropertyvalue0 in assetPropertyValueHistory {
+                try assetPropertyValueHistoryContainer.encode(assetpropertyvalue0)
             }
         }
         if let entryId = self.entryId {
@@ -4100,8 +4100,8 @@ extension BatchGetAssetPropertyValueInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for batchgetassetpropertyvalueentries0 in entries {
-                try entriesContainer.encode(batchgetassetpropertyvalueentries0)
+            for batchgetassetpropertyvalueentry0 in entries {
+                try entriesContainer.encode(batchgetassetpropertyvalueentry0)
             }
         }
         if let nextToken = self.nextToken {
@@ -4411,8 +4411,8 @@ extension IoTSiteWiseClientTypes.BatchPutAssetPropertyError: Swift.Codable {
         }
         if let timestamps = timestamps {
             var timestampsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestamps)
-            for timestamps0 in timestamps {
-                try timestampsContainer.encode(timestamps0)
+            for timeinnanos0 in timestamps {
+                try timestampsContainer.encode(timeinnanos0)
             }
         }
     }
@@ -4477,8 +4477,8 @@ extension IoTSiteWiseClientTypes.BatchPutAssetPropertyErrorEntry: Swift.Codable 
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for batchputassetpropertyerrors0 in errors {
-                try errorsContainer.encode(batchputassetpropertyerrors0)
+            for batchputassetpropertyerror0 in errors {
+                try errorsContainer.encode(batchputassetpropertyerror0)
             }
         }
     }
@@ -4585,8 +4585,8 @@ extension BatchPutAssetPropertyValueInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for putassetpropertyvalueentries0 in entries {
-                try entriesContainer.encode(putassetpropertyvalueentries0)
+            for putassetpropertyvalueentry0 in entries {
+                try entriesContainer.encode(putassetpropertyvalueentry0)
             }
         }
     }
@@ -5137,8 +5137,8 @@ extension CreateAccessPolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5330,8 +5330,8 @@ extension CreateAssetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5429,8 +5429,8 @@ extension CreateAssetModelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetModelCompositeModels = assetModelCompositeModels {
             var assetModelCompositeModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelCompositeModels)
-            for assetmodelcompositemodeldefinitions0 in assetModelCompositeModels {
-                try assetModelCompositeModelsContainer.encode(assetmodelcompositemodeldefinitions0)
+            for assetmodelcompositemodeldefinition0 in assetModelCompositeModels {
+                try assetModelCompositeModelsContainer.encode(assetmodelcompositemodeldefinition0)
             }
         }
         if let assetModelDescription = self.assetModelDescription {
@@ -5438,8 +5438,8 @@ extension CreateAssetModelInput: Swift.Encodable {
         }
         if let assetModelHierarchies = assetModelHierarchies {
             var assetModelHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelHierarchies)
-            for assetmodelhierarchydefinitions0 in assetModelHierarchies {
-                try assetModelHierarchiesContainer.encode(assetmodelhierarchydefinitions0)
+            for assetmodelhierarchydefinition0 in assetModelHierarchies {
+                try assetModelHierarchiesContainer.encode(assetmodelhierarchydefinition0)
             }
         }
         if let assetModelName = self.assetModelName {
@@ -5447,8 +5447,8 @@ extension CreateAssetModelInput: Swift.Encodable {
         }
         if let assetModelProperties = assetModelProperties {
             var assetModelPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelProperties)
-            for assetmodelpropertydefinitions0 in assetModelProperties {
-                try assetModelPropertiesContainer.encode(assetmodelpropertydefinitions0)
+            for assetmodelpropertydefinition0 in assetModelProperties {
+                try assetModelPropertiesContainer.encode(assetmodelpropertydefinition0)
             }
         }
         if let clientToken = self.clientToken {
@@ -5456,8 +5456,8 @@ extension CreateAssetModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5794,8 +5794,8 @@ extension CreateBulkImportJobInput: Swift.Encodable {
         }
         if let files = files {
             var filesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .files)
-            for files0 in files {
-                try filesContainer.encode(files0)
+            for file0 in files {
+                try filesContainer.encode(file0)
             }
         }
         if let jobConfiguration = self.jobConfiguration {
@@ -6029,8 +6029,8 @@ extension CreateDashboardInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6222,8 +6222,8 @@ extension CreateGatewayInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6418,8 +6418,8 @@ extension CreatePortalInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6691,8 +6691,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6867,8 +6867,8 @@ extension IoTSiteWiseClientTypes.Csv: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnNames = columnNames {
             var columnNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnNames)
-            for columnnames0 in columnNames {
-                try columnNamesContainer.encode(columnnames0.rawValue)
+            for columnname0 in columnNames {
+                try columnNamesContainer.encode(columnname0.rawValue)
             }
         }
     }
@@ -10813,8 +10813,8 @@ extension IoTSiteWiseClientTypes.ErrorDetails: Swift.Codable {
         }
         if let details = details {
             var detailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .details)
-            for detailederrors0 in details {
-                try detailsContainer.encode(detailederrors0)
+            for detailederror0 in details {
+                try detailsContainer.encode(detailederror0)
             }
         }
         if let message = self.message {
@@ -11237,8 +11237,8 @@ extension IoTSiteWiseClientTypes.GatewaySummary: Swift.Codable {
         }
         if let gatewayCapabilitySummaries = gatewayCapabilitySummaries {
             var gatewayCapabilitySummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gatewayCapabilitySummaries)
-            for gatewaycapabilitysummaries0 in gatewayCapabilitySummaries {
-                try gatewayCapabilitySummariesContainer.encode(gatewaycapabilitysummaries0)
+            for gatewaycapabilitysummary0 in gatewayCapabilitySummaries {
+                try gatewayCapabilitySummariesContainer.encode(gatewaycapabilitysummary0)
             }
         }
         if let gatewayId = self.gatewayId {
@@ -15525,8 +15525,8 @@ extension IoTSiteWiseClientTypes.Metric: Swift.Codable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
-            for expressionvariables0 in variables {
-                try variablesContainer.encode(expressionvariables0)
+            for expressionvariable0 in variables {
+                try variablesContainer.encode(expressionvariable0)
             }
         }
         if let window = self.window {
@@ -16459,8 +16459,8 @@ extension IoTSiteWiseClientTypes.PutAssetPropertyValueEntry: Swift.Codable {
         }
         if let propertyValues = propertyValues {
             var propertyValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyValues)
-            for assetpropertyvalues0 in propertyValues {
-                try propertyValuesContainer.encode(assetpropertyvalues0)
+            for assetpropertyvalue0 in propertyValues {
+                try propertyValuesContainer.encode(assetpropertyvalue0)
             }
         }
     }
@@ -17366,8 +17366,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -17802,8 +17802,8 @@ extension IoTSiteWiseClientTypes.Transform: Swift.Codable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
-            for expressionvariables0 in variables {
-                try variablesContainer.encode(expressionvariables0)
+            for expressionvariable0 in variables {
+                try variablesContainer.encode(expressionvariable0)
             }
         }
     }
@@ -18412,8 +18412,8 @@ extension UpdateAssetModelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assetModelCompositeModels = assetModelCompositeModels {
             var assetModelCompositeModelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelCompositeModels)
-            for assetmodelcompositemodels0 in assetModelCompositeModels {
-                try assetModelCompositeModelsContainer.encode(assetmodelcompositemodels0)
+            for assetmodelcompositemodel0 in assetModelCompositeModels {
+                try assetModelCompositeModelsContainer.encode(assetmodelcompositemodel0)
             }
         }
         if let assetModelDescription = self.assetModelDescription {
@@ -18421,8 +18421,8 @@ extension UpdateAssetModelInput: Swift.Encodable {
         }
         if let assetModelHierarchies = assetModelHierarchies {
             var assetModelHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelHierarchies)
-            for assetmodelhierarchies0 in assetModelHierarchies {
-                try assetModelHierarchiesContainer.encode(assetmodelhierarchies0)
+            for assetmodelhierarchy0 in assetModelHierarchies {
+                try assetModelHierarchiesContainer.encode(assetmodelhierarchy0)
             }
         }
         if let assetModelName = self.assetModelName {
@@ -18430,8 +18430,8 @@ extension UpdateAssetModelInput: Swift.Encodable {
         }
         if let assetModelProperties = assetModelProperties {
             var assetModelPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assetModelProperties)
-            for assetmodelproperties0 in assetModelProperties {
-                try assetModelPropertiesContainer.encode(assetmodelproperties0)
+            for assetmodelproperty0 in assetModelProperties {
+                try assetModelPropertiesContainer.encode(assetmodelproperty0)
             }
         }
         if let clientToken = self.clientToken {

@@ -75,8 +75,8 @@ extension OpsWorksClientTypes.App: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, appattributes0) in attributes {
-                try attributesContainer.encode(appattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, appAttributes0) in attributes {
+                try attributesContainer.encode(appAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -84,8 +84,8 @@ extension OpsWorksClientTypes.App: Swift.Codable {
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasources0 in dataSources {
-                try dataSourcesContainer.encode(datasources0)
+            for datasource0 in dataSources {
+                try dataSourcesContainer.encode(datasource0)
             }
         }
         if let description = self.description {
@@ -93,8 +93,8 @@ extension OpsWorksClientTypes.App: Swift.Codable {
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for strings0 in domains {
-                try domainsContainer.encode(strings0)
+            for string0 in domains {
+                try domainsContainer.encode(string0)
             }
         }
         if let enableSsl = self.enableSsl {
@@ -102,8 +102,8 @@ extension OpsWorksClientTypes.App: Swift.Codable {
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for environmentvariable0 in environment {
+                try environmentContainer.encode(environmentvariable0)
             }
         }
         if let name = self.name {
@@ -390,8 +390,8 @@ extension AssignInstanceInput: Swift.Encodable {
         }
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
     }
@@ -782,8 +782,8 @@ extension OpsWorksClientTypes.AutoScalingThresholds: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alarms = alarms {
             var alarmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarms)
-            for strings0 in alarms {
-                try alarmsContainer.encode(strings0)
+            for string0 in alarms {
+                try alarmsContainer.encode(string0)
             }
         }
         if let cpuThreshold = self.cpuThreshold {
@@ -1049,8 +1049,8 @@ extension CloneStackInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, stackattributes0) in attributes {
-                try attributesContainer.encode(stackattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stackAttributes0) in attributes {
+                try attributesContainer.encode(stackAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let chefConfiguration = self.chefConfiguration {
@@ -1058,8 +1058,8 @@ extension CloneStackInput: Swift.Encodable {
         }
         if let cloneAppIds = cloneAppIds {
             var cloneAppIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloneAppIds)
-            for strings0 in cloneAppIds {
-                try cloneAppIdsContainer.encode(strings0)
+            for string0 in cloneAppIds {
+                try cloneAppIdsContainer.encode(string0)
             }
         }
         if let clonePermissions = self.clonePermissions {
@@ -1488,8 +1488,8 @@ extension OpsWorksClientTypes.CloudWatchLogsConfiguration: Swift.Codable {
         }
         if let logStreams = logStreams {
             var logStreamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreams)
-            for cloudwatchlogslogstreams0 in logStreams {
-                try logStreamsContainer.encode(cloudwatchlogslogstreams0)
+            for cloudwatchlogslogstream0 in logStreams {
+                try logStreamsContainer.encode(cloudwatchlogslogstream0)
             }
         }
     }
@@ -2216,14 +2216,14 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, appattributes0) in attributes {
-                try attributesContainer.encode(appattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, appAttributes0) in attributes {
+                try attributesContainer.encode(appAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasources0 in dataSources {
-                try dataSourcesContainer.encode(datasources0)
+            for datasource0 in dataSources {
+                try dataSourcesContainer.encode(datasource0)
             }
         }
         if let description = self.description {
@@ -2231,8 +2231,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for strings0 in domains {
-                try domainsContainer.encode(strings0)
+            for string0 in domains {
+                try domainsContainer.encode(string0)
             }
         }
         if let enableSsl = self.enableSsl {
@@ -2240,8 +2240,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for environmentvariable0 in environment {
+                try environmentContainer.encode(environmentvariable0)
             }
         }
         if let name = self.name {
@@ -2516,14 +2516,14 @@ extension CreateDeploymentInput: Swift.Encodable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for strings0 in instanceIds {
-                try instanceIdsContainer.encode(strings0)
+            for string0 in instanceIds {
+                try instanceIdsContainer.encode(string0)
             }
         }
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -2741,8 +2741,8 @@ extension CreateInstanceInput: Swift.Encodable {
         }
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for blockdevicemappings0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(blockdevicemappings0)
+            for blockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(blockdevicemapping0)
             }
         }
         if let ebsOptimized = self.ebsOptimized {
@@ -2759,8 +2759,8 @@ extension CreateInstanceInput: Swift.Encodable {
         }
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let os = self.os {
@@ -3092,8 +3092,8 @@ extension CreateLayerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, layerattributes0) in attributes {
-                try attributesContainer.encode(layerattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, layerAttributes0) in attributes {
+                try attributesContainer.encode(layerAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let autoAssignElasticIps = self.autoAssignElasticIps {
@@ -3116,8 +3116,8 @@ extension CreateLayerInput: Swift.Encodable {
         }
         if let customSecurityGroupIds = customSecurityGroupIds {
             var customSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customSecurityGroupIds)
-            for strings0 in customSecurityGroupIds {
-                try customSecurityGroupIdsContainer.encode(strings0)
+            for string0 in customSecurityGroupIds {
+                try customSecurityGroupIdsContainer.encode(string0)
             }
         }
         if let enableAutoHealing = self.enableAutoHealing {
@@ -3134,8 +3134,8 @@ extension CreateLayerInput: Swift.Encodable {
         }
         if let packages = packages {
             var packagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packages)
-            for strings0 in packages {
-                try packagesContainer.encode(strings0)
+            for string0 in packages {
+                try packagesContainer.encode(string0)
             }
         }
         if let shortname = self.shortname {
@@ -3152,8 +3152,8 @@ extension CreateLayerInput: Swift.Encodable {
         }
         if let volumeConfigurations = volumeConfigurations {
             var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
-            for volumeconfigurations0 in volumeConfigurations {
-                try volumeConfigurationsContainer.encode(volumeconfigurations0)
+            for volumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(volumeconfiguration0)
             }
         }
     }
@@ -3465,8 +3465,8 @@ extension CreateStackInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, stackattributes0) in attributes {
-                try attributesContainer.encode(stackattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stackAttributes0) in attributes {
+                try attributesContainer.encode(stackAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let chefConfiguration = self.chefConfiguration {
@@ -4530,8 +4530,8 @@ extension OpsWorksClientTypes.Deployment: Swift.Codable {
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for strings0 in instanceIds {
-                try instanceIdsContainer.encode(strings0)
+            for string0 in instanceIds {
+                try instanceIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -4656,8 +4656,11 @@ extension OpsWorksClientTypes.DeploymentCommand: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let args = args {
             var argsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .args)
-            for (dictKey0, deploymentcommandargs0) in args {
-                try argsContainer.encode(deploymentcommandargs0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, deploymentCommandArgs0) in args {
+                var deploymentCommandArgs0Container = argsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in deploymentCommandArgs0 {
+                    try deploymentCommandArgs0Container.encode(string1)
+                }
             }
         }
         if let name = self.name {
@@ -5357,8 +5360,8 @@ extension DescribeAppsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appIds = appIds {
             var appIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appIds)
-            for strings0 in appIds {
-                try appIdsContainer.encode(strings0)
+            for string0 in appIds {
+                try appIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -5504,8 +5507,8 @@ extension DescribeCommandsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let commandIds = commandIds {
             var commandIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commandIds)
-            for strings0 in commandIds {
-                try commandIdsContainer.encode(strings0)
+            for string0 in commandIds {
+                try commandIdsContainer.encode(string0)
             }
         }
         if let deploymentId = self.deploymentId {
@@ -5665,8 +5668,8 @@ extension DescribeDeploymentsInput: Swift.Encodable {
         }
         if let deploymentIds = deploymentIds {
             var deploymentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentIds)
-            for strings0 in deploymentIds {
-                try deploymentIdsContainer.encode(strings0)
+            for string0 in deploymentIds {
+                try deploymentIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -5821,8 +5824,8 @@ extension DescribeEcsClustersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ecsClusterArns = ecsClusterArns {
             var ecsClusterArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecsClusterArns)
-            for strings0 in ecsClusterArns {
-                try ecsClusterArnsContainer.encode(strings0)
+            for string0 in ecsClusterArns {
+                try ecsClusterArnsContainer.encode(string0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6003,8 +6006,8 @@ extension DescribeElasticIpsInput: Swift.Encodable {
         }
         if let ips = ips {
             var ipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ips)
-            for strings0 in ips {
-                try ipsContainer.encode(strings0)
+            for string0 in ips {
+                try ipsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -6157,8 +6160,8 @@ extension DescribeElasticLoadBalancersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -6304,8 +6307,8 @@ extension DescribeInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for strings0 in instanceIds {
-                try instanceIdsContainer.encode(strings0)
+            for string0 in instanceIds {
+                try instanceIdsContainer.encode(string0)
             }
         }
         if let layerId = self.layerId {
@@ -6474,8 +6477,8 @@ extension DescribeLayersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -6619,8 +6622,8 @@ extension DescribeLoadBasedAutoScalingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
     }
@@ -7088,8 +7091,8 @@ extension DescribeRaidArraysInput: Swift.Encodable {
         }
         if let raidArrayIds = raidArrayIds {
             var raidArrayIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .raidArrayIds)
-            for strings0 in raidArrayIds {
-                try raidArrayIdsContainer.encode(strings0)
+            for string0 in raidArrayIds {
+                try raidArrayIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -7242,8 +7245,8 @@ extension DescribeRdsDbInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rdsDbInstanceArns = rdsDbInstanceArns {
             var rdsDbInstanceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rdsDbInstanceArns)
-            for strings0 in rdsDbInstanceArns {
-                try rdsDbInstanceArnsContainer.encode(strings0)
+            for string0 in rdsDbInstanceArns {
+                try rdsDbInstanceArnsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -7393,8 +7396,8 @@ extension DescribeServiceErrorsInput: Swift.Encodable {
         }
         if let serviceErrorIds = serviceErrorIds {
             var serviceErrorIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceErrorIds)
-            for strings0 in serviceErrorIds {
-                try serviceErrorIdsContainer.encode(strings0)
+            for string0 in serviceErrorIds {
+                try serviceErrorIdsContainer.encode(string0)
             }
         }
         if let stackId = self.stackId {
@@ -7793,8 +7796,8 @@ extension DescribeStacksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stackIds = stackIds {
             var stackIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stackIds)
-            for strings0 in stackIds {
-                try stackIdsContainer.encode(strings0)
+            for string0 in stackIds {
+                try stackIdsContainer.encode(string0)
             }
         }
     }
@@ -7927,8 +7930,8 @@ extension DescribeTimeBasedAutoScalingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for strings0 in instanceIds {
-                try instanceIdsContainer.encode(strings0)
+            for string0 in instanceIds {
+                try instanceIdsContainer.encode(string0)
             }
         }
     }
@@ -8062,8 +8065,8 @@ extension DescribeUserProfilesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let iamUserArns = iamUserArns {
             var iamUserArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .iamUserArns)
-            for strings0 in iamUserArns {
-                try iamUserArnsContainer.encode(strings0)
+            for string0 in iamUserArns {
+                try iamUserArnsContainer.encode(string0)
             }
         }
     }
@@ -8208,8 +8211,8 @@ extension DescribeVolumesInput: Swift.Encodable {
         }
         if let volumeIds = volumeIds {
             var volumeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeIds)
-            for strings0 in volumeIds {
-                try volumeIdsContainer.encode(strings0)
+            for string0 in volumeIds {
+                try volumeIdsContainer.encode(string0)
             }
         }
     }
@@ -8764,8 +8767,8 @@ extension OpsWorksClientTypes.ElasticLoadBalancer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for strings0 in availabilityZones {
-                try availabilityZonesContainer.encode(strings0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if let dnsName = self.dnsName {
@@ -8773,8 +8776,8 @@ extension OpsWorksClientTypes.ElasticLoadBalancer: Swift.Codable {
         }
         if let ec2InstanceIds = ec2InstanceIds {
             var ec2InstanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceIds)
-            for strings0 in ec2InstanceIds {
-                try ec2InstanceIdsContainer.encode(strings0)
+            for string0 in ec2InstanceIds {
+                try ec2InstanceIdsContainer.encode(string0)
             }
         }
         if let elasticLoadBalancerName = self.elasticLoadBalancerName {
@@ -8791,8 +8794,8 @@ extension OpsWorksClientTypes.ElasticLoadBalancer: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for strings0 in subnetIds {
-                try subnetIdsContainer.encode(strings0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcId = self.vpcId {
@@ -9272,8 +9275,8 @@ extension OpsWorksClientTypes.Instance: Swift.Codable {
         }
         if let blockDeviceMappings = blockDeviceMappings {
             var blockDeviceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockDeviceMappings)
-            for blockdevicemappings0 in blockDeviceMappings {
-                try blockDeviceMappingsContainer.encode(blockdevicemappings0)
+            for blockdevicemapping0 in blockDeviceMappings {
+                try blockDeviceMappingsContainer.encode(blockdevicemapping0)
             }
         }
         if let createdAt = self.createdAt {
@@ -9317,8 +9320,8 @@ extension OpsWorksClientTypes.Instance: Swift.Codable {
         }
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let os = self.os {
@@ -9356,8 +9359,8 @@ extension OpsWorksClientTypes.Instance: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for strings0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(strings0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let sshHostDsaKeyFingerprint = self.sshHostDsaKeyFingerprint {
@@ -10010,8 +10013,8 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, layerattributes0) in attributes {
-                try attributesContainer.encode(layerattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, layerAttributes0) in attributes {
+                try attributesContainer.encode(layerAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let autoAssignElasticIps = self.autoAssignElasticIps {
@@ -10037,8 +10040,8 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
         }
         if let customSecurityGroupIds = customSecurityGroupIds {
             var customSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customSecurityGroupIds)
-            for strings0 in customSecurityGroupIds {
-                try customSecurityGroupIdsContainer.encode(strings0)
+            for string0 in customSecurityGroupIds {
+                try customSecurityGroupIdsContainer.encode(string0)
             }
         }
         if let defaultRecipes = self.defaultRecipes {
@@ -10046,8 +10049,8 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
         }
         if let defaultSecurityGroupNames = defaultSecurityGroupNames {
             var defaultSecurityGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultSecurityGroupNames)
-            for strings0 in defaultSecurityGroupNames {
-                try defaultSecurityGroupNamesContainer.encode(strings0)
+            for string0 in defaultSecurityGroupNames {
+                try defaultSecurityGroupNamesContainer.encode(string0)
             }
         }
         if let enableAutoHealing = self.enableAutoHealing {
@@ -10067,8 +10070,8 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
         }
         if let packages = packages {
             var packagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packages)
-            for strings0 in packages {
-                try packagesContainer.encode(strings0)
+            for string0 in packages {
+                try packagesContainer.encode(string0)
             }
         }
         if let shortname = self.shortname {
@@ -10085,8 +10088,8 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
         }
         if let volumeConfigurations = volumeConfigurations {
             var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
-            for volumeconfigurations0 in volumeConfigurations {
-                try volumeConfigurationsContainer.encode(volumeconfigurations0)
+            for volumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(volumeconfiguration0)
             }
         }
     }
@@ -10726,8 +10729,8 @@ extension OpsWorksClientTypes.OperatingSystem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationManagers = configurationManagers {
             var configurationManagersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationManagers)
-            for operatingsystemconfigurationmanagers0 in configurationManagers {
-                try configurationManagersContainer.encode(operatingsystemconfigurationmanagers0)
+            for operatingsystemconfigurationmanager0 in configurationManagers {
+                try configurationManagersContainer.encode(operatingsystemconfigurationmanager0)
             }
         }
         if let id = self.id {
@@ -11316,32 +11319,32 @@ extension OpsWorksClientTypes.Recipes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configure = configure {
             var configureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configure)
-            for strings0 in configure {
-                try configureContainer.encode(strings0)
+            for string0 in configure {
+                try configureContainer.encode(string0)
             }
         }
         if let deploy = deploy {
             var deployContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploy)
-            for strings0 in deploy {
-                try deployContainer.encode(strings0)
+            for string0 in deploy {
+                try deployContainer.encode(string0)
             }
         }
         if let setup = setup {
             var setupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .setup)
-            for strings0 in setup {
-                try setupContainer.encode(strings0)
+            for string0 in setup {
+                try setupContainer.encode(string0)
             }
         }
         if let shutdown = shutdown {
             var shutdownContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shutdown)
-            for strings0 in shutdown {
-                try shutdownContainer.encode(strings0)
+            for string0 in shutdown {
+                try shutdownContainer.encode(string0)
             }
         }
         if let undeploy = undeploy {
             var undeployContainer = encodeContainer.nestedUnkeyedContainer(forKey: .undeploy)
-            for strings0 in undeploy {
-                try undeployContainer.encode(strings0)
+            for string0 in undeploy {
+                try undeployContainer.encode(string0)
             }
         }
     }
@@ -13043,8 +13046,8 @@ extension OpsWorksClientTypes.Stack: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, stackattributes0) in attributes {
-                try attributesContainer.encode(stackattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stackAttributes0) in attributes {
+                try attributesContainer.encode(stackAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let chefConfiguration = self.chefConfiguration {
@@ -14167,8 +14170,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14286,14 +14289,14 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, appattributes0) in attributes {
-                try attributesContainer.encode(appattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, appAttributes0) in attributes {
+                try attributesContainer.encode(appAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasources0 in dataSources {
-                try dataSourcesContainer.encode(datasources0)
+            for datasource0 in dataSources {
+                try dataSourcesContainer.encode(datasource0)
             }
         }
         if let description = self.description {
@@ -14301,8 +14304,8 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for strings0 in domains {
-                try domainsContainer.encode(strings0)
+            for string0 in domains {
+                try domainsContainer.encode(string0)
             }
         }
         if let enableSsl = self.enableSsl {
@@ -14310,8 +14313,8 @@ extension UpdateAppInput: Swift.Encodable {
         }
         if let environment = environment {
             var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
-            for environmentvariables0 in environment {
-                try environmentContainer.encode(environmentvariables0)
+            for environmentvariable0 in environment {
+                try environmentContainer.encode(environmentvariable0)
             }
         }
         if let name = self.name {
@@ -14652,8 +14655,8 @@ extension UpdateInstanceInput: Swift.Encodable {
         }
         if let layerIds = layerIds {
             var layerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerIds)
-            for strings0 in layerIds {
-                try layerIdsContainer.encode(strings0)
+            for string0 in layerIds {
+                try layerIdsContainer.encode(string0)
             }
         }
         if let os = self.os {
@@ -14876,8 +14879,8 @@ extension UpdateLayerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, layerattributes0) in attributes {
-                try attributesContainer.encode(layerattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, layerAttributes0) in attributes {
+                try attributesContainer.encode(layerAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let autoAssignElasticIps = self.autoAssignElasticIps {
@@ -14900,8 +14903,8 @@ extension UpdateLayerInput: Swift.Encodable {
         }
         if let customSecurityGroupIds = customSecurityGroupIds {
             var customSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customSecurityGroupIds)
-            for strings0 in customSecurityGroupIds {
-                try customSecurityGroupIdsContainer.encode(strings0)
+            for string0 in customSecurityGroupIds {
+                try customSecurityGroupIdsContainer.encode(string0)
             }
         }
         if let enableAutoHealing = self.enableAutoHealing {
@@ -14921,8 +14924,8 @@ extension UpdateLayerInput: Swift.Encodable {
         }
         if let packages = packages {
             var packagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packages)
-            for strings0 in packages {
-                try packagesContainer.encode(strings0)
+            for string0 in packages {
+                try packagesContainer.encode(string0)
             }
         }
         if let shortname = self.shortname {
@@ -14933,8 +14936,8 @@ extension UpdateLayerInput: Swift.Encodable {
         }
         if let volumeConfigurations = volumeConfigurations {
             var volumeConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumeConfigurations)
-            for volumeconfigurations0 in volumeConfigurations {
-                try volumeConfigurationsContainer.encode(volumeconfigurations0)
+            for volumeconfiguration0 in volumeConfigurations {
+                try volumeConfigurationsContainer.encode(volumeconfiguration0)
             }
         }
     }
@@ -15387,8 +15390,8 @@ extension UpdateStackInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, stackattributes0) in attributes {
-                try attributesContainer.encode(stackattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, stackAttributes0) in attributes {
+                try attributesContainer.encode(stackAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let chefConfiguration = self.chefConfiguration {
@@ -16427,44 +16430,44 @@ extension OpsWorksClientTypes.WeeklyAutoScalingSchedule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let friday = friday {
             var fridayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .friday)
-            for (dictKey0, dailyautoscalingschedule0) in friday {
-                try fridayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in friday {
+                try fridayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let monday = monday {
             var mondayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .monday)
-            for (dictKey0, dailyautoscalingschedule0) in monday {
-                try mondayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in monday {
+                try mondayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let saturday = saturday {
             var saturdayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .saturday)
-            for (dictKey0, dailyautoscalingschedule0) in saturday {
-                try saturdayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in saturday {
+                try saturdayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sunday = sunday {
             var sundayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sunday)
-            for (dictKey0, dailyautoscalingschedule0) in sunday {
-                try sundayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in sunday {
+                try sundayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let thursday = thursday {
             var thursdayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .thursday)
-            for (dictKey0, dailyautoscalingschedule0) in thursday {
-                try thursdayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in thursday {
+                try thursdayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tuesday = tuesday {
             var tuesdayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tuesday)
-            for (dictKey0, dailyautoscalingschedule0) in tuesday {
-                try tuesdayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in tuesday {
+                try tuesdayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let wednesday = wednesday {
             var wednesdayContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .wednesday)
-            for (dictKey0, dailyautoscalingschedule0) in wednesday {
-                try wednesdayContainer.encode(dailyautoscalingschedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, dailyAutoScalingSchedule0) in wednesday {
+                try wednesdayContainer.encode(dailyAutoScalingSchedule0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

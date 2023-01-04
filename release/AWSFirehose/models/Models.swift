@@ -1412,8 +1412,8 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagdeliverystreaminputtaglist0 in tags {
-                try tagsContainer.encode(tagdeliverystreaminputtaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1830,8 +1830,8 @@ extension FirehoseClientTypes.DeliveryStreamDescription: Swift.Codable {
         }
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for destinationdescriptionlist0 in destinations {
-                try destinationsContainer.encode(destinationdescriptionlist0)
+            for destinationdescription0 in destinations {
+                try destinationsContainer.encode(destinationdescription0)
             }
         }
         if let failureDescription = self.failureDescription {
@@ -3807,8 +3807,8 @@ extension FirehoseClientTypes.HiveJsonSerDe: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let timestampFormats = timestampFormats {
             var timestampFormatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestampFormats)
-            for listofnonemptystrings0 in timestampFormats {
-                try timestampFormatsContainer.encode(listofnonemptystrings0)
+            for nonemptystring0 in timestampFormats {
+                try timestampFormatsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -4410,8 +4410,8 @@ extension FirehoseClientTypes.HttpEndpointRequestConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let commonAttributes = commonAttributes {
             var commonAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commonAttributes)
-            for httpendpointcommonattributeslist0 in commonAttributes {
-                try commonAttributesContainer.encode(httpendpointcommonattributeslist0)
+            for httpendpointcommonattribute0 in commonAttributes {
+                try commonAttributesContainer.encode(httpendpointcommonattribute0)
             }
         }
         if let contentEncoding = self.contentEncoding {
@@ -5259,8 +5259,8 @@ extension FirehoseClientTypes.OpenXJsonSerDe: Swift.Codable {
         }
         if let columnToJsonKeyMappings = columnToJsonKeyMappings {
             var columnToJsonKeyMappingsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .columnToJsonKeyMappings)
-            for (dictKey0, columntojsonkeymappings0) in columnToJsonKeyMappings {
-                try columnToJsonKeyMappingsContainer.encode(columntojsonkeymappings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, columnToJsonKeyMappings0) in columnToJsonKeyMappings {
+                try columnToJsonKeyMappingsContainer.encode(columnToJsonKeyMappings0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let convertDotsInJsonKeysToUnderscores = self.convertDotsInJsonKeysToUnderscores {
@@ -5400,8 +5400,8 @@ extension FirehoseClientTypes.OrcSerDe: Swift.Codable {
         }
         if let bloomFilterColumns = bloomFilterColumns {
             var bloomFilterColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bloomFilterColumns)
-            for listofnonemptystringswithoutwhitespace0 in bloomFilterColumns {
-                try bloomFilterColumnsContainer.encode(listofnonemptystringswithoutwhitespace0)
+            for nonemptystringwithoutwhitespace0 in bloomFilterColumns {
+                try bloomFilterColumnsContainer.encode(nonemptystringwithoutwhitespace0)
             }
         }
         if let bloomFilterFalsePositiveProbability = self.bloomFilterFalsePositiveProbability {
@@ -5716,8 +5716,8 @@ extension FirehoseClientTypes.ProcessingConfiguration: Swift.Codable {
         }
         if let processors = processors {
             var processorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processors)
-            for processorlist0 in processors {
-                try processorsContainer.encode(processorlist0)
+            for processor0 in processors {
+                try processorsContainer.encode(processor0)
             }
         }
     }
@@ -5770,8 +5770,8 @@ extension FirehoseClientTypes.Processor: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for processorparameterlist0 in parameters {
-                try parametersContainer.encode(processorparameterlist0)
+            for processorparameter0 in parameters {
+                try parametersContainer.encode(processorparameter0)
             }
         }
         if let type = self.type {
@@ -5969,8 +5969,8 @@ extension PutRecordBatchInput: Swift.Encodable {
         }
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for putrecordbatchrequestentrylist0 in records {
-                try recordsContainer.encode(putrecordbatchrequestentrylist0)
+            for record0 in records {
+                try recordsContainer.encode(record0)
             }
         }
     }
@@ -8223,8 +8223,8 @@ extension TagDeliveryStreamInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagdeliverystreaminputtaglist0 in tags {
-                try tagsContainer.encode(tagdeliverystreaminputtaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8334,8 +8334,8 @@ extension UntagDeliveryStreamInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -8655,14 +8655,14 @@ extension FirehoseClientTypes.VpcConfiguration: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for nonemptystringwithoutwhitespace0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystringwithoutwhitespace0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for nonemptystringwithoutwhitespace0 in subnetIds {
+                try subnetIdsContainer.encode(nonemptystringwithoutwhitespace0)
             }
         }
     }
@@ -8757,14 +8757,14 @@ extension FirehoseClientTypes.VpcConfigurationDescription: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for nonemptystringwithoutwhitespace0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystringwithoutwhitespace0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for nonemptystringwithoutwhitespace0 in subnetIds {
+                try subnetIdsContainer.encode(nonemptystringwithoutwhitespace0)
             }
         }
         if let vpcId = self.vpcId {

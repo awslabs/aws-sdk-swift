@@ -182,8 +182,8 @@ extension ConvertRecoveryPointToSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -346,14 +346,14 @@ extension CreateEndpointAccessInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for vpcsecuritygroupidlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupidlist0)
+            for vpcsecuritygroupid0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupid0)
             }
         }
         if let workgroupName = self.workgroupName {
@@ -548,8 +548,8 @@ extension CreateNamespaceInput: Swift.Encodable {
         }
         if let iamRoles = iamRoles {
             var iamRolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .iamRoles)
-            for iamrolearnlist0 in iamRoles {
-                try iamRolesContainer.encode(iamrolearnlist0)
+            for iamrolearn0 in iamRoles {
+                try iamRolesContainer.encode(iamrolearn0)
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -557,8 +557,8 @@ extension CreateNamespaceInput: Swift.Encodable {
         }
         if let logExports = logExports {
             var logExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logExports)
-            for logexportlist0 in logExports {
-                try logExportsContainer.encode(logexportlist0.rawValue)
+            for logexport0 in logExports {
+                try logExportsContainer.encode(logexport0.rawValue)
             }
         }
         if let namespaceName = self.namespaceName {
@@ -566,8 +566,8 @@ extension CreateNamespaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -789,8 +789,8 @@ extension CreateSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1128,8 +1128,8 @@ extension CreateWorkgroupInput: Swift.Encodable {
         }
         if let configParameters = configParameters {
             var configParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configParameters)
-            for configparameterlist0 in configParameters {
-                try configParametersContainer.encode(configparameterlist0)
+            for configparameter0 in configParameters {
+                try configParametersContainer.encode(configparameter0)
             }
         }
         if let enhancedVpcRouting = self.enhancedVpcRouting {
@@ -1146,20 +1146,20 @@ extension CreateWorkgroupInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let workgroupName = self.workgroupName {
@@ -2097,8 +2097,8 @@ extension RedshiftServerlessClientTypes.Endpoint: Swift.Codable {
         }
         if let vpcEndpoints = vpcEndpoints {
             var vpcEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpoints)
-            for vpcendpointlist0 in vpcEndpoints {
-                try vpcEndpointsContainer.encode(vpcendpointlist0)
+            for vpcendpoint0 in vpcEndpoints {
+                try vpcEndpointsContainer.encode(vpcendpoint0)
             }
         }
     }
@@ -2183,8 +2183,8 @@ extension RedshiftServerlessClientTypes.EndpointAccess: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcEndpoint = self.vpcEndpoint {
@@ -2192,8 +2192,8 @@ extension RedshiftServerlessClientTypes.EndpointAccess: Swift.Codable {
         }
         if let vpcSecurityGroups = vpcSecurityGroups {
             var vpcSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroups)
-            for vpcsecuritygroupmembershiplist0 in vpcSecurityGroups {
-                try vpcSecurityGroupsContainer.encode(vpcsecuritygroupmembershiplist0)
+            for vpcsecuritygroupmembership0 in vpcSecurityGroups {
+                try vpcSecurityGroupsContainer.encode(vpcsecuritygroupmembership0)
             }
         }
         if let workgroupName = self.workgroupName {
@@ -4858,8 +4858,8 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.Codable {
         }
         if let iamRoles = iamRoles {
             var iamRolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .iamRoles)
-            for iamrolearnlist0 in iamRoles {
-                try iamRolesContainer.encode(iamrolearnlist0)
+            for iamrolearn0 in iamRoles {
+                try iamRolesContainer.encode(iamrolearn0)
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -4867,8 +4867,8 @@ extension RedshiftServerlessClientTypes.Namespace: Swift.Codable {
         }
         if let logExports = logExports {
             var logExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logExports)
-            for logexportlist0 in logExports {
-                try logExportsContainer.encode(logexportlist0.rawValue)
+            for logexport0 in logExports {
+                try logExportsContainer.encode(logexport0.rawValue)
             }
         }
         if let namespaceArn = self.namespaceArn {
@@ -6068,14 +6068,14 @@ extension RedshiftServerlessClientTypes.Snapshot: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountsWithProvisionedRestoreAccess = accountsWithProvisionedRestoreAccess {
             var accountsWithProvisionedRestoreAccessContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountsWithProvisionedRestoreAccess)
-            for accountidlist0 in accountsWithProvisionedRestoreAccess {
-                try accountsWithProvisionedRestoreAccessContainer.encode(accountidlist0)
+            for string0 in accountsWithProvisionedRestoreAccess {
+                try accountsWithProvisionedRestoreAccessContainer.encode(string0)
             }
         }
         if let accountsWithRestoreAccess = accountsWithRestoreAccess {
             var accountsWithRestoreAccessContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountsWithRestoreAccess)
-            for accountidlist0 in accountsWithRestoreAccess {
-                try accountsWithRestoreAccessContainer.encode(accountidlist0)
+            for string0 in accountsWithRestoreAccess {
+                try accountsWithRestoreAccessContainer.encode(string0)
             }
         }
         if let actualIncrementalBackupSizeInMegaBytes = self.actualIncrementalBackupSizeInMegaBytes {
@@ -6568,8 +6568,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6804,8 +6804,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -6915,8 +6915,8 @@ extension UpdateEndpointAccessInput: Swift.Encodable {
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for vpcsecuritygroupidlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupidlist0)
+            for vpcsecuritygroupid0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(vpcsecuritygroupid0)
             }
         }
     }
@@ -7074,8 +7074,8 @@ extension UpdateNamespaceInput: Swift.Encodable {
         }
         if let iamRoles = iamRoles {
             var iamRolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .iamRoles)
-            for iamrolearnlist0 in iamRoles {
-                try iamRolesContainer.encode(iamrolearnlist0)
+            for iamrolearn0 in iamRoles {
+                try iamRolesContainer.encode(iamrolearn0)
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -7083,8 +7083,8 @@ extension UpdateNamespaceInput: Swift.Encodable {
         }
         if let logExports = logExports {
             var logExportsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logExports)
-            for logexportlist0 in logExports {
-                try logExportsContainer.encode(logexportlist0.rawValue)
+            for logexport0 in logExports {
+                try logExportsContainer.encode(logexport0.rawValue)
             }
         }
         if let namespaceName = self.namespaceName {
@@ -7553,8 +7553,8 @@ extension UpdateWorkgroupInput: Swift.Encodable {
         }
         if let configParameters = configParameters {
             var configParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configParameters)
-            for configparameterlist0 in configParameters {
-                try configParametersContainer.encode(configparameterlist0)
+            for configparameter0 in configParameters {
+                try configParametersContainer.encode(configparameter0)
             }
         }
         if let enhancedVpcRouting = self.enhancedVpcRouting {
@@ -7568,14 +7568,14 @@ extension UpdateWorkgroupInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let workgroupName = self.workgroupName {
@@ -8035,8 +8035,8 @@ extension RedshiftServerlessClientTypes.VpcEndpoint: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfacelist0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfacelist0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if let vpcEndpointId = self.vpcEndpointId {
@@ -8161,8 +8161,8 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let configParameters = configParameters {
             var configParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configParameters)
-            for configparameterlist0 in configParameters {
-                try configParametersContainer.encode(configparameterlist0)
+            for configparameter0 in configParameters {
+                try configParametersContainer.encode(configparameter0)
             }
         }
         if let creationDate = self.creationDate {
@@ -8185,8 +8185,8 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let status = self.status {
@@ -8194,8 +8194,8 @@ extension RedshiftServerlessClientTypes.Workgroup: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let workgroupArn = self.workgroupArn {

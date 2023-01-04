@@ -318,8 +318,8 @@ extension CreateScheduledQueryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetConfiguration = self.targetConfiguration {
@@ -542,8 +542,8 @@ extension TimestreamQueryClientTypes.Datum: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arrayValue = arrayValue {
             var arrayValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arrayValue)
-            for datumlist0 in arrayValue {
-                try arrayValueContainer.encode(datumlist0)
+            for datum0 in arrayValue {
+                try arrayValueContainer.encode(datum0)
             }
         }
         if let nullValue = self.nullValue {
@@ -557,8 +557,8 @@ extension TimestreamQueryClientTypes.Datum: Swift.Codable {
         }
         if let timeSeriesValue = timeSeriesValue {
             var timeSeriesValueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timeSeriesValue)
-            for timeseriesdatapointlist0 in timeSeriesValue {
-                try timeSeriesValueContainer.encode(timeseriesdatapointlist0)
+            for timeseriesdatapoint0 in timeSeriesValue {
+                try timeSeriesValueContainer.encode(timeseriesdatapoint0)
             }
         }
     }
@@ -1809,8 +1809,8 @@ extension TimestreamQueryClientTypes.MixedMeasureMapping: Swift.Codable {
         }
         if let multiMeasureAttributeMappings = multiMeasureAttributeMappings {
             var multiMeasureAttributeMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiMeasureAttributeMappings)
-            for multimeasureattributemappinglist0 in multiMeasureAttributeMappings {
-                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemappinglist0)
+            for multimeasureattributemapping0 in multiMeasureAttributeMappings {
+                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemapping0)
             }
         }
         if let sourceColumn = self.sourceColumn {
@@ -1893,8 +1893,8 @@ extension TimestreamQueryClientTypes.ModelType: Swift.Codable {
         }
         if let rowColumnInfo = rowColumnInfo {
             var rowColumnInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowColumnInfo)
-            for columninfolist0 in rowColumnInfo {
-                try rowColumnInfoContainer.encode(columninfolist0)
+            for columninfo0 in rowColumnInfo {
+                try rowColumnInfoContainer.encode(columninfo0)
             }
         }
         if let scalarType = self.scalarType {
@@ -1994,8 +1994,8 @@ extension TimestreamQueryClientTypes.MultiMeasureMappings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let multiMeasureAttributeMappings = multiMeasureAttributeMappings {
             var multiMeasureAttributeMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiMeasureAttributeMappings)
-            for multimeasureattributemappinglist0 in multiMeasureAttributeMappings {
-                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemappinglist0)
+            for multimeasureattributemapping0 in multiMeasureAttributeMappings {
+                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemapping0)
             }
         }
         if let targetMultiMeasureName = self.targetMultiMeasureName {
@@ -2737,8 +2737,8 @@ extension TimestreamQueryClientTypes.Row: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let data = data {
             var dataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .data)
-            for datumlist0 in data {
-                try dataContainer.encode(datumlist0)
+            for datum0 in data {
+                try dataContainer.encode(datum0)
             }
         }
     }
@@ -3216,8 +3216,8 @@ extension TimestreamQueryClientTypes.ScheduledQueryDescription: Swift.Codable {
         }
         if let recentlyFailedRuns = recentlyFailedRuns {
             var recentlyFailedRunsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recentlyFailedRuns)
-            for scheduledqueryrunsummarylist0 in recentlyFailedRuns {
-                try recentlyFailedRunsContainer.encode(scheduledqueryrunsummarylist0)
+            for scheduledqueryrunsummary0 in recentlyFailedRuns {
+                try recentlyFailedRunsContainer.encode(scheduledqueryrunsummary0)
             }
         }
         if let scheduleConfiguration = self.scheduleConfiguration {
@@ -3739,8 +3739,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4027,8 +4027,8 @@ extension TimestreamQueryClientTypes.TimestreamConfiguration: Swift.Codable {
         }
         if let dimensionMappings = dimensionMappings {
             var dimensionMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionMappings)
-            for dimensionmappinglist0 in dimensionMappings {
-                try dimensionMappingsContainer.encode(dimensionmappinglist0)
+            for dimensionmapping0 in dimensionMappings {
+                try dimensionMappingsContainer.encode(dimensionmapping0)
             }
         }
         if let measureNameColumn = self.measureNameColumn {
@@ -4036,8 +4036,8 @@ extension TimestreamQueryClientTypes.TimestreamConfiguration: Swift.Codable {
         }
         if let mixedMeasureMappings = mixedMeasureMappings {
             var mixedMeasureMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mixedMeasureMappings)
-            for mixedmeasuremappinglist0 in mixedMeasureMappings {
-                try mixedMeasureMappingsContainer.encode(mixedmeasuremappinglist0)
+            for mixedmeasuremapping0 in mixedMeasureMappings {
+                try mixedMeasureMappingsContainer.encode(mixedmeasuremapping0)
             }
         }
         if let multiMeasureMappings = self.multiMeasureMappings {
@@ -4218,8 +4218,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

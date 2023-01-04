@@ -198,8 +198,8 @@ extension AddIpRoutesInput: Swift.Encodable {
         }
         if let ipRoutes = ipRoutes {
             var ipRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipRoutes)
-            for iproutes0 in ipRoutes {
-                try ipRoutesContainer.encode(iproutes0)
+            for iproute0 in ipRoutes {
+                try ipRoutesContainer.encode(iproute0)
             }
         }
         if updateSecurityGroupForDirectoryControllers != false {
@@ -492,8 +492,8 @@ extension AddTagsToResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1533,8 +1533,8 @@ extension DirectoryClientTypes.Computer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computerAttributes = computerAttributes {
             var computerAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computerAttributes)
-            for attributes0 in computerAttributes {
-                try computerAttributesContainer.encode(attributes0)
+            for attribute0 in computerAttributes {
+                try computerAttributesContainer.encode(attribute0)
             }
         }
         if let computerId = self.computerId {
@@ -1600,8 +1600,8 @@ extension DirectoryClientTypes.ConditionalForwarder: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnsIpAddrs = dnsIpAddrs {
             var dnsIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddrs)
-            for dnsipaddrs0 in dnsIpAddrs {
-                try dnsIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in dnsIpAddrs {
+                try dnsIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let remoteDomainName = self.remoteDomainName {
@@ -1694,8 +1694,8 @@ extension ConnectDirectoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2029,8 +2029,8 @@ extension CreateComputerInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computerAttributes = computerAttributes {
             var computerAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computerAttributes)
-            for attributes0 in computerAttributes {
-                try computerAttributesContainer.encode(attributes0)
+            for attribute0 in computerAttributes {
+                try computerAttributesContainer.encode(attribute0)
             }
         }
         if let computerName = self.computerName {
@@ -2219,8 +2219,8 @@ extension CreateConditionalForwarderInput: Swift.Encodable {
         }
         if let dnsIpAddrs = dnsIpAddrs {
             var dnsIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddrs)
-            for dnsipaddrs0 in dnsIpAddrs {
-                try dnsIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in dnsIpAddrs {
+                try dnsIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let remoteDomainName = self.remoteDomainName {
@@ -2372,8 +2372,8 @@ extension CreateDirectoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcSettings = self.vpcSettings {
@@ -2701,8 +2701,8 @@ extension CreateMicrosoftADInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcSettings = self.vpcSettings {
@@ -3031,8 +3031,8 @@ extension CreateTrustInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conditionalForwarderIpAddrs = conditionalForwarderIpAddrs {
             var conditionalForwarderIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditionalForwarderIpAddrs)
-            for dnsipaddrs0 in conditionalForwarderIpAddrs {
-                try conditionalForwarderIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in conditionalForwarderIpAddrs {
+                try conditionalForwarderIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let directoryId = self.directoryId {
@@ -4317,8 +4317,8 @@ extension DescribeConditionalForwardersInput: Swift.Encodable {
         }
         if let remoteDomainNames = remoteDomainNames {
             var remoteDomainNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .remoteDomainNames)
-            for remotedomainnames0 in remoteDomainNames {
-                try remoteDomainNamesContainer.encode(remotedomainnames0)
+            for remotedomainname0 in remoteDomainNames {
+                try remoteDomainNamesContainer.encode(remotedomainname0)
             }
         }
     }
@@ -4471,8 +4471,8 @@ extension DescribeDirectoriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let directoryIds = directoryIds {
             var directoryIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .directoryIds)
-            for directoryids0 in directoryIds {
-                try directoryIdsContainer.encode(directoryids0)
+            for directoryid0 in directoryIds {
+                try directoryIdsContainer.encode(directoryid0)
             }
         }
         if let limit = self.limit {
@@ -4650,8 +4650,8 @@ extension DescribeDomainControllersInput: Swift.Encodable {
         }
         if let domainControllerIds = domainControllerIds {
             var domainControllerIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainControllerIds)
-            for domaincontrollerids0 in domainControllerIds {
-                try domainControllerIdsContainer.encode(domaincontrollerids0)
+            for domaincontrollerid0 in domainControllerIds {
+                try domainControllerIdsContainer.encode(domaincontrollerid0)
             }
         }
         if let limit = self.limit {
@@ -4836,8 +4836,8 @@ extension DescribeEventTopicsInput: Swift.Encodable {
         }
         if let topicNames = topicNames {
             var topicNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicNames)
-            for topicnames0 in topicNames {
-                try topicNamesContainer.encode(topicnames0)
+            for topicname0 in topicNames {
+                try topicNamesContainer.encode(topicname0)
             }
         }
     }
@@ -5511,8 +5511,8 @@ extension DescribeSharedDirectoriesInput: Swift.Encodable {
         }
         if let sharedDirectoryIds = sharedDirectoryIds {
             var sharedDirectoryIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sharedDirectoryIds)
-            for directoryids0 in sharedDirectoryIds {
-                try sharedDirectoryIdsContainer.encode(directoryids0)
+            for directoryid0 in sharedDirectoryIds {
+                try sharedDirectoryIdsContainer.encode(directoryid0)
             }
         }
     }
@@ -5699,8 +5699,8 @@ extension DescribeSnapshotsInput: Swift.Encodable {
         }
         if let snapshotIds = snapshotIds {
             var snapshotIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snapshotIds)
-            for snapshotids0 in snapshotIds {
-                try snapshotIdsContainer.encode(snapshotids0)
+            for snapshotid0 in snapshotIds {
+                try snapshotIdsContainer.encode(snapshotid0)
             }
         }
     }
@@ -5886,8 +5886,8 @@ extension DescribeTrustsInput: Swift.Encodable {
         }
         if let trustIds = trustIds {
             var trustIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trustIds)
-            for trustids0 in trustIds {
-                try trustIdsContainer.encode(trustids0)
+            for trustid0 in trustIds {
+                try trustIdsContainer.encode(trustid0)
             }
         }
     }
@@ -6410,8 +6410,8 @@ extension DirectoryClientTypes.DirectoryConnectSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customerDnsIps = customerDnsIps {
             var customerDnsIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customerDnsIps)
-            for dnsipaddrs0 in customerDnsIps {
-                try customerDnsIpsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in customerDnsIps {
+                try customerDnsIpsContainer.encode(ipaddr0)
             }
         }
         if let customerUserName = self.customerUserName {
@@ -6419,8 +6419,8 @@ extension DirectoryClientTypes.DirectoryConnectSettings: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -6511,14 +6511,14 @@ extension DirectoryClientTypes.DirectoryConnectSettingsDescription: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzones0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzones0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let connectIps = connectIps {
             var connectIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectIps)
-            for ipaddrs0 in connectIps {
-                try connectIpsContainer.encode(ipaddrs0)
+            for ipaddr0 in connectIps {
+                try connectIpsContainer.encode(ipaddr0)
             }
         }
         if let customerUserName = self.customerUserName {
@@ -6529,8 +6529,8 @@ extension DirectoryClientTypes.DirectoryConnectSettingsDescription: Swift.Codabl
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -6670,8 +6670,8 @@ extension DirectoryClientTypes.DirectoryDescription: Swift.Codable {
         }
         if let dnsIpAddrs = dnsIpAddrs {
             var dnsIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddrs)
-            for dnsipaddrs0 in dnsIpAddrs {
-                try dnsIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in dnsIpAddrs {
+                try dnsIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let edition = self.edition {
@@ -7521,8 +7521,8 @@ extension DirectoryClientTypes.DirectoryVpcSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -7582,8 +7582,8 @@ extension DirectoryClientTypes.DirectoryVpcSettingsDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for availabilityzones0 in availabilityZones {
-                try availabilityZonesContainer.encode(availabilityzones0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let securityGroupId = self.securityGroupId {
@@ -7591,8 +7591,8 @@ extension DirectoryClientTypes.DirectoryVpcSettingsDescription: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -11157,8 +11157,8 @@ extension DirectoryClientTypes.OwnerDirectoryDescription: Swift.Codable {
         }
         if let dnsIpAddrs = dnsIpAddrs {
             var dnsIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddrs)
-            for dnsipaddrs0 in dnsIpAddrs {
-                try dnsIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in dnsIpAddrs {
+                try dnsIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let radiusSettings = self.radiusSettings {
@@ -11300,8 +11300,8 @@ extension DirectoryClientTypes.RadiusSettings: Swift.Codable {
         }
         if let radiusServers = radiusServers {
             var radiusServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .radiusServers)
-            for servers0 in radiusServers {
-                try radiusServersContainer.encode(servers0)
+            for server0 in radiusServers {
+                try radiusServersContainer.encode(server0)
             }
         }
         if radiusTimeout != 0 {
@@ -11649,8 +11649,8 @@ extension DirectoryClientTypes.RegionsInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalRegions = additionalRegions {
             var additionalRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalRegions)
-            for additionalregions0 in additionalRegions {
-                try additionalRegionsContainer.encode(additionalregions0)
+            for regionname0 in additionalRegions {
+                try additionalRegionsContainer.encode(regionname0)
             }
         }
         if let primaryRegion = self.primaryRegion {
@@ -12090,8 +12090,8 @@ extension RemoveIpRoutesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cidrIps = cidrIps {
             var cidrIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrIps)
-            for cidrips0 in cidrIps {
-                try cidrIpsContainer.encode(cidrips0)
+            for cidrip0 in cidrIps {
+                try cidrIpsContainer.encode(cidrip0)
             }
         }
         if let directoryId = self.directoryId {
@@ -12296,8 +12296,8 @@ extension RemoveTagsFromResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -12957,8 +12957,8 @@ extension DirectoryClientTypes.SettingEntry: Swift.Codable {
         }
         if let requestDetailedStatus = requestDetailedStatus {
             var requestDetailedStatusContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestDetailedStatus)
-            for (dictKey0, directoryconfigurationsettingrequestdetailedstatus0) in requestDetailedStatus {
-                try requestDetailedStatusContainer.encode(directoryconfigurationsettingrequestdetailedstatus0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, directoryConfigurationSettingRequestDetailedStatus0) in requestDetailedStatus {
+                try requestDetailedStatusContainer.encode(directoryConfigurationSettingRequestDetailedStatus0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let requestStatus = self.requestStatus {
@@ -14735,8 +14735,8 @@ extension UpdateConditionalForwarderInput: Swift.Encodable {
         }
         if let dnsIpAddrs = dnsIpAddrs {
             var dnsIpAddrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddrs)
-            for dnsipaddrs0 in dnsIpAddrs {
-                try dnsIpAddrsContainer.encode(dnsipaddrs0)
+            for ipaddr0 in dnsIpAddrs {
+                try dnsIpAddrsContainer.encode(ipaddr0)
             }
         }
         if let remoteDomainName = self.remoteDomainName {
@@ -15308,8 +15308,8 @@ extension UpdateSettingsInput: Swift.Encodable {
         }
         if let settings = settings {
             var settingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .settings)
-            for settings0 in settings {
-                try settingsContainer.encode(settings0)
+            for setting0 in settings {
+                try settingsContainer.encode(setting0)
             }
         }
     }

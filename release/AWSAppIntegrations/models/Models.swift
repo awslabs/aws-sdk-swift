@@ -87,8 +87,8 @@ extension CreateDataIntegrationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -377,8 +377,8 @@ extension CreateEventIntegrationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -912,8 +912,8 @@ extension AppIntegrationsClientTypes.EventIntegration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -994,8 +994,8 @@ extension AppIntegrationsClientTypes.EventIntegrationAssociation: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientAssociationMetadata = clientAssociationMetadata {
             var clientAssociationMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientAssociationMetadata)
-            for (dictKey0, clientassociationmetadata0) in clientAssociationMetadata {
-                try clientAssociationMetadataContainer.encode(clientassociationmetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientAssociationMetadata0) in clientAssociationMetadata {
+                try clientAssociationMetadataContainer.encode(clientAssociationMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientId = self.clientId {
@@ -2364,8 +2364,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

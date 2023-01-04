@@ -67,8 +67,8 @@ extension AddTagsToCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -217,14 +217,14 @@ extension ACMClientTypes.CertificateDetail: Swift.Codable {
         }
         if let domainValidationOptions = domainValidationOptions {
             var domainValidationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationOptions)
-            for domainvalidationlist0 in domainValidationOptions {
-                try domainValidationOptionsContainer.encode(domainvalidationlist0)
+            for domainvalidation0 in domainValidationOptions {
+                try domainValidationOptionsContainer.encode(domainvalidation0)
             }
         }
         if let extendedKeyUsages = extendedKeyUsages {
             var extendedKeyUsagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extendedKeyUsages)
-            for extendedkeyusagelist0 in extendedKeyUsages {
-                try extendedKeyUsagesContainer.encode(extendedkeyusagelist0)
+            for extendedkeyusage0 in extendedKeyUsages {
+                try extendedKeyUsagesContainer.encode(extendedkeyusage0)
             }
         }
         if let failureReason = self.failureReason {
@@ -235,8 +235,8 @@ extension ACMClientTypes.CertificateDetail: Swift.Codable {
         }
         if let inUseBy = inUseBy {
             var inUseByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inUseBy)
-            for inuselist0 in inUseBy {
-                try inUseByContainer.encode(inuselist0)
+            for string0 in inUseBy {
+                try inUseByContainer.encode(string0)
             }
         }
         if let issuedAt = self.issuedAt {
@@ -250,8 +250,8 @@ extension ACMClientTypes.CertificateDetail: Swift.Codable {
         }
         if let keyUsages = keyUsages {
             var keyUsagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyUsages)
-            for keyusagelist0 in keyUsages {
-                try keyUsagesContainer.encode(keyusagelist0)
+            for keyusage0 in keyUsages {
+                try keyUsagesContainer.encode(keyusage0)
             }
         }
         if let notAfter = self.notAfter {
@@ -289,8 +289,8 @@ extension ACMClientTypes.CertificateDetail: Swift.Codable {
         }
         if let subjectAlternativeNames = subjectAlternativeNames {
             var subjectAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNames)
-            for domainlist0 in subjectAlternativeNames {
-                try subjectAlternativeNamesContainer.encode(domainlist0)
+            for domainnamestring0 in subjectAlternativeNames {
+                try subjectAlternativeNamesContainer.encode(domainnamestring0)
             }
         }
         if let type = self.type {
@@ -636,8 +636,8 @@ extension ACMClientTypes.CertificateSummary: Swift.Codable {
         }
         if let extendedKeyUsages = extendedKeyUsages {
             var extendedKeyUsagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extendedKeyUsages)
-            for extendedkeyusagenames0 in extendedKeyUsages {
-                try extendedKeyUsagesContainer.encode(extendedkeyusagenames0.rawValue)
+            for extendedkeyusagename0 in extendedKeyUsages {
+                try extendedKeyUsagesContainer.encode(extendedkeyusagename0.rawValue)
             }
         }
         if let hasAdditionalSubjectAlternativeNames = self.hasAdditionalSubjectAlternativeNames {
@@ -657,8 +657,8 @@ extension ACMClientTypes.CertificateSummary: Swift.Codable {
         }
         if let keyUsages = keyUsages {
             var keyUsagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyUsages)
-            for keyusagenames0 in keyUsages {
-                try keyUsagesContainer.encode(keyusagenames0.rawValue)
+            for keyusagename0 in keyUsages {
+                try keyUsagesContainer.encode(keyusagename0.rawValue)
             }
         }
         if let notAfter = self.notAfter {
@@ -678,8 +678,8 @@ extension ACMClientTypes.CertificateSummary: Swift.Codable {
         }
         if let subjectAlternativeNameSummaries = subjectAlternativeNameSummaries {
             var subjectAlternativeNameSummariesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNameSummaries)
-            for domainlist0 in subjectAlternativeNameSummaries {
-                try subjectAlternativeNameSummariesContainer.encode(domainlist0)
+            for domainnamestring0 in subjectAlternativeNameSummaries {
+                try subjectAlternativeNameSummariesContainer.encode(domainnamestring0)
             }
         }
         if let type = self.type {
@@ -1232,8 +1232,8 @@ extension ACMClientTypes.DomainValidation: Swift.Codable {
         }
         if let validationEmails = validationEmails {
             var validationEmailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationEmails)
-            for validationemaillist0 in validationEmails {
-                try validationEmailsContainer.encode(validationemaillist0)
+            for string0 in validationEmails {
+                try validationEmailsContainer.encode(string0)
             }
         }
         if let validationMethod = self.validationMethod {
@@ -1776,20 +1776,20 @@ extension ACMClientTypes.Filters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let extendedKeyUsage = extendedKeyUsage {
             var extendedKeyUsageContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extendedKeyUsage)
-            for extendedkeyusagefilterlist0 in extendedKeyUsage {
-                try extendedKeyUsageContainer.encode(extendedkeyusagefilterlist0.rawValue)
+            for extendedkeyusagename0 in extendedKeyUsage {
+                try extendedKeyUsageContainer.encode(extendedkeyusagename0.rawValue)
             }
         }
         if let keyTypes = keyTypes {
             var keyTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyTypes)
-            for keyalgorithmlist0 in keyTypes {
-                try keyTypesContainer.encode(keyalgorithmlist0.rawValue)
+            for keyalgorithm0 in keyTypes {
+                try keyTypesContainer.encode(keyalgorithm0.rawValue)
             }
         }
         if let keyUsage = keyUsage {
             var keyUsageContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyUsage)
-            for keyusagefilterlist0 in keyUsage {
-                try keyUsageContainer.encode(keyusagefilterlist0.rawValue)
+            for keyusagename0 in keyUsage {
+                try keyUsageContainer.encode(keyusagename0.rawValue)
             }
         }
     }
@@ -2104,8 +2104,8 @@ extension ImportCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2782,8 +2782,8 @@ extension ListCertificatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateStatuses = certificateStatuses {
             var certificateStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateStatuses)
-            for certificatestatuses0 in certificateStatuses {
-                try certificateStatusesContainer.encode(certificatestatuses0.rawValue)
+            for certificatestatus0 in certificateStatuses {
+                try certificateStatusesContainer.encode(certificatestatus0.rawValue)
             }
         }
         if let includes = self.includes {
@@ -3233,8 +3233,8 @@ extension RemoveTagsFromCertificateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3499,8 +3499,8 @@ extension ACMClientTypes.RenewalSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainValidationOptions = domainValidationOptions {
             var domainValidationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationOptions)
-            for domainvalidationlist0 in domainValidationOptions {
-                try domainValidationOptionsContainer.encode(domainvalidationlist0)
+            for domainvalidation0 in domainValidationOptions {
+                try domainValidationOptionsContainer.encode(domainvalidation0)
             }
         }
         if let renewalStatus = self.renewalStatus {
@@ -3590,8 +3590,8 @@ extension RequestCertificateInput: Swift.Encodable {
         }
         if let domainValidationOptions = domainValidationOptions {
             var domainValidationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainValidationOptions)
-            for domainvalidationoptionlist0 in domainValidationOptions {
-                try domainValidationOptionsContainer.encode(domainvalidationoptionlist0)
+            for domainvalidationoption0 in domainValidationOptions {
+                try domainValidationOptionsContainer.encode(domainvalidationoption0)
             }
         }
         if let idempotencyToken = self.idempotencyToken {
@@ -3605,14 +3605,14 @@ extension RequestCertificateInput: Swift.Encodable {
         }
         if let subjectAlternativeNames = subjectAlternativeNames {
             var subjectAlternativeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subjectAlternativeNames)
-            for domainlist0 in subjectAlternativeNames {
-                try subjectAlternativeNamesContainer.encode(domainlist0)
+            for domainnamestring0 in subjectAlternativeNames {
+                try subjectAlternativeNamesContainer.encode(domainnamestring0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let validationMethod = self.validationMethod {

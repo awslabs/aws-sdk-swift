@@ -15,8 +15,8 @@ extension AutoScalingPlansClientTypes.ApplicationSource: Swift.Codable {
         }
         if let tagFilters = tagFilters {
             var tagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagFilters)
-            for tagfilters0 in tagFilters {
-                try tagFiltersContainer.encode(tagfilters0)
+            for tagfilter0 in tagFilters {
+                try tagFiltersContainer.encode(tagfilter0)
             }
         }
     }
@@ -125,8 +125,8 @@ extension CreateScalingPlanInput: Swift.Encodable {
         }
         if let scalingInstructions = scalingInstructions {
             var scalingInstructionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingInstructions)
-            for scalinginstructions0 in scalingInstructions {
-                try scalingInstructionsContainer.encode(scalinginstructions0)
+            for scalinginstruction0 in scalingInstructions {
+                try scalingInstructionsContainer.encode(scalinginstruction0)
             }
         }
         if let scalingPlanName = self.scalingPlanName {
@@ -280,8 +280,8 @@ extension AutoScalingPlansClientTypes.CustomizedLoadMetricSpecification: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for metricdimensions0 in dimensions {
-                try dimensionsContainer.encode(metricdimensions0)
+            for metricdimension0 in dimensions {
+                try dimensionsContainer.encode(metricdimension0)
             }
         }
         if let metricName = self.metricName {
@@ -370,8 +370,8 @@ extension AutoScalingPlansClientTypes.CustomizedScalingMetricSpecification: Swif
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for metricdimensions0 in dimensions {
-                try dimensionsContainer.encode(metricdimensions0)
+            for metricdimension0 in dimensions {
+                try dimensionsContainer.encode(metricdimension0)
             }
         }
         if let metricName = self.metricName {
@@ -784,8 +784,8 @@ extension DescribeScalingPlansInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationSources = applicationSources {
             var applicationSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationSources)
-            for applicationsources0 in applicationSources {
-                try applicationSourcesContainer.encode(applicationsources0)
+            for applicationsource0 in applicationSources {
+                try applicationSourcesContainer.encode(applicationsource0)
             }
         }
         if let maxResults = self.maxResults {
@@ -796,8 +796,8 @@ extension DescribeScalingPlansInput: Swift.Encodable {
         }
         if let scalingPlanNames = scalingPlanNames {
             var scalingPlanNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingPlanNames)
-            for scalingplannames0 in scalingPlanNames {
-                try scalingPlanNamesContainer.encode(scalingplannames0)
+            for scalingplanname0 in scalingPlanNames {
+                try scalingPlanNamesContainer.encode(scalingplanname0)
             }
         }
         if let scalingPlanVersion = self.scalingPlanVersion {
@@ -1885,8 +1885,8 @@ extension AutoScalingPlansClientTypes.ScalingInstruction: Swift.Codable {
         }
         if let targetTrackingConfigurations = targetTrackingConfigurations {
             var targetTrackingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetTrackingConfigurations)
-            for targettrackingconfigurations0 in targetTrackingConfigurations {
-                try targetTrackingConfigurationsContainer.encode(targettrackingconfigurations0)
+            for targettrackingconfiguration0 in targetTrackingConfigurations {
+                try targetTrackingConfigurationsContainer.encode(targettrackingconfiguration0)
             }
         }
     }
@@ -2131,8 +2131,8 @@ extension AutoScalingPlansClientTypes.ScalingPlan: Swift.Codable {
         }
         if let scalingInstructions = scalingInstructions {
             var scalingInstructionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingInstructions)
-            for scalinginstructions0 in scalingInstructions {
-                try scalingInstructionsContainer.encode(scalinginstructions0)
+            for scalinginstruction0 in scalingInstructions {
+                try scalingInstructionsContainer.encode(scalinginstruction0)
             }
         }
         if let scalingPlanName = self.scalingPlanName {
@@ -2275,8 +2275,8 @@ extension AutoScalingPlansClientTypes.ScalingPlanResource: Swift.Codable {
         }
         if let scalingPolicies = scalingPolicies {
             var scalingPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingPolicies)
-            for scalingpolicies0 in scalingPolicies {
-                try scalingPoliciesContainer.encode(scalingpolicies0)
+            for scalingpolicy0 in scalingPolicies {
+                try scalingPoliciesContainer.encode(scalingpolicy0)
             }
         }
         if let scalingStatusCode = self.scalingStatusCode {
@@ -2632,8 +2632,8 @@ extension AutoScalingPlansClientTypes.TagFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for tagvalues0 in values {
-                try valuesContainer.encode(tagvalues0)
+            for xmlstringmaxlen2560 in values {
+                try valuesContainer.encode(xmlstringmaxlen2560)
             }
         }
     }
@@ -2787,8 +2787,8 @@ extension UpdateScalingPlanInput: Swift.Encodable {
         }
         if let scalingInstructions = scalingInstructions {
             var scalingInstructionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scalingInstructions)
-            for scalinginstructions0 in scalingInstructions {
-                try scalingInstructionsContainer.encode(scalinginstructions0)
+            for scalinginstruction0 in scalingInstructions {
+                try scalingInstructionsContainer.encode(scalinginstruction0)
             }
         }
         if let scalingPlanName = self.scalingPlanName {

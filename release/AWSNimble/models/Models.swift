@@ -11,8 +11,8 @@ extension AcceptEulasInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eulaIds = eulaIds {
             var eulaIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eulaIds)
-            for eulaidlist0 in eulaIds {
-                try eulaIdsContainer.encode(eulaidlist0)
+            for string0 in eulaIds {
+                try eulaIdsContainer.encode(string0)
             }
         }
     }
@@ -305,8 +305,8 @@ extension NimbleClientTypes.ActiveDirectoryConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computerAttributes = computerAttributes {
             var computerAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computerAttributes)
-            for activedirectorycomputerattributelist0 in computerAttributes {
-                try computerAttributesContainer.encode(activedirectorycomputerattributelist0)
+            for activedirectorycomputerattribute0 in computerAttributes {
+                try computerAttributesContainer.encode(activedirectorycomputerattribute0)
             }
         }
         if let directoryId = self.directoryId {
@@ -553,14 +553,14 @@ extension CreateLaunchProfileInput: Swift.Encodable {
         }
         if let ec2SubnetIds = ec2SubnetIds {
             var ec2SubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SubnetIds)
-            for ec2subnetidlist0 in ec2SubnetIds {
-                try ec2SubnetIdsContainer.encode(ec2subnetidlist0)
+            for ec2subnetid0 in ec2SubnetIds {
+                try ec2SubnetIdsContainer.encode(ec2subnetid0)
             }
         }
         if let launchProfileProtocolVersions = launchProfileProtocolVersions {
             var launchProfileProtocolVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchProfileProtocolVersions)
-            for launchprofileprotocolversionlist0 in launchProfileProtocolVersions {
-                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversionlist0)
+            for launchprofileprotocolversion0 in launchProfileProtocolVersions {
+                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversion0)
             }
         }
         if let name = self.name {
@@ -571,8 +571,8 @@ extension CreateLaunchProfileInput: Swift.Encodable {
         }
         if let studioComponentIds = studioComponentIds {
             var studioComponentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .studioComponentIds)
-            for launchprofilestudiocomponentidlist0 in studioComponentIds {
-                try studioComponentIdsContainer.encode(launchprofilestudiocomponentidlist0)
+            for string0 in studioComponentIds {
+                try studioComponentIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
@@ -1390,14 +1390,14 @@ extension CreateStudioComponentInput: Swift.Encodable {
         }
         if let ec2SecurityGroupIds = ec2SecurityGroupIds {
             var ec2SecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SecurityGroupIds)
-            for studiocomponentsecuritygroupidlist0 in ec2SecurityGroupIds {
-                try ec2SecurityGroupIdsContainer.encode(studiocomponentsecuritygroupidlist0)
+            for securitygroupid0 in ec2SecurityGroupIds {
+                try ec2SecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let initializationScripts = initializationScripts {
             var initializationScriptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initializationScripts)
-            for studiocomponentinitializationscriptlist0 in initializationScripts {
-                try initializationScriptsContainer.encode(studiocomponentinitializationscriptlist0)
+            for studiocomponentinitializationscript0 in initializationScripts {
+                try initializationScriptsContainer.encode(studiocomponentinitializationscript0)
             }
         }
         if let name = self.name {
@@ -1408,8 +1408,8 @@ extension CreateStudioComponentInput: Swift.Encodable {
         }
         if let scriptParameters = scriptParameters {
             var scriptParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scriptParameters)
-            for studiocomponentscriptparameterkeyvaluelist0 in scriptParameters {
-                try scriptParametersContainer.encode(studiocomponentscriptparameterkeyvaluelist0)
+            for scriptparameterkeyvalue0 in scriptParameters {
+                try scriptParametersContainer.encode(scriptparameterkeyvalue0)
             }
         }
         if let secureInitializationRoleArn = self.secureInitializationRoleArn {
@@ -4449,8 +4449,8 @@ extension NimbleClientTypes.LaunchProfile: Swift.Codable {
         }
         if let ec2SubnetIds = ec2SubnetIds {
             var ec2SubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SubnetIds)
-            for ec2subnetidlist0 in ec2SubnetIds {
-                try ec2SubnetIdsContainer.encode(ec2subnetidlist0)
+            for ec2subnetid0 in ec2SubnetIds {
+                try ec2SubnetIdsContainer.encode(ec2subnetid0)
             }
         }
         if let launchProfileId = self.launchProfileId {
@@ -4458,8 +4458,8 @@ extension NimbleClientTypes.LaunchProfile: Swift.Codable {
         }
         if let launchProfileProtocolVersions = launchProfileProtocolVersions {
             var launchProfileProtocolVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchProfileProtocolVersions)
-            for launchprofileprotocolversionlist0 in launchProfileProtocolVersions {
-                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversionlist0)
+            for launchprofileprotocolversion0 in launchProfileProtocolVersions {
+                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversion0)
             }
         }
         if let name = self.name {
@@ -4479,8 +4479,8 @@ extension NimbleClientTypes.LaunchProfile: Swift.Codable {
         }
         if let studioComponentIds = studioComponentIds {
             var studioComponentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .studioComponentIds)
-            for launchprofilestudiocomponentidlist0 in studioComponentIds {
-                try studioComponentIdsContainer.encode(launchprofilestudiocomponentidlist0)
+            for string0 in studioComponentIds {
+                try studioComponentIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
@@ -4497,8 +4497,8 @@ extension NimbleClientTypes.LaunchProfile: Swift.Codable {
         }
         if let validationResults = validationResults {
             var validationResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationResults)
-            for validationresults0 in validationResults {
-                try validationResultsContainer.encode(validationresults0)
+            for validationresult0 in validationResults {
+                try validationResultsContainer.encode(validationresult0)
             }
         }
     }
@@ -4692,8 +4692,8 @@ extension NimbleClientTypes.LaunchProfileInitialization: Swift.Codable {
         }
         if let ec2SecurityGroupIds = ec2SecurityGroupIds {
             var ec2SecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SecurityGroupIds)
-            for launchprofilesecuritygroupidlist0 in ec2SecurityGroupIds {
-                try ec2SecurityGroupIdsContainer.encode(launchprofilesecuritygroupidlist0)
+            for securitygroupid0 in ec2SecurityGroupIds {
+                try ec2SecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let launchProfileId = self.launchProfileId {
@@ -4713,14 +4713,14 @@ extension NimbleClientTypes.LaunchProfileInitialization: Swift.Codable {
         }
         if let systemInitializationScripts = systemInitializationScripts {
             var systemInitializationScriptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .systemInitializationScripts)
-            for launchprofileinitializationscriptlist0 in systemInitializationScripts {
-                try systemInitializationScriptsContainer.encode(launchprofileinitializationscriptlist0)
+            for launchprofileinitializationscript0 in systemInitializationScripts {
+                try systemInitializationScriptsContainer.encode(launchprofileinitializationscript0)
             }
         }
         if let userInitializationScripts = userInitializationScripts {
             var userInitializationScriptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userInitializationScripts)
-            for launchprofileinitializationscriptlist0 in userInitializationScripts {
-                try userInitializationScriptsContainer.encode(launchprofileinitializationscriptlist0)
+            for launchprofileinitializationscript0 in userInitializationScripts {
+                try userInitializationScriptsContainer.encode(launchprofileinitializationscript0)
             }
         }
     }
@@ -4843,8 +4843,8 @@ extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.Co
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computerAttributes = computerAttributes {
             var computerAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computerAttributes)
-            for activedirectorycomputerattributelist0 in computerAttributes {
-                try computerAttributesContainer.encode(activedirectorycomputerattributelist0)
+            for activedirectorycomputerattribute0 in computerAttributes {
+                try computerAttributesContainer.encode(activedirectorycomputerattribute0)
             }
         }
         if let directoryId = self.directoryId {
@@ -4855,8 +4855,8 @@ extension NimbleClientTypes.LaunchProfileInitializationActiveDirectory: Swift.Co
         }
         if let dnsIpAddresses = dnsIpAddresses {
             var dnsIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddresses)
-            for activedirectorydnsipaddresslist0 in dnsIpAddresses {
-                try dnsIpAddressesContainer.encode(activedirectorydnsipaddresslist0)
+            for activedirectorydnsipaddress0 in dnsIpAddresses {
+                try dnsIpAddressesContainer.encode(activedirectorydnsipaddress0)
             }
         }
         if let organizationalUnitDistinguishedName = self.organizationalUnitDistinguishedName {
@@ -7226,8 +7226,8 @@ extension PutLaunchProfileMembersInput: Swift.Encodable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for newlaunchprofilememberlist0 in members {
-                try membersContainer.encode(newlaunchprofilememberlist0)
+            for newlaunchprofilemember0 in members {
+                try membersContainer.encode(newlaunchprofilemember0)
             }
         }
     }
@@ -7373,8 +7373,8 @@ extension PutStudioMembersInput: Swift.Encodable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for newstudiomemberlist0 in members {
-                try membersContainer.encode(newstudiomemberlist0)
+            for newstudiomember0 in members {
+                try membersContainer.encode(newstudiomember0)
             }
         }
     }
@@ -8301,8 +8301,8 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
         }
         if let ec2InstanceTypes = ec2InstanceTypes {
             var ec2InstanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceTypes)
-            for streaminginstancetypelist0 in ec2InstanceTypes {
-                try ec2InstanceTypesContainer.encode(streaminginstancetypelist0.rawValue)
+            for streaminginstancetype0 in ec2InstanceTypes {
+                try ec2InstanceTypesContainer.encode(streaminginstancetype0.rawValue)
             }
         }
         if let maxSessionLengthInMinutes = self.maxSessionLengthInMinutes {
@@ -8322,8 +8322,8 @@ extension NimbleClientTypes.StreamConfiguration: Swift.Codable {
         }
         if let streamingImageIds = streamingImageIds {
             var streamingImageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streamingImageIds)
-            for streamingimageidlist0 in streamingImageIds {
-                try streamingImageIdsContainer.encode(streamingimageidlist0)
+            for streamingimageid0 in streamingImageIds {
+                try streamingImageIdsContainer.encode(streamingimageid0)
             }
         }
         if let volumeConfiguration = self.volumeConfiguration {
@@ -8460,8 +8460,8 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
         }
         if let ec2InstanceTypes = ec2InstanceTypes {
             var ec2InstanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceTypes)
-            for streaminginstancetypelist0 in ec2InstanceTypes {
-                try ec2InstanceTypesContainer.encode(streaminginstancetypelist0.rawValue)
+            for streaminginstancetype0 in ec2InstanceTypes {
+                try ec2InstanceTypesContainer.encode(streaminginstancetype0.rawValue)
             }
         }
         if let maxSessionLengthInMinutes = self.maxSessionLengthInMinutes {
@@ -8481,8 +8481,8 @@ extension NimbleClientTypes.StreamConfigurationCreate: Swift.Codable {
         }
         if let streamingImageIds = streamingImageIds {
             var streamingImageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streamingImageIds)
-            for streamingimageidlist0 in streamingImageIds {
-                try streamingImageIdsContainer.encode(streamingimageidlist0)
+            for streamingimageid0 in streamingImageIds {
+                try streamingImageIdsContainer.encode(streamingimageid0)
             }
         }
         if let volumeConfiguration = self.volumeConfiguration {
@@ -8650,8 +8650,8 @@ extension NimbleClientTypes.StreamConfigurationSessionStorage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mode = mode {
             var modeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mode)
-            for streamingsessionstoragemodelist0 in mode {
-                try modeContainer.encode(streamingsessionstoragemodelist0.rawValue)
+            for streamingsessionstoragemode0 in mode {
+                try modeContainer.encode(streamingsessionstoragemode0.rawValue)
             }
         }
         if let root = self.root {
@@ -8763,8 +8763,8 @@ extension NimbleClientTypes.StreamingImage: Swift.Codable {
         }
         if let eulaIds = eulaIds {
             var eulaIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eulaIds)
-            for eulaidlist0 in eulaIds {
-                try eulaIdsContainer.encode(eulaidlist0)
+            for string0 in eulaIds {
+                try eulaIdsContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -10259,14 +10259,14 @@ extension NimbleClientTypes.StudioComponent: Swift.Codable {
         }
         if let ec2SecurityGroupIds = ec2SecurityGroupIds {
             var ec2SecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SecurityGroupIds)
-            for studiocomponentsecuritygroupidlist0 in ec2SecurityGroupIds {
-                try ec2SecurityGroupIdsContainer.encode(studiocomponentsecuritygroupidlist0)
+            for securitygroupid0 in ec2SecurityGroupIds {
+                try ec2SecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let initializationScripts = initializationScripts {
             var initializationScriptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initializationScripts)
-            for studiocomponentinitializationscriptlist0 in initializationScripts {
-                try initializationScriptsContainer.encode(studiocomponentinitializationscriptlist0)
+            for studiocomponentinitializationscript0 in initializationScripts {
+                try initializationScriptsContainer.encode(studiocomponentinitializationscript0)
             }
         }
         if let name = self.name {
@@ -10277,8 +10277,8 @@ extension NimbleClientTypes.StudioComponent: Swift.Codable {
         }
         if let scriptParameters = scriptParameters {
             var scriptParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scriptParameters)
-            for studiocomponentscriptparameterkeyvaluelist0 in scriptParameters {
-                try scriptParametersContainer.encode(studiocomponentscriptparameterkeyvaluelist0)
+            for scriptparameterkeyvalue0 in scriptParameters {
+                try scriptParametersContainer.encode(scriptparameterkeyvalue0)
             }
         }
         if let secureInitializationRoleArn = self.secureInitializationRoleArn {
@@ -11588,8 +11588,8 @@ extension UpdateLaunchProfileInput: Swift.Encodable {
         }
         if let launchProfileProtocolVersions = launchProfileProtocolVersions {
             var launchProfileProtocolVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchProfileProtocolVersions)
-            for launchprofileprotocolversionlist0 in launchProfileProtocolVersions {
-                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversionlist0)
+            for launchprofileprotocolversion0 in launchProfileProtocolVersions {
+                try launchProfileProtocolVersionsContainer.encode(launchprofileprotocolversion0)
             }
         }
         if let name = self.name {
@@ -11600,8 +11600,8 @@ extension UpdateLaunchProfileInput: Swift.Encodable {
         }
         if let studioComponentIds = studioComponentIds {
             var studioComponentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .studioComponentIds)
-            for launchprofilestudiocomponentidlist0 in studioComponentIds {
-                try studioComponentIdsContainer.encode(launchprofilestudiocomponentidlist0)
+            for string0 in studioComponentIds {
+                try studioComponentIdsContainer.encode(string0)
             }
         }
     }
@@ -12155,14 +12155,14 @@ extension UpdateStudioComponentInput: Swift.Encodable {
         }
         if let ec2SecurityGroupIds = ec2SecurityGroupIds {
             var ec2SecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2SecurityGroupIds)
-            for studiocomponentsecuritygroupidlist0 in ec2SecurityGroupIds {
-                try ec2SecurityGroupIdsContainer.encode(studiocomponentsecuritygroupidlist0)
+            for securitygroupid0 in ec2SecurityGroupIds {
+                try ec2SecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let initializationScripts = initializationScripts {
             var initializationScriptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initializationScripts)
-            for studiocomponentinitializationscriptlist0 in initializationScripts {
-                try initializationScriptsContainer.encode(studiocomponentinitializationscriptlist0)
+            for studiocomponentinitializationscript0 in initializationScripts {
+                try initializationScriptsContainer.encode(studiocomponentinitializationscript0)
             }
         }
         if let name = self.name {
@@ -12173,8 +12173,8 @@ extension UpdateStudioComponentInput: Swift.Encodable {
         }
         if let scriptParameters = scriptParameters {
             var scriptParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scriptParameters)
-            for studiocomponentscriptparameterkeyvaluelist0 in scriptParameters {
-                try scriptParametersContainer.encode(studiocomponentscriptparameterkeyvaluelist0)
+            for scriptparameterkeyvalue0 in scriptParameters {
+                try scriptParametersContainer.encode(scriptparameterkeyvalue0)
             }
         }
         if let secureInitializationRoleArn = self.secureInitializationRoleArn {

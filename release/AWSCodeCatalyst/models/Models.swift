@@ -340,8 +340,8 @@ extension CreateDevEnvironmentInput: Swift.Encodable {
         }
         if let ides = ides {
             var idesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ides)
-            for ideconfigurationlist0 in ides {
-                try idesContainer.encode(ideconfigurationlist0)
+            for ideconfiguration0 in ides {
+                try idesContainer.encode(ideconfiguration0)
             }
         }
         if inactivityTimeoutMinutes != 0 {
@@ -355,8 +355,8 @@ extension CreateDevEnvironmentInput: Swift.Encodable {
         }
         if let repositories = repositories {
             var repositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositories)
-            for repositoriesinput0 in repositories {
-                try repositoriesContainer.encode(repositoriesinput0)
+            for repositoryinput0 in repositories {
+                try repositoriesContainer.encode(repositoryinput0)
             }
         }
     }
@@ -1343,8 +1343,8 @@ extension CodeCatalystClientTypes.DevEnvironmentSummary: Swift.Codable {
         }
         if let ides = ides {
             var idesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ides)
-            for ides0 in ides {
-                try idesContainer.encode(ides0)
+            for ide0 in ides {
+                try idesContainer.encode(ide0)
             }
         }
         if inactivityTimeoutMinutes != 0 {
@@ -1364,8 +1364,8 @@ extension CodeCatalystClientTypes.DevEnvironmentSummary: Swift.Codable {
         }
         if let repositories = repositories {
             var repositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositories)
-            for devenvironmentrepositorysummaries0 in repositories {
-                try repositoriesContainer.encode(devenvironmentrepositorysummaries0)
+            for devenvironmentrepositorysummary0 in repositories {
+                try repositoriesContainer.encode(devenvironmentrepositorysummary0)
             }
         }
         if let spaceName = self.spaceName {
@@ -1783,8 +1783,8 @@ extension CodeCatalystClientTypes.ExecuteCommandSessionConfiguration: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arguments)
-            for executecommandsessionconfigurationarguments0 in arguments {
-                try argumentsContainer.encode(executecommandsessionconfigurationarguments0)
+            for string0 in arguments {
+                try argumentsContainer.encode(string0)
             }
         }
         if let command = self.command {
@@ -1848,8 +1848,8 @@ extension CodeCatalystClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -3079,8 +3079,8 @@ extension ListDevEnvironmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -3445,8 +3445,8 @@ extension ListProjectsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for projectlistfilters0 in filters {
-                try filtersContainer.encode(projectlistfilters0)
+            for projectlistfilter0 in filters {
+                try filtersContainer.encode(projectlistfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -4360,8 +4360,8 @@ extension CodeCatalystClientTypes.ProjectListFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -4632,8 +4632,8 @@ extension StartDevEnvironmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ides = ides {
             var idesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ides)
-            for ideconfigurationlist0 in ides {
-                try idesContainer.encode(ideconfigurationlist0)
+            for ideconfiguration0 in ides {
+                try idesContainer.encode(ideconfiguration0)
             }
         }
         if inactivityTimeoutMinutes != 0 {
@@ -5186,8 +5186,8 @@ extension UpdateDevEnvironmentInput: Swift.Encodable {
         }
         if let ides = ides {
             var idesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ides)
-            for ideconfigurationlist0 in ides {
-                try idesContainer.encode(ideconfigurationlist0)
+            for ideconfiguration0 in ides {
+                try idesContainer.encode(ideconfiguration0)
             }
         }
         if inactivityTimeoutMinutes != 0 {

@@ -449,8 +449,8 @@ extension GreengrassClientTypes.BulkDeploymentResult: Swift.Codable {
         }
         if let errorDetails = errorDetails {
             var errorDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorDetails)
-            for errordetails0 in errorDetails {
-                try errorDetailsContainer.encode(errordetails0)
+            for errordetail0 in errorDetails {
+                try errorDetailsContainer.encode(errordetail0)
             }
         }
         if let errorMessage = self.errorMessage {
@@ -694,8 +694,8 @@ extension GreengrassClientTypes.Connector: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, __mapof__string0) in parameters {
-                try parametersContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in parameters {
+                try parametersContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -755,8 +755,8 @@ extension GreengrassClientTypes.ConnectorDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectors = connectors {
             var connectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectors)
-            for __listofconnector0 in connectors {
-                try connectorsContainer.encode(__listofconnector0)
+            for connector0 in connectors {
+                try connectorsContainer.encode(connector0)
             }
         }
     }
@@ -870,8 +870,8 @@ extension GreengrassClientTypes.CoreDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cores = cores {
             var coresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cores)
-            for __listofcore0 in cores {
-                try coresContainer.encode(__listofcore0)
+            for core0 in cores {
+                try coresContainer.encode(core0)
             }
         }
     }
@@ -1137,8 +1137,8 @@ extension CreateConnectorDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectors = connectors {
             var connectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectors)
-            for __listofconnector0 in connectors {
-                try connectorsContainer.encode(__listofconnector0)
+            for connector0 in connectors {
+                try connectorsContainer.encode(connector0)
             }
         }
     }
@@ -1532,8 +1532,8 @@ extension CreateCoreDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cores = cores {
             var coresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cores)
-            for __listofcore0 in cores {
-                try coresContainer.encode(__listofcore0)
+            for core0 in cores {
+                try coresContainer.encode(core0)
             }
         }
     }
@@ -2093,8 +2093,8 @@ extension CreateDeviceDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for __listofdevice0 in devices {
-                try devicesContainer.encode(__listofdevice0)
+            for device0 in devices {
+                try devicesContainer.encode(device0)
             }
         }
     }
@@ -2491,8 +2491,8 @@ extension CreateFunctionDefinitionVersionInput: Swift.Encodable {
         }
         if let functions = functions {
             var functionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functions)
-            for __listoffunction0 in functions {
-                try functionsContainer.encode(__listoffunction0)
+            for function0 in functions {
+                try functionsContainer.encode(function0)
             }
         }
     }
@@ -3459,8 +3459,8 @@ extension CreateLoggerDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let loggers = loggers {
             var loggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggers)
-            for __listoflogger0 in loggers {
-                try loggersContainer.encode(__listoflogger0)
+            for logger0 in loggers {
+                try loggersContainer.encode(logger0)
             }
         }
     }
@@ -3853,8 +3853,8 @@ extension CreateResourceDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for __listofresource0 in resources {
-                try resourcesContainer.encode(__listofresource0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
     }
@@ -4041,8 +4041,8 @@ extension CreateSoftwareUpdateJobInput: Swift.Encodable {
         }
         if let updateTargets = updateTargets {
             var updateTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateTargets)
-            for updatetargets0 in updateTargets {
-                try updateTargetsContainer.encode(updatetargets0)
+            for __string0 in updateTargets {
+                try updateTargetsContainer.encode(__string0)
             }
         }
         if let updateTargetsArchitecture = self.updateTargetsArchitecture {
@@ -4470,8 +4470,8 @@ extension CreateSubscriptionDefinitionVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let subscriptions = subscriptions {
             var subscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscriptions)
-            for __listofsubscription0 in subscriptions {
-                try subscriptionsContainer.encode(__listofsubscription0)
+            for subscription0 in subscriptions {
+                try subscriptionsContainer.encode(subscription0)
             }
         }
     }
@@ -5447,8 +5447,8 @@ extension GreengrassClientTypes.DeviceDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let devices = devices {
             var devicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .devices)
-            for __listofdevice0 in devices {
-                try devicesContainer.encode(__listofdevice0)
+            for device0 in devices {
+                try devicesContainer.encode(device0)
             }
         }
     }
@@ -5920,14 +5920,14 @@ extension GreengrassClientTypes.FunctionConfigurationEnvironment: Swift.Codable 
         }
         if let resourceAccessPolicies = resourceAccessPolicies {
             var resourceAccessPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceAccessPolicies)
-            for __listofresourceaccesspolicy0 in resourceAccessPolicies {
-                try resourceAccessPoliciesContainer.encode(__listofresourceaccesspolicy0)
+            for resourceaccesspolicy0 in resourceAccessPolicies {
+                try resourceAccessPoliciesContainer.encode(resourceaccesspolicy0)
             }
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, __mapof__string0) in variables {
-                try variablesContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in variables {
+                try variablesContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6084,8 +6084,8 @@ extension GreengrassClientTypes.FunctionDefinitionVersion: Swift.Codable {
         }
         if let functions = functions {
             var functionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functions)
-            for __listoffunction0 in functions {
-                try functionsContainer.encode(__listoffunction0)
+            for function0 in functions {
+                try functionsContainer.encode(function0)
             }
         }
     }
@@ -13183,8 +13183,8 @@ extension GreengrassClientTypes.LoggerDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let loggers = loggers {
             var loggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .loggers)
-            for __listoflogger0 in loggers {
-                try loggersContainer.encode(__listoflogger0)
+            for logger0 in loggers {
+                try loggersContainer.encode(logger0)
             }
         }
     }
@@ -13658,8 +13658,8 @@ extension GreengrassClientTypes.ResourceDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for __listofresource0 in resources {
-                try resourcesContainer.encode(__listofresource0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
     }
@@ -13901,8 +13901,8 @@ extension GreengrassClientTypes.SecretsManagerSecretResourceData: Swift.Codable 
         }
         if let additionalStagingLabelsToDownload = additionalStagingLabelsToDownload {
             var additionalStagingLabelsToDownloadContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalStagingLabelsToDownload)
-            for __listof__string0 in additionalStagingLabelsToDownload {
-                try additionalStagingLabelsToDownloadContainer.encode(__listof__string0)
+            for __string0 in additionalStagingLabelsToDownload {
+                try additionalStagingLabelsToDownloadContainer.encode(__string0)
             }
         }
     }
@@ -14291,8 +14291,8 @@ extension GreengrassClientTypes.SubscriptionDefinitionVersion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let subscriptions = subscriptions {
             var subscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscriptions)
-            for __listofsubscription0 in subscriptions {
-                try subscriptionsContainer.encode(__listofsubscription0)
+            for subscription0 in subscriptions {
+                try subscriptionsContainer.encode(subscription0)
             }
         }
     }
@@ -14688,8 +14688,8 @@ extension UpdateConnectivityInfoInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectivityInfo = connectivityInfo {
             var connectivityInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .connectivityInfo)
-            for __listofconnectivityinfo0 in connectivityInfo {
-                try connectivityInfoContainer.encode(__listofconnectivityinfo0)
+            for connectivityinfo0 in connectivityInfo {
+                try connectivityInfoContainer.encode(connectivityinfo0)
             }
         }
     }

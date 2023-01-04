@@ -202,8 +202,8 @@ extension WAFV2ClientTypes.AndStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statements = statements {
             var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
-            for statements0 in statements {
-                try statementsContainer.encode(statements0)
+            for statement0 in statements {
+                try statementsContainer.encode(statement0)
             }
         }
     }
@@ -485,8 +485,8 @@ extension WAFV2ClientTypes.ByteMatchStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }
@@ -851,8 +851,8 @@ extension CheckCapacityInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let scope = self.scope {
@@ -1100,14 +1100,14 @@ extension WAFV2ClientTypes.CookieMatchPattern: Swift.Codable {
         }
         if let excludedCookies = excludedCookies {
             var excludedCookiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedCookies)
-            for cookienames0 in excludedCookies {
-                try excludedCookiesContainer.encode(cookienames0)
+            for singlecookiename0 in excludedCookies {
+                try excludedCookiesContainer.encode(singlecookiename0)
             }
         }
         if let includedCookies = includedCookies {
             var includedCookiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedCookies)
-            for cookienames0 in includedCookies {
-                try includedCookiesContainer.encode(cookienames0)
+            for singlecookiename0 in includedCookies {
+                try includedCookiesContainer.encode(singlecookiename0)
             }
         }
     }
@@ -2054,8 +2054,8 @@ extension CreateIPSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for ipaddresses0 in addresses {
-                try addressesContainer.encode(ipaddresses0)
+            for ipaddress0 in addresses {
+                try addressesContainer.encode(ipaddress0)
             }
         }
         if let description = self.description {
@@ -2072,8 +2072,8 @@ extension CreateIPSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2294,8 +2294,8 @@ extension CreateRegexPatternSetInput: Swift.Encodable {
         }
         if let regularExpressionList = regularExpressionList {
             var regularExpressionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regularExpressionList)
-            for regularexpressionlist0 in regularExpressionList {
-                try regularExpressionListContainer.encode(regularexpressionlist0)
+            for regex0 in regularExpressionList {
+                try regularExpressionListContainer.encode(regex0)
             }
         }
         if let scope = self.scope {
@@ -2303,8 +2303,8 @@ extension CreateRegexPatternSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2497,8 +2497,8 @@ extension CreateRuleGroupInput: Swift.Encodable {
         }
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -2509,8 +2509,8 @@ extension CreateRuleGroupInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let scope = self.scope {
@@ -2518,8 +2518,8 @@ extension CreateRuleGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -2761,8 +2761,8 @@ extension CreateWebACLInput: Swift.Encodable {
         }
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let defaultAction = self.defaultAction {
@@ -2776,8 +2776,8 @@ extension CreateWebACLInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let scope = self.scope {
@@ -2785,14 +2785,14 @@ extension CreateWebACLInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tokenDomains = tokenDomains {
             var tokenDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenDomains)
-            for tokendomains0 in tokenDomains {
-                try tokenDomainsContainer.encode(tokendomains0)
+            for tokendomain0 in tokenDomains {
+                try tokenDomainsContainer.encode(tokendomain0)
             }
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -3104,8 +3104,8 @@ extension WAFV2ClientTypes.CustomRequestHandling: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let insertHeaders = insertHeaders {
             var insertHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .insertHeaders)
-            for customhttpheaders0 in insertHeaders {
-                try insertHeadersContainer.encode(customhttpheaders0)
+            for customhttpheader0 in insertHeaders {
+                try insertHeadersContainer.encode(customhttpheader0)
             }
         }
     }
@@ -3160,8 +3160,8 @@ extension WAFV2ClientTypes.CustomResponse: Swift.Codable {
         }
         if let responseHeaders = responseHeaders {
             var responseHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .responseHeaders)
-            for customhttpheaders0 in responseHeaders {
-                try responseHeadersContainer.encode(customhttpheaders0)
+            for customhttpheader0 in responseHeaders {
+                try responseHeadersContainer.encode(customhttpheader0)
             }
         }
     }
@@ -4748,8 +4748,8 @@ extension WAFV2ClientTypes.Filter: Swift.Codable {
         }
         if let conditions = conditions {
             var conditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conditions)
-            for conditions0 in conditions {
-                try conditionsContainer.encode(conditions0)
+            for condition0 in conditions {
+                try conditionsContainer.encode(condition0)
             }
         }
         if let requirement = self.requirement {
@@ -5219,8 +5219,8 @@ extension WAFV2ClientTypes.GeoMatchStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let countryCodes = countryCodes {
             var countryCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .countryCodes)
-            for countrycodes0 in countryCodes {
-                try countryCodesContainer.encode(countrycodes0.rawValue)
+            for countrycode0 in countryCodes {
+                try countryCodesContainer.encode(countrycode0.rawValue)
             }
         }
         if let forwardedIPConfig = self.forwardedIPConfig {
@@ -7016,8 +7016,8 @@ extension WAFV2ClientTypes.HTTPRequest: Swift.Codable {
         }
         if let headers = headers {
             var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
-            for httpheaders0 in headers {
-                try headersContainer.encode(httpheaders0)
+            for httpheader0 in headers {
+                try headersContainer.encode(httpheader0)
             }
         }
         if let method = self.method {
@@ -7108,14 +7108,14 @@ extension WAFV2ClientTypes.HeaderMatchPattern: Swift.Codable {
         }
         if let excludedHeaders = excludedHeaders {
             var excludedHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedHeaders)
-            for headernames0 in excludedHeaders {
-                try excludedHeadersContainer.encode(headernames0)
+            for fieldtomatchdata0 in excludedHeaders {
+                try excludedHeadersContainer.encode(fieldtomatchdata0)
             }
         }
         if let includedHeaders = includedHeaders {
             var includedHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedHeaders)
-            for headernames0 in includedHeaders {
-                try includedHeadersContainer.encode(headernames0)
+            for fieldtomatchdata0 in includedHeaders {
+                try includedHeadersContainer.encode(fieldtomatchdata0)
             }
         }
     }
@@ -7286,8 +7286,8 @@ extension WAFV2ClientTypes.IPSet: Swift.Codable {
         }
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for ipaddresses0 in addresses {
-                try addressesContainer.encode(ipaddresses0)
+            for ipaddress0 in addresses {
+                try addressesContainer.encode(ipaddress0)
             }
         }
         if let description = self.description {
@@ -7751,8 +7751,8 @@ extension WAFV2ClientTypes.JsonMatchPattern: Swift.Codable {
         }
         if let includedPaths = includedPaths {
             var includedPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includedPaths)
-            for jsonpointerpaths0 in includedPaths {
-                try includedPathsContainer.encode(jsonpointerpaths0)
+            for jsonpointerpath0 in includedPaths {
+                try includedPathsContainer.encode(jsonpointerpath0)
             }
         }
     }
@@ -9825,8 +9825,8 @@ extension WAFV2ClientTypes.LoggingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logDestinationConfigs = logDestinationConfigs {
             var logDestinationConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logDestinationConfigs)
-            for logdestinationconfigs0 in logDestinationConfigs {
-                try logDestinationConfigsContainer.encode(logdestinationconfigs0)
+            for resourcearn0 in logDestinationConfigs {
+                try logDestinationConfigsContainer.encode(resourcearn0)
             }
         }
         if let loggingFilter = self.loggingFilter {
@@ -9837,8 +9837,8 @@ extension WAFV2ClientTypes.LoggingConfiguration: Swift.Codable {
         }
         if let redactedFields = redactedFields {
             var redactedFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .redactedFields)
-            for redactedfields0 in redactedFields {
-                try redactedFieldsContainer.encode(redactedfields0)
+            for fieldtomatch0 in redactedFields {
+                try redactedFieldsContainer.encode(fieldtomatch0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -9933,8 +9933,8 @@ extension WAFV2ClientTypes.LoggingFilter: Swift.Codable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
     }
@@ -10069,14 +10069,14 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludedRules = excludedRules {
             var excludedRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedRules)
-            for excludedrules0 in excludedRules {
-                try excludedRulesContainer.encode(excludedrules0)
+            for excludedrule0 in excludedRules {
+                try excludedRulesContainer.encode(excludedrule0)
             }
         }
         if let managedRuleGroupConfigs = managedRuleGroupConfigs {
             var managedRuleGroupConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedRuleGroupConfigs)
-            for managedrulegroupconfigs0 in managedRuleGroupConfigs {
-                try managedRuleGroupConfigsContainer.encode(managedrulegroupconfigs0)
+            for managedrulegroupconfig0 in managedRuleGroupConfigs {
+                try managedRuleGroupConfigsContainer.encode(managedrulegroupconfig0)
             }
         }
         if let name = self.name {
@@ -10084,8 +10084,8 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
         }
         if let ruleActionOverrides = ruleActionOverrides {
             var ruleActionOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleActionOverrides)
-            for ruleactionoverrides0 in ruleActionOverrides {
-                try ruleActionOverridesContainer.encode(ruleactionoverrides0)
+            for ruleactionoverride0 in ruleActionOverrides {
+                try ruleActionOverridesContainer.encode(ruleactionoverride0)
             }
         }
         if let scopeDownStatement = self.scopeDownStatement {
@@ -10327,8 +10327,8 @@ extension WAFV2ClientTypes.ManagedRuleSet: Swift.Codable {
         }
         if let publishedVersions = publishedVersions {
             var publishedVersionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .publishedVersions)
-            for (dictKey0, publishedversions0) in publishedVersions {
-                try publishedVersionsContainer.encode(publishedversions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, publishedVersions0) in publishedVersions {
+                try publishedVersionsContainer.encode(publishedVersions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let recommendedVersion = self.recommendedVersion {
@@ -10658,8 +10658,8 @@ extension WAFV2ClientTypes.MobileSdkRelease: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timestamp = self.timestamp {
@@ -10782,8 +10782,8 @@ extension WAFV2ClientTypes.OrStatement: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statements = statements {
             var statementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statements)
-            for statements0 in statements {
-                try statementsContainer.encode(statements0)
+            for statement0 in statements {
+                try statementsContainer.encode(statement0)
             }
         }
     }
@@ -11417,8 +11417,8 @@ extension PutManagedRuleSetVersionsInput: Swift.Encodable {
         }
         if let versionsToPublish = versionsToPublish {
             var versionsToPublishContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .versionsToPublish)
-            for (dictKey0, versionstopublish0) in versionsToPublish {
-                try versionsToPublishContainer.encode(versionstopublish0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, versionsToPublish0) in versionsToPublish {
+                try versionsToPublishContainer.encode(versionsToPublish0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11838,8 +11838,8 @@ extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for ipaddresses0 in addresses {
-                try addressesContainer.encode(ipaddresses0)
+            for ipaddress0 in addresses {
+                try addressesContainer.encode(ipaddress0)
             }
         }
         if let ipAddressVersion = self.ipAddressVersion {
@@ -11937,8 +11937,8 @@ extension WAFV2ClientTypes.RegexMatchStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }
@@ -12015,8 +12015,8 @@ extension WAFV2ClientTypes.RegexPatternSet: Swift.Codable {
         }
         if let regularExpressionList = regularExpressionList {
             var regularExpressionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regularExpressionList)
-            for regularexpressionlist0 in regularExpressionList {
-                try regularExpressionListContainer.encode(regularexpressionlist0)
+            for regex0 in regularExpressionList {
+                try regularExpressionListContainer.encode(regex0)
             }
         }
     }
@@ -12094,8 +12094,8 @@ extension WAFV2ClientTypes.RegexPatternSetReferenceStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }
@@ -12375,8 +12375,8 @@ extension WAFV2ClientTypes.Rule: Swift.Codable {
         }
         if let ruleLabels = ruleLabels {
             var ruleLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleLabels)
-            for labels0 in ruleLabels {
-                try ruleLabelsContainer.encode(labels0)
+            for label0 in ruleLabels {
+                try ruleLabelsContainer.encode(label0)
             }
         }
         if let statement = self.statement {
@@ -12630,8 +12630,8 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
         }
         if let availableLabels = availableLabels {
             var availableLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availableLabels)
-            for labelsummaries0 in availableLabels {
-                try availableLabelsContainer.encode(labelsummaries0)
+            for labelsummary0 in availableLabels {
+                try availableLabelsContainer.encode(labelsummary0)
             }
         }
         if capacity != 0 {
@@ -12639,14 +12639,14 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
         }
         if let consumedLabels = consumedLabels {
             var consumedLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .consumedLabels)
-            for labelsummaries0 in consumedLabels {
-                try consumedLabelsContainer.encode(labelsummaries0)
+            for labelsummary0 in consumedLabels {
+                try consumedLabelsContainer.encode(labelsummary0)
             }
         }
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -12663,8 +12663,8 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -12814,14 +12814,14 @@ extension WAFV2ClientTypes.RuleGroupReferenceStatement: Swift.Codable {
         }
         if let excludedRules = excludedRules {
             var excludedRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedRules)
-            for excludedrules0 in excludedRules {
-                try excludedRulesContainer.encode(excludedrules0)
+            for excludedrule0 in excludedRules {
+                try excludedRulesContainer.encode(excludedrule0)
             }
         }
         if let ruleActionOverrides = ruleActionOverrides {
             var ruleActionOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleActionOverrides)
-            for ruleactionoverrides0 in ruleActionOverrides {
-                try ruleActionOverridesContainer.encode(ruleactionoverrides0)
+            for ruleactionoverride0 in ruleActionOverrides {
+                try ruleActionOverridesContainer.encode(ruleactionoverride0)
             }
         }
     }
@@ -13028,8 +13028,8 @@ extension WAFV2ClientTypes.SampledHTTPRequest: Swift.Codable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for labels0 in labels {
-                try labelsContainer.encode(labels0)
+            for label0 in labels {
+                try labelsContainer.encode(label0)
             }
         }
         if let overriddenAction = self.overriddenAction {
@@ -13040,8 +13040,8 @@ extension WAFV2ClientTypes.SampledHTTPRequest: Swift.Codable {
         }
         if let requestHeadersInserted = requestHeadersInserted {
             var requestHeadersInsertedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requestHeadersInserted)
-            for httpheaders0 in requestHeadersInserted {
-                try requestHeadersInsertedContainer.encode(httpheaders0)
+            for httpheader0 in requestHeadersInserted {
+                try requestHeadersInsertedContainer.encode(httpheader0)
             }
         }
         if let responseCodeSent = self.responseCodeSent {
@@ -13318,8 +13318,8 @@ extension WAFV2ClientTypes.SizeConstraintStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }
@@ -13395,8 +13395,8 @@ extension WAFV2ClientTypes.SqliMatchStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }
@@ -13696,8 +13696,8 @@ extension WAFV2ClientTypes.TagInfoForResource: Swift.Codable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -13753,8 +13753,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14099,8 +14099,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14215,8 +14215,8 @@ extension UpdateIPSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for ipaddresses0 in addresses {
-                try addressesContainer.encode(ipaddresses0)
+            for ipaddress0 in addresses {
+                try addressesContainer.encode(ipaddress0)
             }
         }
         if let description = self.description {
@@ -14657,8 +14657,8 @@ extension UpdateRegexPatternSetInput: Swift.Encodable {
         }
         if let regularExpressionList = regularExpressionList {
             var regularExpressionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regularExpressionList)
-            for regularexpressionlist0 in regularExpressionList {
-                try regularExpressionListContainer.encode(regularexpressionlist0)
+            for regex0 in regularExpressionList {
+                try regularExpressionListContainer.encode(regex0)
             }
         }
         if let scope = self.scope {
@@ -14850,8 +14850,8 @@ extension UpdateRuleGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -14868,8 +14868,8 @@ extension UpdateRuleGroupInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let scope = self.scope {
@@ -15105,8 +15105,8 @@ extension UpdateWebACLInput: Swift.Encodable {
         }
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let defaultAction = self.defaultAction {
@@ -15126,8 +15126,8 @@ extension UpdateWebACLInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let scope = self.scope {
@@ -15135,8 +15135,8 @@ extension UpdateWebACLInput: Swift.Encodable {
         }
         if let tokenDomains = tokenDomains {
             var tokenDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenDomains)
-            for tokendomains0 in tokenDomains {
-                try tokenDomainsContainer.encode(tokendomains0)
+            for tokendomain0 in tokenDomains {
+                try tokenDomainsContainer.encode(tokendomain0)
             }
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -16571,8 +16571,8 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
         }
         if let customResponseBodies = customResponseBodies {
             var customResponseBodiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customResponseBodies)
-            for (dictKey0, customresponsebodies0) in customResponseBodies {
-                try customResponseBodiesContainer.encode(customresponsebodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customResponseBodies0) in customResponseBodies {
+                try customResponseBodiesContainer.encode(customResponseBodies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let defaultAction = self.defaultAction {
@@ -16595,26 +16595,26 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
         }
         if let postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups {
             var postProcessFirewallManagerRuleGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .postProcessFirewallManagerRuleGroups)
-            for firewallmanagerrulegroups0 in postProcessFirewallManagerRuleGroups {
-                try postProcessFirewallManagerRuleGroupsContainer.encode(firewallmanagerrulegroups0)
+            for firewallmanagerrulegroup0 in postProcessFirewallManagerRuleGroups {
+                try postProcessFirewallManagerRuleGroupsContainer.encode(firewallmanagerrulegroup0)
             }
         }
         if let preProcessFirewallManagerRuleGroups = preProcessFirewallManagerRuleGroups {
             var preProcessFirewallManagerRuleGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preProcessFirewallManagerRuleGroups)
-            for firewallmanagerrulegroups0 in preProcessFirewallManagerRuleGroups {
-                try preProcessFirewallManagerRuleGroupsContainer.encode(firewallmanagerrulegroups0)
+            for firewallmanagerrulegroup0 in preProcessFirewallManagerRuleGroups {
+                try preProcessFirewallManagerRuleGroupsContainer.encode(firewallmanagerrulegroup0)
             }
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let tokenDomains = tokenDomains {
             var tokenDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokenDomains)
-            for tokendomains0 in tokenDomains {
-                try tokenDomainsContainer.encode(tokendomains0)
+            for tokendomain0 in tokenDomains {
+                try tokenDomainsContainer.encode(tokendomain0)
             }
         }
         if let visibilityConfig = self.visibilityConfig {
@@ -16877,8 +16877,8 @@ extension WAFV2ClientTypes.XssMatchStatement: Swift.Codable {
         }
         if let textTransformations = textTransformations {
             var textTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textTransformations)
-            for texttransformations0 in textTransformations {
-                try textTransformationsContainer.encode(texttransformations0)
+            for texttransformation0 in textTransformations {
+                try textTransformationsContainer.encode(texttransformation0)
             }
         }
     }

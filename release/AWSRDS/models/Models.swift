@@ -4227,6 +4227,9 @@ extension CreateCustomDBEngineVersionInput: Swift.Encodable {
         if let engineVersion = engineVersion {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
+        if let imageId = imageId {
+            try container.encode(imageId, forKey: ClientRuntime.Key("ImageId"))
+        }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
         }
@@ -4258,7 +4261,6 @@ extension CreateCustomDBEngineVersionInput: ClientRuntime.URLPathProvider {
 
 public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     /// The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid bucket name is my-custom-installation-files.
-    /// This member is required.
     public var databaseInstallationFilesS3BucketName: Swift.String?
     /// The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid bucket name is 123456789012/cev1. If this setting isn't specified, no prefix is assumed.
     public var databaseInstallationFilesS3Prefix: Swift.String?
@@ -4270,11 +4272,11 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     /// The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
     /// This member is required.
     public var engineVersion: Swift.String?
+    /// The ID of the AMI. An AMI ID is required to create a CEV for RDS Custom for SQL Server.
+    public var imageId: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for RDS Custom, but optional for Amazon RDS. If you have an existing symmetric encryption KMS key in your account, you can use it with RDS Custom. No further action is necessary. If you don't already have a symmetric encryption KMS key in your account, follow the instructions in [ Creating a symmetric encryption KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html#create-symmetric-cmk) in the Amazon Web Services Key Management Service Developer Guide. You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
-    /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed. The following JSON fields are valid: MediaImportTemplateVersion Version of the CEV manifest. The date is in the format YYYY-MM-DD. databaseInstallationFileNames Ordered list of installation files for the CEV. opatchFileNames Ordered list of OPatch installers used for the Oracle DB engine. psuRuPatchFileNames The PSU and RU patches for this CEV. OtherPatchFileNames The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches. For more information, see [ Creating the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest) in the Amazon RDS User Guide.
-    /// This member is required.
     public var manifest: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -4285,6 +4287,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
+        imageId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         manifest: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil
@@ -4295,6 +4298,7 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
         self.description = description
         self.engine = engine
         self.engineVersion = engineVersion
+        self.imageId = imageId
         self.kmsKeyId = kmsKeyId
         self.manifest = manifest
         self.tags = tags
@@ -4306,6 +4310,7 @@ struct CreateCustomDBEngineVersionInputBody: Swift.Equatable {
     let engineVersion: Swift.String?
     let databaseInstallationFilesS3BucketName: Swift.String?
     let databaseInstallationFilesS3Prefix: Swift.String?
+    let imageId: Swift.String?
     let kmsKeyId: Swift.String?
     let description: Swift.String?
     let manifest: Swift.String?
@@ -4319,6 +4324,7 @@ extension CreateCustomDBEngineVersionInputBody: Swift.Decodable {
         case description = "Description"
         case engine = "Engine"
         case engineVersion = "EngineVersion"
+        case imageId = "ImageId"
         case kmsKeyId = "KMSKeyId"
         case manifest = "Manifest"
         case tags = "Tags"
@@ -4334,6 +4340,8 @@ extension CreateCustomDBEngineVersionInputBody: Swift.Decodable {
         databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketNameDecoded
         let databaseInstallationFilesS3PrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseInstallationFilesS3Prefix)
         databaseInstallationFilesS3Prefix = databaseInstallationFilesS3PrefixDecoded
+        let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
+        imageId = imageIdDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -4374,6 +4382,7 @@ extension CreateCustomDBEngineVersionOutputError {
         switch errorType {
         case "CustomDBEngineVersionAlreadyExistsFault" : self = .customDBEngineVersionAlreadyExistsFault(try CustomDBEngineVersionAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CustomDBEngineVersionQuotaExceededFault" : self = .customDBEngineVersionQuotaExceededFault(try CustomDBEngineVersionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "Ec2ImagePropertiesNotSupportedFault" : self = .ec2ImagePropertiesNotSupportedFault(try Ec2ImagePropertiesNotSupportedFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "KMSKeyNotAccessibleFault" : self = .kMSKeyNotAccessibleFault(try KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -4383,6 +4392,7 @@ extension CreateCustomDBEngineVersionOutputError {
 public enum CreateCustomDBEngineVersionOutputError: Swift.Error, Swift.Equatable {
     case customDBEngineVersionAlreadyExistsFault(CustomDBEngineVersionAlreadyExistsFault)
     case customDBEngineVersionQuotaExceededFault(CustomDBEngineVersionQuotaExceededFault)
+    case ec2ImagePropertiesNotSupportedFault(Ec2ImagePropertiesNotSupportedFault)
     case kMSKeyNotAccessibleFault(KMSKeyNotAccessibleFault)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -4398,6 +4408,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
+            self.dbEngineMediaType = output.dbEngineMediaType
             self.dbEngineVersionArn = output.dbEngineVersionArn
             self.dbEngineVersionDescription = output.dbEngineVersionDescription
             self.dbParameterGroupFamily = output.dbParameterGroupFamily
@@ -4405,6 +4416,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = output.engine
             self.engineVersion = output.engineVersion
             self.exportableLogTypes = output.exportableLogTypes
+            self.image = output.image
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
@@ -4424,6 +4436,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.createTime = nil
             self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
+            self.dbEngineMediaType = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
             self.dbParameterGroupFamily = nil
@@ -4433,6 +4446,7 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = nil
             self.engineVersion = nil
             self.exportableLogTypes = nil
+            self.image = nil
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
@@ -4464,6 +4478,8 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
+    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
     /// The description of the database engine version.
@@ -4478,6 +4494,8 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The EC2 image
+    public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
@@ -4515,6 +4533,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
+        dbEngineMediaType: Swift.String? = nil,
         dbEngineVersionArn: Swift.String? = nil,
         dbEngineVersionDescription: Swift.String? = nil,
         dbParameterGroupFamily: Swift.String? = nil,
@@ -4522,6 +4541,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
@@ -4544,6 +4564,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
+        self.dbEngineMediaType = dbEngineMediaType
         self.dbEngineVersionArn = dbEngineVersionArn
         self.dbEngineVersionDescription = dbEngineVersionDescription
         self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -4551,6 +4572,7 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
@@ -4576,6 +4598,8 @@ struct CreateCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let dbEngineDescription: Swift.String?
     let dbEngineVersionDescription: Swift.String?
     let defaultCharacterSet: RDSClientTypes.CharacterSet?
+    let image: RDSClientTypes.CustomDBEngineVersionAMI?
+    let dbEngineMediaType: Swift.String?
     let supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     let supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -4604,6 +4628,7 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case createTime = "CreateTime"
         case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
+        case dbEngineMediaType = "DBEngineMediaType"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
         case dbParameterGroupFamily = "DBParameterGroupFamily"
@@ -4613,6 +4638,7 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case image = "Image"
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
@@ -4645,6 +4671,10 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         dbEngineVersionDescription = dbEngineVersionDescriptionDecoded
         let defaultCharacterSetDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CharacterSet.self, forKey: .defaultCharacterSet)
         defaultCharacterSet = defaultCharacterSetDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CustomDBEngineVersionAMI.self, forKey: .image)
+        image = imageDecoded
+        let dbEngineMediaTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbEngineMediaType)
+        dbEngineMediaType = dbEngineMediaTypeDecoded
         if containerValues.contains(.supportedCharacterSets) {
             struct KeyVal0{struct CharacterSet{}}
             let supportedCharacterSetsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.CharacterSet>.CodingKeys.self, forKey: .supportedCharacterSets)
@@ -5318,8 +5348,14 @@ extension CreateDBClusterInput: Swift.Encodable {
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -5522,8 +5558,24 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. If you create a read replica of an encrypted DB cluster in another Amazon Web Services Region, you must set KmsKeyId to a KMS key identifier that is valid in the destination Amazon Web Services Region. This KMS key is used to encrypt the read replica in that Amazon Web Services Region. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var kmsKeyId: Swift.String?
-    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    ///
+    ///
+    /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints:
+    ///
+    /// * Must contain from 8 to 41 characters.
+    ///
+    /// * Can't be specified if ManageMasterUserPassword is turned on.
+    ///
+    ///
+    /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name of the master user for the DB cluster. Constraints:
     ///
     /// * Must be 1 to 16 letters or numbers.
@@ -5661,7 +5713,9 @@ public struct CreateDBClusterInput: Swift.Equatable {
         globalClusterIdentifier: Swift.String? = nil,
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
         monitoringRoleArn: Swift.String? = nil,
@@ -5710,7 +5764,9 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.globalClusterIdentifier = globalClusterIdentifier
         self.iops = iops
         self.kmsKeyId = kmsKeyId
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.monitoringInterval = monitoringInterval
         self.monitoringRoleArn = monitoringRoleArn
@@ -5781,6 +5837,8 @@ struct CreateDBClusterInputBody: Swift.Equatable {
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
     let dbSystemId: Swift.String?
+    let manageMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension CreateDBClusterInputBody: Swift.Decodable {
@@ -5812,7 +5870,9 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         case globalClusterIdentifier = "GlobalClusterIdentifier"
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
@@ -5998,6 +6058,10 @@ extension CreateDBClusterInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 
@@ -6569,8 +6633,14 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -6928,8 +6998,14 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// License model information for this DB instance. Valid values: license-included | bring-your-own-license | general-public-license This setting doesn't apply to RDS Custom. Amazon Aurora Not applicable.
     public var licenseModel: Swift.String?
-    /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". Amazon Aurora Not applicable. The password for the master user is managed by the DB cluster. MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters.
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". Amazon Aurora Not applicable. The password for the master user is managed by the DB cluster. Constraints: Can't be specified if ManageMasterUserPassword is turned on. MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name for the master user. Amazon Aurora Not applicable. The name for the master user is managed by the DB cluster. Amazon RDS Constraints:
     ///
     /// * Required.
@@ -7061,7 +7137,9 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -7115,7 +7193,9 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.maxAllocatedStorage = maxAllocatedStorage
         self.monitoringInterval = monitoringInterval
@@ -7196,6 +7276,8 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let backupTarget: Swift.String?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let manageMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
@@ -7227,7 +7309,9 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
         case licenseModel = "LicenseModel"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case maxAllocatedStorage = "MaxAllocatedStorage"
         case monitoringInterval = "MonitoringInterval"
@@ -7445,6 +7529,10 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 
@@ -10350,6 +10438,51 @@ extension CustomAvailabilityZoneNotFoundFaultBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.CustomDBEngineVersionAMI: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageId = "ImageId"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let imageId = imageId {
+            try container.encode(imageId, forKey: ClientRuntime.Key("ImageId"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageId)
+        imageId = imageIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// A value that indicates the AMI information.
+    public struct CustomDBEngineVersionAMI: Swift.Equatable {
+        /// A value that indicates the ID of the AMI.
+        public var imageId: Swift.String?
+        /// A value that indicates the status of a custom engine version (CEV).
+        public var status: Swift.String?
+
+        public init (
+            imageId: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.imageId = imageId
+            self.status = status
+        }
+    }
+
+}
+
 extension CustomDBEngineVersionAlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10589,6 +10722,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
+        case masterUserSecret = "MasterUserSecret"
         case masterUsername = "MasterUsername"
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
@@ -10817,6 +10951,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         }
         if let latestRestorableTime = latestRestorableTime {
             try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("latestRestorableTime"))
+        }
+        if let masterUserSecret = masterUserSecret {
+            try container.encode(masterUserSecret, forKey: ClientRuntime.Key("MasterUserSecret"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -11231,6 +11368,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         networkType = networkTypeDecoded
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let masterUserSecretDecoded = try containerValues.decodeIfPresent(RDSClientTypes.MasterUserSecret.self, forKey: .masterUserSecret)
+        masterUserSecret = masterUserSecretDecoded
     }
 }
 
@@ -11329,6 +11468,8 @@ extension RDSClientTypes {
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public var latestRestorableTime: ClientRuntime.Date?
+        /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide.
+        public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// Contains the master username for the DB cluster.
         public var masterUsername: Swift.String?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
@@ -11452,6 +11593,7 @@ extension RDSClientTypes {
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
+            masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             monitoringInterval: Swift.Int? = nil,
             monitoringRoleArn: Swift.String? = nil,
@@ -11524,6 +11666,7 @@ extension RDSClientTypes {
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
+            self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
@@ -13206,6 +13349,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         case createTime = "CreateTime"
         case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
+        case dbEngineMediaType = "DBEngineMediaType"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
         case dbParameterGroupFamily = "DBParameterGroupFamily"
@@ -13215,6 +13359,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case image = "Image"
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
@@ -13242,6 +13387,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         if let dbEngineDescription = dbEngineDescription {
             try container.encode(dbEngineDescription, forKey: ClientRuntime.Key("DBEngineDescription"))
+        }
+        if let dbEngineMediaType = dbEngineMediaType {
+            try container.encode(dbEngineMediaType, forKey: ClientRuntime.Key("DBEngineMediaType"))
         }
         if let dbEngineVersionArn = dbEngineVersionArn {
             try container.encode(dbEngineVersionArn, forKey: ClientRuntime.Key("DBEngineVersionArn"))
@@ -13278,6 +13426,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
                 var exportableLogTypesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ExportableLogTypes"))
                 try exportableLogTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let image = image {
+            try container.encode(image, forKey: ClientRuntime.Key("Image"))
         }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KMSKeyId"))
@@ -13403,6 +13554,10 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         dbEngineVersionDescription = dbEngineVersionDescriptionDecoded
         let defaultCharacterSetDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CharacterSet.self, forKey: .defaultCharacterSet)
         defaultCharacterSet = defaultCharacterSetDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CustomDBEngineVersionAMI.self, forKey: .image)
+        image = imageDecoded
+        let dbEngineMediaTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbEngineMediaType)
+        dbEngineMediaType = dbEngineMediaTypeDecoded
         if containerValues.contains(.supportedCharacterSets) {
             struct KeyVal0{struct CharacterSet{}}
             let supportedCharacterSetsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.CharacterSet>.CodingKeys.self, forKey: .supportedCharacterSets)
@@ -13597,6 +13752,8 @@ extension RDSClientTypes {
         public var databaseInstallationFilesS3Prefix: Swift.String?
         /// The description of the database engine.
         public var dbEngineDescription: Swift.String?
+        /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+        public var dbEngineMediaType: Swift.String?
         /// The ARN of the custom engine version.
         public var dbEngineVersionArn: Swift.String?
         /// The description of the database engine version.
@@ -13611,6 +13768,8 @@ extension RDSClientTypes {
         public var engineVersion: Swift.String?
         /// The types of logs that the database engine has available for export to CloudWatch Logs.
         public var exportableLogTypes: [Swift.String]?
+        /// The EC2 image
+        public var image: RDSClientTypes.CustomDBEngineVersionAMI?
         /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
         public var kmsKeyId: Swift.String?
         /// The major engine version of the CEV.
@@ -13648,6 +13807,7 @@ extension RDSClientTypes {
             databaseInstallationFilesS3BucketName: Swift.String? = nil,
             databaseInstallationFilesS3Prefix: Swift.String? = nil,
             dbEngineDescription: Swift.String? = nil,
+            dbEngineMediaType: Swift.String? = nil,
             dbEngineVersionArn: Swift.String? = nil,
             dbEngineVersionDescription: Swift.String? = nil,
             dbParameterGroupFamily: Swift.String? = nil,
@@ -13655,6 +13815,7 @@ extension RDSClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             exportableLogTypes: [Swift.String]? = nil,
+            image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             status: Swift.String? = nil,
@@ -13677,6 +13838,7 @@ extension RDSClientTypes {
             self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
             self.dbEngineDescription = dbEngineDescription
+            self.dbEngineMediaType = dbEngineMediaType
             self.dbEngineVersionArn = dbEngineVersionArn
             self.dbEngineVersionDescription = dbEngineVersionDescription
             self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -13684,6 +13846,7 @@ extension RDSClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.exportableLogTypes = exportableLogTypes
+            self.image = image
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
             self.status = status
@@ -13753,6 +13916,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case latestRestorableTime = "LatestRestorableTime"
         case licenseModel = "LicenseModel"
         case listenerEndpoint = "ListenerEndpoint"
+        case masterUserSecret = "MasterUserSecret"
         case masterUsername = "MasterUsername"
         case maxAllocatedStorage = "MaxAllocatedStorage"
         case monitoringInterval = "MonitoringInterval"
@@ -13982,6 +14146,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         }
         if let listenerEndpoint = listenerEndpoint {
             try container.encode(listenerEndpoint, forKey: ClientRuntime.Key("ListenerEndpoint"))
+        }
+        if let masterUserSecret = masterUserSecret {
+            try container.encode(masterUserSecret, forKey: ClientRuntime.Key("MasterUserSecret"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -14520,6 +14687,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         storageThroughput = storageThroughputDecoded
         let dbSystemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbSystemId)
         dbSystemId = dbSystemIdDecoded
+        let masterUserSecretDecoded = try containerValues.decodeIfPresent(RDSClientTypes.MasterUserSecret.self, forKey: .masterUserSecret)
+        masterUserSecret = masterUserSecretDecoded
     }
 }
 
@@ -14635,6 +14804,8 @@ extension RDSClientTypes {
         public var licenseModel: Swift.String?
         /// Specifies the listener connection endpoint for SQL Server Always On.
         public var listenerEndpoint: RDSClientTypes.Endpoint?
+        /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide.
+        public var masterUserSecret: RDSClientTypes.MasterUserSecret?
         /// Contains the master username for the DB instance.
         public var masterUsername: Swift.String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance.
@@ -14770,6 +14941,7 @@ extension RDSClientTypes {
             latestRestorableTime: ClientRuntime.Date? = nil,
             licenseModel: Swift.String? = nil,
             listenerEndpoint: RDSClientTypes.Endpoint? = nil,
+            masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             maxAllocatedStorage: Swift.Int? = nil,
             monitoringInterval: Swift.Int? = nil,
@@ -14850,6 +15022,7 @@ extension RDSClientTypes {
             self.latestRestorableTime = latestRestorableTime
             self.licenseModel = licenseModel
             self.listenerEndpoint = listenerEndpoint
+            self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.maxAllocatedStorage = maxAllocatedStorage
             self.monitoringInterval = monitoringInterval
@@ -19120,6 +19293,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
+            self.dbEngineMediaType = output.dbEngineMediaType
             self.dbEngineVersionArn = output.dbEngineVersionArn
             self.dbEngineVersionDescription = output.dbEngineVersionDescription
             self.dbParameterGroupFamily = output.dbParameterGroupFamily
@@ -19127,6 +19301,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = output.engine
             self.engineVersion = output.engineVersion
             self.exportableLogTypes = output.exportableLogTypes
+            self.image = output.image
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
@@ -19146,6 +19321,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.createTime = nil
             self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
+            self.dbEngineMediaType = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
             self.dbParameterGroupFamily = nil
@@ -19155,6 +19331,7 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = nil
             self.engineVersion = nil
             self.exportableLogTypes = nil
+            self.image = nil
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
@@ -19186,6 +19363,8 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
+    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
     /// The description of the database engine version.
@@ -19200,6 +19379,8 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The EC2 image
+    public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
@@ -19237,6 +19418,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
+        dbEngineMediaType: Swift.String? = nil,
         dbEngineVersionArn: Swift.String? = nil,
         dbEngineVersionDescription: Swift.String? = nil,
         dbParameterGroupFamily: Swift.String? = nil,
@@ -19244,6 +19426,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
@@ -19266,6 +19449,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
+        self.dbEngineMediaType = dbEngineMediaType
         self.dbEngineVersionArn = dbEngineVersionArn
         self.dbEngineVersionDescription = dbEngineVersionDescription
         self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -19273,6 +19457,7 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
@@ -19298,6 +19483,8 @@ struct DeleteCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let dbEngineDescription: Swift.String?
     let dbEngineVersionDescription: Swift.String?
     let defaultCharacterSet: RDSClientTypes.CharacterSet?
+    let image: RDSClientTypes.CustomDBEngineVersionAMI?
+    let dbEngineMediaType: Swift.String?
     let supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     let supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -19326,6 +19513,7 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case createTime = "CreateTime"
         case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
+        case dbEngineMediaType = "DBEngineMediaType"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
         case dbParameterGroupFamily = "DBParameterGroupFamily"
@@ -19335,6 +19523,7 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case image = "Image"
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
@@ -19367,6 +19556,10 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         dbEngineVersionDescription = dbEngineVersionDescriptionDecoded
         let defaultCharacterSetDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CharacterSet.self, forKey: .defaultCharacterSet)
         defaultCharacterSet = defaultCharacterSetDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CustomDBEngineVersionAMI.self, forKey: .image)
+        image = imageDecoded
+        let dbEngineMediaTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbEngineMediaType)
+        dbEngineMediaType = dbEngineMediaTypeDecoded
         if containerValues.contains(.supportedCharacterSets) {
             struct KeyVal0{struct CharacterSet{}}
             let supportedCharacterSetsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.CharacterSet>.CodingKeys.self, forKey: .supportedCharacterSets)
@@ -30240,6 +30433,58 @@ extension RDSClientTypes {
 
 }
 
+extension Ec2ImagePropertiesNotSupportedFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().toData()
+            let output: AWSClientRuntime.ErrorResponseContainer<Ec2ImagePropertiesNotSupportedFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The AMI configuration prerequisite has not been met.
+public struct Ec2ImagePropertiesNotSupportedFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct Ec2ImagePropertiesNotSupportedFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension Ec2ImagePropertiesNotSupportedFaultBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension RDSClientTypes.Endpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
@@ -34052,6 +34297,69 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension RDSClientTypes.MasterUserSecret: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "KmsKeyId"
+        case secretArn = "SecretArn"
+        case secretStatus = "SecretStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let kmsKeyId = kmsKeyId {
+            try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
+        }
+        if let secretArn = secretArn {
+            try container.encode(secretArn, forKey: ClientRuntime.Key("SecretArn"))
+        }
+        if let secretStatus = secretStatus {
+            try container.encode(secretStatus, forKey: ClientRuntime.Key("SecretStatus"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
+        secretArn = secretArnDecoded
+        let secretStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretStatus)
+        secretStatus = secretStatusDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains the secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide.
+    public struct MasterUserSecret: Swift.Equatable {
+        /// The Amazon Web Services KMS key identifier that is used to encrypt the secret.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the secret.
+        public var secretArn: Swift.String?
+        /// The status of the secret. The possible status values include the following:
+        ///
+        /// * creating - The secret is being created.
+        ///
+        /// * active - The secret is available for normal use and rotation.
+        ///
+        /// * rotating - The secret is being rotated.
+        ///
+        /// * impaired - The secret can be used to access database credentials, but it can't be rotated. A secret might have this status if, for example, permissions are changed so that RDS can no longer access either the secret or the KMS key for the secret. When a secret has this status, you can correct the condition that caused the status. Alternatively, modify the DB instance to turn off automatic management of database credentials, and then modify the DB instance again to turn on automatic management of database credentials.
+        public var secretStatus: Swift.String?
+
+        public init (
+            kmsKeyId: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            secretStatus: Swift.String? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.secretArn = secretArn
+            self.secretStatus = secretStatus
+        }
+    }
+
+}
+
 extension RDSClientTypes.MinimumEngineVersionPerAllowedValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowedValue = "AllowedValue"
@@ -34695,6 +35003,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.databaseInstallationFilesS3BucketName = output.databaseInstallationFilesS3BucketName
             self.databaseInstallationFilesS3Prefix = output.databaseInstallationFilesS3Prefix
             self.dbEngineDescription = output.dbEngineDescription
+            self.dbEngineMediaType = output.dbEngineMediaType
             self.dbEngineVersionArn = output.dbEngineVersionArn
             self.dbEngineVersionDescription = output.dbEngineVersionDescription
             self.dbParameterGroupFamily = output.dbParameterGroupFamily
@@ -34702,6 +35011,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = output.engine
             self.engineVersion = output.engineVersion
             self.exportableLogTypes = output.exportableLogTypes
+            self.image = output.image
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
@@ -34721,6 +35031,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.createTime = nil
             self.customDBEngineVersionManifest = nil
             self.dbEngineDescription = nil
+            self.dbEngineMediaType = nil
             self.dbEngineVersionArn = nil
             self.dbEngineVersionDescription = nil
             self.dbParameterGroupFamily = nil
@@ -34730,6 +35041,7 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.engine = nil
             self.engineVersion = nil
             self.exportableLogTypes = nil
+            self.image = nil
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
@@ -34761,6 +35073,8 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// The description of the database engine.
     public var dbEngineDescription: Swift.String?
+    /// A value that indicates the source media provider of the AMI based on the usage operation. Applicable for RDS Custom for SQL Server.
+    public var dbEngineMediaType: Swift.String?
     /// The ARN of the custom engine version.
     public var dbEngineVersionArn: Swift.String?
     /// The description of the database engine version.
@@ -34775,6 +35089,8 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The types of logs that the database engine has available for export to CloudWatch Logs.
     public var exportableLogTypes: [Swift.String]?
+    /// The EC2 image
+    public var image: RDSClientTypes.CustomDBEngineVersionAMI?
     /// The Amazon Web Services KMS key identifier for an encrypted CEV. This parameter is required for RDS Custom, but optional for Amazon RDS.
     public var kmsKeyId: Swift.String?
     /// The major engine version of the CEV.
@@ -34812,6 +35128,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
         databaseInstallationFilesS3Prefix: Swift.String? = nil,
         dbEngineDescription: Swift.String? = nil,
+        dbEngineMediaType: Swift.String? = nil,
         dbEngineVersionArn: Swift.String? = nil,
         dbEngineVersionDescription: Swift.String? = nil,
         dbParameterGroupFamily: Swift.String? = nil,
@@ -34819,6 +35136,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         exportableLogTypes: [Swift.String]? = nil,
+        image: RDSClientTypes.CustomDBEngineVersionAMI? = nil,
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
@@ -34841,6 +35159,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
         self.databaseInstallationFilesS3Prefix = databaseInstallationFilesS3Prefix
         self.dbEngineDescription = dbEngineDescription
+        self.dbEngineMediaType = dbEngineMediaType
         self.dbEngineVersionArn = dbEngineVersionArn
         self.dbEngineVersionDescription = dbEngineVersionDescription
         self.dbParameterGroupFamily = dbParameterGroupFamily
@@ -34848,6 +35167,7 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.exportableLogTypes = exportableLogTypes
+        self.image = image
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
@@ -34873,6 +35193,8 @@ struct ModifyCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let dbEngineDescription: Swift.String?
     let dbEngineVersionDescription: Swift.String?
     let defaultCharacterSet: RDSClientTypes.CharacterSet?
+    let image: RDSClientTypes.CustomDBEngineVersionAMI?
+    let dbEngineMediaType: Swift.String?
     let supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     let supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]?
     let validUpgradeTarget: [RDSClientTypes.UpgradeTarget]?
@@ -34901,6 +35223,7 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case createTime = "CreateTime"
         case customDBEngineVersionManifest = "CustomDBEngineVersionManifest"
         case dbEngineDescription = "DBEngineDescription"
+        case dbEngineMediaType = "DBEngineMediaType"
         case dbEngineVersionArn = "DBEngineVersionArn"
         case dbEngineVersionDescription = "DBEngineVersionDescription"
         case dbParameterGroupFamily = "DBParameterGroupFamily"
@@ -34910,6 +35233,7 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case exportableLogTypes = "ExportableLogTypes"
+        case image = "Image"
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
@@ -34942,6 +35266,10 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         dbEngineVersionDescription = dbEngineVersionDescriptionDecoded
         let defaultCharacterSetDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CharacterSet.self, forKey: .defaultCharacterSet)
         defaultCharacterSet = defaultCharacterSetDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CustomDBEngineVersionAMI.self, forKey: .image)
+        image = imageDecoded
+        let dbEngineMediaTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbEngineMediaType)
+        dbEngineMediaType = dbEngineMediaTypeDecoded
         if containerValues.contains(.supportedCharacterSets) {
             struct KeyVal0{struct CharacterSet{}}
             let supportedCharacterSetsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.CharacterSet>.CodingKeys.self, forKey: .supportedCharacterSets)
@@ -35527,8 +35855,14 @@ extension ModifyDBClusterInput: Swift.Encodable {
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let monitoringInterval = monitoringInterval {
             try container.encode(monitoringInterval, forKey: ClientRuntime.Key("MonitoringInterval"))
@@ -35559,6 +35893,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         }
         if let preferredMaintenanceWindow = preferredMaintenanceWindow {
             try container.encode(preferredMaintenanceWindow, forKey: ClientRuntime.Key("PreferredMaintenanceWindow"))
+        }
+        if let rotateMasterUserPassword = rotateMasterUserPassword {
+            try container.encode(rotateMasterUserPassword, forKey: ClientRuntime.Key("RotateMasterUserPassword"))
         }
         if let scalingConfiguration = scalingConfiguration {
             try container.encode(scalingConfiguration, forKey: ClientRuntime.Key("ScalingConfiguration"))
@@ -35654,8 +35991,26 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB cluster. Valid for: Multi-AZ DB clusters only
     public var iops: Swift.Int?
-    /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints:
+    ///
+    /// * Must contain from 8 to 41 characters.
+    ///
+    /// * Can't be specified if ManageMasterUserPassword is turned on.
+    ///
+    ///
+    /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:
+    ///
+    /// * The DB cluster doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.
+    ///
+    /// * You are turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.
+    ///
+    ///
+    /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 Valid for: Multi-AZ DB clusters only
     public var monitoringInterval: Swift.Int?
     /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [To create an IAM role for Amazon RDS Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.html#USER_Monitoring.OS.IAMRole) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for: Multi-AZ DB clusters only
@@ -35723,6 +36078,13 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. To see the time blocks available, see [ Adjusting the Preferred DB Cluster Maintenance Window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora) in the Amazon Aurora User Guide. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var preferredMaintenanceWindow: Swift.String?
+    /// A value that indicates whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Constraints:
+    ///
+    /// * You must apply the change immediately when rotating the master user password.
+    ///
+    ///
+    /// Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    public var rotateMasterUserPassword: Swift.Bool?
     /// The scaling properties of the DB cluster. You can only modify scaling properties for DB clusters in serverless DB engine mode. Valid for: Aurora DB clusters only
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
@@ -35754,7 +36116,9 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         enablePerformanceInsights: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
         monitoringRoleArn: Swift.String? = nil,
         networkType: Swift.String? = nil,
@@ -35765,6 +36129,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         port: Swift.Int? = nil,
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
+        rotateMasterUserPassword: Swift.Bool? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
         serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration? = nil,
         storageType: Swift.String? = nil,
@@ -35792,7 +36157,9 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engineVersion = engineVersion
         self.iops = iops
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.monitoringInterval = monitoringInterval
         self.monitoringRoleArn = monitoringRoleArn
         self.networkType = networkType
@@ -35803,6 +36170,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.port = port
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
+        self.rotateMasterUserPassword = rotateMasterUserPassword
         self.scalingConfiguration = scalingConfiguration
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.storageType = storageType
@@ -35847,6 +36215,9 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let performanceInsightsRetentionPeriod: Swift.Int?
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
+    let manageMasterUserPassword: Swift.Bool?
+    let rotateMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
@@ -35872,7 +36243,9 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case enablePerformanceInsights = "EnablePerformanceInsights"
         case engineVersion = "EngineVersion"
         case iops = "Iops"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
         case networkType = "NetworkType"
@@ -35883,6 +36256,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case port = "Port"
         case preferredBackupWindow = "PreferredBackupWindow"
         case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+        case rotateMasterUserPassword = "RotateMasterUserPassword"
         case scalingConfiguration = "ScalingConfiguration"
         case serverlessV2ScalingConfiguration = "ServerlessV2ScalingConfiguration"
         case storageType = "StorageType"
@@ -35980,6 +36354,12 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let rotateMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotateMasterUserPassword)
+        rotateMasterUserPassword = rotateMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 
@@ -36518,8 +36898,14 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let maxAllocatedStorage = maxAllocatedStorage {
             try container.encode(maxAllocatedStorage, forKey: ClientRuntime.Key("MaxAllocatedStorage"))
@@ -36577,6 +36963,9 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         }
         if let resumeFullAutomationModeMinutes = resumeFullAutomationModeMinutes {
             try container.encode(resumeFullAutomationModeMinutes, forKey: ClientRuntime.Key("ResumeFullAutomationModeMinutes"))
+        }
+        if let rotateMasterUserPassword = rotateMasterUserPassword {
+            try container.encode(rotateMasterUserPassword, forKey: ClientRuntime.Key("RotateMasterUserPassword"))
         }
         if let storageThroughput = storageThroughput {
             try container.encode(storageThroughput, forKey: ClientRuntime.Key("StorageThroughput"))
@@ -36697,8 +37086,21 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var iops: Swift.Int?
     /// The license model for the DB instance. This setting doesn't apply to RDS Custom. Valid values: license-included | bring-your-own-license | general-public-license
     public var licenseModel: Swift.String?
-    /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@". Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. This setting doesn't apply to RDS Custom. Amazon Aurora Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters. Amazon RDS API operations never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@". Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. This setting doesn't apply to RDS Custom. Amazon Aurora Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints: Can't be specified if ManageMasterUserPassword is turned on. MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters. Amazon RDS API operations never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:
+    ///
+    /// * The DB instance doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB instance already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key used to encrypt the secret.
+    ///
+    /// * You are turning on ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.
+    ///
+    ///
+    /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see [ Managing capacity automatically with Amazon RDS storage autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling) in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
     public var maxAllocatedStorage: Swift.Int?
     /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0, which is the default. If MonitoringRoleArn is specified, set MonitoringInterval to a value other than 0. This setting doesn't apply to RDS Custom. Valid Values: 0, 1, 5, 10, 15, 30, 60
@@ -36775,6 +37177,10 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
     public var resumeFullAutomationModeMinutes: Swift.Int?
+    /// A value that indicates whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The secret value contains the updated password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * You must apply the change immediately when rotating the master user password.
+    public var rotateMasterUserPassword: Swift.Bool?
     /// Specifies the storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
     /// Specifies the storage type to be associated with the DB instance. If you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid values: gp2 | gp3 | io1 | standard Default: io1 if the Iops parameter is specified, otherwise gp2
@@ -36817,7 +37223,9 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
         monitoringInterval: Swift.Int? = nil,
         monitoringRoleArn: Swift.String? = nil,
@@ -36834,6 +37242,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         publiclyAccessible: Swift.Bool? = nil,
         replicaMode: RDSClientTypes.ReplicaMode? = nil,
         resumeFullAutomationModeMinutes: Swift.Int? = nil,
+        rotateMasterUserPassword: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
         storageType: Swift.String? = nil,
         tdeCredentialArn: Swift.String? = nil,
@@ -36868,7 +37277,9 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.engineVersion = engineVersion
         self.iops = iops
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
         self.monitoringInterval = monitoringInterval
         self.monitoringRoleArn = monitoringRoleArn
@@ -36885,6 +37296,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
         self.publiclyAccessible = publiclyAccessible
         self.replicaMode = replicaMode
         self.resumeFullAutomationModeMinutes = resumeFullAutomationModeMinutes
+        self.rotateMasterUserPassword = rotateMasterUserPassword
         self.storageThroughput = storageThroughput
         self.storageType = storageType
         self.tdeCredentialArn = tdeCredentialArn
@@ -36944,6 +37356,9 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let resumeFullAutomationModeMinutes: Swift.Int?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let manageMasterUserPassword: Swift.Bool?
+    let rotateMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension ModifyDBInstanceInputBody: Swift.Decodable {
@@ -36974,7 +37389,9 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case engineVersion = "EngineVersion"
         case iops = "Iops"
         case licenseModel = "LicenseModel"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case maxAllocatedStorage = "MaxAllocatedStorage"
         case monitoringInterval = "MonitoringInterval"
         case monitoringRoleArn = "MonitoringRoleArn"
@@ -36991,6 +37408,7 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         case publiclyAccessible = "PubliclyAccessible"
         case replicaMode = "ReplicaMode"
         case resumeFullAutomationModeMinutes = "ResumeFullAutomationModeMinutes"
+        case rotateMasterUserPassword = "RotateMasterUserPassword"
         case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
         case tdeCredentialArn = "TdeCredentialArn"
@@ -37150,6 +37568,12 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let rotateMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotateMasterUserPassword)
+        rotateMasterUserPassword = rotateMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 
@@ -44412,8 +44836,14 @@ extension RestoreDBClusterFromS3Input: Swift.Encodable {
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -44541,9 +44971,18 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
     public var engineVersion: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
-    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
-    /// This member is required.
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints:
+    ///
+    /// * Must contain from 8 to 41 characters.
+    ///
+    /// * Can't be specified if ManageMasterUserPassword is turned on.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name of the master user for the restored DB cluster. Constraints:
     ///
     /// * Must be 1 to 16 letters or numbers.
@@ -44619,7 +45058,9 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
@@ -44654,7 +45095,9 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.networkType = networkType
         self.optionGroupName = optionGroupName
@@ -44707,6 +45150,8 @@ struct RestoreDBClusterFromS3InputBody: Swift.Equatable {
     let domainIAMRoleName: Swift.String?
     let serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfiguration?
     let networkType: Swift.String?
+    let manageMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
@@ -44728,7 +45173,9 @@ extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
         case engine = "Engine"
         case engineVersion = "EngineVersion"
         case kmsKeyId = "KmsKeyId"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case networkType = "NetworkType"
         case optionGroupName = "OptionGroupName"
@@ -44882,6 +45329,10 @@ extension RestoreDBClusterFromS3InputBody: Swift.Decodable {
         serverlessV2ScalingConfiguration = serverlessV2ScalingConfigurationDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
         networkType = networkTypeDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 
@@ -46939,8 +47390,14 @@ extension RestoreDBInstanceFromS3Input: Swift.Encodable {
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
         }
+        if let manageMasterUserPassword = manageMasterUserPassword {
+            try container.encode(manageMasterUserPassword, forKey: ClientRuntime.Key("ManageMasterUserPassword"))
+        }
         if let masterUserPassword = masterUserPassword {
             try container.encode(masterUserPassword, forKey: ClientRuntime.Key("MasterUserPassword"))
+        }
+        if let masterUserSecretKmsKeyId = masterUserSecretKmsKeyId {
+            try container.encode(masterUserSecretKmsKeyId, forKey: ClientRuntime.Key("MasterUserSecretKmsKeyId"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -47108,8 +47565,14 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The license model for this DB instance. Use general-public-license.
     public var licenseModel: Swift.String?
-    /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
+    /// A value that indicates whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide. Constraints:
+    ///
+    /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+    public var manageMasterUserPassword: Swift.Bool?
+    /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@". Constraints: Can't be specified if ManageMasterUserPassword is turned on. MariaDB Constraints: Must contain from 8 to 41 characters. Microsoft SQL Server Constraints: Must contain from 8 to 128 characters. MySQL Constraints: Must contain from 8 to 41 characters. Oracle Constraints: Must contain from 8 to 30 characters. PostgreSQL Constraints: Must contain from 8 to 128 characters.
     public var masterUserPassword: Swift.String?
+    /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+    public var masterUserSecretKmsKeyId: Swift.String?
     /// The name for the master user. Constraints:
     ///
     /// * Must be 1 to 16 letters or numbers.
@@ -47237,7 +47700,9 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
+        manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
+        masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -47285,7 +47750,9 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
+        self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
+        self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
         self.maxAllocatedStorage = maxAllocatedStorage
         self.monitoringInterval = monitoringInterval
@@ -47361,6 +47828,8 @@ struct RestoreDBInstanceFromS3InputBody: Swift.Equatable {
     let maxAllocatedStorage: Swift.Int?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let manageMasterUserPassword: Swift.Bool?
+    let masterUserSecretKmsKeyId: Swift.String?
 }
 
 extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
@@ -47385,7 +47854,9 @@ extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
         case licenseModel = "LicenseModel"
+        case manageMasterUserPassword = "ManageMasterUserPassword"
         case masterUserPassword = "MasterUserPassword"
+        case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
         case masterUsername = "MasterUsername"
         case maxAllocatedStorage = "MaxAllocatedStorage"
         case monitoringInterval = "MonitoringInterval"
@@ -47592,6 +48063,10 @@ extension RestoreDBInstanceFromS3InputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let manageMasterUserPasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .manageMasterUserPassword)
+        manageMasterUserPassword = manageMasterUserPasswordDecoded
+        let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
+        masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
     }
 }
 

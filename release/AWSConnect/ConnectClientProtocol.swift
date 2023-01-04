@@ -325,6 +325,19 @@ public protocol ConnectClientProtocol {
     func updateInstanceAttribute(input: UpdateInstanceAttributeInput) async throws -> UpdateInstanceAttributeOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     func updateInstanceStorageConfig(input: UpdateInstanceStorageConfigInput) async throws -> UpdateInstanceStorageConfigOutputResponse
+    /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers:
+    ///
+    /// * Customer idle timeout
+    ///
+    /// * Customer auto-disconnect timeout
+    ///
+    /// * Agent idle timeout
+    ///
+    /// * Agent auto-disconnect timeout
+    ///
+    ///
+    /// For more information about how chat timeouts work, see [Set up chat timeouts for human participants](https://docs.aws.amazon.com/connect/latest/adminguide/setup-chat-timeouts.html).
+    func updateParticipantRoleConfig(input: UpdateParticipantRoleConfigInput) async throws -> UpdateParticipantRoleConfigOutputResponse
     /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region. You can call [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous [UpdatePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdatePhoneNumber.html) operation.
     func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.

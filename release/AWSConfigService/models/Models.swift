@@ -13,8 +13,8 @@ extension ConfigClientTypes.AccountAggregationSource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountaggregationsourceaccountlist0 in accountIds {
-                try accountIdsContainer.encode(accountaggregationsourceaccountlist0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if allAwsRegions != false {
@@ -22,8 +22,8 @@ extension ConfigClientTypes.AccountAggregationSource: Swift.Codable {
         }
         if let awsRegions = awsRegions {
             var awsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsRegions)
-            for aggregatorregionlist0 in awsRegions {
-                try awsRegionsContainer.encode(aggregatorregionlist0)
+            for string0 in awsRegions {
+                try awsRegionsContainer.encode(string0)
             }
         }
     }
@@ -1019,8 +1019,8 @@ extension ConfigClientTypes.BaseConfigurationItem: Swift.Codable {
         }
         if let supplementaryConfiguration = supplementaryConfiguration {
             var supplementaryConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .supplementaryConfiguration)
-            for (dictKey0, supplementaryconfiguration0) in supplementaryConfiguration {
-                try supplementaryConfigurationContainer.encode(supplementaryconfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, supplementaryConfiguration0) in supplementaryConfiguration {
+                try supplementaryConfigurationContainer.encode(supplementaryConfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let version = self.version {
@@ -1164,8 +1164,8 @@ extension BatchGetAggregateResourceConfigInput: Swift.Encodable {
         }
         if let resourceIdentifiers = resourceIdentifiers {
             var resourceIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIdentifiers)
-            for resourceidentifierslist0 in resourceIdentifiers {
-                try resourceIdentifiersContainer.encode(resourceidentifierslist0)
+            for aggregateresourceidentifier0 in resourceIdentifiers {
+                try resourceIdentifiersContainer.encode(aggregateresourceidentifier0)
             }
         }
     }
@@ -1326,8 +1326,8 @@ extension BatchGetResourceConfigInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for resourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(resourcekeys0)
+            for resourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(resourcekey0)
             }
         }
     }
@@ -1952,8 +1952,8 @@ extension ConfigClientTypes.ConfigRule: Swift.Codable {
         }
         if let evaluationModes = evaluationModes {
             var evaluationModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationModes)
-            for evaluationmodes0 in evaluationModes {
-                try evaluationModesContainer.encode(evaluationmodes0)
+            for evaluationmodeconfiguration0 in evaluationModes {
+                try evaluationModesContainer.encode(evaluationmodeconfiguration0)
             }
         }
         if let inputParameters = self.inputParameters {
@@ -2562,8 +2562,8 @@ extension ConfigClientTypes.ConfigurationAggregator: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountAggregationSources = accountAggregationSources {
             var accountAggregationSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountAggregationSources)
-            for accountaggregationsourcelist0 in accountAggregationSources {
-                try accountAggregationSourcesContainer.encode(accountaggregationsourcelist0)
+            for accountaggregationsource0 in accountAggregationSources {
+                try accountAggregationSourcesContainer.encode(accountaggregationsource0)
             }
         }
         if let configurationAggregatorArn = self.configurationAggregatorArn {
@@ -2707,14 +2707,14 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         }
         if let relatedEvents = relatedEvents {
             var relatedEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedEvents)
-            for relatedeventlist0 in relatedEvents {
-                try relatedEventsContainer.encode(relatedeventlist0)
+            for relatedevent0 in relatedEvents {
+                try relatedEventsContainer.encode(relatedevent0)
             }
         }
         if let relationships = relationships {
             var relationshipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relationships)
-            for relationshiplist0 in relationships {
-                try relationshipsContainer.encode(relationshiplist0)
+            for relationship0 in relationships {
+                try relationshipsContainer.encode(relationship0)
             }
         }
         if let resourceCreationTime = self.resourceCreationTime {
@@ -2731,8 +2731,8 @@ extension ConfigClientTypes.ConfigurationItem: Swift.Codable {
         }
         if let supplementaryConfiguration = supplementaryConfiguration {
             var supplementaryConfigurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .supplementaryConfiguration)
-            for (dictKey0, supplementaryconfiguration0) in supplementaryConfiguration {
-                try supplementaryConfigurationContainer.encode(supplementaryconfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, supplementaryConfiguration0) in supplementaryConfiguration {
+                try supplementaryConfigurationContainer.encode(supplementaryConfiguration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
@@ -3134,8 +3134,8 @@ extension ConfigClientTypes.ConformancePackComplianceFilters: Swift.Codable {
         }
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for conformancepackconfigrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(conformancepackconfigrulenames0)
+            for stringwithcharlimit640 in configRuleNames {
+                try configRuleNamesContainer.encode(stringwithcharlimit640)
             }
         }
     }
@@ -3242,8 +3242,8 @@ extension ConfigClientTypes.ConformancePackComplianceScoresFilters: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackNames = conformancePackNames {
             var conformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackNames)
-            for conformancepacknamefilter0 in conformancePackNames {
-                try conformancePackNamesContainer.encode(conformancepacknamefilter0)
+            for conformancepackname0 in conformancePackNames {
+                try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
     }
@@ -3386,8 +3386,8 @@ extension ConfigClientTypes.ConformancePackDetail: Swift.Codable {
         }
         if let conformancePackInputParameters = conformancePackInputParameters {
             var conformancePackInputParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackInputParameters)
-            for conformancepackinputparameters0 in conformancePackInputParameters {
-                try conformancePackInputParametersContainer.encode(conformancepackinputparameters0)
+            for conformancepackinputparameter0 in conformancePackInputParameters {
+                try conformancePackInputParametersContainer.encode(conformancepackinputparameter0)
             }
         }
         if let conformancePackName = self.conformancePackName {
@@ -3508,14 +3508,14 @@ extension ConfigClientTypes.ConformancePackEvaluationFilters: Swift.Codable {
         }
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for conformancepackconfigrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(conformancepackconfigrulenames0)
+            for stringwithcharlimit640 in configRuleNames {
+                try configRuleNamesContainer.encode(stringwithcharlimit640)
             }
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for conformancepackcomplianceresourceids0 in resourceIds {
-                try resourceIdsContainer.encode(conformancepackcomplianceresourceids0)
+            for stringwithcharlimit2560 in resourceIds {
+                try resourceIdsContainer.encode(stringwithcharlimit2560)
             }
         }
         if let resourceType = self.resourceType {
@@ -3725,8 +3725,8 @@ extension ConfigClientTypes.ConformancePackRuleCompliance: Swift.Codable {
         }
         if let controls = controls {
             var controlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controls)
-            for controlslist0 in controls {
-                try controlsContainer.encode(controlslist0)
+            for stringwithcharlimit1280 in controls {
+                try controlsContainer.encode(stringwithcharlimit1280)
             }
         }
     }
@@ -5005,8 +5005,8 @@ extension DeleteRemediationExceptionsInput: Swift.Encodable {
         }
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for remediationexceptionresourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(remediationexceptionresourcekeys0)
+            for remediationexceptionresourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(remediationexceptionresourcekey0)
             }
         }
     }
@@ -6198,14 +6198,14 @@ extension DescribeComplianceByConfigRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let complianceTypes = complianceTypes {
             var complianceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceTypes)
-            for compliancetypes0 in complianceTypes {
-                try complianceTypesContainer.encode(compliancetypes0.rawValue)
+            for compliancetype0 in complianceTypes {
+                try complianceTypesContainer.encode(compliancetype0.rawValue)
             }
         }
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for configrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(configrulenames0)
+            for configrulename0 in configRuleNames {
+                try configRuleNamesContainer.encode(configrulename0)
             }
         }
         if let nextToken = self.nextToken {
@@ -6383,8 +6383,8 @@ extension DescribeComplianceByResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let complianceTypes = complianceTypes {
             var complianceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceTypes)
-            for compliancetypes0 in complianceTypes {
-                try complianceTypesContainer.encode(compliancetypes0.rawValue)
+            for compliancetype0 in complianceTypes {
+                try complianceTypesContainer.encode(compliancetype0.rawValue)
             }
         }
         if limit != 0 {
@@ -6574,8 +6574,8 @@ extension DescribeConfigRuleEvaluationStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for configrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(configrulenames0)
+            for configrulename0 in configRuleNames {
+                try configRuleNamesContainer.encode(configrulename0)
             }
         }
         if limit != 0 {
@@ -6780,8 +6780,8 @@ extension DescribeConfigRulesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for configrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(configrulenames0)
+            for configrulename0 in configRuleNames {
+                try configRuleNamesContainer.encode(configrulename0)
             }
         }
         if let filters = self.filters {
@@ -6961,8 +6961,8 @@ extension DescribeConfigurationAggregatorSourcesStatusInput: Swift.Encodable {
         }
         if let updateStatus = updateStatus {
             var updateStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateStatus)
-            for aggregatedsourcestatustypelist0 in updateStatus {
-                try updateStatusContainer.encode(aggregatedsourcestatustypelist0.rawValue)
+            for aggregatedsourcestatustype0 in updateStatus {
+                try updateStatusContainer.encode(aggregatedsourcestatustype0.rawValue)
             }
         }
     }
@@ -7141,8 +7141,8 @@ extension DescribeConfigurationAggregatorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationAggregatorNames = configurationAggregatorNames {
             var configurationAggregatorNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationAggregatorNames)
-            for configurationaggregatornamelist0 in configurationAggregatorNames {
-                try configurationAggregatorNamesContainer.encode(configurationaggregatornamelist0)
+            for configurationaggregatorname0 in configurationAggregatorNames {
+                try configurationAggregatorNamesContainer.encode(configurationaggregatorname0)
             }
         }
         if limit != 0 {
@@ -7310,8 +7310,8 @@ extension DescribeConfigurationRecorderStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationRecorderNames = configurationRecorderNames {
             var configurationRecorderNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationRecorderNames)
-            for configurationrecordernamelist0 in configurationRecorderNames {
-                try configurationRecorderNamesContainer.encode(configurationrecordernamelist0)
+            for recordername0 in configurationRecorderNames {
+                try configurationRecorderNamesContainer.encode(recordername0)
             }
         }
     }
@@ -7443,8 +7443,8 @@ extension DescribeConfigurationRecordersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configurationRecorderNames = configurationRecorderNames {
             var configurationRecorderNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurationRecorderNames)
-            for configurationrecordernamelist0 in configurationRecorderNames {
-                try configurationRecorderNamesContainer.encode(configurationrecordernamelist0)
+            for recordername0 in configurationRecorderNames {
+                try configurationRecorderNamesContainer.encode(recordername0)
             }
         }
     }
@@ -7764,8 +7764,8 @@ extension DescribeConformancePackStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackNames = conformancePackNames {
             var conformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackNames)
-            for conformancepacknameslist0 in conformancePackNames {
-                try conformancePackNamesContainer.encode(conformancepacknameslist0)
+            for conformancepackname0 in conformancePackNames {
+                try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
         if limit != 0 {
@@ -7933,8 +7933,8 @@ extension DescribeConformancePacksInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackNames = conformancePackNames {
             var conformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackNames)
-            for conformancepacknameslist0 in conformancePackNames {
-                try conformancePackNamesContainer.encode(conformancepacknameslist0)
+            for conformancepackname0 in conformancePackNames {
+                try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
         if limit != 0 {
@@ -8102,8 +8102,8 @@ extension DescribeDeliveryChannelStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deliveryChannelNames = deliveryChannelNames {
             var deliveryChannelNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deliveryChannelNames)
-            for deliverychannelnamelist0 in deliveryChannelNames {
-                try deliveryChannelNamesContainer.encode(deliverychannelnamelist0)
+            for channelname0 in deliveryChannelNames {
+                try deliveryChannelNamesContainer.encode(channelname0)
             }
         }
     }
@@ -8235,8 +8235,8 @@ extension DescribeDeliveryChannelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deliveryChannelNames = deliveryChannelNames {
             var deliveryChannelNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deliveryChannelNames)
-            for deliverychannelnamelist0 in deliveryChannelNames {
-                try deliveryChannelNamesContainer.encode(deliverychannelnamelist0)
+            for channelname0 in deliveryChannelNames {
+                try deliveryChannelNamesContainer.encode(channelname0)
             }
         }
     }
@@ -8376,8 +8376,8 @@ extension DescribeOrganizationConfigRuleStatusesInput: Swift.Encodable {
         }
         if let organizationConfigRuleNames = organizationConfigRuleNames {
             var organizationConfigRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConfigRuleNames)
-            for organizationconfigrulenames0 in organizationConfigRuleNames {
-                try organizationConfigRuleNamesContainer.encode(organizationconfigrulenames0)
+            for stringwithcharlimit640 in organizationConfigRuleNames {
+                try organizationConfigRuleNamesContainer.encode(stringwithcharlimit640)
             }
         }
     }
@@ -8547,8 +8547,8 @@ extension DescribeOrganizationConfigRulesInput: Swift.Encodable {
         }
         if let organizationConfigRuleNames = organizationConfigRuleNames {
             var organizationConfigRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConfigRuleNames)
-            for organizationconfigrulenames0 in organizationConfigRuleNames {
-                try organizationConfigRuleNamesContainer.encode(organizationconfigrulenames0)
+            for stringwithcharlimit640 in organizationConfigRuleNames {
+                try organizationConfigRuleNamesContainer.encode(stringwithcharlimit640)
             }
         }
     }
@@ -8718,8 +8718,8 @@ extension DescribeOrganizationConformancePackStatusesInput: Swift.Encodable {
         }
         if let organizationConformancePackNames = organizationConformancePackNames {
             var organizationConformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConformancePackNames)
-            for organizationconformancepacknames0 in organizationConformancePackNames {
-                try organizationConformancePackNamesContainer.encode(organizationconformancepacknames0)
+            for organizationconformancepackname0 in organizationConformancePackNames {
+                try organizationConformancePackNamesContainer.encode(organizationconformancepackname0)
             }
         }
     }
@@ -8889,8 +8889,8 @@ extension DescribeOrganizationConformancePacksInput: Swift.Encodable {
         }
         if let organizationConformancePackNames = organizationConformancePackNames {
             var organizationConformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConformancePackNames)
-            for organizationconformancepacknames0 in organizationConformancePackNames {
-                try organizationConformancePackNamesContainer.encode(organizationconformancepacknames0)
+            for organizationconformancepackname0 in organizationConformancePackNames {
+                try organizationConformancePackNamesContainer.encode(organizationconformancepackname0)
             }
         }
     }
@@ -9197,8 +9197,8 @@ extension DescribeRemediationConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for configrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(configrulenames0)
+            for configrulename0 in configRuleNames {
+                try configRuleNamesContainer.encode(configrulename0)
             }
         }
     }
@@ -9339,8 +9339,8 @@ extension DescribeRemediationExceptionsInput: Swift.Encodable {
         }
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for remediationexceptionresourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(remediationexceptionresourcekeys0)
+            for remediationexceptionresourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(remediationexceptionresourcekey0)
             }
         }
     }
@@ -9519,8 +9519,8 @@ extension DescribeRemediationExecutionStatusInput: Swift.Encodable {
         }
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for resourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(resourcekeys0)
+            for resourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(resourcekey0)
             }
         }
     }
@@ -9693,8 +9693,8 @@ extension DescribeRetentionConfigurationsInput: Swift.Encodable {
         }
         if let retentionConfigurationNames = retentionConfigurationNames {
             var retentionConfigurationNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .retentionConfigurationNames)
-            for retentionconfigurationnamelist0 in retentionConfigurationNames {
-                try retentionConfigurationNamesContainer.encode(retentionconfigurationnamelist0)
+            for retentionconfigurationname0 in retentionConfigurationNames {
+                try retentionConfigurationNamesContainer.encode(retentionconfigurationname0)
             }
         }
     }
@@ -10422,8 +10422,8 @@ extension ConfigClientTypes.FailedDeleteRemediationExceptionsBatch: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let failedItems = failedItems {
             var failedItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedItems)
-            for remediationexceptionresourcekeys0 in failedItems {
-                try failedItemsContainer.encode(remediationexceptionresourcekeys0)
+            for remediationexceptionresourcekey0 in failedItems {
+                try failedItemsContainer.encode(remediationexceptionresourcekey0)
             }
         }
         if let failureMessage = self.failureMessage {
@@ -10479,8 +10479,8 @@ extension ConfigClientTypes.FailedRemediationBatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let failedItems = failedItems {
             var failedItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedItems)
-            for remediationconfigurations0 in failedItems {
-                try failedItemsContainer.encode(remediationconfigurations0)
+            for remediationconfiguration0 in failedItems {
+                try failedItemsContainer.encode(remediationconfiguration0)
             }
         }
         if let failureMessage = self.failureMessage {
@@ -10536,8 +10536,8 @@ extension ConfigClientTypes.FailedRemediationExceptionBatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let failedItems = failedItems {
             var failedItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failedItems)
-            for remediationexceptions0 in failedItems {
-                try failedItemsContainer.encode(remediationexceptions0)
+            for remediationexception0 in failedItems {
+                try failedItemsContainer.encode(remediationexception0)
             }
         }
         if let failureMessage = self.failureMessage {
@@ -11564,8 +11564,8 @@ extension GetComplianceDetailsByConfigRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let complianceTypes = complianceTypes {
             var complianceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceTypes)
-            for compliancetypes0 in complianceTypes {
-                try complianceTypesContainer.encode(compliancetypes0.rawValue)
+            for compliancetype0 in complianceTypes {
+                try complianceTypesContainer.encode(compliancetype0.rawValue)
             }
         }
         if let configRuleName = self.configRuleName {
@@ -11749,8 +11749,8 @@ extension GetComplianceDetailsByResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let complianceTypes = complianceTypes {
             var complianceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceTypes)
-            for compliancetypes0 in complianceTypes {
-                try complianceTypesContainer.encode(compliancetypes0.rawValue)
+            for compliancetype0 in complianceTypes {
+                try complianceTypesContainer.encode(compliancetype0.rawValue)
             }
         }
         if let nextToken = self.nextToken {
@@ -12026,8 +12026,8 @@ extension GetComplianceSummaryByResourceTypeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypes0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypes0)
+            for stringwithcharlimit2560 in resourceTypes {
+                try resourceTypesContainer.encode(stringwithcharlimit2560)
             }
         }
     }
@@ -12346,8 +12346,8 @@ extension GetConformancePackComplianceSummaryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackNames = conformancePackNames {
             var conformancePackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackNames)
-            for conformancepacknamestosummarizelist0 in conformancePackNames {
-                try conformancePackNamesContainer.encode(conformancepacknamestosummarizelist0)
+            for conformancepackname0 in conformancePackNames {
+                try conformancePackNamesContainer.encode(conformancepackname0)
             }
         }
         if limit != 0 {
@@ -12632,8 +12632,8 @@ extension GetDiscoveredResourceCountsInput: Swift.Encodable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypes0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypes0)
+            for stringwithcharlimit2560 in resourceTypes {
+                try resourceTypesContainer.encode(stringwithcharlimit2560)
             }
         }
     }
@@ -15158,8 +15158,8 @@ extension ListDiscoveredResourcesInput: Swift.Encodable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for resourceidlist0 in resourceIds {
-                try resourceIdsContainer.encode(resourceidlist0)
+            for resourceid0 in resourceIds {
+                try resourceIdsContainer.encode(resourceid0)
             }
         }
         if let resourceName = self.resourceName {
@@ -17393,8 +17393,8 @@ extension ConfigClientTypes.OrganizationAggregationSource: Swift.Codable {
         }
         if let awsRegions = awsRegions {
             var awsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsRegions)
-            for aggregatorregionlist0 in awsRegions {
-                try awsRegionsContainer.encode(aggregatorregionlist0)
+            for string0 in awsRegions {
+                try awsRegionsContainer.encode(string0)
             }
         }
         if let roleArn = self.roleArn {
@@ -17515,8 +17515,8 @@ extension ConfigClientTypes.OrganizationConfigRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludedAccounts = excludedAccounts {
             var excludedAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedAccounts)
-            for excludedaccounts0 in excludedAccounts {
-                try excludedAccountsContainer.encode(excludedaccounts0)
+            for accountid0 in excludedAccounts {
+                try excludedAccountsContainer.encode(accountid0)
             }
         }
         if let lastUpdateTime = self.lastUpdateTime {
@@ -17786,8 +17786,8 @@ extension ConfigClientTypes.OrganizationConformancePack: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackInputParameters = conformancePackInputParameters {
             var conformancePackInputParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackInputParameters)
-            for conformancepackinputparameters0 in conformancePackInputParameters {
-                try conformancePackInputParametersContainer.encode(conformancepackinputparameters0)
+            for conformancepackinputparameter0 in conformancePackInputParameters {
+                try conformancePackInputParametersContainer.encode(conformancepackinputparameter0)
             }
         }
         if let deliveryS3Bucket = self.deliveryS3Bucket {
@@ -17798,8 +17798,8 @@ extension ConfigClientTypes.OrganizationConformancePack: Swift.Codable {
         }
         if let excludedAccounts = excludedAccounts {
             var excludedAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedAccounts)
-            for excludedaccounts0 in excludedAccounts {
-                try excludedAccountsContainer.encode(excludedaccounts0)
+            for accountid0 in excludedAccounts {
+                try excludedAccountsContainer.encode(accountid0)
             }
         }
         if let lastUpdateTime = self.lastUpdateTime {
@@ -18166,8 +18166,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let debugLogDeliveryAccounts = debugLogDeliveryAccounts {
             var debugLogDeliveryAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .debugLogDeliveryAccounts)
-            for debuglogdeliveryaccounts0 in debugLogDeliveryAccounts {
-                try debugLogDeliveryAccountsContainer.encode(debuglogdeliveryaccounts0)
+            for accountid0 in debugLogDeliveryAccounts {
+                try debugLogDeliveryAccountsContainer.encode(accountid0)
             }
         }
         if let description = self.description {
@@ -18181,8 +18181,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata: Swift.Codable 
         }
         if let organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes {
             var organizationConfigRuleTriggerTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConfigRuleTriggerTypes)
-            for organizationconfigruletriggertypenosns0 in organizationConfigRuleTriggerTypes {
-                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertypenosns0.rawValue)
+            for organizationconfigruletriggertypenosn0 in organizationConfigRuleTriggerTypes {
+                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertypenosn0.rawValue)
             }
         }
         if let policyRuntime = self.policyRuntime {
@@ -18196,8 +18196,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadata: Swift.Codable 
         }
         if let resourceTypesScope = resourceTypesScope {
             var resourceTypesScopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypesScope)
-            for resourcetypesscope0 in resourceTypesScope {
-                try resourceTypesScopeContainer.encode(resourcetypesscope0)
+            for stringwithcharlimit2560 in resourceTypesScope {
+                try resourceTypesScopeContainer.encode(stringwithcharlimit2560)
             }
         }
         if let tagKeyScope = self.tagKeyScope {
@@ -18342,8 +18342,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let debugLogDeliveryAccounts = debugLogDeliveryAccounts {
             var debugLogDeliveryAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .debugLogDeliveryAccounts)
-            for debuglogdeliveryaccounts0 in debugLogDeliveryAccounts {
-                try debugLogDeliveryAccountsContainer.encode(debuglogdeliveryaccounts0)
+            for accountid0 in debugLogDeliveryAccounts {
+                try debugLogDeliveryAccountsContainer.encode(accountid0)
             }
         }
         if let description = self.description {
@@ -18357,8 +18357,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.
         }
         if let organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes {
             var organizationConfigRuleTriggerTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConfigRuleTriggerTypes)
-            for organizationconfigruletriggertypenosns0 in organizationConfigRuleTriggerTypes {
-                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertypenosns0.rawValue)
+            for organizationconfigruletriggertypenosn0 in organizationConfigRuleTriggerTypes {
+                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertypenosn0.rawValue)
             }
         }
         if let policyRuntime = self.policyRuntime {
@@ -18369,8 +18369,8 @@ extension ConfigClientTypes.OrganizationCustomPolicyRuleMetadataNoPolicy: Swift.
         }
         if let resourceTypesScope = resourceTypesScope {
             var resourceTypesScopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypesScope)
-            for resourcetypesscope0 in resourceTypesScope {
-                try resourceTypesScopeContainer.encode(resourcetypesscope0)
+            for stringwithcharlimit2560 in resourceTypesScope {
+                try resourceTypesScopeContainer.encode(stringwithcharlimit2560)
             }
         }
         if let tagKeyScope = self.tagKeyScope {
@@ -18518,8 +18518,8 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata: Swift.Codable {
         }
         if let organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes {
             var organizationConfigRuleTriggerTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationConfigRuleTriggerTypes)
-            for organizationconfigruletriggertypes0 in organizationConfigRuleTriggerTypes {
-                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertypes0.rawValue)
+            for organizationconfigruletriggertype0 in organizationConfigRuleTriggerTypes {
+                try organizationConfigRuleTriggerTypesContainer.encode(organizationconfigruletriggertype0.rawValue)
             }
         }
         if let resourceIdScope = self.resourceIdScope {
@@ -18527,8 +18527,8 @@ extension ConfigClientTypes.OrganizationCustomRuleMetadata: Swift.Codable {
         }
         if let resourceTypesScope = resourceTypesScope {
             var resourceTypesScopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypesScope)
-            for resourcetypesscope0 in resourceTypesScope {
-                try resourceTypesScopeContainer.encode(resourcetypesscope0)
+            for stringwithcharlimit2560 in resourceTypesScope {
+                try resourceTypesScopeContainer.encode(stringwithcharlimit2560)
             }
         }
         if let tagKeyScope = self.tagKeyScope {
@@ -18664,8 +18664,8 @@ extension ConfigClientTypes.OrganizationManagedRuleMetadata: Swift.Codable {
         }
         if let resourceTypesScope = resourceTypesScope {
             var resourceTypesScopeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypesScope)
-            for resourcetypesscope0 in resourceTypesScope {
-                try resourceTypesScopeContainer.encode(resourcetypesscope0)
+            for stringwithcharlimit2560 in resourceTypesScope {
+                try resourceTypesScopeContainer.encode(stringwithcharlimit2560)
             }
         }
         if let ruleIdentifier = self.ruleIdentifier {
@@ -19126,8 +19126,8 @@ extension PutAggregationAuthorizationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -19270,8 +19270,8 @@ extension PutConfigRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -19381,8 +19381,8 @@ extension PutConfigurationAggregatorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountAggregationSources = accountAggregationSources {
             var accountAggregationSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountAggregationSources)
-            for accountaggregationsourcelist0 in accountAggregationSources {
-                try accountAggregationSourcesContainer.encode(accountaggregationsourcelist0)
+            for accountaggregationsource0 in accountAggregationSources {
+                try accountAggregationSourcesContainer.encode(accountaggregationsource0)
             }
         }
         if let configurationAggregatorName = self.configurationAggregatorName {
@@ -19393,8 +19393,8 @@ extension PutConfigurationAggregatorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -19652,8 +19652,8 @@ extension PutConformancePackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackInputParameters = conformancePackInputParameters {
             var conformancePackInputParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackInputParameters)
-            for conformancepackinputparameters0 in conformancePackInputParameters {
-                try conformancePackInputParametersContainer.encode(conformancepackinputparameters0)
+            for conformancepackinputparameter0 in conformancePackInputParameters {
+                try conformancePackInputParametersContainer.encode(conformancepackinputparameter0)
             }
         }
         if let conformancePackName = self.conformancePackName {
@@ -19946,8 +19946,8 @@ extension PutEvaluationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let evaluations = evaluations {
             var evaluationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluations)
-            for evaluations0 in evaluations {
-                try evaluationsContainer.encode(evaluations0)
+            for evaluation0 in evaluations {
+                try evaluationsContainer.encode(evaluation0)
             }
         }
         if let resultToken = self.resultToken {
@@ -20205,8 +20205,8 @@ extension PutOrganizationConfigRuleInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludedAccounts = excludedAccounts {
             var excludedAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedAccounts)
-            for excludedaccounts0 in excludedAccounts {
-                try excludedAccountsContainer.encode(excludedaccounts0)
+            for accountid0 in excludedAccounts {
+                try excludedAccountsContainer.encode(accountid0)
             }
         }
         if let organizationConfigRuleName = self.organizationConfigRuleName {
@@ -20392,8 +20392,8 @@ extension PutOrganizationConformancePackInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let conformancePackInputParameters = conformancePackInputParameters {
             var conformancePackInputParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .conformancePackInputParameters)
-            for conformancepackinputparameters0 in conformancePackInputParameters {
-                try conformancePackInputParametersContainer.encode(conformancepackinputparameters0)
+            for conformancepackinputparameter0 in conformancePackInputParameters {
+                try conformancePackInputParametersContainer.encode(conformancepackinputparameter0)
             }
         }
         if let deliveryS3Bucket = self.deliveryS3Bucket {
@@ -20404,8 +20404,8 @@ extension PutOrganizationConformancePackInput: Swift.Encodable {
         }
         if let excludedAccounts = excludedAccounts {
             var excludedAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedAccounts)
-            for excludedaccounts0 in excludedAccounts {
-                try excludedAccountsContainer.encode(excludedaccounts0)
+            for accountid0 in excludedAccounts {
+                try excludedAccountsContainer.encode(accountid0)
             }
         }
         if let organizationConformancePackName = self.organizationConformancePackName {
@@ -20607,8 +20607,8 @@ extension PutRemediationConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let remediationConfigurations = remediationConfigurations {
             var remediationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .remediationConfigurations)
-            for remediationconfigurations0 in remediationConfigurations {
-                try remediationConfigurationsContainer.encode(remediationconfigurations0)
+            for remediationconfiguration0 in remediationConfigurations {
+                try remediationConfigurationsContainer.encode(remediationconfiguration0)
             }
         }
     }
@@ -20753,8 +20753,8 @@ extension PutRemediationExceptionsInput: Swift.Encodable {
         }
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for remediationexceptionresourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(remediationexceptionresourcekeys0)
+            for remediationexceptionresourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(remediationexceptionresourcekey0)
             }
         }
     }
@@ -21190,8 +21190,8 @@ extension PutStoredQueryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagslist0 in tags {
-                try tagsContainer.encode(tagslist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -21325,8 +21325,8 @@ extension ConfigClientTypes.QueryInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let selectFields = selectFields {
             var selectFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectFields)
-            for fieldinfolist0 in selectFields {
-                try selectFieldsContainer.encode(fieldinfolist0)
+            for fieldinfo0 in selectFields {
+                try selectFieldsContainer.encode(fieldinfo0)
             }
         }
     }
@@ -21415,8 +21415,8 @@ extension ConfigClientTypes.RecordingGroup: Swift.Codable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for resourcetypelist0 in resourceTypes {
-                try resourceTypesContainer.encode(resourcetypelist0.rawValue)
+            for resourcetype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcetype0.rawValue)
             }
         }
     }
@@ -21568,8 +21568,8 @@ extension ConfigClientTypes.RemediationConfiguration: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, remediationparameters0) in parameters {
-                try parametersContainer.encode(remediationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, remediationParameters0) in parameters {
+                try parametersContainer.encode(remediationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -21876,8 +21876,8 @@ extension ConfigClientTypes.RemediationExecutionStatus: Swift.Codable {
         }
         if let stepDetails = stepDetails {
             var stepDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepDetails)
-            for remediationexecutionsteps0 in stepDetails {
-                try stepDetailsContainer.encode(remediationexecutionsteps0)
+            for remediationexecutionstep0 in stepDetails {
+                try stepDetailsContainer.encode(remediationexecutionstep0)
             }
         }
     }
@@ -23599,8 +23599,8 @@ extension ConfigClientTypes.Scope: Swift.Codable {
         }
         if let complianceResourceTypes = complianceResourceTypes {
             var complianceResourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceResourceTypes)
-            for complianceresourcetypes0 in complianceResourceTypes {
-                try complianceResourceTypesContainer.encode(complianceresourcetypes0)
+            for stringwithcharlimit2560 in complianceResourceTypes {
+                try complianceResourceTypesContainer.encode(stringwithcharlimit2560)
             }
         }
         if let tagKey = self.tagKey {
@@ -24103,8 +24103,8 @@ extension ConfigClientTypes.Source: Swift.Codable {
         }
         if let sourceDetails = sourceDetails {
             var sourceDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDetails)
-            for sourcedetails0 in sourceDetails {
-                try sourceDetailsContainer.encode(sourcedetails0)
+            for sourcedetail0 in sourceDetails {
+                try sourceDetailsContainer.encode(sourcedetail0)
             }
         }
         if let sourceIdentifier = self.sourceIdentifier {
@@ -24283,8 +24283,8 @@ extension StartConfigRulesEvaluationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configRuleNames = configRuleNames {
             var configRuleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRuleNames)
-            for reevaluateconfigrulenames0 in configRuleNames {
-                try configRuleNamesContainer.encode(reevaluateconfigrulenames0)
+            for configrulename0 in configRuleNames {
+                try configRuleNamesContainer.encode(configrulename0)
             }
         }
     }
@@ -24469,8 +24469,8 @@ extension StartRemediationExecutionInput: Swift.Encodable {
         }
         if let resourceKeys = resourceKeys {
             var resourceKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceKeys)
-            for resourcekeys0 in resourceKeys {
-                try resourceKeysContainer.encode(resourcekeys0)
+            for resourcekey0 in resourceKeys {
+                try resourceKeysContainer.encode(resourcekey0)
             }
         }
     }
@@ -24786,8 +24786,8 @@ extension ConfigClientTypes.StaticValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for staticparametervalues0 in values {
-                try valuesContainer.encode(staticparametervalues0)
+            for stringwithcharlimit2560 in values {
+                try valuesContainer.encode(stringwithcharlimit2560)
             }
         }
     }
@@ -25171,8 +25171,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -25424,8 +25424,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

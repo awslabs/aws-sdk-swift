@@ -678,8 +678,8 @@ extension GroundStationClientTypes.ContactData: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -870,8 +870,8 @@ extension CreateConfigInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1039,14 +1039,14 @@ extension CreateDataflowEndpointGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointDetails = endpointDetails {
             var endpointDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointDetails)
-            for endpointdetailslist0 in endpointDetails {
-                try endpointDetailsContainer.encode(endpointdetailslist0)
+            for endpointdetails0 in endpointDetails {
+                try endpointDetailsContainer.encode(endpointdetails0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1219,8 +1219,8 @@ extension CreateEphemerisInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1415,10 +1415,10 @@ extension CreateMissionProfileInput: Swift.Encodable {
         }
         if let dataflowEdges = dataflowEdges {
             var dataflowEdgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataflowEdges)
-            for dataflowedgelist0 in dataflowEdges {
-                var dataflowedgelist0Container = dataflowEdgesContainer.nestedUnkeyedContainer()
-                for dataflowedge1 in dataflowedgelist0 {
-                    try dataflowedgelist0Container.encode(dataflowedge1)
+            for dataflowedge0 in dataflowEdges {
+                var dataflowedge0Container = dataflowEdgesContainer.nestedUnkeyedContainer()
+                for configarn1 in dataflowedge0 {
+                    try dataflowedge0Container.encode(configarn1)
                 }
             }
         }
@@ -1430,8 +1430,8 @@ extension CreateMissionProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let trackingConfigArn = self.trackingConfigArn {
@@ -4849,8 +4849,8 @@ extension ListContactsInput: Swift.Encodable {
         }
         if let statusList = statusList {
             var statusListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusList)
-            for statuslist0 in statusList {
-                try statusListContainer.encode(statuslist0.rawValue)
+            for contactstatus0 in statusList {
+                try statusListContainer.encode(contactstatus0.rawValue)
             }
         }
     }
@@ -5203,8 +5203,8 @@ extension ListEphemeridesInput: Swift.Encodable {
         }
         if let statusList = statusList {
             var statusListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusList)
-            for ephemerisstatuslist0 in statusList {
-                try statusListContainer.encode(ephemerisstatuslist0.rawValue)
+            for ephemerisstatus0 in statusList {
+                try statusListContainer.encode(ephemerisstatus0.rawValue)
             }
         }
     }
@@ -6090,8 +6090,8 @@ extension ReserveContactInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6541,8 +6541,8 @@ extension GroundStationClientTypes.SatelliteListItem: Swift.Codable {
         }
         if let groundStations = groundStations {
             var groundStationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groundStations)
-            for groundstationidlist0 in groundStations {
-                try groundStationsContainer.encode(groundstationidlist0)
+            for groundstationname0 in groundStations {
+                try groundStationsContainer.encode(groundstationname0)
             }
         }
         if noradSatelliteID != 0 {
@@ -6626,14 +6626,14 @@ extension GroundStationClientTypes.SecurityDetails: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -6940,8 +6940,8 @@ extension GroundStationClientTypes.TLEEphemeris: Swift.Codable {
         }
         if let tleData = tleData {
             var tleDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tleData)
-            for tledatalist0 in tleData {
-                try tleDataContainer.encode(tledatalist0)
+            for tledata0 in tleData {
+                try tleDataContainer.encode(tledata0)
             }
         }
     }
@@ -6993,8 +6993,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7597,10 +7597,10 @@ extension UpdateMissionProfileInput: Swift.Encodable {
         }
         if let dataflowEdges = dataflowEdges {
             var dataflowEdgesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataflowEdges)
-            for dataflowedgelist0 in dataflowEdges {
-                var dataflowedgelist0Container = dataflowEdgesContainer.nestedUnkeyedContainer()
-                for dataflowedge1 in dataflowedgelist0 {
-                    try dataflowedgelist0Container.encode(dataflowedge1)
+            for dataflowedge0 in dataflowEdges {
+                var dataflowedge0Container = dataflowEdgesContainer.nestedUnkeyedContainer()
+                for configarn1 in dataflowedge0 {
+                    try dataflowedge0Container.encode(configarn1)
                 }
             }
         }

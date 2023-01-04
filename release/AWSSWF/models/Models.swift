@@ -1720,8 +1720,8 @@ extension SWFClientTypes.ContinueAsNewWorkflowExecutionDecisionAttributes: Swift
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {
@@ -8219,8 +8219,8 @@ extension RegisterDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for resourcetaglist0 in tags {
-                try tagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in tags {
+                try tagsContainer.encode(resourcetag0)
             }
         }
         if let workflowExecutionRetentionPeriodInDays = self.workflowExecutionRetentionPeriodInDays {
@@ -9419,8 +9419,8 @@ extension RespondDecisionTaskCompletedInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let decisions = decisions {
             var decisionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .decisions)
-            for decisionlist0 in decisions {
-                try decisionsContainer.encode(decisionlist0)
+            for decision0 in decisions {
+                try decisionsContainer.encode(decision0)
             }
         }
         if let executionContext = self.executionContext {
@@ -10448,8 +10448,8 @@ extension SWFClientTypes.StartChildWorkflowExecutionDecisionAttributes: Swift.Co
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {
@@ -10779,8 +10779,8 @@ extension SWFClientTypes.StartChildWorkflowExecutionInitiatedEventAttributes: Sw
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {
@@ -11189,8 +11189,8 @@ extension StartWorkflowExecutionInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {
@@ -11469,8 +11469,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for resourcetaglist0 in tags {
-                try tagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in tags {
+                try tagsContainer.encode(resourcetag0)
             }
         }
     }
@@ -12430,8 +12430,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for resourcetagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(resourcetagkeylist0)
+            for resourcetagkey0 in tagKeys {
+                try tagKeysContainer.encode(resourcetagkey0)
             }
         }
     }
@@ -12934,8 +12934,8 @@ extension SWFClientTypes.WorkflowExecutionContinuedAsNewEventAttributes: Swift.C
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {
@@ -13185,8 +13185,8 @@ extension SWFClientTypes.WorkflowExecutionInfo: Swift.Codable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let workflowType = self.workflowType {
@@ -13476,8 +13476,8 @@ extension SWFClientTypes.WorkflowExecutionStartedEventAttributes: Swift.Codable 
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let taskList = self.taskList {

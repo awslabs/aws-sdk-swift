@@ -27,8 +27,8 @@ extension DeviceFarmClientTypes.AccountSettings: Swift.Codable {
         }
         if let maxSlots = maxSlots {
             var maxSlotsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .maxSlots)
-            for (dictKey0, maxslotmap0) in maxSlots {
-                try maxSlotsContainer.encode(maxslotmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, maxSlotMap0) in maxSlots {
+                try maxSlotsContainer.encode(maxSlotMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let skipAppResign = self.skipAppResign {
@@ -39,14 +39,14 @@ extension DeviceFarmClientTypes.AccountSettings: Swift.Codable {
         }
         if let unmeteredDevices = unmeteredDevices {
             var unmeteredDevicesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .unmeteredDevices)
-            for (dictKey0, purchaseddevicesmap0) in unmeteredDevices {
-                try unmeteredDevicesContainer.encode(purchaseddevicesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, purchasedDevicesMap0) in unmeteredDevices {
+                try unmeteredDevicesContainer.encode(purchasedDevicesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let unmeteredRemoteAccessDevices = unmeteredRemoteAccessDevices {
             var unmeteredRemoteAccessDevicesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .unmeteredRemoteAccessDevices)
-            for (dictKey0, purchaseddevicesmap0) in unmeteredRemoteAccessDevices {
-                try unmeteredRemoteAccessDevicesContainer.encode(purchaseddevicesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, purchasedDevicesMap0) in unmeteredRemoteAccessDevices {
+                try unmeteredRemoteAccessDevicesContainer.encode(purchasedDevicesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -731,8 +731,8 @@ extension CreateDevicePoolInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -903,8 +903,8 @@ extension CreateInstanceProfileInput: Swift.Encodable {
         }
         if let excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup {
             var excludeAppPackagesFromCleanupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAppPackagesFromCleanup)
-            for packageids0 in excludeAppPackagesFromCleanup {
-                try excludeAppPackagesFromCleanupContainer.encode(packageids0)
+            for string0 in excludeAppPackagesFromCleanup {
+                try excludeAppPackagesFromCleanupContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -1472,8 +1472,8 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration: Swift.Co
         }
         if let vpceConfigurationArns = vpceConfigurationArns {
             var vpceConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpceConfigurationArns)
-            for amazonresourcenames0 in vpceConfigurationArns {
-                try vpceConfigurationArnsContainer.encode(amazonresourcenames0)
+            for amazonresourcename0 in vpceConfigurationArns {
+                try vpceConfigurationArnsContainer.encode(amazonresourcename0)
             }
         }
     }
@@ -2473,20 +2473,20 @@ extension DeviceFarmClientTypes.CustomerArtifactPaths: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let androidPaths = androidPaths {
             var androidPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .androidPaths)
-            for androidpaths0 in androidPaths {
-                try androidPathsContainer.encode(androidpaths0)
+            for string0 in androidPaths {
+                try androidPathsContainer.encode(string0)
             }
         }
         if let deviceHostPaths = deviceHostPaths {
             var deviceHostPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceHostPaths)
-            for devicehostpaths0 in deviceHostPaths {
-                try deviceHostPathsContainer.encode(devicehostpaths0)
+            for string0 in deviceHostPaths {
+                try deviceHostPathsContainer.encode(string0)
             }
         }
         if let iosPaths = iosPaths {
             var iosPathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .iosPaths)
-            for iospaths0 in iosPaths {
-                try iosPathsContainer.encode(iospaths0)
+            for string0 in iosPaths {
+                try iosPathsContainer.encode(string0)
             }
         }
     }
@@ -3393,8 +3393,8 @@ extension DeviceFarmClientTypes.Device: Swift.Codable {
         }
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for deviceinstances0 in instances {
-                try instancesContainer.encode(deviceinstances0)
+            for deviceinstance0 in instances {
+                try instancesContainer.encode(deviceinstance0)
             }
         }
         if let manufacturer = self.manufacturer {
@@ -3712,8 +3712,8 @@ extension DeviceFarmClientTypes.DeviceFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for devicefiltervalues0 in values {
-                try valuesContainer.encode(devicefiltervalues0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -3897,8 +3897,8 @@ extension DeviceFarmClientTypes.DeviceInstance: Swift.Codable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for instancelabels0 in labels {
-                try labelsContainer.encode(instancelabels0)
+            for string0 in labels {
+                try labelsContainer.encode(string0)
             }
         }
         if let status = self.status {
@@ -4084,8 +4084,8 @@ extension DeviceFarmClientTypes.DevicePool: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
         if let type = self.type {
@@ -4176,8 +4176,8 @@ extension DeviceFarmClientTypes.DevicePoolCompatibilityResult: Swift.Codable {
         }
         if let incompatibilityMessages = incompatibilityMessages {
             var incompatibilityMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .incompatibilityMessages)
-            for incompatibilitymessages0 in incompatibilityMessages {
-                try incompatibilityMessagesContainer.encode(incompatibilitymessages0)
+            for incompatibilitymessage0 in incompatibilityMessages {
+                try incompatibilityMessagesContainer.encode(incompatibilitymessage0)
             }
         }
     }
@@ -4268,8 +4268,8 @@ extension DeviceFarmClientTypes.DeviceSelectionConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for devicefilters0 in filters {
-                try filtersContainer.encode(devicefilters0)
+            for devicefilter0 in filters {
+                try filtersContainer.encode(devicefilter0)
             }
         }
         if let maxDevices = self.maxDevices {
@@ -4387,8 +4387,8 @@ extension DeviceFarmClientTypes.DeviceSelectionResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for devicefilters0 in filters {
-                try filtersContainer.encode(devicefilters0)
+            for devicefilter0 in filters {
+                try filtersContainer.encode(devicefilter0)
             }
         }
         if let matchedDevicesCount = self.matchedDevicesCount {
@@ -7190,8 +7190,8 @@ extension DeviceFarmClientTypes.InstanceProfile: Swift.Codable {
         }
         if let excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup {
             var excludeAppPackagesFromCleanupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAppPackagesFromCleanup)
-            for packageids0 in excludeAppPackagesFromCleanup {
-                try excludeAppPackagesFromCleanupContainer.encode(packageids0)
+            for string0 in excludeAppPackagesFromCleanup {
+                try excludeAppPackagesFromCleanupContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -8236,8 +8236,8 @@ extension ListDevicesInput: Swift.Encodable {
         }
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for devicefilters0 in filters {
-                try filtersContainer.encode(devicefilters0)
+            for devicefilter0 in filters {
+                try filtersContainer.encode(devicefilter0)
             }
         }
         if let nextToken = self.nextToken {
@@ -11966,8 +11966,8 @@ extension DeviceFarmClientTypes.Offering: Swift.Codable {
         }
         if let recurringCharges = recurringCharges {
             var recurringChargesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recurringCharges)
-            for recurringcharges0 in recurringCharges {
-                try recurringChargesContainer.encode(recurringcharges0)
+            for recurringcharge0 in recurringCharges {
+                try recurringChargesContainer.encode(recurringcharge0)
             }
         }
         if let type = self.type {
@@ -13961,8 +13961,8 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let auxiliaryApps = auxiliaryApps {
             var auxiliaryAppsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .auxiliaryApps)
-            for amazonresourcenames0 in auxiliaryApps {
-                try auxiliaryAppsContainer.encode(amazonresourcenames0)
+            for amazonresourcename0 in auxiliaryApps {
+                try auxiliaryAppsContainer.encode(amazonresourcename0)
             }
         }
         if let billingMethod = self.billingMethod {
@@ -13988,8 +13988,8 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration: Swift.Codable {
         }
         if let vpceConfigurationArns = vpceConfigurationArns {
             var vpceConfigurationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpceConfigurationArns)
-            for amazonresourcenames0 in vpceConfigurationArns {
-                try vpceConfigurationArnsContainer.encode(amazonresourcenames0)
+            for amazonresourcename0 in vpceConfigurationArns {
+                try vpceConfigurationArnsContainer.encode(amazonresourcename0)
             }
         }
     }
@@ -14305,8 +14305,8 @@ extension DeviceFarmClientTypes.ScheduleRunTest: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, testparameters0) in parameters {
-                try parametersContainer.encode(testparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, testParameters0) in parameters {
+                try parametersContainer.encode(testParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let testPackageArn = self.testPackageArn {
@@ -15286,8 +15286,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15997,14 +15997,14 @@ extension DeviceFarmClientTypes.TestGridVpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for nonemptystring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystring0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for nonemptystring0 in subnetIds {
+                try subnetIdsContainer.encode(nonemptystring0)
             }
         }
         if let vpcId = self.vpcId {
@@ -16276,8 +16276,8 @@ extension DeviceFarmClientTypes.UniqueProblem: Swift.Codable {
         }
         if let problems = problems {
             var problemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .problems)
-            for problems0 in problems {
-                try problemsContainer.encode(problems0)
+            for problem0 in problems {
+                try problemsContainer.encode(problem0)
             }
         }
     }
@@ -16333,8 +16333,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -16443,8 +16443,8 @@ extension UpdateDeviceInstanceInput: Swift.Encodable {
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for instancelabels0 in labels {
-                try labelsContainer.encode(instancelabels0)
+            for string0 in labels {
+                try labelsContainer.encode(string0)
             }
         }
         if let profileArn = self.profileArn {
@@ -16611,8 +16611,8 @@ extension UpdateDevicePoolInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for rules0 in rules {
-                try rulesContainer.encode(rules0)
+            for rule0 in rules {
+                try rulesContainer.encode(rule0)
             }
         }
     }
@@ -16793,8 +16793,8 @@ extension UpdateInstanceProfileInput: Swift.Encodable {
         }
         if let excludeAppPackagesFromCleanup = excludeAppPackagesFromCleanup {
             var excludeAppPackagesFromCleanupContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludeAppPackagesFromCleanup)
-            for packageids0 in excludeAppPackagesFromCleanup {
-                try excludeAppPackagesFromCleanupContainer.encode(packageids0)
+            for string0 in excludeAppPackagesFromCleanup {
+                try excludeAppPackagesFromCleanupContainer.encode(string0)
             }
         }
         if let name = self.name {
@@ -18321,14 +18321,14 @@ extension DeviceFarmClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for vpcsecuritygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(vpcsecuritygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for vpcsubnetids0 in subnetIds {
-                try subnetIdsContainer.encode(vpcsubnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {

@@ -72,8 +72,8 @@ extension AssociateNodeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let engineAttributes = engineAttributes {
             var engineAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineAttributes)
-            for engineattributes0 in engineAttributes {
-                try engineAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in engineAttributes {
+                try engineAttributesContainer.encode(engineattribute0)
             }
         }
         if let nodeName = self.nodeName {
@@ -303,8 +303,8 @@ extension OpsWorksCMClientTypes.Backup: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for strings0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(strings0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let serverName = self.serverName {
@@ -321,8 +321,8 @@ extension OpsWorksCMClientTypes.Backup: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for strings0 in subnetIds {
-                try subnetIdsContainer.encode(strings0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let toolsVersion = self.toolsVersion {
@@ -601,8 +601,8 @@ extension CreateBackupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -805,8 +805,8 @@ extension CreateServerInput: Swift.Encodable {
         }
         if let engineAttributes = engineAttributes {
             var engineAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineAttributes)
-            for engineattributes0 in engineAttributes {
-                try engineAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in engineAttributes {
+                try engineAttributesContainer.encode(engineattribute0)
             }
         }
         if let engineModel = self.engineModel {
@@ -832,8 +832,8 @@ extension CreateServerInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for strings0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(strings0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let serverName = self.serverName {
@@ -844,14 +844,14 @@ extension CreateServerInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for strings0 in subnetIds {
-                try subnetIdsContainer.encode(strings0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2117,8 +2117,8 @@ extension DisassociateNodeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let engineAttributes = engineAttributes {
             var engineAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineAttributes)
-            for engineattributes0 in engineAttributes {
-                try engineAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in engineAttributes {
+                try engineAttributesContainer.encode(engineattribute0)
             }
         }
         if let nodeName = self.nodeName {
@@ -2324,8 +2324,8 @@ extension ExportServerEngineAttributeInput: Swift.Encodable {
         }
         if let inputAttributes = inputAttributes {
             var inputAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputAttributes)
-            for engineattributes0 in inputAttributes {
-                try inputAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in inputAttributes {
+                try inputAttributesContainer.encode(engineattribute0)
             }
         }
         if let serverName = self.serverName {
@@ -3183,8 +3183,8 @@ extension OpsWorksCMClientTypes.Server: Swift.Codable {
         }
         if let engineAttributes = engineAttributes {
             var engineAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineAttributes)
-            for engineattributes0 in engineAttributes {
-                try engineAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in engineAttributes {
+                try engineAttributesContainer.encode(engineattribute0)
             }
         }
         if let engineModel = self.engineModel {
@@ -3213,8 +3213,8 @@ extension OpsWorksCMClientTypes.Server: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for strings0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(strings0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let serverArn = self.serverArn {
@@ -3234,8 +3234,8 @@ extension OpsWorksCMClientTypes.Server: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for strings0 in subnetIds {
-                try subnetIdsContainer.encode(strings0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -3579,8 +3579,8 @@ extension StartMaintenanceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let engineAttributes = engineAttributes {
             var engineAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineAttributes)
-            for engineattributes0 in engineAttributes {
-                try engineAttributesContainer.encode(engineattributes0)
+            for engineattribute0 in engineAttributes {
+                try engineAttributesContainer.encode(engineattribute0)
             }
         }
         if let serverName = self.serverName {
@@ -3770,8 +3770,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3889,8 +3889,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

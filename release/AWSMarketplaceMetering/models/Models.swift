@@ -15,8 +15,8 @@ extension BatchMeterUsageInput: Swift.Encodable {
         }
         if let usageRecords = usageRecords {
             var usageRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usageRecords)
-            for usagerecordlist0 in usageRecords {
-                try usageRecordsContainer.encode(usagerecordlist0)
+            for usagerecord0 in usageRecords {
+                try usageRecordsContainer.encode(usagerecord0)
             }
         }
     }
@@ -935,8 +935,8 @@ extension MeterUsageInput: Swift.Encodable {
         }
         if let usageAllocations = usageAllocations {
             var usageAllocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usageAllocations)
-            for usageallocations0 in usageAllocations {
-                try usageAllocationsContainer.encode(usageallocations0)
+            for usageallocation0 in usageAllocations {
+                try usageAllocationsContainer.encode(usageallocation0)
             }
         }
         if let usageDimension = self.usageDimension {
@@ -1632,8 +1632,8 @@ extension MarketplaceMeteringClientTypes.UsageAllocation: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1702,8 +1702,8 @@ extension MarketplaceMeteringClientTypes.UsageRecord: Swift.Codable {
         }
         if let usageAllocations = usageAllocations {
             var usageAllocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usageAllocations)
-            for usageallocations0 in usageAllocations {
-                try usageAllocationsContainer.encode(usageallocations0)
+            for usageallocation0 in usageAllocations {
+                try usageAllocationsContainer.encode(usageallocation0)
             }
         }
     }

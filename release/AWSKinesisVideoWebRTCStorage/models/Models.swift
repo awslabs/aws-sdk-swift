@@ -19,12 +19,7 @@ extension AccessDeniedException {
     }
 }
 
-/// * You do not have required permissions to perform this operation
-///
-///
-///
-///
-/// * The AccessDeniedException can be thrown for operation access as well as tokens or resource access
+/// You do not have required permissions to perform this operation.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -128,12 +123,7 @@ extension InvalidArgumentException {
     }
 }
 
-/// * The value for this input parameter is invalid.
-///
-///
-///
-///
-/// * Additional details may notbe returned.
+/// The value for this input parameter is invalid.
 public struct InvalidArgumentException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -166,105 +156,6 @@ extension InvalidArgumentExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
-}
-
-extension JoinStorageSessionAsViewerInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case channelArn
-        case clientId
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let channelArn = self.channelArn {
-            try encodeContainer.encode(channelArn, forKey: .channelArn)
-        }
-        if let clientId = self.clientId {
-            try encodeContainer.encode(clientId, forKey: .clientId)
-        }
-    }
-}
-
-extension JoinStorageSessionAsViewerInput: ClientRuntime.URLPathProvider {
-    public var urlPath: Swift.String? {
-        return "/joinStorageSessionAsViewer"
-    }
-}
-
-public struct JoinStorageSessionAsViewerInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the signaling channel.
-    /// This member is required.
-    public var channelArn: Swift.String?
-    /// The unique identifier for the sender client.
-    /// This member is required.
-    public var clientId: Swift.String?
-
-    public init (
-        channelArn: Swift.String? = nil,
-        clientId: Swift.String? = nil
-    )
-    {
-        self.channelArn = channelArn
-        self.clientId = clientId
-    }
-}
-
-struct JoinStorageSessionAsViewerInputBody: Swift.Equatable {
-    let channelArn: Swift.String?
-    let clientId: Swift.String?
-}
-
-extension JoinStorageSessionAsViewerInputBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case channelArn
-        case clientId
-    }
-
-    public init (from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
-        channelArn = channelArnDecoded
-        let clientIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientId)
-        clientId = clientIdDecoded
-    }
-}
-
-extension JoinStorageSessionAsViewerOutputError: ClientRuntime.HttpResponseBinding {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
-        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
-        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
-    }
-}
-
-extension JoinStorageSessionAsViewerOutputError {
-    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        switch errorType {
-        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ClientLimitExceededException" : self = .clientLimitExceededException(try ClientLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "InvalidArgumentException" : self = .invalidArgumentException(try InvalidArgumentException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
-        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
-        }
-    }
-}
-
-public enum JoinStorageSessionAsViewerOutputError: Swift.Error, Swift.Equatable {
-    case accessDeniedException(AccessDeniedException)
-    case clientLimitExceededException(ClientLimitExceededException)
-    case invalidArgumentException(InvalidArgumentException)
-    case resourceNotFoundException(ResourceNotFoundException)
-    case unknown(UnknownAWSHttpServiceError)
-}
-
-extension JoinStorageSessionAsViewerOutputResponse: ClientRuntime.HttpResponseBinding {
-    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-    }
-}
-
-public struct JoinStorageSessionAsViewerOutputResponse: Swift.Equatable {
-
-    public init () { }
 }
 
 extension JoinStorageSessionInput: Swift.Encodable {
@@ -370,12 +261,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// * The specified resource is not found
-///
-///
-///
-///
-/// * You have not specified a channel in this API call.
+/// The specified resource is not found.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

@@ -197,8 +197,8 @@ extension BatchDeleteBuildsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for buildids0 in ids {
-                try idsContainer.encode(buildids0)
+            for nonemptystring0 in ids {
+                try idsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -348,8 +348,8 @@ extension BatchGetBuildBatchesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for buildbatchids0 in ids {
-                try idsContainer.encode(buildbatchids0)
+            for nonemptystring0 in ids {
+                try idsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -499,8 +499,8 @@ extension BatchGetBuildsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for buildids0 in ids {
-                try idsContainer.encode(buildids0)
+            for nonemptystring0 in ids {
+                try idsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -650,8 +650,8 @@ extension BatchGetProjectsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for projectnames0 in names {
-                try namesContainer.encode(projectnames0)
+            for nonemptystring0 in names {
+                try namesContainer.encode(nonemptystring0)
             }
         }
     }
@@ -801,8 +801,8 @@ extension BatchGetReportGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let reportGroupArns = reportGroupArns {
             var reportGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reportGroupArns)
-            for reportgrouparns0 in reportGroupArns {
-                try reportGroupArnsContainer.encode(reportgrouparns0)
+            for nonemptystring0 in reportGroupArns {
+                try reportGroupArnsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -952,8 +952,8 @@ extension BatchGetReportsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let reportArns = reportArns {
             var reportArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reportArns)
-            for reportarns0 in reportArns {
-                try reportArnsContainer.encode(reportarns0)
+            for nonemptystring0 in reportArns {
+                try reportArnsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -1136,8 +1136,8 @@ extension CodeBuildClientTypes.BatchRestrictions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let computeTypesAllowed = computeTypesAllowed {
             var computeTypesAllowedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .computeTypesAllowed)
-            for computetypesallowed0 in computeTypesAllowed {
-                try computeTypesAllowedContainer.encode(computetypesallowed0)
+            for nonemptystring0 in computeTypesAllowed {
+                try computeTypesAllowedContainer.encode(nonemptystring0)
             }
         }
         if let maximumBuildsAllowed = self.maximumBuildsAllowed {
@@ -1302,14 +1302,14 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
         }
         if let exportedEnvironmentVariables = exportedEnvironmentVariables {
             var exportedEnvironmentVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exportedEnvironmentVariables)
-            for exportedenvironmentvariables0 in exportedEnvironmentVariables {
-                try exportedEnvironmentVariablesContainer.encode(exportedenvironmentvariables0)
+            for exportedenvironmentvariable0 in exportedEnvironmentVariables {
+                try exportedEnvironmentVariablesContainer.encode(exportedenvironmentvariable0)
             }
         }
         if let fileSystemLocations = fileSystemLocations {
             var fileSystemLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemLocations)
-            for projectfilesystemlocations0 in fileSystemLocations {
-                try fileSystemLocationsContainer.encode(projectfilesystemlocations0)
+            for projectfilesystemlocation0 in fileSystemLocations {
+                try fileSystemLocationsContainer.encode(projectfilesystemlocation0)
             }
         }
         if let id = self.id {
@@ -1326,8 +1326,8 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
         }
         if let phases = phases {
             var phasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phases)
-            for buildphases0 in phases {
-                try phasesContainer.encode(buildphases0)
+            for buildphase0 in phases {
+                try phasesContainer.encode(buildphase0)
             }
         }
         if let projectName = self.projectName {
@@ -1338,8 +1338,8 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
         }
         if let reportArns = reportArns {
             var reportArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reportArns)
-            for buildreportarns0 in reportArns {
-                try reportArnsContainer.encode(buildreportarns0)
+            for string0 in reportArns {
+                try reportArnsContainer.encode(string0)
             }
         }
         if let resolvedSourceVersion = self.resolvedSourceVersion {
@@ -1347,20 +1347,20 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for buildartifactslist0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(buildartifactslist0)
+            for buildartifacts0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(buildartifacts0)
             }
         }
         if let secondarySourceVersions = secondarySourceVersions {
             var secondarySourceVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourceVersions)
-            for projectsecondarysourceversions0 in secondarySourceVersions {
-                try secondarySourceVersionsContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourceVersions {
+                try secondarySourceVersionsContainer.encode(projectsourceversion0)
             }
         }
         if let secondarySources = secondarySources {
             var secondarySourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySources)
-            for projectsources0 in secondarySources {
-                try secondarySourcesContainer.encode(projectsources0)
+            for projectsource0 in secondarySources {
+                try secondarySourcesContainer.encode(projectsource0)
             }
         }
         if let serviceRole = self.serviceRole {
@@ -1842,8 +1842,8 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
         }
         if let buildGroups = buildGroups {
             var buildGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buildGroups)
-            for buildgroups0 in buildGroups {
-                try buildGroupsContainer.encode(buildgroups0)
+            for buildgroup0 in buildGroups {
+                try buildGroupsContainer.encode(buildgroup0)
             }
         }
         if let buildTimeoutInMinutes = self.buildTimeoutInMinutes {
@@ -1872,8 +1872,8 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
         }
         if let fileSystemLocations = fileSystemLocations {
             var fileSystemLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemLocations)
-            for projectfilesystemlocations0 in fileSystemLocations {
-                try fileSystemLocationsContainer.encode(projectfilesystemlocations0)
+            for projectfilesystemlocation0 in fileSystemLocations {
+                try fileSystemLocationsContainer.encode(projectfilesystemlocation0)
             }
         }
         if let id = self.id {
@@ -1887,8 +1887,8 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
         }
         if let phases = phases {
             var phasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phases)
-            for buildbatchphases0 in phases {
-                try phasesContainer.encode(buildbatchphases0)
+            for buildbatchphase0 in phases {
+                try phasesContainer.encode(buildbatchphase0)
             }
         }
         if let projectName = self.projectName {
@@ -1902,20 +1902,20 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for buildartifactslist0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(buildartifactslist0)
+            for buildartifacts0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(buildartifacts0)
             }
         }
         if let secondarySourceVersions = secondarySourceVersions {
             var secondarySourceVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourceVersions)
-            for projectsecondarysourceversions0 in secondarySourceVersions {
-                try secondarySourceVersionsContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourceVersions {
+                try secondarySourceVersionsContainer.encode(projectsourceversion0)
             }
         }
         if let secondarySources = secondarySources {
             var secondarySourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySources)
-            for projectsources0 in secondarySources {
-                try secondarySourcesContainer.encode(projectsources0)
+            for projectsource0 in secondarySources {
+                try secondarySourcesContainer.encode(projectsource0)
             }
         }
         if let serviceRole = self.serviceRole {
@@ -2255,8 +2255,8 @@ extension CodeBuildClientTypes.BuildBatchPhase: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contexts = contexts {
             var contextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contexts)
-            for phasecontexts0 in contexts {
-                try contextsContainer.encode(phasecontexts0)
+            for phasecontext0 in contexts {
+                try contextsContainer.encode(phasecontext0)
             }
         }
         if let durationInSeconds = self.durationInSeconds {
@@ -2401,8 +2401,8 @@ extension CodeBuildClientTypes.BuildGroup: Swift.Codable {
         }
         if let dependsOn = dependsOn {
             var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
-            for identifiers0 in dependsOn {
-                try dependsOnContainer.encode(identifiers0)
+            for nonemptystring0 in dependsOn {
+                try dependsOnContainer.encode(nonemptystring0)
             }
         }
         if let identifier = self.identifier {
@@ -2413,8 +2413,8 @@ extension CodeBuildClientTypes.BuildGroup: Swift.Codable {
         }
         if let priorBuildSummaryList = priorBuildSummaryList {
             var priorBuildSummaryListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .priorBuildSummaryList)
-            for buildsummaries0 in priorBuildSummaryList {
-                try priorBuildSummaryListContainer.encode(buildsummaries0)
+            for buildsummary0 in priorBuildSummaryList {
+                try priorBuildSummaryListContainer.encode(buildsummary0)
             }
         }
     }
@@ -2543,8 +2543,8 @@ extension CodeBuildClientTypes.BuildPhase: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contexts = contexts {
             var contextsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contexts)
-            for phasecontexts0 in contexts {
-                try contextsContainer.encode(phasecontexts0)
+            for phasecontext0 in contexts {
+                try contextsContainer.encode(phasecontext0)
             }
         }
         if let durationInSeconds = self.durationInSeconds {
@@ -2755,8 +2755,8 @@ extension CodeBuildClientTypes.BuildSummary: Swift.Codable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for resolvedsecondaryartifacts0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(resolvedsecondaryartifacts0)
+            for resolvedartifact0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(resolvedartifact0)
             }
         }
     }
@@ -3248,8 +3248,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let fileSystemLocations = fileSystemLocations {
             var fileSystemLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemLocations)
-            for projectfilesystemlocations0 in fileSystemLocations {
-                try fileSystemLocationsContainer.encode(projectfilesystemlocations0)
+            for projectfilesystemlocation0 in fileSystemLocations {
+                try fileSystemLocationsContainer.encode(projectfilesystemlocation0)
             }
         }
         if let logsConfig = self.logsConfig {
@@ -3263,20 +3263,20 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for projectartifactslist0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(projectartifactslist0)
+            for projectartifacts0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(projectartifacts0)
             }
         }
         if let secondarySourceVersions = secondarySourceVersions {
             var secondarySourceVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourceVersions)
-            for projectsecondarysourceversions0 in secondarySourceVersions {
-                try secondarySourceVersionsContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourceVersions {
+                try secondarySourceVersionsContainer.encode(projectsourceversion0)
             }
         }
         if let secondarySources = secondarySources {
             var secondarySourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySources)
-            for projectsources0 in secondarySources {
-                try secondarySourcesContainer.encode(projectsources0)
+            for projectsource0 in secondarySources {
+                try secondarySourcesContainer.encode(projectsource0)
             }
         }
         if let serviceRole = self.serviceRole {
@@ -3290,8 +3290,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeoutInMinutes = self.timeoutInMinutes {
@@ -3643,8 +3643,8 @@ extension CreateReportGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -3808,10 +3808,10 @@ extension CreateWebhookInput: Swift.Encodable {
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergroups0 in filterGroups {
-                var filtergroups0Container = filterGroupsContainer.nestedUnkeyedContainer()
-                for filtergroup1 in filtergroups0 {
-                    try filtergroups0Container.encode(filtergroup1)
+            for filtergroup0 in filterGroups {
+                var filtergroup0Container = filterGroupsContainer.nestedUnkeyedContainer()
+                for webhookfilter1 in filtergroup0 {
+                    try filtergroup0Container.encode(webhookfilter1)
                 }
             }
         }
@@ -5106,8 +5106,8 @@ extension CodeBuildClientTypes.EnvironmentImage: Swift.Codable {
         }
         if let versions = versions {
             var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
-            for imageversions0 in versions {
-                try versionsContainer.encode(imageversions0)
+            for string0 in versions {
+                try versionsContainer.encode(string0)
             }
         }
     }
@@ -5166,8 +5166,8 @@ extension CodeBuildClientTypes.EnvironmentLanguage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let images = images {
             var imagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .images)
-            for environmentimages0 in images {
-                try imagesContainer.encode(environmentimages0)
+            for environmentimage0 in images {
+                try imagesContainer.encode(environmentimage0)
             }
         }
         if let language = self.language {
@@ -5223,8 +5223,8 @@ extension CodeBuildClientTypes.EnvironmentPlatform: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let languages = languages {
             var languagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languages)
-            for environmentlanguages0 in languages {
-                try languagesContainer.encode(environmentlanguages0)
+            for environmentlanguage0 in languages {
+                try languagesContainer.encode(environmentlanguage0)
             }
         }
         if let platform = self.platform {
@@ -8502,8 +8502,8 @@ extension CodeBuildClientTypes.Project: Swift.Codable {
         }
         if let fileSystemLocations = fileSystemLocations {
             var fileSystemLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemLocations)
-            for projectfilesystemlocations0 in fileSystemLocations {
-                try fileSystemLocationsContainer.encode(projectfilesystemlocations0)
+            for projectfilesystemlocation0 in fileSystemLocations {
+                try fileSystemLocationsContainer.encode(projectfilesystemlocation0)
             }
         }
         if let lastModified = self.lastModified {
@@ -8529,20 +8529,20 @@ extension CodeBuildClientTypes.Project: Swift.Codable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for projectartifactslist0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(projectartifactslist0)
+            for projectartifacts0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(projectartifacts0)
             }
         }
         if let secondarySourceVersions = secondarySourceVersions {
             var secondarySourceVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourceVersions)
-            for projectsecondarysourceversions0 in secondarySourceVersions {
-                try secondarySourceVersionsContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourceVersions {
+                try secondarySourceVersionsContainer.encode(projectsourceversion0)
             }
         }
         if let secondarySources = secondarySources {
             var secondarySourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySources)
-            for projectsources0 in secondarySources {
-                try secondarySourcesContainer.encode(projectsources0)
+            for projectsource0 in secondarySources {
+                try secondarySourcesContainer.encode(projectsource0)
             }
         }
         if let serviceRole = self.serviceRole {
@@ -8556,8 +8556,8 @@ extension CodeBuildClientTypes.Project: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeoutInMinutes = self.timeoutInMinutes {
@@ -9141,8 +9141,8 @@ extension CodeBuildClientTypes.ProjectCache: Swift.Codable {
         }
         if let modes = modes {
             var modesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modes)
-            for projectcachemodes0 in modes {
-                try modesContainer.encode(projectcachemodes0.rawValue)
+            for cachemode0 in modes {
+                try modesContainer.encode(cachemode0.rawValue)
             }
         }
         if let type = self.type {
@@ -9242,8 +9242,8 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentVariables)
-            for environmentvariables0 in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariables0)
+            for environmentvariable0 in environmentVariables {
+                try environmentVariablesContainer.encode(environmentvariable0)
             }
         }
         if let image = self.image {
@@ -10257,8 +10257,8 @@ extension CodeBuildClientTypes.ReportGroup: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -11629,8 +11629,8 @@ extension StartBuildBatchInput: Swift.Encodable {
         }
         if let environmentVariablesOverride = environmentVariablesOverride {
             var environmentVariablesOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentVariablesOverride)
-            for environmentvariables0 in environmentVariablesOverride {
-                try environmentVariablesOverrideContainer.encode(environmentvariables0)
+            for environmentvariable0 in environmentVariablesOverride {
+                try environmentVariablesOverrideContainer.encode(environmentvariable0)
             }
         }
         if let gitCloneDepthOverride = self.gitCloneDepthOverride {
@@ -11671,20 +11671,20 @@ extension StartBuildBatchInput: Swift.Encodable {
         }
         if let secondaryArtifactsOverride = secondaryArtifactsOverride {
             var secondaryArtifactsOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifactsOverride)
-            for projectartifactslist0 in secondaryArtifactsOverride {
-                try secondaryArtifactsOverrideContainer.encode(projectartifactslist0)
+            for projectartifacts0 in secondaryArtifactsOverride {
+                try secondaryArtifactsOverrideContainer.encode(projectartifacts0)
             }
         }
         if let secondarySourcesOverride = secondarySourcesOverride {
             var secondarySourcesOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourcesOverride)
-            for projectsources0 in secondarySourcesOverride {
-                try secondarySourcesOverrideContainer.encode(projectsources0)
+            for projectsource0 in secondarySourcesOverride {
+                try secondarySourcesOverrideContainer.encode(projectsource0)
             }
         }
         if let secondarySourcesVersionOverride = secondarySourcesVersionOverride {
             var secondarySourcesVersionOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourcesVersionOverride)
-            for projectsecondarysourceversions0 in secondarySourcesVersionOverride {
-                try secondarySourcesVersionOverrideContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourcesVersionOverride {
+                try secondarySourcesVersionOverrideContainer.encode(projectsourceversion0)
             }
         }
         if let serviceRoleOverride = self.serviceRoleOverride {
@@ -12147,8 +12147,8 @@ extension StartBuildInput: Swift.Encodable {
         }
         if let environmentVariablesOverride = environmentVariablesOverride {
             var environmentVariablesOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentVariablesOverride)
-            for environmentvariables0 in environmentVariablesOverride {
-                try environmentVariablesOverrideContainer.encode(environmentvariables0)
+            for environmentvariable0 in environmentVariablesOverride {
+                try environmentVariablesOverrideContainer.encode(environmentvariable0)
             }
         }
         if let gitCloneDepthOverride = self.gitCloneDepthOverride {
@@ -12189,20 +12189,20 @@ extension StartBuildInput: Swift.Encodable {
         }
         if let secondaryArtifactsOverride = secondaryArtifactsOverride {
             var secondaryArtifactsOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifactsOverride)
-            for projectartifactslist0 in secondaryArtifactsOverride {
-                try secondaryArtifactsOverrideContainer.encode(projectartifactslist0)
+            for projectartifacts0 in secondaryArtifactsOverride {
+                try secondaryArtifactsOverrideContainer.encode(projectartifacts0)
             }
         }
         if let secondarySourcesOverride = secondarySourcesOverride {
             var secondarySourcesOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourcesOverride)
-            for projectsources0 in secondarySourcesOverride {
-                try secondarySourcesOverrideContainer.encode(projectsources0)
+            for projectsource0 in secondarySourcesOverride {
+                try secondarySourcesOverrideContainer.encode(projectsource0)
             }
         }
         if let secondarySourcesVersionOverride = secondarySourcesVersionOverride {
             var secondarySourcesVersionOverrideContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourcesVersionOverride)
-            for projectsecondarysourceversions0 in secondarySourcesVersionOverride {
-                try secondarySourcesVersionOverrideContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourcesVersionOverride {
+                try secondarySourcesVersionOverrideContainer.encode(projectsourceversion0)
             }
         }
         if let serviceRoleOverride = self.serviceRoleOverride {
@@ -13093,8 +13093,8 @@ extension CodeBuildClientTypes.TestReportSummary: Swift.Codable {
         }
         if let statusCounts = statusCounts {
             var statusCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusCounts)
-            for (dictKey0, reportstatuscounts0) in statusCounts {
-                try statusCountsContainer.encode(reportstatuscounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, reportStatusCounts0) in statusCounts {
+                try statusCountsContainer.encode(reportStatusCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let total = self.total {
@@ -13202,8 +13202,8 @@ extension UpdateProjectInput: Swift.Encodable {
         }
         if let fileSystemLocations = fileSystemLocations {
             var fileSystemLocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fileSystemLocations)
-            for projectfilesystemlocations0 in fileSystemLocations {
-                try fileSystemLocationsContainer.encode(projectfilesystemlocations0)
+            for projectfilesystemlocation0 in fileSystemLocations {
+                try fileSystemLocationsContainer.encode(projectfilesystemlocation0)
             }
         }
         if let logsConfig = self.logsConfig {
@@ -13217,20 +13217,20 @@ extension UpdateProjectInput: Swift.Encodable {
         }
         if let secondaryArtifacts = secondaryArtifacts {
             var secondaryArtifactsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondaryArtifacts)
-            for projectartifactslist0 in secondaryArtifacts {
-                try secondaryArtifactsContainer.encode(projectartifactslist0)
+            for projectartifacts0 in secondaryArtifacts {
+                try secondaryArtifactsContainer.encode(projectartifacts0)
             }
         }
         if let secondarySourceVersions = secondarySourceVersions {
             var secondarySourceVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySourceVersions)
-            for projectsecondarysourceversions0 in secondarySourceVersions {
-                try secondarySourceVersionsContainer.encode(projectsecondarysourceversions0)
+            for projectsourceversion0 in secondarySourceVersions {
+                try secondarySourceVersionsContainer.encode(projectsourceversion0)
             }
         }
         if let secondarySources = secondarySources {
             var secondarySourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secondarySources)
-            for projectsources0 in secondarySources {
-                try secondarySourcesContainer.encode(projectsources0)
+            for projectsource0 in secondarySources {
+                try secondarySourcesContainer.encode(projectsource0)
             }
         }
         if let serviceRole = self.serviceRole {
@@ -13244,8 +13244,8 @@ extension UpdateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeoutInMinutes = self.timeoutInMinutes {
@@ -13748,8 +13748,8 @@ extension UpdateReportGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13903,10 +13903,10 @@ extension UpdateWebhookInput: Swift.Encodable {
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergroups0 in filterGroups {
-                var filtergroups0Container = filterGroupsContainer.nestedUnkeyedContainer()
-                for filtergroup1 in filtergroups0 {
-                    try filtergroups0Container.encode(filtergroup1)
+            for filtergroup0 in filterGroups {
+                var filtergroup0Container = filterGroupsContainer.nestedUnkeyedContainer()
+                for webhookfilter1 in filtergroup0 {
+                    try filtergroup0Container.encode(webhookfilter1)
                 }
             }
         }
@@ -14082,14 +14082,14 @@ extension CodeBuildClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for nonemptystring0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(nonemptystring0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for nonemptystring0 in subnets {
+                try subnetsContainer.encode(nonemptystring0)
             }
         }
         if let vpcId = self.vpcId {
@@ -14171,10 +14171,10 @@ extension CodeBuildClientTypes.Webhook: Swift.Codable {
         }
         if let filterGroups = filterGroups {
             var filterGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterGroups)
-            for filtergroups0 in filterGroups {
-                var filtergroups0Container = filterGroupsContainer.nestedUnkeyedContainer()
-                for filtergroup1 in filtergroups0 {
-                    try filtergroups0Container.encode(filtergroup1)
+            for filtergroup0 in filterGroups {
+                var filtergroup0Container = filterGroupsContainer.nestedUnkeyedContainer()
+                for webhookfilter1 in filtergroup0 {
+                    try filtergroup0Container.encode(webhookfilter1)
                 }
             }
         }

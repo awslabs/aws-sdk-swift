@@ -149,8 +149,8 @@ extension ApplicationAutoScalingClientTypes.CustomizedMetricSpecification: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensions = dimensions {
             var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
-            for metricdimensions0 in dimensions {
-                try dimensionsContainer.encode(metricdimensions0)
+            for metricdimension0 in dimensions {
+                try dimensionsContainer.encode(metricdimension0)
             }
         }
         if let metricName = self.metricName {
@@ -830,8 +830,8 @@ extension DescribeScalableTargetsInput: Swift.Encodable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for resourceidsmaxlen16000 in resourceIds {
-                try resourceIdsContainer.encode(resourceidsmaxlen16000)
+            for resourceidmaxlen16000 in resourceIds {
+                try resourceIdsContainer.encode(resourceidmaxlen16000)
             }
         }
         if let scalableDimension = self.scalableDimension {
@@ -1355,8 +1355,8 @@ extension DescribeScalingPoliciesInput: Swift.Encodable {
         }
         if let policyNames = policyNames {
             var policyNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyNames)
-            for resourceidsmaxlen16000 in policyNames {
-                try policyNamesContainer.encode(resourceidsmaxlen16000)
+            for resourceidmaxlen16000 in policyNames {
+                try policyNamesContainer.encode(resourceidmaxlen16000)
             }
         }
         if let resourceId = self.resourceId {
@@ -1643,8 +1643,8 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
         }
         if let scheduledActionNames = scheduledActionNames {
             var scheduledActionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scheduledActionNames)
-            for resourceidsmaxlen16000 in scheduledActionNames {
-                try scheduledActionNamesContainer.encode(resourceidsmaxlen16000)
+            for resourceidmaxlen16000 in scheduledActionNames {
+                try scheduledActionNamesContainer.encode(resourceidmaxlen16000)
             }
         }
         if let serviceNamespace = self.serviceNamespace {
@@ -3843,8 +3843,8 @@ extension ApplicationAutoScalingClientTypes.ScalingPolicy: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alarms = alarms {
             var alarmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alarms)
-            for alarms0 in alarms {
-                try alarmsContainer.encode(alarms0)
+            for alarm0 in alarms {
+                try alarmsContainer.encode(alarm0)
             }
         }
         if let creationTime = self.creationTime {
@@ -4427,8 +4427,8 @@ extension ApplicationAutoScalingClientTypes.StepScalingPolicyConfiguration: Swif
         }
         if let stepAdjustments = stepAdjustments {
             var stepAdjustmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepAdjustments)
-            for stepadjustments0 in stepAdjustments {
-                try stepAdjustmentsContainer.encode(stepadjustments0)
+            for stepadjustment0 in stepAdjustments {
+                try stepAdjustmentsContainer.encode(stepadjustment0)
             }
         }
     }

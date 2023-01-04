@@ -79,7 +79,10 @@ extension ForecastClientTypes.AdditionalDataset: Swift.Codable {
         if let configuration = configuration {
             var configurationContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configuration)
             for (dictKey0, configuration0) in configuration {
-                try configurationContainer.encode(configuration0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var configuration0Container = configurationContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for value1 in configuration0 {
+                    try configuration0Container.encode(value1)
+                }
             }
         }
         if let name = self.name {
@@ -517,8 +520,8 @@ extension ForecastClientTypes.CategoricalParameterRange: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -699,8 +702,8 @@ extension CreateAutoPredictorInput: Swift.Encodable {
         }
         if let forecastDimensions = forecastDimensions {
             var forecastDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastDimensions)
-            for forecastdimensions0 in forecastDimensions {
-                try forecastDimensionsContainer.encode(forecastdimensions0)
+            for name0 in forecastDimensions {
+                try forecastDimensionsContainer.encode(name0)
             }
         }
         if let forecastFrequency = self.forecastFrequency {
@@ -711,8 +714,8 @@ extension CreateAutoPredictorInput: Swift.Encodable {
         }
         if let forecastTypes = forecastTypes {
             var forecastTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastTypes)
-            for forecasttypes0 in forecastTypes {
-                try forecastTypesContainer.encode(forecasttypes0)
+            for forecasttype0 in forecastTypes {
+                try forecastTypesContainer.encode(forecasttype0)
             }
         }
         if let monitorConfig = self.monitorConfig {
@@ -729,8 +732,8 @@ extension CreateAutoPredictorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeAlignmentBoundary = self.timeAlignmentBoundary {
@@ -992,8 +995,8 @@ extension CreateDatasetGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let datasetArns = datasetArns {
             var datasetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetArns)
-            for arnlist0 in datasetArns {
-                try datasetArnsContainer.encode(arnlist0)
+            for arn0 in datasetArns {
+                try datasetArnsContainer.encode(arn0)
             }
         }
         if let datasetGroupName = self.datasetGroupName {
@@ -1004,8 +1007,8 @@ extension CreateDatasetGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1206,8 +1209,8 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeZone = self.timeZone {
@@ -1461,8 +1464,8 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1669,8 +1672,8 @@ extension CreateExplainabilityExportInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1878,8 +1881,8 @@ extension CreateExplainabilityInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2103,8 +2106,8 @@ extension CreateForecastExportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2289,8 +2292,8 @@ extension CreateForecastInput: Swift.Encodable {
         }
         if let forecastTypes = forecastTypes {
             var forecastTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastTypes)
-            for forecasttypes0 in forecastTypes {
-                try forecastTypesContainer.encode(forecasttypes0)
+            for forecasttype0 in forecastTypes {
+                try forecastTypesContainer.encode(forecasttype0)
             }
         }
         if let predictorArn = self.predictorArn {
@@ -2298,8 +2301,8 @@ extension CreateForecastInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeSeriesSelector = self.timeSeriesSelector {
@@ -2502,8 +2505,8 @@ extension CreateMonitorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2666,8 +2669,8 @@ extension CreatePredictorBacktestExportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2875,8 +2878,8 @@ extension CreatePredictorInput: Swift.Encodable {
         }
         if let forecastTypes = forecastTypes {
             var forecastTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastTypes)
-            for forecasttypes0 in forecastTypes {
-                try forecastTypesContainer.encode(forecasttypes0)
+            for forecasttype0 in forecastTypes {
+                try forecastTypesContainer.encode(forecasttype0)
             }
         }
         if let hpoConfig = self.hpoConfig {
@@ -2899,14 +2902,14 @@ extension CreatePredictorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trainingParameters = trainingParameters {
             var trainingParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .trainingParameters)
-            for (dictKey0, trainingparameters0) in trainingParameters {
-                try trainingParametersContainer.encode(trainingparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, trainingParameters0) in trainingParameters {
+                try trainingParametersContainer.encode(trainingParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3205,8 +3208,8 @@ extension CreateWhatIfAnalysisInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeSeriesSelector = self.timeSeriesSelector {
@@ -3383,14 +3386,14 @@ extension CreateWhatIfForecastExportInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let whatIfForecastArns = whatIfForecastArns {
             var whatIfForecastArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whatIfForecastArns)
-            for whatifforecastarnlistforexport0 in whatIfForecastArns {
-                try whatIfForecastArnsContainer.encode(whatifforecastarnlistforexport0)
+            for longarn0 in whatIfForecastArns {
+                try whatIfForecastArnsContainer.encode(longarn0)
             }
         }
         if let whatIfForecastExportName = self.whatIfForecastExportName {
@@ -3570,8 +3573,8 @@ extension CreateWhatIfForecastInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let timeSeriesReplacementsDataSource = self.timeSeriesReplacementsDataSource {
@@ -3579,8 +3582,8 @@ extension CreateWhatIfForecastInput: Swift.Encodable {
         }
         if let timeSeriesTransformations = timeSeriesTransformations {
             var timeSeriesTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timeSeriesTransformations)
-            for timeseriestransformations0 in timeSeriesTransformations {
-                try timeSeriesTransformationsContainer.encode(timeseriestransformations0)
+            for timeseriestransformation0 in timeSeriesTransformations {
+                try timeSeriesTransformationsContainer.encode(timeseriestransformation0)
             }
         }
         if let whatIfAnalysisArn = self.whatIfAnalysisArn {
@@ -3760,14 +3763,14 @@ extension ForecastClientTypes.DataConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalDatasets = additionalDatasets {
             var additionalDatasetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalDatasets)
-            for additionaldatasets0 in additionalDatasets {
-                try additionalDatasetsContainer.encode(additionaldatasets0)
+            for additionaldataset0 in additionalDatasets {
+                try additionalDatasetsContainer.encode(additionaldataset0)
             }
         }
         if let attributeConfigs = attributeConfigs {
             var attributeConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeConfigs)
-            for attributeconfigs0 in attributeConfigs {
-                try attributeConfigsContainer.encode(attributeconfigs0)
+            for attributeconfig0 in attributeConfigs {
+                try attributeConfigsContainer.encode(attributeconfig0)
             }
         }
         if let datasetGroupArn = self.datasetGroupArn {
@@ -9146,8 +9149,8 @@ extension ForecastClientTypes.EvaluationResult: Swift.Codable {
         }
         if let testWindows = testWindows {
             var testWindowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .testWindows)
-            for testwindows0 in testWindows {
-                try testWindowsContainer.encode(testwindows0)
+            for windowsummary0 in testWindows {
+                try testWindowsContainer.encode(windowsummary0)
             }
         }
     }
@@ -9571,8 +9574,8 @@ extension ForecastClientTypes.Featurization: Swift.Codable {
         }
         if let featurizationPipeline = featurizationPipeline {
             var featurizationPipelineContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featurizationPipeline)
-            for featurizationpipeline0 in featurizationPipeline {
-                try featurizationPipelineContainer.encode(featurizationpipeline0)
+            for featurizationmethod0 in featurizationPipeline {
+                try featurizationPipelineContainer.encode(featurizationmethod0)
             }
         }
     }
@@ -9643,14 +9646,14 @@ extension ForecastClientTypes.FeaturizationConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let featurizations = featurizations {
             var featurizationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featurizations)
-            for featurizations0 in featurizations {
-                try featurizationsContainer.encode(featurizations0)
+            for featurization0 in featurizations {
+                try featurizationsContainer.encode(featurization0)
             }
         }
         if let forecastDimensions = forecastDimensions {
             var forecastDimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forecastDimensions)
-            for forecastdimensions0 in forecastDimensions {
-                try forecastDimensionsContainer.encode(forecastdimensions0)
+            for name0 in forecastDimensions {
+                try forecastDimensionsContainer.encode(name0)
             }
         }
         if let forecastFrequency = self.forecastFrequency {
@@ -9725,8 +9728,8 @@ extension ForecastClientTypes.FeaturizationMethod: Swift.Codable {
         }
         if let featurizationMethodParameters = featurizationMethodParameters {
             var featurizationMethodParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .featurizationMethodParameters)
-            for (dictKey0, featurizationmethodparameters0) in featurizationMethodParameters {
-                try featurizationMethodParametersContainer.encode(featurizationmethodparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, featurizationMethodParameters0) in featurizationMethodParameters {
+                try featurizationMethodParametersContainer.encode(featurizationMethodParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10370,8 +10373,8 @@ extension ForecastClientTypes.InputDataConfig: Swift.Codable {
         }
         if let supplementaryFeatures = supplementaryFeatures {
             var supplementaryFeaturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supplementaryFeatures)
-            for supplementaryfeatures0 in supplementaryFeatures {
-                try supplementaryFeaturesContainer.encode(supplementaryfeatures0)
+            for supplementaryfeature0 in supplementaryFeatures {
+                try supplementaryFeaturesContainer.encode(supplementaryfeature0)
             }
         }
     }
@@ -10791,8 +10794,8 @@ extension ListDatasetImportJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11108,8 +11111,8 @@ extension ListExplainabilitiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11281,8 +11284,8 @@ extension ListExplainabilityExportsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11454,8 +11457,8 @@ extension ListForecastExportJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11630,8 +11633,8 @@ extension ListForecastsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11807,8 +11810,8 @@ extension ListMonitorEvaluationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11997,8 +12000,8 @@ extension ListMonitorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12173,8 +12176,8 @@ extension ListPredictorBacktestExportJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12346,8 +12349,8 @@ extension ListPredictorsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12644,8 +12647,8 @@ extension ListWhatIfAnalysesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12820,8 +12823,8 @@ extension ListWhatIfForecastExportsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -12996,8 +12999,8 @@ extension ListWhatIfForecastsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -13221,8 +13224,8 @@ extension ForecastClientTypes.Metrics: Swift.Codable {
         }
         if let errorMetrics = errorMetrics {
             var errorMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorMetrics)
-            for errormetrics0 in errorMetrics {
-                try errorMetricsContainer.encode(errormetrics0)
+            for errormetric0 in errorMetrics {
+                try errorMetricsContainer.encode(errormetric0)
             }
         }
         if let rmse = self.rmse {
@@ -13230,8 +13233,8 @@ extension ForecastClientTypes.Metrics: Swift.Codable {
         }
         if let weightedQuantileLosses = weightedQuantileLosses {
             var weightedQuantileLossesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .weightedQuantileLosses)
-            for weightedquantilelosses0 in weightedQuantileLosses {
-                try weightedQuantileLossesContainer.encode(weightedquantilelosses0)
+            for weightedquantileloss0 in weightedQuantileLosses {
+                try weightedQuantileLossesContainer.encode(weightedquantileloss0)
             }
         }
     }
@@ -13697,20 +13700,20 @@ extension ForecastClientTypes.ParameterRanges: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoricalParameterRanges = categoricalParameterRanges {
             var categoricalParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoricalParameterRanges)
-            for categoricalparameterranges0 in categoricalParameterRanges {
-                try categoricalParameterRangesContainer.encode(categoricalparameterranges0)
+            for categoricalparameterrange0 in categoricalParameterRanges {
+                try categoricalParameterRangesContainer.encode(categoricalparameterrange0)
             }
         }
         if let continuousParameterRanges = continuousParameterRanges {
             var continuousParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .continuousParameterRanges)
-            for continuousparameterranges0 in continuousParameterRanges {
-                try continuousParameterRangesContainer.encode(continuousparameterranges0)
+            for continuousparameterrange0 in continuousParameterRanges {
+                try continuousParameterRangesContainer.encode(continuousparameterrange0)
             }
         }
         if let integerParameterRanges = integerParameterRanges {
             var integerParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerParameterRanges)
-            for integerparameterranges0 in integerParameterRanges {
-                try integerParameterRangesContainer.encode(integerparameterranges0)
+            for integerparameterrange0 in integerParameterRanges {
+                try integerParameterRangesContainer.encode(integerparameterrange0)
             }
         }
     }
@@ -13899,8 +13902,8 @@ extension ForecastClientTypes.PredictorBaseline: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let baselineMetrics = baselineMetrics {
             var baselineMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .baselineMetrics)
-            for baselinemetrics0 in baselineMetrics {
-                try baselineMetricsContainer.encode(baselinemetrics0)
+            for baselinemetric0 in baselineMetrics {
+                try baselineMetricsContainer.encode(baselinemetric0)
             }
         }
     }
@@ -13995,8 +13998,8 @@ extension ForecastClientTypes.PredictorExecution: Swift.Codable {
         }
         if let testWindows = testWindows {
             var testWindowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .testWindows)
-            for testwindowdetails0 in testWindows {
-                try testWindowsContainer.encode(testwindowdetails0)
+            for testwindowsummary0 in testWindows {
+                try testWindowsContainer.encode(testwindowsummary0)
             }
         }
     }
@@ -14048,8 +14051,8 @@ extension ForecastClientTypes.PredictorExecutionDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let predictorExecutions = predictorExecutions {
             var predictorExecutionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .predictorExecutions)
-            for predictorexecutions0 in predictorExecutions {
-                try predictorExecutionsContainer.encode(predictorexecutions0)
+            for predictorexecution0 in predictorExecutions {
+                try predictorExecutionsContainer.encode(predictorexecution0)
             }
         }
     }
@@ -14114,8 +14117,8 @@ extension ForecastClientTypes.PredictorMonitorEvaluation: Swift.Codable {
         }
         if let metricResults = metricResults {
             var metricResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricResults)
-            for metricresults0 in metricResults {
-                try metricResultsContainer.encode(metricresults0)
+            for metricresult0 in metricResults {
+                try metricResultsContainer.encode(metricresult0)
             }
         }
         if let monitorArn = self.monitorArn {
@@ -14760,8 +14763,8 @@ extension ForecastClientTypes.Schema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for schemaattributes0 in attributes {
-                try attributesContainer.encode(schemaattributes0)
+            for schemaattribute0 in attributes {
+                try attributesContainer.encode(schemaattribute0)
             }
         }
     }
@@ -15362,8 +15365,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -15906,8 +15909,8 @@ extension ForecastClientTypes.TimeSeriesTransformation: Swift.Codable {
         }
         if let timeSeriesConditions = timeSeriesConditions {
             var timeSeriesConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timeSeriesConditions)
-            for timeseriesconditions0 in timeSeriesConditions {
-                try timeSeriesConditionsContainer.encode(timeseriesconditions0)
+            for timeseriescondition0 in timeSeriesConditions {
+                try timeSeriesConditionsContainer.encode(timeseriescondition0)
             }
         }
     }
@@ -15963,8 +15966,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -16067,8 +16070,8 @@ extension UpdateDatasetGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let datasetArns = datasetArns {
             var datasetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasetArns)
-            for arnlist0 in datasetArns {
-                try datasetArnsContainer.encode(arnlist0)
+            for arn0 in datasetArns {
+                try datasetArnsContainer.encode(arn0)
             }
         }
         if let datasetGroupArn = self.datasetGroupArn {
@@ -16358,8 +16361,8 @@ extension ForecastClientTypes.WhatIfForecastExportSummary: Swift.Codable {
         }
         if let whatIfForecastArns = whatIfForecastArns {
             var whatIfForecastArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whatIfForecastArns)
-            for whatifforecastarnlistforexport0 in whatIfForecastArns {
-                try whatIfForecastArnsContainer.encode(whatifforecastarnlistforexport0)
+            for longarn0 in whatIfForecastArns {
+                try whatIfForecastArnsContainer.encode(longarn0)
             }
         }
         if let whatIfForecastExportArn = self.whatIfForecastExportArn {

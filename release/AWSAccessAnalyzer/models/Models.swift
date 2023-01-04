@@ -72,8 +72,8 @@ extension AccessAnalyzerClientTypes.AccessPreview: Swift.Codable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurations)
-            for (dictKey0, configurationsmap0) in configurations {
-                try configurationsContainer.encode(configurationsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, configurationsMap0) in configurations {
+                try configurationsContainer.encode(configurationsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -186,8 +186,8 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = action {
             var actionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .action)
-            for actionlist0 in action {
-                try actionContainer.encode(actionlist0)
+            for string0 in action {
+                try actionContainer.encode(string0)
             }
         }
         if let changeType = self.changeType {
@@ -195,8 +195,8 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding: Swift.Codable {
         }
         if let condition = condition {
             var conditionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .condition)
-            for (dictKey0, conditionkeymap0) in condition {
-                try conditionContainer.encode(conditionkeymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, conditionKeyMap0) in condition {
+                try conditionContainer.encode(conditionKeyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -219,8 +219,8 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding: Swift.Codable {
         }
         if let principal = principal {
             var principalContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principal)
-            for (dictKey0, principalmap0) in principal {
-                try principalContainer.encode(principalmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, principalMap0) in principal {
+                try principalContainer.encode(principalMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resource = self.resource {
@@ -234,8 +234,8 @@ extension AccessAnalyzerClientTypes.AccessPreviewFinding: Swift.Codable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for findingsourcelist0 in sources {
-                try sourcesContainer.encode(findingsourcelist0)
+            for findingsource0 in sources {
+                try sourcesContainer.encode(findingsource0)
             }
         }
         if let status = self.status {
@@ -696,8 +696,8 @@ extension AccessAnalyzerClientTypes.AnalyzedResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for actionlist0 in actions {
-                try actionsContainer.encode(actionlist0)
+            for string0 in actions {
+                try actionsContainer.encode(string0)
             }
         }
         if let analyzedAt = self.analyzedAt {
@@ -723,8 +723,8 @@ extension AccessAnalyzerClientTypes.AnalyzedResource: Swift.Codable {
         }
         if let sharedVia = sharedVia {
             var sharedViaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sharedVia)
-            for sharedvialist0 in sharedVia {
-                try sharedViaContainer.encode(sharedvialist0)
+            for string0 in sharedVia {
+                try sharedViaContainer.encode(string0)
             }
         }
         if let status = self.status {
@@ -977,8 +977,8 @@ extension AccessAnalyzerClientTypes.AnalyzerSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -1200,8 +1200,8 @@ extension AccessAnalyzerClientTypes.ArchiveRuleSummary: Swift.Codable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let ruleName = self.ruleName {
@@ -1356,8 +1356,8 @@ extension AccessAnalyzerClientTypes.CloudTrailDetails: Swift.Codable {
         }
         if let trails = trails {
             var trailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trails)
-            for traillist0 in trails {
-                try trailsContainer.encode(traillist0)
+            for trail0 in trails {
+                try trailsContainer.encode(trail0)
             }
         }
     }
@@ -1432,8 +1432,8 @@ extension AccessAnalyzerClientTypes.CloudTrailProperties: Swift.Codable {
         }
         if let trailProperties = trailProperties {
             var trailPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trailProperties)
-            for trailpropertieslist0 in trailProperties {
-                try trailPropertiesContainer.encode(trailpropertieslist0)
+            for trailproperties0 in trailProperties {
+                try trailPropertiesContainer.encode(trailproperties0)
             }
         }
     }
@@ -1714,8 +1714,8 @@ extension CreateAccessPreviewInput: Swift.Encodable {
         }
         if let configurations = configurations {
             var configurationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .configurations)
-            for (dictKey0, configurationsmap0) in configurations {
-                try configurationsContainer.encode(configurationsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, configurationsMap0) in configurations {
+                try configurationsContainer.encode(configurationsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1874,8 +1874,8 @@ extension CreateAnalyzerInput: Swift.Encodable {
         }
         if let archiveRules = archiveRules {
             var archiveRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .archiveRules)
-            for inlinearchiveruleslist0 in archiveRules {
-                try archiveRulesContainer.encode(inlinearchiveruleslist0)
+            for inlinearchiverule0 in archiveRules {
+                try archiveRulesContainer.encode(inlinearchiverule0)
             }
         }
         if let clientToken = self.clientToken {
@@ -1883,8 +1883,8 @@ extension CreateAnalyzerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -2068,8 +2068,8 @@ extension CreateArchiveRuleInput: Swift.Encodable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let ruleName = self.ruleName {
@@ -2204,14 +2204,14 @@ extension AccessAnalyzerClientTypes.Criterion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contains = contains {
             var containsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contains)
-            for valuelist0 in contains {
-                try containsContainer.encode(valuelist0)
+            for string0 in contains {
+                try containsContainer.encode(string0)
             }
         }
         if let eq = eq {
             var eqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eq)
-            for valuelist0 in eq {
-                try eqContainer.encode(valuelist0)
+            for string0 in eq {
+                try eqContainer.encode(string0)
             }
         }
         if let exists = self.exists {
@@ -2219,8 +2219,8 @@ extension AccessAnalyzerClientTypes.Criterion: Swift.Codable {
         }
         if let neq = neq {
             var neqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .neq)
-            for valuelist0 in neq {
-                try neqContainer.encode(valuelist0)
+            for string0 in neq {
+                try neqContainer.encode(string0)
             }
         }
     }
@@ -2490,8 +2490,8 @@ extension AccessAnalyzerClientTypes.EbsSnapshotConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for ebsgrouplist0 in groups {
-                try groupsContainer.encode(ebsgrouplist0)
+            for ebsgroup0 in groups {
+                try groupsContainer.encode(ebsgroup0)
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -2499,8 +2499,8 @@ extension AccessAnalyzerClientTypes.EbsSnapshotConfiguration: Swift.Codable {
         }
         if let userIds = userIds {
             var userIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIds)
-            for ebsuseridlist0 in userIds {
-                try userIdsContainer.encode(ebsuseridlist0)
+            for ebsuserid0 in userIds {
+                try userIdsContainer.encode(ebsuserid0)
             }
         }
     }
@@ -2678,8 +2678,8 @@ extension AccessAnalyzerClientTypes.Finding: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = action {
             var actionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .action)
-            for actionlist0 in action {
-                try actionContainer.encode(actionlist0)
+            for string0 in action {
+                try actionContainer.encode(string0)
             }
         }
         if let analyzedAt = self.analyzedAt {
@@ -2687,8 +2687,8 @@ extension AccessAnalyzerClientTypes.Finding: Swift.Codable {
         }
         if let condition = condition {
             var conditionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .condition)
-            for (dictKey0, conditionkeymap0) in condition {
-                try conditionContainer.encode(conditionkeymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, conditionKeyMap0) in condition {
+                try conditionContainer.encode(conditionKeyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -2705,8 +2705,8 @@ extension AccessAnalyzerClientTypes.Finding: Swift.Codable {
         }
         if let principal = principal {
             var principalContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principal)
-            for (dictKey0, principalmap0) in principal {
-                try principalContainer.encode(principalmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, principalMap0) in principal {
+                try principalContainer.encode(principalMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resource = self.resource {
@@ -2720,8 +2720,8 @@ extension AccessAnalyzerClientTypes.Finding: Swift.Codable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for findingsourcelist0 in sources {
-                try sourcesContainer.encode(findingsourcelist0)
+            for findingsource0 in sources {
+                try sourcesContainer.encode(findingsource0)
             }
         }
         if let status = self.status {
@@ -3130,8 +3130,8 @@ extension AccessAnalyzerClientTypes.FindingSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let action = action {
             var actionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .action)
-            for actionlist0 in action {
-                try actionContainer.encode(actionlist0)
+            for string0 in action {
+                try actionContainer.encode(string0)
             }
         }
         if let analyzedAt = self.analyzedAt {
@@ -3139,8 +3139,8 @@ extension AccessAnalyzerClientTypes.FindingSummary: Swift.Codable {
         }
         if let condition = condition {
             var conditionContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .condition)
-            for (dictKey0, conditionkeymap0) in condition {
-                try conditionContainer.encode(conditionkeymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, conditionKeyMap0) in condition {
+                try conditionContainer.encode(conditionKeyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdAt = self.createdAt {
@@ -3157,8 +3157,8 @@ extension AccessAnalyzerClientTypes.FindingSummary: Swift.Codable {
         }
         if let principal = principal {
             var principalContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .principal)
-            for (dictKey0, principalmap0) in principal {
-                try principalContainer.encode(principalmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, principalMap0) in principal {
+                try principalContainer.encode(principalMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resource = self.resource {
@@ -3172,8 +3172,8 @@ extension AccessAnalyzerClientTypes.FindingSummary: Swift.Codable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for findingsourcelist0 in sources {
-                try sourcesContainer.encode(findingsourcelist0)
+            for findingsource0 in sources {
+                try sourcesContainer.encode(findingsource0)
             }
         }
         if let status = self.status {
@@ -3431,8 +3431,8 @@ extension AccessAnalyzerClientTypes.GeneratedPolicyResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let generatedPolicies = generatedPolicies {
             var generatedPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .generatedPolicies)
-            for generatedpolicylist0 in generatedPolicies {
-                try generatedPoliciesContainer.encode(generatedpolicylist0)
+            for generatedpolicy0 in generatedPolicies {
+                try generatedPoliciesContainer.encode(generatedpolicy0)
             }
         }
         if let properties = self.properties {
@@ -4253,8 +4253,8 @@ extension AccessAnalyzerClientTypes.InlineArchiveRule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let ruleName = self.ruleName {
@@ -4607,8 +4607,8 @@ extension AccessAnalyzerClientTypes.KmsGrantConfiguration: Swift.Codable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for kmsgrantoperationslist0 in operations {
-                try operationsContainer.encode(kmsgrantoperationslist0.rawValue)
+            for kmsgrantoperation0 in operations {
+                try operationsContainer.encode(kmsgrantoperation0.rawValue)
             }
         }
         if let retiringPrincipal = self.retiringPrincipal {
@@ -4685,14 +4685,14 @@ extension AccessAnalyzerClientTypes.KmsGrantConstraints: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContextEquals = encryptionContextEquals {
             var encryptionContextEqualsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContextEquals)
-            for (dictKey0, kmsconstraintsmap0) in encryptionContextEquals {
-                try encryptionContextEqualsContainer.encode(kmsconstraintsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, kmsConstraintsMap0) in encryptionContextEquals {
+                try encryptionContextEqualsContainer.encode(kmsConstraintsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let encryptionContextSubset = encryptionContextSubset {
             var encryptionContextSubsetContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContextSubset)
-            for (dictKey0, kmsconstraintsmap0) in encryptionContextSubset {
-                try encryptionContextSubsetContainer.encode(kmsconstraintsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, kmsConstraintsMap0) in encryptionContextSubset {
+                try encryptionContextSubsetContainer.encode(kmsConstraintsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4822,14 +4822,14 @@ extension AccessAnalyzerClientTypes.KmsKeyConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grants = grants {
             var grantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grants)
-            for kmsgrantconfigurationslist0 in grants {
-                try grantsContainer.encode(kmsgrantconfigurationslist0)
+            for kmsgrantconfiguration0 in grants {
+                try grantsContainer.encode(kmsgrantconfiguration0)
             }
         }
         if let keyPolicies = keyPolicies {
             var keyPoliciesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .keyPolicies)
-            for (dictKey0, kmskeypoliciesmap0) in keyPolicies {
-                try keyPoliciesContainer.encode(kmskeypoliciesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, kmsKeyPoliciesMap0) in keyPolicies {
+                try keyPoliciesContainer.encode(kmsKeyPoliciesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4896,8 +4896,8 @@ extension ListAccessPreviewFindingsInput: Swift.Encodable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maxResults = self.maxResults {
@@ -5715,8 +5715,8 @@ extension ListFindingsInput: Swift.Encodable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maxResults = self.maxResults {
@@ -6224,8 +6224,8 @@ extension AccessAnalyzerClientTypes.Location: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let path = path {
             var pathContainer = encodeContainer.nestedUnkeyedContainer(forKey: .path)
-            for pathelementlist0 in path {
-                try pathContainer.encode(pathelementlist0)
+            for pathelement0 in path {
+                try pathContainer.encode(pathelement0)
             }
         }
         if let span = self.span {
@@ -6638,8 +6638,8 @@ extension AccessAnalyzerClientTypes.RdsDbClusterSnapshotAttributeValue: Swift.Co
         switch self {
             case let .accountids(accountids):
                 var accountidsContainer = container.nestedUnkeyedContainer(forKey: .accountids)
-                for rdsdbclustersnapshotaccountidslist0 in accountids {
-                    try accountidsContainer.encode(rdsdbclustersnapshotaccountidslist0)
+                for rdsdbclustersnapshotaccountid0 in accountids {
+                    try accountidsContainer.encode(rdsdbclustersnapshotaccountid0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -6692,8 +6692,8 @@ extension AccessAnalyzerClientTypes.RdsDbClusterSnapshotConfiguration: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, rdsdbclustersnapshotattributesmap0) in attributes {
-                try attributesContainer.encode(rdsdbclustersnapshotattributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rdsDbClusterSnapshotAttributesMap0) in attributes {
+                try attributesContainer.encode(rdsDbClusterSnapshotAttributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -6754,8 +6754,8 @@ extension AccessAnalyzerClientTypes.RdsDbSnapshotAttributeValue: Swift.Codable {
         switch self {
             case let .accountids(accountids):
                 var accountidsContainer = container.nestedUnkeyedContainer(forKey: .accountids)
-                for rdsdbsnapshotaccountidslist0 in accountids {
-                    try accountidsContainer.encode(rdsdbsnapshotaccountidslist0)
+                for rdsdbsnapshotaccountid0 in accountids {
+                    try accountidsContainer.encode(rdsdbsnapshotaccountid0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -6808,8 +6808,8 @@ extension AccessAnalyzerClientTypes.RdsDbSnapshotConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, rdsdbsnapshotattributesmap0) in attributes {
-                try attributesContainer.encode(rdsdbsnapshotattributesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rdsDbSnapshotAttributesMap0) in attributes {
+                try attributesContainer.encode(rdsDbSnapshotAttributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let kmsKeyId = self.kmsKeyId {
@@ -7151,14 +7151,14 @@ extension AccessAnalyzerClientTypes.S3BucketConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accessPoints = accessPoints {
             var accessPointsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .accessPoints)
-            for (dictKey0, s3accesspointconfigurationsmap0) in accessPoints {
-                try accessPointsContainer.encode(s3accesspointconfigurationsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, s3AccessPointConfigurationsMap0) in accessPoints {
+                try accessPointsContainer.encode(s3AccessPointConfigurationsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let bucketAclGrants = bucketAclGrants {
             var bucketAclGrantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketAclGrants)
-            for s3bucketaclgrantconfigurationslist0 in bucketAclGrants {
-                try bucketAclGrantsContainer.encode(s3bucketaclgrantconfigurationslist0)
+            for s3bucketaclgrantconfiguration0 in bucketAclGrants {
+                try bucketAclGrantsContainer.encode(s3bucketaclgrantconfiguration0)
             }
         }
         if let bucketPolicy = self.bucketPolicy {
@@ -7909,8 +7909,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8089,8 +8089,8 @@ extension AccessAnalyzerClientTypes.Trail: Swift.Codable {
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for string0 in regions {
+                try regionsContainer.encode(string0)
             }
         }
     }
@@ -8157,8 +8157,8 @@ extension AccessAnalyzerClientTypes.TrailProperties: Swift.Codable {
         }
         if let regions = regions {
             var regionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regions)
-            for regionlist0 in regions {
-                try regionsContainer.encode(regionlist0)
+            for string0 in regions {
+                try regionsContainer.encode(string0)
             }
         }
     }
@@ -8348,8 +8348,8 @@ extension UpdateArchiveRuleInput: Swift.Encodable {
         }
         if let filter = filter {
             var filterContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filter)
-            for (dictKey0, filtercriteriamap0) in filter {
-                try filterContainer.encode(filtercriteriamap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, filterCriteriaMap0) in filter {
+                try filterContainer.encode(filterCriteriaMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8483,8 +8483,8 @@ extension UpdateFindingsInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for findingidlist0 in ids {
-                try idsContainer.encode(findingidlist0)
+            for findingid0 in ids {
+                try idsContainer.encode(findingid0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -8639,8 +8639,8 @@ extension AccessAnalyzerClientTypes.ValidatePolicyFinding: Swift.Codable {
         }
         if let locations = locations {
             var locationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .locations)
-            for locationlist0 in locations {
-                try locationsContainer.encode(locationlist0)
+            for location0 in locations {
+                try locationsContainer.encode(location0)
             }
         }
     }

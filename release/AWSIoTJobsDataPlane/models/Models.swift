@@ -470,8 +470,8 @@ extension IoTJobsDataPlaneClientTypes.JobExecution: Swift.Codable {
         }
         if let statusDetails = statusDetails {
             var statusDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusDetails)
-            for (dictKey0, detailsmap0) in statusDetails {
-                try statusDetailsContainer.encode(detailsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detailsMap0) in statusDetails {
+                try statusDetailsContainer.encode(detailsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let thingName = self.thingName {
@@ -588,8 +588,8 @@ extension IoTJobsDataPlaneClientTypes.JobExecutionState: Swift.Codable {
         }
         if let statusDetails = statusDetails {
             var statusDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusDetails)
-            for (dictKey0, detailsmap0) in statusDetails {
-                try statusDetailsContainer.encode(detailsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detailsMap0) in statusDetails {
+                try statusDetailsContainer.encode(detailsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if versionNumber != 0 {
@@ -892,8 +892,8 @@ extension StartNextPendingJobExecutionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statusDetails = statusDetails {
             var statusDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusDetails)
-            for (dictKey0, detailsmap0) in statusDetails {
-                try statusDetailsContainer.encode(detailsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detailsMap0) in statusDetails {
+                try statusDetailsContainer.encode(detailsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stepTimeoutInMinutes = self.stepTimeoutInMinutes {
@@ -1177,8 +1177,8 @@ extension UpdateJobExecutionInput: Swift.Encodable {
         }
         if let statusDetails = statusDetails {
             var statusDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statusDetails)
-            for (dictKey0, detailsmap0) in statusDetails {
-                try statusDetailsContainer.encode(detailsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detailsMap0) in statusDetails {
+                try statusDetailsContainer.encode(detailsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let stepTimeoutInMinutes = self.stepTimeoutInMinutes {

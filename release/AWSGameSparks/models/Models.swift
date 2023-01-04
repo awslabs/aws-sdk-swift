@@ -172,8 +172,8 @@ extension CreateGameInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -473,8 +473,8 @@ extension CreateStageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1385,8 +1385,8 @@ extension GameSparksClientTypes.GameDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1518,8 +1518,8 @@ extension GameSparksClientTypes.GameSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4828,8 +4828,8 @@ extension GameSparksClientTypes.StageDetails: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4977,8 +4977,8 @@ extension GameSparksClientTypes.StageSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5332,8 +5332,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5577,8 +5577,8 @@ extension UpdateGameConfigurationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let modifications = modifications {
             var modificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modifications)
-            for sectionmodificationlist0 in modifications {
-                try modificationsContainer.encode(sectionmodificationlist0)
+            for sectionmodification0 in modifications {
+                try modificationsContainer.encode(sectionmodification0)
             }
         }
     }

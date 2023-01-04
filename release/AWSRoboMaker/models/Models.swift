@@ -46,8 +46,8 @@ extension BatchDeleteWorldsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let worlds = worlds {
             var worldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .worlds)
-            for arns0 in worlds {
-                try worldsContainer.encode(arns0)
+            for arn0 in worlds {
+                try worldsContainer.encode(arn0)
             }
         }
     }
@@ -182,8 +182,8 @@ extension BatchDescribeSimulationJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobs = jobs {
             var jobsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobs)
-            for arns0 in jobs {
-                try jobsContainer.encode(arns0)
+            for arn0 in jobs {
+                try jobsContainer.encode(arn0)
             }
         }
     }
@@ -1017,8 +1017,8 @@ extension CreateDeploymentJobInput: Swift.Encodable {
         }
         if let deploymentApplicationConfigs = deploymentApplicationConfigs {
             var deploymentApplicationConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentApplicationConfigs)
-            for deploymentapplicationconfigs0 in deploymentApplicationConfigs {
-                try deploymentApplicationConfigsContainer.encode(deploymentapplicationconfigs0)
+            for deploymentapplicationconfig0 in deploymentApplicationConfigs {
+                try deploymentApplicationConfigsContainer.encode(deploymentapplicationconfig0)
             }
         }
         if let deploymentConfig = self.deploymentConfig {
@@ -1029,8 +1029,8 @@ extension CreateDeploymentJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1311,8 +1311,8 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1502,14 +1502,14 @@ extension CreateRobotApplicationInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for sourceconfigs0 in sources {
-                try sourcesContainer.encode(sourceconfigs0)
+            for sourceconfig0 in sources {
+                try sourcesContainer.encode(sourceconfig0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1793,8 +1793,8 @@ extension CreateRobotApplicationVersionInput: Swift.Encodable {
         }
         if let s3Etags = s3Etags {
             var s3EtagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Etags)
-            for s3etags0 in s3Etags {
-                try s3EtagsContainer.encode(s3etags0)
+            for s3etag0 in s3Etags {
+                try s3EtagsContainer.encode(s3etag0)
             }
         }
     }
@@ -2039,8 +2039,8 @@ extension CreateRobotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2278,14 +2278,14 @@ extension CreateSimulationApplicationInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for sourceconfigs0 in sources {
-                try sourcesContainer.encode(sourceconfigs0)
+            for sourceconfig0 in sources {
+                try sourcesContainer.encode(sourceconfig0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2606,8 +2606,8 @@ extension CreateSimulationApplicationVersionInput: Swift.Encodable {
         }
         if let s3Etags = s3Etags {
             var s3EtagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Etags)
-            for s3etags0 in s3Etags {
-                try s3EtagsContainer.encode(s3etags0)
+            for s3etag0 in s3Etags {
+                try s3EtagsContainer.encode(s3etag0)
             }
         }
     }
@@ -2877,8 +2877,8 @@ extension CreateSimulationJobInput: Swift.Encodable {
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasourceconfigs0 in dataSources {
-                try dataSourcesContainer.encode(datasourceconfigs0)
+            for datasourceconfig0 in dataSources {
+                try dataSourcesContainer.encode(datasourceconfig0)
             }
         }
         if let failureBehavior = self.failureBehavior {
@@ -2898,20 +2898,20 @@ extension CreateSimulationJobInput: Swift.Encodable {
         }
         if let robotApplications = robotApplications {
             var robotApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .robotApplications)
-            for robotapplicationconfigs0 in robotApplications {
-                try robotApplicationsContainer.encode(robotapplicationconfigs0)
+            for robotapplicationconfig0 in robotApplications {
+                try robotApplicationsContainer.encode(robotapplicationconfig0)
             }
         }
         if let simulationApplications = simulationApplications {
             var simulationApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .simulationApplications)
-            for simulationapplicationconfigs0 in simulationApplications {
-                try simulationApplicationsContainer.encode(simulationapplicationconfigs0)
+            for simulationapplicationconfig0 in simulationApplications {
+                try simulationApplicationsContainer.encode(simulationapplicationconfig0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -3383,14 +3383,14 @@ extension CreateWorldExportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let worlds = worlds {
             var worldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .worlds)
-            for arns0 in worlds {
-                try worldsContainer.encode(arns0)
+            for arn0 in worlds {
+                try worldsContainer.encode(arn0)
             }
         }
     }
@@ -3651,8 +3651,8 @@ extension CreateWorldGenerationJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let template = self.template {
@@ -3663,8 +3663,8 @@ extension CreateWorldGenerationJobInput: Swift.Encodable {
         }
         if let worldTags = worldTags {
             var worldTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .worldTags)
-            for (dictKey0, tagmap0) in worldTags {
-                try worldTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in worldTags {
+                try worldTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3948,8 +3948,8 @@ extension CreateWorldTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateBody = self.templateBody {
@@ -4180,8 +4180,8 @@ extension RoboMakerClientTypes.DataSource: Swift.Codable {
         }
         if let s3Keys = s3Keys {
             var s3KeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Keys)
-            for s3keyoutputs0 in s3Keys {
-                try s3KeysContainer.encode(s3keyoutputs0)
+            for s3keyoutput0 in s3Keys {
+                try s3KeysContainer.encode(s3keyoutput0)
             }
         }
         if let type = self.type {
@@ -4267,8 +4267,8 @@ extension RoboMakerClientTypes.DataSourceConfig: Swift.Codable {
         }
         if let s3Keys = s3Keys {
             var s3KeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Keys)
-            for s3keysorprefixes0 in s3Keys {
-                try s3KeysContainer.encode(s3keysorprefixes0)
+            for s3keyorprefix0 in s3Keys {
+                try s3KeysContainer.encode(s3keyorprefix0)
             }
         }
         if let type = self.type {
@@ -4965,8 +4965,8 @@ extension RoboMakerClientTypes.DeploymentJob: Swift.Codable {
         }
         if let deploymentApplicationConfigs = deploymentApplicationConfigs {
             var deploymentApplicationConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deploymentApplicationConfigs)
-            for deploymentapplicationconfigs0 in deploymentApplicationConfigs {
-                try deploymentApplicationConfigsContainer.encode(deploymentapplicationconfigs0)
+            for deploymentapplicationconfig0 in deploymentApplicationConfigs {
+                try deploymentApplicationConfigsContainer.encode(deploymentapplicationconfig0)
             }
         }
         if let deploymentConfig = self.deploymentConfig {
@@ -5171,8 +5171,8 @@ extension RoboMakerClientTypes.DeploymentLaunchConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariablemap0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariableMap0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let launchFile = self.launchFile {
@@ -8198,8 +8198,8 @@ extension RoboMakerClientTypes.FailureSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let failures = failures {
             var failuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failures)
-            for worldfailures0 in failures {
-                try failuresContainer.encode(worldfailures0)
+            for worldfailure0 in failures {
+                try failuresContainer.encode(worldfailure0)
             }
         }
         if totalFailureCount != 0 {
@@ -8258,8 +8258,8 @@ extension RoboMakerClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for name0 in values {
+                try valuesContainer.encode(name0)
             }
         }
     }
@@ -8319,8 +8319,8 @@ extension RoboMakerClientTypes.FinishedWorldsSummary: Swift.Codable {
         }
         if let succeededWorlds = succeededWorlds {
             var succeededWorldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .succeededWorlds)
-            for arns0 in succeededWorlds {
-                try succeededWorldsContainer.encode(arns0)
+            for arn0 in succeededWorlds {
+                try succeededWorldsContainer.encode(arn0)
             }
         }
     }
@@ -8752,14 +8752,14 @@ extension RoboMakerClientTypes.LaunchConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let command = command {
             var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
-            for commandlist0 in command {
-                try commandContainer.encode(commandlist0)
+            for nonemptystring0 in command {
+                try commandContainer.encode(nonemptystring0)
             }
         }
         if let environmentVariables = environmentVariables {
             var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
-            for (dictKey0, environmentvariablemap0) in environmentVariables {
-                try environmentVariablesContainer.encode(environmentvariablemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, environmentVariableMap0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let launchFile = self.launchFile {
@@ -8910,8 +8910,8 @@ extension ListDeploymentJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9083,8 +9083,8 @@ extension ListFleetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9257,8 +9257,8 @@ extension ListRobotApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9437,8 +9437,8 @@ extension ListRobotsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9611,8 +9611,8 @@ extension ListSimulationApplicationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9791,8 +9791,8 @@ extension ListSimulationJobBatchesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9958,8 +9958,8 @@ extension ListSimulationJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10237,8 +10237,8 @@ extension ListWorldExportJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10407,8 +10407,8 @@ extension ListWorldGenerationJobsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10722,8 +10722,8 @@ extension ListWorldsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11025,8 +11025,8 @@ extension RoboMakerClientTypes.PortForwardingConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let portMappings = portMappings {
             var portMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portMappings)
-            for portmappinglist0 in portMappings {
-                try portMappingsContainer.encode(portmappinglist0)
+            for portmapping0 in portMappings {
+                try portMappingsContainer.encode(portmapping0)
             }
         }
     }
@@ -11734,14 +11734,14 @@ extension RoboMakerClientTypes.RobotApplicationConfig: Swift.Codable {
         }
         if let tools = tools {
             var toolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tools)
-            for tools0 in tools {
-                try toolsContainer.encode(tools0)
+            for tool0 in tools {
+                try toolsContainer.encode(tool0)
             }
         }
         if let uploadConfigurations = uploadConfigurations {
             var uploadConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .uploadConfigurations)
-            for uploadconfigurations0 in uploadConfigurations {
-                try uploadConfigurationsContainer.encode(uploadconfigurations0)
+            for uploadconfiguration0 in uploadConfigurations {
+                try uploadConfigurationsContainer.encode(uploadconfiguration0)
             }
         }
         if let useDefaultTools = self.useDefaultTools {
@@ -12394,14 +12394,14 @@ extension RoboMakerClientTypes.SimulationApplicationConfig: Swift.Codable {
         }
         if let tools = tools {
             var toolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tools)
-            for tools0 in tools {
-                try toolsContainer.encode(tools0)
+            for tool0 in tools {
+                try toolsContainer.encode(tool0)
             }
         }
         if let uploadConfigurations = uploadConfigurations {
             var uploadConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .uploadConfigurations)
-            for uploadconfigurations0 in uploadConfigurations {
-                try uploadConfigurationsContainer.encode(uploadconfigurations0)
+            for uploadconfiguration0 in uploadConfigurations {
+                try uploadConfigurationsContainer.encode(uploadconfiguration0)
             }
         }
         if let useDefaultTools = self.useDefaultTools {
@@ -12412,8 +12412,8 @@ extension RoboMakerClientTypes.SimulationApplicationConfig: Swift.Codable {
         }
         if let worldConfigs = worldConfigs {
             var worldConfigsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .worldConfigs)
-            for worldconfigs0 in worldConfigs {
-                try worldConfigsContainer.encode(worldconfigs0)
+            for worldconfig0 in worldConfigs {
+                try worldConfigsContainer.encode(worldconfig0)
             }
         }
     }
@@ -12637,8 +12637,8 @@ extension RoboMakerClientTypes.SimulationJob: Swift.Codable {
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasources0 in dataSources {
-                try dataSourcesContainer.encode(datasources0)
+            for datasource0 in dataSources {
+                try dataSourcesContainer.encode(datasource0)
             }
         }
         if let failureBehavior = self.failureBehavior {
@@ -12676,14 +12676,14 @@ extension RoboMakerClientTypes.SimulationJob: Swift.Codable {
         }
         if let robotApplications = robotApplications {
             var robotApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .robotApplications)
-            for robotapplicationconfigs0 in robotApplications {
-                try robotApplicationsContainer.encode(robotapplicationconfigs0)
+            for robotapplicationconfig0 in robotApplications {
+                try robotApplicationsContainer.encode(robotapplicationconfig0)
             }
         }
         if let simulationApplications = simulationApplications {
             var simulationApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .simulationApplications)
-            for simulationapplicationconfigs0 in simulationApplications {
-                try simulationApplicationsContainer.encode(simulationapplicationconfigs0)
+            for simulationapplicationconfig0 in simulationApplications {
+                try simulationApplicationsContainer.encode(simulationapplicationconfig0)
             }
         }
         if simulationTimeMillis != 0 {
@@ -12694,8 +12694,8 @@ extension RoboMakerClientTypes.SimulationJob: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcConfig = self.vpcConfig {
@@ -13201,8 +13201,8 @@ extension RoboMakerClientTypes.SimulationJobRequest: Swift.Codable {
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasourceconfigs0 in dataSources {
-                try dataSourcesContainer.encode(datasourceconfigs0)
+            for datasourceconfig0 in dataSources {
+                try dataSourcesContainer.encode(datasourceconfig0)
             }
         }
         if let failureBehavior = self.failureBehavior {
@@ -13222,20 +13222,20 @@ extension RoboMakerClientTypes.SimulationJobRequest: Swift.Codable {
         }
         if let robotApplications = robotApplications {
             var robotApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .robotApplications)
-            for robotapplicationconfigs0 in robotApplications {
-                try robotApplicationsContainer.encode(robotapplicationconfigs0)
+            for robotapplicationconfig0 in robotApplications {
+                try robotApplicationsContainer.encode(robotapplicationconfig0)
             }
         }
         if let simulationApplications = simulationApplications {
             var simulationApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .simulationApplications)
-            for simulationapplicationconfigs0 in simulationApplications {
-                try simulationApplicationsContainer.encode(simulationapplicationconfigs0)
+            for simulationapplicationconfig0 in simulationApplications {
+                try simulationApplicationsContainer.encode(simulationapplicationconfig0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let useDefaultApplications = self.useDefaultApplications {
@@ -13450,8 +13450,8 @@ extension RoboMakerClientTypes.SimulationJobSummary: Swift.Codable {
         }
         if let dataSourceNames = dataSourceNames {
             var dataSourceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSourceNames)
-            for datasourcenames0 in dataSourceNames {
-                try dataSourceNamesContainer.encode(datasourcenames0)
+            for name0 in dataSourceNames {
+                try dataSourceNamesContainer.encode(name0)
             }
         }
         if let lastUpdatedAt = self.lastUpdatedAt {
@@ -13462,14 +13462,14 @@ extension RoboMakerClientTypes.SimulationJobSummary: Swift.Codable {
         }
         if let robotApplicationNames = robotApplicationNames {
             var robotApplicationNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .robotApplicationNames)
-            for robotapplicationnames0 in robotApplicationNames {
-                try robotApplicationNamesContainer.encode(robotapplicationnames0)
+            for name0 in robotApplicationNames {
+                try robotApplicationNamesContainer.encode(name0)
             }
         }
         if let simulationApplicationNames = simulationApplicationNames {
             var simulationApplicationNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .simulationApplicationNames)
-            for simulationapplicationnames0 in simulationApplicationNames {
-                try simulationApplicationNamesContainer.encode(simulationapplicationnames0)
+            for name0 in simulationApplicationNames {
+                try simulationApplicationNamesContainer.encode(name0)
             }
         }
         if let status = self.status {
@@ -13787,14 +13787,14 @@ extension StartSimulationJobBatchInput: Swift.Encodable {
         }
         if let createSimulationJobRequests = createSimulationJobRequests {
             var createSimulationJobRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createSimulationJobRequests)
-            for createsimulationjobrequests0 in createSimulationJobRequests {
-                try createSimulationJobRequestsContainer.encode(createsimulationjobrequests0)
+            for simulationjobrequest0 in createSimulationJobRequests {
+                try createSimulationJobRequestsContainer.encode(simulationjobrequest0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14310,8 +14310,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14774,8 +14774,8 @@ extension UpdateRobotApplicationInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for sourceconfigs0 in sources {
-                try sourcesContainer.encode(sourceconfigs0)
+            for sourceconfig0 in sources {
+                try sourcesContainer.encode(sourceconfig0)
             }
         }
     }
@@ -15041,8 +15041,8 @@ extension UpdateSimulationApplicationInput: Swift.Encodable {
         }
         if let sources = sources {
             var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
-            for sourceconfigs0 in sources {
-                try sourcesContainer.encode(sourceconfigs0)
+            for sourceconfig0 in sources {
+                try sourcesContainer.encode(sourceconfig0)
             }
         }
     }
@@ -15599,14 +15599,14 @@ extension RoboMakerClientTypes.VPCConfig: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for nonemptystring0 in securityGroups {
+                try securityGroupsContainer.encode(nonemptystring0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for nonemptystring0 in subnets {
+                try subnetsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -15680,14 +15680,14 @@ extension RoboMakerClientTypes.VPCConfigResponse: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for nonemptystring0 in securityGroups {
+                try securityGroupsContainer.encode(nonemptystring0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for nonemptystring0 in subnets {
+                try subnetsContainer.encode(nonemptystring0)
             }
         }
         if let vpcId = self.vpcId {
@@ -15947,8 +15947,8 @@ extension RoboMakerClientTypes.WorldExportJobSummary: Swift.Codable {
         }
         if let worlds = worlds {
             var worldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .worlds)
-            for arns0 in worlds {
-                try worldsContainer.encode(arns0)
+            for arn0 in worlds {
+                try worldsContainer.encode(arn0)
             }
         }
     }

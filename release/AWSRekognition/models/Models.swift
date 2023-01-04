@@ -472,8 +472,8 @@ extension RekognitionClientTypes.Celebrity: Swift.Codable {
         }
         if let urls = urls {
             var urlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urls)
-            for urls0 in urls {
-                try urlsContainer.encode(urls0)
+            for url0 in urls {
+                try urlsContainer.encode(url0)
             }
         }
     }
@@ -573,8 +573,8 @@ extension RekognitionClientTypes.CelebrityDetail: Swift.Codable {
         }
         if let urls = urls {
             var urlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .urls)
-            for urls0 in urls {
-                try urlsContainer.encode(urls0)
+            for url0 in urls {
+                try urlsContainer.encode(url0)
             }
         }
     }
@@ -1010,14 +1010,14 @@ extension RekognitionClientTypes.ComparedFace: Swift.Codable {
         }
         if let emotions = emotions {
             var emotionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emotions)
-            for emotions0 in emotions {
-                try emotionsContainer.encode(emotions0)
+            for emotion0 in emotions {
+                try emotionsContainer.encode(emotion0)
             }
         }
         if let landmarks = landmarks {
             var landmarksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .landmarks)
-            for landmarks0 in landmarks {
-                try landmarksContainer.encode(landmarks0)
+            for landmark0 in landmarks {
+                try landmarksContainer.encode(landmark0)
             }
         }
         if let pose = self.pose {
@@ -1163,8 +1163,8 @@ extension RekognitionClientTypes.ConnectedHomeSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for connectedhomelabels0 in labels {
-                try labelsContainer.encode(connectedhomelabels0)
+            for connectedhomelabel0 in labels {
+                try labelsContainer.encode(connectedhomelabel0)
             }
         }
         if let minConfidence = self.minConfidence {
@@ -1221,8 +1221,8 @@ extension RekognitionClientTypes.ConnectedHomeSettingsForUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
-            for connectedhomelabels0 in labels {
-                try labelsContainer.encode(connectedhomelabels0)
+            for connectedhomelabel0 in labels {
+                try labelsContainer.encode(connectedhomelabel0)
             }
         }
         if let minConfidence = self.minConfidence {
@@ -1407,8 +1407,8 @@ extension CopyProjectVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let versionName = self.versionName {
@@ -1661,8 +1661,8 @@ extension CreateCollectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2114,8 +2114,8 @@ extension CreateProjectVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let testingData = self.testingData {
@@ -2350,8 +2350,8 @@ extension CreateStreamProcessorInput: Swift.Encodable {
         }
         if let regionsOfInterest = regionsOfInterest {
             var regionsOfInterestContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionsOfInterest)
-            for regionsofinterest0 in regionsOfInterest {
-                try regionsOfInterestContainer.encode(regionsofinterest0)
+            for regionofinterest0 in regionsOfInterest {
+                try regionsOfInterestContainer.encode(regionofinterest0)
             }
         }
         if let roleArn = self.roleArn {
@@ -2362,8 +2362,8 @@ extension CreateStreamProcessorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3378,8 +3378,8 @@ extension DeleteFacesInput: Swift.Encodable {
         }
         if let faceIds = faceIds {
             var faceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faceIds)
-            for faceidlist0 in faceIds {
-                try faceIdsContainer.encode(faceidlist0)
+            for faceid0 in faceIds {
+                try faceIdsContainer.encode(faceid0)
             }
         }
     }
@@ -4268,8 +4268,8 @@ extension DescribeProjectVersionsInput: Swift.Encodable {
         }
         if let versionNames = versionNames {
             var versionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versionNames)
-            for versionnames0 in versionNames {
-                try versionNamesContainer.encode(versionnames0)
+            for versionname0 in versionNames {
+                try versionNamesContainer.encode(versionname0)
             }
         }
     }
@@ -4454,8 +4454,8 @@ extension DescribeProjectsInput: Swift.Encodable {
         }
         if let projectNames = projectNames {
             var projectNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .projectNames)
-            for projectnames0 in projectNames {
-                try projectNamesContainer.encode(projectnames0)
+            for projectname0 in projectNames {
+                try projectNamesContainer.encode(projectname0)
             }
         }
     }
@@ -5059,8 +5059,8 @@ extension DetectFacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributes0 in attributes {
-                try attributesContainer.encode(attributes0.rawValue)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0.rawValue)
             }
         }
         if let image = self.image {
@@ -5259,8 +5259,8 @@ extension RekognitionClientTypes.DetectLabelsImageBackground: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dominantColors = dominantColors {
             var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
-            for dominantcolors0 in dominantColors {
-                try dominantColorsContainer.encode(dominantcolors0)
+            for dominantcolor0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolor0)
             }
         }
         if let quality = self.quality {
@@ -5316,8 +5316,8 @@ extension RekognitionClientTypes.DetectLabelsImageForeground: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dominantColors = dominantColors {
             var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
-            for dominantcolors0 in dominantColors {
-                try dominantColorsContainer.encode(dominantcolors0)
+            for dominantcolor0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolor0)
             }
         }
         if let quality = self.quality {
@@ -5378,8 +5378,8 @@ extension RekognitionClientTypes.DetectLabelsImageProperties: Swift.Codable {
         }
         if let dominantColors = dominantColors {
             var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
-            for dominantcolors0 in dominantColors {
-                try dominantColorsContainer.encode(dominantcolors0)
+            for dominantcolor0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolor0)
             }
         }
         if let foreground = self.foreground {
@@ -5543,8 +5543,8 @@ extension DetectLabelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let features = features {
             var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
-            for detectlabelsfeaturelist0 in features {
-                try featuresContainer.encode(detectlabelsfeaturelist0.rawValue)
+            for detectlabelsfeaturename0 in features {
+                try featuresContainer.encode(detectlabelsfeaturename0.rawValue)
             }
         }
         if let image = self.image {
@@ -6155,8 +6155,8 @@ extension RekognitionClientTypes.DetectTextFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let regionsOfInterest = regionsOfInterest {
             var regionsOfInterestContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionsOfInterest)
-            for regionsofinterest0 in regionsOfInterest {
-                try regionsOfInterestContainer.encode(regionsofinterest0)
+            for regionofinterest0 in regionsOfInterest {
+                try regionsOfInterestContainer.encode(regionofinterest0)
             }
         }
         if let wordFilter = self.wordFilter {
@@ -6458,8 +6458,8 @@ extension DistributeDatasetEntriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let datasets = datasets {
             var datasetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasets)
-            for distributedatasetmetadatalist0 in datasets {
-                try datasetsContainer.encode(distributedatasetmetadatalist0)
+            for distributedataset0 in datasets {
+                try datasetsContainer.encode(distributedataset0)
             }
         }
     }
@@ -7098,8 +7098,8 @@ extension RekognitionClientTypes.FaceDetail: Swift.Codable {
         }
         if let emotions = emotions {
             var emotionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emotions)
-            for emotions0 in emotions {
-                try emotionsContainer.encode(emotions0)
+            for emotion0 in emotions {
+                try emotionsContainer.encode(emotion0)
             }
         }
         if let eyeglasses = self.eyeglasses {
@@ -7113,8 +7113,8 @@ extension RekognitionClientTypes.FaceDetail: Swift.Codable {
         }
         if let landmarks = landmarks {
             var landmarksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .landmarks)
-            for landmarks0 in landmarks {
-                try landmarksContainer.encode(landmarks0)
+            for landmark0 in landmarks {
+                try landmarksContainer.encode(landmark0)
             }
         }
         if let mouthOpen = self.mouthOpen {
@@ -7572,26 +7572,26 @@ extension RekognitionClientTypes.GeneralLabelsSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labelCategoryExclusionFilters = labelCategoryExclusionFilters {
             var labelCategoryExclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelCategoryExclusionFilters)
-            for generallabelsfilterlist0 in labelCategoryExclusionFilters {
-                try labelCategoryExclusionFiltersContainer.encode(generallabelsfilterlist0)
+            for generallabelsfiltervalue0 in labelCategoryExclusionFilters {
+                try labelCategoryExclusionFiltersContainer.encode(generallabelsfiltervalue0)
             }
         }
         if let labelCategoryInclusionFilters = labelCategoryInclusionFilters {
             var labelCategoryInclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelCategoryInclusionFilters)
-            for generallabelsfilterlist0 in labelCategoryInclusionFilters {
-                try labelCategoryInclusionFiltersContainer.encode(generallabelsfilterlist0)
+            for generallabelsfiltervalue0 in labelCategoryInclusionFilters {
+                try labelCategoryInclusionFiltersContainer.encode(generallabelsfiltervalue0)
             }
         }
         if let labelExclusionFilters = labelExclusionFilters {
             var labelExclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelExclusionFilters)
-            for generallabelsfilterlist0 in labelExclusionFilters {
-                try labelExclusionFiltersContainer.encode(generallabelsfilterlist0)
+            for generallabelsfiltervalue0 in labelExclusionFilters {
+                try labelExclusionFiltersContainer.encode(generallabelsfiltervalue0)
             }
         }
         if let labelInclusionFilters = labelInclusionFilters {
             var labelInclusionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labelInclusionFilters)
-            for generallabelsfilterlist0 in labelInclusionFilters {
-                try labelInclusionFiltersContainer.encode(generallabelsfilterlist0)
+            for generallabelsfiltervalue0 in labelInclusionFilters {
+                try labelInclusionFiltersContainer.encode(generallabelsfiltervalue0)
             }
         }
     }
@@ -7686,8 +7686,8 @@ extension RekognitionClientTypes.Geometry: Swift.Codable {
         }
         if let polygon = polygon {
             var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
-            for polygon0 in polygon {
-                try polygonContainer.encode(polygon0)
+            for point0 in polygon {
+                try polygonContainer.encode(point0)
             }
         }
     }
@@ -9646,8 +9646,8 @@ extension RekognitionClientTypes.HumanLoopActivationOutput: Swift.Codable {
         }
         if let humanLoopActivationReasons = humanLoopActivationReasons {
             var humanLoopActivationReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .humanLoopActivationReasons)
-            for humanloopactivationreasons0 in humanLoopActivationReasons {
-                try humanLoopActivationReasonsContainer.encode(humanloopactivationreasons0)
+            for humanloopactivationreason0 in humanLoopActivationReasons {
+                try humanLoopActivationReasonsContainer.encode(humanloopactivationreason0)
             }
         }
         if let humanLoopArn = self.humanLoopArn {
@@ -9765,8 +9765,8 @@ extension RekognitionClientTypes.HumanLoopDataAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contentClassifiers = contentClassifiers {
             var contentClassifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentClassifiers)
-            for contentclassifiers0 in contentClassifiers {
-                try contentClassifiersContainer.encode(contentclassifiers0.rawValue)
+            for contentclassifier0 in contentClassifiers {
+                try contentClassifiersContainer.encode(contentclassifier0.rawValue)
             }
         }
     }
@@ -10153,8 +10153,8 @@ extension IndexFacesInput: Swift.Encodable {
         }
         if let detectionAttributes = detectionAttributes {
             var detectionAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectionAttributes)
-            for attributes0 in detectionAttributes {
-                try detectionAttributesContainer.encode(attributes0.rawValue)
+            for attribute0 in detectionAttributes {
+                try detectionAttributesContainer.encode(attribute0.rawValue)
             }
         }
         if let externalImageId = self.externalImageId {
@@ -10410,8 +10410,8 @@ extension RekognitionClientTypes.Instance: Swift.Codable {
         }
         if let dominantColors = dominantColors {
             var dominantColorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dominantColors)
-            for dominantcolors0 in dominantColors {
-                try dominantColorsContainer.encode(dominantcolors0)
+            for dominantcolor0 in dominantColors {
+                try dominantColorsContainer.encode(dominantcolor0)
             }
         }
     }
@@ -11089,14 +11089,14 @@ extension RekognitionClientTypes.Label: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliases = aliases {
             var aliasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliases)
-            for labelaliases0 in aliases {
-                try aliasesContainer.encode(labelaliases0)
+            for labelalias0 in aliases {
+                try aliasesContainer.encode(labelalias0)
             }
         }
         if let categories = categories {
             var categoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categories)
-            for labelcategories0 in categories {
-                try categoriesContainer.encode(labelcategories0)
+            for labelcategory0 in categories {
+                try categoriesContainer.encode(labelcategory0)
             }
         }
         if let confidence = self.confidence {
@@ -11104,8 +11104,8 @@ extension RekognitionClientTypes.Label: Swift.Codable {
         }
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for instances0 in instances {
-                try instancesContainer.encode(instances0)
+            for instance0 in instances {
+                try instancesContainer.encode(instance0)
             }
         }
         if let name = self.name {
@@ -11113,8 +11113,8 @@ extension RekognitionClientTypes.Label: Swift.Codable {
         }
         if let parents = parents {
             var parentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parents)
-            for parents0 in parents {
-                try parentsContainer.encode(parents0)
+            for parent0 in parents {
+                try parentsContainer.encode(parent0)
             }
         }
     }
@@ -11910,8 +11910,8 @@ extension ListDatasetEntriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containsLabels = containsLabels {
             var containsLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containsLabels)
-            for datasetlabels0 in containsLabels {
-                try containsLabelsContainer.encode(datasetlabels0)
+            for datasetlabel0 in containsLabels {
+                try containsLabelsContainer.encode(datasetlabel0)
             }
         }
         if let datasetArn = self.datasetArn {
@@ -13410,8 +13410,8 @@ extension RekognitionClientTypes.PersonMatch: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let faceMatches = faceMatches {
             var faceMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .faceMatches)
-            for facematchlist0 in faceMatches {
-                try faceMatchesContainer.encode(facematchlist0)
+            for facematch0 in faceMatches {
+                try faceMatchesContainer.encode(facematch0)
             }
         }
         if let person = self.person {
@@ -13613,8 +13613,8 @@ extension RekognitionClientTypes.ProjectDescription: Swift.Codable {
         }
         if let datasets = datasets {
             var datasetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .datasets)
-            for datasetmetadatalist0 in datasets {
-                try datasetsContainer.encode(datasetmetadatalist0)
+            for datasetmetadata0 in datasets {
+                try datasetsContainer.encode(datasetmetadata0)
             }
         }
         if let projectArn = self.projectArn {
@@ -14046,8 +14046,8 @@ extension RekognitionClientTypes.ProtectiveEquipmentBodyPart: Swift.Codable {
         }
         if let equipmentDetections = equipmentDetections {
             var equipmentDetectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .equipmentDetections)
-            for equipmentdetections0 in equipmentDetections {
-                try equipmentDetectionsContainer.encode(equipmentdetections0)
+            for equipmentdetection0 in equipmentDetections {
+                try equipmentDetectionsContainer.encode(equipmentdetection0)
             }
         }
         if let name = self.name {
@@ -14111,8 +14111,8 @@ extension RekognitionClientTypes.ProtectiveEquipmentPerson: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bodyParts = bodyParts {
             var bodyPartsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bodyParts)
-            for bodyparts0 in bodyParts {
-                try bodyPartsContainer.encode(bodyparts0)
+            for protectiveequipmentbodypart0 in bodyParts {
+                try bodyPartsContainer.encode(protectiveequipmentbodypart0)
             }
         }
         if let boundingBox = self.boundingBox {
@@ -14189,8 +14189,8 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummarizationAttributes: Swi
         }
         if let requiredEquipmentTypes = requiredEquipmentTypes {
             var requiredEquipmentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requiredEquipmentTypes)
-            for protectiveequipmenttypes0 in requiredEquipmentTypes {
-                try requiredEquipmentTypesContainer.encode(protectiveequipmenttypes0.rawValue)
+            for protectiveequipmenttype0 in requiredEquipmentTypes {
+                try requiredEquipmentTypesContainer.encode(protectiveequipmenttype0.rawValue)
             }
         }
     }
@@ -14246,20 +14246,20 @@ extension RekognitionClientTypes.ProtectiveEquipmentSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let personsIndeterminate = personsIndeterminate {
             var personsIndeterminateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .personsIndeterminate)
-            for protectiveequipmentpersonids0 in personsIndeterminate {
-                try personsIndeterminateContainer.encode(protectiveequipmentpersonids0)
+            for uinteger0 in personsIndeterminate {
+                try personsIndeterminateContainer.encode(uinteger0)
             }
         }
         if let personsWithRequiredEquipment = personsWithRequiredEquipment {
             var personsWithRequiredEquipmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .personsWithRequiredEquipment)
-            for protectiveequipmentpersonids0 in personsWithRequiredEquipment {
-                try personsWithRequiredEquipmentContainer.encode(protectiveequipmentpersonids0)
+            for uinteger0 in personsWithRequiredEquipment {
+                try personsWithRequiredEquipmentContainer.encode(uinteger0)
             }
         }
         if let personsWithoutRequiredEquipment = personsWithoutRequiredEquipment {
             var personsWithoutRequiredEquipmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .personsWithoutRequiredEquipment)
-            for protectiveequipmentpersonids0 in personsWithoutRequiredEquipment {
-                try personsWithoutRequiredEquipmentContainer.encode(protectiveequipmentpersonids0)
+            for uinteger0 in personsWithoutRequiredEquipment {
+                try personsWithoutRequiredEquipmentContainer.encode(uinteger0)
             }
         }
     }
@@ -14865,8 +14865,8 @@ extension RekognitionClientTypes.RegionOfInterest: Swift.Codable {
         }
         if let polygon = polygon {
             var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
-            for polygon0 in polygon {
-                try polygonContainer.encode(polygon0)
+            for point0 in polygon {
+                try polygonContainer.encode(point0)
             }
         }
     }
@@ -16799,8 +16799,8 @@ extension StartLabelDetectionInput: Swift.Encodable {
         }
         if let features = features {
             var featuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .features)
-            for labeldetectionfeaturelist0 in features {
-                try featuresContainer.encode(labeldetectionfeaturelist0.rawValue)
+            for labeldetectionfeaturename0 in features {
+                try featuresContainer.encode(labeldetectionfeaturename0.rawValue)
             }
         }
         if let jobTag = self.jobTag {
@@ -17376,8 +17376,8 @@ extension StartSegmentDetectionInput: Swift.Encodable {
         }
         if let segmentTypes = segmentTypes {
             var segmentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentTypes)
-            for segmenttypes0 in segmentTypes {
-                try segmentTypesContainer.encode(segmenttypes0.rawValue)
+            for segmenttype0 in segmentTypes {
+                try segmentTypesContainer.encode(segmenttype0.rawValue)
             }
         }
         if let video = self.video {
@@ -17787,8 +17787,8 @@ extension RekognitionClientTypes.StartTextDetectionFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let regionsOfInterest = regionsOfInterest {
             var regionsOfInterestContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionsOfInterest)
-            for regionsofinterest0 in regionsOfInterest {
-                try regionsOfInterestContainer.encode(regionsofinterest0)
+            for regionofinterest0 in regionsOfInterest {
+                try regionsOfInterestContainer.encode(regionofinterest0)
             }
         }
         if let wordFilter = self.wordFilter {
@@ -18740,8 +18740,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -18946,8 +18946,8 @@ extension RekognitionClientTypes.TestingData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assets = assets {
             var assetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assets)
-            for assets0 in assets {
-                try assetsContainer.encode(assets0)
+            for asset0 in assets {
+                try assetsContainer.encode(asset0)
             }
         }
         if autoCreate != false {
@@ -19290,8 +19290,8 @@ extension RekognitionClientTypes.TrainingData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assets = assets {
             var assetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assets)
-            for assets0 in assets {
-                try assetsContainer.encode(assets0)
+            for asset0 in assets {
+                try assetsContainer.encode(asset0)
             }
         }
     }
@@ -19396,8 +19396,8 @@ extension RekognitionClientTypes.UnindexedFace: Swift.Codable {
         }
         if let reasons = reasons {
             var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
-            for reasons0 in reasons {
-                try reasonsContainer.encode(reasons0.rawValue)
+            for reason0 in reasons {
+                try reasonsContainer.encode(reason0.rawValue)
             }
         }
     }
@@ -19465,8 +19465,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -19693,14 +19693,14 @@ extension UpdateStreamProcessorInput: Swift.Encodable {
         }
         if let parametersToDelete = parametersToDelete {
             var parametersToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parametersToDelete)
-            for streamprocessorparameterstodelete0 in parametersToDelete {
-                try parametersToDeleteContainer.encode(streamprocessorparameterstodelete0.rawValue)
+            for streamprocessorparametertodelete0 in parametersToDelete {
+                try parametersToDeleteContainer.encode(streamprocessorparametertodelete0.rawValue)
             }
         }
         if let regionsOfInterestForUpdate = regionsOfInterestForUpdate {
             var regionsOfInterestForUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionsOfInterestForUpdate)
-            for regionsofinterest0 in regionsOfInterestForUpdate {
-                try regionsOfInterestForUpdateContainer.encode(regionsofinterest0)
+            for regionofinterest0 in regionsOfInterestForUpdate {
+                try regionsOfInterestForUpdateContainer.encode(regionofinterest0)
             }
         }
         if let settingsForUpdate = self.settingsForUpdate {
@@ -19845,8 +19845,8 @@ extension RekognitionClientTypes.ValidationData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assets = assets {
             var assetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assets)
-            for assets0 in assets {
-                try assetsContainer.encode(assets0)
+            for asset0 in assets {
+                try assetsContainer.encode(asset0)
             }
         }
     }

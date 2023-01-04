@@ -71,8 +71,8 @@ extension AddTagsToStreamInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -193,8 +193,8 @@ extension KinesisClientTypes.ChildShard: Swift.Codable {
         }
         if let parentShards = parentShards {
             var parentShardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parentShards)
-            for shardidlist0 in parentShards {
-                try parentShardsContainer.encode(shardidlist0)
+            for shardid0 in parentShards {
+                try parentShardsContainer.encode(shardid0)
             }
         }
         if let shardId = self.shardId {
@@ -1448,8 +1448,8 @@ extension DisableEnhancedMonitoringInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let shardLevelMetrics = shardLevelMetrics {
             var shardLevelMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shardLevelMetrics)
-            for metricsnamelist0 in shardLevelMetrics {
-                try shardLevelMetricsContainer.encode(metricsnamelist0.rawValue)
+            for metricsname0 in shardLevelMetrics {
+                try shardLevelMetricsContainer.encode(metricsname0.rawValue)
             }
         }
         if let streamARN = self.streamARN {
@@ -1672,8 +1672,8 @@ extension EnableEnhancedMonitoringInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let shardLevelMetrics = shardLevelMetrics {
             var shardLevelMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shardLevelMetrics)
-            for metricsnamelist0 in shardLevelMetrics {
-                try shardLevelMetricsContainer.encode(metricsnamelist0.rawValue)
+            for metricsname0 in shardLevelMetrics {
+                try shardLevelMetricsContainer.encode(metricsname0.rawValue)
             }
         }
         if let streamARN = self.streamARN {
@@ -1926,8 +1926,8 @@ extension KinesisClientTypes.EnhancedMetrics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let shardLevelMetrics = shardLevelMetrics {
             var shardLevelMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shardLevelMetrics)
-            for metricsnamelist0 in shardLevelMetrics {
-                try shardLevelMetricsContainer.encode(metricsnamelist0.rawValue)
+            for metricsname0 in shardLevelMetrics {
+                try shardLevelMetricsContainer.encode(metricsname0.rawValue)
             }
         }
     }
@@ -4430,8 +4430,8 @@ extension PutRecordsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for putrecordsrequestentrylist0 in records {
-                try recordsContainer.encode(putrecordsrequestentrylist0)
+            for putrecordsrequestentry0 in records {
+                try recordsContainer.encode(putrecordsrequestentry0)
             }
         }
         if let streamARN = self.streamARN {
@@ -4972,8 +4972,8 @@ extension RemoveTagsFromStreamInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -6018,8 +6018,8 @@ extension KinesisClientTypes.StreamDescription: Swift.Codable {
         }
         if let enhancedMonitoring = enhancedMonitoring {
             var enhancedMonitoringContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enhancedMonitoring)
-            for enhancedmonitoringlist0 in enhancedMonitoring {
-                try enhancedMonitoringContainer.encode(enhancedmonitoringlist0)
+            for enhancedmetrics0 in enhancedMonitoring {
+                try enhancedMonitoringContainer.encode(enhancedmetrics0)
             }
         }
         if let hasMoreShards = self.hasMoreShards {
@@ -6033,8 +6033,8 @@ extension KinesisClientTypes.StreamDescription: Swift.Codable {
         }
         if let shards = shards {
             var shardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shards)
-            for shardlist0 in shards {
-                try shardsContainer.encode(shardlist0)
+            for shard0 in shards {
+                try shardsContainer.encode(shard0)
             }
         }
         if let streamARN = self.streamARN {
@@ -6210,8 +6210,8 @@ extension KinesisClientTypes.StreamDescriptionSummary: Swift.Codable {
         }
         if let enhancedMonitoring = enhancedMonitoring {
             var enhancedMonitoringContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enhancedMonitoring)
-            for enhancedmonitoringlist0 in enhancedMonitoring {
-                try enhancedMonitoringContainer.encode(enhancedmonitoringlist0)
+            for enhancedmetrics0 in enhancedMonitoring {
+                try enhancedMonitoringContainer.encode(enhancedmetrics0)
             }
         }
         if let keyId = self.keyId {
@@ -6557,8 +6557,8 @@ extension KinesisClientTypes.SubscribeToShardEvent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let childShards = childShards {
             var childShardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .childShards)
-            for childshardlist0 in childShards {
-                try childShardsContainer.encode(childshardlist0)
+            for childshard0 in childShards {
+                try childShardsContainer.encode(childshard0)
             }
         }
         if let continuationSequenceNumber = self.continuationSequenceNumber {
@@ -6569,8 +6569,8 @@ extension KinesisClientTypes.SubscribeToShardEvent: Swift.Codable {
         }
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for recordlist0 in records {
-                try recordsContainer.encode(recordlist0)
+            for record0 in records {
+                try recordsContainer.encode(record0)
             }
         }
     }

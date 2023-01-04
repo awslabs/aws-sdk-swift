@@ -138,14 +138,14 @@ extension AddAttributesToFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for userattributelist0 in attributes {
-                try attributesContainer.encode(userattributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let findingArns = findingArns {
             var findingArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArns)
-            for addremoveattributesfindingarnlist0 in findingArns {
-                try findingArnsContainer.encode(addremoveattributesfindingarnlist0)
+            for arn0 in findingArns {
+                try findingArnsContainer.encode(arn0)
             }
         }
     }
@@ -351,14 +351,14 @@ extension InspectorClientTypes.AgentFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentHealthCodes = agentHealthCodes {
             var agentHealthCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentHealthCodes)
-            for agenthealthcodelist0 in agentHealthCodes {
-                try agentHealthCodesContainer.encode(agenthealthcodelist0.rawValue)
+            for agenthealthcode0 in agentHealthCodes {
+                try agentHealthCodesContainer.encode(agenthealthcode0.rawValue)
             }
         }
         if let agentHealths = agentHealths {
             var agentHealthsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentHealths)
-            for agenthealthlist0 in agentHealths {
-                try agentHealthsContainer.encode(agenthealthlist0.rawValue)
+            for agenthealth0 in agentHealths {
+                try agentHealthsContainer.encode(agenthealth0.rawValue)
             }
         }
     }
@@ -734,8 +734,8 @@ extension InspectorClientTypes.AssessmentRun: Swift.Codable {
         }
         if let findingCounts = findingCounts {
             var findingCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .findingCounts)
-            for (dictKey0, assessmentrunfindingcounts0) in findingCounts {
-                try findingCountsContainer.encode(assessmentrunfindingcounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assessmentRunFindingCounts0) in findingCounts {
+                try findingCountsContainer.encode(assessmentRunFindingCounts0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let name = self.name {
@@ -743,14 +743,14 @@ extension InspectorClientTypes.AssessmentRun: Swift.Codable {
         }
         if let notifications = notifications {
             var notificationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notifications)
-            for assessmentrunnotificationlist0 in notifications {
-                try notificationsContainer.encode(assessmentrunnotificationlist0)
+            for assessmentrunnotification0 in notifications {
+                try notificationsContainer.encode(assessmentrunnotification0)
             }
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for assessmentrulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(assessmentrulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
         if let startedAt = self.startedAt {
@@ -764,14 +764,14 @@ extension InspectorClientTypes.AssessmentRun: Swift.Codable {
         }
         if let stateChanges = stateChanges {
             var stateChangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stateChanges)
-            for assessmentrunstatechangelist0 in stateChanges {
-                try stateChangesContainer.encode(assessmentrunstatechangelist0)
+            for assessmentrunstatechange0 in stateChanges {
+                try stateChangesContainer.encode(assessmentrunstatechange0)
             }
         }
         if let userAttributesForFindings = userAttributesForFindings {
             var userAttributesForFindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributesForFindings)
-            for userattributelist0 in userAttributesForFindings {
-                try userAttributesForFindingsContainer.encode(userattributelist0)
+            for attribute0 in userAttributesForFindings {
+                try userAttributesForFindingsContainer.encode(attribute0)
             }
         }
     }
@@ -974,8 +974,8 @@ extension InspectorClientTypes.AssessmentRunAgent: Swift.Codable {
         }
         if let telemetryMetadata = telemetryMetadata {
             var telemetryMetadataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .telemetryMetadata)
-            for telemetrymetadatalist0 in telemetryMetadata {
-                try telemetryMetadataContainer.encode(telemetrymetadatalist0)
+            for telemetrymetadata0 in telemetryMetadata {
+                try telemetryMetadataContainer.encode(telemetrymetadata0)
             }
         }
     }
@@ -1077,8 +1077,8 @@ extension InspectorClientTypes.AssessmentRunFilter: Swift.Codable {
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for filterrulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(filterrulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
         if let startTimeRange = self.startTimeRange {
@@ -1089,8 +1089,8 @@ extension InspectorClientTypes.AssessmentRunFilter: Swift.Codable {
         }
         if let states = states {
             var statesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .states)
-            for assessmentrunstatelist0 in states {
-                try statesContainer.encode(assessmentrunstatelist0.rawValue)
+            for assessmentrunstate0 in states {
+                try statesContainer.encode(assessmentrunstate0.rawValue)
             }
         }
     }
@@ -1658,14 +1658,14 @@ extension InspectorClientTypes.AssessmentTemplate: Swift.Codable {
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for assessmenttemplaterulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(assessmenttemplaterulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
         if let userAttributesForFindings = userAttributesForFindings {
             var userAttributesForFindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributesForFindings)
-            for userattributelist0 in userAttributesForFindings {
-                try userAttributesForFindingsContainer.encode(userattributelist0)
+            for attribute0 in userAttributesForFindings {
+                try userAttributesForFindingsContainer.encode(attribute0)
             }
         }
     }
@@ -1784,8 +1784,8 @@ extension InspectorClientTypes.AssessmentTemplateFilter: Swift.Codable {
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for filterrulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(filterrulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
     }
@@ -1862,14 +1862,14 @@ extension InspectorClientTypes.AssetAttributes: Swift.Codable {
         }
         if let ipv4Addresses = ipv4Addresses {
             var ipv4AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv4Addresses)
-            for ipv4addresslist0 in ipv4Addresses {
-                try ipv4AddressesContainer.encode(ipv4addresslist0)
+            for ipv4address0 in ipv4Addresses {
+                try ipv4AddressesContainer.encode(ipv4address0)
             }
         }
         if let networkInterfaces = networkInterfaces {
             var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
-            for networkinterfaces0 in networkInterfaces {
-                try networkInterfacesContainer.encode(networkinterfaces0)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
             }
         }
         if schemaVersion != 0 {
@@ -1877,8 +1877,8 @@ extension InspectorClientTypes.AssetAttributes: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2209,14 +2209,14 @@ extension CreateAssessmentTemplateInput: Swift.Encodable {
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for assessmenttemplaterulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(assessmenttemplaterulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
         if let userAttributesForFindings = userAttributesForFindings {
             var userAttributesForFindingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributesForFindings)
-            for userattributelist0 in userAttributesForFindings {
-                try userAttributesForFindingsContainer.encode(userattributelist0)
+            for attribute0 in userAttributesForFindings {
+                try userAttributesForFindingsContainer.encode(attribute0)
             }
         }
     }
@@ -2515,8 +2515,8 @@ extension CreateResourceGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceGroupTags = resourceGroupTags {
             var resourceGroupTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceGroupTags)
-            for resourcegrouptags0 in resourceGroupTags {
-                try resourceGroupTagsContainer.encode(resourcegrouptags0)
+            for resourcegrouptag0 in resourceGroupTags {
+                try resourceGroupTagsContainer.encode(resourcegrouptag0)
             }
         }
     }
@@ -2917,8 +2917,8 @@ extension DescribeAssessmentRunsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentRunArns = assessmentRunArns {
             var assessmentRunArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentRunArns)
-            for batchdescribearnlist0 in assessmentRunArns {
-                try assessmentRunArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in assessmentRunArns {
+                try assessmentRunArnsContainer.encode(arn0)
             }
         }
     }
@@ -3072,8 +3072,8 @@ extension DescribeAssessmentTargetsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentTargetArns = assessmentTargetArns {
             var assessmentTargetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTargetArns)
-            for batchdescribearnlist0 in assessmentTargetArns {
-                try assessmentTargetArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in assessmentTargetArns {
+                try assessmentTargetArnsContainer.encode(arn0)
             }
         }
     }
@@ -3227,8 +3227,8 @@ extension DescribeAssessmentTemplatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentTemplateArns = assessmentTemplateArns {
             var assessmentTemplateArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTemplateArns)
-            for batchdescribearnlist0 in assessmentTemplateArns {
-                try assessmentTemplateArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in assessmentTemplateArns {
+                try assessmentTemplateArnsContainer.encode(arn0)
             }
         }
     }
@@ -3496,8 +3496,8 @@ extension DescribeExclusionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let exclusionArns = exclusionArns {
             var exclusionArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exclusionArns)
-            for batchdescribeexclusionsarnlist0 in exclusionArns {
-                try exclusionArnsContainer.encode(batchdescribeexclusionsarnlist0)
+            for arn0 in exclusionArns {
+                try exclusionArnsContainer.encode(arn0)
             }
         }
         if let locale = self.locale {
@@ -3663,8 +3663,8 @@ extension DescribeFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingArns = findingArns {
             var findingArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArns)
-            for batchdescribearnlist0 in findingArns {
-                try findingArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in findingArns {
+                try findingArnsContainer.encode(arn0)
             }
         }
         if let locale = self.locale {
@@ -3829,8 +3829,8 @@ extension DescribeResourceGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceGroupArns = resourceGroupArns {
             var resourceGroupArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceGroupArns)
-            for batchdescribearnlist0 in resourceGroupArns {
-                try resourceGroupArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in resourceGroupArns {
+                try resourceGroupArnsContainer.encode(arn0)
             }
         }
     }
@@ -3988,8 +3988,8 @@ extension DescribeRulesPackagesInput: Swift.Encodable {
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for batchdescribearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(batchdescribearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
     }
@@ -4251,8 +4251,8 @@ extension InspectorClientTypes.Exclusion: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let description = self.description {
@@ -4263,8 +4263,8 @@ extension InspectorClientTypes.Exclusion: Swift.Codable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for scopelist0 in scopes {
-                try scopesContainer.encode(scopelist0)
+            for scope0 in scopes {
+                try scopesContainer.encode(scope0)
             }
         }
         if let title = self.title {
@@ -4361,8 +4361,8 @@ extension InspectorClientTypes.ExclusionPreview: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let description = self.description {
@@ -4373,8 +4373,8 @@ extension InspectorClientTypes.ExclusionPreview: Swift.Codable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for scopelist0 in scopes {
-                try scopesContainer.encode(scopelist0)
+            for scope0 in scopes {
+                try scopesContainer.encode(scope0)
             }
         }
         if let title = self.title {
@@ -4577,8 +4577,8 @@ extension InspectorClientTypes.Finding: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if confidence != 0 {
@@ -4622,8 +4622,8 @@ extension InspectorClientTypes.Finding: Swift.Codable {
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for userattributelist0 in userAttributes {
-                try userAttributesContainer.encode(userattributelist0)
+            for attribute0 in userAttributes {
+                try userAttributesContainer.encode(attribute0)
             }
         }
     }
@@ -4792,20 +4792,20 @@ extension InspectorClientTypes.FindingFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let agentIds = agentIds {
             var agentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .agentIds)
-            for agentidlist0 in agentIds {
-                try agentIdsContainer.encode(agentidlist0)
+            for agentid0 in agentIds {
+                try agentIdsContainer.encode(agentid0)
             }
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggrouplist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggrouplist0)
+            for autoscalinggroup0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroup0)
             }
         }
         if let creationTimeRange = self.creationTimeRange {
@@ -4813,26 +4813,26 @@ extension InspectorClientTypes.FindingFilter: Swift.Codable {
         }
         if let ruleNames = ruleNames {
             var ruleNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ruleNames)
-            for rulenamelist0 in ruleNames {
-                try ruleNamesContainer.encode(rulenamelist0)
+            for rulename0 in ruleNames {
+                try ruleNamesContainer.encode(rulename0)
             }
         }
         if let rulesPackageArns = rulesPackageArns {
             var rulesPackageArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rulesPackageArns)
-            for filterrulespackagearnlist0 in rulesPackageArns {
-                try rulesPackageArnsContainer.encode(filterrulespackagearnlist0)
+            for arn0 in rulesPackageArns {
+                try rulesPackageArnsContainer.encode(arn0)
             }
         }
         if let severities = severities {
             var severitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severities)
-            for severitylist0 in severities {
-                try severitiesContainer.encode(severitylist0.rawValue)
+            for severity0 in severities {
+                try severitiesContainer.encode(severity0.rawValue)
             }
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for attributelist0 in userAttributes {
-                try userAttributesContainer.encode(attributelist0)
+            for attribute0 in userAttributes {
+                try userAttributesContainer.encode(attribute0)
             }
         }
     }
@@ -6284,8 +6284,8 @@ extension ListAssessmentRunsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentTemplateArns = assessmentTemplateArns {
             var assessmentTemplateArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTemplateArns)
-            for listparentarnlist0 in assessmentTemplateArns {
-                try assessmentTemplateArnsContainer.encode(listparentarnlist0)
+            for arn0 in assessmentTemplateArns {
+                try assessmentTemplateArnsContainer.encode(arn0)
             }
         }
         if let filter = self.filter {
@@ -6626,8 +6626,8 @@ extension ListAssessmentTemplatesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentTargetArns = assessmentTargetArns {
             var assessmentTargetArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentTargetArns)
-            for listparentarnlist0 in assessmentTargetArns {
-                try assessmentTargetArnsContainer.encode(listparentarnlist0)
+            for arn0 in assessmentTargetArns {
+                try assessmentTargetArnsContainer.encode(arn0)
             }
         }
         if let filter = self.filter {
@@ -7131,8 +7131,8 @@ extension ListFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let assessmentRunArns = assessmentRunArns {
             var assessmentRunArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentRunArns)
-            for listparentarnlist0 in assessmentRunArns {
-                try assessmentRunArnsContainer.encode(listparentarnlist0)
+            for arn0 in assessmentRunArns {
+                try assessmentRunArnsContainer.encode(arn0)
             }
         }
         if let filter = self.filter {
@@ -7623,8 +7623,8 @@ extension InspectorClientTypes.NetworkInterface: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ipv6Addresses = ipv6Addresses {
             var ipv6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv6Addresses)
-            for ipv6addresses0 in ipv6Addresses {
-                try ipv6AddressesContainer.encode(ipv6addresses0)
+            for text0 in ipv6Addresses {
+                try ipv6AddressesContainer.encode(text0)
             }
         }
         if let networkInterfaceId = self.networkInterfaceId {
@@ -7638,8 +7638,8 @@ extension InspectorClientTypes.NetworkInterface: Swift.Codable {
         }
         if let privateIpAddresses = privateIpAddresses {
             var privateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateIpAddresses)
-            for privateipaddresses0 in privateIpAddresses {
-                try privateIpAddressesContainer.encode(privateipaddresses0)
+            for privateip0 in privateIpAddresses {
+                try privateIpAddressesContainer.encode(privateip0)
             }
         }
         if let publicDnsName = self.publicDnsName {
@@ -7650,8 +7650,8 @@ extension InspectorClientTypes.NetworkInterface: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for securitygroups0 in securityGroups {
-                try securityGroupsContainer.encode(securitygroups0)
+            for securitygroup0 in securityGroups {
+                try securityGroupsContainer.encode(securitygroup0)
             }
         }
         if let subnetId = self.subnetId {
@@ -8283,14 +8283,14 @@ extension RemoveAttributesFromFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeKeys = attributeKeys {
             var attributeKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeKeys)
-            for userattributekeylist0 in attributeKeys {
-                try attributeKeysContainer.encode(userattributekeylist0)
+            for attributekey0 in attributeKeys {
+                try attributeKeysContainer.encode(attributekey0)
             }
         }
         if let findingArns = findingArns {
             var findingArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArns)
-            for addremoveattributesfindingarnlist0 in findingArns {
-                try findingArnsContainer.encode(addremoveattributesfindingarnlist0)
+            for arn0 in findingArns {
+                try findingArnsContainer.encode(arn0)
             }
         }
     }
@@ -8555,8 +8555,8 @@ extension InspectorClientTypes.ResourceGroup: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for resourcegrouptags0 in tags {
-                try tagsContainer.encode(resourcegrouptags0)
+            for resourcegrouptag0 in tags {
+                try tagsContainer.encode(resourcegrouptag0)
             }
         }
     }
@@ -8933,8 +8933,8 @@ extension SetTagsForResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9470,8 +9470,8 @@ extension InspectorClientTypes.Subscription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventSubscriptions = eventSubscriptions {
             var eventSubscriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventSubscriptions)
-            for eventsubscriptionlist0 in eventSubscriptions {
-                try eventSubscriptionsContainer.encode(eventsubscriptionlist0)
+            for eventsubscription0 in eventSubscriptions {
+                try eventSubscriptionsContainer.encode(eventsubscription0)
             }
         }
         if let resourceArn = self.resourceArn {

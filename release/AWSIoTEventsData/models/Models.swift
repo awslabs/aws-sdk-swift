@@ -426,8 +426,8 @@ extension BatchAcknowledgeAlarmInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let acknowledgeActionRequests = acknowledgeActionRequests {
             var acknowledgeActionRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acknowledgeActionRequests)
-            for acknowledgealarmactionrequests0 in acknowledgeActionRequests {
-                try acknowledgeActionRequestsContainer.encode(acknowledgealarmactionrequests0)
+            for acknowledgealarmactionrequest0 in acknowledgeActionRequests {
+                try acknowledgeActionRequestsContainer.encode(acknowledgealarmactionrequest0)
             }
         }
     }
@@ -684,8 +684,8 @@ extension BatchDeleteDetectorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let detectors = detectors {
             var detectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectors)
-            for deletedetectorrequests0 in detectors {
-                try detectorsContainer.encode(deletedetectorrequests0)
+            for deletedetectorrequest0 in detectors {
+                try detectorsContainer.encode(deletedetectorrequest0)
             }
         }
     }
@@ -822,8 +822,8 @@ extension BatchDisableAlarmInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let disableActionRequests = disableActionRequests {
             var disableActionRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .disableActionRequests)
-            for disablealarmactionrequests0 in disableActionRequests {
-                try disableActionRequestsContainer.encode(disablealarmactionrequests0)
+            for disablealarmactionrequest0 in disableActionRequests {
+                try disableActionRequestsContainer.encode(disablealarmactionrequest0)
             }
         }
     }
@@ -960,8 +960,8 @@ extension BatchEnableAlarmInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let enableActionRequests = enableActionRequests {
             var enableActionRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .enableActionRequests)
-            for enablealarmactionrequests0 in enableActionRequests {
-                try enableActionRequestsContainer.encode(enablealarmactionrequests0)
+            for enablealarmactionrequest0 in enableActionRequests {
+                try enableActionRequestsContainer.encode(enablealarmactionrequest0)
             }
         }
     }
@@ -1153,8 +1153,8 @@ extension BatchPutMessageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let messages = messages {
             var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
-            for messages0 in messages {
-                try messagesContainer.encode(messages0)
+            for message0 in messages {
+                try messagesContainer.encode(message0)
             }
         }
     }
@@ -1291,8 +1291,8 @@ extension BatchResetAlarmInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resetActionRequests = resetActionRequests {
             var resetActionRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resetActionRequests)
-            for resetalarmactionrequests0 in resetActionRequests {
-                try resetActionRequestsContainer.encode(resetalarmactionrequests0)
+            for resetalarmactionrequest0 in resetActionRequests {
+                try resetActionRequestsContainer.encode(resetalarmactionrequest0)
             }
         }
     }
@@ -1429,8 +1429,8 @@ extension BatchSnoozeAlarmInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let snoozeActionRequests = snoozeActionRequests {
             var snoozeActionRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snoozeActionRequests)
-            for snoozealarmactionrequests0 in snoozeActionRequests {
-                try snoozeActionRequestsContainer.encode(snoozealarmactionrequests0)
+            for snoozealarmactionrequest0 in snoozeActionRequests {
+                try snoozeActionRequestsContainer.encode(snoozealarmactionrequest0)
             }
         }
     }
@@ -1622,8 +1622,8 @@ extension BatchUpdateDetectorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let detectors = detectors {
             var detectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detectors)
-            for updatedetectorrequests0 in detectors {
-                try detectorsContainer.encode(updatedetectorrequests0)
+            for updatedetectorrequest0 in detectors {
+                try detectorsContainer.encode(updatedetectorrequest0)
             }
         }
     }
@@ -2328,14 +2328,14 @@ extension IoTEventsDataClientTypes.DetectorState: Swift.Codable {
         }
         if let timers = timers {
             var timersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timers)
-            for timers0 in timers {
-                try timersContainer.encode(timers0)
+            for timer0 in timers {
+                try timersContainer.encode(timer0)
             }
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
-            for variables0 in variables {
-                try variablesContainer.encode(variables0)
+            for variable0 in variables {
+                try variablesContainer.encode(variable0)
             }
         }
     }
@@ -2410,14 +2410,14 @@ extension IoTEventsDataClientTypes.DetectorStateDefinition: Swift.Codable {
         }
         if let timers = timers {
             var timersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timers)
-            for timerdefinitions0 in timers {
-                try timersContainer.encode(timerdefinitions0)
+            for timerdefinition0 in timers {
+                try timersContainer.encode(timerdefinition0)
             }
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .variables)
-            for variabledefinitions0 in variables {
-                try variablesContainer.encode(variabledefinitions0)
+            for variabledefinition0 in variables {
+                try variablesContainer.encode(variabledefinition0)
             }
         }
     }

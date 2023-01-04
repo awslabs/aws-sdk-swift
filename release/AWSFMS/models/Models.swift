@@ -161,8 +161,8 @@ extension FMSClientTypes.AppsListData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appsList = appsList {
             var appsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appsList)
-            for appslist0 in appsList {
-                try appsListContainer.encode(appslist0)
+            for app0 in appsList {
+                try appsListContainer.encode(app0)
             }
         }
         if let createTime = self.createTime {
@@ -182,8 +182,11 @@ extension FMSClientTypes.AppsListData: Swift.Codable {
         }
         if let previousAppsList = previousAppsList {
             var previousAppsListContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .previousAppsList)
-            for (dictKey0, previousappslist0) in previousAppsList {
-                try previousAppsListContainer.encode(previousappslist0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, previousAppsList0) in previousAppsList {
+                var previousAppsList0Container = previousAppsListContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for app1 in previousAppsList0 {
+                    try previousAppsList0Container.encode(app1)
+                }
             }
         }
     }
@@ -286,8 +289,8 @@ extension FMSClientTypes.AppsListDataSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appsList = appsList {
             var appsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appsList)
-            for appslist0 in appsList {
-                try appsListContainer.encode(appslist0)
+            for app0 in appsList {
+                try appsListContainer.encode(app0)
             }
         }
         if let listArn = self.listArn {
@@ -576,8 +579,8 @@ extension FMSClientTypes.AwsEc2InstanceViolation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let awsEc2NetworkInterfaceViolations = awsEc2NetworkInterfaceViolations {
             var awsEc2NetworkInterfaceViolationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsEc2NetworkInterfaceViolations)
-            for awsec2networkinterfaceviolations0 in awsEc2NetworkInterfaceViolations {
-                try awsEc2NetworkInterfaceViolationsContainer.encode(awsec2networkinterfaceviolations0)
+            for awsec2networkinterfaceviolation0 in awsEc2NetworkInterfaceViolations {
+                try awsEc2NetworkInterfaceViolationsContainer.encode(awsec2networkinterfaceviolation0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -633,8 +636,8 @@ extension FMSClientTypes.AwsEc2NetworkInterfaceViolation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let violatingSecurityGroups = violatingSecurityGroups {
             var violatingSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingSecurityGroups)
-            for resourceidlist0 in violatingSecurityGroups {
-                try violatingSecurityGroupsContainer.encode(resourceidlist0)
+            for resourceid0 in violatingSecurityGroups {
+                try violatingSecurityGroupsContainer.encode(resourceid0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -692,14 +695,14 @@ extension FMSClientTypes.AwsVPCSecurityGroupViolation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let partialMatches = partialMatches {
             var partialMatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partialMatches)
-            for partialmatches0 in partialMatches {
-                try partialMatchesContainer.encode(partialmatches0)
+            for partialmatch0 in partialMatches {
+                try partialMatchesContainer.encode(partialmatch0)
             }
         }
         if let possibleSecurityGroupRemediationActions = possibleSecurityGroupRemediationActions {
             var possibleSecurityGroupRemediationActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .possibleSecurityGroupRemediationActions)
-            for securitygroupremediationactions0 in possibleSecurityGroupRemediationActions {
-                try possibleSecurityGroupRemediationActionsContainer.encode(securitygroupremediationactions0)
+            for securitygroupremediationaction0 in possibleSecurityGroupRemediationActions {
+                try possibleSecurityGroupRemediationActionsContainer.encode(securitygroupremediationaction0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -779,8 +782,8 @@ extension BatchAssociateResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for identifierlist0 in items {
-                try itemsContainer.encode(identifierlist0)
+            for identifier0 in items {
+                try itemsContainer.encode(identifier0)
             }
         }
         if let resourceSetIdentifier = self.resourceSetIdentifier {
@@ -944,8 +947,8 @@ extension BatchDisassociateResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for identifierlist0 in items {
-                try itemsContainer.encode(identifierlist0)
+            for identifier0 in items {
+                try itemsContainer.encode(identifier0)
             }
         }
         if let resourceSetIdentifier = self.resourceSetIdentifier {
@@ -1109,8 +1112,8 @@ extension FMSClientTypes.ComplianceViolator: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metadata = metadata {
             var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
-            for (dictKey0, complianceviolatormetadata0) in metadata {
-                try metadataContainer.encode(complianceviolatormetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, complianceViolatorMetadata0) in metadata {
+                try metadataContainer.encode(complianceViolatorMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceId = self.resourceId {
@@ -2078,8 +2081,8 @@ extension FMSClientTypes.DnsRuleGroupPriorityConflictViolation: Swift.Codable {
         }
         if let unavailablePriorities = unavailablePriorities {
             var unavailablePrioritiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .unavailablePriorities)
-            for dnsrulegrouppriorities0 in unavailablePriorities {
-                try unavailablePrioritiesContainer.encode(dnsrulegrouppriorities0)
+            for dnsrulegrouppriority0 in unavailablePriorities {
+                try unavailablePrioritiesContainer.encode(dnsrulegrouppriority0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -2699,14 +2702,14 @@ extension FMSClientTypes.ExpectedRoute: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedTargets = allowedTargets {
             var allowedTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedTargets)
-            for lengthboundedstringlist0 in allowedTargets {
-                try allowedTargetsContainer.encode(lengthboundedstringlist0)
+            for lengthboundedstring0 in allowedTargets {
+                try allowedTargetsContainer.encode(lengthboundedstring0)
             }
         }
         if let contributingSubnets = contributingSubnets {
             var contributingSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contributingSubnets)
-            for resourceidlist0 in contributingSubnets {
-                try contributingSubnetsContainer.encode(resourceidlist0)
+            for resourceid0 in contributingSubnets {
+                try contributingSubnetsContainer.encode(resourceid0)
             }
         }
         if let ipV4Cidr = self.ipV4Cidr {
@@ -5076,8 +5079,8 @@ extension ListDiscoveredResourcesInput: Swift.Encodable {
         }
         if let memberAccountIds = memberAccountIds {
             var memberAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberAccountIds)
-            for awsaccountidlist0 in memberAccountIds {
-                try memberAccountIdsContainer.encode(awsaccountidlist0)
+            for awsaccountid0 in memberAccountIds {
+                try memberAccountIdsContainer.encode(awsaccountid0)
             }
         }
         if let nextToken = self.nextToken {
@@ -6335,8 +6338,8 @@ extension FMSClientTypes.NetworkFirewallBlackHoleRouteDetectedViolation: Swift.C
         }
         if let violatingRoutes = violatingRoutes {
             var violatingRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingRoutes)
-            for routes0 in violatingRoutes {
-                try violatingRoutesContainer.encode(routes0)
+            for route0 in violatingRoutes {
+                try violatingRoutesContainer.encode(route0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -6420,14 +6423,14 @@ extension FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation: Sw
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actualFirewallSubnetRoutes = actualFirewallSubnetRoutes {
             var actualFirewallSubnetRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actualFirewallSubnetRoutes)
-            for routes0 in actualFirewallSubnetRoutes {
-                try actualFirewallSubnetRoutesContainer.encode(routes0)
+            for route0 in actualFirewallSubnetRoutes {
+                try actualFirewallSubnetRoutesContainer.encode(route0)
             }
         }
         if let actualInternetGatewayRoutes = actualInternetGatewayRoutes {
             var actualInternetGatewayRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actualInternetGatewayRoutes)
-            for routes0 in actualInternetGatewayRoutes {
-                try actualInternetGatewayRoutesContainer.encode(routes0)
+            for route0 in actualInternetGatewayRoutes {
+                try actualInternetGatewayRoutesContainer.encode(route0)
             }
         }
         if let currentFirewallSubnetRouteTable = self.currentFirewallSubnetRouteTable {
@@ -6441,14 +6444,14 @@ extension FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation: Sw
         }
         if let expectedFirewallSubnetRoutes = expectedFirewallSubnetRoutes {
             var expectedFirewallSubnetRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expectedFirewallSubnetRoutes)
-            for expectedroutes0 in expectedFirewallSubnetRoutes {
-                try expectedFirewallSubnetRoutesContainer.encode(expectedroutes0)
+            for expectedroute0 in expectedFirewallSubnetRoutes {
+                try expectedFirewallSubnetRoutesContainer.encode(expectedroute0)
             }
         }
         if let expectedInternetGatewayRoutes = expectedInternetGatewayRoutes {
             var expectedInternetGatewayRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expectedInternetGatewayRoutes)
-            for expectedroutes0 in expectedInternetGatewayRoutes {
-                try expectedInternetGatewayRoutesContainer.encode(expectedroutes0)
+            for expectedroute0 in expectedInternetGatewayRoutes {
+                try expectedInternetGatewayRoutesContainer.encode(expectedroute0)
             }
         }
         if let firewallSubnetId = self.firewallSubnetId {
@@ -6471,8 +6474,8 @@ extension FMSClientTypes.NetworkFirewallInternetTrafficNotInspectedViolation: Sw
         }
         if let violatingRoutes = violatingRoutes {
             var violatingRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingRoutes)
-            for routes0 in violatingRoutes {
-                try violatingRoutesContainer.encode(routes0)
+            for route0 in violatingRoutes {
+                try violatingRoutesContainer.encode(route0)
             }
         }
         if let vpcId = self.vpcId {
@@ -6662,20 +6665,20 @@ extension FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation: Swif
         }
         if let actualFirewallSubnetRoutes = actualFirewallSubnetRoutes {
             var actualFirewallSubnetRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actualFirewallSubnetRoutes)
-            for routes0 in actualFirewallSubnetRoutes {
-                try actualFirewallSubnetRoutesContainer.encode(routes0)
+            for route0 in actualFirewallSubnetRoutes {
+                try actualFirewallSubnetRoutesContainer.encode(route0)
             }
         }
         if let actualInternetGatewayRoutes = actualInternetGatewayRoutes {
             var actualInternetGatewayRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actualInternetGatewayRoutes)
-            for routes0 in actualInternetGatewayRoutes {
-                try actualInternetGatewayRoutesContainer.encode(routes0)
+            for route0 in actualInternetGatewayRoutes {
+                try actualInternetGatewayRoutesContainer.encode(route0)
             }
         }
         if let affectedSubnets = affectedSubnets {
             var affectedSubnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .affectedSubnets)
-            for resourceidlist0 in affectedSubnets {
-                try affectedSubnetsContainer.encode(resourceidlist0)
+            for resourceid0 in affectedSubnets {
+                try affectedSubnetsContainer.encode(resourceid0)
             }
         }
         if let currentFirewallSubnetRouteTable = self.currentFirewallSubnetRouteTable {
@@ -6692,14 +6695,14 @@ extension FMSClientTypes.NetworkFirewallInvalidRouteConfigurationViolation: Swif
         }
         if let expectedFirewallSubnetRoutes = expectedFirewallSubnetRoutes {
             var expectedFirewallSubnetRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expectedFirewallSubnetRoutes)
-            for expectedroutes0 in expectedFirewallSubnetRoutes {
-                try expectedFirewallSubnetRoutesContainer.encode(expectedroutes0)
+            for expectedroute0 in expectedFirewallSubnetRoutes {
+                try expectedFirewallSubnetRoutesContainer.encode(expectedroute0)
             }
         }
         if let expectedInternetGatewayRoutes = expectedInternetGatewayRoutes {
             var expectedInternetGatewayRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expectedInternetGatewayRoutes)
-            for expectedroutes0 in expectedInternetGatewayRoutes {
-                try expectedInternetGatewayRoutesContainer.encode(expectedroutes0)
+            for expectedroute0 in expectedInternetGatewayRoutes {
+                try expectedInternetGatewayRoutesContainer.encode(expectedroute0)
             }
         }
         if let internetGatewayId = self.internetGatewayId {
@@ -6963,8 +6966,8 @@ extension FMSClientTypes.NetworkFirewallMissingExpectedRoutesViolation: Swift.Co
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let expectedRoutes = expectedRoutes {
             var expectedRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .expectedRoutes)
-            for expectedroutes0 in expectedRoutes {
-                try expectedRoutesContainer.encode(expectedroutes0)
+            for expectedroute0 in expectedRoutes {
+                try expectedRoutesContainer.encode(expectedroute0)
             }
         }
         if let violationTarget = self.violationTarget {
@@ -7228,8 +7231,8 @@ extension FMSClientTypes.NetworkFirewallPolicyDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let statefulDefaultActions = statefulDefaultActions {
             var statefulDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulDefaultActions)
-            for networkfirewallactionlist0 in statefulDefaultActions {
-                try statefulDefaultActionsContainer.encode(networkfirewallactionlist0)
+            for networkfirewallaction0 in statefulDefaultActions {
+                try statefulDefaultActionsContainer.encode(networkfirewallaction0)
             }
         }
         if let statefulEngineOptions = self.statefulEngineOptions {
@@ -7237,32 +7240,32 @@ extension FMSClientTypes.NetworkFirewallPolicyDescription: Swift.Codable {
         }
         if let statefulRuleGroups = statefulRuleGroups {
             var statefulRuleGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statefulRuleGroups)
-            for statefulrulegrouplist0 in statefulRuleGroups {
-                try statefulRuleGroupsContainer.encode(statefulrulegrouplist0)
+            for statefulrulegroup0 in statefulRuleGroups {
+                try statefulRuleGroupsContainer.encode(statefulrulegroup0)
             }
         }
         if let statelessCustomActions = statelessCustomActions {
             var statelessCustomActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessCustomActions)
-            for networkfirewallactionlist0 in statelessCustomActions {
-                try statelessCustomActionsContainer.encode(networkfirewallactionlist0)
+            for networkfirewallaction0 in statelessCustomActions {
+                try statelessCustomActionsContainer.encode(networkfirewallaction0)
             }
         }
         if let statelessDefaultActions = statelessDefaultActions {
             var statelessDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessDefaultActions)
-            for networkfirewallactionlist0 in statelessDefaultActions {
-                try statelessDefaultActionsContainer.encode(networkfirewallactionlist0)
+            for networkfirewallaction0 in statelessDefaultActions {
+                try statelessDefaultActionsContainer.encode(networkfirewallaction0)
             }
         }
         if let statelessFragmentDefaultActions = statelessFragmentDefaultActions {
             var statelessFragmentDefaultActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessFragmentDefaultActions)
-            for networkfirewallactionlist0 in statelessFragmentDefaultActions {
-                try statelessFragmentDefaultActionsContainer.encode(networkfirewallactionlist0)
+            for networkfirewallaction0 in statelessFragmentDefaultActions {
+                try statelessFragmentDefaultActionsContainer.encode(networkfirewallaction0)
             }
         }
         if let statelessRuleGroups = statelessRuleGroups {
             var statelessRuleGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statelessRuleGroups)
-            for statelessrulegrouplist0 in statelessRuleGroups {
-                try statelessRuleGroupsContainer.encode(statelessrulegrouplist0)
+            for statelessrulegroup0 in statelessRuleGroups {
+                try statelessRuleGroupsContainer.encode(statelessrulegroup0)
             }
         }
     }
@@ -7500,8 +7503,8 @@ extension FMSClientTypes.NetworkFirewallUnexpectedFirewallRoutesViolation: Swift
         }
         if let violatingRoutes = violatingRoutes {
             var violatingRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingRoutes)
-            for routes0 in violatingRoutes {
-                try violatingRoutesContainer.encode(routes0)
+            for route0 in violatingRoutes {
+                try violatingRoutesContainer.encode(route0)
             }
         }
         if let vpcId = self.vpcId {
@@ -7583,8 +7586,8 @@ extension FMSClientTypes.NetworkFirewallUnexpectedGatewayRoutesViolation: Swift.
         }
         if let violatingRoutes = violatingRoutes {
             var violatingRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingRoutes)
-            for routes0 in violatingRoutes {
-                try violatingRoutesContainer.encode(routes0)
+            for route0 in violatingRoutes {
+                try violatingRoutesContainer.encode(route0)
             }
         }
         if let vpcId = self.vpcId {
@@ -7655,8 +7658,8 @@ extension FMSClientTypes.PartialMatch: Swift.Codable {
         }
         if let targetViolationReasons = targetViolationReasons {
             var targetViolationReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetViolationReasons)
-            for targetviolationreasons0 in targetViolationReasons {
-                try targetViolationReasonsContainer.encode(targetviolationreasons0)
+            for targetviolationreason0 in targetViolationReasons {
+                try targetViolationReasonsContainer.encode(targetviolationreason0)
             }
         }
     }
@@ -7724,8 +7727,11 @@ extension FMSClientTypes.Policy: Swift.Codable {
         }
         if let excludeMap = excludeMap {
             var excludeMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .excludeMap)
-            for (dictKey0, customerpolicyscopemap0) in excludeMap {
-                try excludeMapContainer.encode(customerpolicyscopemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customerPolicyScopeMap0) in excludeMap {
+                var customerPolicyScopeMap0Container = excludeMapContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for customerpolicyscopeid1 in customerPolicyScopeMap0 {
+                    try customerPolicyScopeMap0Container.encode(customerpolicyscopeid1)
+                }
             }
         }
         if excludeResourceTags != false {
@@ -7733,8 +7739,11 @@ extension FMSClientTypes.Policy: Swift.Codable {
         }
         if let includeMap = includeMap {
             var includeMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .includeMap)
-            for (dictKey0, customerpolicyscopemap0) in includeMap {
-                try includeMapContainer.encode(customerpolicyscopemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customerPolicyScopeMap0) in includeMap {
+                var customerPolicyScopeMap0Container = includeMapContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for customerpolicyscopeid1 in customerPolicyScopeMap0 {
+                    try customerPolicyScopeMap0Container.encode(customerpolicyscopeid1)
+                }
             }
         }
         if let policyDescription = self.policyDescription {
@@ -7754,14 +7763,14 @@ extension FMSClientTypes.Policy: Swift.Codable {
         }
         if let resourceSetIds = resourceSetIds {
             var resourceSetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceSetIds)
-            for resourcesetids0 in resourceSetIds {
-                try resourceSetIdsContainer.encode(resourcesetids0)
+            for base62id0 in resourceSetIds {
+                try resourceSetIdsContainer.encode(base62id0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetags0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetags0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
         if let resourceType = self.resourceType {
@@ -7769,8 +7778,8 @@ extension FMSClientTypes.Policy: Swift.Codable {
         }
         if let resourceTypeList = resourceTypeList {
             var resourceTypeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeList)
-            for resourcetypelist0 in resourceTypeList {
-                try resourceTypeListContainer.encode(resourcetypelist0)
+            for resourcetype0 in resourceTypeList {
+                try resourceTypeListContainer.encode(resourcetype0)
             }
         }
         if let securityServicePolicyData = self.securityServicePolicyData {
@@ -7976,8 +7985,8 @@ extension FMSClientTypes.PolicyComplianceDetail: Swift.Codable {
         }
         if let issueInfoMap = issueInfoMap {
             var issueInfoMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .issueInfoMap)
-            for (dictKey0, issueinfomap0) in issueInfoMap {
-                try issueInfoMapContainer.encode(issueinfomap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, issueInfoMap0) in issueInfoMap {
+                try issueInfoMapContainer.encode(issueInfoMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let memberAccount = self.memberAccount {
@@ -7991,8 +8000,8 @@ extension FMSClientTypes.PolicyComplianceDetail: Swift.Codable {
         }
         if let violators = violators {
             var violatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violators)
-            for complianceviolators0 in violators {
-                try violatorsContainer.encode(complianceviolators0)
+            for complianceviolator0 in violators {
+                try violatorsContainer.encode(complianceviolator0)
             }
         }
     }
@@ -8089,14 +8098,14 @@ extension FMSClientTypes.PolicyComplianceStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let evaluationResults = evaluationResults {
             var evaluationResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evaluationResults)
-            for evaluationresults0 in evaluationResults {
-                try evaluationResultsContainer.encode(evaluationresults0)
+            for evaluationresult0 in evaluationResults {
+                try evaluationResultsContainer.encode(evaluationresult0)
             }
         }
         if let issueInfoMap = issueInfoMap {
             var issueInfoMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .issueInfoMap)
-            for (dictKey0, issueinfomap0) in issueInfoMap {
-                try issueInfoMapContainer.encode(issueinfomap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, issueInfoMap0) in issueInfoMap {
+                try issueInfoMapContainer.encode(issueInfoMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let lastUpdated = self.lastUpdated {
@@ -8382,8 +8391,8 @@ extension FMSClientTypes.PossibleRemediationAction: Swift.Codable {
         }
         if let orderedRemediationActions = orderedRemediationActions {
             var orderedRemediationActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderedRemediationActions)
-            for orderedremediationactions0 in orderedRemediationActions {
-                try orderedRemediationActionsContainer.encode(orderedremediationactions0)
+            for remediationactionwithorder0 in orderedRemediationActions {
+                try orderedRemediationActionsContainer.encode(remediationactionwithorder0)
             }
         }
     }
@@ -8443,8 +8452,8 @@ extension FMSClientTypes.PossibleRemediationActions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
-            for possibleremediationactionlist0 in actions {
-                try actionsContainer.encode(possibleremediationactionlist0)
+            for possibleremediationaction0 in actions {
+                try actionsContainer.encode(possibleremediationaction0)
             }
         }
         if let description = self.description {
@@ -8520,14 +8529,17 @@ extension FMSClientTypes.ProtocolsListData: Swift.Codable {
         }
         if let previousProtocolsList = previousProtocolsList {
             var previousProtocolsListContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .previousProtocolsList)
-            for (dictKey0, previousprotocolslist0) in previousProtocolsList {
-                try previousProtocolsListContainer.encode(previousprotocolslist0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, previousProtocolsList0) in previousProtocolsList {
+                var previousProtocolsList0Container = previousProtocolsListContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for protocol1 in previousProtocolsList0 {
+                    try previousProtocolsList0Container.encode(protocol1)
+                }
             }
         }
         if let protocolsList = protocolsList {
             var protocolsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocolsList)
-            for protocolslist0 in protocolsList {
-                try protocolsListContainer.encode(protocolslist0)
+            for protocol0 in protocolsList {
+                try protocolsListContainer.encode(protocol0)
             }
         }
     }
@@ -8639,8 +8651,8 @@ extension FMSClientTypes.ProtocolsListDataSummary: Swift.Codable {
         }
         if let protocolsList = protocolsList {
             var protocolsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocolsList)
-            for protocolslist0 in protocolsList {
-                try protocolsListContainer.encode(protocolslist0)
+            for protocol0 in protocolsList {
+                try protocolsListContainer.encode(protocol0)
             }
         }
     }
@@ -8708,8 +8720,8 @@ extension PutAppsListInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -8958,8 +8970,8 @@ extension PutPolicyInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -9113,8 +9125,8 @@ extension PutProtocolsListInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -9266,8 +9278,8 @@ extension PutResourceSetInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -9722,8 +9734,8 @@ extension FMSClientTypes.ResourceSet: Swift.Codable {
         }
         if let resourceTypeList = resourceTypeList {
             var resourceTypeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeList)
-            for resourcetypelist0 in resourceTypeList {
-                try resourceTypeListContainer.encode(resourcetypelist0)
+            for resourcetype0 in resourceTypeList {
+                try resourceTypeListContainer.encode(resourcetype0)
             }
         }
         if let updateToken = self.updateToken {
@@ -10255,8 +10267,8 @@ extension FMSClientTypes.RouteHasOutOfScopeEndpointViolation: Swift.Codable {
         }
         if let firewallSubnetRoutes = firewallSubnetRoutes {
             var firewallSubnetRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .firewallSubnetRoutes)
-            for routes0 in firewallSubnetRoutes {
-                try firewallSubnetRoutesContainer.encode(routes0)
+            for route0 in firewallSubnetRoutes {
+                try firewallSubnetRoutesContainer.encode(route0)
             }
         }
         if let internetGatewayId = self.internetGatewayId {
@@ -10264,8 +10276,8 @@ extension FMSClientTypes.RouteHasOutOfScopeEndpointViolation: Swift.Codable {
         }
         if let internetGatewayRoutes = internetGatewayRoutes {
             var internetGatewayRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .internetGatewayRoutes)
-            for routes0 in internetGatewayRoutes {
-                try internetGatewayRoutesContainer.encode(routes0)
+            for route0 in internetGatewayRoutes {
+                try internetGatewayRoutesContainer.encode(route0)
             }
         }
         if let routeTableId = self.routeTableId {
@@ -10282,8 +10294,8 @@ extension FMSClientTypes.RouteHasOutOfScopeEndpointViolation: Swift.Codable {
         }
         if let violatingRoutes = violatingRoutes {
             var violatingRoutesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .violatingRoutes)
-            for routes0 in violatingRoutes {
-                try violatingRoutesContainer.encode(routes0)
+            for route0 in violatingRoutes {
+                try violatingRoutesContainer.encode(route0)
             }
         }
         if let vpcId = self.vpcId {
@@ -10948,8 +10960,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -11475,8 +11487,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -11600,8 +11612,8 @@ extension FMSClientTypes.ViolationDetail: Swift.Codable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for taglist0 in resourceTags {
-                try resourceTagsContainer.encode(taglist0)
+            for tag0 in resourceTags {
+                try resourceTagsContainer.encode(tag0)
             }
         }
         if let resourceType = self.resourceType {
@@ -11609,8 +11621,8 @@ extension FMSClientTypes.ViolationDetail: Swift.Codable {
         }
         if let resourceViolations = resourceViolations {
             var resourceViolationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceViolations)
-            for resourceviolations0 in resourceViolations {
-                try resourceViolationsContainer.encode(resourceviolations0)
+            for resourceviolation0 in resourceViolations {
+                try resourceViolationsContainer.encode(resourceviolation0)
             }
         }
     }

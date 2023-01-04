@@ -73,14 +73,14 @@ extension Route53RecoveryReadinessClientTypes.CellOutput: Swift.Codable {
         }
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
         if let parentReadinessScopes = parentReadinessScopes {
             var parentReadinessScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parentReadinessScopes)
-            for __listof__string0 in parentReadinessScopes {
-                try parentReadinessScopesContainer.encode(__listof__string0)
+            for __string0 in parentReadinessScopes {
+                try parentReadinessScopesContainer.encode(__string0)
             }
         }
         if let tags = tags {
@@ -235,8 +235,8 @@ extension CreateCellInput: Swift.Encodable {
         }
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
         if let tags = tags {
@@ -780,8 +780,8 @@ extension CreateRecoveryGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
         if let recoveryGroupName = self.recoveryGroupName {
@@ -1002,8 +1002,8 @@ extension CreateResourceSetInput: Swift.Encodable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for __listofresource0 in resources {
-                try resourcesContainer.encode(__listofresource0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if let tags = tags {
@@ -4445,8 +4445,8 @@ extension Route53RecoveryReadinessClientTypes.RecoveryGroupOutput: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
         if let recoveryGroupArn = self.recoveryGroupArn {
@@ -4543,8 +4543,8 @@ extension Route53RecoveryReadinessClientTypes.Resource: Swift.Codable {
         }
         if let readinessScopes = readinessScopes {
             var readinessScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readinessScopes)
-            for __listof__string0 in readinessScopes {
-                try readinessScopesContainer.encode(__listof__string0)
+            for __string0 in readinessScopes {
+                try readinessScopesContainer.encode(__string0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -4743,8 +4743,8 @@ extension Route53RecoveryReadinessClientTypes.ResourceSetOutput: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for __listofresource0 in resources {
-                try resourcesContainer.encode(__listofresource0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if let tags = tags {
@@ -4839,8 +4839,8 @@ extension Route53RecoveryReadinessClientTypes.RuleResult: Swift.Codable {
         }
         if let messages = messages {
             var messagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .messages)
-            for __listofmessage0 in messages {
-                try messagesContainer.encode(__listofmessage0)
+            for message0 in messages {
+                try messagesContainer.encode(message0)
             }
         }
         if let readiness = self.readiness {
@@ -5204,8 +5204,8 @@ extension UpdateCellInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
     }
@@ -5577,8 +5577,8 @@ extension UpdateRecoveryGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for __listof__string0 in cells {
-                try cellsContainer.encode(__listof__string0)
+            for __string0 in cells {
+                try cellsContainer.encode(__string0)
             }
         }
     }
@@ -5769,8 +5769,8 @@ extension UpdateResourceSetInput: Swift.Encodable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for __listofresource0 in resources {
-                try resourcesContainer.encode(__listofresource0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
     }

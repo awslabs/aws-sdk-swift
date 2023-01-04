@@ -298,8 +298,8 @@ extension CreateEnvironmentEC2Input: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -893,8 +893,8 @@ extension DescribeEnvironmentMembershipsInput: Swift.Encodable {
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
-            for permissionslist0 in permissions {
-                try permissionsContainer.encode(permissionslist0.rawValue)
+            for permissions0 in permissions {
+                try permissionsContainer.encode(permissions0.rawValue)
             }
         }
         if let userArn = self.userArn {
@@ -1239,8 +1239,8 @@ extension DescribeEnvironmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let environmentIds = environmentIds {
             var environmentIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentIds)
-            for boundedenvironmentidlist0 in environmentIds {
-                try environmentIdsContainer.encode(boundedenvironmentidlist0)
+            for environmentid0 in environmentIds {
+                try environmentIdsContainer.encode(environmentid0)
             }
         }
     }
@@ -2582,8 +2582,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2768,8 +2768,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

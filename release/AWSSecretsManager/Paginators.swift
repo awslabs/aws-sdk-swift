@@ -21,6 +21,7 @@ extension ListSecretsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListSecretsInput {
         return ListSecretsInput(
             filters: self.filters,
+            includePlannedDeletion: self.includePlannedDeletion,
             maxResults: self.maxResults,
             nextToken: token,
             sortOrder: self.sortOrder

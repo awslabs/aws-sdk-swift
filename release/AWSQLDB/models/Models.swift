@@ -134,6 +134,10 @@ extension CreateLedgerInput: Swift.Encodable {
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -3298,6 +3302,10 @@ extension StreamJournalToKinesisInput: Swift.Encodable {
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
@@ -3515,6 +3523,10 @@ extension TagResourceInput: Swift.Encodable {
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
             for (dictKey0, tags0) in tags {
+                guard let tags0 = tags0 else {
+                    try tagsContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
                 try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }

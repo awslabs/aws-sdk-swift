@@ -51,8 +51,8 @@ extension ComprehendClientTypes.AugmentedManifestsListItem: Swift.Codable {
         }
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenameslist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenameslist0)
+            for attributenameslistitem0 in attributeNames {
+                try attributeNamesContainer.encode(attributenameslistitem0)
             }
         }
         if let documentType = self.documentType {
@@ -151,8 +151,8 @@ extension BatchDetectDominantLanguageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -215,8 +215,8 @@ extension ComprehendClientTypes.BatchDetectDominantLanguageItemResult: Swift.Cod
         }
         if let languages = languages {
             var languagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languages)
-            for listofdominantlanguages0 in languages {
-                try languagesContainer.encode(listofdominantlanguages0)
+            for dominantlanguage0 in languages {
+                try languagesContainer.encode(dominantlanguage0)
             }
         }
     }
@@ -382,8 +382,8 @@ extension BatchDetectEntitiesInput: Swift.Encodable {
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -452,8 +452,8 @@ extension ComprehendClientTypes.BatchDetectEntitiesItemResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for listofentities0 in entities {
-                try entitiesContainer.encode(listofentities0)
+            for entity0 in entities {
+                try entitiesContainer.encode(entity0)
             }
         }
         if let index = self.index {
@@ -624,8 +624,8 @@ extension BatchDetectKeyPhrasesInput: Swift.Encodable {
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -697,8 +697,8 @@ extension ComprehendClientTypes.BatchDetectKeyPhrasesItemResult: Swift.Codable {
         }
         if let keyPhrases = keyPhrases {
             var keyPhrasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keyPhrases)
-            for listofkeyphrases0 in keyPhrases {
-                try keyPhrasesContainer.encode(listofkeyphrases0)
+            for keyphrase0 in keyPhrases {
+                try keyPhrasesContainer.encode(keyphrase0)
             }
         }
     }
@@ -866,8 +866,8 @@ extension BatchDetectSentimentInput: Swift.Encodable {
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -1106,8 +1106,8 @@ extension BatchDetectSyntaxInput: Swift.Encodable {
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -1179,8 +1179,8 @@ extension ComprehendClientTypes.BatchDetectSyntaxItemResult: Swift.Codable {
         }
         if let syntaxTokens = syntaxTokens {
             var syntaxTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .syntaxTokens)
-            for listofsyntaxtokens0 in syntaxTokens {
-                try syntaxTokensContainer.encode(listofsyntaxtokens0)
+            for syntaxtoken0 in syntaxTokens {
+                try syntaxTokensContainer.encode(syntaxtoken0)
             }
         }
     }
@@ -1348,8 +1348,8 @@ extension BatchDetectTargetedSentimentInput: Swift.Encodable {
         }
         if let textList = textList {
             var textListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .textList)
-            for customerinputstringlist0 in textList {
-                try textListContainer.encode(customerinputstringlist0)
+            for customerinputstring0 in textList {
+                try textListContainer.encode(customerinputstring0)
             }
         }
     }
@@ -1418,8 +1418,8 @@ extension ComprehendClientTypes.BatchDetectTargetedSentimentItemResult: Swift.Co
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for listoftargetedsentimententities0 in entities {
-                try entitiesContainer.encode(listoftargetedsentimententities0)
+            for targetedsentimententity0 in entities {
+                try entitiesContainer.encode(targetedsentimententity0)
             }
         }
         if let index = self.index {
@@ -1705,8 +1705,8 @@ extension ComprehendClientTypes.Block: Swift.Codable {
         }
         if let relationships = relationships {
             var relationshipsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relationships)
-            for listofrelationships0 in relationships {
-                try relationshipsContainer.encode(listofrelationships0)
+            for relationshipslistitem0 in relationships {
+                try relationshipsContainer.encode(relationshipslistitem0)
             }
         }
         if let text = self.text {
@@ -1798,8 +1798,8 @@ extension ComprehendClientTypes.BlockReference: Swift.Codable {
         }
         if let childBlocks = childBlocks {
             var childBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .childBlocks)
-            for listofchildblocks0 in childBlocks {
-                try childBlocksContainer.encode(listofchildblocks0)
+            for childblock0 in childBlocks {
+                try childBlocksContainer.encode(childblock0)
             }
         }
         if let endOffset = self.endOffset {
@@ -2664,8 +2664,8 @@ extension CreateDocumentClassifierInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let versionName = self.versionName {
@@ -2937,8 +2937,8 @@ extension CreateEndpointInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3147,8 +3147,8 @@ extension CreateEntityRecognizerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let versionName = self.versionName {
@@ -6805,8 +6805,8 @@ extension ComprehendClientTypes.DocumentClassifierInputDataConfig: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let augmentedManifests = augmentedManifests {
             var augmentedManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .augmentedManifests)
-            for documentclassifieraugmentedmanifestslist0 in augmentedManifests {
-                try augmentedManifestsContainer.encode(documentclassifieraugmentedmanifestslist0)
+            for augmentedmanifestslistitem0 in augmentedManifests {
+                try augmentedManifestsContainer.encode(augmentedmanifestslistitem0)
             }
         }
         if let dataFormat = self.dataFormat {
@@ -7329,8 +7329,8 @@ extension ComprehendClientTypes.DocumentMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let extractedCharacters = extractedCharacters {
             var extractedCharactersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extractedCharacters)
-            for listofextractedcharacters0 in extractedCharacters {
-                try extractedCharactersContainer.encode(listofextractedcharacters0)
+            for extractedcharacterslistitem0 in extractedCharacters {
+                try extractedCharactersContainer.encode(extractedcharacterslistitem0)
             }
         }
         if let pages = self.pages {
@@ -7494,8 +7494,8 @@ extension ComprehendClientTypes.DocumentReaderConfig: Swift.Codable {
         }
         if let featureTypes = featureTypes {
             var featureTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featureTypes)
-            for listofdocumentreadfeaturetypes0 in featureTypes {
-                try featureTypesContainer.encode(listofdocumentreadfeaturetypes0.rawValue)
+            for documentreadfeaturetypes0 in featureTypes {
+                try featureTypesContainer.encode(documentreadfeaturetypes0.rawValue)
             }
         }
     }
@@ -8409,8 +8409,8 @@ extension ComprehendClientTypes.Entity: Swift.Codable {
         }
         if let blockReferences = blockReferences {
             var blockReferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockReferences)
-            for listofblockreferences0 in blockReferences {
-                try blockReferencesContainer.encode(listofblockreferences0)
+            for blockreference0 in blockReferences {
+                try blockReferencesContainer.encode(blockreference0)
             }
         }
         if let endOffset = self.endOffset {
@@ -8841,8 +8841,8 @@ extension ComprehendClientTypes.EntityRecognizerInputDataConfig: Swift.Codable {
         }
         if let augmentedManifests = augmentedManifests {
             var augmentedManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .augmentedManifests)
-            for entityrecognizeraugmentedmanifestslist0 in augmentedManifests {
-                try augmentedManifestsContainer.encode(entityrecognizeraugmentedmanifestslist0)
+            for augmentedmanifestslistitem0 in augmentedManifests {
+                try augmentedManifestsContainer.encode(augmentedmanifestslistitem0)
             }
         }
         if let dataFormat = self.dataFormat {
@@ -8856,8 +8856,8 @@ extension ComprehendClientTypes.EntityRecognizerInputDataConfig: Swift.Codable {
         }
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for entitytypeslist0 in entityTypes {
-                try entityTypesContainer.encode(entitytypeslist0)
+            for entitytypeslistitem0 in entityTypes {
+                try entityTypesContainer.encode(entitytypeslistitem0)
             }
         }
     }
@@ -8953,8 +8953,8 @@ extension ComprehendClientTypes.EntityRecognizerMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entityTypes = entityTypes {
             var entityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entityTypes)
-            for entityrecognizermetadataentitytypeslist0 in entityTypes {
-                try entityTypesContainer.encode(entityrecognizermetadataentitytypeslist0)
+            for entityrecognizermetadataentitytypeslistitem0 in entityTypes {
+                try entityTypesContainer.encode(entityrecognizermetadataentitytypeslistitem0)
             }
         }
         if let evaluationMetrics = self.evaluationMetrics {
@@ -9679,8 +9679,8 @@ extension ComprehendClientTypes.EventsDetectionJobProperties: Swift.Codable {
         }
         if let targetEventTypes = targetEventTypes {
             var targetEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetEventTypes)
-            for targeteventtypes0 in targetEventTypes {
-                try targetEventTypesContainer.encode(targeteventtypes0)
+            for eventtypestring0 in targetEventTypes {
+                try targetEventTypesContainer.encode(eventtypestring0)
             }
         }
     }
@@ -9841,8 +9841,8 @@ extension ComprehendClientTypes.Geometry: Swift.Codable {
         }
         if let polygon = polygon {
             var polygonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .polygon)
-            for polygon0 in polygon {
-                try polygonContainer.encode(polygon0)
+            for point0 in polygon {
+                try polygonContainer.encode(point0)
             }
         }
     }
@@ -9911,8 +9911,8 @@ extension ImportModelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let versionName = self.versionName {
@@ -14348,8 +14348,8 @@ extension ComprehendClientTypes.RedactionConfig: Swift.Codable {
         }
         if let piiEntityTypes = piiEntityTypes {
             var piiEntityTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .piiEntityTypes)
-            for listofpiientitytypes0 in piiEntityTypes {
-                try piiEntityTypesContainer.encode(listofpiientitytypes0.rawValue)
+            for piientitytype0 in piiEntityTypes {
+                try piiEntityTypesContainer.encode(piientitytype0.rawValue)
             }
         }
     }
@@ -14437,8 +14437,8 @@ extension ComprehendClientTypes.RelationshipsListItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for stringlist0 in ids {
-                try idsContainer.encode(stringlist0)
+            for string0 in ids {
+                try idsContainer.encode(string0)
             }
         }
         if let type = self.type {
@@ -15086,8 +15086,8 @@ extension StartDocumentClassificationJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -15352,8 +15352,8 @@ extension StartDominantLanguageDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -15609,8 +15609,8 @@ extension StartEntitiesDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -15886,14 +15886,14 @@ extension StartEventsDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetEventTypes = targetEventTypes {
             var targetEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetEventTypes)
-            for targeteventtypes0 in targetEventTypes {
-                try targetEventTypesContainer.encode(targeteventtypes0)
+            for eventtypestring0 in targetEventTypes {
+                try targetEventTypesContainer.encode(eventtypestring0)
             }
         }
     }
@@ -16138,8 +16138,8 @@ extension StartKeyPhrasesDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -16406,8 +16406,8 @@ extension StartPiiEntitiesDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16651,8 +16651,8 @@ extension StartSentimentDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -16913,8 +16913,8 @@ extension StartTargetedSentimentDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -17175,8 +17175,8 @@ extension StartTopicsDetectionJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeKmsKeyId = self.volumeKmsKeyId {
@@ -18626,8 +18626,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -18960,14 +18960,14 @@ extension ComprehendClientTypes.TargetedSentimentEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let descriptiveMentionIndex = descriptiveMentionIndex {
             var descriptiveMentionIndexContainer = encodeContainer.nestedUnkeyedContainer(forKey: .descriptiveMentionIndex)
-            for listofdescriptivementionindices0 in descriptiveMentionIndex {
-                try descriptiveMentionIndexContainer.encode(listofdescriptivementionindices0)
+            for integer0 in descriptiveMentionIndex {
+                try descriptiveMentionIndexContainer.encode(integer0)
             }
         }
         if let mentions = mentions {
             var mentionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mentions)
-            for listofmentions0 in mentions {
-                try mentionsContainer.encode(listofmentions0)
+            for targetedsentimentmention0 in mentions {
+                try mentionsContainer.encode(targetedsentimentmention0)
             }
         }
     }
@@ -19688,8 +19688,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -19926,14 +19926,14 @@ extension ComprehendClientTypes.VpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for subnets0 in subnets {
-                try subnetsContainer.encode(subnets0)
+            for subnetid0 in subnets {
+                try subnetsContainer.encode(subnetid0)
             }
         }
     }

@@ -71,8 +71,8 @@ extension AddProfileKeyInput: Swift.Encodable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -251,8 +251,8 @@ extension CustomerProfilesClientTypes.AdditionalSearchKey: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -432,8 +432,8 @@ extension CustomerProfilesClientTypes.AppflowIntegration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let batches = batches {
             var batchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .batches)
-            for batches0 in batches {
-                try batchesContainer.encode(batches0)
+            for batch0 in batches {
+                try batchesContainer.encode(batch0)
             }
         }
         if let flowDefinition = self.flowDefinition {
@@ -1039,10 +1039,10 @@ extension CustomerProfilesClientTypes.Consolidation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let matchingAttributesList = matchingAttributesList {
             var matchingAttributesListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingAttributesList)
-            for matchingattributeslist0 in matchingAttributesList {
-                var matchingattributeslist0Container = matchingAttributesListContainer.nestedUnkeyedContainer()
-                for matchingattributes1 in matchingattributeslist0 {
-                    try matchingattributeslist0Container.encode(matchingattributes1)
+            for matchingattributes0 in matchingAttributesList {
+                var matchingattributes0Container = matchingAttributesListContainer.nestedUnkeyedContainer()
+                for string1to2551 in matchingattributes0 {
+                    try matchingattributes0Container.encode(string1to2551)
                 }
             }
         }
@@ -1115,8 +1115,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1382,8 +1382,8 @@ extension CreateIntegrationWorkflowInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workflowType = self.workflowType {
@@ -2301,8 +2301,8 @@ extension DeleteProfileKeyInput: Swift.Encodable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -3077,8 +3077,8 @@ extension CustomerProfilesClientTypes.FieldSourceProfileIds: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, attributesourceidmap0) in attributes {
-                try attributesContainer.encode(attributesourceidmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeSourceIdMap0) in attributes {
+                try attributesContainer.encode(attributeSourceIdMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let billingAddress = self.billingAddress {
@@ -3312,8 +3312,8 @@ extension CustomerProfilesClientTypes.FlowDefinition: Swift.Codable {
         }
         if let tasks = tasks {
             var tasksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tasks)
-            for tasks0 in tasks {
-                try tasksContainer.encode(tasks0)
+            for task0 in tasks {
+                try tasksContainer.encode(task0)
             }
         }
         if let triggerConfig = self.triggerConfig {
@@ -3401,8 +3401,8 @@ extension CustomerProfilesClientTypes.FoundByKeyValue: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -5902,8 +5902,8 @@ extension CustomerProfilesClientTypes.ListDomainItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6277,14 +6277,14 @@ extension CustomerProfilesClientTypes.ListIntegrationItem: Swift.Codable {
         }
         if let objectTypeNames = objectTypeNames {
             var objectTypeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .objectTypeNames)
-            for (dictKey0, objecttypenames0) in objectTypeNames {
-                try objectTypeNamesContainer.encode(objecttypenames0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, objectTypeNames0) in objectTypeNames {
+                try objectTypeNamesContainer.encode(objectTypeNames0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uri = self.uri {
@@ -6567,8 +6567,8 @@ extension CustomerProfilesClientTypes.ListProfileObjectTypeItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7784,8 +7784,8 @@ extension CustomerProfilesClientTypes.MatchItem: Swift.Codable {
         }
         if let profileIds = profileIds {
             var profileIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileIds)
-            for profileidlist0 in profileIds {
-                try profileIdsContainer.encode(profileidlist0)
+            for uuid0 in profileIds {
+                try profileIdsContainer.encode(uuid0)
             }
         }
     }
@@ -7982,8 +7982,8 @@ extension MergeProfilesInput: Swift.Encodable {
         }
         if let profileIdsToBeMerged = profileIdsToBeMerged {
             var profileIdsToBeMergedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .profileIdsToBeMerged)
-            for profileidtobemergedlist0 in profileIdsToBeMerged {
-                try profileIdsToBeMergedContainer.encode(profileidtobemergedlist0)
+            for uuid0 in profileIdsToBeMerged {
+                try profileIdsToBeMergedContainer.encode(uuid0)
             }
         }
     }
@@ -8140,8 +8140,8 @@ extension CustomerProfilesClientTypes.ObjectFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -8251,14 +8251,14 @@ extension CustomerProfilesClientTypes.ObjectTypeKey: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldNames = fieldNames {
             var fieldNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldNames)
-            for fieldnamelist0 in fieldNames {
-                try fieldNamesContainer.encode(fieldnamelist0)
+            for name0 in fieldNames {
+                try fieldNamesContainer.encode(name0)
             }
         }
         if let standardIdentifiers = standardIdentifiers {
             var standardIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standardIdentifiers)
-            for standardidentifierlist0 in standardIdentifiers {
-                try standardIdentifiersContainer.encode(standardidentifierlist0.rawValue)
+            for standardidentifier0 in standardIdentifiers {
+                try standardIdentifiersContainer.encode(standardidentifier0.rawValue)
             }
         }
     }
@@ -8480,8 +8480,8 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         }
         if let foundByItems = foundByItems {
             var foundByItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .foundByItems)
-            for foundbylist0 in foundByItems {
-                try foundByItemsContainer.encode(foundbylist0)
+            for foundbykeyvalue0 in foundByItems {
+                try foundByItemsContainer.encode(foundbykeyvalue0)
             }
         }
         if let gender = self.gender {
@@ -8718,14 +8718,14 @@ extension PutIntegrationInput: Swift.Encodable {
         }
         if let objectTypeNames = objectTypeNames {
             var objectTypeNamesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .objectTypeNames)
-            for (dictKey0, objecttypenames0) in objectTypeNames {
-                try objectTypeNamesContainer.encode(objecttypenames0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, objectTypeNames0) in objectTypeNames {
+                try objectTypeNamesContainer.encode(objectTypeNames0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uri = self.uri {
@@ -9168,14 +9168,17 @@ extension PutProfileObjectTypeInput: Swift.Encodable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .fields)
-            for (dictKey0, fieldmap0) in fields {
-                try fieldsContainer.encode(fieldmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fieldMap0) in fields {
+                try fieldsContainer.encode(fieldMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let keys = keys {
             var keysContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .keys)
-            for (dictKey0, keymap0) in keys {
-                try keysContainer.encode(keymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, keyMap0) in keys {
+                var keyMap0Container = keysContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for objecttypekey1 in keyMap0 {
+                    try keyMap0Container.encode(objecttypekey1)
+                }
             }
         }
         if let sourceLastUpdatedTimestampFormat = self.sourceLastUpdatedTimestampFormat {
@@ -9183,8 +9186,8 @@ extension PutProfileObjectTypeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateId = self.templateId {
@@ -10087,8 +10090,8 @@ extension SearchProfilesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalSearchKeys = additionalSearchKeys {
             var additionalSearchKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalSearchKeys)
-            for additionalsearchkeyslist0 in additionalSearchKeys {
-                try additionalSearchKeysContainer.encode(additionalsearchkeyslist0)
+            for additionalsearchkey0 in additionalSearchKeys {
+                try additionalSearchKeysContainer.encode(additionalsearchkey0)
             }
         }
         if let keyName = self.keyName {
@@ -10099,8 +10102,8 @@ extension SearchProfilesInput: Swift.Encodable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for requestvaluelist0 in values {
-                try valuesContainer.encode(requestvaluelist0)
+            for string1to2550 in values {
+                try valuesContainer.encode(string1to2550)
             }
         }
     }
@@ -10728,8 +10731,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -10842,14 +10845,14 @@ extension CustomerProfilesClientTypes.Task: Swift.Codable {
         }
         if let sourceFields = sourceFields {
             var sourceFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceFields)
-            for sourcefields0 in sourceFields {
-                try sourceFieldsContainer.encode(sourcefields0)
+            for stringto20480 in sourceFields {
+                try sourceFieldsContainer.encode(stringto20480)
             }
         }
         if let taskProperties = taskProperties {
             var taskPropertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .taskProperties)
-            for (dictKey0, taskpropertiesmap0) in taskProperties {
-                try taskPropertiesContainer.encode(taskpropertiesmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, taskPropertiesMap0) in taskProperties {
+                try taskPropertiesContainer.encode(taskPropertiesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let taskType = self.taskType {
@@ -11378,8 +11381,8 @@ extension UpdateDomainInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -11662,8 +11665,8 @@ extension UpdateProfileInput: Swift.Encodable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, updateattributes0) in attributes {
-                try attributesContainer.encode(updateattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, updateAttributes0) in attributes {
+                try attributesContainer.encode(updateAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let billingAddress = self.billingAddress {

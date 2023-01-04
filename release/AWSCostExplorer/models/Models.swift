@@ -75,8 +75,8 @@ extension CostExplorerClientTypes.Anomaly: Swift.Codable {
         }
         if let rootCauses = rootCauses {
             var rootCausesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rootCauses)
-            for rootcauses0 in rootCauses {
-                try rootCausesContainer.encode(rootcauses0)
+            for rootcause0 in rootCauses {
+                try rootCausesContainer.encode(rootcause0)
             }
         }
     }
@@ -482,14 +482,14 @@ extension CostExplorerClientTypes.AnomalySubscription: Swift.Codable {
         }
         if let monitorArnList = monitorArnList {
             var monitorArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitorArnList)
-            for monitorarnlist0 in monitorArnList {
-                try monitorArnListContainer.encode(monitorarnlist0)
+            for arn0 in monitorArnList {
+                try monitorArnListContainer.encode(arn0)
             }
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
         if let subscriptionArn = self.subscriptionArn {
@@ -925,8 +925,8 @@ extension CostExplorerClientTypes.CostCategory: Swift.Codable {
         }
         if let processingStatus = processingStatus {
             var processingStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processingStatus)
-            for costcategoryprocessingstatuslist0 in processingStatus {
-                try processingStatusContainer.encode(costcategoryprocessingstatuslist0)
+            for costcategoryprocessingstatus0 in processingStatus {
+                try processingStatusContainer.encode(costcategoryprocessingstatus0)
             }
         }
         if let ruleVersion = self.ruleVersion {
@@ -934,14 +934,14 @@ extension CostExplorerClientTypes.CostCategory: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for costcategoryruleslist0 in rules {
-                try rulesContainer.encode(costcategoryruleslist0)
+            for costcategoryrule0 in rules {
+                try rulesContainer.encode(costcategoryrule0)
             }
         }
         if let splitChargeRules = splitChargeRules {
             var splitChargeRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .splitChargeRules)
-            for costcategorysplitchargeruleslist0 in splitChargeRules {
-                try splitChargeRulesContainer.encode(costcategorysplitchargeruleslist0)
+            for costcategorysplitchargerule0 in splitChargeRules {
+                try splitChargeRulesContainer.encode(costcategorysplitchargerule0)
             }
         }
     }
@@ -1205,14 +1205,14 @@ extension CostExplorerClientTypes.CostCategoryReference: Swift.Codable {
         }
         if let processingStatus = processingStatus {
             var processingStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processingStatus)
-            for costcategoryprocessingstatuslist0 in processingStatus {
-                try processingStatusContainer.encode(costcategoryprocessingstatuslist0)
+            for costcategoryprocessingstatus0 in processingStatus {
+                try processingStatusContainer.encode(costcategoryprocessingstatus0)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for costcategoryvalueslist0 in values {
-                try valuesContainer.encode(costcategoryvalueslist0)
+            for costcategoryvalue0 in values {
+                try valuesContainer.encode(costcategoryvalue0)
             }
         }
     }
@@ -1477,8 +1477,8 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRule: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
-            for costcategorysplitchargeruleparameterslist0 in parameters {
-                try parametersContainer.encode(costcategorysplitchargeruleparameterslist0)
+            for costcategorysplitchargeruleparameter0 in parameters {
+                try parametersContainer.encode(costcategorysplitchargeruleparameter0)
             }
         }
         if let source = self.source {
@@ -1486,8 +1486,8 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRule: Swift.Codable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for costcategorysplitchargeruletargetslist0 in targets {
-                try targetsContainer.encode(costcategorysplitchargeruletargetslist0)
+            for genericstring0 in targets {
+                try targetsContainer.encode(genericstring0)
             }
         }
     }
@@ -1567,8 +1567,8 @@ extension CostExplorerClientTypes.CostCategorySplitChargeRuleParameter: Swift.Co
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for costcategorysplitchargeruleparametervalueslist0 in values {
-                try valuesContainer.encode(costcategorysplitchargeruleparametervalueslist0)
+            for genericstring0 in values {
+                try valuesContainer.encode(genericstring0)
             }
         }
     }
@@ -1717,14 +1717,14 @@ extension CostExplorerClientTypes.CostCategoryValues: Swift.Codable {
         }
         if let matchOptions = matchOptions {
             var matchOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchOptions)
-            for matchoptions0 in matchOptions {
-                try matchOptionsContainer.encode(matchoptions0.rawValue)
+            for matchoption0 in matchOptions {
+                try matchOptionsContainer.encode(matchoption0.rawValue)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -1848,8 +1848,8 @@ extension CostExplorerClientTypes.CoverageByTime: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for reservationcoveragegroups0 in groups {
-                try groupsContainer.encode(reservationcoveragegroups0)
+            for reservationcoveragegroup0 in groups {
+                try groupsContainer.encode(reservationcoveragegroup0)
             }
         }
         if let timePeriod = self.timePeriod {
@@ -2082,8 +2082,8 @@ extension CreateAnomalyMonitorInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetaglist0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
     }
@@ -2232,8 +2232,8 @@ extension CreateAnomalySubscriptionInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetaglist0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
     }
@@ -2395,8 +2395,8 @@ extension CreateCostCategoryDefinitionInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetaglist0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
         if let ruleVersion = self.ruleVersion {
@@ -2404,14 +2404,14 @@ extension CreateCostCategoryDefinitionInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for costcategoryruleslist0 in rules {
-                try rulesContainer.encode(costcategoryruleslist0)
+            for costcategoryrule0 in rules {
+                try rulesContainer.encode(costcategoryrule0)
             }
         }
         if let splitChargeRules = splitChargeRules {
             var splitChargeRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .splitChargeRules)
-            for costcategorysplitchargeruleslist0 in splitChargeRules {
-                try splitChargeRulesContainer.encode(costcategorysplitchargeruleslist0)
+            for costcategorysplitchargerule0 in splitChargeRules {
+                try splitChargeRulesContainer.encode(costcategorysplitchargerule0)
             }
         }
     }
@@ -2664,8 +2664,8 @@ extension CostExplorerClientTypes.CurrentInstance: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tagvalueslist0 in tags {
-                try tagsContainer.encode(tagvalueslist0)
+            for tagvalues0 in tags {
+                try tagsContainer.encode(tagvalues0)
             }
         }
         if let totalRunningHoursInLookbackPeriod = self.totalRunningHoursInLookbackPeriod {
@@ -3418,14 +3418,14 @@ extension CostExplorerClientTypes.DimensionValues: Swift.Codable {
         }
         if let matchOptions = matchOptions {
             var matchOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchOptions)
-            for matchoptions0 in matchOptions {
-                try matchOptionsContainer.encode(matchoptions0.rawValue)
+            for matchoption0 in matchOptions {
+                try matchOptionsContainer.encode(matchoption0.rawValue)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -4184,8 +4184,8 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let and = and {
             var andContainer = encodeContainer.nestedUnkeyedContainer(forKey: .and)
-            for expressions0 in and {
-                try andContainer.encode(expressions0)
+            for expression0 in and {
+                try andContainer.encode(expression0)
             }
         }
         if let costCategories = self.costCategories {
@@ -4199,8 +4199,8 @@ extension CostExplorerClientTypes.Expression: Swift.Codable {
         }
         if let or = or {
             var orContainer = encodeContainer.nestedUnkeyedContainer(forKey: .or)
-            for expressions0 in or {
-                try orContainer.encode(expressions0)
+            for expression0 in or {
+                try orContainer.encode(expression0)
             }
         }
         if let tags = self.tags {
@@ -4837,8 +4837,8 @@ extension GetAnomalyMonitorsInput: Swift.Encodable {
         }
         if let monitorArnList = monitorArnList {
             var monitorArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitorArnList)
-            for values0 in monitorArnList {
-                try monitorArnListContainer.encode(values0)
+            for value0 in monitorArnList {
+                try monitorArnListContainer.encode(value0)
             }
         }
         if let nextPageToken = self.nextPageToken {
@@ -5014,8 +5014,8 @@ extension GetAnomalySubscriptionsInput: Swift.Encodable {
         }
         if let subscriptionArnList = subscriptionArnList {
             var subscriptionArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscriptionArnList)
-            for values0 in subscriptionArnList {
-                try subscriptionArnListContainer.encode(values0)
+            for value0 in subscriptionArnList {
+                try subscriptionArnListContainer.encode(value0)
             }
         }
     }
@@ -5195,14 +5195,14 @@ extension GetCostAndUsageInput: Swift.Encodable {
         }
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupdefinitions0 in groupBy {
-                try groupByContainer.encode(groupdefinitions0)
+            for groupdefinition0 in groupBy {
+                try groupByContainer.encode(groupdefinition0)
             }
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for metricnames0 in metrics {
-                try metricsContainer.encode(metricnames0)
+            for metricname0 in metrics {
+                try metricsContainer.encode(metricname0)
             }
         }
         if let nextPageToken = self.nextPageToken {
@@ -5457,14 +5457,14 @@ extension GetCostAndUsageWithResourcesInput: Swift.Encodable {
         }
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupdefinitions0 in groupBy {
-                try groupByContainer.encode(groupdefinitions0)
+            for groupdefinition0 in groupBy {
+                try groupByContainer.encode(groupdefinition0)
             }
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for metricnames0 in metrics {
-                try metricsContainer.encode(metricnames0)
+            for metricname0 in metrics {
+                try metricsContainer.encode(metricname0)
             }
         }
         if let nextPageToken = self.nextPageToken {
@@ -5729,8 +5729,8 @@ extension GetCostCategoriesInput: Swift.Encodable {
         }
         if let sortBy = sortBy {
             var sortByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortBy)
-            for sortdefinitions0 in sortBy {
-                try sortByContainer.encode(sortdefinitions0)
+            for sortdefinition0 in sortBy {
+                try sortByContainer.encode(sortdefinition0)
             }
         }
         if let timePeriod = self.timePeriod {
@@ -6301,8 +6301,8 @@ extension GetDimensionValuesInput: Swift.Encodable {
         }
         if let sortBy = sortBy {
             var sortByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortBy)
-            for sortdefinitions0 in sortBy {
-                try sortByContainer.encode(sortdefinitions0)
+            for sortdefinition0 in sortBy {
+                try sortByContainer.encode(sortdefinition0)
             }
         }
         if let timePeriod = self.timePeriod {
@@ -6766,8 +6766,8 @@ extension GetReservationCoverageInput: Swift.Encodable {
         }
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupdefinitions0 in groupBy {
-                try groupByContainer.encode(groupdefinitions0)
+            for groupdefinition0 in groupBy {
+                try groupByContainer.encode(groupdefinition0)
             }
         }
         if let maxResults = self.maxResults {
@@ -6775,8 +6775,8 @@ extension GetReservationCoverageInput: Swift.Encodable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for metricnames0 in metrics {
-                try metricsContainer.encode(metricnames0)
+            for metricname0 in metrics {
+                try metricsContainer.encode(metricname0)
             }
         }
         if let nextPageToken = self.nextPageToken {
@@ -7393,8 +7393,8 @@ extension GetReservationUtilizationInput: Swift.Encodable {
         }
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupdefinitions0 in groupBy {
-                try groupByContainer.encode(groupdefinitions0)
+            for groupdefinition0 in groupBy {
+                try groupByContainer.encode(groupdefinition0)
             }
         }
         if let maxResults = self.maxResults {
@@ -7945,8 +7945,8 @@ extension GetSavingsPlansCoverageInput: Swift.Encodable {
         }
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupdefinitions0 in groupBy {
-                try groupByContainer.encode(groupdefinitions0)
+            for groupdefinition0 in groupBy {
+                try groupByContainer.encode(groupdefinition0)
             }
         }
         if let maxResults = self.maxResults {
@@ -7954,8 +7954,8 @@ extension GetSavingsPlansCoverageInput: Swift.Encodable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for metricnames0 in metrics {
-                try metricsContainer.encode(metricnames0)
+            for metricname0 in metrics {
+                try metricsContainer.encode(metricname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -8428,8 +8428,8 @@ extension GetSavingsPlansUtilizationDetailsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataType = dataType {
             var dataTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataType)
-            for savingsplansdatatypes0 in dataType {
-                try dataTypeContainer.encode(savingsplansdatatypes0.rawValue)
+            for savingsplansdatatype0 in dataType {
+                try dataTypeContainer.encode(savingsplansdatatype0.rawValue)
             }
         }
         if let filter = self.filter {
@@ -8896,8 +8896,8 @@ extension GetTagsInput: Swift.Encodable {
         }
         if let sortBy = sortBy {
             var sortByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sortBy)
-            for sortdefinitions0 in sortBy {
-                try sortByContainer.encode(sortdefinitions0)
+            for sortdefinition0 in sortBy {
+                try sortByContainer.encode(sortdefinition0)
             }
         }
         if let tagKey = self.tagKey {
@@ -9460,8 +9460,8 @@ extension CostExplorerClientTypes.Group: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keys = keys {
             var keysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keys)
-            for keys0 in keys {
-                try keysContainer.encode(keys0)
+            for key0 in keys {
+                try keysContainer.encode(key0)
             }
         }
         if let metrics = metrics {
@@ -9876,8 +9876,8 @@ extension ListCostAllocationTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for costallocationtagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(costallocationtagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
         if let type = self.type {
@@ -10219,8 +10219,8 @@ extension ListSavingsPlansPurchaseRecommendationGenerationInput: Swift.Encodable
         }
         if let recommendationIds = recommendationIds {
             var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
-            for recommendationidlist0 in recommendationIds {
-                try recommendationIdsContainer.encode(recommendationidlist0)
+            for recommendationid0 in recommendationIds {
+                try recommendationIdsContainer.encode(recommendationid0)
             }
         }
     }
@@ -10685,8 +10685,8 @@ extension CostExplorerClientTypes.ModifyRecommendationDetail: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let targetInstances = targetInstances {
             var targetInstancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetInstances)
-            for targetinstanceslist0 in targetInstances {
-                try targetInstancesContainer.encode(targetinstanceslist0)
+            for targetinstance0 in targetInstances {
+                try targetInstancesContainer.encode(targetinstance0)
             }
         }
     }
@@ -11685,8 +11685,8 @@ extension CostExplorerClientTypes.ReservationPurchaseRecommendation: Swift.Codab
         }
         if let recommendationDetails = recommendationDetails {
             var recommendationDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationDetails)
-            for reservationpurchaserecommendationdetails0 in recommendationDetails {
-                try recommendationDetailsContainer.encode(reservationpurchaserecommendationdetails0)
+            for reservationpurchaserecommendationdetail0 in recommendationDetails {
+                try recommendationDetailsContainer.encode(reservationpurchaserecommendationdetail0)
             }
         }
         if let recommendationSummary = self.recommendationSummary {
@@ -12353,8 +12353,8 @@ extension CostExplorerClientTypes.ResultByTime: Swift.Codable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for groups0 in groups {
-                try groupsContainer.encode(groups0)
+            for group0 in groups {
+                try groupsContainer.encode(group0)
             }
         }
         if let timePeriod = self.timePeriod {
@@ -12447,8 +12447,8 @@ extension CostExplorerClientTypes.RightsizingRecommendation: Swift.Codable {
         }
         if let findingReasonCodes = findingReasonCodes {
             var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
-            for findingreasoncodes0 in findingReasonCodes {
-                try findingReasonCodesContainer.encode(findingreasoncodes0.rawValue)
+            for findingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(findingreasoncode0.rawValue)
             }
         }
         if let modifyRecommendationDetail = self.modifyRecommendationDetail {
@@ -13112,8 +13112,8 @@ extension CostExplorerClientTypes.SavingsPlansPurchaseRecommendation: Swift.Coda
         }
         if let savingsPlansPurchaseRecommendationDetails = savingsPlansPurchaseRecommendationDetails {
             var savingsPlansPurchaseRecommendationDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .savingsPlansPurchaseRecommendationDetails)
-            for savingsplanspurchaserecommendationdetaillist0 in savingsPlansPurchaseRecommendationDetails {
-                try savingsPlansPurchaseRecommendationDetailsContainer.encode(savingsplanspurchaserecommendationdetaillist0)
+            for savingsplanspurchaserecommendationdetail0 in savingsPlansPurchaseRecommendationDetails {
+                try savingsPlansPurchaseRecommendationDetailsContainer.encode(savingsplanspurchaserecommendationdetail0)
             }
         }
         if let savingsPlansPurchaseRecommendationSummary = self.savingsPlansPurchaseRecommendationSummary {
@@ -14337,8 +14337,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for resourcetaglist0 in resourceTags {
-                try resourceTagsContainer.encode(resourcetaglist0)
+            for resourcetag0 in resourceTags {
+                try resourceTagsContainer.encode(resourcetag0)
             }
         }
     }
@@ -14461,14 +14461,14 @@ extension CostExplorerClientTypes.TagValues: Swift.Codable {
         }
         if let matchOptions = matchOptions {
             var matchOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchOptions)
-            for matchoptions0 in matchOptions {
-                try matchOptionsContainer.encode(matchoptions0.rawValue)
+            for matchoption0 in matchOptions {
+                try matchOptionsContainer.encode(matchoption0.rawValue)
             }
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -14556,8 +14556,8 @@ extension CostExplorerClientTypes.TargetInstance: Swift.Codable {
         }
         if let platformDifferences = platformDifferences {
             var platformDifferencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformDifferences)
-            for platformdifferences0 in platformDifferences {
-                try platformDifferencesContainer.encode(platformdifferences0.rawValue)
+            for platformdifference0 in platformDifferences {
+                try platformDifferencesContainer.encode(platformdifference0.rawValue)
             }
         }
         if let resourceDetails = self.resourceDetails {
@@ -14997,8 +14997,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let resourceTagKeys = resourceTagKeys {
             var resourceTagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTagKeys)
-            for resourcetagkeylist0 in resourceTagKeys {
-                try resourceTagKeysContainer.encode(resourcetagkeylist0)
+            for resourcetagkey0 in resourceTagKeys {
+                try resourceTagKeysContainer.encode(resourcetagkey0)
             }
         }
     }
@@ -15235,14 +15235,14 @@ extension UpdateAnomalySubscriptionInput: Swift.Encodable {
         }
         if let monitorArnList = monitorArnList {
             var monitorArnListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitorArnList)
-            for monitorarnlist0 in monitorArnList {
-                try monitorArnListContainer.encode(monitorarnlist0)
+            for arn0 in monitorArnList {
+                try monitorArnListContainer.encode(arn0)
             }
         }
         if let subscribers = subscribers {
             var subscribersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribers)
-            for subscribers0 in subscribers {
-                try subscribersContainer.encode(subscribers0)
+            for subscriber0 in subscribers {
+                try subscribersContainer.encode(subscriber0)
             }
         }
         if let subscriptionArn = self.subscriptionArn {
@@ -15502,8 +15502,8 @@ extension UpdateCostAllocationTagsStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let costAllocationTagsStatus = costAllocationTagsStatus {
             var costAllocationTagsStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .costAllocationTagsStatus)
-            for costallocationtagstatuslist0 in costAllocationTagsStatus {
-                try costAllocationTagsStatusContainer.encode(costallocationtagstatuslist0)
+            for costallocationtagstatusentry0 in costAllocationTagsStatus {
+                try costAllocationTagsStatusContainer.encode(costallocationtagstatusentry0)
             }
         }
     }
@@ -15651,14 +15651,14 @@ extension UpdateCostCategoryDefinitionInput: Swift.Encodable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rules)
-            for costcategoryruleslist0 in rules {
-                try rulesContainer.encode(costcategoryruleslist0)
+            for costcategoryrule0 in rules {
+                try rulesContainer.encode(costcategoryrule0)
             }
         }
         if let splitChargeRules = splitChargeRules {
             var splitChargeRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .splitChargeRules)
-            for costcategorysplitchargeruleslist0 in splitChargeRules {
-                try splitChargeRulesContainer.encode(costcategorysplitchargeruleslist0)
+            for costcategorysplitchargerule0 in splitChargeRules {
+                try splitChargeRulesContainer.encode(costcategorysplitchargerule0)
             }
         }
     }
@@ -15847,8 +15847,8 @@ extension CostExplorerClientTypes.UtilizationByTime: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for reservationutilizationgroups0 in groups {
-                try groupsContainer.encode(reservationutilizationgroups0)
+            for reservationutilizationgroup0 in groups {
+                try groupsContainer.encode(reservationutilizationgroup0)
             }
         }
         if let timePeriod = self.timePeriod {

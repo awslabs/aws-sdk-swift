@@ -614,8 +614,8 @@ extension AppRunnerClientTypes.CodeConfigurationValues: Swift.Codable {
         }
         if let runtimeEnvironmentVariables = runtimeEnvironmentVariables {
             var runtimeEnvironmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentVariables)
-            for (dictKey0, runtimeenvironmentvariables0) in runtimeEnvironmentVariables {
-                try runtimeEnvironmentVariablesContainer.encode(runtimeenvironmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, runtimeEnvironmentVariables0) in runtimeEnvironmentVariables {
+                try runtimeEnvironmentVariablesContainer.encode(runtimeEnvironmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startCommand = self.startCommand {
@@ -987,8 +987,8 @@ extension CreateAutoScalingConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1155,8 +1155,8 @@ extension CreateConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1305,8 +1305,8 @@ extension CreateObservabilityConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let traceConfiguration = self.traceConfiguration {
@@ -1484,8 +1484,8 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1691,20 +1691,20 @@ extension CreateVpcConnectorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for stringlist0 in securityGroups {
-                try securityGroupsContainer.encode(stringlist0)
+            for string0 in securityGroups {
+                try securityGroupsContainer.encode(string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcConnectorName = self.vpcConnectorName {
@@ -1886,8 +1886,8 @@ extension CreateVpcIngressConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcIngressConnectionName = self.vpcIngressConnectionName {
@@ -2048,8 +2048,8 @@ extension AppRunnerClientTypes.CustomDomain: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateValidationRecords = certificateValidationRecords {
             var certificateValidationRecordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateValidationRecords)
-            for certificatevalidationrecordlist0 in certificateValidationRecords {
-                try certificateValidationRecordsContainer.encode(certificatevalidationrecordlist0)
+            for certificatevalidationrecord0 in certificateValidationRecords {
+                try certificateValidationRecordsContainer.encode(certificatevalidationrecord0)
             }
         }
         if let domainName = self.domainName {
@@ -4071,8 +4071,8 @@ extension AppRunnerClientTypes.ImageConfiguration: Swift.Codable {
         }
         if let runtimeEnvironmentVariables = runtimeEnvironmentVariables {
             var runtimeEnvironmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentVariables)
-            for (dictKey0, runtimeenvironmentvariables0) in runtimeEnvironmentVariables {
-                try runtimeEnvironmentVariablesContainer.encode(runtimeenvironmentvariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, runtimeEnvironmentVariables0) in runtimeEnvironmentVariables {
+                try runtimeEnvironmentVariablesContainer.encode(runtimeEnvironmentVariables0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startCommand = self.startCommand {
@@ -7332,8 +7332,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7508,8 +7508,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -7960,8 +7960,8 @@ extension AppRunnerClientTypes.VpcConnector: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for stringlist0 in securityGroups {
-                try securityGroupsContainer.encode(stringlist0)
+            for string0 in securityGroups {
+                try securityGroupsContainer.encode(string0)
             }
         }
         if let status = self.status {
@@ -7969,8 +7969,8 @@ extension AppRunnerClientTypes.VpcConnector: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let vpcConnectorArn = self.vpcConnectorArn {

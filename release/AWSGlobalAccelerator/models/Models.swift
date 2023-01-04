@@ -36,8 +36,8 @@ extension GlobalAcceleratorClientTypes.Accelerator: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for acceleratorevents0 in events {
-                try eventsContainer.encode(acceleratorevents0)
+            for acceleratorevent0 in events {
+                try eventsContainer.encode(acceleratorevent0)
             }
         }
         if let ipAddressType = self.ipAddressType {
@@ -45,8 +45,8 @@ extension GlobalAcceleratorClientTypes.Accelerator: Swift.Codable {
         }
         if let ipSets = ipSets {
             var ipSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipSets)
-            for ipsets0 in ipSets {
-                try ipSetsContainer.encode(ipsets0)
+            for ipset0 in ipSets {
+                try ipSetsContainer.encode(ipset0)
             }
         }
         if let lastModifiedTime = self.lastModifiedTime {
@@ -459,8 +459,8 @@ extension AddCustomRoutingEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointConfigurations = endpointConfigurations {
             var endpointConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointConfigurations)
-            for customroutingendpointconfigurations0 in endpointConfigurations {
-                try endpointConfigurationsContainer.encode(customroutingendpointconfigurations0)
+            for customroutingendpointconfiguration0 in endpointConfigurations {
+                try endpointConfigurationsContainer.encode(customroutingendpointconfiguration0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -626,8 +626,8 @@ extension AddEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointConfigurations = endpointConfigurations {
             var endpointConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointConfigurations)
-            for endpointconfigurations0 in endpointConfigurations {
-                try endpointConfigurationsContainer.encode(endpointconfigurations0)
+            for endpointconfiguration0 in endpointConfigurations {
+                try endpointConfigurationsContainer.encode(endpointconfiguration0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -916,14 +916,14 @@ extension AllowCustomRoutingTrafficInput: Swift.Encodable {
         }
         if let destinationAddresses = destinationAddresses {
             var destinationAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationAddresses)
-            for destinationaddresses0 in destinationAddresses {
-                try destinationAddressesContainer.encode(destinationaddresses0)
+            for ipaddress0 in destinationAddresses {
+                try destinationAddressesContainer.encode(ipaddress0)
             }
         }
         if let destinationPorts = destinationPorts {
             var destinationPortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPorts)
-            for destinationports0 in destinationPorts {
-                try destinationPortsContainer.encode(destinationports0)
+            for portnumber0 in destinationPorts {
+                try destinationPortsContainer.encode(portnumber0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -1175,8 +1175,8 @@ extension GlobalAcceleratorClientTypes.ByoipCidr: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for byoipcidrevents0 in events {
-                try eventsContainer.encode(byoipcidrevents0)
+            for byoipcidrevent0 in events {
+                try eventsContainer.encode(byoipcidrevent0)
             }
         }
         if let state = self.state {
@@ -1560,8 +1560,8 @@ extension CreateAcceleratorInput: Swift.Encodable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ipaddresses0 in ipAddresses {
-                try ipAddressesContainer.encode(ipaddresses0)
+            for ipaddress0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddress0)
             }
         }
         if let name = self.name {
@@ -1569,8 +1569,8 @@ extension CreateAcceleratorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1760,8 +1760,8 @@ extension CreateCustomRoutingAcceleratorInput: Swift.Encodable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ipaddresses0 in ipAddresses {
-                try ipAddressesContainer.encode(ipaddresses0)
+            for ipaddress0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddress0)
             }
         }
         if let name = self.name {
@@ -1769,8 +1769,8 @@ extension CreateCustomRoutingAcceleratorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1951,8 +1951,8 @@ extension CreateCustomRoutingEndpointGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationConfigurations = destinationConfigurations {
             var destinationConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationConfigurations)
-            for customroutingdestinationconfigurations0 in destinationConfigurations {
-                try destinationConfigurationsContainer.encode(customroutingdestinationconfigurations0)
+            for customroutingdestinationconfiguration0 in destinationConfigurations {
+                try destinationConfigurationsContainer.encode(customroutingdestinationconfiguration0)
             }
         }
         if let endpointGroupRegion = self.endpointGroupRegion {
@@ -2132,8 +2132,8 @@ extension CreateCustomRoutingListenerInput: Swift.Encodable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
     }
@@ -2291,8 +2291,8 @@ extension CreateEndpointGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointConfigurations = endpointConfigurations {
             var endpointConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointConfigurations)
-            for endpointconfigurations0 in endpointConfigurations {
-                try endpointConfigurationsContainer.encode(endpointconfigurations0)
+            for endpointconfiguration0 in endpointConfigurations {
+                try endpointConfigurationsContainer.encode(endpointconfiguration0)
             }
         }
         if let endpointGroupRegion = self.endpointGroupRegion {
@@ -2318,8 +2318,8 @@ extension CreateEndpointGroupInput: Swift.Encodable {
         }
         if let portOverrides = portOverrides {
             var portOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portOverrides)
-            for portoverrides0 in portOverrides {
-                try portOverridesContainer.encode(portoverrides0)
+            for portoverride0 in portOverrides {
+                try portOverridesContainer.encode(portoverride0)
             }
         }
         if let thresholdCount = self.thresholdCount {
@@ -2563,8 +2563,8 @@ extension CreateListenerInput: Swift.Encodable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
         if let `protocol` = self.`protocol` {
@@ -2755,8 +2755,8 @@ extension GlobalAcceleratorClientTypes.CustomRoutingAccelerator: Swift.Codable {
         }
         if let ipSets = ipSets {
             var ipSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipSets)
-            for ipsets0 in ipSets {
-                try ipSetsContainer.encode(ipsets0)
+            for ipset0 in ipSets {
+                try ipSetsContainer.encode(ipset0)
             }
         }
         if let lastModifiedTime = self.lastModifiedTime {
@@ -2951,8 +2951,8 @@ extension GlobalAcceleratorClientTypes.CustomRoutingDestinationConfiguration: Sw
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for customroutingprotocols0 in protocols {
-                try protocolsContainer.encode(customroutingprotocols0.rawValue)
+            for customroutingprotocol0 in protocols {
+                try protocolsContainer.encode(customroutingprotocol0.rawValue)
             }
         }
         if let toPort = self.toPort {
@@ -3021,8 +3021,8 @@ extension GlobalAcceleratorClientTypes.CustomRoutingDestinationDescription: Swif
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocols0 in protocols {
-                try protocolsContainer.encode(protocols0.rawValue)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
             }
         }
         if let toPort = self.toPort {
@@ -3188,14 +3188,14 @@ extension GlobalAcceleratorClientTypes.CustomRoutingEndpointGroup: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinationDescriptions = destinationDescriptions {
             var destinationDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationDescriptions)
-            for customroutingdestinationdescriptions0 in destinationDescriptions {
-                try destinationDescriptionsContainer.encode(customroutingdestinationdescriptions0)
+            for customroutingdestinationdescription0 in destinationDescriptions {
+                try destinationDescriptionsContainer.encode(customroutingdestinationdescription0)
             }
         }
         if let endpointDescriptions = endpointDescriptions {
             var endpointDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointDescriptions)
-            for customroutingendpointdescriptions0 in endpointDescriptions {
-                try endpointDescriptionsContainer.encode(customroutingendpointdescriptions0)
+            for customroutingendpointdescription0 in endpointDescriptions {
+                try endpointDescriptionsContainer.encode(customroutingendpointdescription0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -3278,8 +3278,8 @@ extension GlobalAcceleratorClientTypes.CustomRoutingListener: Swift.Codable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
     }
@@ -3886,14 +3886,14 @@ extension DenyCustomRoutingTrafficInput: Swift.Encodable {
         }
         if let destinationAddresses = destinationAddresses {
             var destinationAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationAddresses)
-            for destinationaddresses0 in destinationAddresses {
-                try destinationAddressesContainer.encode(destinationaddresses0)
+            for ipaddress0 in destinationAddresses {
+                try destinationAddressesContainer.encode(ipaddress0)
             }
         }
         if let destinationPorts = destinationPorts {
             var destinationPortsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinationPorts)
-            for destinationports0 in destinationPorts {
-                try destinationPortsContainer.encode(destinationports0)
+            for portnumber0 in destinationPorts {
+                try destinationPortsContainer.encode(portnumber0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -5085,8 +5085,8 @@ extension GlobalAcceleratorClientTypes.DestinationPortMapping: Swift.Codable {
         }
         if let acceleratorSocketAddresses = acceleratorSocketAddresses {
             var acceleratorSocketAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .acceleratorSocketAddresses)
-            for socketaddresses0 in acceleratorSocketAddresses {
-                try acceleratorSocketAddressesContainer.encode(socketaddresses0)
+            for socketaddress0 in acceleratorSocketAddresses {
+                try acceleratorSocketAddressesContainer.encode(socketaddress0)
             }
         }
         if let destinationSocketAddress = self.destinationSocketAddress {
@@ -5383,8 +5383,8 @@ extension GlobalAcceleratorClientTypes.EndpointGroup: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointDescriptions = endpointDescriptions {
             var endpointDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointDescriptions)
-            for endpointdescriptions0 in endpointDescriptions {
-                try endpointDescriptionsContainer.encode(endpointdescriptions0)
+            for endpointdescription0 in endpointDescriptions {
+                try endpointDescriptionsContainer.encode(endpointdescription0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -5407,8 +5407,8 @@ extension GlobalAcceleratorClientTypes.EndpointGroup: Swift.Codable {
         }
         if let portOverrides = portOverrides {
             var portOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portOverrides)
-            for portoverrides0 in portOverrides {
-                try portOverridesContainer.encode(portoverrides0)
+            for portoverride0 in portOverrides {
+                try portOverridesContainer.encode(portoverride0)
             }
         }
         if let thresholdCount = self.thresholdCount {
@@ -6124,8 +6124,8 @@ extension GlobalAcceleratorClientTypes.IpSet: Swift.Codable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ipaddresses0 in ipAddresses {
-                try ipAddressesContainer.encode(ipaddresses0)
+            for ipaddress0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddress0)
             }
         }
         if let ipFamily = self.ipFamily {
@@ -7796,8 +7796,8 @@ extension GlobalAcceleratorClientTypes.Listener: Swift.Codable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
         if let `protocol` = self.`protocol` {
@@ -7936,8 +7936,8 @@ extension GlobalAcceleratorClientTypes.PortMapping: Swift.Codable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for customroutingprotocols0 in protocols {
-                try protocolsContainer.encode(customroutingprotocols0.rawValue)
+            for customroutingprotocol0 in protocols {
+                try protocolsContainer.encode(customroutingprotocol0.rawValue)
             }
         }
     }
@@ -8271,8 +8271,8 @@ extension RemoveCustomRoutingEndpointsInput: Swift.Encodable {
         }
         if let endpointIds = endpointIds {
             var endpointIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointIds)
-            for endpointids0 in endpointIds {
-                try endpointIdsContainer.encode(endpointids0)
+            for genericstring0 in endpointIds {
+                try endpointIdsContainer.encode(genericstring0)
             }
         }
     }
@@ -8386,8 +8386,8 @@ extension RemoveEndpointsInput: Swift.Encodable {
         }
         if let endpointIdentifiers = endpointIdentifiers {
             var endpointIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointIdentifiers)
-            for endpointidentifiers0 in endpointIdentifiers {
-                try endpointIdentifiersContainer.encode(endpointidentifiers0)
+            for endpointidentifier0 in endpointIdentifiers {
+                try endpointIdentifiersContainer.encode(endpointidentifier0)
             }
         }
     }
@@ -8591,8 +8591,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -8752,8 +8752,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -9471,8 +9471,8 @@ extension UpdateCustomRoutingListenerInput: Swift.Encodable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
     }
@@ -9619,8 +9619,8 @@ extension UpdateEndpointGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpointConfigurations = endpointConfigurations {
             var endpointConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointConfigurations)
-            for endpointconfigurations0 in endpointConfigurations {
-                try endpointConfigurationsContainer.encode(endpointconfigurations0)
+            for endpointconfiguration0 in endpointConfigurations {
+                try endpointConfigurationsContainer.encode(endpointconfiguration0)
             }
         }
         if let endpointGroupArn = self.endpointGroupArn {
@@ -9640,8 +9640,8 @@ extension UpdateEndpointGroupInput: Swift.Encodable {
         }
         if let portOverrides = portOverrides {
             var portOverridesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portOverrides)
-            for portoverrides0 in portOverrides {
-                try portOverridesContainer.encode(portoverrides0)
+            for portoverride0 in portOverrides {
+                try portOverridesContainer.encode(portoverride0)
             }
         }
         if let thresholdCount = self.thresholdCount {
@@ -9859,8 +9859,8 @@ extension UpdateListenerInput: Swift.Encodable {
         }
         if let portRanges = portRanges {
             var portRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRanges)
-            for portranges0 in portRanges {
-                try portRangesContainer.encode(portranges0)
+            for portrange0 in portRanges {
+                try portRangesContainer.encode(portrange0)
             }
         }
         if let `protocol` = self.`protocol` {

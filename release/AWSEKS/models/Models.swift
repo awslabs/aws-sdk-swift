@@ -177,8 +177,8 @@ extension EKSClientTypes.Addon: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -302,8 +302,8 @@ extension EKSClientTypes.AddonHealth: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let issues = issues {
             var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
-            for addonissuelist0 in issues {
-                try issuesContainer.encode(addonissuelist0)
+            for addonissue0 in issues {
+                try issuesContainer.encode(addonissue0)
             }
         }
     }
@@ -357,8 +357,8 @@ extension EKSClientTypes.AddonInfo: Swift.Codable {
         }
         if let addonVersions = addonVersions {
             var addonVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addonVersions)
-            for addonversioninfolist0 in addonVersions {
-                try addonVersionsContainer.encode(addonversioninfolist0)
+            for addonversioninfo0 in addonVersions {
+                try addonVersionsContainer.encode(addonversioninfo0)
             }
         }
         if let marketplaceInformation = self.marketplaceInformation {
@@ -454,8 +454,8 @@ extension EKSClientTypes.AddonIssue: Swift.Codable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringlist0)
+            for string0 in resourceIds {
+                try resourceIdsContainer.encode(string0)
             }
         }
     }
@@ -619,14 +619,14 @@ extension EKSClientTypes.AddonVersionInfo: Swift.Codable {
         }
         if let architecture = architecture {
             var architectureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architecture)
-            for stringlist0 in architecture {
-                try architectureContainer.encode(stringlist0)
+            for string0 in architecture {
+                try architectureContainer.encode(string0)
             }
         }
         if let compatibilities = compatibilities {
             var compatibilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibilities)
-            for compatibilities0 in compatibilities {
-                try compatibilitiesContainer.encode(compatibilities0)
+            for compatibility0 in compatibilities {
+                try compatibilitiesContainer.encode(compatibility0)
             }
         }
         if requiresConfiguration != false {
@@ -706,8 +706,8 @@ extension AssociateEncryptionConfigInput: Swift.Encodable {
         }
         if let encryptionConfig = encryptionConfig {
             var encryptionConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .encryptionConfig)
-            for encryptionconfiglist0 in encryptionConfig {
-                try encryptionConfigContainer.encode(encryptionconfiglist0)
+            for encryptionconfig0 in encryptionConfig {
+                try encryptionConfigContainer.encode(encryptionconfig0)
             }
         }
     }
@@ -863,8 +863,8 @@ extension AssociateIdentityProviderConfigInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1308,8 +1308,8 @@ extension EKSClientTypes.Cluster: Swift.Codable {
         }
         if let encryptionConfig = encryptionConfig {
             var encryptionConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .encryptionConfig)
-            for encryptionconfiglist0 in encryptionConfig {
-                try encryptionConfigContainer.encode(encryptionconfiglist0)
+            for encryptionconfig0 in encryptionConfig {
+                try encryptionConfigContainer.encode(encryptionconfig0)
             }
         }
         if let endpoint = self.endpoint {
@@ -1350,8 +1350,8 @@ extension EKSClientTypes.Cluster: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let version = self.version {
@@ -1523,8 +1523,8 @@ extension EKSClientTypes.ClusterHealth: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let issues = issues {
             var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
-            for clusterissuelist0 in issues {
-                try issuesContainer.encode(clusterissuelist0)
+            for clusterissue0 in issues {
+                try issuesContainer.encode(clusterissue0)
             }
         }
     }
@@ -1578,8 +1578,8 @@ extension EKSClientTypes.ClusterIssue: Swift.Codable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringlist0)
+            for string0 in resourceIds {
+                try resourceIdsContainer.encode(string0)
             }
         }
     }
@@ -1733,8 +1733,8 @@ extension EKSClientTypes.Compatibility: Swift.Codable {
         }
         if let platformVersions = platformVersions {
             var platformVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platformVersions)
-            for stringlist0 in platformVersions {
-                try platformVersionsContainer.encode(stringlist0)
+            for string0 in platformVersions {
+                try platformVersionsContainer.encode(string0)
             }
         }
     }
@@ -2096,8 +2096,8 @@ extension CreateAddonInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2306,8 +2306,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let encryptionConfig = encryptionConfig {
             var encryptionConfigContainer = encodeContainer.nestedUnkeyedContainer(forKey: .encryptionConfig)
-            for encryptionconfiglist0 in encryptionConfig {
-                try encryptionConfigContainer.encode(encryptionconfiglist0)
+            for encryptionconfig0 in encryptionConfig {
+                try encryptionConfigContainer.encode(encryptionconfig0)
             }
         }
         if let kubernetesNetworkConfig = self.kubernetesNetworkConfig {
@@ -2330,8 +2330,8 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let version = self.version {
@@ -2565,20 +2565,20 @@ extension CreateFargateProfileInput: Swift.Encodable {
         }
         if let selectors = selectors {
             var selectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectors)
-            for fargateprofileselectors0 in selectors {
-                try selectorsContainer.encode(fargateprofileselectors0)
+            for fargateprofileselector0 in selectors {
+                try selectorsContainer.encode(fargateprofileselector0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2805,14 +2805,14 @@ extension CreateNodegroupInput: Swift.Encodable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for stringlist0 in instanceTypes {
-                try instanceTypesContainer.encode(stringlist0)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
             }
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labels)
-            for (dictKey0, labelsmap0) in labels {
-                try labelsContainer.encode(labelsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, labelsMap0) in labels {
+                try labelsContainer.encode(labelsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let launchTemplate = self.launchTemplate {
@@ -2835,20 +2835,20 @@ extension CreateNodegroupInput: Swift.Encodable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let taints = taints {
             var taintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taints)
-            for taintslist0 in taints {
-                try taintsContainer.encode(taintslist0)
+            for taint0 in taints {
+                try taintsContainer.encode(taint0)
             }
         }
         if let updateConfig = self.updateConfig {
@@ -4931,8 +4931,8 @@ extension EKSClientTypes.EncryptionConfig: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for stringlist0 in resources {
-                try resourcesContainer.encode(stringlist0)
+            for string0 in resources {
+                try resourcesContainer.encode(string0)
             }
         }
     }
@@ -5069,8 +5069,8 @@ extension EKSClientTypes.ErrorDetail: Swift.Codable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringlist0)
+            for string0 in resourceIds {
+                try resourceIdsContainer.encode(string0)
             }
         }
     }
@@ -5165,8 +5165,8 @@ extension EKSClientTypes.FargateProfile: Swift.Codable {
         }
         if let selectors = selectors {
             var selectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectors)
-            for fargateprofileselectors0 in selectors {
-                try selectorsContainer.encode(fargateprofileselectors0)
+            for fargateprofileselector0 in selectors {
+                try selectorsContainer.encode(fargateprofileselector0)
             }
         }
         if let status = self.status {
@@ -5174,14 +5174,14 @@ extension EKSClientTypes.FargateProfile: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5294,8 +5294,8 @@ extension EKSClientTypes.FargateProfileSelector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labels)
-            for (dictKey0, fargateprofilelabel0) in labels {
-                try labelsContainer.encode(fargateprofilelabel0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, fargateProfileLabel0) in labels {
+                try labelsContainer.encode(fargateProfileLabel0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let namespace = self.namespace {
@@ -5720,8 +5720,8 @@ extension EKSClientTypes.Issue: Swift.Codable {
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringlist0)
+            for string0 in resourceIds {
+                try resourceIdsContainer.encode(string0)
             }
         }
     }
@@ -6970,8 +6970,8 @@ extension EKSClientTypes.LogSetup: Swift.Codable {
         }
         if let types = types {
             var typesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .types)
-            for logtypes0 in types {
-                try typesContainer.encode(logtypes0.rawValue)
+            for logtype0 in types {
+                try typesContainer.encode(logtype0.rawValue)
             }
         }
     }
@@ -7064,8 +7064,8 @@ extension EKSClientTypes.Logging: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clusterLogging = clusterLogging {
             var clusterLoggingContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clusterLogging)
-            for logsetups0 in clusterLogging {
-                try clusterLoggingContainer.encode(logsetups0)
+            for logsetup0 in clusterLogging {
+                try clusterLoggingContainer.encode(logsetup0)
             }
         }
     }
@@ -7196,14 +7196,14 @@ extension EKSClientTypes.Nodegroup: Swift.Codable {
         }
         if let instanceTypes = instanceTypes {
             var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
-            for stringlist0 in instanceTypes {
-                try instanceTypesContainer.encode(stringlist0)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
             }
         }
         if let labels = labels {
             var labelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .labels)
-            for (dictKey0, labelsmap0) in labels {
-                try labelsContainer.encode(labelsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, labelsMap0) in labels {
+                try labelsContainer.encode(labelsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let launchTemplate = self.launchTemplate {
@@ -7238,20 +7238,20 @@ extension EKSClientTypes.Nodegroup: Swift.Codable {
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let taints = taints {
             var taintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taints)
-            for taintslist0 in taints {
-                try taintsContainer.encode(taintslist0)
+            for taint0 in taints {
+                try taintsContainer.encode(taint0)
             }
         }
         if let updateConfig = self.updateConfig {
@@ -7471,8 +7471,8 @@ extension EKSClientTypes.NodegroupHealth: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let issues = issues {
             var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
-            for issuelist0 in issues {
-                try issuesContainer.encode(issuelist0)
+            for issue0 in issues {
+                try issuesContainer.encode(issue0)
             }
         }
     }
@@ -7602,8 +7602,8 @@ extension EKSClientTypes.NodegroupResources: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoScalingGroups = autoScalingGroups {
             var autoScalingGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoScalingGroups)
-            for autoscalinggrouplist0 in autoScalingGroups {
-                try autoScalingGroupsContainer.encode(autoscalinggrouplist0)
+            for autoscalinggroup0 in autoScalingGroups {
+                try autoScalingGroupsContainer.encode(autoscalinggroup0)
             }
         }
         if let remoteAccessSecurityGroup = self.remoteAccessSecurityGroup {
@@ -7924,8 +7924,8 @@ extension EKSClientTypes.OidcIdentityProviderConfig: Swift.Codable {
         }
         if let requiredClaims = requiredClaims {
             var requiredClaimsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requiredClaims)
-            for (dictKey0, requiredclaimsmap0) in requiredClaims {
-                try requiredClaimsContainer.encode(requiredclaimsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, requiredClaimsMap0) in requiredClaims {
+                try requiredClaimsContainer.encode(requiredClaimsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -7933,8 +7933,8 @@ extension EKSClientTypes.OidcIdentityProviderConfig: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let usernameClaim = self.usernameClaim {
@@ -8083,8 +8083,8 @@ extension EKSClientTypes.OidcIdentityProviderConfigRequest: Swift.Codable {
         }
         if let requiredClaims = requiredClaims {
             var requiredClaimsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requiredClaims)
-            for (dictKey0, requiredclaimsmap0) in requiredClaims {
-                try requiredClaimsContainer.encode(requiredclaimsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, requiredClaimsMap0) in requiredClaims {
+                try requiredClaimsContainer.encode(requiredClaimsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let usernameClaim = self.usernameClaim {
@@ -8189,8 +8189,8 @@ extension EKSClientTypes.OutpostConfigRequest: Swift.Codable {
         }
         if let outpostArns = outpostArns {
             var outpostArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outpostArns)
-            for stringlist0 in outpostArns {
-                try outpostArnsContainer.encode(stringlist0)
+            for string0 in outpostArns {
+                try outpostArnsContainer.encode(string0)
             }
         }
     }
@@ -8258,8 +8258,8 @@ extension EKSClientTypes.OutpostConfigResponse: Swift.Codable {
         }
         if let outpostArns = outpostArns {
             var outpostArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outpostArns)
-            for stringlist0 in outpostArns {
-                try outpostArnsContainer.encode(stringlist0)
+            for string0 in outpostArns {
+                try outpostArnsContainer.encode(string0)
             }
         }
     }
@@ -8366,8 +8366,8 @@ extension RegisterClusterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8532,8 +8532,8 @@ extension EKSClientTypes.RemoteAccessConfig: Swift.Codable {
         }
         if let sourceSecurityGroups = sourceSecurityGroups {
             var sourceSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceSecurityGroups)
-            for stringlist0 in sourceSecurityGroups {
-                try sourceSecurityGroupsContainer.encode(stringlist0)
+            for string0 in sourceSecurityGroups {
+                try sourceSecurityGroupsContainer.encode(string0)
             }
         }
     }
@@ -9049,8 +9049,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9427,8 +9427,8 @@ extension EKSClientTypes.Update: Swift.Codable {
         }
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for errordetails0 in errors {
-                try errorsContainer.encode(errordetails0)
+            for errordetail0 in errors {
+                try errorsContainer.encode(errordetail0)
             }
         }
         if let id = self.id {
@@ -9436,8 +9436,8 @@ extension EKSClientTypes.Update: Swift.Codable {
         }
         if let params = params {
             var paramsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .params)
-            for updateparams0 in params {
-                try paramsContainer.encode(updateparams0)
+            for updateparam0 in params {
+                try paramsContainer.encode(updateparam0)
             }
         }
         if let status = self.status {
@@ -10012,14 +10012,14 @@ extension EKSClientTypes.UpdateLabelsPayload: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOrUpdateLabels = addOrUpdateLabels {
             var addOrUpdateLabelsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .addOrUpdateLabels)
-            for (dictKey0, labelsmap0) in addOrUpdateLabels {
-                try addOrUpdateLabelsContainer.encode(labelsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, labelsMap0) in addOrUpdateLabels {
+                try addOrUpdateLabelsContainer.encode(labelsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let removeLabels = removeLabels {
             var removeLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeLabels)
-            for labelskeylist0 in removeLabels {
-                try removeLabelsContainer.encode(labelskeylist0)
+            for string0 in removeLabels {
+                try removeLabelsContainer.encode(string0)
             }
         }
     }
@@ -10627,14 +10627,14 @@ extension EKSClientTypes.UpdateTaintsPayload: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addOrUpdateTaints = addOrUpdateTaints {
             var addOrUpdateTaintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addOrUpdateTaints)
-            for taintslist0 in addOrUpdateTaints {
-                try addOrUpdateTaintsContainer.encode(taintslist0)
+            for taint0 in addOrUpdateTaints {
+                try addOrUpdateTaintsContainer.encode(taint0)
             }
         }
         if let removeTaints = removeTaints {
             var removeTaintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeTaints)
-            for taintslist0 in removeTaints {
-                try removeTaintsContainer.encode(taintslist0)
+            for taint0 in removeTaints {
+                try removeTaintsContainer.encode(taint0)
             }
         }
     }
@@ -10755,20 +10755,20 @@ extension EKSClientTypes.VpcConfigRequest: Swift.Codable {
         }
         if let publicAccessCidrs = publicAccessCidrs {
             var publicAccessCidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicAccessCidrs)
-            for stringlist0 in publicAccessCidrs {
-                try publicAccessCidrsContainer.encode(stringlist0)
+            for string0 in publicAccessCidrs {
+                try publicAccessCidrsContainer.encode(string0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }
@@ -10871,20 +10871,20 @@ extension EKSClientTypes.VpcConfigResponse: Swift.Codable {
         }
         if let publicAccessCidrs = publicAccessCidrs {
             var publicAccessCidrsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicAccessCidrs)
-            for stringlist0 in publicAccessCidrs {
-                try publicAccessCidrsContainer.encode(stringlist0)
+            for string0 in publicAccessCidrs {
+                try publicAccessCidrsContainer.encode(string0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcId = self.vpcId {

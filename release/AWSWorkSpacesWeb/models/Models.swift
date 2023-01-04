@@ -743,8 +743,8 @@ extension WorkSpacesWebClientTypes.BrowserSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
-            for arnlist0 in associatedPortalArns {
-                try associatedPortalArnsContainer.encode(arnlist0)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
             }
         }
         if let browserPolicy = self.browserPolicy {
@@ -1119,8 +1119,8 @@ extension CreateBrowserSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalEncryptionContext = additionalEncryptionContext {
             var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
-            for (dictKey0, encryptioncontextmap0) in additionalEncryptionContext {
-                try additionalEncryptionContextContainer.encode(encryptioncontextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let browserPolicy = self.browserPolicy {
@@ -1134,8 +1134,8 @@ extension CreateBrowserSettingsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1323,8 +1323,8 @@ extension CreateIdentityProviderInput: Swift.Encodable {
         }
         if let identityProviderDetails = identityProviderDetails {
             var identityProviderDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identityProviderDetails)
-            for (dictKey0, identityproviderdetails0) in identityProviderDetails {
-                try identityProviderDetailsContainer.encode(identityproviderdetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityProviderDetails0) in identityProviderDetails {
+                try identityProviderDetailsContainer.encode(identityProviderDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let identityProviderName = self.identityProviderName {
@@ -1578,20 +1578,20 @@ extension CreateNetworkSettingsInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -1788,8 +1788,8 @@ extension CreatePortalInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalEncryptionContext = additionalEncryptionContext {
             var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
-            for (dictKey0, encryptioncontextmap0) in additionalEncryptionContext {
-                try additionalEncryptionContextContainer.encode(encryptioncontextmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientToken = self.clientToken {
@@ -1803,8 +1803,8 @@ extension CreatePortalInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1992,8 +1992,8 @@ extension CreateTrustStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificateList = certificateList {
             var certificateListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificateList)
-            for certificatelist0 in certificateList {
-                try certificateListContainer.encode(certificatelist0.base64EncodedString())
+            for certificateauthoritybody0 in certificateList {
+                try certificateListContainer.encode(certificateauthoritybody0.base64EncodedString())
             }
         }
         if let clientToken = self.clientToken {
@@ -2001,8 +2001,8 @@ extension CreateTrustStoreInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2168,8 +2168,8 @@ extension CreateUserAccessLoggingSettingsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2347,8 +2347,8 @@ extension CreateUserSettingsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let uploadAllowed = self.uploadAllowed {
@@ -4401,8 +4401,8 @@ extension WorkSpacesWebClientTypes.IdentityProvider: Swift.Codable {
         }
         if let identityProviderDetails = identityProviderDetails {
             var identityProviderDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identityProviderDetails)
-            for (dictKey0, identityproviderdetails0) in identityProviderDetails {
-                try identityProviderDetailsContainer.encode(identityproviderdetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityProviderDetails0) in identityProviderDetails {
+                try identityProviderDetailsContainer.encode(identityProviderDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let identityProviderName = self.identityProviderName {
@@ -5942,8 +5942,8 @@ extension WorkSpacesWebClientTypes.NetworkSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
-            for arnlist0 in associatedPortalArns {
-                try associatedPortalArnsContainer.encode(arnlist0)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
             }
         }
         if let networkSettingsArn = self.networkSettingsArn {
@@ -5951,14 +5951,14 @@ extension WorkSpacesWebClientTypes.NetworkSettings: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -6690,8 +6690,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6952,8 +6952,8 @@ extension WorkSpacesWebClientTypes.TrustStore: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
-            for arnlist0 in associatedPortalArns {
-                try associatedPortalArnsContainer.encode(arnlist0)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
             }
         }
         if let trustStoreArn = self.trustStoreArn {
@@ -7291,8 +7291,8 @@ extension UpdateIdentityProviderInput: Swift.Encodable {
         }
         if let identityProviderDetails = identityProviderDetails {
             var identityProviderDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .identityProviderDetails)
-            for (dictKey0, identityproviderdetails0) in identityProviderDetails {
-                try identityProviderDetailsContainer.encode(identityproviderdetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, identityProviderDetails0) in identityProviderDetails {
+                try identityProviderDetailsContainer.encode(identityProviderDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let identityProviderName = self.identityProviderName {
@@ -7534,14 +7534,14 @@ extension UpdateNetworkSettingsInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -7848,14 +7848,14 @@ extension UpdateTrustStoreInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let certificatesToAdd = certificatesToAdd {
             var certificatesToAddContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificatesToAdd)
-            for certificatelist0 in certificatesToAdd {
-                try certificatesToAddContainer.encode(certificatelist0.base64EncodedString())
+            for certificateauthoritybody0 in certificatesToAdd {
+                try certificatesToAddContainer.encode(certificateauthoritybody0.base64EncodedString())
             }
         }
         if let certificatesToDelete = certificatesToDelete {
             var certificatesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .certificatesToDelete)
-            for certificatethumbprintlist0 in certificatesToDelete {
-                try certificatesToDeleteContainer.encode(certificatethumbprintlist0)
+            for certificatethumbprint0 in certificatesToDelete {
+                try certificatesToDeleteContainer.encode(certificatethumbprint0)
             }
         }
         if let clientToken = self.clientToken {
@@ -8375,8 +8375,8 @@ extension WorkSpacesWebClientTypes.UserAccessLoggingSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
-            for arnlist0 in associatedPortalArns {
-                try associatedPortalArnsContainer.encode(arnlist0)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
             }
         }
         if let kinesisStreamArn = self.kinesisStreamArn {
@@ -8494,8 +8494,8 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associatedPortalArns = associatedPortalArns {
             var associatedPortalArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedPortalArns)
-            for arnlist0 in associatedPortalArns {
-                try associatedPortalArnsContainer.encode(arnlist0)
+            for arn0 in associatedPortalArns {
+                try associatedPortalArnsContainer.encode(arn0)
             }
         }
         if let copyAllowed = self.copyAllowed {

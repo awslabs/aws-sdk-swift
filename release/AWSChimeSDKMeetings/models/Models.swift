@@ -299,8 +299,8 @@ extension BatchCreateAttendeeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendees = attendees {
             var attendeesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendees)
-            for createattendeerequestitemlist0 in attendees {
-                try attendeesContainer.encode(createattendeerequestitemlist0)
+            for createattendeerequestitem0 in attendees {
+                try attendeesContainer.encode(createattendeerequestitem0)
             }
         }
     }
@@ -488,8 +488,8 @@ extension BatchUpdateAttendeeCapabilitiesExceptInput: Swift.Encodable {
         }
         if let excludedAttendeeIds = excludedAttendeeIds {
             var excludedAttendeeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludedAttendeeIds)
-            for attendeeidslist0 in excludedAttendeeIds {
-                try excludedAttendeeIdsContainer.encode(attendeeidslist0)
+            for attendeeiditem0 in excludedAttendeeIds {
+                try excludedAttendeeIdsContainer.encode(attendeeiditem0)
             }
         }
     }
@@ -994,14 +994,14 @@ extension CreateMeetingInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tenantIds = tenantIds {
             var tenantIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tenantIds)
-            for tenantidlist0 in tenantIds {
-                try tenantIdsContainer.encode(tenantidlist0)
+            for tenantid0 in tenantIds {
+                try tenantIdsContainer.encode(tenantid0)
             }
         }
     }
@@ -1241,8 +1241,8 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendees = attendees {
             var attendeesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendees)
-            for createmeetingwithattendeesrequestitemlist0 in attendees {
-                try attendeesContainer.encode(createmeetingwithattendeesrequestitemlist0)
+            for createattendeerequestitem0 in attendees {
+                try attendeesContainer.encode(createattendeerequestitem0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -1268,14 +1268,14 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tenantIds = tenantIds {
             var tenantIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tenantIds)
-            for tenantidlist0 in tenantIds {
-                try tenantIdsContainer.encode(tenantidlist0)
+            for tenantid0 in tenantIds {
+                try tenantIdsContainer.encode(tenantid0)
             }
         }
     }
@@ -2769,8 +2769,8 @@ extension ChimeSDKMeetingsClientTypes.Meeting: Swift.Codable {
         }
         if let tenantIds = tenantIds {
             var tenantIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tenantIds)
-            for tenantidlist0 in tenantIds {
-                try tenantIdsContainer.encode(tenantidlist0)
+            for tenantid0 in tenantIds {
+                try tenantIdsContainer.encode(tenantid0)
             }
         }
     }
@@ -3551,8 +3551,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -4445,8 +4445,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
