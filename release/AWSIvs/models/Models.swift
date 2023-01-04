@@ -184,8 +184,8 @@ extension BatchGetChannelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for channelarnlist0 in arns {
-                try arnsContainer.encode(channelarnlist0)
+            for channelarn0 in arns {
+                try arnsContainer.encode(channelarn0)
             }
         }
     }
@@ -333,8 +333,8 @@ extension BatchGetStreamKeyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for streamkeyarnlist0 in arns {
-                try arnsContainer.encode(streamkeyarnlist0)
+            for streamkeyarn0 in arns {
+                try arnsContainer.encode(streamkeyarn0)
             }
         }
     }
@@ -4985,8 +4985,8 @@ extension IvsClientTypes.StreamSession: Swift.Codable {
         }
         if let truncatedEvents = truncatedEvents {
             var truncatedEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .truncatedEvents)
-            for streamevents0 in truncatedEvents {
-                try truncatedEventsContainer.encode(streamevents0)
+            for streamevent0 in truncatedEvents {
+                try truncatedEventsContainer.encode(streamevent0)
             }
         }
     }

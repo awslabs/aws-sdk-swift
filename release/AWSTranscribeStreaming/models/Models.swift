@@ -13,14 +13,14 @@ extension TranscribeStreamingClientTypes.Alternative: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for entitylist0 in entities {
-                try entitiesContainer.encode(entitylist0)
+            for entity0 in entities {
+                try entitiesContainer.encode(entity0)
             }
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for itemlist0 in items {
-                try itemsContainer.encode(itemlist0)
+            for item0 in items {
+                try itemsContainer.encode(item0)
             }
         }
         if let transcript = self.transcript {
@@ -574,14 +574,14 @@ extension TranscribeStreamingClientTypes.CategoryEvent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let matchedCategories = matchedCategories {
             var matchedCategoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchedCategories)
-            for stringlist0 in matchedCategories {
-                try matchedCategoriesContainer.encode(stringlist0)
+            for string0 in matchedCategories {
+                try matchedCategoriesContainer.encode(string0)
             }
         }
         if let matchedDetails = matchedDetails {
             var matchedDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .matchedDetails)
-            for (dictKey0, matchedcategorydetails0) in matchedDetails {
-                try matchedDetailsContainer.encode(matchedcategorydetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, matchedCategoryDetails0) in matchedDetails {
+                try matchedDetailsContainer.encode(matchedCategoryDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -735,8 +735,8 @@ extension TranscribeStreamingClientTypes.ConfigurationEvent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let channelDefinitions = channelDefinitions {
             var channelDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .channelDefinitions)
-            for channeldefinitions0 in channelDefinitions {
-                try channelDefinitionsContainer.encode(channeldefinitions0)
+            for channeldefinition0 in channelDefinitions {
+                try channelDefinitionsContainer.encode(channeldefinition0)
             }
         }
         if let postCallAnalyticsSettings = self.postCallAnalyticsSettings {
@@ -1501,14 +1501,14 @@ extension TranscribeStreamingClientTypes.MedicalAlternative: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for medicalentitylist0 in entities {
-                try entitiesContainer.encode(medicalentitylist0)
+            for medicalentity0 in entities {
+                try entitiesContainer.encode(medicalentity0)
             }
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for medicalitemlist0 in items {
-                try itemsContainer.encode(medicalitemlist0)
+            for medicalitem0 in items {
+                try itemsContainer.encode(medicalitem0)
             }
         }
         if let transcript = self.transcript {
@@ -1772,8 +1772,8 @@ extension TranscribeStreamingClientTypes.MedicalResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternatives = alternatives {
             var alternativesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternatives)
-            for medicalalternativelist0 in alternatives {
-                try alternativesContainer.encode(medicalalternativelist0)
+            for medicalalternative0 in alternatives {
+                try alternativesContainer.encode(medicalalternative0)
             }
         }
         if let channelId = self.channelId {
@@ -1864,8 +1864,8 @@ extension TranscribeStreamingClientTypes.MedicalTranscript: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let results = results {
             var resultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .results)
-            for medicalresultlist0 in results {
-                try resultsContainer.encode(medicalresultlist0)
+            for medicalresult0 in results {
+                try resultsContainer.encode(medicalresult0)
             }
         }
     }
@@ -2100,8 +2100,8 @@ extension TranscribeStreamingClientTypes.PointsOfInterest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let timestampRanges = timestampRanges {
             var timestampRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestampRanges)
-            for timestampranges0 in timestampRanges {
-                try timestampRangesContainer.encode(timestampranges0)
+            for timestamprange0 in timestampRanges {
+                try timestampRangesContainer.encode(timestamprange0)
             }
         }
     }
@@ -2245,8 +2245,8 @@ extension TranscribeStreamingClientTypes.Result: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let alternatives = alternatives {
             var alternativesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternatives)
-            for alternativelist0 in alternatives {
-                try alternativesContainer.encode(alternativelist0)
+            for alternative0 in alternatives {
+                try alternativesContainer.encode(alternative0)
             }
         }
         if let channelId = self.channelId {
@@ -2263,8 +2263,8 @@ extension TranscribeStreamingClientTypes.Result: Swift.Codable {
         }
         if let languageIdentification = languageIdentification {
             var languageIdentificationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .languageIdentification)
-            for languageidentification0 in languageIdentification {
-                try languageIdentificationContainer.encode(languageidentification0)
+            for languagewithscore0 in languageIdentification {
+                try languageIdentificationContainer.encode(languagewithscore0)
             }
         }
         if let resultId = self.resultId {
@@ -3850,8 +3850,8 @@ extension TranscribeStreamingClientTypes.Transcript: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let results = results {
             var resultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .results)
-            for resultlist0 in results {
-                try resultsContainer.encode(resultlist0)
+            for result0 in results {
+                try resultsContainer.encode(result0)
             }
         }
     }
@@ -4066,8 +4066,8 @@ extension TranscribeStreamingClientTypes.UtteranceEvent: Swift.Codable {
         }
         if let entities = entities {
             var entitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entities)
-            for callanalyticsentitylist0 in entities {
-                try entitiesContainer.encode(callanalyticsentitylist0)
+            for callanalyticsentity0 in entities {
+                try entitiesContainer.encode(callanalyticsentity0)
             }
         }
         if isPartial != false {
@@ -4075,14 +4075,14 @@ extension TranscribeStreamingClientTypes.UtteranceEvent: Swift.Codable {
         }
         if let issuesDetected = issuesDetected {
             var issuesDetectedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issuesDetected)
-            for issuesdetected0 in issuesDetected {
-                try issuesDetectedContainer.encode(issuesdetected0)
+            for issuedetected0 in issuesDetected {
+                try issuesDetectedContainer.encode(issuedetected0)
             }
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for callanalyticsitemlist0 in items {
-                try itemsContainer.encode(callanalyticsitemlist0)
+            for callanalyticsitem0 in items {
+                try itemsContainer.encode(callanalyticsitem0)
             }
         }
         if let participantRole = self.participantRole {

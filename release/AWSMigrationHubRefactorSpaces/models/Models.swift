@@ -421,8 +421,8 @@ extension MigrationHubRefactorSpacesClientTypes.ApplicationSummary: Swift.Codabl
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcId = self.vpcId {
@@ -651,8 +651,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcId = self.vpcId {
@@ -994,8 +994,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1288,8 +1288,8 @@ extension CreateRouteInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let uriPathRoute = self.uriPathRoute {
@@ -1634,8 +1634,8 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let urlEndpoint = self.urlEndpoint {
@@ -2853,8 +2853,8 @@ extension MigrationHubRefactorSpacesClientTypes.EnvironmentSummary: Swift.Codabl
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let transitGatewayId = self.transitGatewayId {
@@ -2983,8 +2983,8 @@ extension MigrationHubRefactorSpacesClientTypes.EnvironmentVpc: Swift.Codable {
         }
         if let cidrBlocks = cidrBlocks {
             var cidrBlocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrBlocks)
-            for cidrblocks0 in cidrBlocks {
-                try cidrBlocksContainer.encode(cidrblocks0)
+            for cidrblock0 in cidrBlocks {
+                try cidrBlocksContainer.encode(cidrblock0)
             }
         }
         if let createdTime = self.createdTime {
@@ -3234,8 +3234,8 @@ extension MigrationHubRefactorSpacesClientTypes.ErrorResponse: Swift.Codable {
         }
         if let additionalDetails = additionalDetails {
             var additionalDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDetails)
-            for (dictKey0, additionaldetails0) in additionalDetails {
-                try additionalDetailsContainer.encode(additionaldetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, additionalDetails0) in additionalDetails {
+                try additionalDetailsContainer.encode(additionalDetails0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let code = self.code {
@@ -5980,8 +5980,8 @@ extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
         }
         if let methods = methods {
             var methodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .methods)
-            for httpmethods0 in methods {
-                try methodsContainer.encode(httpmethods0.rawValue)
+            for httpmethod0 in methods {
+                try methodsContainer.encode(httpmethod0.rawValue)
             }
         }
         if let ownerAccountId = self.ownerAccountId {
@@ -5989,8 +5989,8 @@ extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
         }
         if let pathResourceToId = pathResourceToId {
             var pathResourceToIdContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .pathResourceToId)
-            for (dictKey0, pathresourcetoid0) in pathResourceToId {
-                try pathResourceToIdContainer.encode(pathresourcetoid0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, pathResourceToId0) in pathResourceToId {
+                try pathResourceToIdContainer.encode(pathResourceToId0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let routeId = self.routeId {
@@ -6010,8 +6010,8 @@ extension MigrationHubRefactorSpacesClientTypes.RouteSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6432,8 +6432,8 @@ extension MigrationHubRefactorSpacesClientTypes.ServiceSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let urlEndpoint = self.urlEndpoint {
@@ -6591,8 +6591,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7073,8 +7073,8 @@ extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput: Swift.Codable
         }
         if let methods = methods {
             var methodsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .methods)
-            for httpmethods0 in methods {
-                try methodsContainer.encode(httpmethods0.rawValue)
+            for httpmethod0 in methods {
+                try methodsContainer.encode(httpmethod0.rawValue)
             }
         }
         if let sourcePath = self.sourcePath {

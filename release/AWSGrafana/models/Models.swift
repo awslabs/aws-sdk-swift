@@ -299,8 +299,8 @@ extension GrafanaClientTypes.AuthenticationDescription: Swift.Codable {
         }
         if let providers = providers {
             var providersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .providers)
-            for authenticationproviders0 in providers {
-                try providersContainer.encode(authenticationproviders0.rawValue)
+            for authenticationprovidertypes0 in providers {
+                try providersContainer.encode(authenticationprovidertypes0.rawValue)
             }
         }
         if let saml = self.saml {
@@ -397,8 +397,8 @@ extension GrafanaClientTypes.AuthenticationSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let providers = providers {
             var providersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .providers)
-            for authenticationproviders0 in providers {
-                try providersContainer.encode(authenticationproviders0.rawValue)
+            for authenticationprovidertypes0 in providers {
+                try providersContainer.encode(authenticationprovidertypes0.rawValue)
             }
         }
         if let samlConfigurationStatus = self.samlConfigurationStatus {
@@ -772,8 +772,8 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let authenticationProviders = authenticationProviders {
             var authenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authenticationProviders)
-            for authenticationproviders0 in authenticationProviders {
-                try authenticationProvidersContainer.encode(authenticationproviders0.rawValue)
+            for authenticationprovidertypes0 in authenticationProviders {
+                try authenticationProvidersContainer.encode(authenticationprovidertypes0.rawValue)
             }
         }
         if let clientToken = self.clientToken {
@@ -793,8 +793,8 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcConfiguration = self.vpcConfiguration {
@@ -802,8 +802,8 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let workspaceDataSources = workspaceDataSources {
             var workspaceDataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceDataSources)
-            for datasourcetypeslist0 in workspaceDataSources {
-                try workspaceDataSourcesContainer.encode(datasourcetypeslist0.rawValue)
+            for datasourcetype0 in workspaceDataSources {
+                try workspaceDataSourcesContainer.encode(datasourcetype0.rawValue)
             }
         }
         if let workspaceDescription = self.workspaceDescription {
@@ -814,14 +814,14 @@ extension CreateWorkspaceInput: Swift.Encodable {
         }
         if let workspaceNotificationDestinations = workspaceNotificationDestinations {
             var workspaceNotificationDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceNotificationDestinations)
-            for notificationdestinationslist0 in workspaceNotificationDestinations {
-                try workspaceNotificationDestinationsContainer.encode(notificationdestinationslist0.rawValue)
+            for notificationdestinationtype0 in workspaceNotificationDestinations {
+                try workspaceNotificationDestinationsContainer.encode(notificationdestinationtype0.rawValue)
             }
         }
         if let workspaceOrganizationalUnits = workspaceOrganizationalUnits {
             var workspaceOrganizationalUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceOrganizationalUnits)
-            for organizationalunitlist0 in workspaceOrganizationalUnits {
-                try workspaceOrganizationalUnitsContainer.encode(organizationalunitlist0)
+            for organizationalunit0 in workspaceOrganizationalUnits {
+                try workspaceOrganizationalUnitsContainer.encode(organizationalunit0)
             }
         }
         if let workspaceRoleArn = self.workspaceRoleArn {
@@ -2603,14 +2603,14 @@ extension GrafanaClientTypes.RoleValues: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let admin = admin {
             var adminContainer = encodeContainer.nestedUnkeyedContainer(forKey: .admin)
-            for rolevaluelist0 in admin {
-                try adminContainer.encode(rolevaluelist0)
+            for rolevalue0 in admin {
+                try adminContainer.encode(rolevalue0)
             }
         }
         if let editor = editor {
             var editorContainer = encodeContainer.nestedUnkeyedContainer(forKey: .editor)
-            for rolevaluelist0 in editor {
-                try editorContainer.encode(rolevaluelist0)
+            for rolevalue0 in editor {
+                try editorContainer.encode(rolevalue0)
             }
         }
     }
@@ -2721,8 +2721,8 @@ extension GrafanaClientTypes.SamlConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedOrganizations = allowedOrganizations {
             var allowedOrganizationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrganizations)
-            for allowedorganizations0 in allowedOrganizations {
-                try allowedOrganizationsContainer.encode(allowedorganizations0)
+            for allowedorganization0 in allowedOrganizations {
+                try allowedOrganizationsContainer.encode(allowedorganization0)
             }
         }
         if let assertionAttributes = self.assertionAttributes {
@@ -2937,8 +2937,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3321,8 +3321,8 @@ extension GrafanaClientTypes.UpdateInstruction: Swift.Codable {
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for userlist0 in users {
-                try usersContainer.encode(userlist0)
+            for user0 in users {
+                try usersContainer.encode(user0)
             }
         }
     }
@@ -3383,8 +3383,8 @@ extension UpdatePermissionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let updateInstructionBatch = updateInstructionBatch {
             var updateInstructionBatchContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateInstructionBatch)
-            for updateinstructionbatch0 in updateInstructionBatch {
-                try updateInstructionBatchContainer.encode(updateinstructionbatch0)
+            for updateinstruction0 in updateInstructionBatch {
+                try updateInstructionBatchContainer.encode(updateinstruction0)
             }
         }
     }
@@ -3533,8 +3533,8 @@ extension UpdateWorkspaceAuthenticationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let authenticationProviders = authenticationProviders {
             var authenticationProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .authenticationProviders)
-            for authenticationproviders0 in authenticationProviders {
-                try authenticationProvidersContainer.encode(authenticationproviders0.rawValue)
+            for authenticationprovidertypes0 in authenticationProviders {
+                try authenticationProvidersContainer.encode(authenticationprovidertypes0.rawValue)
             }
         }
         if let samlConfiguration = self.samlConfiguration {
@@ -3818,8 +3818,8 @@ extension UpdateWorkspaceInput: Swift.Encodable {
         }
         if let workspaceDataSources = workspaceDataSources {
             var workspaceDataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceDataSources)
-            for datasourcetypeslist0 in workspaceDataSources {
-                try workspaceDataSourcesContainer.encode(datasourcetypeslist0.rawValue)
+            for datasourcetype0 in workspaceDataSources {
+                try workspaceDataSourcesContainer.encode(datasourcetype0.rawValue)
             }
         }
         if let workspaceDescription = self.workspaceDescription {
@@ -3830,14 +3830,14 @@ extension UpdateWorkspaceInput: Swift.Encodable {
         }
         if let workspaceNotificationDestinations = workspaceNotificationDestinations {
             var workspaceNotificationDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceNotificationDestinations)
-            for notificationdestinationslist0 in workspaceNotificationDestinations {
-                try workspaceNotificationDestinationsContainer.encode(notificationdestinationslist0.rawValue)
+            for notificationdestinationtype0 in workspaceNotificationDestinations {
+                try workspaceNotificationDestinationsContainer.encode(notificationdestinationtype0.rawValue)
             }
         }
         if let workspaceOrganizationalUnits = workspaceOrganizationalUnits {
             var workspaceOrganizationalUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceOrganizationalUnits)
-            for organizationalunitlist0 in workspaceOrganizationalUnits {
-                try workspaceOrganizationalUnitsContainer.encode(organizationalunitlist0)
+            for organizationalunit0 in workspaceOrganizationalUnits {
+                try workspaceOrganizationalUnitsContainer.encode(organizationalunit0)
             }
         }
         if let workspaceRoleArn = self.workspaceRoleArn {
@@ -4337,14 +4337,14 @@ extension GrafanaClientTypes.VpcConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -4438,8 +4438,8 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let dataSources = dataSources {
             var dataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataSources)
-            for datasourcetypeslist0 in dataSources {
-                try dataSourcesContainer.encode(datasourcetypeslist0.rawValue)
+            for datasourcetype0 in dataSources {
+                try dataSourcesContainer.encode(datasourcetype0.rawValue)
             }
         }
         if let description = self.description {
@@ -4474,8 +4474,8 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let notificationDestinations = notificationDestinations {
             var notificationDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationDestinations)
-            for notificationdestinationslist0 in notificationDestinations {
-                try notificationDestinationsContainer.encode(notificationdestinationslist0.rawValue)
+            for notificationdestinationtype0 in notificationDestinations {
+                try notificationDestinationsContainer.encode(notificationdestinationtype0.rawValue)
             }
         }
         if let organizationRoleName = self.organizationRoleName {
@@ -4483,8 +4483,8 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let organizationalUnits = organizationalUnits {
             var organizationalUnitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationalUnits)
-            for organizationalunitlist0 in organizationalUnits {
-                try organizationalUnitsContainer.encode(organizationalunitlist0)
+            for organizationalunit0 in organizationalUnits {
+                try organizationalUnitsContainer.encode(organizationalunit0)
             }
         }
         if let permissionType = self.permissionType {
@@ -4498,8 +4498,8 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcConfiguration = self.vpcConfiguration {
@@ -4827,8 +4827,8 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.Codable {
         }
         if let notificationDestinations = notificationDestinations {
             var notificationDestinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notificationDestinations)
-            for notificationdestinationslist0 in notificationDestinations {
-                try notificationDestinationsContainer.encode(notificationdestinationslist0.rawValue)
+            for notificationdestinationtype0 in notificationDestinations {
+                try notificationDestinationsContainer.encode(notificationdestinationtype0.rawValue)
             }
         }
         if let status = self.status {
@@ -4836,8 +4836,8 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

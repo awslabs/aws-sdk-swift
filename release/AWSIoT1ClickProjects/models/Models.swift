@@ -122,8 +122,8 @@ extension CreatePlacementInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, placementattributemap0) in attributes {
-                try attributesContainer.encode(placementattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, placementAttributeMap0) in attributes {
+                try attributesContainer.encode(placementAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let placementName = self.placementName {
@@ -251,8 +251,8 @@ extension CreateProjectInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -724,8 +724,8 @@ extension IoT1ClickProjectsClientTypes.DeviceTemplate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let callbackOverrides = callbackOverrides {
             var callbackOverridesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .callbackOverrides)
-            for (dictKey0, devicecallbackoverridemap0) in callbackOverrides {
-                try callbackOverridesContainer.encode(devicecallbackoverridemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, deviceCallbackOverrideMap0) in callbackOverrides {
+                try callbackOverridesContainer.encode(deviceCallbackOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let deviceType = self.deviceType {
@@ -1494,8 +1494,8 @@ extension IoT1ClickProjectsClientTypes.PlacementDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, placementattributemap0) in attributes {
-                try attributesContainer.encode(placementattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, placementAttributeMap0) in attributes {
+                try attributesContainer.encode(placementAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let createdDate = self.createdDate {
@@ -1652,14 +1652,14 @@ extension IoT1ClickProjectsClientTypes.PlacementTemplate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let defaultAttributes = defaultAttributes {
             var defaultAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultAttributes)
-            for (dictKey0, defaultplacementattributemap0) in defaultAttributes {
-                try defaultAttributesContainer.encode(defaultplacementattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, defaultPlacementAttributeMap0) in defaultAttributes {
+                try defaultAttributesContainer.encode(defaultPlacementAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let deviceTemplates = deviceTemplates {
             var deviceTemplatesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .deviceTemplates)
-            for (dictKey0, devicetemplatemap0) in deviceTemplates {
-                try deviceTemplatesContainer.encode(devicetemplatemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, deviceTemplateMap0) in deviceTemplates {
+                try deviceTemplatesContainer.encode(deviceTemplateMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1741,8 +1741,8 @@ extension IoT1ClickProjectsClientTypes.ProjectDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedDate = self.updatedDate {
@@ -1843,8 +1843,8 @@ extension IoT1ClickProjectsClientTypes.ProjectSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedDate = self.updatedDate {
@@ -2046,8 +2046,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2302,8 +2302,8 @@ extension UpdatePlacementInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, placementattributemap0) in attributes {
-                try attributesContainer.encode(placementattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, placementAttributeMap0) in attributes {
+                try attributesContainer.encode(placementAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

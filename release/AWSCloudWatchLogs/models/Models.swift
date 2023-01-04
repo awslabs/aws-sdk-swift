@@ -1880,8 +1880,8 @@ extension DescribeLogGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIdentifiers = accountIdentifiers {
             var accountIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIdentifiers)
-            for accountids0 in accountIdentifiers {
-                try accountIdentifiersContainer.encode(accountids0)
+            for accountid0 in accountIdentifiers {
+                try accountIdentifiersContainer.encode(accountid0)
             }
         }
         if let includeLinkedAccounts = self.includeLinkedAccounts {
@@ -3598,8 +3598,8 @@ extension FilterLogEventsInput: Swift.Encodable {
         }
         if let logStreamNames = logStreamNames {
             var logStreamNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logStreamNames)
-            for inputlogstreamnames0 in logStreamNames {
-                try logStreamNamesContainer.encode(inputlogstreamnames0)
+            for logstreamname0 in logStreamNames {
+                try logStreamNamesContainer.encode(logstreamname0)
             }
         }
         if let nextToken = self.nextToken {
@@ -5593,8 +5593,8 @@ extension CloudWatchLogsClientTypes.MetricFilter: Swift.Codable {
         }
         if let metricTransformations = metricTransformations {
             var metricTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricTransformations)
-            for metrictransformations0 in metricTransformations {
-                try metricTransformationsContainer.encode(metrictransformations0)
+            for metrictransformation0 in metricTransformations {
+                try metricTransformationsContainer.encode(metrictransformation0)
             }
         }
     }
@@ -5672,8 +5672,8 @@ extension CloudWatchLogsClientTypes.MetricFilterMatchRecord: Swift.Codable {
         }
         if let extractedValues = extractedValues {
             var extractedValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .extractedValues)
-            for (dictKey0, extractedvalues0) in extractedValues {
-                try extractedValuesContainer.encode(extractedvalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, extractedValues0) in extractedValues {
+                try extractedValuesContainer.encode(extractedValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6406,8 +6406,8 @@ extension PutLogEventsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logEvents = logEvents {
             var logEventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logEvents)
-            for inputlogevents0 in logEvents {
-                try logEventsContainer.encode(inputlogevents0)
+            for inputlogevent0 in logEvents {
+                try logEventsContainer.encode(inputlogevent0)
             }
         }
         if let logGroupName = self.logGroupName {
@@ -6596,8 +6596,8 @@ extension PutMetricFilterInput: Swift.Encodable {
         }
         if let metricTransformations = metricTransformations {
             var metricTransformationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricTransformations)
-            for metrictransformations0 in metricTransformations {
-                try metricTransformationsContainer.encode(metrictransformations0)
+            for metrictransformation0 in metricTransformations {
+                try metricTransformationsContainer.encode(metrictransformation0)
             }
         }
     }
@@ -6726,8 +6726,8 @@ extension PutQueryDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let logGroupNames = logGroupNames {
             var logGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupNames)
-            for loggroupnames0 in logGroupNames {
-                try logGroupNamesContainer.encode(loggroupnames0)
+            for loggroupname0 in logGroupNames {
+                try logGroupNamesContainer.encode(loggroupname0)
             }
         }
         if let name = self.name {
@@ -7370,8 +7370,8 @@ extension CloudWatchLogsClientTypes.QueryDefinition: Swift.Codable {
         }
         if let logGroupNames = logGroupNames {
             var logGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupNames)
-            for loggroupnames0 in logGroupNames {
-                try logGroupNamesContainer.encode(loggroupnames0)
+            for loggroupname0 in logGroupNames {
+                try logGroupNamesContainer.encode(loggroupname0)
             }
         }
         if let name = self.name {
@@ -8102,8 +8102,8 @@ extension StartQueryInput: Swift.Encodable {
         }
         if let logGroupIdentifiers = logGroupIdentifiers {
             var logGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupIdentifiers)
-            for loggroupidentifiers0 in logGroupIdentifiers {
-                try logGroupIdentifiersContainer.encode(loggroupidentifiers0)
+            for loggroupidentifier0 in logGroupIdentifiers {
+                try logGroupIdentifiersContainer.encode(loggroupidentifier0)
             }
         }
         if let logGroupName = self.logGroupName {
@@ -8111,8 +8111,8 @@ extension StartQueryInput: Swift.Encodable {
         }
         if let logGroupNames = logGroupNames {
             var logGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupNames)
-            for loggroupnames0 in logGroupNames {
-                try logGroupNamesContainer.encode(loggroupnames0)
+            for loggroupname0 in logGroupNames {
+                try logGroupNamesContainer.encode(loggroupname0)
             }
         }
         if let queryString = self.queryString {
@@ -8740,8 +8740,8 @@ extension TestMetricFilterInput: Swift.Encodable {
         }
         if let logEventMessages = logEventMessages {
             var logEventMessagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logEventMessages)
-            for testeventmessages0 in logEventMessages {
-                try logEventMessagesContainer.encode(testeventmessages0)
+            for eventmessage0 in logEventMessages {
+                try logEventMessagesContainer.encode(eventmessage0)
             }
         }
     }
@@ -9001,8 +9001,8 @@ extension UntagLogGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tagkey0 in tags {
+                try tagsContainer.encode(tagkey0)
             }
         }
     }
@@ -9107,8 +9107,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

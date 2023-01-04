@@ -171,8 +171,8 @@ extension BatchCreateTableRowsInput: Swift.Encodable {
         }
         if let rowsToCreate = rowsToCreate {
             var rowsToCreateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowsToCreate)
-            for createrowdatalist0 in rowsToCreate {
-                try rowsToCreateContainer.encode(createrowdatalist0)
+            for createrowdata0 in rowsToCreate {
+                try rowsToCreateContainer.encode(createrowdata0)
             }
         }
     }
@@ -376,8 +376,8 @@ extension BatchDeleteTableRowsInput: Swift.Encodable {
         }
         if let rowIds = rowIds {
             var rowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowIds)
-            for rowidlist0 in rowIds {
-                try rowIdsContainer.encode(rowidlist0)
+            for rowid0 in rowIds {
+                try rowIdsContainer.encode(rowid0)
             }
         }
     }
@@ -559,8 +559,8 @@ extension BatchUpdateTableRowsInput: Swift.Encodable {
         }
         if let rowsToUpdate = rowsToUpdate {
             var rowsToUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowsToUpdate)
-            for updaterowdatalist0 in rowsToUpdate {
-                try rowsToUpdateContainer.encode(updaterowdatalist0)
+            for updaterowdata0 in rowsToUpdate {
+                try rowsToUpdateContainer.encode(updaterowdata0)
             }
         }
     }
@@ -742,8 +742,8 @@ extension BatchUpsertTableRowsInput: Swift.Encodable {
         }
         if let rowsToUpsert = rowsToUpsert {
             var rowsToUpsertContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowsToUpsert)
-            for upsertrowdatalist0 in rowsToUpsert {
-                try rowsToUpsertContainer.encode(upsertrowdatalist0)
+            for upsertrowdata0 in rowsToUpsert {
+                try rowsToUpsertContainer.encode(upsertrowdata0)
             }
         }
     }
@@ -953,8 +953,8 @@ extension HoneycodeClientTypes.Cell: Swift.Codable {
         }
         if let formattedValues = formattedValues {
             var formattedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .formattedValues)
-            for formattedvalueslist0 in formattedValues {
-                try formattedValuesContainer.encode(formattedvalueslist0)
+            for formattedvalue0 in formattedValues {
+                try formattedValuesContainer.encode(formattedvalue0)
             }
         }
         if let formula = self.formula {
@@ -1040,8 +1040,8 @@ extension HoneycodeClientTypes.CellInput: Swift.Codable {
         }
         if let facts = facts {
             var factsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .facts)
-            for factlist0 in facts {
-                try factsContainer.encode(factlist0)
+            for fact0 in facts {
+                try factsContainer.encode(fact0)
             }
         }
     }
@@ -1154,8 +1154,8 @@ extension HoneycodeClientTypes.CreateRowData: Swift.Codable {
         }
         if let cellsToCreate = cellsToCreate {
             var cellsToCreateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .cellsToCreate)
-            for (dictKey0, rowdatainput0) in cellsToCreate {
-                try cellsToCreateContainer.encode(rowdatainput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rowDataInput0) in cellsToCreate {
+                try cellsToCreateContainer.encode(rowDataInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1491,8 +1491,8 @@ extension HoneycodeClientTypes.DestinationOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnMap = columnMap {
             var columnMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .columnMap)
-            for (dictKey0, importcolumnmap0) in columnMap {
-                try columnMapContainer.encode(importcolumnmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, importColumnMap0) in columnMap {
+                try columnMapContainer.encode(importColumnMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1788,8 +1788,8 @@ extension GetScreenDataInput: Swift.Encodable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, variablevaluemap0) in variables {
-                try variablesContainer.encode(variablevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, variableValueMap0) in variables {
+                try variablesContainer.encode(variableValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let workbookId = self.workbookId {
@@ -2308,8 +2308,8 @@ extension InvokeScreenAutomationInput: Swift.Encodable {
         }
         if let variables = variables {
             var variablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .variables)
-            for (dictKey0, variablevaluemap0) in variables {
-                try variablesContainer.encode(variablevaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, variableValueMap0) in variables {
+                try variablesContainer.encode(variableValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2666,8 +2666,8 @@ extension ListTableRowsInput: Swift.Encodable {
         }
         if let rowIds = rowIds {
             var rowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowIds)
-            for rowidlist0 in rowIds {
-                try rowIdsContainer.encode(rowidlist0)
+            for rowid0 in rowIds {
+                try rowIdsContainer.encode(rowid0)
             }
         }
     }
@@ -3497,8 +3497,8 @@ extension HoneycodeClientTypes.ResultRow: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataItems = dataItems {
             var dataItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataItems)
-            for dataitems0 in dataItems {
-                try dataItemsContainer.encode(dataitems0)
+            for dataitem0 in dataItems {
+                try dataItemsContainer.encode(dataitem0)
             }
         }
         if let rowId = self.rowId {
@@ -3555,14 +3555,14 @@ extension HoneycodeClientTypes.ResultSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headers = headers {
             var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
-            for resultheader0 in headers {
-                try headersContainer.encode(resultheader0)
+            for columnmetadata0 in headers {
+                try headersContainer.encode(columnmetadata0)
             }
         }
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for resultrows0 in rows {
-                try rowsContainer.encode(resultrows0)
+            for resultrow0 in rows {
+                try rowsContainer.encode(resultrow0)
             }
         }
     }
@@ -4165,8 +4165,8 @@ extension HoneycodeClientTypes.TableRow: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for cells0 in cells {
-                try cellsContainer.encode(cells0)
+            for cell0 in cells {
+                try cellsContainer.encode(cell0)
             }
         }
         if let rowId = self.rowId {
@@ -4223,8 +4223,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4485,8 +4485,8 @@ extension HoneycodeClientTypes.UpdateRowData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cellsToUpdate = cellsToUpdate {
             var cellsToUpdateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .cellsToUpdate)
-            for (dictKey0, rowdatainput0) in cellsToUpdate {
-                try cellsToUpdateContainer.encode(rowdatainput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rowDataInput0) in cellsToUpdate {
+                try cellsToUpdateContainer.encode(rowDataInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let rowId = self.rowId {
@@ -4580,8 +4580,8 @@ extension HoneycodeClientTypes.UpsertRowData: Swift.Codable {
         }
         if let cellsToUpdate = cellsToUpdate {
             var cellsToUpdateContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .cellsToUpdate)
-            for (dictKey0, rowdatainput0) in cellsToUpdate {
-                try cellsToUpdateContainer.encode(rowdatainput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, rowDataInput0) in cellsToUpdate {
+                try cellsToUpdateContainer.encode(rowDataInput0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let filter = self.filter {
@@ -4646,8 +4646,8 @@ extension HoneycodeClientTypes.UpsertRowsResult: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rowIds = rowIds {
             var rowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rowIds)
-            for rowidlist0 in rowIds {
-                try rowIdsContainer.encode(rowidlist0)
+            for rowid0 in rowIds {
+                try rowIdsContainer.encode(rowid0)
             }
         }
         if let upsertAction = self.upsertAction {

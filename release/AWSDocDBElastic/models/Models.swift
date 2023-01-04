@@ -142,14 +142,14 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for stringlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(stringlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -380,14 +380,14 @@ extension DocDBElasticClientTypes.ClusterSnapshot: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for stringlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(stringlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -704,20 +704,20 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for stringlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(stringlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -988,8 +988,8 @@ extension CreateClusterSnapshotInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2085,20 +2085,20 @@ extension RestoreClusterFromSnapshotInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for stringlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(stringlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }
@@ -2397,8 +2397,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2686,14 +2686,14 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
             var vpcSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroupIds)
-            for stringlist0 in vpcSecurityGroupIds {
-                try vpcSecurityGroupIdsContainer.encode(stringlist0)
+            for string0 in vpcSecurityGroupIds {
+                try vpcSecurityGroupIdsContainer.encode(string0)
             }
         }
     }

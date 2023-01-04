@@ -289,8 +289,8 @@ extension ChimeSDKMessagingClientTypes.BatchChannelMemberships: Swift.Codable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for members0 in members {
-                try membersContainer.encode(members0)
+            for identity0 in members {
+                try membersContainer.encode(identity0)
             }
         }
         if let subChannelId = self.subChannelId {
@@ -423,8 +423,8 @@ extension BatchCreateChannelMembershipInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let memberArns = memberArns {
             var memberArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberArns)
-            for memberarns0 in memberArns {
-                try memberArnsContainer.encode(memberarns0)
+            for chimearn0 in memberArns {
+                try memberArnsContainer.encode(chimearn0)
             }
         }
         if let subChannelId = self.subChannelId {
@@ -970,8 +970,8 @@ extension ChimeSDKMessagingClientTypes.ChannelFlow: Swift.Codable {
         }
         if let processors = processors {
             var processorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processors)
-            for processorlist0 in processors {
-                try processorsContainer.encode(processorlist0)
+            for processor0 in processors {
+                try processorsContainer.encode(processor0)
             }
         }
     }
@@ -1230,8 +1230,8 @@ extension ChimeSDKMessagingClientTypes.ChannelFlowSummary: Swift.Codable {
         }
         if let processors = processors {
             var processorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processors)
-            for processorlist0 in processors {
-                try processorsContainer.encode(processorlist0)
+            for processor0 in processors {
+                try processorsContainer.encode(processor0)
             }
         }
     }
@@ -1564,8 +1564,8 @@ extension ChimeSDKMessagingClientTypes.ChannelMessage: Swift.Codable {
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
-            for (dictKey0, messageattributemap0) in messageAttributes {
-                try messageAttributesContainer.encode(messageattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, messageAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let messageId = self.messageId {
@@ -1726,8 +1726,8 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageCallback: Swift.Codable {
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
-            for (dictKey0, messageattributemap0) in messageAttributes {
-                try messageAttributesContainer.encode(messageattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, messageAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let messageId = self.messageId {
@@ -1958,8 +1958,8 @@ extension ChimeSDKMessagingClientTypes.ChannelMessageSummary: Swift.Codable {
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
-            for (dictKey0, messageattributemap0) in messageAttributes {
-                try messageAttributesContainer.encode(messageattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, messageAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let messageId = self.messageId {
@@ -2646,14 +2646,14 @@ extension CreateChannelFlowInput: Swift.Encodable {
         }
         if let processors = processors {
             var processorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processors)
-            for processorlist0 in processors {
-                try processorsContainer.encode(processorlist0)
+            for processor0 in processors {
+                try processorsContainer.encode(processor0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2860,8 +2860,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let memberArns = memberArns {
             var memberArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberArns)
-            for channelmemberarns0 in memberArns {
-                try memberArnsContainer.encode(channelmemberarns0)
+            for chimearn0 in memberArns {
+                try memberArnsContainer.encode(chimearn0)
             }
         }
         if let metadata = self.metadata {
@@ -2872,8 +2872,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let moderatorArns = moderatorArns {
             var moderatorArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .moderatorArns)
-            for channelmoderatorarns0 in moderatorArns {
-                try moderatorArnsContainer.encode(channelmoderatorarns0)
+            for chimearn0 in moderatorArns {
+                try moderatorArnsContainer.encode(chimearn0)
             }
         }
         if let name = self.name {
@@ -2884,8 +2884,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7926,8 +7926,8 @@ extension ChimeSDKMessagingClientTypes.MessageAttributeValue: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stringValues = stringValues {
             var stringValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stringValues)
-            for messageattributestringvalues0 in stringValues {
-                try stringValuesContainer.encode(messageattributestringvalues0)
+            for messageattributestringvalue0 in stringValues {
+                try stringValuesContainer.encode(messageattributestringvalue0)
             }
         }
     }
@@ -8745,8 +8745,8 @@ extension SearchChannelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for searchfields0 in fields {
-                try fieldsContainer.encode(searchfields0)
+            for searchfield0 in fields {
+                try fieldsContainer.encode(searchfield0)
             }
         }
     }
@@ -8950,8 +8950,8 @@ extension ChimeSDKMessagingClientTypes.SearchField: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for searchfieldvalues0 in values {
-                try valuesContainer.encode(searchfieldvalues0)
+            for searchfieldvalue0 in values {
+                try valuesContainer.encode(searchfieldvalue0)
             }
         }
     }
@@ -9091,8 +9091,8 @@ extension SendChannelMessageInput: Swift.Encodable {
         }
         if let messageAttributes = messageAttributes {
             var messageAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .messageAttributes)
-            for (dictKey0, messageattributemap0) in messageAttributes {
-                try messageAttributesContainer.encode(messageattributemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, messageAttributeMap0) in messageAttributes {
+                try messageAttributesContainer.encode(messageAttributeMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let metadata = self.metadata {
@@ -9608,8 +9608,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -9857,8 +9857,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -9987,8 +9987,8 @@ extension UpdateChannelFlowInput: Swift.Encodable {
         }
         if let processors = processors {
             var processorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .processors)
-            for processorlist0 in processors {
-                try processorsContainer.encode(processorlist0)
+            for processor0 in processors {
+                try processorsContainer.encode(processor0)
             }
         }
     }

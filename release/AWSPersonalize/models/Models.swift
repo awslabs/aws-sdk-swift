@@ -32,14 +32,14 @@ extension PersonalizeClientTypes.Algorithm: Swift.Codable {
         }
         if let defaultHyperParameters = defaultHyperParameters {
             var defaultHyperParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultHyperParameters)
-            for (dictKey0, hyperparameters0) in defaultHyperParameters {
-                try defaultHyperParametersContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in defaultHyperParameters {
+                try defaultHyperParametersContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let defaultResourceConfig = defaultResourceConfig {
             var defaultResourceConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultResourceConfig)
-            for (dictKey0, resourceconfig0) in defaultResourceConfig {
-                try defaultResourceConfigContainer.encode(resourceconfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, resourceConfig0) in defaultResourceConfig {
+                try defaultResourceConfigContainer.encode(resourceConfig0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let lastUpdatedDateTime = self.lastUpdatedDateTime {
@@ -210,8 +210,8 @@ extension PersonalizeClientTypes.AutoMLConfig: Swift.Codable {
         }
         if let recipeList = recipeList {
             var recipeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recipeList)
-            for arnlist0 in recipeList {
-                try recipeListContainer.encode(arnlist0)
+            for arn0 in recipeList {
+                try recipeListContainer.encode(arn0)
             }
         }
     }
@@ -461,8 +461,8 @@ extension PersonalizeClientTypes.BatchInferenceJobConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let itemExplorationConfig = itemExplorationConfig {
             var itemExplorationConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemExplorationConfig)
-            for (dictKey0, hyperparameters0) in itemExplorationConfig {
-                try itemExplorationConfigContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in itemExplorationConfig {
+                try itemExplorationConfigContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1140,8 +1140,8 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let itemExplorationConfig = itemExplorationConfig {
             var itemExplorationConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemExplorationConfig)
-            for (dictKey0, hyperparameters0) in itemExplorationConfig {
-                try itemExplorationConfigContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in itemExplorationConfig {
+                try itemExplorationConfigContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1379,8 +1379,8 @@ extension PersonalizeClientTypes.CategoricalHyperParameterRange: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for categoricalvalues0 in values {
-                try valuesContainer.encode(categoricalvalues0)
+            for categoricalvalue0 in values {
+                try valuesContainer.encode(categoricalvalue0)
             }
         }
     }
@@ -1519,8 +1519,8 @@ extension CreateBatchInferenceJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1748,8 +1748,8 @@ extension CreateBatchSegmentJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1957,8 +1957,8 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2143,8 +2143,8 @@ extension CreateDatasetExportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2335,8 +2335,8 @@ extension CreateDatasetGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2530,8 +2530,8 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2734,8 +2734,8 @@ extension CreateDatasetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2916,8 +2916,8 @@ extension CreateEventTrackerInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3093,8 +3093,8 @@ extension CreateFilterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3256,8 +3256,8 @@ extension CreateMetricAttributionInput: Swift.Encodable {
         }
         if let metrics = metrics {
             var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
-            for metricattributes0 in metrics {
-                try metricsContainer.encode(metricattributes0)
+            for metricattribute0 in metrics {
+                try metricsContainer.encode(metricattribute0)
             }
         }
         if let metricsOutputConfig = self.metricsOutputConfig {
@@ -3436,8 +3436,8 @@ extension CreateRecommenderInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3771,8 +3771,8 @@ extension CreateSolutionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3970,8 +3970,8 @@ extension CreateSolutionVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trainingMode = self.trainingMode {
@@ -5251,8 +5251,8 @@ extension PersonalizeClientTypes.DefaultCategoricalHyperParameterRange: Swift.Co
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for categoricalvalues0 in values {
-                try valuesContainer.encode(categoricalvalues0)
+            for categoricalvalue0 in values {
+                try valuesContainer.encode(categoricalvalue0)
             }
         }
     }
@@ -5377,20 +5377,20 @@ extension PersonalizeClientTypes.DefaultHyperParameterRanges: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoricalHyperParameterRanges = categoricalHyperParameterRanges {
             var categoricalHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoricalHyperParameterRanges)
-            for defaultcategoricalhyperparameterranges0 in categoricalHyperParameterRanges {
-                try categoricalHyperParameterRangesContainer.encode(defaultcategoricalhyperparameterranges0)
+            for defaultcategoricalhyperparameterrange0 in categoricalHyperParameterRanges {
+                try categoricalHyperParameterRangesContainer.encode(defaultcategoricalhyperparameterrange0)
             }
         }
         if let continuousHyperParameterRanges = continuousHyperParameterRanges {
             var continuousHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .continuousHyperParameterRanges)
-            for defaultcontinuoushyperparameterranges0 in continuousHyperParameterRanges {
-                try continuousHyperParameterRangesContainer.encode(defaultcontinuoushyperparameterranges0)
+            for defaultcontinuoushyperparameterrange0 in continuousHyperParameterRanges {
+                try continuousHyperParameterRangesContainer.encode(defaultcontinuoushyperparameterrange0)
             }
         }
         if let integerHyperParameterRanges = integerHyperParameterRanges {
             var integerHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerHyperParameterRanges)
-            for defaultintegerhyperparameterranges0 in integerHyperParameterRanges {
-                try integerHyperParameterRangesContainer.encode(defaultintegerhyperparameterranges0)
+            for defaultintegerhyperparameterrange0 in integerHyperParameterRanges {
+                try integerHyperParameterRangesContainer.encode(defaultintegerhyperparameterrange0)
             }
         }
     }
@@ -8452,8 +8452,8 @@ extension PersonalizeClientTypes.FeatureTransformation: Swift.Codable {
         }
         if let defaultParameters = defaultParameters {
             var defaultParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultParameters)
-            for (dictKey0, featurizationparameters0) in defaultParameters {
-                try defaultParametersContainer.encode(featurizationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, featurizationParameters0) in defaultParameters {
+                try defaultParametersContainer.encode(featurizationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let featureTransformationArn = self.featureTransformationArn {
@@ -9039,20 +9039,20 @@ extension PersonalizeClientTypes.HyperParameterRanges: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let categoricalHyperParameterRanges = categoricalHyperParameterRanges {
             var categoricalHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categoricalHyperParameterRanges)
-            for categoricalhyperparameterranges0 in categoricalHyperParameterRanges {
-                try categoricalHyperParameterRangesContainer.encode(categoricalhyperparameterranges0)
+            for categoricalhyperparameterrange0 in categoricalHyperParameterRanges {
+                try categoricalHyperParameterRangesContainer.encode(categoricalhyperparameterrange0)
             }
         }
         if let continuousHyperParameterRanges = continuousHyperParameterRanges {
             var continuousHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .continuousHyperParameterRanges)
-            for continuoushyperparameterranges0 in continuousHyperParameterRanges {
-                try continuousHyperParameterRangesContainer.encode(continuoushyperparameterranges0)
+            for continuoushyperparameterrange0 in continuousHyperParameterRanges {
+                try continuousHyperParameterRangesContainer.encode(continuoushyperparameterrange0)
             }
         }
         if let integerHyperParameterRanges = integerHyperParameterRanges {
             var integerHyperParameterRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .integerHyperParameterRanges)
-            for integerhyperparameterranges0 in integerHyperParameterRanges {
-                try integerHyperParameterRangesContainer.encode(integerhyperparameterranges0)
+            for integerhyperparameterrange0 in integerHyperParameterRanges {
+                try integerHyperParameterRangesContainer.encode(integerhyperparameterrange0)
             }
         }
     }
@@ -12762,8 +12762,8 @@ extension PersonalizeClientTypes.RecommenderConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let itemExplorationConfig = itemExplorationConfig {
             var itemExplorationConfigContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .itemExplorationConfig)
-            for (dictKey0, hyperparameters0) in itemExplorationConfig {
-                try itemExplorationConfigContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in itemExplorationConfig {
+                try itemExplorationConfigContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let minRecommendationRequestsPerSecond = self.minRecommendationRequestsPerSecond {
@@ -13376,8 +13376,8 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let algorithmHyperParameters = algorithmHyperParameters {
             var algorithmHyperParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .algorithmHyperParameters)
-            for (dictKey0, hyperparameters0) in algorithmHyperParameters {
-                try algorithmHyperParametersContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in algorithmHyperParameters {
+                try algorithmHyperParametersContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let autoMLConfig = self.autoMLConfig {
@@ -13388,8 +13388,8 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
         }
         if let featureTransformationParameters = featureTransformationParameters {
             var featureTransformationParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .featureTransformationParameters)
-            for (dictKey0, featuretransformationparameters0) in featureTransformationParameters {
-                try featureTransformationParametersContainer.encode(featuretransformationparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, featureTransformationParameters0) in featureTransformationParameters {
+                try featureTransformationParametersContainer.encode(featureTransformationParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let hpoConfig = self.hpoConfig {
@@ -14208,8 +14208,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14453,8 +14453,8 @@ extension PersonalizeClientTypes.TunedHPOParams: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let algorithmHyperParameters = algorithmHyperParameters {
             var algorithmHyperParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .algorithmHyperParameters)
-            for (dictKey0, hyperparameters0) in algorithmHyperParameters {
-                try algorithmHyperParametersContainer.encode(hyperparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, hyperParameters0) in algorithmHyperParameters {
+                try algorithmHyperParametersContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -14504,8 +14504,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14765,8 +14765,8 @@ extension UpdateMetricAttributionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addMetrics = addMetrics {
             var addMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addMetrics)
-            for metricattributes0 in addMetrics {
-                try addMetricsContainer.encode(metricattributes0)
+            for metricattribute0 in addMetrics {
+                try addMetricsContainer.encode(metricattribute0)
             }
         }
         if let metricAttributionArn = self.metricAttributionArn {
@@ -14777,8 +14777,8 @@ extension UpdateMetricAttributionInput: Swift.Encodable {
         }
         if let removeMetrics = removeMetrics {
             var removeMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeMetrics)
-            for metricattributesnameslist0 in removeMetrics {
-                try removeMetricsContainer.encode(metricattributesnameslist0)
+            for metricname0 in removeMetrics {
+                try removeMetricsContainer.encode(metricname0)
             }
         }
     }

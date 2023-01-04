@@ -348,8 +348,8 @@ extension MediaPackageClientTypes.CmafPackage: Swift.Codable {
         }
         if let hlsManifests = hlsManifests {
             var hlsManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hlsManifests)
-            for __listofhlsmanifest0 in hlsManifests {
-                try hlsManifestsContainer.encode(__listofhlsmanifest0)
+            for hlsmanifest0 in hlsManifests {
+                try hlsManifestsContainer.encode(hlsmanifest0)
             }
         }
         if let segmentDurationSeconds = self.segmentDurationSeconds {
@@ -435,8 +435,8 @@ extension MediaPackageClientTypes.CmafPackageCreateOrUpdateParameters: Swift.Cod
         }
         if let hlsManifests = hlsManifests {
             var hlsManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hlsManifests)
-            for __listofhlsmanifestcreateorupdateparameters0 in hlsManifests {
-                try hlsManifestsContainer.encode(__listofhlsmanifestcreateorupdateparameters0)
+            for hlsmanifestcreateorupdateparameters0 in hlsManifests {
+                try hlsManifestsContainer.encode(hlsmanifestcreateorupdateparameters0)
             }
         }
         if let segmentDurationSeconds = self.segmentDurationSeconds {
@@ -1261,8 +1261,8 @@ extension CreateOriginEndpointInput: Swift.Encodable {
         }
         if let whitelist = whitelist {
             var whitelistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelist)
-            for __listof__string0 in whitelist {
-                try whitelistContainer.encode(__listof__string0)
+            for __string0 in whitelist {
+                try whitelistContainer.encode(__string0)
             }
         }
     }
@@ -1738,8 +1738,8 @@ extension MediaPackageClientTypes.DashPackage: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adTriggers = adTriggers {
             var adTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adTriggers)
-            for adtriggers0 in adTriggers {
-                try adTriggersContainer.encode(adtriggers0.rawValue)
+            for __adtriggerselement0 in adTriggers {
+                try adTriggersContainer.encode(__adtriggerselement0.rawValue)
             }
         }
         if let adsOnDeliveryRestrictions = self.adsOnDeliveryRestrictions {
@@ -1765,8 +1765,8 @@ extension MediaPackageClientTypes.DashPackage: Swift.Codable {
         }
         if let periodTriggers = periodTriggers {
             var periodTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .periodTriggers)
-            for __listof__periodtriggerselement0 in periodTriggers {
-                try periodTriggersContainer.encode(__listof__periodtriggerselement0.rawValue)
+            for __periodtriggerselement0 in periodTriggers {
+                try periodTriggersContainer.encode(__periodtriggerselement0.rawValue)
             }
         }
         if let profile = self.profile {
@@ -3064,8 +3064,8 @@ extension MediaPackageClientTypes.HlsIngest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ingestEndpoints = ingestEndpoints {
             var ingestEndpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ingestEndpoints)
-            for __listofingestendpoint0 in ingestEndpoints {
-                try ingestEndpointsContainer.encode(__listofingestendpoint0)
+            for ingestendpoint0 in ingestEndpoints {
+                try ingestEndpointsContainer.encode(ingestendpoint0)
             }
         }
     }
@@ -3123,8 +3123,8 @@ extension MediaPackageClientTypes.HlsManifest: Swift.Codable {
         }
         if let adTriggers = adTriggers {
             var adTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adTriggers)
-            for adtriggers0 in adTriggers {
-                try adTriggersContainer.encode(adtriggers0.rawValue)
+            for __adtriggerselement0 in adTriggers {
+                try adTriggersContainer.encode(__adtriggerselement0.rawValue)
             }
         }
         if let adsOnDeliveryRestrictions = self.adsOnDeliveryRestrictions {
@@ -3260,8 +3260,8 @@ extension MediaPackageClientTypes.HlsManifestCreateOrUpdateParameters: Swift.Cod
         }
         if let adTriggers = adTriggers {
             var adTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adTriggers)
-            for adtriggers0 in adTriggers {
-                try adTriggersContainer.encode(adtriggers0.rawValue)
+            for __adtriggerselement0 in adTriggers {
+                try adTriggersContainer.encode(__adtriggerselement0.rawValue)
             }
         }
         if let adsOnDeliveryRestrictions = self.adsOnDeliveryRestrictions {
@@ -3391,8 +3391,8 @@ extension MediaPackageClientTypes.HlsPackage: Swift.Codable {
         }
         if let adTriggers = adTriggers {
             var adTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adTriggers)
-            for adtriggers0 in adTriggers {
-                try adTriggersContainer.encode(adtriggers0.rawValue)
+            for __adtriggerselement0 in adTriggers {
+                try adTriggersContainer.encode(__adtriggerselement0.rawValue)
             }
         }
         if let adsOnDeliveryRestrictions = self.adsOnDeliveryRestrictions {
@@ -4477,8 +4477,8 @@ extension MediaPackageClientTypes.OriginEndpoint: Swift.Codable {
         }
         if let whitelist = whitelist {
             var whitelistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelist)
-            for __listof__string0 in whitelist {
-                try whitelistContainer.encode(__listof__string0)
+            for __string0 in whitelist {
+                try whitelistContainer.encode(__string0)
             }
         }
     }
@@ -5343,8 +5343,8 @@ extension MediaPackageClientTypes.SpekeKeyProvider: Swift.Codable {
         }
         if let systemIds = systemIds {
             var systemIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .systemIds)
-            for __listof__string0 in systemIds {
-                try systemIdsContainer.encode(__listof__string0)
+            for __string0 in systemIds {
+                try systemIdsContainer.encode(__string0)
             }
         }
         if let url = self.url {
@@ -5552,8 +5552,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6072,8 +6072,8 @@ extension UpdateOriginEndpointInput: Swift.Encodable {
         }
         if let whitelist = whitelist {
             var whitelistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .whitelist)
-            for __listof__string0 in whitelist {
-                try whitelistContainer.encode(__listof__string0)
+            for __string0 in whitelist {
+                try whitelistContainer.encode(__string0)
             }
         }
     }

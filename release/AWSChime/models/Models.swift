@@ -101,14 +101,14 @@ extension ChimeClientTypes.Account: Swift.Codable {
         }
         if let signinDelegateGroups = signinDelegateGroups {
             var signinDelegateGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signinDelegateGroups)
-            for signindelegategrouplist0 in signinDelegateGroups {
-                try signinDelegateGroupsContainer.encode(signindelegategrouplist0)
+            for signindelegategroup0 in signinDelegateGroups {
+                try signinDelegateGroupsContainer.encode(signindelegategroup0)
             }
         }
         if let supportedLicenses = supportedLicenses {
             var supportedLicensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedLicenses)
-            for licenselist0 in supportedLicenses {
-                try supportedLicensesContainer.encode(licenselist0.rawValue)
+            for license0 in supportedLicenses {
+                try supportedLicensesContainer.encode(license0.rawValue)
             }
         }
     }
@@ -1259,8 +1259,8 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let e164PhoneNumbers = e164PhoneNumbers {
             var e164PhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .e164PhoneNumbers)
-            for e164phonenumberlist0 in e164PhoneNumbers {
-                try e164PhoneNumbersContainer.encode(e164phonenumberlist0)
+            for e164phonenumber0 in e164PhoneNumbers {
+                try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
         if let forceAssociate = self.forceAssociate {
@@ -1435,8 +1435,8 @@ extension AssociatePhoneNumbersWithVoiceConnectorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let e164PhoneNumbers = e164PhoneNumbers {
             var e164PhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .e164PhoneNumbers)
-            for e164phonenumberlist0 in e164PhoneNumbers {
-                try e164PhoneNumbersContainer.encode(e164phonenumberlist0)
+            for e164phonenumber0 in e164PhoneNumbers {
+                try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
         if let forceAssociate = self.forceAssociate {
@@ -1610,8 +1610,8 @@ extension AssociateSigninDelegateGroupsWithAccountInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let signinDelegateGroups = signinDelegateGroups {
             var signinDelegateGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signinDelegateGroups)
-            for signindelegategrouplist0 in signinDelegateGroups {
-                try signinDelegateGroupsContainer.encode(signindelegategrouplist0)
+            for signindelegategroup0 in signinDelegateGroups {
+                try signinDelegateGroupsContainer.encode(signindelegategroup0)
             }
         }
     }
@@ -1930,8 +1930,8 @@ extension ChimeClientTypes.BatchChannelMemberships: Swift.Codable {
         }
         if let members = members {
             var membersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .members)
-            for members0 in members {
-                try membersContainer.encode(members0)
+            for identity0 in members {
+                try membersContainer.encode(identity0)
             }
         }
         if let type = self.type {
@@ -1998,8 +1998,8 @@ extension BatchCreateAttendeeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendees = attendees {
             var attendeesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendees)
-            for createattendeerequestitemlist0 in attendees {
-                try attendeesContainer.encode(createattendeerequestitemlist0)
+            for createattendeerequestitem0 in attendees {
+                try attendeesContainer.encode(createattendeerequestitem0)
             }
         }
     }
@@ -2237,8 +2237,8 @@ extension BatchCreateChannelMembershipInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let memberArns = memberArns {
             var memberArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .memberArns)
-            for memberarns0 in memberArns {
-                try memberArnsContainer.encode(memberarns0)
+            for chimearn0 in memberArns {
+                try memberArnsContainer.encode(chimearn0)
             }
         }
         if let type = self.type {
@@ -2432,8 +2432,8 @@ extension BatchCreateRoomMembershipInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let membershipItemList = membershipItemList {
             var membershipItemListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .membershipItemList)
-            for membershipitemlist0 in membershipItemList {
-                try membershipItemListContainer.encode(membershipitemlist0)
+            for membershipitem0 in membershipItemList {
+                try membershipItemListContainer.encode(membershipitem0)
             }
         }
     }
@@ -2602,8 +2602,8 @@ extension BatchDeletePhoneNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let phoneNumberIds = phoneNumberIds {
             var phoneNumberIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberIds)
-            for nonemptystringlist0 in phoneNumberIds {
-                try phoneNumberIdsContainer.encode(nonemptystringlist0)
+            for string0 in phoneNumberIds {
+                try phoneNumberIdsContainer.encode(string0)
             }
         }
     }
@@ -2756,8 +2756,8 @@ extension BatchSuspendUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userIdList = userIdList {
             var userIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIdList)
-            for useridlist0 in userIdList {
-                try userIdListContainer.encode(useridlist0)
+            for nonemptystring0 in userIdList {
+                try userIdListContainer.encode(nonemptystring0)
             }
         }
     }
@@ -2918,8 +2918,8 @@ extension BatchUnsuspendUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userIdList = userIdList {
             var userIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userIdList)
-            for useridlist0 in userIdList {
-                try userIdListContainer.encode(useridlist0)
+            for nonemptystring0 in userIdList {
+                try userIdListContainer.encode(nonemptystring0)
             }
         }
     }
@@ -3080,8 +3080,8 @@ extension BatchUpdatePhoneNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let updatePhoneNumberRequestItems = updatePhoneNumberRequestItems {
             var updatePhoneNumberRequestItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updatePhoneNumberRequestItems)
-            for updatephonenumberrequestitemlist0 in updatePhoneNumberRequestItems {
-                try updatePhoneNumberRequestItemsContainer.encode(updatephonenumberrequestitemlist0)
+            for updatephonenumberrequestitem0 in updatePhoneNumberRequestItems {
+                try updatePhoneNumberRequestItemsContainer.encode(updatephonenumberrequestitem0)
             }
         }
     }
@@ -3234,8 +3234,8 @@ extension BatchUpdateUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let updateUserRequestItems = updateUserRequestItems {
             var updateUserRequestItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updateUserRequestItems)
-            for updateuserrequestitemlist0 in updateUserRequestItems {
-                try updateUserRequestItemsContainer.encode(updateuserrequestitemlist0)
+            for updateuserrequestitem0 in updateUserRequestItems {
+                try updateUserRequestItemsContainer.encode(updateuserrequestitem0)
             }
         }
     }
@@ -5304,8 +5304,8 @@ extension CreateAppInstanceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5491,8 +5491,8 @@ extension CreateAppInstanceUserInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5740,8 +5740,8 @@ extension CreateAttendeeInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for attendeetaglist0 in tags {
-                try tagsContainer.encode(attendeetaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5897,8 +5897,8 @@ extension ChimeClientTypes.CreateAttendeeRequestItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for attendeetaglist0 in tags {
-                try tagsContainer.encode(attendeetaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -6292,8 +6292,8 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7200,8 +7200,8 @@ extension CreateMeetingInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for meetingtaglist0 in tags {
-                try tagsContainer.encode(meetingtaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7386,8 +7386,8 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendees = attendees {
             var attendeesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendees)
-            for createmeetingwithattendeesrequestitemlist0 in attendees {
-                try attendeesContainer.encode(createmeetingwithattendeesrequestitemlist0)
+            for createattendeerequestitem0 in attendees {
+                try attendeesContainer.encode(createattendeerequestitem0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -7407,8 +7407,8 @@ extension CreateMeetingWithAttendeesInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for meetingtaglist0 in tags {
-                try tagsContainer.encode(meetingtaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7648,8 +7648,8 @@ extension CreatePhoneNumberOrderInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let e164PhoneNumbers = e164PhoneNumbers {
             var e164PhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .e164PhoneNumbers)
-            for e164phonenumberlist0 in e164PhoneNumbers {
-                try e164PhoneNumbersContainer.encode(e164phonenumberlist0)
+            for e164phonenumber0 in e164PhoneNumbers {
+                try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
         if let productType = self.productType {
@@ -7808,8 +7808,8 @@ extension CreateProxySessionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for capabilitylist0 in capabilities {
-                try capabilitiesContainer.encode(capabilitylist0.rawValue)
+            for capability0 in capabilities {
+                try capabilitiesContainer.encode(capability0.rawValue)
             }
         }
         if let expiryMinutes = self.expiryMinutes {
@@ -7829,8 +7829,8 @@ extension CreateProxySessionInput: Swift.Encodable {
         }
         if let participantPhoneNumbers = participantPhoneNumbers {
             var participantPhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participantPhoneNumbers)
-            for participantphonenumberlist0 in participantPhoneNumbers {
-                try participantPhoneNumbersContainer.encode(participantphonenumberlist0)
+            for e164phonenumber0 in participantPhoneNumbers {
+                try participantPhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
     }
@@ -8345,8 +8345,8 @@ extension CreateSipMediaApplicationCallInput: Swift.Encodable {
         }
         if let sipHeaders = sipHeaders {
             var sipHeadersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sipHeaders)
-            for (dictKey0, sipheadersmap0) in sipHeaders {
-                try sipHeadersContainer.encode(sipheadersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, sipHeadersMap0) in sipHeaders {
+                try sipHeadersContainer.encode(sipHeadersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let toPhoneNumber = self.toPhoneNumber {
@@ -8515,8 +8515,8 @@ extension CreateSipMediaApplicationInput: Swift.Encodable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for sipmediaapplicationendpointlist0 in endpoints {
-                try endpointsContainer.encode(sipmediaapplicationendpointlist0)
+            for sipmediaapplicationendpoint0 in endpoints {
+                try endpointsContainer.encode(sipmediaapplicationendpoint0)
             }
         }
         if let name = self.name {
@@ -8685,8 +8685,8 @@ extension CreateSipRuleInput: Swift.Encodable {
         }
         if let targetApplications = targetApplications {
             var targetApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetApplications)
-            for sipruletargetapplicationlist0 in targetApplications {
-                try targetApplicationsContainer.encode(sipruletargetapplicationlist0)
+            for sipruletargetapplication0 in targetApplications {
+                try targetApplicationsContainer.encode(sipruletargetapplication0)
             }
         }
         if let triggerType = self.triggerType {
@@ -9040,8 +9040,8 @@ extension CreateVoiceConnectorGroupInput: Swift.Encodable {
         }
         if let voiceConnectorItems = voiceConnectorItems {
             var voiceConnectorItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .voiceConnectorItems)
-            for voiceconnectoritemlist0 in voiceConnectorItems {
-                try voiceConnectorItemsContainer.encode(voiceconnectoritemlist0)
+            for voiceconnectoritem0 in voiceConnectorItems {
+                try voiceConnectorItemsContainer.encode(voiceconnectoritem0)
             }
         }
     }
@@ -11551,8 +11551,8 @@ extension DeleteVoiceConnectorTerminationCredentialsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let usernames = usernames {
             var usernamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usernames)
-            for sensitivestringlist0 in usernames {
-                try usernamesContainer.encode(sensitivestringlist0)
+            for sensitivestring0 in usernames {
+                try usernamesContainer.encode(sensitivestring0)
             }
         }
     }
@@ -12941,8 +12941,8 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupInput: Swift.Encodable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let e164PhoneNumbers = e164PhoneNumbers {
             var e164PhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .e164PhoneNumbers)
-            for e164phonenumberlist0 in e164PhoneNumbers {
-                try e164PhoneNumbersContainer.encode(e164phonenumberlist0)
+            for e164phonenumber0 in e164PhoneNumbers {
+                try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
     }
@@ -13103,8 +13103,8 @@ extension DisassociatePhoneNumbersFromVoiceConnectorInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let e164PhoneNumbers = e164PhoneNumbers {
             var e164PhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .e164PhoneNumbers)
-            for e164phonenumberlist0 in e164PhoneNumbers {
-                try e164PhoneNumbersContainer.encode(e164phonenumberlist0)
+            for e164phonenumber0 in e164PhoneNumbers {
+                try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
         }
     }
@@ -13265,8 +13265,8 @@ extension DisassociateSigninDelegateGroupsFromAccountInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupNames = groupNames {
             var groupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupNames)
-            for nonemptystringlist0 in groupNames {
-                try groupNamesContainer.encode(nonemptystringlist0)
+            for string0 in groupNames {
+                try groupNamesContainer.encode(string0)
             }
         }
     }
@@ -13422,8 +13422,8 @@ extension ChimeClientTypes.EmergencyCallingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dnis = dnis {
             var dnisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnis)
-            for dnisemergencycallingconfigurationlist0 in dnis {
-                try dnisContainer.encode(dnisemergencycallingconfigurationlist0)
+            for dnisemergencycallingconfiguration0 in dnis {
+                try dnisContainer.encode(dnisemergencycallingconfiguration0)
             }
         }
     }
@@ -17603,8 +17603,8 @@ extension InviteUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userEmailList = userEmailList {
             var userEmailListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userEmailList)
-            for useremaillist0 in userEmailList {
-                try userEmailListContainer.encode(useremaillist0)
+            for emailaddress0 in userEmailList {
+                try userEmailListContainer.encode(emailaddress0)
             }
         }
         if let userType = self.userType {
@@ -23521,8 +23521,8 @@ extension ChimeClientTypes.Origination: Swift.Codable {
         }
         if let routes = routes {
             var routesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .routes)
-            for originationroutelist0 in routes {
-                try routesContainer.encode(originationroutelist0)
+            for originationroute0 in routes {
+                try routesContainer.encode(originationroute0)
             }
         }
     }
@@ -23743,8 +23743,8 @@ extension ChimeClientTypes.PhoneNumber: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let associations = associations {
             var associationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associations)
-            for phonenumberassociationlist0 in associations {
-                try associationsContainer.encode(phonenumberassociationlist0)
+            for phonenumberassociation0 in associations {
+                try associationsContainer.encode(phonenumberassociation0)
             }
         }
         if let callingName = self.callingName {
@@ -24088,8 +24088,8 @@ extension ChimeClientTypes.PhoneNumberCountry: Swift.Codable {
         }
         if let supportedPhoneNumberTypes = supportedPhoneNumberTypes {
             var supportedPhoneNumberTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedPhoneNumberTypes)
-            for phonenumbertypelist0 in supportedPhoneNumberTypes {
-                try supportedPhoneNumberTypesContainer.encode(phonenumbertypelist0.rawValue)
+            for phonenumbertype0 in supportedPhoneNumberTypes {
+                try supportedPhoneNumberTypesContainer.encode(phonenumbertype0.rawValue)
             }
         }
     }
@@ -24204,8 +24204,8 @@ extension ChimeClientTypes.PhoneNumberOrder: Swift.Codable {
         }
         if let orderedPhoneNumbers = orderedPhoneNumbers {
             var orderedPhoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderedPhoneNumbers)
-            for orderedphonenumberlist0 in orderedPhoneNumbers {
-                try orderedPhoneNumbersContainer.encode(orderedphonenumberlist0)
+            for orderedphonenumber0 in orderedPhoneNumbers {
+                try orderedPhoneNumbersContainer.encode(orderedphonenumber0)
             }
         }
         if let phoneNumberOrderId = self.phoneNumberOrderId {
@@ -24460,8 +24460,8 @@ extension ChimeClientTypes.Proxy: Swift.Codable {
         }
         if let phoneNumberCountries = phoneNumberCountries {
             var phoneNumberCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberCountries)
-            for stringlist0 in phoneNumberCountries {
-                try phoneNumberCountriesContainer.encode(stringlist0)
+            for string0 in phoneNumberCountries {
+                try phoneNumberCountriesContainer.encode(string0)
             }
         }
     }
@@ -24542,8 +24542,8 @@ extension ChimeClientTypes.ProxySession: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for capabilitylist0 in capabilities {
-                try capabilitiesContainer.encode(capabilitylist0.rawValue)
+            for capability0 in capabilities {
+                try capabilitiesContainer.encode(capability0.rawValue)
             }
         }
         if let createdTimestamp = self.createdTimestamp {
@@ -24569,8 +24569,8 @@ extension ChimeClientTypes.ProxySession: Swift.Codable {
         }
         if let participants = participants {
             var participantsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .participants)
-            for participants0 in participants {
-                try participantsContainer.encode(participants0)
+            for participant0 in participants {
+                try participantsContainer.encode(participant0)
             }
         }
         if let proxySessionId = self.proxySessionId {
@@ -24887,8 +24887,8 @@ extension PutAppInstanceStreamingConfigurationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appInstanceStreamingConfigurations = appInstanceStreamingConfigurations {
             var appInstanceStreamingConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appInstanceStreamingConfigurations)
-            for appinstancestreamingconfigurationlist0 in appInstanceStreamingConfigurations {
-                try appInstanceStreamingConfigurationsContainer.encode(appinstancestreamingconfigurationlist0)
+            for appinstancestreamingconfiguration0 in appInstanceStreamingConfigurations {
+                try appInstanceStreamingConfigurationsContainer.encode(appinstancestreamingconfiguration0)
             }
         }
     }
@@ -25877,8 +25877,8 @@ extension PutVoiceConnectorProxyInput: Swift.Encodable {
         }
         if let phoneNumberPoolCountries = phoneNumberPoolCountries {
             var phoneNumberPoolCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumberPoolCountries)
-            for countrylist0 in phoneNumberPoolCountries {
-                try phoneNumberPoolCountriesContainer.encode(countrylist0)
+            for country0 in phoneNumberPoolCountries {
+                try phoneNumberPoolCountriesContainer.encode(country0)
             }
         }
     }
@@ -26178,8 +26178,8 @@ extension PutVoiceConnectorTerminationCredentialsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let credentials = credentials {
             var credentialsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentials)
-            for credentiallist0 in credentials {
-                try credentialsContainer.encode(credentiallist0)
+            for credential0 in credentials {
+                try credentialsContainer.encode(credential0)
             }
         }
     }
@@ -27711,14 +27711,14 @@ extension ChimeClientTypes.SelectedVideoStreams: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attendeeIds = attendeeIds {
             var attendeeIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attendeeIds)
-            for attendeeidlist0 in attendeeIds {
-                try attendeeIdsContainer.encode(attendeeidlist0)
+            for guidstring0 in attendeeIds {
+                try attendeeIdsContainer.encode(guidstring0)
             }
         }
         if let externalUserIds = externalUserIds {
             var externalUserIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalUserIds)
-            for externaluseridlist0 in externalUserIds {
-                try externalUserIdsContainer.encode(externaluseridlist0)
+            for externaluseridtype0 in externalUserIds {
+                try externalUserIdsContainer.encode(externaluseridtype0)
             }
         }
     }
@@ -28158,8 +28158,8 @@ extension ChimeClientTypes.SipMediaApplication: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for sipmediaapplicationendpointlist0 in endpoints {
-                try endpointsContainer.encode(sipmediaapplicationendpointlist0)
+            for sipmediaapplicationendpoint0 in endpoints {
+                try endpointsContainer.encode(sipmediaapplicationendpoint0)
             }
         }
         if let name = self.name {
@@ -28373,8 +28373,8 @@ extension ChimeClientTypes.SipRule: Swift.Codable {
         }
         if let targetApplications = targetApplications {
             var targetApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetApplications)
-            for sipruletargetapplicationlist0 in targetApplications {
-                try targetApplicationsContainer.encode(sipruletargetapplicationlist0)
+            for sipruletargetapplication0 in targetApplications {
+                try targetApplicationsContainer.encode(sipruletargetapplication0)
             }
         }
         if let triggerType = self.triggerType {
@@ -28834,8 +28834,8 @@ extension ChimeClientTypes.StreamingConfiguration: Swift.Codable {
         }
         if let streamingNotificationTargets = streamingNotificationTargets {
             var streamingNotificationTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .streamingNotificationTargets)
-            for streamingnotificationtargetlist0 in streamingNotificationTargets {
-                try streamingNotificationTargetsContainer.encode(streamingnotificationtargetlist0)
+            for streamingnotificationtarget0 in streamingNotificationTargets {
+                try streamingNotificationTargetsContainer.encode(streamingnotificationtarget0)
             }
         }
     }
@@ -28982,8 +28982,8 @@ extension TagAttendeeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for attendeetaglist0 in tags {
-                try tagsContainer.encode(attendeetaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -29114,8 +29114,8 @@ extension TagMeetingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for meetingtaglist0 in tags {
-                try tagsContainer.encode(meetingtaglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -29247,8 +29247,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -29430,14 +29430,14 @@ extension ChimeClientTypes.Termination: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let callingRegions = callingRegions {
             var callingRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .callingRegions)
-            for callingregionlist0 in callingRegions {
-                try callingRegionsContainer.encode(callingregionlist0)
+            for callingregion0 in callingRegions {
+                try callingRegionsContainer.encode(callingregion0)
             }
         }
         if let cidrAllowedList = cidrAllowedList {
             var cidrAllowedListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cidrAllowedList)
-            for stringlist0 in cidrAllowedList {
-                try cidrAllowedListContainer.encode(stringlist0)
+            for string0 in cidrAllowedList {
+                try cidrAllowedListContainer.encode(string0)
             }
         }
         if let cpsLimit = self.cpsLimit {
@@ -30236,8 +30236,8 @@ extension UntagAttendeeInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for attendeetagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(attendeetagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -30366,8 +30366,8 @@ extension UntagMeetingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for meetingtagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(meetingtagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -30497,8 +30497,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -32177,8 +32177,8 @@ extension UpdateProxySessionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capabilities = capabilities {
             var capabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilities)
-            for capabilitylist0 in capabilities {
-                try capabilitiesContainer.encode(capabilitylist0.rawValue)
+            for capability0 in capabilities {
+                try capabilitiesContainer.encode(capability0.rawValue)
             }
         }
         if let expiryMinutes = self.expiryMinutes {
@@ -32628,8 +32628,8 @@ extension UpdateSipMediaApplicationCallInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arguments = arguments {
             var argumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .arguments)
-            for (dictKey0, smaupdatecallargumentsmap0) in arguments {
-                try argumentsContainer.encode(smaupdatecallargumentsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, smaUpdateCallArgumentsMap0) in arguments {
+                try argumentsContainer.encode(smaUpdateCallArgumentsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -32782,8 +32782,8 @@ extension UpdateSipMediaApplicationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for sipmediaapplicationendpointlist0 in endpoints {
-                try endpointsContainer.encode(sipmediaapplicationendpointlist0)
+            for sipmediaapplicationendpoint0 in endpoints {
+                try endpointsContainer.encode(sipmediaapplicationendpoint0)
             }
         }
         if let name = self.name {
@@ -32945,8 +32945,8 @@ extension UpdateSipRuleInput: Swift.Encodable {
         }
         if let targetApplications = targetApplications {
             var targetApplicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetApplications)
-            for sipruletargetapplicationlist0 in targetApplications {
-                try targetApplicationsContainer.encode(sipruletargetapplicationlist0)
+            for sipruletargetapplication0 in targetApplications {
+                try targetApplicationsContainer.encode(sipruletargetapplication0)
             }
         }
     }
@@ -33448,8 +33448,8 @@ extension UpdateVoiceConnectorGroupInput: Swift.Encodable {
         }
         if let voiceConnectorItems = voiceConnectorItems {
             var voiceConnectorItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .voiceConnectorItems)
-            for voiceconnectoritemlist0 in voiceConnectorItems {
-                try voiceConnectorItemsContainer.encode(voiceconnectoritemlist0)
+            for voiceconnectoritem0 in voiceConnectorItems {
+                try voiceConnectorItemsContainer.encode(voiceconnectoritem0)
             }
         }
     }
@@ -34507,8 +34507,8 @@ extension ChimeClientTypes.VoiceConnectorGroup: Swift.Codable {
         }
         if let voiceConnectorItems = voiceConnectorItems {
             var voiceConnectorItemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .voiceConnectorItems)
-            for voiceconnectoritemlist0 in voiceConnectorItems {
-                try voiceConnectorItemsContainer.encode(voiceconnectoritemlist0)
+            for voiceconnectoritem0 in voiceConnectorItems {
+                try voiceConnectorItemsContainer.encode(voiceconnectoritem0)
             }
         }
     }

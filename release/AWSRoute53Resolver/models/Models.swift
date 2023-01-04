@@ -119,8 +119,8 @@ extension AssociateFirewallRuleGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -889,8 +889,8 @@ extension CreateFirewallDomainListInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1045,8 +1045,8 @@ extension CreateFirewallRuleGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1453,8 +1453,8 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         }
         if let ipAddresses = ipAddresses {
             var ipAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipAddresses)
-            for ipaddressesrequest0 in ipAddresses {
-                try ipAddressesContainer.encode(ipaddressesrequest0)
+            for ipaddressrequest0 in ipAddresses {
+                try ipAddressesContainer.encode(ipaddressrequest0)
             }
         }
         if let name = self.name {
@@ -1462,14 +1462,14 @@ extension CreateResolverEndpointInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for resourceid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(resourceid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1680,8 +1680,8 @@ extension CreateResolverQueryLogConfigInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1870,14 +1870,14 @@ extension CreateResolverRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let targetIps = targetIps {
             var targetIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIps)
-            for targetlist0 in targetIps {
-                try targetIpsContainer.encode(targetlist0)
+            for targetaddress0 in targetIps {
+                try targetIpsContainer.encode(targetaddress0)
             }
         }
     }
@@ -3324,8 +3324,8 @@ extension Route53ResolverClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for filtervalues0 in values {
-                try valuesContainer.encode(filtervalues0)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
             }
         }
     }
@@ -8092,8 +8092,8 @@ extension ListResolverDnssecConfigsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8439,8 +8439,8 @@ extension ListResolverEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8624,8 +8624,8 @@ extension ListResolverQueryLogConfigAssociationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -8874,8 +8874,8 @@ extension ListResolverQueryLogConfigsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9123,8 +9123,8 @@ extension ListResolverRuleAssociationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9306,8 +9306,8 @@ extension ListResolverRulesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10365,8 +10365,8 @@ extension Route53ResolverClientTypes.ResolverEndpoint: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for resourceid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(resourceid0)
             }
         }
         if let status = self.status {
@@ -10999,8 +10999,8 @@ extension Route53ResolverClientTypes.ResolverRule: Swift.Codable {
         }
         if let targetIps = targetIps {
             var targetIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIps)
-            for targetlist0 in targetIps {
-                try targetIpsContainer.encode(targetlist0)
+            for targetaddress0 in targetIps {
+                try targetIpsContainer.encode(targetaddress0)
             }
         }
     }
@@ -11258,8 +11258,8 @@ extension Route53ResolverClientTypes.ResolverRuleConfig: Swift.Codable {
         }
         if let targetIps = targetIps {
             var targetIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIps)
-            for targetlist0 in targetIps {
-                try targetIpsContainer.encode(targetlist0)
+            for targetaddress0 in targetIps {
+                try targetIpsContainer.encode(targetaddress0)
             }
         }
     }
@@ -11756,8 +11756,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -12035,8 +12035,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -12297,8 +12297,8 @@ extension UpdateFirewallDomainsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for firewalldomains0 in domains {
-                try domainsContainer.encode(firewalldomains0)
+            for firewalldomainname0 in domains {
+                try domainsContainer.encode(firewalldomainname0)
             }
         }
         if let firewallDomainListId = self.firewallDomainListId {

@@ -255,8 +255,8 @@ extension AuditManagerClientTypes.Assessment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -337,8 +337,8 @@ extension AuditManagerClientTypes.AssessmentControl: Swift.Codable {
         }
         if let comments = comments {
             var commentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .comments)
-            for controlcomments0 in comments {
-                try commentsContainer.encode(controlcomments0)
+            for controlcomment0 in comments {
+                try commentsContainer.encode(controlcomment0)
             }
         }
         if let description = self.description {
@@ -349,8 +349,8 @@ extension AuditManagerClientTypes.AssessmentControl: Swift.Codable {
         }
         if let evidenceSources = evidenceSources {
             var evidenceSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evidenceSources)
-            for evidencesources0 in evidenceSources {
-                try evidenceSourcesContainer.encode(evidencesources0)
+            for nonemptystring0 in evidenceSources {
+                try evidenceSourcesContainer.encode(nonemptystring0)
             }
         }
         if let id = self.id {
@@ -472,14 +472,14 @@ extension AuditManagerClientTypes.AssessmentControlSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controls = controls {
             var controlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controls)
-            for assessmentcontrols0 in controls {
-                try controlsContainer.encode(assessmentcontrols0)
+            for assessmentcontrol0 in controls {
+                try controlsContainer.encode(assessmentcontrol0)
             }
         }
         if let delegations = delegations {
             var delegationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .delegations)
-            for delegations0 in delegations {
-                try delegationsContainer.encode(delegations0)
+            for delegation0 in delegations {
+                try delegationsContainer.encode(delegation0)
             }
         }
         if let description = self.description {
@@ -493,8 +493,8 @@ extension AuditManagerClientTypes.AssessmentControlSet: Swift.Codable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let status = self.status {
@@ -817,8 +817,8 @@ extension AuditManagerClientTypes.AssessmentFramework: Swift.Codable {
         }
         if let controlSets = controlSets {
             var controlSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlSets)
-            for assessmentcontrolsets0 in controlSets {
-                try controlSetsContainer.encode(assessmentcontrolsets0)
+            for assessmentcontrolset0 in controlSets {
+                try controlSetsContainer.encode(assessmentcontrolset0)
             }
         }
         if let id = self.id {
@@ -1217,8 +1217,8 @@ extension AuditManagerClientTypes.AssessmentMetadata: Swift.Codable {
         }
         if let delegations = delegations {
             var delegationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .delegations)
-            for delegations0 in delegations {
-                try delegationsContainer.encode(delegations0)
+            for delegation0 in delegations {
+                try delegationsContainer.encode(delegation0)
             }
         }
         if let description = self.description {
@@ -1235,8 +1235,8 @@ extension AuditManagerClientTypes.AssessmentMetadata: Swift.Codable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let scope = self.scope {
@@ -1370,8 +1370,8 @@ extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.Codable {
         }
         if let delegations = delegations {
             var delegationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .delegations)
-            for delegations0 in delegations {
-                try delegationsContainer.encode(delegations0)
+            for delegation0 in delegations {
+                try delegationsContainer.encode(delegation0)
             }
         }
         if let id = self.id {
@@ -1385,8 +1385,8 @@ extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.Codable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let status = self.status {
@@ -2000,8 +2000,8 @@ extension BatchAssociateAssessmentReportEvidenceInput: Swift.Encodable {
         }
         if let evidenceIds = evidenceIds {
             var evidenceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evidenceIds)
-            for evidenceids0 in evidenceIds {
-                try evidenceIdsContainer.encode(evidenceids0)
+            for uuid0 in evidenceIds {
+                try evidenceIdsContainer.encode(uuid0)
             }
         }
     }
@@ -2229,8 +2229,8 @@ extension BatchCreateDelegationByAssessmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let createDelegationRequests = createDelegationRequests {
             var createDelegationRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .createDelegationRequests)
-            for createdelegationrequests0 in createDelegationRequests {
-                try createDelegationRequestsContainer.encode(createdelegationrequests0)
+            for createdelegationrequest0 in createDelegationRequests {
+                try createDelegationRequestsContainer.encode(createdelegationrequest0)
             }
         }
     }
@@ -2449,8 +2449,8 @@ extension BatchDeleteDelegationByAssessmentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let delegationIds = delegationIds {
             var delegationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .delegationIds)
-            for delegationids0 in delegationIds {
-                try delegationIdsContainer.encode(delegationids0)
+            for uuid0 in delegationIds {
+                try delegationIdsContainer.encode(uuid0)
             }
         }
     }
@@ -2599,8 +2599,8 @@ extension BatchDisassociateAssessmentReportEvidenceInput: Swift.Encodable {
         }
         if let evidenceIds = evidenceIds {
             var evidenceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .evidenceIds)
-            for evidenceids0 in evidenceIds {
-                try evidenceIdsContainer.encode(evidenceids0)
+            for uuid0 in evidenceIds {
+                try evidenceIdsContainer.encode(uuid0)
             }
         }
     }
@@ -2828,8 +2828,8 @@ extension BatchImportEvidenceToAssessmentControlInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let manualEvidence = manualEvidence {
             var manualEvidenceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .manualEvidence)
-            for manualevidencelist0 in manualEvidence {
-                try manualEvidenceContainer.encode(manualevidencelist0)
+            for manualevidence0 in manualEvidence {
+                try manualEvidenceContainer.encode(manualevidence0)
             }
         }
     }
@@ -3088,8 +3088,8 @@ extension AuditManagerClientTypes.Control: Swift.Codable {
         }
         if let controlMappingSources = controlMappingSources {
             var controlMappingSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlMappingSources)
-            for controlmappingsources0 in controlMappingSources {
-                try controlMappingSourcesContainer.encode(controlmappingsources0)
+            for controlmappingsource0 in controlMappingSources {
+                try controlMappingSourcesContainer.encode(controlmappingsource0)
             }
         }
         if let controlSources = self.controlSources {
@@ -3118,8 +3118,8 @@ extension AuditManagerClientTypes.Control: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let testingInformation = self.testingInformation {
@@ -3782,8 +3782,8 @@ extension AuditManagerClientTypes.ControlSet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controls = controls {
             var controlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controls)
-            for controls0 in controls {
-                try controlsContainer.encode(controls0)
+            for control0 in controls {
+                try controlsContainer.encode(control0)
             }
         }
         if let id = self.id {
@@ -3986,8 +3986,8 @@ extension AuditManagerClientTypes.CreateAssessmentFrameworkControlSet: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controls = controls {
             var controlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controls)
-            for createassessmentframeworkcontrols0 in controls {
-                try controlsContainer.encode(createassessmentframeworkcontrols0)
+            for createassessmentframeworkcontrol0 in controls {
+                try controlsContainer.encode(createassessmentframeworkcontrol0)
             }
         }
         if let name = self.name {
@@ -4050,8 +4050,8 @@ extension CreateAssessmentFrameworkInput: Swift.Encodable {
         }
         if let controlSets = controlSets {
             var controlSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlSets)
-            for createassessmentframeworkcontrolsets0 in controlSets {
-                try controlSetsContainer.encode(createassessmentframeworkcontrolsets0)
+            for createassessmentframeworkcontrolset0 in controlSets {
+                try controlSetsContainer.encode(createassessmentframeworkcontrolset0)
             }
         }
         if let description = self.description {
@@ -4062,8 +4062,8 @@ extension CreateAssessmentFrameworkInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4253,8 +4253,8 @@ extension CreateAssessmentInput: Swift.Encodable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let scope = self.scope {
@@ -4262,8 +4262,8 @@ extension CreateAssessmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4615,8 +4615,8 @@ extension CreateControlInput: Swift.Encodable {
         }
         if let controlMappingSources = controlMappingSources {
             var controlMappingSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlMappingSources)
-            for createcontrolmappingsources0 in controlMappingSources {
-                try controlMappingSourcesContainer.encode(createcontrolmappingsources0)
+            for createcontrolmappingsource0 in controlMappingSources {
+                try controlMappingSourcesContainer.encode(createcontrolmappingsource0)
             }
         }
         if let description = self.description {
@@ -4627,8 +4627,8 @@ extension CreateControlInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let testingInformation = self.testingInformation {
@@ -5910,8 +5910,8 @@ extension AuditManagerClientTypes.Evidence: Swift.Codable {
         }
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributes)
-            for (dictKey0, evidenceattributes0) in attributes {
-                try attributesContainer.encode(evidenceattributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, evidenceAttributes0) in attributes {
+                try attributesContainer.encode(evidenceAttributes0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let awsAccountId = self.awsAccountId {
@@ -5949,8 +5949,8 @@ extension AuditManagerClientTypes.Evidence: Swift.Codable {
         }
         if let resourcesIncluded = resourcesIncluded {
             var resourcesIncludedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourcesIncluded)
-            for resources0 in resourcesIncluded {
-                try resourcesIncludedContainer.encode(resources0)
+            for resource0 in resourcesIncluded {
+                try resourcesIncludedContainer.encode(resource0)
             }
         }
         if let time = self.time {
@@ -6324,8 +6324,8 @@ extension AuditManagerClientTypes.Framework: Swift.Codable {
         }
         if let controlSets = controlSets {
             var controlSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlSets)
-            for controlsets0 in controlSets {
-                try controlSetsContainer.encode(controlsets0)
+            for controlset0 in controlSets {
+                try controlSetsContainer.encode(controlset0)
             }
         }
         if let controlSources = self.controlSources {
@@ -6357,8 +6357,8 @@ extension AuditManagerClientTypes.Framework: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -11175,14 +11175,14 @@ extension AuditManagerClientTypes.Scope: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let awsAccounts = awsAccounts {
             var awsAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccounts)
-            for awsaccounts0 in awsAccounts {
-                try awsAccountsContainer.encode(awsaccounts0)
+            for awsaccount0 in awsAccounts {
+                try awsAccountsContainer.encode(awsaccount0)
             }
         }
         if let awsServices = awsServices {
             var awsServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsServices)
-            for awsservices0 in awsServices {
-                try awsServicesContainer.encode(awsservices0)
+            for awsservice0 in awsServices {
+                try awsServicesContainer.encode(awsservice0)
             }
         }
     }
@@ -11413,8 +11413,8 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         }
         if let defaultProcessOwners = defaultProcessOwners {
             var defaultProcessOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultProcessOwners)
-            for roles0 in defaultProcessOwners {
-                try defaultProcessOwnersContainer.encode(roles0)
+            for role0 in defaultProcessOwners {
+                try defaultProcessOwnersContainer.encode(role0)
             }
         }
         if let evidenceFinderEnablement = self.evidenceFinderEnablement {
@@ -11950,8 +11950,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -12541,8 +12541,8 @@ extension AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let controls = controls {
             var controlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controls)
-            for createassessmentframeworkcontrols0 in controls {
-                try controlsContainer.encode(createassessmentframeworkcontrols0)
+            for createassessmentframeworkcontrol0 in controls {
+                try controlsContainer.encode(createassessmentframeworkcontrol0)
             }
         }
         if let id = self.id {
@@ -12614,8 +12614,8 @@ extension UpdateAssessmentFrameworkInput: Swift.Encodable {
         }
         if let controlSets = controlSets {
             var controlSetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlSets)
-            for updateassessmentframeworkcontrolsets0 in controlSets {
-                try controlSetsContainer.encode(updateassessmentframeworkcontrolsets0)
+            for updateassessmentframeworkcontrolset0 in controlSets {
+                try controlSetsContainer.encode(updateassessmentframeworkcontrolset0)
             }
         }
         if let description = self.description {
@@ -12933,8 +12933,8 @@ extension UpdateAssessmentInput: Swift.Encodable {
         }
         if let roles = roles {
             var rolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .roles)
-            for roles0 in roles {
-                try rolesContainer.encode(roles0)
+            for role0 in roles {
+                try rolesContainer.encode(role0)
             }
         }
         if let scope = self.scope {
@@ -13243,8 +13243,8 @@ extension UpdateControlInput: Swift.Encodable {
         }
         if let controlMappingSources = controlMappingSources {
             var controlMappingSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .controlMappingSources)
-            for controlmappingsources0 in controlMappingSources {
-                try controlMappingSourcesContainer.encode(controlmappingsources0)
+            for controlmappingsource0 in controlMappingSources {
+                try controlMappingSourcesContainer.encode(controlmappingsource0)
             }
         }
         if let description = self.description {
@@ -13437,8 +13437,8 @@ extension UpdateSettingsInput: Swift.Encodable {
         }
         if let defaultProcessOwners = defaultProcessOwners {
             var defaultProcessOwnersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .defaultProcessOwners)
-            for roles0 in defaultProcessOwners {
-                try defaultProcessOwnersContainer.encode(roles0)
+            for role0 in defaultProcessOwners {
+                try defaultProcessOwnersContainer.encode(role0)
             }
         }
         if let evidenceFinderEnabled = self.evidenceFinderEnabled {

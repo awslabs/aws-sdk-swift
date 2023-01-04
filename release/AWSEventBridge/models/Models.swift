@@ -479,14 +479,14 @@ extension EventBridgeClientTypes.AwsVpcConfiguration: Swift.Codable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for stringlist0 in securityGroups {
-                try securityGroupsContainer.encode(stringlist0)
+            for string0 in securityGroups {
+                try securityGroupsContainer.encode(string0)
             }
         }
         if let subnets = subnets {
             var subnetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnets)
-            for stringlist0 in subnets {
-                try subnetsContainer.encode(stringlist0)
+            for string0 in subnets {
+                try subnetsContainer.encode(string0)
             }
         }
     }
@@ -1381,20 +1381,20 @@ extension EventBridgeClientTypes.ConnectionHttpParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bodyParameters = bodyParameters {
             var bodyParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bodyParameters)
-            for connectionbodyparameterslist0 in bodyParameters {
-                try bodyParametersContainer.encode(connectionbodyparameterslist0)
+            for connectionbodyparameter0 in bodyParameters {
+                try bodyParametersContainer.encode(connectionbodyparameter0)
             }
         }
         if let headerParameters = headerParameters {
             var headerParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headerParameters)
-            for connectionheaderparameterslist0 in headerParameters {
-                try headerParametersContainer.encode(connectionheaderparameterslist0)
+            for connectionheaderparameter0 in headerParameters {
+                try headerParametersContainer.encode(connectionheaderparameter0)
             }
         }
         if let queryStringParameters = queryStringParameters {
             var queryStringParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryStringParameters)
-            for connectionquerystringparameterslist0 in queryStringParameters {
-                try queryStringParametersContainer.encode(connectionquerystringparameterslist0)
+            for connectionquerystringparameter0 in queryStringParameters {
+                try queryStringParametersContainer.encode(connectionquerystringparameter0)
             }
         }
     }
@@ -2582,8 +2582,8 @@ extension CreateEndpointInput: Swift.Encodable {
         }
         if let eventBuses = eventBuses {
             var eventBusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventBuses)
-            for endpointeventbuslist0 in eventBuses {
-                try eventBusesContainer.encode(endpointeventbuslist0)
+            for endpointeventbus0 in eventBuses {
+                try eventBusesContainer.encode(endpointeventbus0)
             }
         }
         if let name = self.name {
@@ -2840,8 +2840,8 @@ extension CreateEventBusInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5953,8 +5953,8 @@ extension EventBridgeClientTypes.EcsParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let capacityProviderStrategy = capacityProviderStrategy {
             var capacityProviderStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capacityProviderStrategy)
-            for capacityproviderstrategy0 in capacityProviderStrategy {
-                try capacityProviderStrategyContainer.encode(capacityproviderstrategy0)
+            for capacityproviderstrategyitem0 in capacityProviderStrategy {
+                try capacityProviderStrategyContainer.encode(capacityproviderstrategyitem0)
             }
         }
         if enableECSManagedTags != false {
@@ -5974,14 +5974,14 @@ extension EventBridgeClientTypes.EcsParameters: Swift.Codable {
         }
         if let placementConstraints = placementConstraints {
             var placementConstraintsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementConstraints)
-            for placementconstraints0 in placementConstraints {
-                try placementConstraintsContainer.encode(placementconstraints0)
+            for placementconstraint0 in placementConstraints {
+                try placementConstraintsContainer.encode(placementconstraint0)
             }
         }
         if let placementStrategy = placementStrategy {
             var placementStrategyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .placementStrategy)
-            for placementstrategies0 in placementStrategy {
-                try placementStrategyContainer.encode(placementstrategies0)
+            for placementstrategy0 in placementStrategy {
+                try placementStrategyContainer.encode(placementstrategy0)
             }
         }
         if let platformVersion = self.platformVersion {
@@ -5995,8 +5995,8 @@ extension EventBridgeClientTypes.EcsParameters: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let taskCount = self.taskCount {
@@ -6279,8 +6279,8 @@ extension EventBridgeClientTypes.Endpoint: Swift.Codable {
         }
         if let eventBuses = eventBuses {
             var eventBusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventBuses)
-            for endpointeventbuslist0 in eventBuses {
-                try eventBusesContainer.encode(endpointeventbuslist0)
+            for endpointeventbus0 in eventBuses {
+                try eventBusesContainer.encode(endpointeventbus0)
             }
         }
         if let lastModifiedTime = self.lastModifiedTime {
@@ -6726,20 +6726,20 @@ extension EventBridgeClientTypes.HttpParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let headerParameters = headerParameters {
             var headerParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .headerParameters)
-            for (dictKey0, headerparametersmap0) in headerParameters {
-                try headerParametersContainer.encode(headerparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, headerParametersMap0) in headerParameters {
+                try headerParametersContainer.encode(headerParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let pathParameterValues = pathParameterValues {
             var pathParameterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pathParameterValues)
-            for pathparameterlist0 in pathParameterValues {
-                try pathParameterValuesContainer.encode(pathparameterlist0)
+            for pathparameter0 in pathParameterValues {
+                try pathParameterValuesContainer.encode(pathparameter0)
             }
         }
         if let queryStringParameters = queryStringParameters {
             var queryStringParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .queryStringParameters)
-            for (dictKey0, querystringparametersmap0) in queryStringParameters {
-                try queryStringParametersContainer.encode(querystringparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, queryStringParametersMap0) in queryStringParameters {
+                try queryStringParametersContainer.encode(queryStringParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6868,8 +6868,8 @@ extension EventBridgeClientTypes.InputTransformer: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputPathsMap = inputPathsMap {
             var inputPathsMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .inputPathsMap)
-            for (dictKey0, transformerpaths0) in inputPathsMap {
-                try inputPathsMapContainer.encode(transformerpaths0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, transformerPaths0) in inputPathsMap {
+                try inputPathsMapContainer.encode(transformerPaths0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let inputTemplate = self.inputTemplate {
@@ -9862,8 +9862,8 @@ extension PutEventsInput: Swift.Encodable {
         }
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for puteventsrequestentrylist0 in entries {
-                try entriesContainer.encode(puteventsrequestentrylist0)
+            for puteventsrequestentry0 in entries {
+                try entriesContainer.encode(puteventsrequestentry0)
             }
         }
     }
@@ -10027,8 +10027,8 @@ extension EventBridgeClientTypes.PutEventsRequestEntry: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for eventresourcelist0 in resources {
-                try resourcesContainer.encode(eventresourcelist0)
+            for eventresource0 in resources {
+                try resourcesContainer.encode(eventresource0)
             }
         }
         if let source = self.source {
@@ -10174,8 +10174,8 @@ extension PutPartnerEventsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let entries = entries {
             var entriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .entries)
-            for putpartnereventsrequestentrylist0 in entries {
-                try entriesContainer.encode(putpartnereventsrequestentrylist0)
+            for putpartnereventsrequestentry0 in entries {
+                try entriesContainer.encode(putpartnereventsrequestentry0)
             }
         }
     }
@@ -10328,8 +10328,8 @@ extension EventBridgeClientTypes.PutPartnerEventsRequestEntry: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for eventresourcelist0 in resources {
-                try resourcesContainer.encode(eventresourcelist0)
+            for eventresource0 in resources {
+                try resourcesContainer.encode(eventresource0)
             }
         }
         if let source = self.source {
@@ -10635,8 +10635,8 @@ extension PutRuleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10832,8 +10832,8 @@ extension PutTargetsInput: Swift.Encodable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targetlist0 in targets {
-                try targetsContainer.encode(targetlist0)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
             }
         }
     }
@@ -11259,8 +11259,8 @@ extension RemoveTargetsInput: Swift.Encodable {
         }
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for targetidlist0 in ids {
-                try idsContainer.encode(targetidlist0)
+            for targetid0 in ids {
+                try idsContainer.encode(targetid0)
             }
         }
         if let rule = self.rule {
@@ -11609,8 +11609,8 @@ extension EventBridgeClientTypes.ReplayDestination: Swift.Codable {
         }
         if let filterArns = filterArns {
             var filterArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterArns)
-            for replaydestinationfilters0 in filterArns {
-                try filterArnsContainer.encode(replaydestinationfilters0)
+            for arn0 in filterArns {
+                try filterArnsContainer.encode(arn0)
             }
         }
     }
@@ -12106,8 +12106,8 @@ extension EventBridgeClientTypes.RunCommandParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let runCommandTargets = runCommandTargets {
             var runCommandTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runCommandTargets)
-            for runcommandtargets0 in runCommandTargets {
-                try runCommandTargetsContainer.encode(runcommandtargets0)
+            for runcommandtarget0 in runCommandTargets {
+                try runCommandTargetsContainer.encode(runcommandtarget0)
             }
         }
     }
@@ -12158,8 +12158,8 @@ extension EventBridgeClientTypes.RunCommandTarget: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for runcommandtargetvalues0 in values {
-                try valuesContainer.encode(runcommandtargetvalues0)
+            for runcommandtargetvalue0 in values {
+                try valuesContainer.encode(runcommandtargetvalue0)
             }
         }
     }
@@ -12260,8 +12260,8 @@ extension EventBridgeClientTypes.SageMakerPipelineParameters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelineParameterList = pipelineParameterList {
             var pipelineParameterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineParameterList)
-            for sagemakerpipelineparameterlist0 in pipelineParameterList {
-                try pipelineParameterListContainer.encode(sagemakerpipelineparameterlist0)
+            for sagemakerpipelineparameter0 in pipelineParameterList {
+                try pipelineParameterListContainer.encode(sagemakerpipelineparameter0)
             }
         }
     }
@@ -12642,8 +12642,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -13080,8 +13080,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -14045,8 +14045,8 @@ extension UpdateEndpointInput: Swift.Encodable {
         }
         if let eventBuses = eventBuses {
             var eventBusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventBuses)
-            for endpointeventbuslist0 in eventBuses {
-                try eventBusesContainer.encode(endpointeventbuslist0)
+            for endpointeventbus0 in eventBuses {
+                try eventBusesContainer.encode(endpointeventbus0)
             }
         }
         if let name = self.name {

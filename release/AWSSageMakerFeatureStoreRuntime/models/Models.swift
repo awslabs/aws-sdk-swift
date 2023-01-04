@@ -137,14 +137,14 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier: Swif
         }
         if let featureNames = featureNames {
             var featureNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .featureNames)
-            for featurenames0 in featureNames {
-                try featureNamesContainer.encode(featurenames0)
+            for featurename0 in featureNames {
+                try featureNamesContainer.encode(featurename0)
             }
         }
         if let recordIdentifiersValueAsString = recordIdentifiersValueAsString {
             var recordIdentifiersValueAsStringContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordIdentifiersValueAsString)
-            for recordidentifiers0 in recordIdentifiersValueAsString {
-                try recordIdentifiersValueAsStringContainer.encode(recordidentifiers0)
+            for valueasstring0 in recordIdentifiersValueAsString {
+                try recordIdentifiersValueAsStringContainer.encode(valueasstring0)
             }
         }
     }
@@ -213,8 +213,8 @@ extension BatchGetRecordInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identifiers = identifiers {
             var identifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identifiers)
-            for batchgetrecordidentifiers0 in identifiers {
-                try identifiersContainer.encode(batchgetrecordidentifiers0)
+            for batchgetrecordidentifier0 in identifiers {
+                try identifiersContainer.encode(batchgetrecordidentifier0)
             }
         }
     }
@@ -397,8 +397,8 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail: Sw
         }
         if let record = record {
             var recordContainer = encodeContainer.nestedUnkeyedContainer(forKey: .record)
-            for record0 in record {
-                try recordContainer.encode(record0)
+            for featurevalue0 in record {
+                try recordContainer.encode(featurevalue0)
             }
         }
         if let recordIdentifierValueAsString = self.recordIdentifierValueAsString {
@@ -813,14 +813,14 @@ extension PutRecordInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let record = record {
             var recordContainer = encodeContainer.nestedUnkeyedContainer(forKey: .record)
-            for record0 in record {
-                try recordContainer.encode(record0)
+            for featurevalue0 in record {
+                try recordContainer.encode(featurevalue0)
             }
         }
         if let targetStores = targetStores {
             var targetStoresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetStores)
-            for targetstores0 in targetStores {
-                try targetStoresContainer.encode(targetstores0.rawValue)
+            for targetstore0 in targetStores {
+                try targetStoresContainer.encode(targetstore0.rawValue)
             }
         }
     }

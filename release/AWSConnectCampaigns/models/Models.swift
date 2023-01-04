@@ -133,8 +133,8 @@ extension ConnectCampaignsClientTypes.Campaign: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -451,8 +451,8 @@ extension CreateCampaignInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1363,8 +1363,8 @@ extension GetCampaignStateBatchInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let campaignIds = campaignIds {
             var campaignIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .campaignIds)
-            for campaignidlist0 in campaignIds {
-                try campaignIdsContainer.encode(campaignidlist0)
+            for campaignid0 in campaignIds {
+                try campaignIdsContainer.encode(campaignid0)
             }
         }
     }
@@ -2788,8 +2788,8 @@ extension PutDialRequestBatchInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dialRequests = dialRequests {
             var dialRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dialRequests)
-            for dialrequestlist0 in dialRequests {
-                try dialRequestsContainer.encode(dialrequestlist0)
+            for dialrequest0 in dialRequests {
+                try dialRequestsContainer.encode(dialrequest0)
             }
         }
     }
@@ -3534,8 +3534,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

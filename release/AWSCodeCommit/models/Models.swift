@@ -1253,8 +1253,8 @@ extension BatchAssociateApprovalRuleTemplateWithRepositoriesInput: Swift.Encodab
         }
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for repositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(repositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -1509,8 +1509,8 @@ extension BatchDescribeMergeConflictsInput: Swift.Encodable {
         }
         if let filePaths = filePaths {
             var filePathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filePaths)
-            for filepaths0 in filePaths {
-                try filePathsContainer.encode(filepaths0)
+            for path0 in filePaths {
+                try filePathsContainer.encode(path0)
             }
         }
         if let maxConflictFiles = self.maxConflictFiles {
@@ -1895,8 +1895,8 @@ extension BatchDisassociateApprovalRuleTemplateFromRepositoriesInput: Swift.Enco
         }
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for repositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(repositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -2131,8 +2131,8 @@ extension BatchGetCommitsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let commitIds = commitIds {
             var commitIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .commitIds)
-            for commitidsinputlist0 in commitIds {
-                try commitIdsContainer.encode(commitidsinputlist0)
+            for objectid0 in commitIds {
+                try commitIdsContainer.encode(objectid0)
             }
         }
         if let repositoryName = self.repositoryName {
@@ -2312,8 +2312,8 @@ extension BatchGetRepositoriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let repositoryNames = repositoryNames {
             var repositoryNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositoryNames)
-            for repositorynamelist0 in repositoryNames {
-                try repositoryNamesContainer.encode(repositorynamelist0)
+            for repositoryname0 in repositoryNames {
+                try repositoryNamesContainer.encode(repositoryname0)
             }
         }
     }
@@ -3164,8 +3164,8 @@ extension CodeCommitClientTypes.Comment: Swift.Codable {
         }
         if let callerReactions = callerReactions {
             var callerReactionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .callerReactions)
-            for callerreactions0 in callerReactions {
-                try callerReactionsContainer.encode(callerreactions0)
+            for reactionvalue0 in callerReactions {
+                try callerReactionsContainer.encode(reactionvalue0)
             }
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -3191,8 +3191,8 @@ extension CodeCommitClientTypes.Comment: Swift.Codable {
         }
         if let reactionCounts = reactionCounts {
             var reactionCountsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .reactionCounts)
-            for (dictKey0, reactioncountsmap0) in reactionCounts {
-                try reactionCountsContainer.encode(reactioncountsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, reactionCountsMap0) in reactionCounts {
+                try reactionCountsContainer.encode(reactionCountsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3637,8 +3637,8 @@ extension CodeCommitClientTypes.CommentsForComparedCommit: Swift.Codable {
         }
         if let comments = comments {
             var commentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .comments)
-            for comments0 in comments {
-                try commentsContainer.encode(comments0)
+            for comment0 in comments {
+                try commentsContainer.encode(comment0)
             }
         }
         if let location = self.location {
@@ -3745,8 +3745,8 @@ extension CodeCommitClientTypes.CommentsForPullRequest: Swift.Codable {
         }
         if let comments = comments {
             var commentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .comments)
-            for comments0 in comments {
-                try commentsContainer.encode(comments0)
+            for comment0 in comments {
+                try commentsContainer.encode(comment0)
             }
         }
         if let location = self.location {
@@ -3864,8 +3864,8 @@ extension CodeCommitClientTypes.Commit: Swift.Codable {
         }
         if let parents = parents {
             var parentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parents)
-            for parentlist0 in parents {
-                try parentsContainer.encode(parentlist0)
+            for objectid0 in parents {
+                try parentsContainer.encode(objectid0)
             }
         }
         if let treeId = self.treeId {
@@ -4378,8 +4378,8 @@ extension CodeCommitClientTypes.Conflict: Swift.Codable {
         }
         if let mergeHunks = mergeHunks {
             var mergeHunksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mergeHunks)
-            for mergehunks0 in mergeHunks {
-                try mergeHunksContainer.encode(mergehunks0)
+            for mergehunk0 in mergeHunks {
+                try mergeHunksContainer.encode(mergehunk0)
             }
         }
     }
@@ -4590,20 +4590,20 @@ extension CodeCommitClientTypes.ConflictResolution: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deleteFiles = deleteFiles {
             var deleteFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deleteFiles)
-            for deletefileentries0 in deleteFiles {
-                try deleteFilesContainer.encode(deletefileentries0)
+            for deletefileentry0 in deleteFiles {
+                try deleteFilesContainer.encode(deletefileentry0)
             }
         }
         if let replaceContents = replaceContents {
             var replaceContentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replaceContents)
-            for replacecontententries0 in replaceContents {
-                try replaceContentsContainer.encode(replacecontententries0)
+            for replacecontententry0 in replaceContents {
+                try replaceContentsContainer.encode(replacecontententry0)
             }
         }
         if let setFileModes = setFileModes {
             var setFileModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .setFileModes)
-            for setfilemodeentries0 in setFileModes {
-                try setFileModesContainer.encode(setfilemodeentries0)
+            for setfilemodeentry0 in setFileModes {
+                try setFileModesContainer.encode(setfilemodeentry0)
             }
         }
     }
@@ -5031,8 +5031,8 @@ extension CreateCommitInput: Swift.Encodable {
         }
         if let deleteFiles = deleteFiles {
             var deleteFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deleteFiles)
-            for deletefileentries0 in deleteFiles {
-                try deleteFilesContainer.encode(deletefileentries0)
+            for deletefileentry0 in deleteFiles {
+                try deleteFilesContainer.encode(deletefileentry0)
             }
         }
         if let email = self.email {
@@ -5046,8 +5046,8 @@ extension CreateCommitInput: Swift.Encodable {
         }
         if let putFiles = putFiles {
             var putFilesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .putFiles)
-            for putfileentries0 in putFiles {
-                try putFilesContainer.encode(putfileentries0)
+            for putfileentry0 in putFiles {
+                try putFilesContainer.encode(putfileentry0)
             }
         }
         if let repositoryName = self.repositoryName {
@@ -5055,8 +5055,8 @@ extension CreateCommitInput: Swift.Encodable {
         }
         if let setFileModes = setFileModes {
             var setFileModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .setFileModes)
-            for setfilemodeentries0 in setFileModes {
-                try setFileModesContainer.encode(setfilemodeentries0)
+            for setfilemodeentry0 in setFileModes {
+                try setFileModesContainer.encode(setfilemodeentry0)
             }
         }
     }
@@ -5599,8 +5599,8 @@ extension CreatePullRequestInput: Swift.Encodable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targets)
-            for targetlist0 in targets {
-                try targetsContainer.encode(targetlist0)
+            for target0 in targets {
+                try targetsContainer.encode(target0)
             }
         }
         if let title = self.title {
@@ -5807,8 +5807,8 @@ extension CreateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8457,14 +8457,14 @@ extension CodeCommitClientTypes.Evaluation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let approvalRulesNotSatisfied = approvalRulesNotSatisfied {
             var approvalRulesNotSatisfiedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .approvalRulesNotSatisfied)
-            for approvalrulesnotsatisfiedlist0 in approvalRulesNotSatisfied {
-                try approvalRulesNotSatisfiedContainer.encode(approvalrulesnotsatisfiedlist0)
+            for approvalrulename0 in approvalRulesNotSatisfied {
+                try approvalRulesNotSatisfiedContainer.encode(approvalrulename0)
             }
         }
         if let approvalRulesSatisfied = approvalRulesSatisfied {
             var approvalRulesSatisfiedContainer = encodeContainer.nestedUnkeyedContainer(forKey: .approvalRulesSatisfied)
-            for approvalrulessatisfiedlist0 in approvalRulesSatisfied {
-                try approvalRulesSatisfiedContainer.encode(approvalrulessatisfiedlist0)
+            for approvalrulename0 in approvalRulesSatisfied {
+                try approvalRulesSatisfiedContainer.encode(approvalrulename0)
             }
         }
         if approved != false {
@@ -21820,8 +21820,8 @@ extension CodeCommitClientTypes.PullRequest: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let approvalRules = approvalRules {
             var approvalRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .approvalRules)
-            for approvalruleslist0 in approvalRules {
-                try approvalRulesContainer.encode(approvalruleslist0)
+            for approvalrule0 in approvalRules {
+                try approvalRulesContainer.encode(approvalrule0)
             }
         }
         if let authorArn = self.authorArn {
@@ -21847,8 +21847,8 @@ extension CodeCommitClientTypes.PullRequest: Swift.Codable {
         }
         if let pullRequestTargets = pullRequestTargets {
             var pullRequestTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pullRequestTargets)
-            for pullrequesttargetlist0 in pullRequestTargets {
-                try pullRequestTargetsContainer.encode(pullrequesttargetlist0)
+            for pullrequesttarget0 in pullRequestTargets {
+                try pullRequestTargetsContainer.encode(pullrequesttarget0)
             }
         }
         if let revisionId = self.revisionId {
@@ -23341,8 +23341,8 @@ extension PutRepositoryTriggersInput: Swift.Encodable {
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for repositorytriggerslist0 in triggers {
-                try triggersContainer.encode(repositorytriggerslist0)
+            for repositorytrigger0 in triggers {
+                try triggersContainer.encode(repositorytrigger0)
             }
         }
     }
@@ -23520,8 +23520,8 @@ extension CodeCommitClientTypes.ReactionForComment: Swift.Codable {
         }
         if let reactionUsers = reactionUsers {
             var reactionUsersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reactionUsers)
-            for reactionuserslist0 in reactionUsers {
-                try reactionUsersContainer.encode(reactionuserslist0)
+            for arn0 in reactionUsers {
+                try reactionUsersContainer.encode(arn0)
             }
         }
         if let reactionsFromDeletedUsersCount = self.reactionsFromDeletedUsersCount {
@@ -24637,8 +24637,8 @@ extension CodeCommitClientTypes.RepositoryTrigger: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let branches = branches {
             var branchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .branches)
-            for branchnamelist0 in branches {
-                try branchesContainer.encode(branchnamelist0)
+            for branchname0 in branches {
+                try branchesContainer.encode(branchname0)
             }
         }
         if let customData = self.customData {
@@ -24649,8 +24649,8 @@ extension CodeCommitClientTypes.RepositoryTrigger: Swift.Codable {
         }
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for repositorytriggereventlist0 in events {
-                try eventsContainer.encode(repositorytriggereventlist0.rawValue)
+            for repositorytriggereventenum0 in events {
+                try eventsContainer.encode(repositorytriggereventenum0.rawValue)
             }
         }
         if let name = self.name {
@@ -25862,8 +25862,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagsmap0) in tags {
-                try tagsContainer.encode(tagsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -26199,8 +26199,8 @@ extension TestRepositoryTriggersInput: Swift.Encodable {
         }
         if let triggers = triggers {
             var triggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .triggers)
-            for repositorytriggerslist0 in triggers {
-                try triggersContainer.encode(repositorytriggerslist0)
+            for repositorytrigger0 in triggers {
+                try triggersContainer.encode(repositorytrigger0)
             }
         }
     }
@@ -26617,8 +26617,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeyslist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeyslist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

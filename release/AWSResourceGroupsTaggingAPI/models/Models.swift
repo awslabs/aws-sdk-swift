@@ -16,14 +16,14 @@ extension ResourceGroupsTaggingAPIClientTypes.ComplianceDetails: Swift.Codable {
         }
         if let keysWithNoncompliantValues = keysWithNoncompliantValues {
             var keysWithNoncompliantValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keysWithNoncompliantValues)
-            for tagkeylist0 in keysWithNoncompliantValues {
-                try keysWithNoncompliantValuesContainer.encode(tagkeylist0)
+            for tagkey0 in keysWithNoncompliantValues {
+                try keysWithNoncompliantValuesContainer.encode(tagkey0)
             }
         }
         if let noncompliantKeys = noncompliantKeys {
             var noncompliantKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .noncompliantKeys)
-            for tagkeylist0 in noncompliantKeys {
-                try noncompliantKeysContainer.encode(tagkeylist0)
+            for tagkey0 in noncompliantKeys {
+                try noncompliantKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -435,8 +435,8 @@ extension GetComplianceSummaryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupBy = groupBy {
             var groupByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupBy)
-            for groupby0 in groupBy {
-                try groupByContainer.encode(groupby0.rawValue)
+            for groupbyattribute0 in groupBy {
+                try groupByContainer.encode(groupbyattribute0.rawValue)
             }
         }
         if let maxResults = self.maxResults {
@@ -447,26 +447,26 @@ extension GetComplianceSummaryInput: Swift.Encodable {
         }
         if let regionFilters = regionFilters {
             var regionFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionFilters)
-            for regionfilterlist0 in regionFilters {
-                try regionFiltersContainer.encode(regionfilterlist0)
+            for region0 in regionFilters {
+                try regionFiltersContainer.encode(region0)
             }
         }
         if let resourceTypeFilters = resourceTypeFilters {
             var resourceTypeFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeFilters)
-            for resourcetypefilterlist0 in resourceTypeFilters {
-                try resourceTypeFiltersContainer.encode(resourcetypefilterlist0)
+            for amazonresourcetype0 in resourceTypeFilters {
+                try resourceTypeFiltersContainer.encode(amazonresourcetype0)
             }
         }
         if let tagKeyFilters = tagKeyFilters {
             var tagKeyFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyFilters)
-            for tagkeyfilterlist0 in tagKeyFilters {
-                try tagKeyFiltersContainer.encode(tagkeyfilterlist0)
+            for tagkey0 in tagKeyFilters {
+                try tagKeyFiltersContainer.encode(tagkey0)
             }
         }
         if let targetIdFilters = targetIdFilters {
             var targetIdFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIdFilters)
-            for targetidfilterlist0 in targetIdFilters {
-                try targetIdFiltersContainer.encode(targetidfilterlist0)
+            for targetid0 in targetIdFilters {
+                try targetIdFiltersContainer.encode(targetid0)
             }
         }
     }
@@ -721,14 +721,14 @@ extension GetResourcesInput: Swift.Encodable {
         }
         if let resourceARNList = resourceARNList {
             var resourceARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceARNList)
-            for resourcearnlistforget0 in resourceARNList {
-                try resourceARNListContainer.encode(resourcearnlistforget0)
+            for resourcearn0 in resourceARNList {
+                try resourceARNListContainer.encode(resourcearn0)
             }
         }
         if let resourceTypeFilters = resourceTypeFilters {
             var resourceTypeFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypeFilters)
-            for resourcetypefilterlist0 in resourceTypeFilters {
-                try resourceTypeFiltersContainer.encode(resourcetypefilterlist0)
+            for amazonresourcetype0 in resourceTypeFilters {
+                try resourceTypeFiltersContainer.encode(amazonresourcetype0)
             }
         }
         if let resourcesPerPage = self.resourcesPerPage {
@@ -736,8 +736,8 @@ extension GetResourcesInput: Swift.Encodable {
         }
         if let tagFilters = tagFilters {
             var tagFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagFilters)
-            for tagfilterlist0 in tagFilters {
-                try tagFiltersContainer.encode(tagfilterlist0)
+            for tagfilter0 in tagFilters {
+                try tagFiltersContainer.encode(tagfilter0)
             }
         }
         if let tagsPerPage = self.tagsPerPage {
@@ -1468,8 +1468,8 @@ extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping: Swift.Codable 
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1751,8 +1751,8 @@ extension ResourceGroupsTaggingAPIClientTypes.TagFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for tagvaluelist0 in values {
-                try valuesContainer.encode(tagvaluelist0)
+            for tagvalue0 in values {
+                try valuesContainer.encode(tagvalue0)
             }
         }
     }
@@ -1805,14 +1805,14 @@ extension TagResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceARNList = resourceARNList {
             var resourceARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceARNList)
-            for resourcearnlistfortaguntag0 in resourceARNList {
-                try resourceARNListContainer.encode(resourcearnlistfortaguntag0)
+            for resourcearn0 in resourceARNList {
+                try resourceARNListContainer.encode(resourcearn0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2053,14 +2053,14 @@ extension UntagResourcesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceARNList = resourceARNList {
             var resourceARNListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceARNList)
-            for resourcearnlistfortaguntag0 in resourceARNList {
-                try resourceARNListContainer.encode(resourcearnlistfortaguntag0)
+            for resourcearn0 in resourceARNList {
+                try resourceARNListContainer.encode(resourcearn0)
             }
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylistforuntag0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylistforuntag0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }

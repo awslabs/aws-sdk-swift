@@ -1244,8 +1244,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfiguration: Swift.Codable 
         }
         if let vpcConfigurations = vpcConfigurations {
             var vpcConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConfigurations)
-            for vpcconfigurations0 in vpcConfigurations {
-                try vpcConfigurationsContainer.encode(vpcconfigurations0)
+            for vpcconfiguration0 in vpcConfigurations {
+                try vpcConfigurationsContainer.encode(vpcconfiguration0)
             }
         }
         if let zeppelinApplicationConfiguration = self.zeppelinApplicationConfiguration {
@@ -1355,8 +1355,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription: Swi
         }
         if let vpcConfigurationDescriptions = vpcConfigurationDescriptions {
             var vpcConfigurationDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConfigurationDescriptions)
-            for vpcconfigurationdescriptions0 in vpcConfigurationDescriptions {
-                try vpcConfigurationDescriptionsContainer.encode(vpcconfigurationdescriptions0)
+            for vpcconfigurationdescription0 in vpcConfigurationDescriptions {
+                try vpcConfigurationDescriptionsContainer.encode(vpcconfigurationdescription0)
             }
         }
         if let zeppelinApplicationConfigurationDescription = self.zeppelinApplicationConfigurationDescription {
@@ -1468,8 +1468,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationUpdate: Swift.Co
         }
         if let vpcConfigurationUpdates = vpcConfigurationUpdates {
             var vpcConfigurationUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcConfigurationUpdates)
-            for vpcconfigurationupdates0 in vpcConfigurationUpdates {
-                try vpcConfigurationUpdatesContainer.encode(vpcconfigurationupdates0)
+            for vpcconfigurationupdate0 in vpcConfigurationUpdates {
+                try vpcConfigurationUpdatesContainer.encode(vpcconfigurationupdate0)
             }
         }
         if let zeppelinApplicationConfigurationUpdate = self.zeppelinApplicationConfigurationUpdate {
@@ -1603,8 +1603,8 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationDetail: Swift.Codable {
         }
         if let cloudWatchLoggingOptionDescriptions = cloudWatchLoggingOptionDescriptions {
             var cloudWatchLoggingOptionDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptionDescriptions)
-            for cloudwatchloggingoptiondescriptions0 in cloudWatchLoggingOptionDescriptions {
-                try cloudWatchLoggingOptionDescriptionsContainer.encode(cloudwatchloggingoptiondescriptions0)
+            for cloudwatchloggingoptiondescription0 in cloudWatchLoggingOptionDescriptions {
+                try cloudWatchLoggingOptionDescriptionsContainer.encode(cloudwatchloggingoptiondescription0)
             }
         }
         if let conditionalToken = self.conditionalToken {
@@ -3168,8 +3168,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let cloudWatchLoggingOptions = cloudWatchLoggingOptions {
             var cloudWatchLoggingOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptions)
-            for cloudwatchloggingoptions0 in cloudWatchLoggingOptions {
-                try cloudWatchLoggingOptionsContainer.encode(cloudwatchloggingoptions0)
+            for cloudwatchloggingoption0 in cloudWatchLoggingOptions {
+                try cloudWatchLoggingOptionsContainer.encode(cloudwatchloggingoption0)
             }
         }
         if let runtimeEnvironment = self.runtimeEnvironment {
@@ -3180,8 +3180,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5541,8 +5541,8 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyGroups)
-            for propertygroups0 in propertyGroups {
-                try propertyGroupsContainer.encode(propertygroups0)
+            for propertygroup0 in propertyGroups {
+                try propertyGroupsContainer.encode(propertygroup0)
             }
         }
     }
@@ -5589,8 +5589,8 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let propertyGroupDescriptions = propertyGroupDescriptions {
             var propertyGroupDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyGroupDescriptions)
-            for propertygroups0 in propertyGroupDescriptions {
-                try propertyGroupDescriptionsContainer.encode(propertygroups0)
+            for propertygroup0 in propertyGroupDescriptions {
+                try propertyGroupDescriptionsContainer.encode(propertygroup0)
             }
         }
     }
@@ -5636,8 +5636,8 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let propertyGroups = propertyGroups {
             var propertyGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertyGroups)
-            for propertygroups0 in propertyGroups {
-                try propertyGroupsContainer.encode(propertygroups0)
+            for propertygroup0 in propertyGroups {
+                try propertyGroupsContainer.encode(propertygroup0)
             }
         }
     }
@@ -6097,8 +6097,8 @@ extension KinesisAnalyticsV2ClientTypes.InputDescription: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inAppStreamNames = inAppStreamNames {
             var inAppStreamNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inAppStreamNames)
-            for inappstreamnames0 in inAppStreamNames {
-                try inAppStreamNamesContainer.encode(inappstreamnames0)
+            for inappstreamname0 in inAppStreamNames {
+                try inAppStreamNamesContainer.encode(inappstreamname0)
             }
         }
         if let inputId = self.inputId {
@@ -6514,8 +6514,8 @@ extension KinesisAnalyticsV2ClientTypes.InputSchemaUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recordColumnUpdates = recordColumnUpdates {
             var recordColumnUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordColumnUpdates)
-            for recordcolumns0 in recordColumnUpdates {
-                try recordColumnUpdatesContainer.encode(recordcolumns0)
+            for recordcolumn0 in recordColumnUpdates {
+                try recordColumnUpdatesContainer.encode(recordcolumn0)
             }
         }
         if let recordEncodingUpdate = self.recordEncodingUpdate {
@@ -8968,8 +8968,8 @@ extension KinesisAnalyticsV2ClientTypes.PropertyGroup: Swift.Codable {
         }
         if let propertyMap = propertyMap {
             var propertyMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .propertyMap)
-            for (dictKey0, propertymap0) in propertyMap {
-                try propertyMapContainer.encode(propertymap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, propertyMap0) in propertyMap {
+                try propertyMapContainer.encode(propertyMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9648,8 +9648,8 @@ extension KinesisAnalyticsV2ClientTypes.RunConfiguration: Swift.Codable {
         }
         if let sqlRunConfigurations = sqlRunConfigurations {
             var sqlRunConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sqlRunConfigurations)
-            for sqlrunconfigurations0 in sqlRunConfigurations {
-                try sqlRunConfigurationsContainer.encode(sqlrunconfigurations0)
+            for sqlrunconfiguration0 in sqlRunConfigurations {
+                try sqlRunConfigurationsContainer.encode(sqlrunconfiguration0)
             }
         }
     }
@@ -10507,8 +10507,8 @@ extension KinesisAnalyticsV2ClientTypes.SourceSchema: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recordColumns = recordColumns {
             var recordColumnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordColumns)
-            for recordcolumns0 in recordColumns {
-                try recordColumnsContainer.encode(recordcolumns0)
+            for recordcolumn0 in recordColumns {
+                try recordColumnsContainer.encode(recordcolumn0)
             }
         }
         if let recordEncoding = self.recordEncoding {
@@ -10576,20 +10576,20 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for inputs0 in inputs {
-                try inputsContainer.encode(inputs0)
+            for input0 in inputs {
+                try inputsContainer.encode(input0)
             }
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputs0 in outputs {
-                try outputsContainer.encode(outputs0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let referenceDataSources = referenceDataSources {
             var referenceDataSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceDataSources)
-            for referencedatasources0 in referenceDataSources {
-                try referenceDataSourcesContainer.encode(referencedatasources0)
+            for referencedatasource0 in referenceDataSources {
+                try referenceDataSourcesContainer.encode(referencedatasource0)
             }
         }
     }
@@ -10667,20 +10667,20 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationDescription: 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputDescriptions = inputDescriptions {
             var inputDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputDescriptions)
-            for inputdescriptions0 in inputDescriptions {
-                try inputDescriptionsContainer.encode(inputdescriptions0)
+            for inputdescription0 in inputDescriptions {
+                try inputDescriptionsContainer.encode(inputdescription0)
             }
         }
         if let outputDescriptions = outputDescriptions {
             var outputDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputDescriptions)
-            for outputdescriptions0 in outputDescriptions {
-                try outputDescriptionsContainer.encode(outputdescriptions0)
+            for outputdescription0 in outputDescriptions {
+                try outputDescriptionsContainer.encode(outputdescription0)
             }
         }
         if let referenceDataSourceDescriptions = referenceDataSourceDescriptions {
             var referenceDataSourceDescriptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceDataSourceDescriptions)
-            for referencedatasourcedescriptions0 in referenceDataSourceDescriptions {
-                try referenceDataSourceDescriptionsContainer.encode(referencedatasourcedescriptions0)
+            for referencedatasourcedescription0 in referenceDataSourceDescriptions {
+                try referenceDataSourceDescriptionsContainer.encode(referencedatasourcedescription0)
             }
         }
     }
@@ -10758,20 +10758,20 @@ extension KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate: Swift
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputUpdates = inputUpdates {
             var inputUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputUpdates)
-            for inputupdates0 in inputUpdates {
-                try inputUpdatesContainer.encode(inputupdates0)
+            for inputupdate0 in inputUpdates {
+                try inputUpdatesContainer.encode(inputupdate0)
             }
         }
         if let outputUpdates = outputUpdates {
             var outputUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputUpdates)
-            for outputupdates0 in outputUpdates {
-                try outputUpdatesContainer.encode(outputupdates0)
+            for outputupdate0 in outputUpdates {
+                try outputUpdatesContainer.encode(outputupdate0)
             }
         }
         if let referenceDataSourceUpdates = referenceDataSourceUpdates {
             var referenceDataSourceUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceDataSourceUpdates)
-            for referencedatasourceupdates0 in referenceDataSourceUpdates {
-                try referenceDataSourceUpdatesContainer.encode(referencedatasourceupdates0)
+            for referencedatasourceupdate0 in referenceDataSourceUpdates {
+                try referenceDataSourceUpdatesContainer.encode(referencedatasourceupdate0)
             }
         }
     }
@@ -11146,8 +11146,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11453,8 +11453,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -11574,8 +11574,8 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdates {
             var cloudWatchLoggingOptionUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchLoggingOptionUpdates)
-            for cloudwatchloggingoptionupdates0 in cloudWatchLoggingOptionUpdates {
-                try cloudWatchLoggingOptionUpdatesContainer.encode(cloudwatchloggingoptionupdates0)
+            for cloudwatchloggingoptionupdate0 in cloudWatchLoggingOptionUpdates {
+                try cloudWatchLoggingOptionUpdatesContainer.encode(cloudwatchloggingoptionupdate0)
             }
         }
         if let conditionalToken = self.conditionalToken {
@@ -11947,14 +11947,14 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -12020,14 +12020,14 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcConfigurationId = self.vpcConfigurationId {
@@ -12112,14 +12112,14 @@ extension KinesisAnalyticsV2ClientTypes.VpcConfigurationUpdate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIdUpdates = securityGroupIdUpdates {
             var securityGroupIdUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdUpdates)
-            for securitygroupids0 in securityGroupIdUpdates {
-                try securityGroupIdUpdatesContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIdUpdates {
+                try securityGroupIdUpdatesContainer.encode(securitygroupid0)
             }
         }
         if let subnetIdUpdates = subnetIdUpdates {
             var subnetIdUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIdUpdates)
-            for subnetids0 in subnetIdUpdates {
-                try subnetIdUpdatesContainer.encode(subnetids0)
+            for subnetid0 in subnetIdUpdates {
+                try subnetIdUpdatesContainer.encode(subnetid0)
             }
         }
         if let vpcConfigurationId = self.vpcConfigurationId {
@@ -12196,8 +12196,8 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration: Swift.
         }
         if let customArtifactsConfiguration = customArtifactsConfiguration {
             var customArtifactsConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customArtifactsConfiguration)
-            for customartifactsconfigurationlist0 in customArtifactsConfiguration {
-                try customArtifactsConfigurationContainer.encode(customartifactsconfigurationlist0)
+            for customartifactconfiguration0 in customArtifactsConfiguration {
+                try customArtifactsConfigurationContainer.encode(customartifactconfiguration0)
             }
         }
         if let deployAsApplicationConfiguration = self.deployAsApplicationConfiguration {
@@ -12273,8 +12273,8 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescript
         }
         if let customArtifactsConfigurationDescription = customArtifactsConfigurationDescription {
             var customArtifactsConfigurationDescriptionContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customArtifactsConfigurationDescription)
-            for customartifactsconfigurationdescriptionlist0 in customArtifactsConfigurationDescription {
-                try customArtifactsConfigurationDescriptionContainer.encode(customartifactsconfigurationdescriptionlist0)
+            for customartifactconfigurationdescription0 in customArtifactsConfigurationDescription {
+                try customArtifactsConfigurationDescriptionContainer.encode(customartifactconfigurationdescription0)
             }
         }
         if let deployAsApplicationConfigurationDescription = self.deployAsApplicationConfigurationDescription {
@@ -12351,8 +12351,8 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate: 
         }
         if let customArtifactsConfigurationUpdate = customArtifactsConfigurationUpdate {
             var customArtifactsConfigurationUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customArtifactsConfigurationUpdate)
-            for customartifactsconfigurationlist0 in customArtifactsConfigurationUpdate {
-                try customArtifactsConfigurationUpdateContainer.encode(customartifactsconfigurationlist0)
+            for customartifactconfiguration0 in customArtifactsConfigurationUpdate {
+                try customArtifactsConfigurationUpdateContainer.encode(customartifactconfiguration0)
             }
         }
         if let deployAsApplicationConfigurationUpdate = self.deployAsApplicationConfigurationUpdate {

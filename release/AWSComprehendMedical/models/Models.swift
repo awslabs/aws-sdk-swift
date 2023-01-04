@@ -44,8 +44,8 @@ extension ComprehendMedicalClientTypes.Attribute: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for traitlist0 in traits {
-                try traitsContainer.encode(traitlist0)
+            for trait0 in traits {
+                try traitsContainer.encode(trait0)
             }
         }
         if let type = self.type {
@@ -1553,8 +1553,8 @@ extension ComprehendMedicalClientTypes.Entity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelist0 in attributes {
-                try attributesContainer.encode(attributelist0)
+            for attribute0 in attributes {
+                try attributesContainer.encode(attribute0)
             }
         }
         if let beginOffset = self.beginOffset {
@@ -1577,8 +1577,8 @@ extension ComprehendMedicalClientTypes.Entity: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for traitlist0 in traits {
-                try traitsContainer.encode(traitlist0)
+            for trait0 in traits {
+                try traitsContainer.encode(trait0)
             }
         }
         if let type = self.type {
@@ -1925,8 +1925,8 @@ extension ComprehendMedicalClientTypes.ICD10CMAttribute: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for icd10cmtraitlist0 in traits {
-                try traitsContainer.encode(icd10cmtraitlist0)
+            for icd10cmtrait0 in traits {
+                try traitsContainer.encode(icd10cmtrait0)
             }
         }
         if let type = self.type {
@@ -2140,8 +2140,8 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for icd10cmattributelist0 in attributes {
-                try attributesContainer.encode(icd10cmattributelist0)
+            for icd10cmattribute0 in attributes {
+                try attributesContainer.encode(icd10cmattribute0)
             }
         }
         if let beginOffset = self.beginOffset {
@@ -2155,8 +2155,8 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity: Swift.Codable {
         }
         if let icd10CMConcepts = icd10CMConcepts {
             var icd10CMConceptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .icd10CMConcepts)
-            for icd10cmconceptlist0 in icd10CMConcepts {
-                try icd10CMConceptsContainer.encode(icd10cmconceptlist0)
+            for icd10cmconcept0 in icd10CMConcepts {
+                try icd10CMConceptsContainer.encode(icd10cmconcept0)
             }
         }
         if let id = self.id {
@@ -2170,8 +2170,8 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for icd10cmtraitlist0 in traits {
-                try traitsContainer.encode(icd10cmtraitlist0)
+            for icd10cmtrait0 in traits {
+                try traitsContainer.encode(icd10cmtrait0)
             }
         }
         if let type = self.type {
@@ -4232,8 +4232,8 @@ extension ComprehendMedicalClientTypes.RxNormAttribute: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for rxnormtraitlist0 in traits {
-                try traitsContainer.encode(rxnormtraitlist0)
+            for rxnormtrait0 in traits {
+                try traitsContainer.encode(rxnormtrait0)
             }
         }
         if let type = self.type {
@@ -4435,8 +4435,8 @@ extension ComprehendMedicalClientTypes.RxNormEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for rxnormattributelist0 in attributes {
-                try attributesContainer.encode(rxnormattributelist0)
+            for rxnormattribute0 in attributes {
+                try attributesContainer.encode(rxnormattribute0)
             }
         }
         if let beginOffset = self.beginOffset {
@@ -4453,8 +4453,8 @@ extension ComprehendMedicalClientTypes.RxNormEntity: Swift.Codable {
         }
         if let rxNormConcepts = rxNormConcepts {
             var rxNormConceptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rxNormConcepts)
-            for rxnormconceptlist0 in rxNormConcepts {
-                try rxNormConceptsContainer.encode(rxnormconceptlist0)
+            for rxnormconcept0 in rxNormConcepts {
+                try rxNormConceptsContainer.encode(rxnormconcept0)
             }
         }
         if let score = self.score {
@@ -4465,8 +4465,8 @@ extension ComprehendMedicalClientTypes.RxNormEntity: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for rxnormtraitlist0 in traits {
-                try traitsContainer.encode(rxnormtraitlist0)
+            for rxnormtrait0 in traits {
+                try traitsContainer.encode(rxnormtrait0)
             }
         }
         if let type = self.type {
@@ -4750,8 +4750,8 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute: Swift.Codable {
         }
         if let snomedctConcepts = snomedctConcepts {
             var snomedctConceptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snomedctConcepts)
-            for snomedctconceptlist0 in snomedctConcepts {
-                try snomedctConceptsContainer.encode(snomedctconceptlist0)
+            for snomedctconcept0 in snomedctConcepts {
+                try snomedctConceptsContainer.encode(snomedctconcept0)
             }
         }
         if let score = self.score {
@@ -4762,8 +4762,8 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for snomedcttraitlist0 in traits {
-                try traitsContainer.encode(snomedcttraitlist0)
+            for snomedcttrait0 in traits {
+                try traitsContainer.encode(snomedcttrait0)
             }
         }
         if let type = self.type {
@@ -5044,8 +5044,8 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for snomedctattributelist0 in attributes {
-                try attributesContainer.encode(snomedctattributelist0)
+            for snomedctattribute0 in attributes {
+                try attributesContainer.encode(snomedctattribute0)
             }
         }
         if let beginOffset = self.beginOffset {
@@ -5062,8 +5062,8 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
         }
         if let snomedctConcepts = snomedctConcepts {
             var snomedctConceptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .snomedctConcepts)
-            for snomedctconceptlist0 in snomedctConcepts {
-                try snomedctConceptsContainer.encode(snomedctconceptlist0)
+            for snomedctconcept0 in snomedctConcepts {
+                try snomedctConceptsContainer.encode(snomedctconcept0)
             }
         }
         if let score = self.score {
@@ -5074,8 +5074,8 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
         }
         if let traits = traits {
             var traitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .traits)
-            for snomedcttraitlist0 in traits {
-                try traitsContainer.encode(snomedcttraitlist0)
+            for snomedcttrait0 in traits {
+                try traitsContainer.encode(snomedcttrait0)
             }
         }
         if let type = self.type {

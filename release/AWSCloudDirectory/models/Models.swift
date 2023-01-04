@@ -65,8 +65,8 @@ extension AddFacetToObjectInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objectAttributeList = objectAttributeList {
             var objectAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectAttributeList)
-            for attributekeyandvaluelist0 in objectAttributeList {
-                try objectAttributeListContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in objectAttributeList {
+                try objectAttributeListContainer.encode(attributekeyandvalue0)
             }
         }
         if let objectReference = self.objectReference {
@@ -823,8 +823,8 @@ extension AttachTypedLinkInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributenameandvaluelist0 in attributes {
-                try attributesContainer.encode(attributenameandvaluelist0)
+            for attributenameandvalue0 in attributes {
+                try attributesContainer.encode(attributenameandvalue0)
             }
         }
         if let sourceObjectReference = self.sourceObjectReference {
@@ -1169,8 +1169,8 @@ extension CloudDirectoryClientTypes.BatchAddFacetToObject: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objectAttributeList = objectAttributeList {
             var objectAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectAttributeList)
-            for attributekeyandvaluelist0 in objectAttributeList {
-                try objectAttributeListContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in objectAttributeList {
+                try objectAttributeListContainer.encode(attributekeyandvalue0)
             }
         }
         if let objectReference = self.objectReference {
@@ -1502,8 +1502,8 @@ extension CloudDirectoryClientTypes.BatchAttachTypedLink: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributenameandvaluelist0 in attributes {
-                try attributesContainer.encode(attributenameandvaluelist0)
+            for attributenameandvalue0 in attributes {
+                try attributesContainer.encode(attributenameandvalue0)
             }
         }
         if let sourceObjectReference = self.sourceObjectReference {
@@ -1628,8 +1628,8 @@ extension CloudDirectoryClientTypes.BatchCreateIndex: Swift.Codable {
         }
         if let orderedIndexedAttributeList = orderedIndexedAttributeList {
             var orderedIndexedAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderedIndexedAttributeList)
-            for attributekeylist0 in orderedIndexedAttributeList {
-                try orderedIndexedAttributeListContainer.encode(attributekeylist0)
+            for attributekey0 in orderedIndexedAttributeList {
+                try orderedIndexedAttributeListContainer.encode(attributekey0)
             }
         }
         if let parentReference = self.parentReference {
@@ -1749,8 +1749,8 @@ extension CloudDirectoryClientTypes.BatchCreateObject: Swift.Codable {
         }
         if let objectAttributeList = objectAttributeList {
             var objectAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectAttributeList)
-            for attributekeyandvaluelist0 in objectAttributeList {
-                try objectAttributeListContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in objectAttributeList {
+                try objectAttributeListContainer.encode(attributekeyandvalue0)
             }
         }
         if let parentReference = self.parentReference {
@@ -1758,8 +1758,8 @@ extension CloudDirectoryClientTypes.BatchCreateObject: Swift.Codable {
         }
         if let schemaFacet = schemaFacet {
             var schemaFacetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaFacet)
-            for schemafacetlist0 in schemaFacet {
-                try schemaFacetContainer.encode(schemafacetlist0)
+            for schemafacet0 in schemaFacet {
+                try schemaFacetContainer.encode(schemafacet0)
             }
         }
     }
@@ -2229,8 +2229,8 @@ extension CloudDirectoryClientTypes.BatchGetLinkAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenamelist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenamelist0)
+            for attributename0 in attributeNames {
+                try attributeNamesContainer.encode(attributename0)
             }
         }
         if let typedLinkSpecifier = self.typedLinkSpecifier {
@@ -2287,8 +2287,8 @@ extension CloudDirectoryClientTypes.BatchGetLinkAttributesResponse: Swift.Codabl
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributekeyandvaluelist0 in attributes {
-                try attributesContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in attributes {
+                try attributesContainer.encode(attributekeyandvalue0)
             }
         }
     }
@@ -2336,8 +2336,8 @@ extension CloudDirectoryClientTypes.BatchGetObjectAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenamelist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenamelist0)
+            for attributename0 in attributeNames {
+                try attributeNamesContainer.encode(attributename0)
             }
         }
         if let objectReference = self.objectReference {
@@ -2404,8 +2404,8 @@ extension CloudDirectoryClientTypes.BatchGetObjectAttributesResponse: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributekeyandvaluelist0 in attributes {
-                try attributesContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in attributes {
+                try attributesContainer.encode(attributekeyandvalue0)
             }
         }
     }
@@ -2491,8 +2491,8 @@ extension CloudDirectoryClientTypes.BatchGetObjectInformationResponse: Swift.Cod
         }
         if let schemaFacets = schemaFacets {
             var schemaFacetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaFacets)
-            for schemafacetlist0 in schemaFacets {
-                try schemaFacetsContainer.encode(schemafacetlist0)
+            for schemafacet0 in schemaFacets {
+                try schemaFacetsContainer.encode(schemafacet0)
             }
         }
     }
@@ -2601,8 +2601,8 @@ extension CloudDirectoryClientTypes.BatchListAttachedIndicesResponse: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexAttachments = indexAttachments {
             var indexAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .indexAttachments)
-            for indexattachmentlist0 in indexAttachments {
-                try indexAttachmentsContainer.encode(indexattachmentlist0)
+            for indexattachment0 in indexAttachments {
+                try indexAttachmentsContainer.encode(indexattachment0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2661,8 +2661,8 @@ extension CloudDirectoryClientTypes.BatchListIncomingTypedLinks: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterAttributeRanges = filterAttributeRanges {
             var filterAttributeRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterAttributeRanges)
-            for typedlinkattributerangelist0 in filterAttributeRanges {
-                try filterAttributeRangesContainer.encode(typedlinkattributerangelist0)
+            for typedlinkattributerange0 in filterAttributeRanges {
+                try filterAttributeRangesContainer.encode(typedlinkattributerange0)
             }
         }
         if let filterTypedLink = self.filterTypedLink {
@@ -2746,8 +2746,8 @@ extension CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let linkSpecifiers = linkSpecifiers {
             var linkSpecifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkSpecifiers)
-            for typedlinkspecifierlist0 in linkSpecifiers {
-                try linkSpecifiersContainer.encode(typedlinkspecifierlist0)
+            for typedlinkspecifier0 in linkSpecifiers {
+                try linkSpecifiersContainer.encode(typedlinkspecifier0)
             }
         }
         if let nextToken = self.nextToken {
@@ -2814,8 +2814,8 @@ extension CloudDirectoryClientTypes.BatchListIndex: Swift.Codable {
         }
         if let rangesOnIndexedValues = rangesOnIndexedValues {
             var rangesOnIndexedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rangesOnIndexedValues)
-            for objectattributerangelist0 in rangesOnIndexedValues {
-                try rangesOnIndexedValuesContainer.encode(objectattributerangelist0)
+            for objectattributerange0 in rangesOnIndexedValues {
+                try rangesOnIndexedValuesContainer.encode(objectattributerange0)
             }
         }
     }
@@ -2881,8 +2881,8 @@ extension CloudDirectoryClientTypes.BatchListIndexResponse: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexAttachments = indexAttachments {
             var indexAttachmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .indexAttachments)
-            for indexattachmentlist0 in indexAttachments {
-                try indexAttachmentsContainer.encode(indexattachmentlist0)
+            for indexattachment0 in indexAttachments {
+                try indexAttachmentsContainer.encode(indexattachment0)
             }
         }
         if let nextToken = self.nextToken {
@@ -3004,8 +3004,8 @@ extension CloudDirectoryClientTypes.BatchListObjectAttributesResponse: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributekeyandvaluelist0 in attributes {
-                try attributesContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in attributes {
+                try attributesContainer.encode(attributekeyandvalue0)
             }
         }
         if let nextToken = self.nextToken {
@@ -3117,8 +3117,8 @@ extension CloudDirectoryClientTypes.BatchListObjectChildrenResponse: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let children = children {
             var childrenContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .children)
-            for (dictKey0, linknametoobjectidentifiermap0) in children {
-                try childrenContainer.encode(linknametoobjectidentifiermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, linkNameToObjectIdentifierMap0) in children {
+                try childrenContainer.encode(linkNameToObjectIdentifierMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let nextToken = self.nextToken {
@@ -3233,8 +3233,8 @@ extension CloudDirectoryClientTypes.BatchListObjectParentPathsResponse: Swift.Co
         }
         if let pathToObjectIdentifiersList = pathToObjectIdentifiersList {
             var pathToObjectIdentifiersListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pathToObjectIdentifiersList)
-            for pathtoobjectidentifierslist0 in pathToObjectIdentifiersList {
-                try pathToObjectIdentifiersListContainer.encode(pathtoobjectidentifierslist0)
+            for pathtoobjectidentifiers0 in pathToObjectIdentifiersList {
+                try pathToObjectIdentifiersListContainer.encode(pathtoobjectidentifiers0)
             }
         }
     }
@@ -3346,8 +3346,8 @@ extension CloudDirectoryClientTypes.BatchListObjectParentsResponse: Swift.Codabl
         }
         if let parentLinks = parentLinks {
             var parentLinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parentLinks)
-            for objectidentifierandlinknamelist0 in parentLinks {
-                try parentLinksContainer.encode(objectidentifierandlinknamelist0)
+            for objectidentifierandlinknametuple0 in parentLinks {
+                try parentLinksContainer.encode(objectidentifierandlinknametuple0)
             }
         }
     }
@@ -3456,8 +3456,8 @@ extension CloudDirectoryClientTypes.BatchListObjectPoliciesResponse: Swift.Codab
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachedPolicyIds = attachedPolicyIds {
             var attachedPolicyIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachedPolicyIds)
-            for objectidentifierlist0 in attachedPolicyIds {
-                try attachedPolicyIdsContainer.encode(objectidentifierlist0)
+            for objectidentifier0 in attachedPolicyIds {
+                try attachedPolicyIdsContainer.encode(objectidentifier0)
             }
         }
         if let nextToken = self.nextToken {
@@ -3516,8 +3516,8 @@ extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinks: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterAttributeRanges = filterAttributeRanges {
             var filterAttributeRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterAttributeRanges)
-            for typedlinkattributerangelist0 in filterAttributeRanges {
-                try filterAttributeRangesContainer.encode(typedlinkattributerangelist0)
+            for typedlinkattributerange0 in filterAttributeRanges {
+                try filterAttributeRangesContainer.encode(typedlinkattributerange0)
             }
         }
         if let filterTypedLink = self.filterTypedLink {
@@ -3604,8 +3604,8 @@ extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse: Swift.C
         }
         if let typedLinkSpecifiers = typedLinkSpecifiers {
             var typedLinkSpecifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .typedLinkSpecifiers)
-            for typedlinkspecifierlist0 in typedLinkSpecifiers {
-                try typedLinkSpecifiersContainer.encode(typedlinkspecifierlist0)
+            for typedlinkspecifier0 in typedLinkSpecifiers {
+                try typedLinkSpecifiersContainer.encode(typedlinkspecifier0)
             }
         }
     }
@@ -3717,8 +3717,8 @@ extension CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse: Swift.Co
         }
         if let objectIdentifiers = objectIdentifiers {
             var objectIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectIdentifiers)
-            for objectidentifierlist0 in objectIdentifiers {
-                try objectIdentifiersContainer.encode(objectidentifierlist0)
+            for objectidentifier0 in objectIdentifiers {
+                try objectIdentifiersContainer.encode(objectidentifier0)
             }
         }
     }
@@ -3830,8 +3830,8 @@ extension CloudDirectoryClientTypes.BatchLookupPolicyResponse: Swift.Codable {
         }
         if let policyToPathList = policyToPathList {
             var policyToPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policyToPathList)
-            for policytopathlist0 in policyToPathList {
-                try policyToPathListContainer.encode(policytopathlist0)
+            for policytopath0 in policyToPathList {
+                try policyToPathListContainer.encode(policytopath0)
             }
         }
     }
@@ -3993,8 +3993,8 @@ extension BatchReadInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for batchreadoperationlist0 in operations {
-                try operationsContainer.encode(batchreadoperationlist0)
+            for batchreadoperation0 in operations {
+                try operationsContainer.encode(batchreadoperation0)
             }
         }
     }
@@ -4602,8 +4602,8 @@ extension CloudDirectoryClientTypes.BatchUpdateLinkAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for linkattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(linkattributeupdatelist0)
+            for linkattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(linkattributeupdate0)
             }
         }
         if let typedLinkSpecifier = self.typedLinkSpecifier {
@@ -4681,8 +4681,8 @@ extension CloudDirectoryClientTypes.BatchUpdateObjectAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for objectattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(objectattributeupdatelist0)
+            for objectattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(objectattributeupdate0)
             }
         }
         if let objectReference = self.objectReference {
@@ -4924,8 +4924,8 @@ extension BatchWriteInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for batchwriteoperationlist0 in operations {
-                try operationsContainer.encode(batchwriteoperationlist0)
+            for batchwriteoperation0 in operations {
+                try operationsContainer.encode(batchwriteoperation0)
             }
         }
     }
@@ -5696,8 +5696,8 @@ extension CreateFacetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for facetattributelist0 in attributes {
-                try attributesContainer.encode(facetattributelist0)
+            for facetattribute0 in attributes {
+                try attributesContainer.encode(facetattribute0)
             }
         }
         if let facetStyle = self.facetStyle {
@@ -5880,8 +5880,8 @@ extension CreateIndexInput: Swift.Encodable {
         }
         if let orderedIndexedAttributeList = orderedIndexedAttributeList {
             var orderedIndexedAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orderedIndexedAttributeList)
-            for attributekeylist0 in orderedIndexedAttributeList {
-                try orderedIndexedAttributeListContainer.encode(attributekeylist0)
+            for attributekey0 in orderedIndexedAttributeList {
+                try orderedIndexedAttributeListContainer.encode(attributekey0)
             }
         }
         if let parentReference = self.parentReference {
@@ -6072,8 +6072,8 @@ extension CreateObjectInput: Swift.Encodable {
         }
         if let objectAttributeList = objectAttributeList {
             var objectAttributeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectAttributeList)
-            for attributekeyandvaluelist0 in objectAttributeList {
-                try objectAttributeListContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in objectAttributeList {
+                try objectAttributeListContainer.encode(attributekeyandvalue0)
             }
         }
         if let parentReference = self.parentReference {
@@ -6081,8 +6081,8 @@ extension CreateObjectInput: Swift.Encodable {
         }
         if let schemaFacets = schemaFacets {
             var schemaFacetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaFacets)
-            for schemafacetlist0 in schemaFacets {
-                try schemaFacetsContainer.encode(schemafacetlist0)
+            for schemafacet0 in schemaFacets {
+                try schemaFacetsContainer.encode(schemafacet0)
             }
         }
     }
@@ -8341,8 +8341,8 @@ extension CloudDirectoryClientTypes.FacetAttributeDefinition: Swift.Codable {
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .rules)
-            for (dictKey0, rulemap0) in rules {
-                try rulesContainer.encode(rulemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ruleMap0) in rules {
+                try rulesContainer.encode(ruleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -9111,8 +9111,8 @@ extension GetLinkAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenamelist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenamelist0)
+            for attributename0 in attributeNames {
+                try attributeNamesContainer.encode(attributename0)
             }
         }
         if let consistencyLevel = self.consistencyLevel {
@@ -9299,8 +9299,8 @@ extension GetObjectAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeNames = attributeNames {
             var attributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeNames)
-            for attributenamelist0 in attributeNames {
-                try attributeNamesContainer.encode(attributenamelist0)
+            for attributename0 in attributeNames {
+                try attributeNamesContainer.encode(attributename0)
             }
         }
         if let objectReference = self.objectReference {
@@ -9986,8 +9986,8 @@ extension CloudDirectoryClientTypes.IndexAttachment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let indexedAttributes = indexedAttributes {
             var indexedAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .indexedAttributes)
-            for attributekeyandvaluelist0 in indexedAttributes {
-                try indexedAttributesContainer.encode(attributekeyandvaluelist0)
+            for attributekeyandvalue0 in indexedAttributes {
+                try indexedAttributesContainer.encode(attributekeyandvalue0)
             }
         }
         if let objectIdentifier = self.objectIdentifier {
@@ -11758,8 +11758,8 @@ extension ListIncomingTypedLinksInput: Swift.Encodable {
         }
         if let filterAttributeRanges = filterAttributeRanges {
             var filterAttributeRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterAttributeRanges)
-            for typedlinkattributerangelist0 in filterAttributeRanges {
-                try filterAttributeRangesContainer.encode(typedlinkattributerangelist0)
+            for typedlinkattributerange0 in filterAttributeRanges {
+                try filterAttributeRangesContainer.encode(typedlinkattributerange0)
             }
         }
         if let filterTypedLink = self.filterTypedLink {
@@ -11997,8 +11997,8 @@ extension ListIndexInput: Swift.Encodable {
         }
         if let rangesOnIndexedValues = rangesOnIndexedValues {
             var rangesOnIndexedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rangesOnIndexedValues)
-            for objectattributerangelist0 in rangesOnIndexedValues {
-                try rangesOnIndexedValuesContainer.encode(objectattributerangelist0)
+            for objectattributerange0 in rangesOnIndexedValues {
+                try rangesOnIndexedValuesContainer.encode(objectattributerange0)
             }
         }
     }
@@ -13378,8 +13378,8 @@ extension ListOutgoingTypedLinksInput: Swift.Encodable {
         }
         if let filterAttributeRanges = filterAttributeRanges {
             var filterAttributeRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterAttributeRanges)
-            for typedlinkattributerangelist0 in filterAttributeRanges {
-                try filterAttributeRangesContainer.encode(typedlinkattributerangelist0)
+            for typedlinkattributerange0 in filterAttributeRanges {
+                try filterAttributeRangesContainer.encode(typedlinkattributerange0)
             }
         }
         if let filterTypedLink = self.filterTypedLink {
@@ -15194,8 +15194,8 @@ extension CloudDirectoryClientTypes.PathToObjectIdentifiers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objectIdentifiers = objectIdentifiers {
             var objectIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectIdentifiers)
-            for objectidentifierlist0 in objectIdentifiers {
-                try objectIdentifiersContainer.encode(objectidentifierlist0)
+            for objectidentifier0 in objectIdentifiers {
+                try objectIdentifiersContainer.encode(objectidentifier0)
             }
         }
         if let path = self.path {
@@ -15309,8 +15309,8 @@ extension CloudDirectoryClientTypes.PolicyToPath: Swift.Codable {
         }
         if let policies = policies {
             var policiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .policies)
-            for policyattachmentlist0 in policies {
-                try policiesContainer.encode(policyattachmentlist0)
+            for policyattachment0 in policies {
+                try policiesContainer.encode(policyattachment0)
             }
         }
     }
@@ -15968,8 +15968,8 @@ extension CloudDirectoryClientTypes.Rule: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, ruleparametermap0) in parameters {
-                try parametersContainer.encode(ruleparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ruleParameterMap0) in parameters {
+                try parametersContainer.encode(ruleParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -16312,8 +16312,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -16588,8 +16588,8 @@ extension CloudDirectoryClientTypes.TypedLinkAttributeDefinition: Swift.Codable 
         }
         if let rules = rules {
             var rulesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .rules)
-            for (dictKey0, rulemap0) in rules {
-                try rulesContainer.encode(rulemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, ruleMap0) in rules {
+                try rulesContainer.encode(ruleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -16719,14 +16719,14 @@ extension CloudDirectoryClientTypes.TypedLinkFacet: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for typedlinkattributedefinitionlist0 in attributes {
-                try attributesContainer.encode(typedlinkattributedefinitionlist0)
+            for typedlinkattributedefinition0 in attributes {
+                try attributesContainer.encode(typedlinkattributedefinition0)
             }
         }
         if let identityAttributeOrder = identityAttributeOrder {
             var identityAttributeOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identityAttributeOrder)
-            for attributenamelist0 in identityAttributeOrder {
-                try identityAttributeOrderContainer.encode(attributenamelist0)
+            for attributename0 in identityAttributeOrder {
+                try identityAttributeOrderContainer.encode(attributename0)
             }
         }
         if let name = self.name {
@@ -16896,8 +16896,8 @@ extension CloudDirectoryClientTypes.TypedLinkSpecifier: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let identityAttributeValues = identityAttributeValues {
             var identityAttributeValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identityAttributeValues)
-            for attributenameandvaluelist0 in identityAttributeValues {
-                try identityAttributeValuesContainer.encode(attributenameandvaluelist0)
+            for attributenameandvalue0 in identityAttributeValues {
+                try identityAttributeValuesContainer.encode(attributenameandvalue0)
             }
         }
         if let sourceObjectReference = self.sourceObjectReference {
@@ -17030,8 +17030,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -17179,8 +17179,8 @@ extension UpdateFacetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for facetattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(facetattributeupdatelist0)
+            for facetattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(facetattributeupdate0)
             }
         }
         if let name = self.name {
@@ -17329,8 +17329,8 @@ extension UpdateLinkAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for linkattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(linkattributeupdatelist0)
+            for linkattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(linkattributeupdate0)
             }
         }
         if let typedLinkSpecifier = self.typedLinkSpecifier {
@@ -17465,8 +17465,8 @@ extension UpdateObjectAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for objectattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(objectattributeupdatelist0)
+            for objectattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(objectattributeupdate0)
             }
         }
         if let objectReference = self.objectReference {
@@ -17773,14 +17773,14 @@ extension UpdateTypedLinkFacetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeUpdates = attributeUpdates {
             var attributeUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeUpdates)
-            for typedlinkfacetattributeupdatelist0 in attributeUpdates {
-                try attributeUpdatesContainer.encode(typedlinkfacetattributeupdatelist0)
+            for typedlinkfacetattributeupdate0 in attributeUpdates {
+                try attributeUpdatesContainer.encode(typedlinkfacetattributeupdate0)
             }
         }
         if let identityAttributeOrder = identityAttributeOrder {
             var identityAttributeOrderContainer = encodeContainer.nestedUnkeyedContainer(forKey: .identityAttributeOrder)
-            for attributenamelist0 in identityAttributeOrder {
-                try identityAttributeOrderContainer.encode(attributenamelist0)
+            for attributename0 in identityAttributeOrder {
+                try identityAttributeOrderContainer.encode(attributename0)
             }
         }
         if let name = self.name {

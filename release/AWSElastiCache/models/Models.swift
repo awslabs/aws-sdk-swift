@@ -1309,6 +1309,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         case snapshotRetentionLimit = "SnapshotRetentionLimit"
         case snapshotWindow = "SnapshotWindow"
         case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1444,6 +1445,9 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         }
         if let transitEncryptionEnabled = transitEncryptionEnabled {
             try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
+        }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
         }
     }
 
@@ -1581,6 +1585,8 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         networkType = networkTypeDecoded
         let ipDiscoveryDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.IpDiscovery.self, forKey: .ipDiscovery)
         ipDiscovery = ipDiscoveryDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -1705,8 +1711,10 @@ extension ElastiCacheClientTypes {
         public var snapshotRetentionLimit: Swift.Int?
         /// The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster. Example: 05:00-09:00
         public var snapshotWindow: Swift.String?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables in-transit encryption when set to true. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public var transitEncryptionEnabled: Swift.Bool?
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
+        public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 
         public init (
             arn: Swift.String? = nil,
@@ -1740,7 +1748,8 @@ extension ElastiCacheClientTypes {
             securityGroups: [ElastiCacheClientTypes.SecurityGroupMembership]? = nil,
             snapshotRetentionLimit: Swift.Int? = nil,
             snapshotWindow: Swift.String? = nil,
-            transitEncryptionEnabled: Swift.Bool? = nil
+            transitEncryptionEnabled: Swift.Bool? = nil,
+            transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil
         )
         {
             self.arn = arn
@@ -1775,6 +1784,7 @@ extension ElastiCacheClientTypes {
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.snapshotWindow = snapshotWindow
             self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.transitEncryptionMode = transitEncryptionMode
         }
     }
 
@@ -4263,7 +4273,7 @@ public struct CreateCacheClusterInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
     /// A list of tags to be added to this resource.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. Only available when creating a cache cluster in an Amazon VPC using Memcached version 1.6.12 or later.
+    /// A flag that enables in-transit encryption when set to true. Only available when creating a cache cluster in an Amazon VPC using Memcached version 1.6.12 or later.
     public var transitEncryptionEnabled: Swift.Bool?
 
     public init (
@@ -5550,6 +5560,9 @@ extension CreateReplicationGroupInput: Swift.Encodable {
         if let transitEncryptionEnabled = transitEncryptionEnabled {
             try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
         }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
+        }
         if let userGroupIds = userGroupIds {
             if !userGroupIds.isEmpty {
                 var userGroupIdsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("UserGroupIds"))
@@ -5645,7 +5658,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var cacheSubnetGroupName: Swift.String?
     /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see [Data tiering](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/data-tiering.html).
     public var dataTieringEnabled: Swift.Bool?
-    /// The name of the cache engine to be used for the clusters in this replication group. Must be Redis.
+    /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
     public var engine: Swift.String?
     /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation. Important: You can upgrade to a newer engine version (see [Selecting a Cache Engine and Version](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/SelectEngine.html#VersionManagement)) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     public var engineVersion: Swift.String?
@@ -5720,8 +5733,10 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
     /// A list of tags to be added to this resource. Tags are comma-separated key,value pairs (e.g. Key=myKey, Value=myKeyValue. You can include multiple tags as shown following: Key=myKey, Value=myKeyValue Key=mySecondKey, Value=mySecondKeyValue. Tags on replication groups will be replicated to all nodes.
     public var tags: [ElastiCacheClientTypes.Tag]?
-    /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
+    /// A flag that enables in-transit encryption when set to true. This parameter is valid only if the Engine parameter is redis, the EngineVersion parameter is 3.2.6, 4.x or later, and the cluster is being created in an Amazon VPC. If you enable in-transit encryption, you must also specify a value for CacheSubnetGroup. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.
     public var transitEncryptionEnabled: Swift.Bool?
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. When setting TransitEncryptionEnabled to true, you can set your TransitEncryptionMode to preferred in the same request, to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can modify the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The user group to associate with the replication group.
     public var userGroupIds: [Swift.String]?
 
@@ -5761,6 +5776,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         snapshotWindow: Swift.String? = nil,
         tags: [ElastiCacheClientTypes.Tag]? = nil,
         transitEncryptionEnabled: Swift.Bool? = nil,
+        transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
         userGroupIds: [Swift.String]? = nil
     )
     {
@@ -5799,6 +5815,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
         self.snapshotWindow = snapshotWindow
         self.tags = tags
         self.transitEncryptionEnabled = transitEncryptionEnabled
+        self.transitEncryptionMode = transitEncryptionMode
         self.userGroupIds = userGroupIds
     }
 }
@@ -5840,6 +5857,7 @@ struct CreateReplicationGroupInputBody: Swift.Equatable {
     let dataTieringEnabled: Swift.Bool?
     let networkType: ElastiCacheClientTypes.NetworkType?
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
+    let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 }
 
 extension CreateReplicationGroupInputBody: Swift.Decodable {
@@ -5879,6 +5897,7 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         case snapshotWindow = "SnapshotWindow"
         case tags = "Tags"
         case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
         case userGroupIds = "UserGroupIds"
     }
 
@@ -6092,6 +6111,8 @@ extension CreateReplicationGroupInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let ipDiscoveryDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.IpDiscovery.self, forKey: .ipDiscovery)
         ipDiscovery = ipDiscoveryDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -9124,7 +9145,7 @@ extension DescribeCacheEngineVersionsInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a DescribeCacheEngineVersions operation.
 public struct DescribeCacheEngineVersionsInput: Swift.Equatable {
-    /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 Constraints:
+    /// The name of a specific cache parameter group family to return details for. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7 Constraints:
     ///
     /// * Must be 1 to 255 alphanumeric characters
     ///
@@ -9998,7 +10019,7 @@ extension DescribeEngineDefaultParametersInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a DescribeEngineDefaultParameters operation.
 public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
-    /// The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2
+    /// The name of the cache parameter group family. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis6.2 | redis7
     /// This member is required.
     public var cacheParameterGroupFamily: Swift.String?
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -13264,7 +13285,7 @@ extension ElastiCacheClientTypes {
         public var members: [ElastiCacheClientTypes.GlobalReplicationGroupMember]?
         /// The status of the Global datastore
         public var status: Swift.String?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
+        /// A flag that enables in-transit encryption when set to true. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later.
         public var transitEncryptionEnabled: Swift.Bool?
 
         public init (
@@ -16538,6 +16559,12 @@ extension ModifyReplicationGroupInput: Swift.Encodable {
         if let snapshottingClusterId = snapshottingClusterId {
             try container.encode(snapshottingClusterId, forKey: ClientRuntime.Key("SnapshottingClusterId"))
         }
+        if let transitEncryptionEnabled = transitEncryptionEnabled {
+            try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
+        }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
+        }
         if let userGroupIdsToAdd = userGroupIdsToAdd {
             if !userGroupIdsToAdd.isEmpty {
                 var userGroupIdsToAddContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("UserGroupIdsToAdd"))
@@ -16658,6 +16685,10 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
     /// The cluster ID that is used as the daily snapshot source for the replication group. This parameter cannot be set for Redis (cluster mode enabled) replication groups.
     public var snapshottingClusterId: Swift.String?
+    /// A flag that enables in-transit encryption when set to true. If you are enabling in-transit encryption for an existing cluster, you must also set TransitEncryptionMode to preferred.
+    public var transitEncryptionEnabled: Swift.Bool?
+    /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime. You must set TransitEncryptionEnabled to true, for your existing cluster, and set TransitEncryptionMode to preferred in the same request to allow both encrypted and unencrypted connections at the same time. Once you migrate all your Redis clients to use encrypted connections you can set the value to required to allow encrypted connections only. Setting TransitEncryptionMode to required is a two-step process that requires you to first set the TransitEncryptionMode to preferred first, after that you can set TransitEncryptionMode to required.
+    public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
     /// The ID of the user group you are associating with the replication group.
     public var userGroupIdsToAdd: [Swift.String]?
     /// The ID of the user group to disassociate from the replication group, meaning the users in the group no longer can access the replication group.
@@ -16688,6 +16719,8 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         snapshotRetentionLimit: Swift.Int? = nil,
         snapshotWindow: Swift.String? = nil,
         snapshottingClusterId: Swift.String? = nil,
+        transitEncryptionEnabled: Swift.Bool? = nil,
+        transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
         userGroupIdsToAdd: [Swift.String]? = nil,
         userGroupIdsToRemove: [Swift.String]? = nil
     )
@@ -16716,6 +16749,8 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
         self.snapshotRetentionLimit = snapshotRetentionLimit
         self.snapshotWindow = snapshotWindow
         self.snapshottingClusterId = snapshottingClusterId
+        self.transitEncryptionEnabled = transitEncryptionEnabled
+        self.transitEncryptionMode = transitEncryptionMode
         self.userGroupIdsToAdd = userGroupIdsToAdd
         self.userGroupIdsToRemove = userGroupIdsToRemove
     }
@@ -16748,6 +16783,8 @@ struct ModifyReplicationGroupInputBody: Swift.Equatable {
     let removeUserGroups: Swift.Bool?
     let logDeliveryConfigurations: [ElastiCacheClientTypes.LogDeliveryConfigurationRequest]?
     let ipDiscovery: ElastiCacheClientTypes.IpDiscovery?
+    let transitEncryptionEnabled: Swift.Bool?
+    let transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 }
 
 extension ModifyReplicationGroupInputBody: Swift.Decodable {
@@ -16776,6 +16813,8 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         case snapshotRetentionLimit = "SnapshotRetentionLimit"
         case snapshotWindow = "SnapshotWindow"
         case snapshottingClusterId = "SnapshottingClusterId"
+        case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
         case userGroupIdsToAdd = "UserGroupIdsToAdd"
         case userGroupIdsToRemove = "UserGroupIdsToRemove"
     }
@@ -16919,6 +16958,10 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         }
         let ipDiscoveryDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.IpDiscovery.self, forKey: .ipDiscovery)
         ipDiscovery = ipDiscoveryDecoded
+        let transitEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .transitEncryptionEnabled)
+        transitEncryptionEnabled = transitEncryptionEnabledDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -19243,6 +19286,8 @@ extension ElastiCacheClientTypes.PendingModifiedValues: Swift.Codable {
         case engineVersion = "EngineVersion"
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
         case numCacheNodes = "NumCacheNodes"
+        case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -19282,6 +19327,12 @@ extension ElastiCacheClientTypes.PendingModifiedValues: Swift.Codable {
         }
         if let numCacheNodes = numCacheNodes {
             try container.encode(numCacheNodes, forKey: ClientRuntime.Key("NumCacheNodes"))
+        }
+        if let transitEncryptionEnabled = transitEncryptionEnabled {
+            try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
+        }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
         }
     }
 
@@ -19333,6 +19384,10 @@ extension ElastiCacheClientTypes.PendingModifiedValues: Swift.Codable {
         } else {
             logDeliveryConfigurations = nil
         }
+        let transitEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .transitEncryptionEnabled)
+        transitEncryptionEnabled = transitEncryptionEnabledDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -19351,6 +19406,10 @@ extension ElastiCacheClientTypes {
         public var logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]?
         /// The new number of cache nodes for the cluster. For clusters running Redis, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public var numCacheNodes: Swift.Int?
+        /// A flag that enables in-transit encryption when set to true.
+        public var transitEncryptionEnabled: Swift.Bool?
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
+        public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
 
         public init (
             authTokenStatus: ElastiCacheClientTypes.AuthTokenUpdateStatus? = nil,
@@ -19358,7 +19417,9 @@ extension ElastiCacheClientTypes {
             cacheNodeType: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]? = nil,
-            numCacheNodes: Swift.Int? = nil
+            numCacheNodes: Swift.Int? = nil,
+            transitEncryptionEnabled: Swift.Bool? = nil,
+            transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil
         )
         {
             self.authTokenStatus = authTokenStatus
@@ -19367,6 +19428,8 @@ extension ElastiCacheClientTypes {
             self.engineVersion = engineVersion
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.numCacheNodes = numCacheNodes
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.transitEncryptionMode = transitEncryptionMode
         }
     }
 
@@ -20240,6 +20303,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         case snapshottingClusterId = "SnapshottingClusterId"
         case status = "Status"
         case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
         case userGroupIds = "UserGroupIds"
     }
 
@@ -20364,6 +20428,9 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         }
         if let transitEncryptionEnabled = transitEncryptionEnabled {
             try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
+        }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
         }
         if let userGroupIds = userGroupIds {
             if !userGroupIds.isEmpty {
@@ -20524,6 +20591,8 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         networkType = networkTypeDecoded
         let ipDiscoveryDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.IpDiscovery.self, forKey: .ipDiscovery)
         ipDiscovery = ipDiscoveryDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -20538,7 +20607,7 @@ extension ElastiCacheClientTypes {
         public var authTokenEnabled: Swift.Bool?
         /// The date the auth token was last modified
         public var authTokenLastModifiedDate: ClientRuntime.Date?
-        /// If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public var autoMinorVersionUpgrade: Swift.Bool
         /// Indicates the status of automatic failover for this Redis replication group.
         public var automaticFailover: ElastiCacheClientTypes.AutomaticFailoverStatus?
@@ -20584,8 +20653,10 @@ extension ElastiCacheClientTypes {
         public var snapshottingClusterId: Swift.String?
         /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
         public var status: Swift.String?
-        /// A flag that enables in-transit encryption when set to true. You cannot modify the value of TransitEncryptionEnabled after the cluster is created. To enable in-transit encryption on a cluster you must set TransitEncryptionEnabled to true when you create a cluster. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables in-transit encryption when set to true. Required: Only available when creating a replication group in an Amazon VPC using redis version 3.2.6, 4.x or later. Default: false
         public var transitEncryptionEnabled: Swift.Bool?
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
+        public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
         /// The ID of the user group associated to the replication group.
         public var userGroupIds: [Swift.String]?
 
@@ -20618,6 +20689,7 @@ extension ElastiCacheClientTypes {
             snapshottingClusterId: Swift.String? = nil,
             status: Swift.String? = nil,
             transitEncryptionEnabled: Swift.Bool? = nil,
+            transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
             userGroupIds: [Swift.String]? = nil
         )
         {
@@ -20649,6 +20721,7 @@ extension ElastiCacheClientTypes {
             self.snapshottingClusterId = snapshottingClusterId
             self.status = status
             self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.transitEncryptionMode = transitEncryptionMode
             self.userGroupIds = userGroupIds
         }
     }
@@ -20870,6 +20943,8 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         case logDeliveryConfigurations = "LogDeliveryConfigurations"
         case primaryClusterId = "PrimaryClusterId"
         case resharding = "Resharding"
+        case transitEncryptionEnabled = "TransitEncryptionEnabled"
+        case transitEncryptionMode = "TransitEncryptionMode"
         case userGroups = "UserGroups"
     }
 
@@ -20898,6 +20973,12 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         }
         if let resharding = resharding {
             try container.encode(resharding, forKey: ClientRuntime.Key("Resharding"))
+        }
+        if let transitEncryptionEnabled = transitEncryptionEnabled {
+            try container.encode(transitEncryptionEnabled, forKey: ClientRuntime.Key("TransitEncryptionEnabled"))
+        }
+        if let transitEncryptionMode = transitEncryptionMode {
+            try container.encode(transitEncryptionMode, forKey: ClientRuntime.Key("TransitEncryptionMode"))
         }
         if let userGroups = userGroups {
             try container.encode(userGroups, forKey: ClientRuntime.Key("UserGroups"))
@@ -20935,6 +21016,10 @@ extension ElastiCacheClientTypes.ReplicationGroupPendingModifiedValues: Swift.Co
         } else {
             logDeliveryConfigurations = nil
         }
+        let transitEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .transitEncryptionEnabled)
+        transitEncryptionEnabled = transitEncryptionEnabledDecoded
+        let transitEncryptionModeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.TransitEncryptionMode.self, forKey: .transitEncryptionMode)
+        transitEncryptionMode = transitEncryptionModeDecoded
     }
 }
 
@@ -20951,6 +21036,10 @@ extension ElastiCacheClientTypes {
         public var primaryClusterId: Swift.String?
         /// The status of an online resharding operation.
         public var resharding: ElastiCacheClientTypes.ReshardingStatus?
+        /// A flag that enables in-transit encryption when set to true.
+        public var transitEncryptionEnabled: Swift.Bool?
+        /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
+        public var transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode?
         /// The user group being modified.
         public var userGroups: ElastiCacheClientTypes.UserGroupsUpdateStatus?
 
@@ -20960,6 +21049,8 @@ extension ElastiCacheClientTypes {
             logDeliveryConfigurations: [ElastiCacheClientTypes.PendingLogDeliveryConfiguration]? = nil,
             primaryClusterId: Swift.String? = nil,
             resharding: ElastiCacheClientTypes.ReshardingStatus? = nil,
+            transitEncryptionEnabled: Swift.Bool? = nil,
+            transitEncryptionMode: ElastiCacheClientTypes.TransitEncryptionMode? = nil,
             userGroups: ElastiCacheClientTypes.UserGroupsUpdateStatus? = nil
         )
         {
@@ -20968,6 +21059,8 @@ extension ElastiCacheClientTypes {
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.primaryClusterId = primaryClusterId
             self.resharding = resharding
+            self.transitEncryptionEnabled = transitEncryptionEnabled
+            self.transitEncryptionMode = transitEncryptionMode
             self.userGroups = userGroups
         }
     }
@@ -23876,6 +23969,38 @@ extension ElastiCacheClientTypes {
         }
     }
 
+}
+
+extension ElastiCacheClientTypes {
+    public enum TransitEncryptionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case preferred
+        case `required`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitEncryptionMode] {
+            return [
+                .preferred,
+                .required,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .preferred: return "preferred"
+            case .required: return "required"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TransitEncryptionMode(rawValue: rawValue) ?? TransitEncryptionMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ElastiCacheClientTypes.UnprocessedUpdateAction: Swift.Codable {

@@ -11,8 +11,8 @@ extension CognitoIdentityProviderClientTypes.AccountRecoverySettingType: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let recoveryMechanisms = recoveryMechanisms {
             var recoveryMechanismsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recoveryMechanisms)
-            for recoverymechanismstype0 in recoveryMechanisms {
-                try recoveryMechanismsContainer.encode(recoverymechanismstype0)
+            for recoveryoptiontype0 in recoveryMechanisms {
+                try recoveryMechanismsContainer.encode(recoveryoptiontype0)
             }
         }
     }
@@ -253,8 +253,8 @@ extension AddCustomAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customAttributes = customAttributes {
             var customAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customAttributes)
-            for customattributeslisttype0 in customAttributes {
-                try customAttributesContainer.encode(customattributeslisttype0)
+            for schemaattributetype0 in customAttributes {
+                try customAttributesContainer.encode(schemaattributetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -497,8 +497,8 @@ extension AdminConfirmSignUpInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userPoolId = self.userPoolId {
@@ -708,14 +708,14 @@ extension AdminCreateUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let desiredDeliveryMediums = desiredDeliveryMediums {
             var desiredDeliveryMediumsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .desiredDeliveryMediums)
-            for deliverymediumlisttype0 in desiredDeliveryMediums {
-                try desiredDeliveryMediumsContainer.encode(deliverymediumlisttype0.rawValue)
+            for deliverymediumtype0 in desiredDeliveryMediums {
+                try desiredDeliveryMediumsContainer.encode(deliverymediumtype0.rawValue)
             }
         }
         if forceAliasCreation != false {
@@ -729,8 +729,8 @@ extension AdminCreateUserInput: Swift.Encodable {
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for attributelisttype0 in userAttributes {
-                try userAttributesContainer.encode(attributelisttype0)
+            for attributetype0 in userAttributes {
+                try userAttributesContainer.encode(attributetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -741,8 +741,8 @@ extension AdminCreateUserInput: Swift.Encodable {
         }
         if let validationData = validationData {
             var validationDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationData)
-            for attributelisttype0 in validationData {
-                try validationDataContainer.encode(attributelisttype0)
+            for attributetype0 in validationData {
+                try validationDataContainer.encode(attributetype0)
             }
         }
     }
@@ -1005,8 +1005,8 @@ extension AdminDeleteUserAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let userAttributeNames = userAttributeNames {
             var userAttributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributeNames)
-            for attributenamelisttype0 in userAttributeNames {
-                try userAttributeNamesContainer.encode(attributenamelisttype0)
+            for attributenametype0 in userAttributeNames {
+                try userAttributeNamesContainer.encode(attributenametype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -2129,8 +2129,8 @@ extension AdminInitiateAuthInput: Swift.Encodable {
         }
         if let authParameters = authParameters {
             var authParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .authParameters)
-            for (dictKey0, authparameterstype0) in authParameters {
-                try authParametersContainer.encode(authparameterstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, authParametersType0) in authParameters {
+                try authParametersContainer.encode(authParametersType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientId = self.clientId {
@@ -2138,8 +2138,8 @@ extension AdminInitiateAuthInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let contextData = self.contextData {
@@ -3270,8 +3270,8 @@ extension AdminResetUserPasswordInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userPoolId = self.userPoolId {
@@ -3435,8 +3435,8 @@ extension AdminRespondToAuthChallengeInput: Swift.Encodable {
         }
         if let challengeResponses = challengeResponses {
             var challengeResponsesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .challengeResponses)
-            for (dictKey0, challengeresponsestype0) in challengeResponses {
-                try challengeResponsesContainer.encode(challengeresponsestype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, challengeResponsesType0) in challengeResponses {
+                try challengeResponsesContainer.encode(challengeResponsesType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientId = self.clientId {
@@ -3444,8 +3444,8 @@ extension AdminRespondToAuthChallengeInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let contextData = self.contextData {
@@ -4036,8 +4036,8 @@ extension AdminSetUserSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let mfaOptions = mfaOptions {
             var mfaOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mfaOptions)
-            for mfaoptionlisttype0 in mfaOptions {
-                try mfaOptionsContainer.encode(mfaoptionlisttype0)
+            for mfaoptiontype0 in mfaOptions {
+                try mfaOptionsContainer.encode(mfaoptiontype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -4443,14 +4443,14 @@ extension AdminUpdateUserAttributesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for attributelisttype0 in userAttributes {
-                try userAttributesContainer.encode(attributelisttype0)
+            for attributetype0 in userAttributes {
+                try userAttributesContainer.encode(attributetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -5207,8 +5207,8 @@ extension CognitoIdentityProviderClientTypes.AuthEventType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let challengeResponses = challengeResponses {
             var challengeResponsesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .challengeResponses)
-            for challengeresponselisttype0 in challengeResponses {
-                try challengeResponsesContainer.encode(challengeresponselisttype0)
+            for challengeresponsetype0 in challengeResponses {
+                try challengeResponsesContainer.encode(challengeresponsetype0)
             }
         }
         if let creationDate = self.creationDate {
@@ -5985,8 +5985,8 @@ extension CognitoIdentityProviderClientTypes.CompromisedCredentialsRiskConfigura
         }
         if let eventFilter = eventFilter {
             var eventFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventFilter)
-            for eventfilterstype0 in eventFilter {
-                try eventFilterContainer.encode(eventfilterstype0.rawValue)
+            for eventfiltertype0 in eventFilter {
+                try eventFilterContainer.encode(eventfiltertype0.rawValue)
             }
         }
     }
@@ -6289,8 +6289,8 @@ extension ConfirmForgotPasswordInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let confirmationCode = self.confirmationCode {
@@ -6511,8 +6511,8 @@ extension ConfirmSignUpInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let confirmationCode = self.confirmationCode {
@@ -6719,8 +6719,8 @@ extension CognitoIdentityProviderClientTypes.ContextDataType: Swift.Codable {
         }
         if let httpHeaders = httpHeaders {
             var httpHeadersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .httpHeaders)
-            for httpheaderlist0 in httpHeaders {
-                try httpHeadersContainer.encode(httpheaderlist0)
+            for httpheader0 in httpHeaders {
+                try httpHeadersContainer.encode(httpheader0)
             }
         }
         if let ipAddress = self.ipAddress {
@@ -6980,20 +6980,20 @@ extension CreateIdentityProviderInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeMapping = attributeMapping {
             var attributeMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeMapping)
-            for (dictKey0, attributemappingtype0) in attributeMapping {
-                try attributeMappingContainer.encode(attributemappingtype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMappingType0) in attributeMapping {
+                try attributeMappingContainer.encode(attributeMappingType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let idpIdentifiers = idpIdentifiers {
             var idpIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idpIdentifiers)
-            for idpidentifierslisttype0 in idpIdentifiers {
-                try idpIdentifiersContainer.encode(idpidentifierslisttype0)
+            for idpidentifiertype0 in idpIdentifiers {
+                try idpIdentifiersContainer.encode(idpidentifiertype0)
             }
         }
         if let providerDetails = providerDetails {
             var providerDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .providerDetails)
-            for (dictKey0, providerdetailstype0) in providerDetails {
-                try providerDetailsContainer.encode(providerdetailstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, providerDetailsType0) in providerDetails {
+                try providerDetailsContainer.encode(providerDetailsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let providerName = self.providerName {
@@ -7287,8 +7287,8 @@ extension CreateResourceServerInput: Swift.Encodable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for resourceserverscopelisttype0 in scopes {
-                try scopesContainer.encode(resourceserverscopelisttype0)
+            for resourceserverscopetype0 in scopes {
+                try scopesContainer.encode(resourceserverscopetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -7625,8 +7625,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let allowedOAuthFlows = allowedOAuthFlows {
             var allowedOAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthFlows)
-            for oauthflowstype0 in allowedOAuthFlows {
-                try allowedOAuthFlowsContainer.encode(oauthflowstype0.rawValue)
+            for oauthflowtype0 in allowedOAuthFlows {
+                try allowedOAuthFlowsContainer.encode(oauthflowtype0.rawValue)
             }
         }
         if allowedOAuthFlowsUserPoolClient != false {
@@ -7634,8 +7634,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let allowedOAuthScopes = allowedOAuthScopes {
             var allowedOAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthScopes)
-            for scopelisttype0 in allowedOAuthScopes {
-                try allowedOAuthScopesContainer.encode(scopelisttype0)
+            for scopetype0 in allowedOAuthScopes {
+                try allowedOAuthScopesContainer.encode(scopetype0)
             }
         }
         if let analyticsConfiguration = self.analyticsConfiguration {
@@ -7646,8 +7646,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let callbackURLs = callbackURLs {
             var callbackURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .callbackURLs)
-            for callbackurlslisttype0 in callbackURLs {
-                try callbackURLsContainer.encode(callbackurlslisttype0)
+            for redirecturltype0 in callbackURLs {
+                try callbackURLsContainer.encode(redirecturltype0)
             }
         }
         if let clientName = self.clientName {
@@ -7664,8 +7664,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let explicitAuthFlows = explicitAuthFlows {
             var explicitAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .explicitAuthFlows)
-            for explicitauthflowslisttype0 in explicitAuthFlows {
-                try explicitAuthFlowsContainer.encode(explicitauthflowslisttype0.rawValue)
+            for explicitauthflowstype0 in explicitAuthFlows {
+                try explicitAuthFlowsContainer.encode(explicitauthflowstype0.rawValue)
             }
         }
         if generateSecret != false {
@@ -7676,8 +7676,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let logoutURLs = logoutURLs {
             var logoutURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logoutURLs)
-            for logouturlslisttype0 in logoutURLs {
-                try logoutURLsContainer.encode(logouturlslisttype0)
+            for redirecturltype0 in logoutURLs {
+                try logoutURLsContainer.encode(redirecturltype0)
             }
         }
         if let preventUserExistenceErrors = self.preventUserExistenceErrors {
@@ -7685,8 +7685,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let readAttributes = readAttributes {
             var readAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readAttributes)
-            for clientpermissionlisttype0 in readAttributes {
-                try readAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in readAttributes {
+                try readAttributesContainer.encode(clientpermissiontype0)
             }
         }
         if refreshTokenValidity != 0 {
@@ -7694,8 +7694,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let supportedIdentityProviders = supportedIdentityProviders {
             var supportedIdentityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedIdentityProviders)
-            for supportedidentityproviderslisttype0 in supportedIdentityProviders {
-                try supportedIdentityProvidersContainer.encode(supportedidentityproviderslisttype0)
+            for providernametype0 in supportedIdentityProviders {
+                try supportedIdentityProvidersContainer.encode(providernametype0)
             }
         }
         if let tokenValidityUnits = self.tokenValidityUnits {
@@ -7706,8 +7706,8 @@ extension CreateUserPoolClientInput: Swift.Encodable {
         }
         if let writeAttributes = writeAttributes {
             var writeAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .writeAttributes)
-            for clientpermissionlisttype0 in writeAttributes {
-                try writeAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in writeAttributes {
+                try writeAttributesContainer.encode(clientpermissiontype0)
             }
         }
     }
@@ -8284,14 +8284,14 @@ extension CreateUserPoolInput: Swift.Encodable {
         }
         if let aliasAttributes = aliasAttributes {
             var aliasAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliasAttributes)
-            for aliasattributeslisttype0 in aliasAttributes {
-                try aliasAttributesContainer.encode(aliasattributeslisttype0.rawValue)
+            for aliasattributetype0 in aliasAttributes {
+                try aliasAttributesContainer.encode(aliasattributetype0.rawValue)
             }
         }
         if let autoVerifiedAttributes = autoVerifiedAttributes {
             var autoVerifiedAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoVerifiedAttributes)
-            for verifiedattributeslisttype0 in autoVerifiedAttributes {
-                try autoVerifiedAttributesContainer.encode(verifiedattributeslisttype0.rawValue)
+            for verifiedattributetype0 in autoVerifiedAttributes {
+                try autoVerifiedAttributesContainer.encode(verifiedattributetype0.rawValue)
             }
         }
         if let deletionProtection = self.deletionProtection {
@@ -8323,8 +8323,8 @@ extension CreateUserPoolInput: Swift.Encodable {
         }
         if let schema = schema {
             var schemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schema)
-            for schemaattributeslisttype0 in schema {
-                try schemaContainer.encode(schemaattributeslisttype0)
+            for schemaattributetype0 in schema {
+                try schemaContainer.encode(schemaattributetype0)
             }
         }
         if let smsAuthenticationMessage = self.smsAuthenticationMessage {
@@ -8344,14 +8344,14 @@ extension CreateUserPoolInput: Swift.Encodable {
         }
         if let userPoolTags = userPoolTags {
             var userPoolTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userPoolTags)
-            for (dictKey0, userpooltagstype0) in userPoolTags {
-                try userPoolTagsContainer.encode(userpooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userPoolTagsType0) in userPoolTags {
+                try userPoolTagsContainer.encode(userPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let usernameAttributes = usernameAttributes {
             var usernameAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usernameAttributes)
-            for usernameattributeslisttype0 in usernameAttributes {
-                try usernameAttributesContainer.encode(usernameattributeslisttype0.rawValue)
+            for usernameattributetype0 in usernameAttributes {
+                try usernameAttributesContainer.encode(usernameattributetype0.rawValue)
             }
         }
         if let usernameConfiguration = self.usernameConfiguration {
@@ -9245,8 +9245,8 @@ extension DeleteUserAttributesInput: Swift.Encodable {
         }
         if let userAttributeNames = userAttributeNames {
             var userAttributeNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributeNames)
-            for attributenamelisttype0 in userAttributeNames {
-                try userAttributeNamesContainer.encode(attributenamelisttype0)
+            for attributenametype0 in userAttributeNames {
+                try userAttributeNamesContainer.encode(attributenametype0)
             }
         }
     }
@@ -10873,8 +10873,8 @@ extension CognitoIdentityProviderClientTypes.DeviceType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deviceAttributes = deviceAttributes {
             var deviceAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceAttributes)
-            for attributelisttype0 in deviceAttributes {
-                try deviceAttributesContainer.encode(attributelisttype0)
+            for attributetype0 in deviceAttributes {
+                try deviceAttributesContainer.encode(attributetype0)
             }
         }
         if let deviceCreateDate = self.deviceCreateDate {
@@ -11938,8 +11938,8 @@ extension ForgotPasswordInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let secretHash = self.secretHash {
@@ -12968,8 +12968,8 @@ extension GetUserAttributeVerificationCodeInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13801,8 +13801,8 @@ extension CognitoIdentityProviderClientTypes.IdentityProviderType: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeMapping = attributeMapping {
             var attributeMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeMapping)
-            for (dictKey0, attributemappingtype0) in attributeMapping {
-                try attributeMappingContainer.encode(attributemappingtype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMappingType0) in attributeMapping {
+                try attributeMappingContainer.encode(attributeMappingType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let creationDate = self.creationDate {
@@ -13810,8 +13810,8 @@ extension CognitoIdentityProviderClientTypes.IdentityProviderType: Swift.Codable
         }
         if let idpIdentifiers = idpIdentifiers {
             var idpIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idpIdentifiers)
-            for idpidentifierslisttype0 in idpIdentifiers {
-                try idpIdentifiersContainer.encode(idpidentifierslisttype0)
+            for idpidentifiertype0 in idpIdentifiers {
+                try idpIdentifiersContainer.encode(idpidentifiertype0)
             }
         }
         if let lastModifiedDate = self.lastModifiedDate {
@@ -13819,8 +13819,8 @@ extension CognitoIdentityProviderClientTypes.IdentityProviderType: Swift.Codable
         }
         if let providerDetails = providerDetails {
             var providerDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .providerDetails)
-            for (dictKey0, providerdetailstype0) in providerDetails {
-                try providerDetailsContainer.encode(providerdetailstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, providerDetailsType0) in providerDetails {
+                try providerDetailsContainer.encode(providerDetailsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let providerName = self.providerName {
@@ -14075,8 +14075,8 @@ extension InitiateAuthInput: Swift.Encodable {
         }
         if let authParameters = authParameters {
             var authParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .authParameters)
-            for (dictKey0, authparameterstype0) in authParameters {
-                try authParametersContainer.encode(authparameterstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, authParametersType0) in authParameters {
+                try authParametersContainer.encode(authParametersType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientId = self.clientId {
@@ -14084,8 +14084,8 @@ extension InitiateAuthInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userContextData = self.userContextData {
@@ -16536,8 +16536,8 @@ extension ListUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesToGet = attributesToGet {
             var attributesToGetContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesToGet)
-            for searchedattributenameslisttype0 in attributesToGet {
-                try attributesToGetContainer.encode(searchedattributenameslisttype0)
+            for attributenametype0 in attributesToGet {
+                try attributesToGetContainer.encode(attributenametype0)
             }
         }
         if let filter = self.filter {
@@ -17710,8 +17710,8 @@ extension ResendConfirmationCodeInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let secretHash = self.secretHash {
@@ -18028,8 +18028,8 @@ extension CognitoIdentityProviderClientTypes.ResourceServerType: Swift.Codable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for resourceserverscopelisttype0 in scopes {
-                try scopesContainer.encode(resourceserverscopelisttype0)
+            for resourceserverscopetype0 in scopes {
+                try scopesContainer.encode(resourceserverscopetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -18113,8 +18113,8 @@ extension RespondToAuthChallengeInput: Swift.Encodable {
         }
         if let challengeResponses = challengeResponses {
             var challengeResponsesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .challengeResponses)
-            for (dictKey0, challengeresponsestype0) in challengeResponses {
-                try challengeResponsesContainer.encode(challengeresponsestype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, challengeResponsesType0) in challengeResponses {
+                try challengeResponsesContainer.encode(challengeResponsesType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientId = self.clientId {
@@ -18122,8 +18122,8 @@ extension RespondToAuthChallengeInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let session = self.session {
@@ -18658,14 +18658,14 @@ extension CognitoIdentityProviderClientTypes.RiskExceptionConfigurationType: Swi
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blockedIPRangeList = blockedIPRangeList {
             var blockedIPRangeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blockedIPRangeList)
-            for blockediprangelisttype0 in blockedIPRangeList {
-                try blockedIPRangeListContainer.encode(blockediprangelisttype0)
+            for stringtype0 in blockedIPRangeList {
+                try blockedIPRangeListContainer.encode(stringtype0)
             }
         }
         if let skippedIPRangeList = skippedIPRangeList {
             var skippedIPRangeListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .skippedIPRangeList)
-            for skippediprangelisttype0 in skippedIPRangeList {
-                try skippedIPRangeListContainer.encode(skippediprangelisttype0)
+            for stringtype0 in skippedIPRangeList {
+                try skippedIPRangeListContainer.encode(stringtype0)
             }
         }
     }
@@ -19616,8 +19616,8 @@ extension SetUserSettingsInput: Swift.Encodable {
         }
         if let mfaOptions = mfaOptions {
             var mfaOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mfaOptions)
-            for mfaoptionlisttype0 in mfaOptions {
-                try mfaOptionsContainer.encode(mfaoptionlisttype0)
+            for mfaoptiontype0 in mfaOptions {
+                try mfaOptionsContainer.encode(mfaoptiontype0)
             }
         }
     }
@@ -19752,8 +19752,8 @@ extension SignUpInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let password = self.password {
@@ -19764,8 +19764,8 @@ extension SignUpInput: Swift.Encodable {
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for attributelisttype0 in userAttributes {
-                try userAttributesContainer.encode(attributelisttype0)
+            for attributetype0 in userAttributes {
+                try userAttributesContainer.encode(attributetype0)
             }
         }
         if let userContextData = self.userContextData {
@@ -19776,8 +19776,8 @@ extension SignUpInput: Swift.Encodable {
         }
         if let validationData = validationData {
             var validationDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationData)
-            for attributelisttype0 in validationData {
-                try validationDataContainer.encode(attributelisttype0)
+            for attributetype0 in validationData {
+                try validationDataContainer.encode(attributetype0)
             }
         }
     }
@@ -20627,8 +20627,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, userpooltagstype0) in tags {
-                try tagsContainer.encode(userpooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userPoolTagsType0) in tags {
+                try tagsContainer.encode(userPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -21353,8 +21353,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for userpooltagslisttype0 in tagKeys {
-                try tagKeysContainer.encode(userpooltagslisttype0)
+            for tagkeystype0 in tagKeys {
+                try tagKeysContainer.encode(tagkeystype0)
             }
         }
     }
@@ -21913,20 +21913,20 @@ extension UpdateIdentityProviderInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributeMapping = attributeMapping {
             var attributeMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeMapping)
-            for (dictKey0, attributemappingtype0) in attributeMapping {
-                try attributeMappingContainer.encode(attributemappingtype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, attributeMappingType0) in attributeMapping {
+                try attributeMappingContainer.encode(attributeMappingType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let idpIdentifiers = idpIdentifiers {
             var idpIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .idpIdentifiers)
-            for idpidentifierslisttype0 in idpIdentifiers {
-                try idpIdentifiersContainer.encode(idpidentifierslisttype0)
+            for idpidentifiertype0 in idpIdentifiers {
+                try idpIdentifiersContainer.encode(idpidentifiertype0)
             }
         }
         if let providerDetails = providerDetails {
             var providerDetailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .providerDetails)
-            for (dictKey0, providerdetailstype0) in providerDetails {
-                try providerDetailsContainer.encode(providerdetailstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, providerDetailsType0) in providerDetails {
+                try providerDetailsContainer.encode(providerDetailsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let providerName = self.providerName {
@@ -22127,8 +22127,8 @@ extension UpdateResourceServerInput: Swift.Encodable {
         }
         if let scopes = scopes {
             var scopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scopes)
-            for resourceserverscopelisttype0 in scopes {
-                try scopesContainer.encode(resourceserverscopelisttype0)
+            for resourceserverscopetype0 in scopes {
+                try scopesContainer.encode(resourceserverscopetype0)
             }
         }
         if let userPoolId = self.userPoolId {
@@ -22298,14 +22298,14 @@ extension UpdateUserAttributesInput: Swift.Encodable {
         }
         if let clientMetadata = clientMetadata {
             var clientMetadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .clientMetadata)
-            for (dictKey0, clientmetadatatype0) in clientMetadata {
-                try clientMetadataContainer.encode(clientmetadatatype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, clientMetadataType0) in clientMetadata {
+                try clientMetadataContainer.encode(clientMetadataType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let userAttributes = userAttributes {
             var userAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userAttributes)
-            for attributelisttype0 in userAttributes {
-                try userAttributesContainer.encode(attributelisttype0)
+            for attributetype0 in userAttributes {
+                try userAttributesContainer.encode(attributetype0)
             }
         }
     }
@@ -22535,8 +22535,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let allowedOAuthFlows = allowedOAuthFlows {
             var allowedOAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthFlows)
-            for oauthflowstype0 in allowedOAuthFlows {
-                try allowedOAuthFlowsContainer.encode(oauthflowstype0.rawValue)
+            for oauthflowtype0 in allowedOAuthFlows {
+                try allowedOAuthFlowsContainer.encode(oauthflowtype0.rawValue)
             }
         }
         if allowedOAuthFlowsUserPoolClient != false {
@@ -22544,8 +22544,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let allowedOAuthScopes = allowedOAuthScopes {
             var allowedOAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthScopes)
-            for scopelisttype0 in allowedOAuthScopes {
-                try allowedOAuthScopesContainer.encode(scopelisttype0)
+            for scopetype0 in allowedOAuthScopes {
+                try allowedOAuthScopesContainer.encode(scopetype0)
             }
         }
         if let analyticsConfiguration = self.analyticsConfiguration {
@@ -22556,8 +22556,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let callbackURLs = callbackURLs {
             var callbackURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .callbackURLs)
-            for callbackurlslisttype0 in callbackURLs {
-                try callbackURLsContainer.encode(callbackurlslisttype0)
+            for redirecturltype0 in callbackURLs {
+                try callbackURLsContainer.encode(redirecturltype0)
             }
         }
         if let clientId = self.clientId {
@@ -22577,8 +22577,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let explicitAuthFlows = explicitAuthFlows {
             var explicitAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .explicitAuthFlows)
-            for explicitauthflowslisttype0 in explicitAuthFlows {
-                try explicitAuthFlowsContainer.encode(explicitauthflowslisttype0.rawValue)
+            for explicitauthflowstype0 in explicitAuthFlows {
+                try explicitAuthFlowsContainer.encode(explicitauthflowstype0.rawValue)
             }
         }
         if let idTokenValidity = self.idTokenValidity {
@@ -22586,8 +22586,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let logoutURLs = logoutURLs {
             var logoutURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logoutURLs)
-            for logouturlslisttype0 in logoutURLs {
-                try logoutURLsContainer.encode(logouturlslisttype0)
+            for redirecturltype0 in logoutURLs {
+                try logoutURLsContainer.encode(redirecturltype0)
             }
         }
         if let preventUserExistenceErrors = self.preventUserExistenceErrors {
@@ -22595,8 +22595,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let readAttributes = readAttributes {
             var readAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readAttributes)
-            for clientpermissionlisttype0 in readAttributes {
-                try readAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in readAttributes {
+                try readAttributesContainer.encode(clientpermissiontype0)
             }
         }
         if refreshTokenValidity != 0 {
@@ -22604,8 +22604,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let supportedIdentityProviders = supportedIdentityProviders {
             var supportedIdentityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedIdentityProviders)
-            for supportedidentityproviderslisttype0 in supportedIdentityProviders {
-                try supportedIdentityProvidersContainer.encode(supportedidentityproviderslisttype0)
+            for providernametype0 in supportedIdentityProviders {
+                try supportedIdentityProvidersContainer.encode(providernametype0)
             }
         }
         if let tokenValidityUnits = self.tokenValidityUnits {
@@ -22616,8 +22616,8 @@ extension UpdateUserPoolClientInput: Swift.Encodable {
         }
         if let writeAttributes = writeAttributes {
             var writeAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .writeAttributes)
-            for clientpermissionlisttype0 in writeAttributes {
-                try writeAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in writeAttributes {
+                try writeAttributesContainer.encode(clientpermissiontype0)
             }
         }
     }
@@ -23193,8 +23193,8 @@ extension UpdateUserPoolInput: Swift.Encodable {
         }
         if let autoVerifiedAttributes = autoVerifiedAttributes {
             var autoVerifiedAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoVerifiedAttributes)
-            for verifiedattributeslisttype0 in autoVerifiedAttributes {
-                try autoVerifiedAttributesContainer.encode(verifiedattributeslisttype0.rawValue)
+            for verifiedattributetype0 in autoVerifiedAttributes {
+                try autoVerifiedAttributesContainer.encode(verifiedattributetype0.rawValue)
             }
         }
         if let deletionProtection = self.deletionProtection {
@@ -23241,8 +23241,8 @@ extension UpdateUserPoolInput: Swift.Encodable {
         }
         if let userPoolTags = userPoolTags {
             var userPoolTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userPoolTags)
-            for (dictKey0, userpooltagstype0) in userPoolTags {
-                try userPoolTagsContainer.encode(userpooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userPoolTagsType0) in userPoolTags {
+                try userPoolTagsContainer.encode(userPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let verificationMessageTemplate = self.verificationMessageTemplate {
@@ -23517,8 +23517,8 @@ extension CognitoIdentityProviderClientTypes.UserAttributeUpdateSettingsType: Sw
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributesRequireVerificationBeforeUpdate = attributesRequireVerificationBeforeUpdate {
             var attributesRequireVerificationBeforeUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributesRequireVerificationBeforeUpdate)
-            for attributesrequireverificationbeforeupdatetype0 in attributesRequireVerificationBeforeUpdate {
-                try attributesRequireVerificationBeforeUpdateContainer.encode(attributesrequireverificationbeforeupdatetype0.rawValue)
+            for verifiedattributetype0 in attributesRequireVerificationBeforeUpdate {
+                try attributesRequireVerificationBeforeUpdateContainer.encode(verifiedattributetype0.rawValue)
             }
         }
     }
@@ -24217,8 +24217,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let allowedOAuthFlows = allowedOAuthFlows {
             var allowedOAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthFlows)
-            for oauthflowstype0 in allowedOAuthFlows {
-                try allowedOAuthFlowsContainer.encode(oauthflowstype0.rawValue)
+            for oauthflowtype0 in allowedOAuthFlows {
+                try allowedOAuthFlowsContainer.encode(oauthflowtype0.rawValue)
             }
         }
         if let allowedOAuthFlowsUserPoolClient = self.allowedOAuthFlowsUserPoolClient {
@@ -24226,8 +24226,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let allowedOAuthScopes = allowedOAuthScopes {
             var allowedOAuthScopesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOAuthScopes)
-            for scopelisttype0 in allowedOAuthScopes {
-                try allowedOAuthScopesContainer.encode(scopelisttype0)
+            for scopetype0 in allowedOAuthScopes {
+                try allowedOAuthScopesContainer.encode(scopetype0)
             }
         }
         if let analyticsConfiguration = self.analyticsConfiguration {
@@ -24238,8 +24238,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let callbackURLs = callbackURLs {
             var callbackURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .callbackURLs)
-            for callbackurlslisttype0 in callbackURLs {
-                try callbackURLsContainer.encode(callbackurlslisttype0)
+            for redirecturltype0 in callbackURLs {
+                try callbackURLsContainer.encode(redirecturltype0)
             }
         }
         if let clientId = self.clientId {
@@ -24265,8 +24265,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let explicitAuthFlows = explicitAuthFlows {
             var explicitAuthFlowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .explicitAuthFlows)
-            for explicitauthflowslisttype0 in explicitAuthFlows {
-                try explicitAuthFlowsContainer.encode(explicitauthflowslisttype0.rawValue)
+            for explicitauthflowstype0 in explicitAuthFlows {
+                try explicitAuthFlowsContainer.encode(explicitauthflowstype0.rawValue)
             }
         }
         if let idTokenValidity = self.idTokenValidity {
@@ -24277,8 +24277,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let logoutURLs = logoutURLs {
             var logoutURLsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logoutURLs)
-            for logouturlslisttype0 in logoutURLs {
-                try logoutURLsContainer.encode(logouturlslisttype0)
+            for redirecturltype0 in logoutURLs {
+                try logoutURLsContainer.encode(redirecturltype0)
             }
         }
         if let preventUserExistenceErrors = self.preventUserExistenceErrors {
@@ -24286,8 +24286,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let readAttributes = readAttributes {
             var readAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .readAttributes)
-            for clientpermissionlisttype0 in readAttributes {
-                try readAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in readAttributes {
+                try readAttributesContainer.encode(clientpermissiontype0)
             }
         }
         if refreshTokenValidity != 0 {
@@ -24295,8 +24295,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let supportedIdentityProviders = supportedIdentityProviders {
             var supportedIdentityProvidersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedIdentityProviders)
-            for supportedidentityproviderslisttype0 in supportedIdentityProviders {
-                try supportedIdentityProvidersContainer.encode(supportedidentityproviderslisttype0)
+            for providernametype0 in supportedIdentityProviders {
+                try supportedIdentityProvidersContainer.encode(providernametype0)
             }
         }
         if let tokenValidityUnits = self.tokenValidityUnits {
@@ -24307,8 +24307,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolClientType: Swift.Codable {
         }
         if let writeAttributes = writeAttributes {
             var writeAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .writeAttributes)
-            for clientpermissionlisttype0 in writeAttributes {
-                try writeAttributesContainer.encode(clientpermissionlisttype0)
+            for clientpermissiontype0 in writeAttributes {
+                try writeAttributesContainer.encode(clientpermissiontype0)
             }
         }
     }
@@ -24846,8 +24846,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolType: Swift.Codable {
         }
         if let aliasAttributes = aliasAttributes {
             var aliasAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliasAttributes)
-            for aliasattributeslisttype0 in aliasAttributes {
-                try aliasAttributesContainer.encode(aliasattributeslisttype0.rawValue)
+            for aliasattributetype0 in aliasAttributes {
+                try aliasAttributesContainer.encode(aliasattributetype0.rawValue)
             }
         }
         if let arn = self.arn {
@@ -24855,8 +24855,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolType: Swift.Codable {
         }
         if let autoVerifiedAttributes = autoVerifiedAttributes {
             var autoVerifiedAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .autoVerifiedAttributes)
-            for verifiedattributeslisttype0 in autoVerifiedAttributes {
-                try autoVerifiedAttributesContainer.encode(verifiedattributeslisttype0.rawValue)
+            for verifiedattributetype0 in autoVerifiedAttributes {
+                try autoVerifiedAttributesContainer.encode(verifiedattributetype0.rawValue)
             }
         }
         if let creationDate = self.creationDate {
@@ -24909,8 +24909,8 @@ extension CognitoIdentityProviderClientTypes.UserPoolType: Swift.Codable {
         }
         if let schemaAttributes = schemaAttributes {
             var schemaAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaAttributes)
-            for schemaattributeslisttype0 in schemaAttributes {
-                try schemaAttributesContainer.encode(schemaattributeslisttype0)
+            for schemaattributetype0 in schemaAttributes {
+                try schemaAttributesContainer.encode(schemaattributetype0)
             }
         }
         if let smsAuthenticationMessage = self.smsAuthenticationMessage {
@@ -24936,14 +24936,14 @@ extension CognitoIdentityProviderClientTypes.UserPoolType: Swift.Codable {
         }
         if let userPoolTags = userPoolTags {
             var userPoolTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .userPoolTags)
-            for (dictKey0, userpooltagstype0) in userPoolTags {
-                try userPoolTagsContainer.encode(userpooltagstype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, userPoolTagsType0) in userPoolTags {
+                try userPoolTagsContainer.encode(userPoolTagsType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let usernameAttributes = usernameAttributes {
             var usernameAttributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usernameAttributes)
-            for usernameattributeslisttype0 in usernameAttributes {
-                try usernameAttributesContainer.encode(usernameattributeslisttype0.rawValue)
+            for usernameattributetype0 in usernameAttributes {
+                try usernameAttributesContainer.encode(usernameattributetype0.rawValue)
             }
         }
         if let usernameConfiguration = self.usernameConfiguration {
@@ -25282,8 +25282,8 @@ extension CognitoIdentityProviderClientTypes.UserType: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for attributelisttype0 in attributes {
-                try attributesContainer.encode(attributelisttype0)
+            for attributetype0 in attributes {
+                try attributesContainer.encode(attributetype0)
             }
         }
         if enabled != false {
@@ -25291,8 +25291,8 @@ extension CognitoIdentityProviderClientTypes.UserType: Swift.Codable {
         }
         if let mfaOptions = mfaOptions {
             var mfaOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mfaOptions)
-            for mfaoptionlisttype0 in mfaOptions {
-                try mfaOptionsContainer.encode(mfaoptionlisttype0)
+            for mfaoptiontype0 in mfaOptions {
+                try mfaOptionsContainer.encode(mfaoptiontype0)
             }
         }
         if let userCreateDate = self.userCreateDate {

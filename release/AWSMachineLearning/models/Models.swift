@@ -19,8 +19,8 @@ extension AddTagsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1354,8 +1354,8 @@ extension CreateMLModelInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, trainingparameters0) in parameters {
-                try parametersContainer.encode(trainingparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, trainingParameters0) in parameters {
+                try parametersContainer.encode(trainingParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let recipe = self.recipe {
@@ -2557,8 +2557,8 @@ extension DeleteTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -5946,8 +5946,8 @@ extension MachineLearningClientTypes.MLModel: Swift.Codable {
         }
         if let trainingParameters = trainingParameters {
             var trainingParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .trainingParameters)
-            for (dictKey0, trainingparameters0) in trainingParameters {
-                try trainingParametersContainer.encode(trainingparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, trainingParameters0) in trainingParameters {
+                try trainingParametersContainer.encode(trainingParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6219,8 +6219,8 @@ extension MachineLearningClientTypes.PerformanceMetrics: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, performancemetricsproperties0) in properties {
-                try propertiesContainer.encode(performancemetricsproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, performanceMetricsProperties0) in properties {
+                try propertiesContainer.encode(performanceMetricsProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6441,8 +6441,8 @@ extension MachineLearningClientTypes.Prediction: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let details = details {
             var detailsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .details)
-            for (dictKey0, detailsmap0) in details {
-                try detailsContainer.encode(detailsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detailsMap0) in details {
+                try detailsContainer.encode(detailsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let predictedLabel = self.predictedLabel {
@@ -6450,8 +6450,8 @@ extension MachineLearningClientTypes.Prediction: Swift.Codable {
         }
         if let predictedScores = predictedScores {
             var predictedScoresContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .predictedScores)
-            for (dictKey0, scorevalueperlabelmap0) in predictedScores {
-                try predictedScoresContainer.encode(scorevalueperlabelmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, scoreValuePerLabelMap0) in predictedScores {
+                try predictedScoresContainer.encode(scoreValuePerLabelMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let predictedValue = self.predictedValue {
@@ -6618,8 +6618,8 @@ extension MachineLearningClientTypes.RDSDataSpec: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for edpsecuritygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(edpsecuritygroupids0)
+            for edpsecuritygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(edpsecuritygroupid0)
             }
         }
         if let selectSqlQuery = self.selectSqlQuery {

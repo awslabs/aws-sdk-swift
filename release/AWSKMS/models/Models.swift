@@ -1170,8 +1170,8 @@ extension CreateGrantInput: Swift.Encodable {
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let granteePrincipal = self.granteePrincipal {
@@ -1185,8 +1185,8 @@ extension CreateGrantInput: Swift.Encodable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for grantoperationlist0 in operations {
-                try operationsContainer.encode(grantoperationlist0.rawValue)
+            for grantoperation0 in operations {
+                try operationsContainer.encode(grantoperation0.rawValue)
             }
         }
         if let retiringPrincipal = self.retiringPrincipal {
@@ -1441,8 +1441,8 @@ extension CreateKeyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let xksKeyId = self.xksKeyId {
@@ -2328,14 +2328,14 @@ extension DecryptInput: Swift.Encodable {
         }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -3062,8 +3062,8 @@ extension DescribeKeyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -3766,14 +3766,14 @@ extension EncryptInput: Swift.Encodable {
         }
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -4117,14 +4117,14 @@ extension GenerateDataKeyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -4352,14 +4352,14 @@ extension GenerateDataKeyPairInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -4599,14 +4599,14 @@ extension GenerateDataKeyPairWithoutPlaintextInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -4832,14 +4832,14 @@ extension GenerateDataKeyWithoutPlaintextInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContext = encryptionContext {
             var encryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContext)
-            for (dictKey0, encryptioncontexttype0) in encryptionContext {
-                try encryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContext {
+                try encryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -5057,8 +5057,8 @@ extension GenerateMacInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -5848,8 +5848,8 @@ extension GetPublicKeyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -6094,14 +6094,14 @@ extension KMSClientTypes.GrantConstraints: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let encryptionContextEquals = encryptionContextEquals {
             var encryptionContextEqualsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContextEquals)
-            for (dictKey0, encryptioncontexttype0) in encryptionContextEquals {
-                try encryptionContextEqualsContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContextEquals {
+                try encryptionContextEqualsContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let encryptionContextSubset = encryptionContextSubset {
             var encryptionContextSubsetContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .encryptionContextSubset)
-            for (dictKey0, encryptioncontexttype0) in encryptionContextSubset {
-                try encryptionContextSubsetContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in encryptionContextSubset {
+                try encryptionContextSubsetContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -6191,8 +6191,8 @@ extension KMSClientTypes.GrantListEntry: Swift.Codable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for grantoperationlist0 in operations {
-                try operationsContainer.encode(grantoperationlist0.rawValue)
+            for grantoperation0 in operations {
+                try operationsContainer.encode(grantoperation0.rawValue)
             }
         }
         if let retiringPrincipal = self.retiringPrincipal {
@@ -7439,8 +7439,8 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         }
         if let encryptionAlgorithms = encryptionAlgorithms {
             var encryptionAlgorithmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .encryptionAlgorithms)
-            for encryptionalgorithmspeclist0 in encryptionAlgorithms {
-                try encryptionAlgorithmsContainer.encode(encryptionalgorithmspeclist0.rawValue)
+            for encryptionalgorithmspec0 in encryptionAlgorithms {
+                try encryptionAlgorithmsContainer.encode(encryptionalgorithmspec0.rawValue)
             }
         }
         if let expirationModel = self.expirationModel {
@@ -7463,8 +7463,8 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         }
         if let macAlgorithms = macAlgorithms {
             var macAlgorithmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .macAlgorithms)
-            for macalgorithmspeclist0 in macAlgorithms {
-                try macAlgorithmsContainer.encode(macalgorithmspeclist0.rawValue)
+            for macalgorithmspec0 in macAlgorithms {
+                try macAlgorithmsContainer.encode(macalgorithmspec0.rawValue)
             }
         }
         if let multiRegion = self.multiRegion {
@@ -7481,8 +7481,8 @@ extension KMSClientTypes.KeyMetadata: Swift.Codable {
         }
         if let signingAlgorithms = signingAlgorithms {
             var signingAlgorithmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .signingAlgorithms)
-            for signingalgorithmspeclist0 in signingAlgorithms {
-                try signingAlgorithmsContainer.encode(signingalgorithmspeclist0.rawValue)
+            for signingalgorithmspec0 in signingAlgorithms {
+                try signingAlgorithmsContainer.encode(signingalgorithmspec0.rawValue)
             }
         }
         if let validTo = self.validTo {
@@ -9162,8 +9162,8 @@ extension KMSClientTypes.MultiRegionConfiguration: Swift.Codable {
         }
         if let replicaKeys = replicaKeys {
             var replicaKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicaKeys)
-            for multiregionkeylist0 in replicaKeys {
-                try replicaKeysContainer.encode(multiregionkeylist0)
+            for multiregionkey0 in replicaKeys {
+                try replicaKeysContainer.encode(multiregionkey0)
             }
         }
     }
@@ -9559,8 +9559,8 @@ extension ReEncryptInput: Swift.Encodable {
         }
         if let destinationEncryptionContext = destinationEncryptionContext {
             var destinationEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .destinationEncryptionContext)
-            for (dictKey0, encryptioncontexttype0) in destinationEncryptionContext {
-                try destinationEncryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in destinationEncryptionContext {
+                try destinationEncryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let destinationKeyId = self.destinationKeyId {
@@ -9568,8 +9568,8 @@ extension ReEncryptInput: Swift.Encodable {
         }
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let sourceEncryptionAlgorithm = self.sourceEncryptionAlgorithm {
@@ -9577,8 +9577,8 @@ extension ReEncryptInput: Swift.Encodable {
         }
         if let sourceEncryptionContext = sourceEncryptionContext {
             var sourceEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .sourceEncryptionContext)
-            for (dictKey0, encryptioncontexttype0) in sourceEncryptionContext {
-                try sourceEncryptionContextContainer.encode(encryptioncontexttype0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, encryptionContextType0) in sourceEncryptionContext {
+                try sourceEncryptionContextContainer.encode(encryptionContextType0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let sourceKeyId = self.sourceKeyId {
@@ -9884,8 +9884,8 @@ extension ReplicateKeyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -10531,8 +10531,8 @@ extension SignInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -10914,8 +10914,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11091,8 +11091,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkeytype0 in tagKeys {
+                try tagKeysContainer.encode(tagkeytype0)
             }
         }
     }
@@ -11768,8 +11768,8 @@ extension VerifyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {
@@ -11909,8 +11909,8 @@ extension VerifyMacInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let grantTokens = grantTokens {
             var grantTokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .grantTokens)
-            for granttokenlist0 in grantTokens {
-                try grantTokensContainer.encode(granttokenlist0)
+            for granttokentype0 in grantTokens {
+                try grantTokensContainer.encode(granttokentype0)
             }
         }
         if let keyId = self.keyId {

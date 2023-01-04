@@ -300,8 +300,8 @@ extension PinpointEmailClientTypes.CloudWatchDestination: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionConfigurations = dimensionConfigurations {
             var dimensionConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionConfigurations)
-            for cloudwatchdimensionconfigurations0 in dimensionConfigurations {
-                try dimensionConfigurationsContainer.encode(cloudwatchdimensionconfigurations0)
+            for cloudwatchdimensionconfiguration0 in dimensionConfigurations {
+                try dimensionConfigurationsContainer.encode(cloudwatchdimensionconfiguration0)
             }
         }
     }
@@ -640,8 +640,8 @@ extension CreateConfigurationSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let trackingOptions = self.trackingOptions {
@@ -791,8 +791,8 @@ extension CreateDedicatedIpPoolInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -913,8 +913,8 @@ extension CreateDeliverabilityTestReportInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1095,8 +1095,8 @@ extension CreateEmailIdentityInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1256,8 +1256,8 @@ extension PinpointEmailClientTypes.DailyVolume: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainIspPlacements = domainIspPlacements {
             var domainIspPlacementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainIspPlacements)
-            for domainispplacements0 in domainIspPlacements {
-                try domainIspPlacementsContainer.encode(domainispplacements0)
+            for domainispplacement0 in domainIspPlacements {
+                try domainIspPlacementsContainer.encode(domainispplacement0)
             }
         }
         if let startDate = self.startDate {
@@ -1884,20 +1884,20 @@ extension PinpointEmailClientTypes.Destination: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bccAddresses = bccAddresses {
             var bccAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bccAddresses)
-            for emailaddresslist0 in bccAddresses {
-                try bccAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in bccAddresses {
+                try bccAddressesContainer.encode(emailaddress0)
             }
         }
         if let ccAddresses = ccAddresses {
             var ccAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ccAddresses)
-            for emailaddresslist0 in ccAddresses {
-                try ccAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in ccAddresses {
+                try ccAddressesContainer.encode(emailaddress0)
             }
         }
         if let toAddresses = toAddresses {
             var toAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .toAddresses)
-            for emailaddresslist0 in toAddresses {
-                try toAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in toAddresses {
+                try toAddressesContainer.encode(emailaddress0)
             }
         }
     }
@@ -2017,8 +2017,8 @@ extension PinpointEmailClientTypes.DkimAttributes: Swift.Codable {
         }
         if let tokens = tokens {
             var tokensContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tokens)
-            for dnstokenlist0 in tokens {
-                try tokensContainer.encode(dnstokenlist0)
+            for dnstoken0 in tokens {
+                try tokensContainer.encode(dnstoken0)
             }
         }
     }
@@ -2157,8 +2157,8 @@ extension PinpointEmailClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
         }
         if let esps = esps {
             var espsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .esps)
-            for esps0 in esps {
-                try espsContainer.encode(esps0)
+            for esp0 in esps {
+                try espsContainer.encode(esp0)
             }
         }
         if let firstSeenDateTime = self.firstSeenDateTime {
@@ -2187,8 +2187,8 @@ extension PinpointEmailClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
         }
         if let sendingIps = sendingIps {
             var sendingIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sendingIps)
-            for iplist0 in sendingIps {
-                try sendingIpsContainer.encode(iplist0)
+            for ip0 in sendingIps {
+                try sendingIpsContainer.encode(ip0)
             }
         }
         if let spamCount = self.spamCount {
@@ -2541,8 +2541,8 @@ extension PinpointEmailClientTypes.EventDestination: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let name = self.name {
@@ -2649,8 +2649,8 @@ extension PinpointEmailClientTypes.EventDestinationDefinition: Swift.Codable {
         }
         if let matchingEventTypes = matchingEventTypes {
             var matchingEventTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .matchingEventTypes)
-            for eventtypes0 in matchingEventTypes {
-                try matchingEventTypesContainer.encode(eventtypes0.rawValue)
+            for eventtype0 in matchingEventTypes {
+                try matchingEventTypesContainer.encode(eventtype0.rawValue)
             }
         }
         if let pinpointDestination = self.pinpointDestination {
@@ -4385,8 +4385,8 @@ extension PinpointEmailClientTypes.InboxPlacementTrackingOption: Swift.Codable {
         }
         if let trackedIsps = trackedIsps {
             var trackedIspsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .trackedIsps)
-            for ispnamelist0 in trackedIsps {
-                try trackedIspsContainer.encode(ispnamelist0)
+            for ispname0 in trackedIsps {
+                try trackedIspsContainer.encode(ispname0)
             }
         }
     }
@@ -5781,8 +5781,8 @@ extension PinpointEmailClientTypes.OverallVolume: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainIspPlacements = domainIspPlacements {
             var domainIspPlacementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainIspPlacements)
-            for domainispplacements0 in domainIspPlacements {
-                try domainIspPlacementsContainer.encode(domainispplacements0)
+            for domainispplacement0 in domainIspPlacements {
+                try domainIspPlacementsContainer.encode(domainispplacement0)
             }
         }
         if let readRatePercent = self.readRatePercent {
@@ -6698,8 +6698,8 @@ extension PutDeliverabilityDashboardOptionInput: Swift.Encodable {
         }
         if let subscribedDomains = subscribedDomains {
             var subscribedDomainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subscribedDomains)
-            for domaindeliverabilitytrackingoptions0 in subscribedDomains {
-                try subscribedDomainsContainer.encode(domaindeliverabilitytrackingoptions0)
+            for domaindeliverabilitytrackingoption0 in subscribedDomains {
+                try subscribedDomainsContainer.encode(domaindeliverabilitytrackingoption0)
             }
         }
     }
@@ -7215,8 +7215,8 @@ extension SendEmailInput: Swift.Encodable {
         }
         if let emailTags = emailTags {
             var emailTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emailTags)
-            for messagetaglist0 in emailTags {
-                try emailTagsContainer.encode(messagetaglist0)
+            for messagetag0 in emailTags {
+                try emailTagsContainer.encode(messagetag0)
             }
         }
         if let feedbackForwardingEmailAddress = self.feedbackForwardingEmailAddress {
@@ -7227,8 +7227,8 @@ extension SendEmailInput: Swift.Encodable {
         }
         if let replyToAddresses = replyToAddresses {
             var replyToAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replyToAddresses)
-            for emailaddresslist0 in replyToAddresses {
-                try replyToAddressesContainer.encode(emailaddresslist0)
+            for emailaddress0 in replyToAddresses {
+                try replyToAddressesContainer.encode(emailaddress0)
             }
         }
     }
@@ -7661,8 +7661,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }

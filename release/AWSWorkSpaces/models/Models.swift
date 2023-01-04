@@ -350,8 +350,8 @@ extension AssociateIpGroupsInput: Swift.Encodable {
         }
         if let groupIds = groupIds {
             var groupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIds)
-            for ipgroupidlist0 in groupIds {
-                try groupIdsContainer.encode(ipgroupidlist0)
+            for ipgroupid0 in groupIds {
+                try groupIdsContainer.encode(ipgroupid0)
             }
         }
     }
@@ -506,8 +506,8 @@ extension AuthorizeIpRulesInput: Swift.Encodable {
         }
         if let userRules = userRules {
             var userRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userRules)
-            for iprulelist0 in userRules {
-                try userRulesContainer.encode(iprulelist0)
+            for ipruleitem0 in userRules {
+                try userRulesContainer.encode(ipruleitem0)
             }
         }
     }
@@ -1018,8 +1018,8 @@ extension WorkSpacesClientTypes.ConnectionAlias: Swift.Codable {
         }
         if let associations = associations {
             var associationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associations)
-            for connectionaliasassociationlist0 in associations {
-                try associationsContainer.encode(connectionaliasassociationlist0)
+            for connectionaliasassociation0 in associations {
+                try associationsContainer.encode(connectionaliasassociation0)
             }
         }
         if let connectionString = self.connectionString {
@@ -1296,8 +1296,8 @@ extension CopyWorkspaceImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1614,8 +1614,8 @@ extension CreateConnectionAliasInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1764,14 +1764,14 @@ extension CreateIpGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userRules = userRules {
             var userRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userRules)
-            for iprulelist0 in userRules {
-                try userRulesContainer.encode(iprulelist0)
+            for ipruleitem0 in userRules {
+                try userRulesContainer.encode(ipruleitem0)
             }
         }
     }
@@ -1938,8 +1938,8 @@ extension CreateStandbyWorkspacesInput: Swift.Encodable {
         }
         if let standbyWorkspaces = standbyWorkspaces {
             var standbyWorkspacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standbyWorkspaces)
-            for standbyworkspaceslist0 in standbyWorkspaces {
-                try standbyWorkspacesContainer.encode(standbyworkspaceslist0)
+            for standbyworkspace0 in standbyWorkspaces {
+                try standbyWorkspacesContainer.encode(standbyworkspace0)
             }
         }
     }
@@ -2110,8 +2110,8 @@ extension CreateTagsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2227,8 +2227,8 @@ extension CreateUpdatedWorkspaceImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2409,8 +2409,8 @@ extension CreateWorkspaceBundleInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userStorage = self.userStorage {
@@ -2606,8 +2606,8 @@ extension CreateWorkspaceImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let workspaceId = self.workspaceId {
@@ -2840,8 +2840,8 @@ extension CreateWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let workspaces = workspaces {
             var workspacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaces)
-            for workspacerequestlist0 in workspaces {
-                try workspacesContainer.encode(workspacerequestlist0)
+            for workspacerequest0 in workspaces {
+                try workspacesContainer.encode(workspacerequest0)
             }
         }
     }
@@ -3096,8 +3096,8 @@ extension WorkSpacesClientTypes.DefaultClientBrandingAttributes: Swift.Codable {
         }
         if let loginMessage = loginMessage {
             var loginMessageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .loginMessage)
-            for (dictKey0, loginmessage0) in loginMessage {
-                try loginMessageContainer.encode(loginmessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginMessage0) in loginMessage {
+                try loginMessageContainer.encode(loginMessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let logoUrl = self.logoUrl {
@@ -3191,8 +3191,8 @@ extension WorkSpacesClientTypes.DefaultImportClientBrandingAttributes: Swift.Cod
         }
         if let loginMessage = loginMessage {
             var loginMessageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .loginMessage)
-            for (dictKey0, loginmessage0) in loginMessage {
-                try loginMessageContainer.encode(loginmessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginMessage0) in loginMessage {
+                try loginMessageContainer.encode(loginMessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let logo = self.logo {
@@ -3426,8 +3426,8 @@ extension DeleteClientBrandingInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let platforms = platforms {
             var platformsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .platforms)
-            for clientdevicetypelist0 in platforms {
-                try platformsContainer.encode(clientdevicetypelist0.rawValue)
+            for clientdevicetype0 in platforms {
+                try platformsContainer.encode(clientdevicetype0.rawValue)
             }
         }
         if let resourceId = self.resourceId {
@@ -3811,8 +3811,8 @@ extension DeleteTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for nonemptystring0 in tagKeys {
+                try tagKeysContainer.encode(nonemptystring0)
             }
         }
     }
@@ -4566,8 +4566,8 @@ extension DescribeClientPropertiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for resourceidlist0 in resourceIds {
-                try resourceIdsContainer.encode(resourceidlist0)
+            for nonemptystring0 in resourceIds {
+                try resourceIdsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -5033,8 +5033,8 @@ extension DescribeConnectionAliasesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let aliasIds = aliasIds {
             var aliasIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .aliasIds)
-            for connectionaliasidlist0 in aliasIds {
-                try aliasIdsContainer.encode(connectionaliasidlist0)
+            for connectionaliasid0 in aliasIds {
+                try aliasIdsContainer.encode(connectionaliasid0)
             }
         }
         if let limit = self.limit {
@@ -5213,8 +5213,8 @@ extension DescribeIpGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupIds = groupIds {
             var groupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIds)
-            for ipgroupidlist0 in groupIds {
-                try groupIdsContainer.encode(ipgroupidlist0)
+            for ipgroupid0 in groupIds {
+                try groupIdsContainer.encode(ipgroupid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -5500,8 +5500,8 @@ extension DescribeWorkspaceBundlesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bundleIds = bundleIds {
             var bundleIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bundleIds)
-            for bundleidlist0 in bundleIds {
-                try bundleIdsContainer.encode(bundleidlist0)
+            for bundleid0 in bundleIds {
+                try bundleIdsContainer.encode(bundleid0)
             }
         }
         if let nextToken = self.nextToken {
@@ -5665,8 +5665,8 @@ extension DescribeWorkspaceDirectoriesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let directoryIds = directoryIds {
             var directoryIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .directoryIds)
-            for directoryidlist0 in directoryIds {
-                try directoryIdsContainer.encode(directoryidlist0)
+            for directoryid0 in directoryIds {
+                try directoryIdsContainer.encode(directoryid0)
             }
         }
         if let limit = self.limit {
@@ -5999,8 +5999,8 @@ extension DescribeWorkspaceImagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let imageIds = imageIds {
             var imageIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageIds)
-            for workspaceimageidlist0 in imageIds {
-                try imageIdsContainer.encode(workspaceimageidlist0)
+            for workspaceimageid0 in imageIds {
+                try imageIdsContainer.encode(workspaceimageid0)
             }
         }
         if let imageType = self.imageType {
@@ -6320,8 +6320,8 @@ extension DescribeWorkspacesConnectionStatusInput: Swift.Encodable {
         }
         if let workspaceIds = workspaceIds {
             var workspaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceIds)
-            for workspaceidlist0 in workspaceIds {
-                try workspaceIdsContainer.encode(workspaceidlist0)
+            for workspaceid0 in workspaceIds {
+                try workspaceIdsContainer.encode(workspaceid0)
             }
         }
     }
@@ -6489,8 +6489,8 @@ extension DescribeWorkspacesInput: Swift.Encodable {
         }
         if let workspaceIds = workspaceIds {
             var workspaceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .workspaceIds)
-            for workspaceidlist0 in workspaceIds {
-                try workspaceIdsContainer.encode(workspaceidlist0)
+            for workspaceid0 in workspaceIds {
+                try workspaceIdsContainer.encode(workspaceid0)
             }
         }
     }
@@ -6764,8 +6764,8 @@ extension DisassociateIpGroupsInput: Swift.Encodable {
         }
         if let groupIds = groupIds {
             var groupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIds)
-            for ipgroupidlist0 in groupIds {
-                try groupIdsContainer.encode(ipgroupidlist0)
+            for ipgroupid0 in groupIds {
+                try groupIdsContainer.encode(ipgroupid0)
             }
         }
     }
@@ -7347,8 +7347,8 @@ extension ImportWorkspaceImageInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applications = applications {
             var applicationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applications)
-            for applicationlist0 in applications {
-                try applicationsContainer.encode(applicationlist0.rawValue)
+            for application0 in applications {
+                try applicationsContainer.encode(application0.rawValue)
             }
         }
         if let ec2ImageId = self.ec2ImageId {
@@ -7365,8 +7365,8 @@ extension ImportWorkspaceImageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -7664,8 +7664,8 @@ extension WorkSpacesClientTypes.IosClientBrandingAttributes: Swift.Codable {
         }
         if let loginMessage = loginMessage {
             var loginMessageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .loginMessage)
-            for (dictKey0, loginmessage0) in loginMessage {
-                try loginMessageContainer.encode(loginmessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginMessage0) in loginMessage {
+                try loginMessageContainer.encode(loginMessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let logo2xUrl = self.logo2xUrl {
@@ -7779,8 +7779,8 @@ extension WorkSpacesClientTypes.IosImportClientBrandingAttributes: Swift.Codable
         }
         if let loginMessage = loginMessage {
             var loginMessageContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .loginMessage)
-            for (dictKey0, loginmessage0) in loginMessage {
-                try loginMessageContainer.encode(loginmessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, loginMessage0) in loginMessage {
+                try loginMessageContainer.encode(loginMessage0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let logo = self.logo {
@@ -8478,8 +8478,8 @@ extension ModifyCertificateBasedAuthPropertiesInput: Swift.Encodable {
         }
         if let propertiesToDelete = propertiesToDelete {
             var propertiesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertiesToDelete)
-            for deletablecertificatebasedauthpropertieslist0 in propertiesToDelete {
-                try propertiesToDeleteContainer.encode(deletablecertificatebasedauthpropertieslist0.rawValue)
+            for deletablecertificatebasedauthproperty0 in propertiesToDelete {
+                try propertiesToDeleteContainer.encode(deletablecertificatebasedauthproperty0.rawValue)
             }
         }
         if let resourceId = self.resourceId {
@@ -8694,8 +8694,8 @@ extension ModifySamlPropertiesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let propertiesToDelete = propertiesToDelete {
             var propertiesToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .propertiesToDelete)
-            for deletablesamlpropertieslist0 in propertiesToDelete {
-                try propertiesToDeleteContainer.encode(deletablesamlpropertieslist0.rawValue)
+            for deletablesamlproperty0 in propertiesToDelete {
+                try propertiesToDeleteContainer.encode(deletablesamlproperty0.rawValue)
             }
         }
         if let resourceId = self.resourceId {
@@ -9628,8 +9628,8 @@ extension RebootWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rebootWorkspaceRequests = rebootWorkspaceRequests {
             var rebootWorkspaceRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rebootWorkspaceRequests)
-            for rebootworkspacerequests0 in rebootWorkspaceRequests {
-                try rebootWorkspaceRequestsContainer.encode(rebootworkspacerequests0)
+            for rebootrequest0 in rebootWorkspaceRequests {
+                try rebootWorkspaceRequestsContainer.encode(rebootrequest0)
             }
         }
     }
@@ -9796,8 +9796,8 @@ extension RebuildWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let rebuildWorkspaceRequests = rebuildWorkspaceRequests {
             var rebuildWorkspaceRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rebuildWorkspaceRequests)
-            for rebuildworkspacerequests0 in rebuildWorkspaceRequests {
-                try rebuildWorkspaceRequestsContainer.encode(rebuildworkspacerequests0)
+            for rebuildrequest0 in rebuildWorkspaceRequests {
+                try rebuildWorkspaceRequestsContainer.encode(rebuildrequest0)
             }
         }
     }
@@ -9974,14 +9974,14 @@ extension RegisterWorkspaceDirectoryInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let tenancy = self.tenancy {
@@ -10629,8 +10629,8 @@ extension RevokeIpRulesInput: Swift.Encodable {
         }
         if let userRules = userRules {
             var userRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userRules)
-            for iprevokedrulelist0 in userRules {
-                try userRulesContainer.encode(iprevokedrulelist0)
+            for iprule0 in userRules {
+                try userRulesContainer.encode(iprule0)
             }
         }
     }
@@ -11021,8 +11021,8 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let volumeEncryptionKey = self.volumeEncryptionKey {
@@ -11158,8 +11158,8 @@ extension StartWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let startWorkspaceRequests = startWorkspaceRequests {
             var startWorkspaceRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startWorkspaceRequests)
-            for startworkspacerequests0 in startWorkspaceRequests {
-                try startWorkspaceRequestsContainer.encode(startworkspacerequests0)
+            for startrequest0 in startWorkspaceRequests {
+                try startWorkspaceRequestsContainer.encode(startrequest0)
             }
         }
     }
@@ -11323,8 +11323,8 @@ extension StopWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let stopWorkspaceRequests = stopWorkspaceRequests {
             var stopWorkspaceRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stopWorkspaceRequests)
-            for stopworkspacerequests0 in stopWorkspaceRequests {
-                try stopWorkspaceRequestsContainer.encode(stopworkspacerequests0)
+            for stoprequest0 in stopWorkspaceRequests {
+                try stopWorkspaceRequestsContainer.encode(stoprequest0)
             }
         }
     }
@@ -11599,8 +11599,8 @@ extension TerminateWorkspacesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let terminateWorkspaceRequests = terminateWorkspaceRequests {
             var terminateWorkspaceRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terminateWorkspaceRequests)
-            for terminateworkspacerequests0 in terminateWorkspaceRequests {
-                try terminateWorkspaceRequestsContainer.encode(terminateworkspacerequests0)
+            for terminaterequest0 in terminateWorkspaceRequests {
+                try terminateWorkspaceRequestsContainer.encode(terminaterequest0)
             }
         }
     }
@@ -12108,8 +12108,8 @@ extension UpdateRulesOfIpGroupInput: Swift.Encodable {
         }
         if let userRules = userRules {
             var userRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userRules)
-            for iprulelist0 in userRules {
-                try userRulesContainer.encode(iprulelist0)
+            for ipruleitem0 in userRules {
+                try userRulesContainer.encode(ipruleitem0)
             }
         }
     }
@@ -12498,14 +12498,14 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         }
         if let modificationStates = modificationStates {
             var modificationStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .modificationStates)
-            for modificationstatelist0 in modificationStates {
-                try modificationStatesContainer.encode(modificationstatelist0)
+            for modificationstate0 in modificationStates {
+                try modificationStatesContainer.encode(modificationstate0)
             }
         }
         if let relatedWorkspaces = relatedWorkspaces {
             var relatedWorkspacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedWorkspaces)
-            for relatedworkspaces0 in relatedWorkspaces {
-                try relatedWorkspacesContainer.encode(relatedworkspaces0)
+            for relatedworkspaceproperties0 in relatedWorkspaces {
+                try relatedWorkspacesContainer.encode(relatedworkspaceproperties0)
             }
         }
         if let rootVolumeEncryptionEnabled = self.rootVolumeEncryptionEnabled {
@@ -13148,8 +13148,8 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         }
         if let dnsIpAddresses = dnsIpAddresses {
             var dnsIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dnsIpAddresses)
-            for dnsipaddresses0 in dnsIpAddresses {
-                try dnsIpAddressesContainer.encode(dnsipaddresses0)
+            for ipaddress0 in dnsIpAddresses {
+                try dnsIpAddressesContainer.encode(ipaddress0)
             }
         }
         if let iamRoleId = self.iamRoleId {
@@ -13169,8 +13169,8 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tenancy = self.tenancy {
@@ -13187,8 +13187,8 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
         }
         if let ipGroupIds = ipGroupIds {
             var ipGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipGroupIds)
-            for ipgroupidlist0 in ipGroupIds {
-                try ipGroupIdsContainer.encode(ipgroupidlist0)
+            for ipgroupid0 in ipGroupIds {
+                try ipGroupIdsContainer.encode(ipgroupid0)
             }
         }
     }
@@ -13684,8 +13684,8 @@ extension WorkSpacesClientTypes.WorkspaceProperties: Swift.Codable {
         }
         if let protocols = protocols {
             var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
-            for protocollist0 in protocols {
-                try protocolsContainer.encode(protocollist0.rawValue)
+            for protocol0 in protocols {
+                try protocolsContainer.encode(protocol0.rawValue)
             }
         }
         if let rootVolumeSizeGib = self.rootVolumeSizeGib {
@@ -13795,8 +13795,8 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let userName = self.userName {
@@ -14040,8 +14040,8 @@ extension WorkSpacesClientTypes.WorkspacesIpGroup: Swift.Codable {
         }
         if let userRules = userRules {
             var userRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .userRules)
-            for iprulelist0 in userRules {
-                try userRulesContainer.encode(iprulelist0)
+            for ipruleitem0 in userRules {
+                try userRulesContainer.encode(ipruleitem0)
             }
         }
     }

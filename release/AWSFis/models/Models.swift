@@ -21,20 +21,20 @@ extension FisClientTypes.Action: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, actionparametermap0) in parameters {
-                try parametersContainer.encode(actionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionParameterMap0) in parameters {
+                try parametersContainer.encode(actionParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, actiontargetmap0) in targets {
-                try targetsContainer.encode(actiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionTargetMap0) in targets {
+                try targetsContainer.encode(actionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -176,14 +176,14 @@ extension FisClientTypes.ActionSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, actiontargetmap0) in targets {
-                try targetsContainer.encode(actiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionTargetMap0) in targets {
+                try targetsContainer.encode(actionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -353,20 +353,20 @@ extension FisClientTypes.CreateExperimentTemplateActionInput: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplateactionparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplateactionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateActionParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startAfter = startAfter {
             var startAfterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startAfter)
-            for experimenttemplateactionstartafterlist0 in startAfter {
-                try startAfterContainer.encode(experimenttemplateactionstartafterlist0)
+            for experimenttemplateactionstartafter0 in startAfter {
+                try startAfterContainer.encode(experimenttemplateactionstartafter0)
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimenttemplateactiontargetmap0) in targets {
-                try targetsContainer.encode(experimenttemplateactiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionTargetMap0) in targets {
+                try targetsContainer.encode(experimentTemplateActionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -462,8 +462,8 @@ extension CreateExperimentTemplateInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, createexperimenttemplateactioninputmap0) in actions {
-                try actionsContainer.encode(createexperimenttemplateactioninputmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, createExperimentTemplateActionInputMap0) in actions {
+                try actionsContainer.encode(createExperimentTemplateActionInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let clientToken = self.clientToken {
@@ -480,20 +480,20 @@ extension CreateExperimentTemplateInput: Swift.Encodable {
         }
         if let stopConditions = stopConditions {
             var stopConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stopConditions)
-            for createexperimenttemplatestopconditioninputlist0 in stopConditions {
-                try stopConditionsContainer.encode(createexperimenttemplatestopconditioninputlist0)
+            for createexperimenttemplatestopconditioninput0 in stopConditions {
+                try stopConditionsContainer.encode(createexperimenttemplatestopconditioninput0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, createexperimenttemplatetargetinputmap0) in targets {
-                try targetsContainer.encode(createexperimenttemplatetargetinputmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, createExperimentTemplateTargetInputMap0) in targets {
+                try targetsContainer.encode(createExperimentTemplateTargetInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -815,26 +815,26 @@ extension FisClientTypes.CreateExperimentTemplateTargetInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for experimenttemplatetargetfilterinputlist0 in filters {
-                try filtersContainer.encode(experimenttemplatetargetfilterinputlist0)
+            for experimenttemplatetargetinputfilter0 in filters {
+                try filtersContainer.encode(experimenttemplatetargetinputfilter0)
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplatetargetparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplatetargetparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateTargetParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateTargetParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, tagmap0) in resourceTags {
-                try resourceTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in resourceTags {
+                try resourceTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -1058,8 +1058,8 @@ extension FisClientTypes.Experiment: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, experimentactionmap0) in actions {
-                try actionsContainer.encode(experimentactionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentActionMap0) in actions {
+                try actionsContainer.encode(experimentActionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let creationTime = self.creationTime {
@@ -1088,20 +1088,20 @@ extension FisClientTypes.Experiment: Swift.Codable {
         }
         if let stopConditions = stopConditions {
             var stopConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stopConditions)
-            for experimentstopconditionlist0 in stopConditions {
-                try stopConditionsContainer.encode(experimentstopconditionlist0)
+            for experimentstopcondition0 in stopConditions {
+                try stopConditionsContainer.encode(experimentstopcondition0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimenttargetmap0) in targets {
-                try targetsContainer.encode(experimenttargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTargetMap0) in targets {
+                try targetsContainer.encode(experimentTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1256,14 +1256,14 @@ extension FisClientTypes.ExperimentAction: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimentactionparametermap0) in parameters {
-                try parametersContainer.encode(experimentactionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentActionParameterMap0) in parameters {
+                try parametersContainer.encode(experimentActionParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startAfter = startAfter {
             var startAfterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startAfter)
-            for experimentactionstartafterlist0 in startAfter {
-                try startAfterContainer.encode(experimentactionstartafterlist0)
+            for experimentactionstartafter0 in startAfter {
+                try startAfterContainer.encode(experimentactionstartafter0)
             }
         }
         if let startTime = self.startTime {
@@ -1274,8 +1274,8 @@ extension FisClientTypes.ExperimentAction: Swift.Codable {
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimentactiontargetmap0) in targets {
-                try targetsContainer.encode(experimentactiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentActionTargetMap0) in targets {
+                try targetsContainer.encode(experimentActionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1764,8 +1764,8 @@ extension FisClientTypes.ExperimentSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1840,26 +1840,26 @@ extension FisClientTypes.ExperimentTarget: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for experimenttargetfilterlist0 in filters {
-                try filtersContainer.encode(experimenttargetfilterlist0)
+            for experimenttargetfilter0 in filters {
+                try filtersContainer.encode(experimenttargetfilter0)
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttargetparametermap0) in parameters {
-                try parametersContainer.encode(experimenttargetparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTargetParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTargetParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, tagmap0) in resourceTags {
-                try resourceTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in resourceTags {
+                try resourceTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -1972,8 +1972,8 @@ extension FisClientTypes.ExperimentTargetFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for experimenttargetfiltervalues0 in values {
-                try valuesContainer.encode(experimenttargetfiltervalues0)
+            for experimenttargetfiltervalue0 in values {
+                try valuesContainer.encode(experimenttargetfiltervalue0)
             }
         }
     }
@@ -2034,8 +2034,8 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, experimenttemplateactionmap0) in actions {
-                try actionsContainer.encode(experimenttemplateactionmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionMap0) in actions {
+                try actionsContainer.encode(experimentTemplateActionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let creationTime = self.creationTime {
@@ -2058,20 +2058,20 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         }
         if let stopConditions = stopConditions {
             var stopConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stopConditions)
-            for experimenttemplatestopconditionlist0 in stopConditions {
-                try stopConditionsContainer.encode(experimenttemplatestopconditionlist0)
+            for experimenttemplatestopcondition0 in stopConditions {
+                try stopConditionsContainer.encode(experimenttemplatestopcondition0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimenttemplatetargetmap0) in targets {
-                try targetsContainer.encode(experimenttemplatetargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateTargetMap0) in targets {
+                try targetsContainer.encode(experimentTemplateTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2208,20 +2208,20 @@ extension FisClientTypes.ExperimentTemplateAction: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplateactionparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplateactionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateActionParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startAfter = startAfter {
             var startAfterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startAfter)
-            for experimenttemplateactionstartafterlist0 in startAfter {
-                try startAfterContainer.encode(experimenttemplateactionstartafterlist0)
+            for experimenttemplateactionstartafter0 in startAfter {
+                try startAfterContainer.encode(experimenttemplateactionstartafter0)
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimenttemplateactiontargetmap0) in targets {
-                try targetsContainer.encode(experimenttemplateactiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionTargetMap0) in targets {
+                try targetsContainer.encode(experimentTemplateActionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2587,8 +2587,8 @@ extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2663,26 +2663,26 @@ extension FisClientTypes.ExperimentTemplateTarget: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for experimenttemplatetargetfilterlist0 in filters {
-                try filtersContainer.encode(experimenttemplatetargetfilterlist0)
+            for experimenttemplatetargetfilter0 in filters {
+                try filtersContainer.encode(experimenttemplatetargetfilter0)
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplatetargetparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplatetargetparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateTargetParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateTargetParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, tagmap0) in resourceTags {
-                try resourceTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in resourceTags {
+                try resourceTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -2795,8 +2795,8 @@ extension FisClientTypes.ExperimentTemplateTargetFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for experimenttemplatetargetfiltervalues0 in values {
-                try valuesContainer.encode(experimenttemplatetargetfiltervalues0)
+            for experimenttemplatetargetfiltervalue0 in values {
+                try valuesContainer.encode(experimenttemplatetargetfiltervalue0)
             }
         }
     }
@@ -2852,8 +2852,8 @@ extension FisClientTypes.ExperimentTemplateTargetInputFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for experimenttemplatetargetfiltervalues0 in values {
-                try valuesContainer.encode(experimenttemplatetargetfiltervalues0)
+            for experimenttemplatetargetfiltervalue0 in values {
+                try valuesContainer.encode(experimenttemplatetargetfiltervalue0)
             }
         }
     }
@@ -4024,8 +4024,8 @@ extension StartExperimentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4266,8 +4266,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4369,8 +4369,8 @@ extension FisClientTypes.TargetResourceType: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, targetresourcetypeparametermap0) in parameters {
-                try parametersContainer.encode(targetresourcetypeparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, targetResourceTypeParameterMap0) in parameters {
+                try parametersContainer.encode(targetResourceTypeParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {
@@ -4611,20 +4611,20 @@ extension FisClientTypes.UpdateExperimentTemplateActionInputItem: Swift.Codable 
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplateactionparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplateactionparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateActionParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let startAfter = startAfter {
             var startAfterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .startAfter)
-            for experimenttemplateactionstartafterlist0 in startAfter {
-                try startAfterContainer.encode(experimenttemplateactionstartafterlist0)
+            for experimenttemplateactionstartafter0 in startAfter {
+                try startAfterContainer.encode(experimenttemplateactionstartafter0)
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, experimenttemplateactiontargetmap0) in targets {
-                try targetsContainer.encode(experimenttemplateactiontargetmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateActionTargetMap0) in targets {
+                try targetsContainer.encode(experimentTemplateActionTargetMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4717,8 +4717,8 @@ extension UpdateExperimentTemplateInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, updateexperimenttemplateactioninputmap0) in actions {
-                try actionsContainer.encode(updateexperimenttemplateactioninputmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, updateExperimentTemplateActionInputMap0) in actions {
+                try actionsContainer.encode(updateExperimentTemplateActionInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let description = self.description {
@@ -4732,14 +4732,14 @@ extension UpdateExperimentTemplateInput: Swift.Encodable {
         }
         if let stopConditions = stopConditions {
             var stopConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stopConditions)
-            for updateexperimenttemplatestopconditioninputlist0 in stopConditions {
-                try stopConditionsContainer.encode(updateexperimenttemplatestopconditioninputlist0)
+            for updateexperimenttemplatestopconditioninput0 in stopConditions {
+                try stopConditionsContainer.encode(updateexperimenttemplatestopconditioninput0)
             }
         }
         if let targets = targets {
             var targetsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .targets)
-            for (dictKey0, updateexperimenttemplatetargetinputmap0) in targets {
-                try targetsContainer.encode(updateexperimenttemplatetargetinputmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, updateExperimentTemplateTargetInputMap0) in targets {
+                try targetsContainer.encode(updateExperimentTemplateTargetInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -5036,26 +5036,26 @@ extension FisClientTypes.UpdateExperimentTemplateTargetInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for experimenttemplatetargetfilterinputlist0 in filters {
-                try filtersContainer.encode(experimenttemplatetargetfilterinputlist0)
+            for experimenttemplatetargetinputfilter0 in filters {
+                try filtersContainer.encode(experimenttemplatetargetinputfilter0)
             }
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, experimenttemplatetargetparametermap0) in parameters {
-                try parametersContainer.encode(experimenttemplatetargetparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, experimentTemplateTargetParameterMap0) in parameters {
+                try parametersContainer.encode(experimentTemplateTargetParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceArns = resourceArns {
             var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
-            for resourcearnlist0 in resourceArns {
-                try resourceArnsContainer.encode(resourcearnlist0)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .resourceTags)
-            for (dictKey0, tagmap0) in resourceTags {
-                try resourceTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in resourceTags {
+                try resourceTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceType = self.resourceType {

@@ -292,14 +292,14 @@ extension BatchGetCollectionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for collectionids0 in ids {
-                try idsContainer.encode(collectionids0)
+            for collectionid0 in ids {
+                try idsContainer.encode(collectionid0)
             }
         }
         if let names = names {
             var namesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .names)
-            for collectionnames0 in names {
-                try namesContainer.encode(collectionnames0)
+            for collectionname0 in names {
+                try namesContainer.encode(collectionname0)
             }
         }
     }
@@ -467,8 +467,8 @@ extension BatchGetVpcEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for vpcendpointids0 in ids {
-                try idsContainer.encode(vpcendpointids0)
+            for vpcendpointid0 in ids {
+                try idsContainer.encode(vpcendpointid0)
             }
         }
     }
@@ -1396,8 +1396,8 @@ extension CreateCollectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -1952,14 +1952,14 @@ extension CreateVpcEndpointInput: Swift.Encodable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -3465,8 +3465,8 @@ extension ListAccessPoliciesInput: Swift.Encodable {
         }
         if let resource = resource {
             var resourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resource)
-            for resourcefilter0 in resource {
-                try resourceContainer.encode(resourcefilter0)
+            for resource0 in resource {
+                try resourceContainer.encode(resource0)
             }
         }
         if let type = self.type {
@@ -3956,8 +3956,8 @@ extension ListSecurityPoliciesInput: Swift.Encodable {
         }
         if let resource = resource {
             var resourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resource)
-            for resourcefilter0 in resource {
-                try resourceContainer.encode(resourcefilter0)
+            for resource0 in resource {
+                try resourceContainer.encode(resource0)
             }
         }
         if let type = self.type {
@@ -5079,8 +5079,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for tags0 in tags {
-                try tagsContainer.encode(tags0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5190,8 +5190,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeys0 in tagKeys {
-                try tagKeysContainer.encode(tagkeys0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -6191,8 +6191,8 @@ extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail: Swift.Codable
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let status = self.status {
@@ -6200,8 +6200,8 @@ extension OpenSearchServerlessClientTypes.UpdateVpcEndpointDetail: Swift.Codable
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -6291,14 +6291,14 @@ extension UpdateVpcEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addSecurityGroupIds = addSecurityGroupIds {
             var addSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addSecurityGroupIds)
-            for securitygroupids0 in addSecurityGroupIds {
-                try addSecurityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in addSecurityGroupIds {
+                try addSecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let addSubnetIds = addSubnetIds {
             var addSubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addSubnetIds)
-            for subnetids0 in addSubnetIds {
-                try addSubnetIdsContainer.encode(subnetids0)
+            for subnetid0 in addSubnetIds {
+                try addSubnetIdsContainer.encode(subnetid0)
             }
         }
         if let clientToken = self.clientToken {
@@ -6309,14 +6309,14 @@ extension UpdateVpcEndpointInput: Swift.Encodable {
         }
         if let removeSecurityGroupIds = removeSecurityGroupIds {
             var removeSecurityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeSecurityGroupIds)
-            for securitygroupids0 in removeSecurityGroupIds {
-                try removeSecurityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in removeSecurityGroupIds {
+                try removeSecurityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let removeSubnetIds = removeSubnetIds {
             var removeSubnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeSubnetIds)
-            for subnetids0 in removeSubnetIds {
-                try removeSubnetIdsContainer.encode(subnetids0)
+            for subnetid0 in removeSubnetIds {
+                try removeSubnetIdsContainer.encode(subnetid0)
             }
         }
     }
@@ -6576,8 +6576,8 @@ extension OpenSearchServerlessClientTypes.VpcEndpointDetail: Swift.Codable {
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupids0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupids0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let status = self.status {
@@ -6585,8 +6585,8 @@ extension OpenSearchServerlessClientTypes.VpcEndpointDetail: Swift.Codable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {

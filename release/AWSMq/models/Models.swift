@@ -191,8 +191,8 @@ extension MqClientTypes.BrokerEngineType: Swift.Codable {
         }
         if let engineVersions = engineVersions {
             var engineVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .engineVersions)
-            for __listofengineversion0 in engineVersions {
-                try engineVersionsContainer.encode(__listofengineversion0)
+            for engineversion0 in engineVersions {
+                try engineVersionsContainer.encode(engineversion0)
             }
         }
     }
@@ -249,8 +249,8 @@ extension MqClientTypes.BrokerInstance: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpoints)
-            for __listof__string0 in endpoints {
-                try endpointsContainer.encode(__listof__string0)
+            for __string0 in endpoints {
+                try endpointsContainer.encode(__string0)
             }
         }
         if let ipAddress = self.ipAddress {
@@ -316,8 +316,8 @@ extension MqClientTypes.BrokerInstanceOption: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for __listofavailabilityzone0 in availabilityZones {
-                try availabilityZonesContainer.encode(__listofavailabilityzone0)
+            for availabilityzone0 in availabilityZones {
+                try availabilityZonesContainer.encode(availabilityzone0)
             }
         }
         if let engineType = self.engineType {
@@ -331,14 +331,14 @@ extension MqClientTypes.BrokerInstanceOption: Swift.Codable {
         }
         if let supportedDeploymentModes = supportedDeploymentModes {
             var supportedDeploymentModesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDeploymentModes)
-            for __listofdeploymentmode0 in supportedDeploymentModes {
-                try supportedDeploymentModesContainer.encode(__listofdeploymentmode0.rawValue)
+            for deploymentmode0 in supportedDeploymentModes {
+                try supportedDeploymentModesContainer.encode(deploymentmode0.rawValue)
             }
         }
         if let supportedEngineVersions = supportedEngineVersions {
             var supportedEngineVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedEngineVersions)
-            for __listof__string0 in supportedEngineVersions {
-                try supportedEngineVersionsContainer.encode(__listof__string0)
+            for __string0 in supportedEngineVersions {
+                try supportedEngineVersionsContainer.encode(__string0)
             }
         }
     }
@@ -689,8 +689,8 @@ extension MqClientTypes.Configuration: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -907,8 +907,8 @@ extension MqClientTypes.Configurations: Swift.Codable {
         }
         if let history = history {
             var historyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .history)
-            for __listofconfigurationid0 in history {
-                try historyContainer.encode(__listofconfigurationid0)
+            for configurationid0 in history {
+                try historyContainer.encode(configurationid0)
             }
         }
         if let pending = self.pending {
@@ -1092,8 +1092,8 @@ extension CreateBrokerInput: Swift.Encodable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
         if let storageType = self.storageType {
@@ -1101,20 +1101,20 @@ extension CreateBrokerInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for __listof__string0 in subnetIds {
-                try subnetIdsContainer.encode(__listof__string0)
+            for __string0 in subnetIds {
+                try subnetIdsContainer.encode(__string0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
-            for __listofuser0 in users {
-                try usersContainer.encode(__listofuser0)
+            for user0 in users {
+                try usersContainer.encode(user0)
             }
         }
     }
@@ -1449,8 +1449,8 @@ extension CreateConfigurationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1663,8 +1663,8 @@ extension CreateTagsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, __mapof__string0) in tags {
-                try tagsContainer.encode(__mapof__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, __mapOf__string0) in tags {
+                try tagsContainer.encode(__mapOf__string0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1774,8 +1774,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for __listof__string0 in groups {
-                try groupsContainer.encode(__listof__string0)
+            for __string0 in groups {
+                try groupsContainer.encode(__string0)
             }
         }
         if let password = self.password {
@@ -3768,8 +3768,8 @@ extension MqClientTypes.LdapServerMetadataInput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let hosts = hosts {
             var hostsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hosts)
-            for __listof__string0 in hosts {
-                try hostsContainer.encode(__listof__string0)
+            for __string0 in hosts {
+                try hostsContainer.encode(__string0)
             }
         }
         if let roleBase = self.roleBase {
@@ -3921,8 +3921,8 @@ extension MqClientTypes.LdapServerMetadataOutput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let hosts = hosts {
             var hostsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hosts)
-            for __listof__string0 in hosts {
-                try hostsContainer.encode(__listof__string0)
+            for __string0 in hosts {
+                try hostsContainer.encode(__string0)
             }
         }
         if let roleBase = self.roleBase {
@@ -5256,8 +5256,8 @@ extension UpdateBrokerInput: Swift.Encodable {
         }
         if let securityGroups = securityGroups {
             var securityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroups)
-            for __listof__string0 in securityGroups {
-                try securityGroupsContainer.encode(__listof__string0)
+            for __string0 in securityGroups {
+                try securityGroupsContainer.encode(__string0)
             }
         }
     }
@@ -5762,8 +5762,8 @@ extension UpdateUserInput: Swift.Encodable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for __listof__string0 in groups {
-                try groupsContainer.encode(__listof__string0)
+            for __string0 in groups {
+                try groupsContainer.encode(__string0)
             }
         }
         if let password = self.password {
@@ -5903,8 +5903,8 @@ extension MqClientTypes.User: Swift.Codable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for __listof__string0 in groups {
-                try groupsContainer.encode(__listof__string0)
+            for __string0 in groups {
+                try groupsContainer.encode(__string0)
             }
         }
         if let password = self.password {
@@ -5981,8 +5981,8 @@ extension MqClientTypes.UserPendingChanges: Swift.Codable {
         }
         if let groups = groups {
             var groupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groups)
-            for __listof__string0 in groups {
-                try groupsContainer.encode(__listof__string0)
+            for __string0 in groups {
+                try groupsContainer.encode(__string0)
             }
         }
         if let pendingChange = self.pendingChange {

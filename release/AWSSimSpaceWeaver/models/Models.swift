@@ -956,8 +956,8 @@ extension SimSpaceWeaverClientTypes.LaunchOverrides: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let launchCommands = launchCommands {
             var launchCommandsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .launchCommands)
-            for launchcommandlist0 in launchCommands {
-                try launchCommandsContainer.encode(launchcommandlist0)
+            for nonemptystring0 in launchCommands {
+                try launchCommandsContainer.encode(nonemptystring0)
             }
         }
     }
@@ -1436,14 +1436,14 @@ extension SimSpaceWeaverClientTypes.LiveSimulationState: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clocks = clocks {
             var clocksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clocks)
-            for simulationclocklist0 in clocks {
-                try clocksContainer.encode(simulationclocklist0)
+            for simulationclock0 in clocks {
+                try clocksContainer.encode(simulationclock0)
             }
         }
         if let domains = domains {
             var domainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domains)
-            for domainlist0 in domains {
-                try domainsContainer.encode(domainlist0)
+            for domain0 in domains {
+                try domainsContainer.encode(domain0)
             }
         }
     }
@@ -1539,8 +1539,8 @@ extension SimSpaceWeaverClientTypes.LoggingConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let destinations = destinations {
             var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
-            for logdestinations0 in destinations {
-                try destinationsContainer.encode(logdestinations0)
+            for logdestination0 in destinations {
+                try destinationsContainer.encode(logdestination0)
             }
         }
     }
@@ -1739,8 +1739,8 @@ extension SimSpaceWeaverClientTypes.SimulationAppEndpointInfo: Swift.Codable {
         }
         if let ingressPortMappings = ingressPortMappings {
             var ingressPortMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ingressPortMappings)
-            for appportmappings0 in ingressPortMappings {
-                try ingressPortMappingsContainer.encode(appportmappings0)
+            for simulationappportmapping0 in ingressPortMappings {
+                try ingressPortMappingsContainer.encode(simulationappportmapping0)
             }
         }
     }
@@ -2522,8 +2522,8 @@ extension StartSimulationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3013,8 +3013,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

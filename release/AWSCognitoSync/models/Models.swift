@@ -2471,8 +2471,8 @@ extension CognitoSyncClientTypes.PushSync: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationArns = applicationArns {
             var applicationArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .applicationArns)
-            for applicationarnlist0 in applicationArns {
-                try applicationArnsContainer.encode(applicationarnlist0)
+            for applicationarn0 in applicationArns {
+                try applicationArnsContainer.encode(applicationarn0)
             }
         }
         if let roleArn = self.roleArn {
@@ -3510,8 +3510,8 @@ extension UpdateRecordsInput: Swift.Encodable {
         }
         if let recordPatches = recordPatches {
             var recordPatchesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recordPatches)
-            for recordpatchlist0 in recordPatches {
-                try recordPatchesContainer.encode(recordpatchlist0)
+            for recordpatch0 in recordPatches {
+                try recordPatchesContainer.encode(recordpatch0)
             }
         }
         if let syncSessionToken = self.syncSessionToken {

@@ -134,8 +134,8 @@ extension PanoramaClientTypes.ApplicationInstance: Swift.Codable {
         }
         if let runtimeContextStates = runtimeContextStates {
             var runtimeContextStatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeContextStates)
-            for reportedruntimecontextstates0 in runtimeContextStates {
-                try runtimeContextStatesContainer.encode(reportedruntimecontextstates0)
+            for reportedruntimecontextstate0 in runtimeContextStates {
+                try runtimeContextStatesContainer.encode(reportedruntimecontextstate0)
             }
         }
         if let status = self.status {
@@ -146,8 +146,8 @@ extension PanoramaClientTypes.ApplicationInstance: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -573,8 +573,8 @@ extension CreateApplicationInstanceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -762,8 +762,8 @@ extension CreateJobForDevicesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let deviceIds = deviceIds {
             var deviceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .deviceIds)
-            for deviceidlist0 in deviceIds {
-                try deviceIdsContainer.encode(deviceidlist0)
+            for deviceid0 in deviceIds {
+                try deviceIdsContainer.encode(deviceid0)
             }
         }
         if let deviceJobConfig = self.deviceJobConfig {
@@ -932,8 +932,8 @@ extension CreateNodeFromTemplateJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobTags = jobTags {
             var jobTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobTags)
-            for jobtagslist0 in jobTags {
-                try jobTagsContainer.encode(jobtagslist0)
+            for jobresourcetags0 in jobTags {
+                try jobTagsContainer.encode(jobresourcetags0)
             }
         }
         if let nodeDescription = self.nodeDescription {
@@ -950,8 +950,8 @@ extension CreateNodeFromTemplateJobInput: Swift.Encodable {
         }
         if let templateParameters = templateParameters {
             var templateParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .templateParameters)
-            for (dictKey0, templateparametersmap0) in templateParameters {
-                try templateParametersContainer.encode(templateparametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, templateParametersMap0) in templateParameters {
+                try templateParametersContainer.encode(templateParametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templateType = self.templateType {
@@ -1154,8 +1154,8 @@ extension CreatePackageImportJobInput: Swift.Encodable {
         }
         if let jobTags = jobTags {
             var jobTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobTags)
-            for jobtagslist0 in jobTags {
-                try jobTagsContainer.encode(jobtagslist0)
+            for jobresourcetags0 in jobTags {
+                try jobTagsContainer.encode(jobresourcetags0)
             }
         }
         if let jobType = self.jobType {
@@ -1329,8 +1329,8 @@ extension CreatePackageInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3944,8 +3944,8 @@ extension PanoramaClientTypes.Device: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -4652,8 +4652,8 @@ extension PanoramaClientTypes.JobResourceTags: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7038,14 +7038,14 @@ extension PanoramaClientTypes.NodeInterface: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
-            for inputportlist0 in inputs {
-                try inputsContainer.encode(inputportlist0)
+            for nodeinputport0 in inputs {
+                try inputsContainer.encode(nodeinputport0)
             }
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputportlist0 in outputs {
-                try outputsContainer.encode(outputportlist0)
+            for nodeoutputport0 in outputs {
+                try outputsContainer.encode(nodeoutputport0)
             }
         }
     }
@@ -7242,8 +7242,8 @@ extension PanoramaClientTypes.NtpPayload: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ntpServers = ntpServers {
             var ntpServersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ntpServers)
-            for ntpserverlist0 in ntpServers {
-                try ntpServersContainer.encode(ntpserverlist0)
+            for ipaddressorservername0 in ntpServers {
+                try ntpServersContainer.encode(ipaddressorservername0)
             }
         }
     }
@@ -7735,8 +7735,8 @@ extension PanoramaClientTypes.PackageListItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8048,8 +8048,8 @@ extension ProvisionDeviceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8733,8 +8733,8 @@ extension SignalApplicationInstanceNodeInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let nodeSignals = nodeSignals {
             var nodeSignalsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeSignals)
-            for nodesignallist0 in nodeSignals {
-                try nodeSignalsContainer.encode(nodesignallist0)
+            for nodesignal0 in nodeSignals {
+                try nodeSignalsContainer.encode(nodesignal0)
             }
         }
     }
@@ -8909,8 +8909,8 @@ extension PanoramaClientTypes.StaticIpConnectionInfo: Swift.Codable {
         }
         if let dns = dns {
             var dnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dns)
-            for dnslist0 in dns {
-                try dnsContainer.encode(dnslist0)
+            for dns0 in dns {
+                try dnsContainer.encode(dns0)
             }
         }
         if let ipAddress = self.ipAddress {
@@ -9111,8 +9111,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

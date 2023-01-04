@@ -3809,20 +3809,20 @@ extension SnowballClientTypes.JobResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ec2AmiResources = ec2AmiResources {
             var ec2AmiResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2AmiResources)
-            for ec2amiresourcelist0 in ec2AmiResources {
-                try ec2AmiResourcesContainer.encode(ec2amiresourcelist0)
+            for ec2amiresource0 in ec2AmiResources {
+                try ec2AmiResourcesContainer.encode(ec2amiresource0)
             }
         }
         if let lambdaResources = lambdaResources {
             var lambdaResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaResources)
-            for lambdaresourcelist0 in lambdaResources {
-                try lambdaResourcesContainer.encode(lambdaresourcelist0)
+            for lambdaresource0 in lambdaResources {
+                try lambdaResourcesContainer.encode(lambdaresource0)
             }
         }
         if let s3Resources = s3Resources {
             var s3ResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .s3Resources)
-            for s3resourcelist0 in s3Resources {
-                try s3ResourcesContainer.encode(s3resourcelist0)
+            for s3resource0 in s3Resources {
+                try s3ResourcesContainer.encode(s3resource0)
             }
         }
     }
@@ -4096,8 +4096,8 @@ extension SnowballClientTypes.LambdaResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eventTriggers = eventTriggers {
             var eventTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTriggers)
-            for eventtriggerdefinitionlist0 in eventTriggers {
-                try eventTriggersContainer.encode(eventtriggerdefinitionlist0)
+            for eventtriggerdefinition0 in eventTriggers {
+                try eventTriggersContainer.encode(eventtriggerdefinition0)
             }
         }
         if let lambdaArn = self.lambdaArn {
@@ -4891,8 +4891,8 @@ extension SnowballClientTypes.LongTermPricingListEntry: Swift.Codable {
         }
         if let jobIds = jobIds {
             var jobIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobIds)
-            for longtermpricingassociatedjobidlist0 in jobIds {
-                try jobIdsContainer.encode(longtermpricingassociatedjobidlist0)
+            for jobid0 in jobIds {
+                try jobIdsContainer.encode(jobid0)
             }
         }
         if let longTermPricingEndDate = self.longTermPricingEndDate {
@@ -5092,8 +5092,8 @@ extension SnowballClientTypes.Notification: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let jobStatesToNotify = jobStatesToNotify {
             var jobStatesToNotifyContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobStatesToNotify)
-            for jobstatelist0 in jobStatesToNotify {
-                try jobStatesToNotifyContainer.encode(jobstatelist0.rawValue)
+            for jobstate0 in jobStatesToNotify {
+                try jobStatesToNotifyContainer.encode(jobstate0.rawValue)
             }
         }
         if notifyAll != false {
@@ -5294,8 +5294,8 @@ extension SnowballClientTypes.S3Resource: Swift.Codable {
         }
         if let targetOnDeviceServices = targetOnDeviceServices {
             var targetOnDeviceServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetOnDeviceServices)
-            for targetondeviceservicelist0 in targetOnDeviceServices {
-                try targetOnDeviceServicesContainer.encode(targetondeviceservicelist0)
+            for targetondeviceservice0 in targetOnDeviceServices {
+                try targetOnDeviceServicesContainer.encode(targetondeviceservice0)
             }
         }
     }

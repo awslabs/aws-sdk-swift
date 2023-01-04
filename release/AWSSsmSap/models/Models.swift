@@ -24,8 +24,8 @@ extension SsmSapClientTypes.Application: Swift.Codable {
         }
         if let components = components {
             var componentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .components)
-            for componentidlist0 in components {
-                try componentsContainer.encode(componentidlist0)
+            for componentid0 in components {
+                try componentsContainer.encode(componentid0)
             }
         }
         if let id = self.id {
@@ -250,8 +250,8 @@ extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -363,14 +363,14 @@ extension SsmSapClientTypes.Component: Swift.Codable {
         }
         if let databases = databases {
             var databasesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .databases)
-            for databaseidlist0 in databases {
-                try databasesContainer.encode(databaseidlist0)
+            for databaseid0 in databases {
+                try databasesContainer.encode(databaseid0)
             }
         }
         if let hosts = hosts {
             var hostsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hosts)
-            for hostlist0 in hosts {
-                try hostsContainer.encode(hostlist0)
+            for host0 in hosts {
+                try hostsContainer.encode(host0)
             }
         }
         if let lastUpdated = self.lastUpdated {
@@ -517,8 +517,8 @@ extension SsmSapClientTypes.ComponentSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -711,8 +711,8 @@ extension SsmSapClientTypes.Database: Swift.Codable {
         }
         if let credentials = credentials {
             var credentialsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentials)
-            for applicationcredentiallist0 in credentials {
-                try credentialsContainer.encode(applicationcredentiallist0)
+            for applicationcredential0 in credentials {
+                try credentialsContainer.encode(applicationcredential0)
             }
         }
         if let databaseId = self.databaseId {
@@ -900,8 +900,8 @@ extension SsmSapClientTypes.DatabaseSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2658,8 +2658,12 @@ extension SsmSapClientTypes.Operation: Swift.Codable {
         }
         if let properties = properties {
             var propertiesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .properties)
-            for (dictKey0, operationproperties0) in properties {
-                try propertiesContainer.encode(operationproperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, operationProperties0) in properties {
+                guard let operationProperties0 = operationProperties0 else {
+                    try propertiesContainer.encodeNil(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                    continue
+                }
+                try propertiesContainer.encode(operationProperties0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceArn = self.resourceArn {
@@ -3001,14 +3005,14 @@ extension RegisterApplicationInput: Swift.Encodable {
         }
         if let credentials = credentials {
             var credentialsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentials)
-            for applicationcredentiallist0 in credentials {
-                try credentialsContainer.encode(applicationcredentiallist0)
+            for applicationcredential0 in credentials {
+                try credentialsContainer.encode(applicationcredential0)
             }
         }
         if let instances = instances {
             var instancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instances)
-            for instancelist0 in instances {
-                try instancesContainer.encode(instancelist0)
+            for instanceid0 in instances {
+                try instancesContainer.encode(instanceid0)
             }
         }
         if let sapInstanceNumber = self.sapInstanceNumber {
@@ -3019,8 +3023,8 @@ extension RegisterApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3277,8 +3281,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3475,14 +3479,14 @@ extension UpdateApplicationSettingsInput: Swift.Encodable {
         }
         if let credentialsToAddOrUpdate = credentialsToAddOrUpdate {
             var credentialsToAddOrUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentialsToAddOrUpdate)
-            for applicationcredentiallist0 in credentialsToAddOrUpdate {
-                try credentialsToAddOrUpdateContainer.encode(applicationcredentiallist0)
+            for applicationcredential0 in credentialsToAddOrUpdate {
+                try credentialsToAddOrUpdateContainer.encode(applicationcredential0)
             }
         }
         if let credentialsToRemove = credentialsToRemove {
             var credentialsToRemoveContainer = encodeContainer.nestedUnkeyedContainer(forKey: .credentialsToRemove)
-            for applicationcredentiallist0 in credentialsToRemove {
-                try credentialsToRemoveContainer.encode(applicationcredentiallist0)
+            for applicationcredential0 in credentialsToRemove {
+                try credentialsToRemoveContainer.encode(applicationcredential0)
             }
         }
     }

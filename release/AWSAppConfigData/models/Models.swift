@@ -13,8 +13,8 @@ extension AppConfigDataClientTypes.BadRequestDetails: Swift.Codable {
         switch self {
             case let .invalidparameters(invalidparameters):
                 var invalidparametersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .invalidparameters)
-                for (dictKey0, invalidparametermap0) in invalidparameters {
-                    try invalidparametersContainer.encode(invalidparametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey0, invalidParameterMap0) in invalidparameters {
+                    try invalidparametersContainer.encode(invalidParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)

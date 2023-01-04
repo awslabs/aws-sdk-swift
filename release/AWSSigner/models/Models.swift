@@ -845,8 +845,8 @@ extension SignerClientTypes.EncryptionAlgorithmOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for encryptionalgorithms0 in allowedValues {
-                try allowedValuesContainer.encode(encryptionalgorithms0.rawValue)
+            for encryptionalgorithm0 in allowedValues {
+                try allowedValuesContainer.encode(encryptionalgorithm0.rawValue)
             }
         }
         if let defaultValue = self.defaultValue {
@@ -1381,8 +1381,8 @@ extension SignerClientTypes.HashAlgorithmOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowedValues = allowedValues {
             var allowedValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedValues)
-            for hashalgorithms0 in allowedValues {
-                try allowedValuesContainer.encode(hashalgorithms0.rawValue)
+            for hashalgorithm0 in allowedValues {
+                try allowedValuesContainer.encode(hashalgorithm0.rawValue)
             }
         }
         if let defaultValue = self.defaultValue {
@@ -2457,14 +2457,14 @@ extension PutSigningProfileInput: Swift.Encodable {
         }
         if let signingParameters = signingParameters {
             var signingParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .signingParameters)
-            for (dictKey0, signingparameters0) in signingParameters {
-                try signingParametersContainer.encode(signingparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, signingParameters0) in signingParameters {
+                try signingParametersContainer.encode(signingParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3479,8 +3479,8 @@ extension SignerClientTypes.SigningImageFormat: Swift.Codable {
         }
         if let supportedFormats = supportedFormats {
             var supportedFormatsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedFormats)
-            for imageformats0 in supportedFormats {
-                try supportedFormatsContainer.encode(imageformats0.rawValue)
+            for imageformat0 in supportedFormats {
+                try supportedFormatsContainer.encode(imageformat0.rawValue)
             }
         }
     }
@@ -3984,8 +3984,8 @@ extension SignerClientTypes.SigningProfile: Swift.Codable {
         }
         if let signingParameters = signingParameters {
             var signingParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .signingParameters)
-            for (dictKey0, signingparameters0) in signingParameters {
-                try signingParametersContainer.encode(signingparameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, signingParameters0) in signingParameters {
+                try signingParametersContainer.encode(signingParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -3993,8 +3993,8 @@ extension SignerClientTypes.SigningProfile: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4451,8 +4451,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }

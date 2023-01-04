@@ -1277,8 +1277,8 @@ extension CreateComponentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateFile = self.templateFile {
@@ -1506,8 +1506,8 @@ extension CreateEnvironmentAccountConnectionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -1729,8 +1729,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateMajorVersion = self.templateMajorVersion {
@@ -1990,8 +1990,8 @@ extension CreateEnvironmentTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2186,8 +2186,8 @@ extension CreateEnvironmentTemplateVersionInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateName = self.templateName {
@@ -2382,8 +2382,8 @@ extension CreateRepositoryInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2582,8 +2582,8 @@ extension CreateServiceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateMajorVersion = self.templateMajorVersion {
@@ -2827,8 +2827,8 @@ extension CreateServiceTemplateInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -3016,8 +3016,8 @@ extension CreateServiceTemplateVersionInput: Swift.Encodable {
         }
         if let compatibleEnvironmentTemplates = compatibleEnvironmentTemplates {
             var compatibleEnvironmentTemplatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleEnvironmentTemplates)
-            for compatibleenvironmenttemplateinputlist0 in compatibleEnvironmentTemplates {
-                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplateinputlist0)
+            for compatibleenvironmenttemplateinput0 in compatibleEnvironmentTemplates {
+                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplateinput0)
             }
         }
         if let description = self.description {
@@ -3031,14 +3031,14 @@ extension CreateServiceTemplateVersionInput: Swift.Encodable {
         }
         if let supportedComponentSources = supportedComponentSources {
             var supportedComponentSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedComponentSources)
-            for servicetemplatesupportedcomponentsourceinputlist0 in supportedComponentSources {
-                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourceinputlist0.rawValue)
+            for servicetemplatesupportedcomponentsourcetype0 in supportedComponentSources {
+                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourcetype0.rawValue)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let templateName = self.templateName {
@@ -8545,8 +8545,8 @@ extension ListEnvironmentAccountConnectionsInput: Swift.Encodable {
         }
         if let statuses = statuses {
             var statusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statuses)
-            for environmentaccountconnectionstatuslist0 in statuses {
-                try statusesContainer.encode(environmentaccountconnectionstatuslist0.rawValue)
+            for environmentaccountconnectionstatus0 in statuses {
+                try statusesContainer.encode(environmentaccountconnectionstatus0.rawValue)
             }
         }
     }
@@ -9353,8 +9353,8 @@ extension ListEnvironmentsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let environmentTemplates = environmentTemplates {
             var environmentTemplatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environmentTemplates)
-            for environmenttemplatefilterlist0 in environmentTemplates {
-                try environmentTemplatesContainer.encode(environmenttemplatefilterlist0)
+            for environmenttemplatefilter0 in environmentTemplates {
+                try environmentTemplatesContainer.encode(environmenttemplatefilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10284,8 +10284,8 @@ extension ListServiceInstancesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for listserviceinstancesfilterlist0 in filters {
-                try filtersContainer.encode(listserviceinstancesfilterlist0)
+            for listserviceinstancesfilter0 in filters {
+                try filtersContainer.encode(listserviceinstancesfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11456,8 +11456,8 @@ extension NotifyResourceDeploymentStatusChangeInput: Swift.Encodable {
         }
         if let outputs = outputs {
             var outputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputs)
-            for outputslist0 in outputs {
-                try outputsContainer.encode(outputslist0)
+            for output0 in outputs {
+                try outputsContainer.encode(output0)
             }
         }
         if let resourceArn = self.resourceArn {
@@ -12192,8 +12192,8 @@ extension ProtonClientTypes.RepositorySyncAttempt: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for repositorysyncevents0 in events {
-                try eventsContainer.encode(repositorysyncevents0)
+            for repositorysyncevent0 in events {
+                try eventsContainer.encode(repositorysyncevent0)
             }
         }
         if let startedAt = self.startedAt {
@@ -12542,8 +12542,8 @@ extension ProtonClientTypes.ResourceSyncAttempt: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let events = events {
             var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
-            for resourcesyncevents0 in events {
-                try eventsContainer.encode(resourcesyncevents0)
+            for resourcesyncevent0 in events {
+                try eventsContainer.encode(resourcesyncevent0)
             }
         }
         if let initialRevision = self.initialRevision {
@@ -14038,8 +14038,8 @@ extension ProtonClientTypes.ServiceTemplateVersion: Swift.Codable {
         }
         if let compatibleEnvironmentTemplates = compatibleEnvironmentTemplates {
             var compatibleEnvironmentTemplatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleEnvironmentTemplates)
-            for compatibleenvironmenttemplatelist0 in compatibleEnvironmentTemplates {
-                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplatelist0)
+            for compatibleenvironmenttemplate0 in compatibleEnvironmentTemplates {
+                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplate0)
             }
         }
         if let createdAt = self.createdAt {
@@ -14071,8 +14071,8 @@ extension ProtonClientTypes.ServiceTemplateVersion: Swift.Codable {
         }
         if let supportedComponentSources = supportedComponentSources {
             var supportedComponentSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedComponentSources)
-            for servicetemplatesupportedcomponentsourceinputlist0 in supportedComponentSources {
-                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourceinputlist0.rawValue)
+            for servicetemplatesupportedcomponentsourcetype0 in supportedComponentSources {
+                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourcetype0.rawValue)
             }
         }
         if let templateName = self.templateName {
@@ -14460,8 +14460,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -14822,8 +14822,8 @@ extension UntagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -16701,8 +16701,8 @@ extension UpdateServiceTemplateVersionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let compatibleEnvironmentTemplates = compatibleEnvironmentTemplates {
             var compatibleEnvironmentTemplatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .compatibleEnvironmentTemplates)
-            for compatibleenvironmenttemplateinputlist0 in compatibleEnvironmentTemplates {
-                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplateinputlist0)
+            for compatibleenvironmenttemplateinput0 in compatibleEnvironmentTemplates {
+                try compatibleEnvironmentTemplatesContainer.encode(compatibleenvironmenttemplateinput0)
             }
         }
         if let description = self.description {
@@ -16719,8 +16719,8 @@ extension UpdateServiceTemplateVersionInput: Swift.Encodable {
         }
         if let supportedComponentSources = supportedComponentSources {
             var supportedComponentSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedComponentSources)
-            for servicetemplatesupportedcomponentsourceinputlist0 in supportedComponentSources {
-                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourceinputlist0.rawValue)
+            for servicetemplatesupportedcomponentsourcetype0 in supportedComponentSources {
+                try supportedComponentSourcesContainer.encode(servicetemplatesupportedcomponentsourcetype0.rawValue)
             }
         }
         if let templateName = self.templateName {

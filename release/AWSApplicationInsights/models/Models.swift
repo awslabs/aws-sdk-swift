@@ -75,8 +75,11 @@ extension ApplicationInsightsClientTypes.ApplicationComponent: Swift.Codable {
         }
         if let detectedWorkload = detectedWorkload {
             var detectedWorkloadContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .detectedWorkload)
-            for (dictKey0, detectedworkload0) in detectedWorkload {
-                try detectedWorkloadContainer.encode(detectedworkload0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, detectedWorkload0) in detectedWorkload {
+                var detectedWorkload0Container = detectedWorkloadContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for (dictKey1, workloadMetaData1) in detectedWorkload0 {
+                    try detectedWorkload0Container.encode(workloadMetaData1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
             }
         }
         if let monitor = self.monitor {
@@ -562,8 +565,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -758,8 +761,8 @@ extension CreateComponentInput: Swift.Encodable {
         }
         if let resourceList = resourceList {
             var resourceListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceList)
-            for resourcelist0 in resourceList {
-                try resourceListContainer.encode(resourcelist0)
+            for resourcearn0 in resourceList {
+                try resourceListContainer.encode(resourcearn0)
             }
         }
     }
@@ -4503,8 +4506,8 @@ extension ApplicationInsightsClientTypes.RelatedObservations: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let observationList = observationList {
             var observationListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .observationList)
-            for observationlist0 in observationList {
-                try observationListContainer.encode(observationlist0)
+            for observation0 in observationList {
+                try observationListContainer.encode(observation0)
             }
         }
     }
@@ -4787,8 +4790,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -5090,8 +5093,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -5525,8 +5528,8 @@ extension UpdateComponentInput: Swift.Encodable {
         }
         if let resourceList = resourceList {
             var resourceListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceList)
-            for resourcelist0 in resourceList {
-                try resourceListContainer.encode(resourcelist0)
+            for resourcearn0 in resourceList {
+                try resourceListContainer.encode(resourcearn0)
             }
         }
     }

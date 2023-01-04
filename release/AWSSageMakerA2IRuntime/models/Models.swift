@@ -339,8 +339,8 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let contentClassifiers = contentClassifiers {
             var contentClassifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentClassifiers)
-            for contentclassifiers0 in contentClassifiers {
-                try contentClassifiersContainer.encode(contentclassifiers0.rawValue)
+            for contentclassifier0 in contentClassifiers {
+                try contentClassifiersContainer.encode(contentclassifier0.rawValue)
             }
         }
     }

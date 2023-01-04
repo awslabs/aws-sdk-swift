@@ -825,8 +825,8 @@ extension Route53DomainsClientTypes.ContactDetail: Swift.Codable {
         }
         if let extraParams = extraParams {
             var extraParamsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .extraParams)
-            for extraparamlist0 in extraParams {
-                try extraParamsContainer.encode(extraparamlist0)
+            for extraparam0 in extraParams {
+                try extraParamsContainer.encode(extraparam0)
             }
         }
         if let fax = self.fax {
@@ -1924,8 +1924,8 @@ extension DeleteTagsForDomainInput: Swift.Encodable {
         }
         if let tagsToDelete = tagsToDelete {
             var tagsToDeleteContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsToDelete)
-            for tagkeylist0 in tagsToDelete {
-                try tagsToDeleteContainer.encode(tagkeylist0)
+            for tagkey0 in tagsToDelete {
+                try tagsToDeleteContainer.encode(tagkey0)
             }
         }
     }
@@ -3734,8 +3734,8 @@ extension Route53DomainsClientTypes.FilterCondition: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for values0 in values {
-                try valuesContainer.encode(values0)
+            for value0 in values {
+                try valuesContainer.encode(value0)
             }
         }
     }
@@ -4723,8 +4723,8 @@ extension ListDomainsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterConditions = filterConditions {
             var filterConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterConditions)
-            for filterconditions0 in filterConditions {
-                try filterConditionsContainer.encode(filterconditions0)
+            for filtercondition0 in filterConditions {
+                try filterConditionsContainer.encode(filtercondition0)
             }
         }
         if let marker = self.marker {
@@ -4917,8 +4917,8 @@ extension ListOperationsInput: Swift.Encodable {
         }
         if let status = status {
             var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
-            for operationstatuslist0 in status {
-                try statusContainer.encode(operationstatuslist0.rawValue)
+            for operationstatus0 in status {
+                try statusContainer.encode(operationstatus0.rawValue)
             }
         }
         if let submittedSince = self.submittedSince {
@@ -4926,8 +4926,8 @@ extension ListOperationsInput: Swift.Encodable {
         }
         if let type = type {
             var typeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .type)
-            for operationtypelist0 in type {
-                try typeContainer.encode(operationtypelist0.rawValue)
+            for operationtype0 in type {
+                try typeContainer.encode(operationtype0.rawValue)
             }
         }
     }
@@ -5437,8 +5437,8 @@ extension Route53DomainsClientTypes.Nameserver: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let glueIps = glueIps {
             var glueIpsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .glueIps)
-            for glueiplist0 in glueIps {
-                try glueIpsContainer.encode(glueiplist0)
+            for glueip0 in glueIps {
+                try glueIpsContainer.encode(glueip0)
             }
         }
         if let name = self.name {
@@ -7096,8 +7096,8 @@ extension TransferDomainInput: Swift.Encodable {
         }
         if let nameservers = nameservers {
             var nameserversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nameservers)
-            for nameserverlist0 in nameservers {
-                try nameserversContainer.encode(nameserverlist0)
+            for nameserver0 in nameservers {
+                try nameserversContainer.encode(nameserver0)
             }
         }
         if let privacyProtectAdminContact = self.privacyProtectAdminContact {
@@ -7930,8 +7930,8 @@ extension UpdateDomainNameserversInput: Swift.Encodable {
         }
         if let nameservers = nameservers {
             var nameserversContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nameservers)
-            for nameserverlist0 in nameservers {
-                try nameserversContainer.encode(nameserverlist0)
+            for nameserver0 in nameservers {
+                try nameserversContainer.encode(nameserver0)
             }
         }
     }
@@ -8085,8 +8085,8 @@ extension UpdateTagsForDomainInput: Swift.Encodable {
         }
         if let tagsToUpdate = tagsToUpdate {
             var tagsToUpdateContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagsToUpdate)
-            for taglist0 in tagsToUpdate {
-                try tagsToUpdateContainer.encode(taglist0)
+            for tag0 in tagsToUpdate {
+                try tagsToUpdateContainer.encode(tag0)
             }
         }
     }

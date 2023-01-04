@@ -51,8 +51,8 @@ extension AthenaClientTypes.ApplicationDPUSizes: Swift.Codable {
         }
         if let supportedDPUSizes = supportedDPUSizes {
             var supportedDPUSizesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedDPUSizes)
-            for supporteddpusizelist0 in supportedDPUSizes {
-                try supportedDPUSizesContainer.encode(supporteddpusizelist0)
+            for integer0 in supportedDPUSizes {
+                try supportedDPUSizesContainer.encode(integer0)
             }
         }
     }
@@ -169,8 +169,8 @@ extension BatchGetNamedQueryInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let namedQueryIds = namedQueryIds {
             var namedQueryIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .namedQueryIds)
-            for namedqueryidlist0 in namedQueryIds {
-                try namedQueryIdsContainer.encode(namedqueryidlist0)
+            for namedqueryid0 in namedQueryIds {
+                try namedQueryIdsContainer.encode(namedqueryid0)
             }
         }
     }
@@ -324,8 +324,8 @@ extension BatchGetPreparedStatementInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let preparedStatementNames = preparedStatementNames {
             var preparedStatementNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .preparedStatementNames)
-            for preparedstatementnamelist0 in preparedStatementNames {
-                try preparedStatementNamesContainer.encode(preparedstatementnamelist0)
+            for statementname0 in preparedStatementNames {
+                try preparedStatementNamesContainer.encode(statementname0)
             }
         }
         if let workGroup = self.workGroup {
@@ -489,8 +489,8 @@ extension BatchGetQueryExecutionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let queryExecutionIds = queryExecutionIds {
             var queryExecutionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .queryExecutionIds)
-            for queryexecutionidlist0 in queryExecutionIds {
-                try queryExecutionIdsContainer.encode(queryexecutionidlist0)
+            for queryexecutionid0 in queryExecutionIds {
+                try queryExecutionIdsContainer.encode(queryexecutionid0)
             }
         }
     }
@@ -1186,14 +1186,14 @@ extension CreateDataCatalogInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let type = self.type {
@@ -1935,8 +1935,8 @@ extension CreateWorkGroupInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2098,8 +2098,8 @@ extension AthenaClientTypes.DataCatalog: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -2273,8 +2273,8 @@ extension AthenaClientTypes.Database: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2891,8 +2891,8 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalConfigs = additionalConfigs {
             var additionalConfigsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalConfigs)
-            for (dictKey0, parametersmap0) in additionalConfigs {
-                try additionalConfigsContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in additionalConfigs {
+                try additionalConfigsContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if coordinatorDpuSize != 0 {
@@ -8408,8 +8408,8 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
         }
         if let executionParameters = executionParameters {
             var executionParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .executionParameters)
-            for executionparameters0 in executionParameters {
-                try executionParametersContainer.encode(executionparameters0)
+            for executionparameter0 in executionParameters {
+                try executionParametersContainer.encode(executionparameter0)
             }
         }
         if let query = self.query {
@@ -9035,8 +9035,8 @@ extension AthenaClientTypes.QueryStage: Swift.Codable {
         }
         if let subStages = subStages {
             var subStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subStages)
-            for querystages0 in subStages {
-                try subStagesContainer.encode(querystages0)
+            for querystage0 in subStages {
+                try subStagesContainer.encode(querystage0)
             }
         }
     }
@@ -9133,8 +9133,8 @@ extension AthenaClientTypes.QueryStagePlanNode: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let children = children {
             var childrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .children)
-            for querystageplannodes0 in children {
-                try childrenContainer.encode(querystageplannodes0)
+            for querystageplannode0 in children {
+                try childrenContainer.encode(querystageplannode0)
             }
         }
         if let identifier = self.identifier {
@@ -9145,8 +9145,8 @@ extension AthenaClientTypes.QueryStagePlanNode: Swift.Codable {
         }
         if let remoteSources = remoteSources {
             var remoteSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .remoteSources)
-            for stringlist0 in remoteSources {
-                try remoteSourcesContainer.encode(stringlist0)
+            for string0 in remoteSources {
+                try remoteSourcesContainer.encode(string0)
             }
         }
     }
@@ -9572,8 +9572,8 @@ extension AthenaClientTypes.ResultSet: Swift.Codable {
         }
         if let rows = rows {
             var rowsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .rows)
-            for rowlist0 in rows {
-                try rowsContainer.encode(rowlist0)
+            for row0 in rows {
+                try rowsContainer.encode(row0)
             }
         }
     }
@@ -9625,8 +9625,8 @@ extension AthenaClientTypes.ResultSetMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columnInfo = columnInfo {
             var columnInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnInfo)
-            for columninfolist0 in columnInfo {
-                try columnInfoContainer.encode(columninfolist0)
+            for columninfo0 in columnInfo {
+                try columnInfoContainer.encode(columninfo0)
             }
         }
     }
@@ -9672,8 +9672,8 @@ extension AthenaClientTypes.Row: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let data = data {
             var dataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .data)
-            for datumlist0 in data {
-                try dataContainer.encode(datumlist0)
+            for datum0 in data {
+                try dataContainer.encode(datum0)
             }
         }
     }
@@ -10293,8 +10293,8 @@ extension StartQueryExecutionInput: Swift.Encodable {
         }
         if let executionParameters = executionParameters {
             var executionParametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .executionParameters)
-            for executionparameters0 in executionParameters {
-                try executionParametersContainer.encode(executionparameters0)
+            for executionparameter0 in executionParameters {
+                try executionParametersContainer.encode(executionparameter0)
             }
         }
         if let queryExecutionContext = self.queryExecutionContext {
@@ -10911,8 +10911,8 @@ extension AthenaClientTypes.TableMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let columns = columns {
             var columnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columns)
-            for columnlist0 in columns {
-                try columnsContainer.encode(columnlist0)
+            for column0 in columns {
+                try columnsContainer.encode(column0)
             }
         }
         if let createTime = self.createTime {
@@ -10926,14 +10926,14 @@ extension AthenaClientTypes.TableMetadata: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let partitionKeys = partitionKeys {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
-            for columnlist0 in partitionKeys {
-                try partitionKeysContainer.encode(columnlist0)
+            for column0 in partitionKeys {
+                try partitionKeysContainer.encode(column0)
             }
         }
         if let tableType = self.tableType {
@@ -11086,8 +11086,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -11573,8 +11573,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for tagkeylist0 in tagKeys {
-                try tagKeysContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeys {
+                try tagKeysContainer.encode(tagkey0)
             }
         }
     }
@@ -11687,8 +11687,8 @@ extension UpdateDataCatalogInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametersmap0) in parameters {
-                try parametersContainer.encode(parametersmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parametersMap0) in parameters {
+                try parametersContainer.encode(parametersMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {

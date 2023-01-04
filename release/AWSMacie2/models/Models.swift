@@ -1034,8 +1034,8 @@ extension BatchGetCustomDataIdentifiersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ids = ids {
             var idsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ids)
-            for __listof__string0 in ids {
-                try idsContainer.encode(__listof__string0)
+            for __string0 in ids {
+                try idsContainer.encode(__string0)
             }
         }
     }
@@ -1517,8 +1517,8 @@ extension Macie2ClientTypes.BucketCriteriaAdditionalProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eq = eq {
             var eqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eq)
-            for __listof__string0 in eq {
-                try eqContainer.encode(__listof__string0)
+            for __string0 in eq {
+                try eqContainer.encode(__string0)
             }
         }
         if let gt = self.gt {
@@ -1535,8 +1535,8 @@ extension Macie2ClientTypes.BucketCriteriaAdditionalProperties: Swift.Codable {
         }
         if let neq = neq {
             var neqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .neq)
-            for __listof__string0 in neq {
-                try neqContainer.encode(__listof__string0)
+            for __string0 in neq {
+                try neqContainer.encode(__string0)
             }
         }
         if let `prefix` = self.`prefix` {
@@ -1776,8 +1776,8 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for __listofkeyvaluepair0 in tags {
-                try tagsContainer.encode(__listofkeyvaluepair0)
+            for keyvaluepair0 in tags {
+                try tagsContainer.encode(keyvaluepair0)
             }
         }
         if let unclassifiableObjectCount = self.unclassifiableObjectCount {
@@ -2520,8 +2520,8 @@ extension Macie2ClientTypes.ClassificationResult: Swift.Codable {
         }
         if let sensitiveData = sensitiveData {
             var sensitiveDataContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sensitiveData)
-            for sensitivedata0 in sensitiveData {
-                try sensitiveDataContainer.encode(sensitivedata0)
+            for sensitivedataitem0 in sensitiveData {
+                try sensitiveDataContainer.encode(sensitivedataitem0)
             }
         }
         if let sizeClassified = self.sizeClassified {
@@ -2847,8 +2847,8 @@ extension CreateAllowListInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3038,8 +3038,8 @@ extension CreateClassificationJobInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowListIds = allowListIds {
             var allowListIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowListIds)
-            for __listof__string0 in allowListIds {
-                try allowListIdsContainer.encode(__listof__string0)
+            for __string0 in allowListIds {
+                try allowListIdsContainer.encode(__string0)
             }
         }
         if let clientToken = self.clientToken {
@@ -3047,8 +3047,8 @@ extension CreateClassificationJobInput: Swift.Encodable {
         }
         if let customDataIdentifierIds = customDataIdentifierIds {
             var customDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDataIdentifierIds)
-            for __listof__string0 in customDataIdentifierIds {
-                try customDataIdentifierIdsContainer.encode(__listof__string0)
+            for __string0 in customDataIdentifierIds {
+                try customDataIdentifierIdsContainer.encode(__string0)
             }
         }
         if let description = self.description {
@@ -3062,8 +3062,8 @@ extension CreateClassificationJobInput: Swift.Encodable {
         }
         if let managedDataIdentifierIds = managedDataIdentifierIds {
             var managedDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedDataIdentifierIds)
-            for __listof__string0 in managedDataIdentifierIds {
-                try managedDataIdentifierIdsContainer.encode(__listof__string0)
+            for __string0 in managedDataIdentifierIds {
+                try managedDataIdentifierIdsContainer.encode(__string0)
             }
         }
         if let managedDataIdentifierSelector = self.managedDataIdentifierSelector {
@@ -3083,8 +3083,8 @@ extension CreateClassificationJobInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3383,14 +3383,14 @@ extension CreateCustomDataIdentifierInput: Swift.Encodable {
         }
         if let ignoreWords = ignoreWords {
             var ignoreWordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ignoreWords)
-            for __listof__string0 in ignoreWords {
-                try ignoreWordsContainer.encode(__listof__string0)
+            for __string0 in ignoreWords {
+                try ignoreWordsContainer.encode(__string0)
             }
         }
         if let keywords = keywords {
             var keywordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keywords)
-            for __listof__string0 in keywords {
-                try keywordsContainer.encode(__listof__string0)
+            for __string0 in keywords {
+                try keywordsContainer.encode(__string0)
             }
         }
         if let maximumMatchDistance = self.maximumMatchDistance {
@@ -3404,14 +3404,14 @@ extension CreateCustomDataIdentifierInput: Swift.Encodable {
         }
         if let severityLevels = severityLevels {
             var severityLevelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severityLevels)
-            for severitylevellist0 in severityLevels {
-                try severityLevelsContainer.encode(severitylevellist0)
+            for severitylevel0 in severityLevels {
+                try severityLevelsContainer.encode(severitylevel0)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3661,8 +3661,8 @@ extension CreateFindingsFilterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3858,8 +3858,8 @@ extension CreateInvitationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for __listof__string0 in accountIds {
-                try accountIdsContainer.encode(__listof__string0)
+            for __string0 in accountIds {
+                try accountIdsContainer.encode(__string0)
             }
         }
         if let disableEmailNotification = self.disableEmailNotification {
@@ -4028,8 +4028,8 @@ extension CreateMemberInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4171,8 +4171,8 @@ extension CreateSampleFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingTypes = findingTypes {
             var findingTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingTypes)
-            for __listoffindingtype0 in findingTypes {
-                try findingTypesContainer.encode(__listoffindingtype0.rawValue)
+            for findingtype0 in findingTypes {
+                try findingTypesContainer.encode(findingtype0.rawValue)
             }
         }
     }
@@ -4274,8 +4274,8 @@ extension Macie2ClientTypes.CriteriaBlockForJob: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let and = and {
             var andContainer = encodeContainer.nestedUnkeyedContainer(forKey: .and)
-            for __listofcriteriaforjob0 in and {
-                try andContainer.encode(__listofcriteriaforjob0)
+            for criteriaforjob0 in and {
+                try andContainer.encode(criteriaforjob0)
             }
         }
     }
@@ -4372,14 +4372,14 @@ extension Macie2ClientTypes.CriterionAdditionalProperties: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let eq = eq {
             var eqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eq)
-            for __listof__string0 in eq {
-                try eqContainer.encode(__listof__string0)
+            for __string0 in eq {
+                try eqContainer.encode(__string0)
             }
         }
         if let eqExactMatch = eqExactMatch {
             var eqExactMatchContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eqExactMatch)
-            for __listof__string0 in eqExactMatch {
-                try eqExactMatchContainer.encode(__listof__string0)
+            for __string0 in eqExactMatch {
+                try eqExactMatchContainer.encode(__string0)
             }
         }
         if let gt = self.gt {
@@ -4396,8 +4396,8 @@ extension Macie2ClientTypes.CriterionAdditionalProperties: Swift.Codable {
         }
         if let neq = neq {
             var neqContainer = encodeContainer.nestedUnkeyedContainer(forKey: .neq)
-            for __listof__string0 in neq {
-                try neqContainer.encode(__listof__string0)
+            for __string0 in neq {
+                try neqContainer.encode(__string0)
             }
         }
     }
@@ -4603,8 +4603,8 @@ extension Macie2ClientTypes.CustomDataIdentifiers: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let detections = detections {
             var detectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detections)
-            for customdetections0 in detections {
-                try detectionsContainer.encode(customdetections0)
+            for customdetection0 in detections {
+                try detectionsContainer.encode(customdetection0)
             }
         }
         if let totalCount = self.totalCount {
@@ -4860,8 +4860,8 @@ extension DeclineInvitationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for __listof__string0 in accountIds {
-                try accountIdsContainer.encode(__listof__string0)
+            for __string0 in accountIds {
+                try accountIdsContainer.encode(__string0)
             }
         }
     }
@@ -5297,8 +5297,8 @@ extension DeleteInvitationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for __listof__string0 in accountIds {
-                try accountIdsContainer.encode(__listof__string0)
+            for __string0 in accountIds {
+                try accountIdsContainer.encode(__string0)
             }
         }
     }
@@ -5519,8 +5519,8 @@ extension DescribeBucketsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let criteria = criteria {
             var criteriaContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .criteria)
-            for (dictKey0, bucketcriteria0) in criteria {
-                try criteriaContainer.encode(bucketcriteria0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, bucketCriteria0) in criteria {
+                try criteriaContainer.encode(bucketCriteria0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let maxResults = self.maxResults {
@@ -7725,8 +7725,8 @@ extension Macie2ClientTypes.FindingsFilterListItem: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9304,8 +9304,8 @@ extension GetFindingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let findingIds = findingIds {
             var findingIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingIds)
-            for __listof__string0 in findingIds {
-                try findingIdsContainer.encode(__listof__string0)
+            for __string0 in findingIds {
+                try findingIdsContainer.encode(__string0)
             }
         }
         if let sortCriteria = self.sortCriteria {
@@ -10733,8 +10733,8 @@ extension GetUsageStatisticsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterBy = filterBy {
             var filterByContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterBy)
-            for __listofusagestatisticsfilter0 in filterBy {
-                try filterByContainer.encode(__listofusagestatisticsfilter0)
+            for usagestatisticsfilter0 in filterBy {
+                try filterByContainer.encode(usagestatisticsfilter0)
             }
         }
         if let maxResults = self.maxResults {
@@ -11903,8 +11903,8 @@ extension Macie2ClientTypes.JobScopingBlock: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let and = and {
             var andContainer = encodeContainer.nestedUnkeyedContainer(forKey: .and)
-            for __listofjobscopeterm0 in and {
-                try andContainer.encode(__listofjobscopeterm0)
+            for jobscopeterm0 in and {
+                try andContainer.encode(jobscopeterm0)
             }
         }
     }
@@ -12006,8 +12006,8 @@ extension Macie2ClientTypes.JobSummary: Swift.Codable {
         }
         if let bucketDefinitions = bucketDefinitions {
             var bucketDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketDefinitions)
-            for __listofs3bucketdefinitionforjob0 in bucketDefinitions {
-                try bucketDefinitionsContainer.encode(__listofs3bucketdefinitionforjob0)
+            for s3bucketdefinitionforjob0 in bucketDefinitions {
+                try bucketDefinitionsContainer.encode(s3bucketdefinitionforjob0)
             }
         }
         if let createdAt = self.createdAt {
@@ -13352,14 +13352,14 @@ extension Macie2ClientTypes.ListJobsFilterCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let excludes = excludes {
             var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
-            for __listoflistjobsfilterterm0 in excludes {
-                try excludesContainer.encode(__listoflistjobsfilterterm0)
+            for listjobsfilterterm0 in excludes {
+                try excludesContainer.encode(listjobsfilterterm0)
             }
         }
         if let includes = includes {
             var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
-            for __listoflistjobsfilterterm0 in includes {
-                try includesContainer.encode(__listoflistjobsfilterterm0)
+            for listjobsfilterterm0 in includes {
+                try includesContainer.encode(listjobsfilterterm0)
             }
         }
     }
@@ -13467,8 +13467,8 @@ extension Macie2ClientTypes.ListJobsFilterTerm: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for __listof__string0 in values {
-                try valuesContainer.encode(__listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -14916,8 +14916,8 @@ extension Macie2ClientTypes.Member: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -15183,32 +15183,32 @@ extension Macie2ClientTypes.Occurrences: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cells = cells {
             var cellsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cells)
-            for cells0 in cells {
-                try cellsContainer.encode(cells0)
+            for cell0 in cells {
+                try cellsContainer.encode(cell0)
             }
         }
         if let lineRanges = lineRanges {
             var lineRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineRanges)
-            for ranges0 in lineRanges {
-                try lineRangesContainer.encode(ranges0)
+            for range0 in lineRanges {
+                try lineRangesContainer.encode(range0)
             }
         }
         if let offsetRanges = offsetRanges {
             var offsetRangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .offsetRanges)
-            for ranges0 in offsetRanges {
-                try offsetRangesContainer.encode(ranges0)
+            for range0 in offsetRanges {
+                try offsetRangesContainer.encode(range0)
             }
         }
         if let pages = pages {
             var pagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pages)
-            for pages0 in pages {
-                try pagesContainer.encode(pages0)
+            for page0 in pages {
+                try pagesContainer.encode(page0)
             }
         }
         if let records = records {
             var recordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .records)
-            for records0 in records {
-                try recordsContainer.encode(records0)
+            for record0 in records {
+                try recordsContainer.encode(record0)
             }
         }
     }
@@ -15870,8 +15870,8 @@ extension Macie2ClientTypes.ReplicationDetails: Swift.Codable {
         }
         if let replicationAccounts = replicationAccounts {
             var replicationAccountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .replicationAccounts)
-            for __listof__string0 in replicationAccounts {
-                try replicationAccountsContainer.encode(__listof__string0)
+            for __string0 in replicationAccounts {
+                try replicationAccountsContainer.encode(__string0)
             }
         }
     }
@@ -16348,8 +16348,8 @@ extension Macie2ClientTypes.S3Bucket: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for keyvaluepairlist0 in tags {
-                try tagsContainer.encode(keyvaluepairlist0)
+            for keyvaluepair0 in tags {
+                try tagsContainer.encode(keyvaluepair0)
             }
         }
     }
@@ -16495,8 +16495,8 @@ extension Macie2ClientTypes.S3BucketDefinitionForJob: Swift.Codable {
         }
         if let buckets = buckets {
             var bucketsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .buckets)
-            for __listof__string0 in buckets {
-                try bucketsContainer.encode(__listof__string0)
+            for __string0 in buckets {
+                try bucketsContainer.encode(__string0)
             }
         }
     }
@@ -16631,8 +16631,8 @@ extension Macie2ClientTypes.S3ClassificationScopeExclusion: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bucketNames = bucketNames {
             var bucketNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketNames)
-            for __listofs3bucketname0 in bucketNames {
-                try bucketNamesContainer.encode(__listofs3bucketname0)
+            for s3bucketname0 in bucketNames {
+                try bucketNamesContainer.encode(s3bucketname0)
             }
         }
     }
@@ -16680,8 +16680,8 @@ extension Macie2ClientTypes.S3ClassificationScopeExclusionUpdate: Swift.Codable 
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bucketNames = bucketNames {
             var bucketNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketNames)
-            for __listofs3bucketname0 in bucketNames {
-                try bucketNamesContainer.encode(__listofs3bucketname0)
+            for s3bucketname0 in bucketNames {
+                try bucketNamesContainer.encode(s3bucketname0)
             }
         }
         if let operation = self.operation {
@@ -16842,8 +16842,8 @@ extension Macie2ClientTypes.S3JobDefinition: Swift.Codable {
         }
         if let bucketDefinitions = bucketDefinitions {
             var bucketDefinitionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bucketDefinitions)
-            for __listofs3bucketdefinitionforjob0 in bucketDefinitions {
-                try bucketDefinitionsContainer.encode(__listofs3bucketdefinitionforjob0)
+            for s3bucketdefinitionforjob0 in bucketDefinitions {
+                try bucketDefinitionsContainer.encode(s3bucketdefinitionforjob0)
             }
         }
         if let scoping = self.scoping {
@@ -16945,8 +16945,8 @@ extension Macie2ClientTypes.S3Object: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for keyvaluepairlist0 in tags {
-                try tagsContainer.encode(keyvaluepairlist0)
+            for keyvaluepair0 in tags {
+                try tagsContainer.encode(keyvaluepair0)
             }
         }
         if let versionId = self.versionId {
@@ -17315,8 +17315,8 @@ extension Macie2ClientTypes.SearchResourcesCriteriaBlock: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let and = and {
             var andContainer = encodeContainer.nestedUnkeyedContainer(forKey: .and)
-            for __listofsearchresourcescriteria0 in and {
-                try andContainer.encode(__listofsearchresourcescriteria0)
+            for searchresourcescriteria0 in and {
+                try andContainer.encode(searchresourcescriteria0)
             }
         }
     }
@@ -17547,8 +17547,8 @@ extension Macie2ClientTypes.SearchResourcesSimpleCriterion: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for __listof__string0 in values {
-                try valuesContainer.encode(__listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -17744,8 +17744,8 @@ extension Macie2ClientTypes.SearchResourcesTagCriterion: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for __listofsearchresourcestagcriterionpair0 in tagValues {
-                try tagValuesContainer.encode(__listofsearchresourcestagcriterionpair0)
+            for searchresourcestagcriterionpair0 in tagValues {
+                try tagValuesContainer.encode(searchresourcestagcriterionpair0)
             }
         }
     }
@@ -17894,8 +17894,8 @@ extension Macie2ClientTypes.SensitiveDataItem: Swift.Codable {
         }
         if let detections = detections {
             var detectionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .detections)
-            for defaultdetections0 in detections {
-                try detectionsContainer.encode(defaultdetections0)
+            for defaultdetection0 in detections {
+                try detectionsContainer.encode(defaultdetection0)
             }
         }
         if let totalCount = self.totalCount {
@@ -18060,8 +18060,8 @@ extension Macie2ClientTypes.SensitivityInspectionTemplateExcludes: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let managedDataIdentifierIds = managedDataIdentifierIds {
             var managedDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedDataIdentifierIds)
-            for __listof__string0 in managedDataIdentifierIds {
-                try managedDataIdentifierIdsContainer.encode(__listof__string0)
+            for __string0 in managedDataIdentifierIds {
+                try managedDataIdentifierIdsContainer.encode(__string0)
             }
         }
     }
@@ -18109,20 +18109,20 @@ extension Macie2ClientTypes.SensitivityInspectionTemplateIncludes: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let allowListIds = allowListIds {
             var allowListIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowListIds)
-            for __listof__string0 in allowListIds {
-                try allowListIdsContainer.encode(__listof__string0)
+            for __string0 in allowListIds {
+                try allowListIdsContainer.encode(__string0)
             }
         }
         if let customDataIdentifierIds = customDataIdentifierIds {
             var customDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .customDataIdentifierIds)
-            for __listof__string0 in customDataIdentifierIds {
-                try customDataIdentifierIdsContainer.encode(__listof__string0)
+            for __string0 in customDataIdentifierIds {
+                try customDataIdentifierIdsContainer.encode(__string0)
             }
         }
         if let managedDataIdentifierIds = managedDataIdentifierIds {
             var managedDataIdentifierIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .managedDataIdentifierIds)
-            for __listof__string0 in managedDataIdentifierIds {
-                try managedDataIdentifierIdsContainer.encode(__listof__string0)
+            for __string0 in managedDataIdentifierIds {
+                try managedDataIdentifierIdsContainer.encode(__string0)
             }
         }
     }
@@ -18735,8 +18735,8 @@ extension Macie2ClientTypes.SimpleCriterionForJob: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for __listof__string0 in values {
-                try valuesContainer.encode(__listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -18852,8 +18852,8 @@ extension Macie2ClientTypes.SimpleScopeTerm: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for __listof__string0 in values {
-                try valuesContainer.encode(__listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }
@@ -19016,8 +19016,10 @@ extension Macie2ClientTypes {
     public enum StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deepArchive
         case glacier
+        case glacierIr
         case intelligentTiering
         case onezoneIa
+        case outposts
         case reducedRedundancy
         case standard
         case standardIa
@@ -19027,8 +19029,10 @@ extension Macie2ClientTypes {
             return [
                 .deepArchive,
                 .glacier,
+                .glacierIr,
                 .intelligentTiering,
                 .onezoneIa,
+                .outposts,
                 .reducedRedundancy,
                 .standard,
                 .standardIa,
@@ -19043,8 +19047,10 @@ extension Macie2ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .glacier: return "GLACIER"
+            case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
             case .onezoneIa: return "ONEZONE_IA"
+            case .outposts: return "OUTPOSTS"
             case .reducedRedundancy: return "REDUCED_REDUNDANCY"
             case .standard: return "STANDARD"
             case .standardIa: return "STANDARD_IA"
@@ -19117,8 +19123,8 @@ extension Macie2ClientTypes.TagCriterionForJob: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for __listoftagcriterionpairforjob0 in tagValues {
-                try tagValuesContainer.encode(__listoftagcriterionpairforjob0)
+            for tagcriterionpairforjob0 in tagValues {
+                try tagValuesContainer.encode(tagcriterionpairforjob0)
             }
         }
     }
@@ -19215,8 +19221,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -19322,8 +19328,8 @@ extension Macie2ClientTypes.TagScopeTerm: Swift.Codable {
         }
         if let tagValues = tagValues {
             var tagValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagValues)
-            for __listoftagvaluepair0 in tagValues {
-                try tagValuesContainer.encode(__listoftagvaluepair0)
+            for tagvaluepair0 in tagValues {
+                try tagValuesContainer.encode(tagvaluepair0)
             }
         }
         if let target = self.target {
@@ -19469,14 +19475,14 @@ extension TestCustomDataIdentifierInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let ignoreWords = ignoreWords {
             var ignoreWordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ignoreWords)
-            for __listof__string0 in ignoreWords {
-                try ignoreWordsContainer.encode(__listof__string0)
+            for __string0 in ignoreWords {
+                try ignoreWordsContainer.encode(__string0)
             }
         }
         if let keywords = keywords {
             var keywordsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .keywords)
-            for __listof__string0 in keywords {
-                try keywordsContainer.encode(__listof__string0)
+            for __string0 in keywords {
+                try keywordsContainer.encode(__string0)
             }
         }
         if let maximumMatchDistance = self.maximumMatchDistance {
@@ -20999,8 +21005,8 @@ extension UpdateResourceProfileDetectionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let suppressDataIdentifiers = suppressDataIdentifiers {
             var suppressDataIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suppressDataIdentifiers)
-            for __listofsuppressdataidentifier0 in suppressDataIdentifiers {
-                try suppressDataIdentifiersContainer.encode(__listofsuppressdataidentifier0)
+            for suppressdataidentifier0 in suppressDataIdentifiers {
+                try suppressDataIdentifiersContainer.encode(suppressdataidentifier0)
             }
         }
     }
@@ -21542,8 +21548,8 @@ extension Macie2ClientTypes.UsageRecord: Swift.Codable {
         }
         if let usage = usage {
             var usageContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usage)
-            for __listofusagebyaccount0 in usage {
-                try usageContainer.encode(__listofusagebyaccount0)
+            for usagebyaccount0 in usage {
+                try usageContainer.encode(usagebyaccount0)
             }
         }
     }
@@ -21615,8 +21621,8 @@ extension Macie2ClientTypes.UsageStatisticsFilter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for __listof__string0 in values {
-                try valuesContainer.encode(__listof__string0)
+            for __string0 in values {
+                try valuesContainer.encode(__string0)
             }
         }
     }

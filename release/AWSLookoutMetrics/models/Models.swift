@@ -367,14 +367,14 @@ extension LookoutMetricsClientTypes.AlertFilters: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionFilterList = dimensionFilterList {
             var dimensionFilterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionFilterList)
-            for dimensionfilterlist0 in dimensionFilterList {
-                try dimensionFilterListContainer.encode(dimensionfilterlist0)
+            for dimensionfilter0 in dimensionFilterList {
+                try dimensionFilterListContainer.encode(dimensionfilter0)
             }
         }
         if let metricList = metricList {
             var metricListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricList)
-            for metricnamelist0 in metricList {
-                try metricListContainer.encode(metricnamelist0)
+            for metricname0 in metricList {
+                try metricListContainer.encode(metricname0)
             }
         }
     }
@@ -499,8 +499,8 @@ extension LookoutMetricsClientTypes.AlertSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -738,8 +738,8 @@ extension LookoutMetricsClientTypes.AnomalyDetectorDataQualityMetric: Swift.Coda
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metricSetDataQualityMetricList = metricSetDataQualityMetricList {
             var metricSetDataQualityMetricListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricSetDataQualityMetricList)
-            for metricsetdataqualitymetriclist0 in metricSetDataQualityMetricList {
-                try metricSetDataQualityMetricListContainer.encode(metricsetdataqualitymetriclist0)
+            for metricsetdataqualitymetric0 in metricSetDataQualityMetricList {
+                try metricSetDataQualityMetricListContainer.encode(metricsetdataqualitymetric0)
             }
         }
         if let startTimestamp = self.startTimestamp {
@@ -915,8 +915,8 @@ extension LookoutMetricsClientTypes.AnomalyDetectorSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1012,8 +1012,8 @@ extension LookoutMetricsClientTypes.AnomalyGroup: Swift.Codable {
         }
         if let metricLevelImpactList = metricLevelImpactList {
             var metricLevelImpactListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricLevelImpactList)
-            for metriclevelimpactlist0 in metricLevelImpactList {
-                try metricLevelImpactListContainer.encode(metriclevelimpactlist0)
+            for metriclevelimpact0 in metricLevelImpactList {
+                try metricLevelImpactListContainer.encode(metriclevelimpact0)
             }
         }
         if let primaryMetricName = self.primaryMetricName {
@@ -1100,8 +1100,8 @@ extension LookoutMetricsClientTypes.AnomalyGroupStatistics: Swift.Codable {
         }
         if let itemizedMetricStatsList = itemizedMetricStatsList {
             var itemizedMetricStatsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .itemizedMetricStatsList)
-            for itemizedmetricstatslist0 in itemizedMetricStatsList {
-                try itemizedMetricStatsListContainer.encode(itemizedmetricstatslist0)
+            for itemizedmetricstats0 in itemizedMetricStatsList {
+                try itemizedMetricStatsListContainer.encode(itemizedmetricstats0)
             }
         }
         if totalCount != 0 {
@@ -1489,8 +1489,8 @@ extension LookoutMetricsClientTypes.AttributeValue: Swift.Codable {
         }
         if let bs = bs {
             var bsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .bs)
-            for binarylistattributevalue0 in bs {
-                try bsContainer.encode(binarylistattributevalue0)
+            for binaryattributevalue0 in bs {
+                try bsContainer.encode(binaryattributevalue0)
             }
         }
         if let n = self.n {
@@ -1498,8 +1498,8 @@ extension LookoutMetricsClientTypes.AttributeValue: Swift.Codable {
         }
         if let ns = ns {
             var nsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ns)
-            for numberlistattributevalue0 in ns {
-                try nsContainer.encode(numberlistattributevalue0)
+            for numberattributevalue0 in ns {
+                try nsContainer.encode(numberattributevalue0)
             }
         }
         if let s = self.s {
@@ -1507,8 +1507,8 @@ extension LookoutMetricsClientTypes.AttributeValue: Swift.Codable {
         }
         if let ss = ss {
             var ssContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ss)
-            for stringlistattributevalue0 in ss {
-                try ssContainer.encode(stringlistattributevalue0)
+            for stringattributevalue0 in ss {
+                try ssContainer.encode(stringattributevalue0)
             }
         }
     }
@@ -1638,14 +1638,14 @@ extension LookoutMetricsClientTypes.AutoDetectionS3SourceConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let historicalDataPathList = historicalDataPathList {
             var historicalDataPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .historicalDataPathList)
-            for historicaldatapathlist0 in historicalDataPathList {
-                try historicalDataPathListContainer.encode(historicaldatapathlist0)
+            for historicaldatapath0 in historicalDataPathList {
+                try historicalDataPathListContainer.encode(historicaldatapath0)
             }
         }
         if let templatedPathList = templatedPathList {
             var templatedPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .templatedPathList)
-            for templatedpathlist0 in templatedPathList {
-                try templatedPathListContainer.encode(templatedpathlist0)
+            for templatedpath0 in templatedPathList {
+                try templatedPathListContainer.encode(templatedpath0)
             }
         }
     }
@@ -2015,8 +2015,8 @@ extension LookoutMetricsClientTypes.ContributionMatrix: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionContributionList = dimensionContributionList {
             var dimensionContributionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionContributionList)
-            for dimensioncontributionlist0 in dimensionContributionList {
-                try dimensionContributionListContainer.encode(dimensioncontributionlist0)
+            for dimensioncontribution0 in dimensionContributionList {
+                try dimensionContributionListContainer.encode(dimensioncontribution0)
             }
         }
     }
@@ -2086,8 +2086,8 @@ extension CreateAlertInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2287,8 +2287,8 @@ extension CreateAnomalyDetectorInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2467,20 +2467,20 @@ extension CreateMetricSetInput: Swift.Encodable {
         }
         if let dimensionFilterList = dimensionFilterList {
             var dimensionFilterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionFilterList)
-            for metricsetdimensionfilterlist0 in dimensionFilterList {
-                try dimensionFilterListContainer.encode(metricsetdimensionfilterlist0)
+            for metricsetdimensionfilter0 in dimensionFilterList {
+                try dimensionFilterListContainer.encode(metricsetdimensionfilter0)
             }
         }
         if let dimensionList = dimensionList {
             var dimensionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionList)
-            for dimensionlist0 in dimensionList {
-                try dimensionListContainer.encode(dimensionlist0)
+            for columnname0 in dimensionList {
+                try dimensionListContainer.encode(columnname0)
             }
         }
         if let metricList = metricList {
             var metricListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricList)
-            for metriclist0 in metricList {
-                try metricListContainer.encode(metriclist0)
+            for metric0 in metricList {
+                try metricListContainer.encode(metric0)
             }
         }
         if let metricSetDescription = self.metricSetDescription {
@@ -2500,8 +2500,8 @@ extension CreateMetricSetInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let timestampColumn = self.timestampColumn {
@@ -2776,8 +2776,8 @@ extension LookoutMetricsClientTypes.CsvFormatDescriptor: Swift.Codable {
         }
         if let headerList = headerList {
             var headerListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headerList)
-            for headerlist0 in headerList {
-                try headerListContainer.encode(headerlist0)
+            for columnname0 in headerList {
+                try headerListContainer.encode(columnname0)
             }
         }
         if let quoteSymbol = self.quoteSymbol {
@@ -4514,8 +4514,8 @@ extension LookoutMetricsClientTypes.DimensionContribution: Swift.Codable {
         }
         if let dimensionValueContributionList = dimensionValueContributionList {
             var dimensionValueContributionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionValueContributionList)
-            for dimensionvaluecontributionlist0 in dimensionValueContributionList {
-                try dimensionValueContributionListContainer.encode(dimensionvaluecontributionlist0)
+            for dimensionvaluecontribution0 in dimensionValueContributionList {
+                try dimensionValueContributionListContainer.encode(dimensionvaluecontribution0)
             }
         }
     }
@@ -4571,8 +4571,8 @@ extension LookoutMetricsClientTypes.DimensionFilter: Swift.Codable {
         }
         if let dimensionValueList = dimensionValueList {
             var dimensionValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionValueList)
-            for dimensionvaluelist0 in dimensionValueList {
-                try dimensionValueListContainer.encode(dimensionvaluelist0)
+            for dimensionvalue0 in dimensionValueList {
+                try dimensionValueListContainer.encode(dimensionvalue0)
             }
         }
     }
@@ -7107,8 +7107,8 @@ extension LookoutMetricsClientTypes.MetricSetDataQualityMetric: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dataQualityMetricList = dataQualityMetricList {
             var dataQualityMetricListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dataQualityMetricList)
-            for dataqualitymetriclist0 in dataQualityMetricList {
-                try dataQualityMetricListContainer.encode(dataqualitymetriclist0)
+            for dataqualitymetric0 in dataQualityMetricList {
+                try dataQualityMetricListContainer.encode(dataqualitymetric0)
             }
         }
         if let metricSetArn = self.metricSetArn {
@@ -7164,8 +7164,8 @@ extension LookoutMetricsClientTypes.MetricSetDimensionFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterList = filterList {
             var filterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filterList)
-            for filterlist0 in filterList {
-                try filterListContainer.encode(filterlist0)
+            for filter0 in filterList {
+                try filterListContainer.encode(filter0)
             }
         }
         if let name = self.name {
@@ -7244,8 +7244,8 @@ extension LookoutMetricsClientTypes.MetricSetSummary: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7834,8 +7834,8 @@ extension LookoutMetricsClientTypes.S3SourceConfig: Swift.Codable {
         }
         if let historicalDataPathList = historicalDataPathList {
             var historicalDataPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .historicalDataPathList)
-            for historicaldatapathlist0 in historicalDataPathList {
-                try historicalDataPathListContainer.encode(historicaldatapathlist0)
+            for historicaldatapath0 in historicalDataPathList {
+                try historicalDataPathListContainer.encode(historicaldatapath0)
             }
         }
         if let roleArn = self.roleArn {
@@ -7843,8 +7843,8 @@ extension LookoutMetricsClientTypes.S3SourceConfig: Swift.Codable {
         }
         if let templatedPathList = templatedPathList {
             var templatedPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .templatedPathList)
-            for templatedpathlist0 in templatedPathList {
-                try templatedPathListContainer.encode(templatedpathlist0)
+            for templatedpath0 in templatedPathList {
+                try templatedPathListContainer.encode(templatedpath0)
             }
         }
     }
@@ -7986,8 +7986,8 @@ extension LookoutMetricsClientTypes.SampleDataS3SourceConfig: Swift.Codable {
         }
         if let historicalDataPathList = historicalDataPathList {
             var historicalDataPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .historicalDataPathList)
-            for historicaldatapathlist0 in historicalDataPathList {
-                try historicalDataPathListContainer.encode(historicaldatapathlist0)
+            for historicaldatapath0 in historicalDataPathList {
+                try historicalDataPathListContainer.encode(historicaldatapath0)
             }
         }
         if let roleArn = self.roleArn {
@@ -7995,8 +7995,8 @@ extension LookoutMetricsClientTypes.SampleDataS3SourceConfig: Swift.Codable {
         }
         if let templatedPathList = templatedPathList {
             var templatedPathListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .templatedPathList)
-            for templatedpathlist0 in templatedPathList {
-                try templatedPathListContainer.encode(templatedpathlist0)
+            for templatedpath0 in templatedPathList {
+                try templatedPathListContainer.encode(templatedpath0)
             }
         }
     }
@@ -8199,8 +8199,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8305,14 +8305,14 @@ extension LookoutMetricsClientTypes.TimeSeries: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionList = dimensionList {
             var dimensionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionList)
-            for dimensionnamevaluelist0 in dimensionList {
-                try dimensionListContainer.encode(dimensionnamevaluelist0)
+            for dimensionnamevalue0 in dimensionList {
+                try dimensionListContainer.encode(dimensionnamevalue0)
             }
         }
         if let metricValueList = metricValueList {
             var metricValueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricValueList)
-            for metricvaluelist0 in metricValueList {
-                try metricValueListContainer.encode(metricvaluelist0)
+            for metricvalue0 in metricValueList {
+                try metricValueListContainer.encode(metricvalue0)
             }
         }
         if let timeSeriesId = self.timeSeriesId {
@@ -8947,20 +8947,20 @@ extension UpdateMetricSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let dimensionFilterList = dimensionFilterList {
             var dimensionFilterListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionFilterList)
-            for metricsetdimensionfilterlist0 in dimensionFilterList {
-                try dimensionFilterListContainer.encode(metricsetdimensionfilterlist0)
+            for metricsetdimensionfilter0 in dimensionFilterList {
+                try dimensionFilterListContainer.encode(metricsetdimensionfilter0)
             }
         }
         if let dimensionList = dimensionList {
             var dimensionListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionList)
-            for dimensionlist0 in dimensionList {
-                try dimensionListContainer.encode(dimensionlist0)
+            for columnname0 in dimensionList {
+                try dimensionListContainer.encode(columnname0)
             }
         }
         if let metricList = metricList {
             var metricListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricList)
-            for metriclist0 in metricList {
-                try metricListContainer.encode(metriclist0)
+            for metric0 in metricList {
+                try metricListContainer.encode(metric0)
             }
         }
         if let metricSetArn = self.metricSetArn {
@@ -9360,14 +9360,14 @@ extension LookoutMetricsClientTypes.VpcConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIdList = securityGroupIdList {
             var securityGroupIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIdList)
-            for securitygroupidlist0 in securityGroupIdList {
-                try securityGroupIdListContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIdList {
+                try securityGroupIdListContainer.encode(securitygroupid0)
             }
         }
         if let subnetIdList = subnetIdList {
             var subnetIdListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIdList)
-            for subnetidlist0 in subnetIdList {
-                try subnetIdListContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIdList {
+                try subnetIdListContainer.encode(subnetid0)
             }
         }
     }

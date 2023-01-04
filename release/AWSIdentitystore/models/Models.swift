@@ -680,8 +680,8 @@ extension CreateUserInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for addresses0 in addresses {
-                try addressesContainer.encode(addresses0)
+            for address0 in addresses {
+                try addressesContainer.encode(address0)
             }
         }
         if let displayName = self.displayName {
@@ -689,8 +689,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let emails = emails {
             var emailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emails)
-            for emails0 in emails {
-                try emailsContainer.encode(emails0)
+            for email0 in emails {
+                try emailsContainer.encode(email0)
             }
         }
         if let identityStoreId = self.identityStoreId {
@@ -707,8 +707,8 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumbers0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumbers0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let preferredLanguage = self.preferredLanguage {
@@ -2541,8 +2541,8 @@ extension IdentitystoreClientTypes.Group: Swift.Codable {
         }
         if let externalIds = externalIds {
             var externalIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalIds)
-            for externalids0 in externalIds {
-                try externalIdsContainer.encode(externalids0)
+            for externalid0 in externalIds {
+                try externalIdsContainer.encode(externalid0)
             }
         }
         if let groupId = self.groupId {
@@ -2780,8 +2780,8 @@ extension IsMemberInGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let groupIds = groupIds {
             var groupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .groupIds)
-            for groupids0 in groupIds {
-                try groupIdsContainer.encode(groupids0)
+            for resourceid0 in groupIds {
+                try groupIdsContainer.encode(resourceid0)
             }
         }
         if let identityStoreId = self.identityStoreId {
@@ -3282,8 +3282,8 @@ extension ListGroupsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let identityStoreId = self.identityStoreId {
@@ -3464,8 +3464,8 @@ extension ListUsersInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filters0 in filters {
-                try filtersContainer.encode(filters0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if let identityStoreId = self.identityStoreId {
@@ -4094,8 +4094,8 @@ extension UpdateGroupInput: Swift.Encodable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for attributeoperations0 in operations {
-                try operationsContainer.encode(attributeoperations0)
+            for attributeoperation0 in operations {
+                try operationsContainer.encode(attributeoperation0)
             }
         }
     }
@@ -4215,8 +4215,8 @@ extension UpdateUserInput: Swift.Encodable {
         }
         if let operations = operations {
             var operationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operations)
-            for attributeoperations0 in operations {
-                try operationsContainer.encode(attributeoperations0)
+            for attributeoperation0 in operations {
+                try operationsContainer.encode(attributeoperation0)
             }
         }
         if let userId = self.userId {
@@ -4349,8 +4349,8 @@ extension IdentitystoreClientTypes.User: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addresses = addresses {
             var addressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addresses)
-            for addresses0 in addresses {
-                try addressesContainer.encode(addresses0)
+            for address0 in addresses {
+                try addressesContainer.encode(address0)
             }
         }
         if let displayName = self.displayName {
@@ -4358,14 +4358,14 @@ extension IdentitystoreClientTypes.User: Swift.Codable {
         }
         if let emails = emails {
             var emailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .emails)
-            for emails0 in emails {
-                try emailsContainer.encode(emails0)
+            for email0 in emails {
+                try emailsContainer.encode(email0)
             }
         }
         if let externalIds = externalIds {
             var externalIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .externalIds)
-            for externalids0 in externalIds {
-                try externalIdsContainer.encode(externalids0)
+            for externalid0 in externalIds {
+                try externalIdsContainer.encode(externalid0)
             }
         }
         if let identityStoreId = self.identityStoreId {
@@ -4382,8 +4382,8 @@ extension IdentitystoreClientTypes.User: Swift.Codable {
         }
         if let phoneNumbers = phoneNumbers {
             var phoneNumbersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .phoneNumbers)
-            for phonenumbers0 in phoneNumbers {
-                try phoneNumbersContainer.encode(phonenumbers0)
+            for phonenumber0 in phoneNumbers {
+                try phoneNumbersContainer.encode(phonenumber0)
             }
         }
         if let preferredLanguage = self.preferredLanguage {

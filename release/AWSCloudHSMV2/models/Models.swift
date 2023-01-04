@@ -51,8 +51,8 @@ extension CloudHSMV2ClientTypes.Backup: Swift.Codable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -719,8 +719,8 @@ extension CloudHSMV2ClientTypes.Cluster: Swift.Codable {
         }
         if let hsms = hsms {
             var hsmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hsms)
-            for hsms0 in hsms {
-                try hsmsContainer.encode(hsms0)
+            for hsm0 in hsms {
+                try hsmsContainer.encode(hsm0)
             }
         }
         if let preCoPassword = self.preCoPassword {
@@ -740,14 +740,14 @@ extension CloudHSMV2ClientTypes.Cluster: Swift.Codable {
         }
         if let subnetMapping = subnetMapping {
             var subnetMappingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .subnetMapping)
-            for (dictKey0, externalsubnetmapping0) in subnetMapping {
-                try subnetMappingContainer.encode(externalsubnetmapping0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, externalSubnetMapping0) in subnetMapping {
+                try subnetMappingContainer.encode(externalSubnetMapping0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let vpcId = self.vpcId {
@@ -959,8 +959,8 @@ extension CopyBackupToRegionInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -1122,14 +1122,14 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetids0 in subnetIds {
-                try subnetIdsContainer.encode(subnetids0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -1850,7 +1850,10 @@ extension DescribeBackupsInput: Swift.Encodable {
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
             for (dictKey0, filters0) in filters {
-                try filtersContainer.encode(filters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var filters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in filters0 {
+                    try filters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -2043,7 +2046,10 @@ extension DescribeClustersInput: Swift.Encodable {
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .filters)
             for (dictKey0, filters0) in filters {
-                try filtersContainer.encode(filters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+                var filters0Container = filtersContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for string1 in filters0 {
+                    try filters0Container.encode(string1)
+                }
             }
         }
         if let maxResults = self.maxResults {
@@ -3186,8 +3192,8 @@ extension TagResourceInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -3301,8 +3307,8 @@ extension UntagResourceInput: Swift.Encodable {
         }
         if let tagKeyList = tagKeyList {
             var tagKeyListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeyList)
-            for tagkeylist0 in tagKeyList {
-                try tagKeyListContainer.encode(tagkeylist0)
+            for tagkey0 in tagKeyList {
+                try tagKeyListContainer.encode(tagkey0)
             }
         }
     }

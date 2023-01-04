@@ -727,8 +727,8 @@ extension Inspector2ClientTypes.AmiAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let amis = amis {
             var amisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .amis)
-            for stringfilterlist0 in amis {
-                try amisContainer.encode(stringfilterlist0)
+            for stringfilter0 in amis {
+                try amisContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -1118,14 +1118,14 @@ extension Inspector2ClientTypes.AwsEc2InstanceDetails: Swift.Codable {
         }
         if let ipV4Addresses = ipV4Addresses {
             var ipV4AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipV4Addresses)
-            for ipv4addresslist0 in ipV4Addresses {
-                try ipV4AddressesContainer.encode(ipv4addresslist0)
+            for ipv4address0 in ipV4Addresses {
+                try ipV4AddressesContainer.encode(ipv4address0)
             }
         }
         if let ipV6Addresses = ipV6Addresses {
             var ipV6AddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipV6Addresses)
-            for ipv6addresslist0 in ipV6Addresses {
-                try ipV6AddressesContainer.encode(ipv6addresslist0)
+            for ipv6address0 in ipV6Addresses {
+                try ipV6AddressesContainer.encode(ipv6address0)
             }
         }
         if let keyName = self.keyName {
@@ -1258,32 +1258,32 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for stringfilterlist0 in architectures {
-                try architecturesContainer.encode(stringfilterlist0)
+            for stringfilter0 in architectures {
+                try architecturesContainer.encode(stringfilter0)
             }
         }
         if let imageShas = imageShas {
             var imageShasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageShas)
-            for stringfilterlist0 in imageShas {
-                try imageShasContainer.encode(stringfilterlist0)
+            for stringfilter0 in imageShas {
+                try imageShasContainer.encode(stringfilter0)
             }
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for stringfilterlist0 in imageTags {
-                try imageTagsContainer.encode(stringfilterlist0)
+            for stringfilter0 in imageTags {
+                try imageTagsContainer.encode(stringfilter0)
             }
         }
         if let repositories = repositories {
             var repositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositories)
-            for stringfilterlist0 in repositories {
-                try repositoriesContainer.encode(stringfilterlist0)
+            for stringfilter0 in repositories {
+                try repositoriesContainer.encode(stringfilter0)
             }
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringfilterlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -1422,8 +1422,8 @@ extension Inspector2ClientTypes.AwsEcrContainerAggregationResponse: Swift.Codabl
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for stringlist0 in imageTags {
-                try imageTagsContainer.encode(stringlist0)
+            for nonemptystring0 in imageTags {
+                try imageTagsContainer.encode(nonemptystring0)
             }
         }
         if let repository = self.repository {
@@ -1531,8 +1531,8 @@ extension Inspector2ClientTypes.AwsEcrContainerImageDetails: Swift.Codable {
         }
         if let imageTags = imageTags {
             var imageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageTags)
-            for imagetaglist0 in imageTags {
-                try imageTagsContainer.encode(imagetaglist0)
+            for nonemptystring0 in imageTags {
+                try imageTagsContainer.encode(nonemptystring0)
             }
         }
         if let platform = self.platform {
@@ -1679,8 +1679,8 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let architectures = architectures {
             var architecturesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .architectures)
-            for architecturelist0 in architectures {
-                try architecturesContainer.encode(architecturelist0.rawValue)
+            for architecture0 in architectures {
+                try architecturesContainer.encode(architecture0.rawValue)
             }
         }
         if let codeSha256 = self.codeSha256 {
@@ -1697,8 +1697,8 @@ extension Inspector2ClientTypes.AwsLambdaFunctionDetails: Swift.Codable {
         }
         if let layers = layers {
             var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
-            for layerlist0 in layers {
-                try layersContainer.encode(layerlist0)
+            for lambdalayerarn0 in layers {
+                try layersContainer.encode(lambdalayerarn0)
             }
         }
         if let packageType = self.packageType {
@@ -1877,8 +1877,8 @@ extension BatchGetAccountStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidset0 in accountIds {
-                try accountIdsContainer.encode(accountidset0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
     }
@@ -2036,8 +2036,8 @@ extension BatchGetFreeTrialInfoInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for meteringaccountidlist0 in accountIds {
-                try accountIdsContainer.encode(meteringaccountidlist0)
+            for meteringaccountid0 in accountIds {
+                try accountIdsContainer.encode(meteringaccountid0)
             }
         }
     }
@@ -2446,74 +2446,74 @@ extension Inspector2ClientTypes.CoverageFilterCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = accountId {
             var accountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountId)
-            for coveragestringfilterlist0 in accountId {
-                try accountIdContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in accountId {
+                try accountIdContainer.encode(coveragestringfilter0)
             }
         }
         if let ec2InstanceTags = ec2InstanceTags {
             var ec2InstanceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceTags)
-            for coveragemapfilterlist0 in ec2InstanceTags {
-                try ec2InstanceTagsContainer.encode(coveragemapfilterlist0)
+            for coveragemapfilter0 in ec2InstanceTags {
+                try ec2InstanceTagsContainer.encode(coveragemapfilter0)
             }
         }
         if let ecrImageTags = ecrImageTags {
             var ecrImageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageTags)
-            for coveragestringfilterlist0 in ecrImageTags {
-                try ecrImageTagsContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in ecrImageTags {
+                try ecrImageTagsContainer.encode(coveragestringfilter0)
             }
         }
         if let ecrRepositoryName = ecrRepositoryName {
             var ecrRepositoryNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrRepositoryName)
-            for coveragestringfilterlist0 in ecrRepositoryName {
-                try ecrRepositoryNameContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in ecrRepositoryName {
+                try ecrRepositoryNameContainer.encode(coveragestringfilter0)
             }
         }
         if let lambdaFunctionName = lambdaFunctionName {
             var lambdaFunctionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionName)
-            for coveragestringfilterlist0 in lambdaFunctionName {
-                try lambdaFunctionNameContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in lambdaFunctionName {
+                try lambdaFunctionNameContainer.encode(coveragestringfilter0)
             }
         }
         if let lambdaFunctionRuntime = lambdaFunctionRuntime {
             var lambdaFunctionRuntimeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionRuntime)
-            for coveragestringfilterlist0 in lambdaFunctionRuntime {
-                try lambdaFunctionRuntimeContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in lambdaFunctionRuntime {
+                try lambdaFunctionRuntimeContainer.encode(coveragestringfilter0)
             }
         }
         if let lambdaFunctionTags = lambdaFunctionTags {
             var lambdaFunctionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionTags)
-            for coveragemapfilterlist0 in lambdaFunctionTags {
-                try lambdaFunctionTagsContainer.encode(coveragemapfilterlist0)
+            for coveragemapfilter0 in lambdaFunctionTags {
+                try lambdaFunctionTagsContainer.encode(coveragemapfilter0)
             }
         }
         if let resourceId = resourceId {
             var resourceIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceId)
-            for coveragestringfilterlist0 in resourceId {
-                try resourceIdContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in resourceId {
+                try resourceIdContainer.encode(coveragestringfilter0)
             }
         }
         if let resourceType = resourceType {
             var resourceTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceType)
-            for coveragestringfilterlist0 in resourceType {
-                try resourceTypeContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in resourceType {
+                try resourceTypeContainer.encode(coveragestringfilter0)
             }
         }
         if let scanStatusCode = scanStatusCode {
             var scanStatusCodeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanStatusCode)
-            for coveragestringfilterlist0 in scanStatusCode {
-                try scanStatusCodeContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in scanStatusCode {
+                try scanStatusCodeContainer.encode(coveragestringfilter0)
             }
         }
         if let scanStatusReason = scanStatusReason {
             var scanStatusReasonContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanStatusReason)
-            for coveragestringfilterlist0 in scanStatusReason {
-                try scanStatusReasonContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in scanStatusReason {
+                try scanStatusReasonContainer.encode(coveragestringfilter0)
             }
         }
         if let scanType = scanType {
             var scanTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .scanType)
-            for coveragestringfilterlist0 in scanType {
-                try scanTypeContainer.encode(coveragestringfilterlist0)
+            for coveragestringfilter0 in scanType {
+                try scanTypeContainer.encode(coveragestringfilter0)
             }
         }
     }
@@ -3036,8 +3036,8 @@ extension CreateFilterInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3506,8 +3506,8 @@ extension Inspector2ClientTypes.CvssScoreDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adjustments = adjustments {
             var adjustmentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adjustments)
-            for cvssscoreadjustmentlist0 in adjustments {
-                try adjustmentsContainer.encode(cvssscoreadjustmentlist0)
+            for cvssscoreadjustment0 in adjustments {
+                try adjustmentsContainer.encode(cvssscoreadjustment0)
             }
         }
         if let cvssSource = self.cvssSource {
@@ -4168,14 +4168,14 @@ extension DisableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidset0 in accountIds {
-                try accountIdsContainer.encode(accountidset0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for disableresourcetypelist0 in resourceTypes {
-                try resourceTypesContainer.encode(disableresourcetypelist0.rawValue)
+            for resourcescantype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcescantype0.rawValue)
             }
         }
     }
@@ -4473,26 +4473,26 @@ extension Inspector2ClientTypes.Ec2InstanceAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let amis = amis {
             var amisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .amis)
-            for stringfilterlist0 in amis {
-                try amisContainer.encode(stringfilterlist0)
+            for stringfilter0 in amis {
+                try amisContainer.encode(stringfilter0)
             }
         }
         if let instanceIds = instanceIds {
             var instanceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceIds)
-            for stringfilterlist0 in instanceIds {
-                try instanceIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in instanceIds {
+                try instanceIdsContainer.encode(stringfilter0)
             }
         }
         if let instanceTags = instanceTags {
             var instanceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTags)
-            for mapfilterlist0 in instanceTags {
-                try instanceTagsContainer.encode(mapfilterlist0)
+            for mapfilter0 in instanceTags {
+                try instanceTagsContainer.encode(mapfilter0)
             }
         }
         if let operatingSystems = operatingSystems {
             var operatingSystemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .operatingSystems)
-            for stringfilterlist0 in operatingSystems {
-                try operatingSystemsContainer.encode(stringfilterlist0)
+            for stringfilter0 in operatingSystems {
+                try operatingSystemsContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -4616,8 +4616,8 @@ extension Inspector2ClientTypes.Ec2InstanceAggregationResponse: Swift.Codable {
         }
         if let instanceTags = instanceTags {
             var instanceTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .instanceTags)
-            for (dictKey0, tagmap0) in instanceTags {
-                try instanceTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in instanceTags {
+                try instanceTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let networkFindings = self.networkFindings {
@@ -4755,8 +4755,8 @@ extension Inspector2ClientTypes.Ec2Metadata: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -4920,8 +4920,8 @@ extension Inspector2ClientTypes.EcrContainerImageMetadata: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for string0 in tags {
+                try tagsContainer.encode(string0)
             }
         }
     }
@@ -5308,8 +5308,8 @@ extension EnableInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for accountidset0 in accountIds {
-                try accountIdsContainer.encode(accountidset0)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
             }
         }
         if let clientToken = self.clientToken {
@@ -5317,8 +5317,8 @@ extension EnableInput: Swift.Encodable {
         }
         if let resourceTypes = resourceTypes {
             var resourceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTypes)
-            for enableresourcetypelist0 in resourceTypes {
-                try resourceTypesContainer.encode(enableresourcetypelist0.rawValue)
+            for resourcescantype0 in resourceTypes {
+                try resourceTypesContainer.encode(resourcescantype0.rawValue)
             }
         }
     }
@@ -5786,8 +5786,8 @@ extension Inspector2ClientTypes.Filter: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let updatedAt = self.updatedAt {
@@ -5966,230 +5966,230 @@ extension Inspector2ClientTypes.FilterCriteria: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let awsAccountId = awsAccountId {
             var awsAccountIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountId)
-            for stringfilterlist0 in awsAccountId {
-                try awsAccountIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in awsAccountId {
+                try awsAccountIdContainer.encode(stringfilter0)
             }
         }
         if let componentId = componentId {
             var componentIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentId)
-            for stringfilterlist0 in componentId {
-                try componentIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in componentId {
+                try componentIdContainer.encode(stringfilter0)
             }
         }
         if let componentType = componentType {
             var componentTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentType)
-            for stringfilterlist0 in componentType {
-                try componentTypeContainer.encode(stringfilterlist0)
+            for stringfilter0 in componentType {
+                try componentTypeContainer.encode(stringfilter0)
             }
         }
         if let ec2InstanceImageId = ec2InstanceImageId {
             var ec2InstanceImageIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceImageId)
-            for stringfilterlist0 in ec2InstanceImageId {
-                try ec2InstanceImageIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in ec2InstanceImageId {
+                try ec2InstanceImageIdContainer.encode(stringfilter0)
             }
         }
         if let ec2InstanceSubnetId = ec2InstanceSubnetId {
             var ec2InstanceSubnetIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceSubnetId)
-            for stringfilterlist0 in ec2InstanceSubnetId {
-                try ec2InstanceSubnetIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in ec2InstanceSubnetId {
+                try ec2InstanceSubnetIdContainer.encode(stringfilter0)
             }
         }
         if let ec2InstanceVpcId = ec2InstanceVpcId {
             var ec2InstanceVpcIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ec2InstanceVpcId)
-            for stringfilterlist0 in ec2InstanceVpcId {
-                try ec2InstanceVpcIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in ec2InstanceVpcId {
+                try ec2InstanceVpcIdContainer.encode(stringfilter0)
             }
         }
         if let ecrImageArchitecture = ecrImageArchitecture {
             var ecrImageArchitectureContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageArchitecture)
-            for stringfilterlist0 in ecrImageArchitecture {
-                try ecrImageArchitectureContainer.encode(stringfilterlist0)
+            for stringfilter0 in ecrImageArchitecture {
+                try ecrImageArchitectureContainer.encode(stringfilter0)
             }
         }
         if let ecrImageHash = ecrImageHash {
             var ecrImageHashContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageHash)
-            for stringfilterlist0 in ecrImageHash {
-                try ecrImageHashContainer.encode(stringfilterlist0)
+            for stringfilter0 in ecrImageHash {
+                try ecrImageHashContainer.encode(stringfilter0)
             }
         }
         if let ecrImagePushedAt = ecrImagePushedAt {
             var ecrImagePushedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImagePushedAt)
-            for datefilterlist0 in ecrImagePushedAt {
-                try ecrImagePushedAtContainer.encode(datefilterlist0)
+            for datefilter0 in ecrImagePushedAt {
+                try ecrImagePushedAtContainer.encode(datefilter0)
             }
         }
         if let ecrImageRegistry = ecrImageRegistry {
             var ecrImageRegistryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageRegistry)
-            for stringfilterlist0 in ecrImageRegistry {
-                try ecrImageRegistryContainer.encode(stringfilterlist0)
+            for stringfilter0 in ecrImageRegistry {
+                try ecrImageRegistryContainer.encode(stringfilter0)
             }
         }
         if let ecrImageRepositoryName = ecrImageRepositoryName {
             var ecrImageRepositoryNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageRepositoryName)
-            for stringfilterlist0 in ecrImageRepositoryName {
-                try ecrImageRepositoryNameContainer.encode(stringfilterlist0)
+            for stringfilter0 in ecrImageRepositoryName {
+                try ecrImageRepositoryNameContainer.encode(stringfilter0)
             }
         }
         if let ecrImageTags = ecrImageTags {
             var ecrImageTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ecrImageTags)
-            for stringfilterlist0 in ecrImageTags {
-                try ecrImageTagsContainer.encode(stringfilterlist0)
+            for stringfilter0 in ecrImageTags {
+                try ecrImageTagsContainer.encode(stringfilter0)
             }
         }
         if let exploitAvailable = exploitAvailable {
             var exploitAvailableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .exploitAvailable)
-            for stringfilterlist0 in exploitAvailable {
-                try exploitAvailableContainer.encode(stringfilterlist0)
+            for stringfilter0 in exploitAvailable {
+                try exploitAvailableContainer.encode(stringfilter0)
             }
         }
         if let findingArn = findingArn {
             var findingArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingArn)
-            for stringfilterlist0 in findingArn {
-                try findingArnContainer.encode(stringfilterlist0)
+            for stringfilter0 in findingArn {
+                try findingArnContainer.encode(stringfilter0)
             }
         }
         if let findingStatus = findingStatus {
             var findingStatusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingStatus)
-            for stringfilterlist0 in findingStatus {
-                try findingStatusContainer.encode(stringfilterlist0)
+            for stringfilter0 in findingStatus {
+                try findingStatusContainer.encode(stringfilter0)
             }
         }
         if let findingType = findingType {
             var findingTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingType)
-            for stringfilterlist0 in findingType {
-                try findingTypeContainer.encode(stringfilterlist0)
+            for stringfilter0 in findingType {
+                try findingTypeContainer.encode(stringfilter0)
             }
         }
         if let firstObservedAt = firstObservedAt {
             var firstObservedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .firstObservedAt)
-            for datefilterlist0 in firstObservedAt {
-                try firstObservedAtContainer.encode(datefilterlist0)
+            for datefilter0 in firstObservedAt {
+                try firstObservedAtContainer.encode(datefilter0)
             }
         }
         if let fixAvailable = fixAvailable {
             var fixAvailableContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fixAvailable)
-            for stringfilterlist0 in fixAvailable {
-                try fixAvailableContainer.encode(stringfilterlist0)
+            for stringfilter0 in fixAvailable {
+                try fixAvailableContainer.encode(stringfilter0)
             }
         }
         if let inspectorScore = inspectorScore {
             var inspectorScoreContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inspectorScore)
-            for numberfilterlist0 in inspectorScore {
-                try inspectorScoreContainer.encode(numberfilterlist0)
+            for numberfilter0 in inspectorScore {
+                try inspectorScoreContainer.encode(numberfilter0)
             }
         }
         if let lambdaFunctionExecutionRoleArn = lambdaFunctionExecutionRoleArn {
             var lambdaFunctionExecutionRoleArnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionExecutionRoleArn)
-            for stringfilterlist0 in lambdaFunctionExecutionRoleArn {
-                try lambdaFunctionExecutionRoleArnContainer.encode(stringfilterlist0)
+            for stringfilter0 in lambdaFunctionExecutionRoleArn {
+                try lambdaFunctionExecutionRoleArnContainer.encode(stringfilter0)
             }
         }
         if let lambdaFunctionLastModifiedAt = lambdaFunctionLastModifiedAt {
             var lambdaFunctionLastModifiedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionLastModifiedAt)
-            for datefilterlist0 in lambdaFunctionLastModifiedAt {
-                try lambdaFunctionLastModifiedAtContainer.encode(datefilterlist0)
+            for datefilter0 in lambdaFunctionLastModifiedAt {
+                try lambdaFunctionLastModifiedAtContainer.encode(datefilter0)
             }
         }
         if let lambdaFunctionLayers = lambdaFunctionLayers {
             var lambdaFunctionLayersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionLayers)
-            for stringfilterlist0 in lambdaFunctionLayers {
-                try lambdaFunctionLayersContainer.encode(stringfilterlist0)
+            for stringfilter0 in lambdaFunctionLayers {
+                try lambdaFunctionLayersContainer.encode(stringfilter0)
             }
         }
         if let lambdaFunctionName = lambdaFunctionName {
             var lambdaFunctionNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionName)
-            for stringfilterlist0 in lambdaFunctionName {
-                try lambdaFunctionNameContainer.encode(stringfilterlist0)
+            for stringfilter0 in lambdaFunctionName {
+                try lambdaFunctionNameContainer.encode(stringfilter0)
             }
         }
         if let lambdaFunctionRuntime = lambdaFunctionRuntime {
             var lambdaFunctionRuntimeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lambdaFunctionRuntime)
-            for stringfilterlist0 in lambdaFunctionRuntime {
-                try lambdaFunctionRuntimeContainer.encode(stringfilterlist0)
+            for stringfilter0 in lambdaFunctionRuntime {
+                try lambdaFunctionRuntimeContainer.encode(stringfilter0)
             }
         }
         if let lastObservedAt = lastObservedAt {
             var lastObservedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastObservedAt)
-            for datefilterlist0 in lastObservedAt {
-                try lastObservedAtContainer.encode(datefilterlist0)
+            for datefilter0 in lastObservedAt {
+                try lastObservedAtContainer.encode(datefilter0)
             }
         }
         if let networkProtocol = networkProtocol {
             var networkProtocolContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkProtocol)
-            for stringfilterlist0 in networkProtocol {
-                try networkProtocolContainer.encode(stringfilterlist0)
+            for stringfilter0 in networkProtocol {
+                try networkProtocolContainer.encode(stringfilter0)
             }
         }
         if let portRange = portRange {
             var portRangeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .portRange)
-            for portrangefilterlist0 in portRange {
-                try portRangeContainer.encode(portrangefilterlist0)
+            for portrangefilter0 in portRange {
+                try portRangeContainer.encode(portrangefilter0)
             }
         }
         if let relatedVulnerabilities = relatedVulnerabilities {
             var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
-            for stringfilterlist0 in relatedVulnerabilities {
-                try relatedVulnerabilitiesContainer.encode(stringfilterlist0)
+            for stringfilter0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(stringfilter0)
             }
         }
         if let resourceId = resourceId {
             var resourceIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceId)
-            for stringfilterlist0 in resourceId {
-                try resourceIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceId {
+                try resourceIdContainer.encode(stringfilter0)
             }
         }
         if let resourceTags = resourceTags {
             var resourceTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceTags)
-            for mapfilterlist0 in resourceTags {
-                try resourceTagsContainer.encode(mapfilterlist0)
+            for mapfilter0 in resourceTags {
+                try resourceTagsContainer.encode(mapfilter0)
             }
         }
         if let resourceType = resourceType {
             var resourceTypeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceType)
-            for stringfilterlist0 in resourceType {
-                try resourceTypeContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceType {
+                try resourceTypeContainer.encode(stringfilter0)
             }
         }
         if let severity = severity {
             var severityContainer = encodeContainer.nestedUnkeyedContainer(forKey: .severity)
-            for stringfilterlist0 in severity {
-                try severityContainer.encode(stringfilterlist0)
+            for stringfilter0 in severity {
+                try severityContainer.encode(stringfilter0)
             }
         }
         if let title = title {
             var titleContainer = encodeContainer.nestedUnkeyedContainer(forKey: .title)
-            for stringfilterlist0 in title {
-                try titleContainer.encode(stringfilterlist0)
+            for stringfilter0 in title {
+                try titleContainer.encode(stringfilter0)
             }
         }
         if let updatedAt = updatedAt {
             var updatedAtContainer = encodeContainer.nestedUnkeyedContainer(forKey: .updatedAt)
-            for datefilterlist0 in updatedAt {
-                try updatedAtContainer.encode(datefilterlist0)
+            for datefilter0 in updatedAt {
+                try updatedAtContainer.encode(datefilter0)
             }
         }
         if let vendorSeverity = vendorSeverity {
             var vendorSeverityContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vendorSeverity)
-            for stringfilterlist0 in vendorSeverity {
-                try vendorSeverityContainer.encode(stringfilterlist0)
+            for stringfilter0 in vendorSeverity {
+                try vendorSeverityContainer.encode(stringfilter0)
             }
         }
         if let vulnerabilityId = vulnerabilityId {
             var vulnerabilityIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilityId)
-            for stringfilterlist0 in vulnerabilityId {
-                try vulnerabilityIdContainer.encode(stringfilterlist0)
+            for stringfilter0 in vulnerabilityId {
+                try vulnerabilityIdContainer.encode(stringfilter0)
             }
         }
         if let vulnerabilitySource = vulnerabilitySource {
             var vulnerabilitySourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilitySource)
-            for stringfilterlist0 in vulnerabilitySource {
-                try vulnerabilitySourceContainer.encode(stringfilterlist0)
+            for stringfilter0 in vulnerabilitySource {
+                try vulnerabilitySourceContainer.encode(stringfilter0)
             }
         }
         if let vulnerablePackages = vulnerablePackages {
             var vulnerablePackagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerablePackages)
-            for packagefilterlist0 in vulnerablePackages {
-                try vulnerablePackagesContainer.encode(packagefilterlist0)
+            for packagefilter0 in vulnerablePackages {
+                try vulnerablePackagesContainer.encode(packagefilter0)
             }
         }
     }
@@ -6847,8 +6847,8 @@ extension Inspector2ClientTypes.Finding: Swift.Codable {
         }
         if let resources = resources {
             var resourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resources)
-            for resourcelist0 in resources {
-                try resourcesContainer.encode(resourcelist0)
+            for resource0 in resources {
+                try resourcesContainer.encode(resource0)
             }
         }
         if let severity = self.severity {
@@ -7278,8 +7278,8 @@ extension Inspector2ClientTypes.FreeTrialAccountInfo: Swift.Codable {
         }
         if let freeTrialInfo = freeTrialInfo {
             var freeTrialInfoContainer = encodeContainer.nestedUnkeyedContainer(forKey: .freeTrialInfo)
-            for freetrialinfolist0 in freeTrialInfo {
-                try freeTrialInfoContainer.encode(freetrialinfolist0)
+            for freetrialinfo0 in freeTrialInfo {
+                try freeTrialInfoContainer.encode(freetrialinfo0)
             }
         }
     }
@@ -8069,20 +8069,20 @@ extension Inspector2ClientTypes.ImageLayerAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let layerHashes = layerHashes {
             var layerHashesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerHashes)
-            for stringfilterlist0 in layerHashes {
-                try layerHashesContainer.encode(stringfilterlist0)
+            for stringfilter0 in layerHashes {
+                try layerHashesContainer.encode(stringfilter0)
             }
         }
         if let repositories = repositories {
             var repositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositories)
-            for stringfilterlist0 in repositories {
-                try repositoriesContainer.encode(stringfilterlist0)
+            for stringfilter0 in repositories {
+                try repositoriesContainer.encode(stringfilter0)
             }
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringfilterlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -8392,26 +8392,26 @@ extension Inspector2ClientTypes.LambdaFunctionAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let functionNames = functionNames {
             var functionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionNames)
-            for stringfilterlist0 in functionNames {
-                try functionNamesContainer.encode(stringfilterlist0)
+            for stringfilter0 in functionNames {
+                try functionNamesContainer.encode(stringfilter0)
             }
         }
         if let functionTags = functionTags {
             var functionTagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionTags)
-            for mapfilterlist0 in functionTags {
-                try functionTagsContainer.encode(mapfilterlist0)
+            for mapfilter0 in functionTags {
+                try functionTagsContainer.encode(mapfilter0)
             }
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringfilterlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilter0)
             }
         }
         if let runtimes = runtimes {
             var runtimesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimes)
-            for stringfilterlist0 in runtimes {
-                try runtimesContainer.encode(stringfilterlist0)
+            for stringfilter0 in runtimes {
+                try runtimesContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -8532,8 +8532,8 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse: Swift.Codable
         }
         if let lambdaTags = lambdaTags {
             var lambdaTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .lambdaTags)
-            for (dictKey0, tagmap0) in lambdaTags {
-                try lambdaTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in lambdaTags {
+                try lambdaTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let lastModifiedAt = self.lastModifiedAt {
@@ -8634,14 +8634,14 @@ extension Inspector2ClientTypes.LambdaFunctionMetadata: Swift.Codable {
         }
         if let functionTags = functionTags {
             var functionTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .functionTags)
-            for (dictKey0, tagmap0) in functionTags {
-                try functionTagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in functionTags {
+                try functionTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let layers = layers {
             var layersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layers)
-            for lambdalayerlist0 in layers {
-                try layersContainer.encode(lambdalayerlist0)
+            for string0 in layers {
+                try layersContainer.encode(string0)
             }
         }
         if let runtime = self.runtime {
@@ -8756,20 +8756,20 @@ extension Inspector2ClientTypes.LambdaLayerAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let functionNames = functionNames {
             var functionNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .functionNames)
-            for stringfilterlist0 in functionNames {
-                try functionNamesContainer.encode(stringfilterlist0)
+            for stringfilter0 in functionNames {
+                try functionNamesContainer.encode(stringfilter0)
             }
         }
         if let layerArns = layerArns {
             var layerArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .layerArns)
-            for stringfilterlist0 in layerArns {
-                try layerArnsContainer.encode(stringfilterlist0)
+            for stringfilter0 in layerArns {
+                try layerArnsContainer.encode(stringfilter0)
             }
         }
         if let resourceIds = resourceIds {
             var resourceIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceIds)
-            for stringfilterlist0 in resourceIds {
-                try resourceIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in resourceIds {
+                try resourceIdsContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -8979,14 +8979,14 @@ extension Inspector2ClientTypes.LambdaVpcConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for securitygroupidlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(securitygroupidlist0)
+            for securitygroupid0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(securitygroupid0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for subnetidlist0 in subnetIds {
-                try subnetIdsContainer.encode(subnetidlist0)
+            for subnetid0 in subnetIds {
+                try subnetIdsContainer.encode(subnetid0)
             }
         }
         if let vpcId = self.vpcId {
@@ -9694,8 +9694,8 @@ extension ListFiltersInput: Swift.Encodable {
         }
         if let arns = arns {
             var arnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .arns)
-            for filterarnlist0 in arns {
-                try arnsContainer.encode(filterarnlist0)
+            for filterarn0 in arns {
+                try arnsContainer.encode(filterarn0)
             }
         }
         if let maxResults = self.maxResults {
@@ -9876,8 +9876,8 @@ extension ListFindingAggregationsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for stringfilterlist0 in accountIds {
-                try accountIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in accountIds {
+                try accountIdsContainer.encode(stringfilter0)
             }
         }
         if let aggregationRequest = self.aggregationRequest {
@@ -10516,8 +10516,8 @@ extension ListUsageTotalsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountIds = accountIds {
             var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
-            for usageaccountidlist0 in accountIds {
-                try accountIdsContainer.encode(usageaccountidlist0)
+            for usageaccountid0 in accountIds {
+                try accountIdsContainer.encode(usageaccountid0)
             }
         }
         if let maxResults = self.maxResults {
@@ -10836,8 +10836,8 @@ extension Inspector2ClientTypes.NetworkPath: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let steps = steps {
             var stepsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .steps)
-            for steplist0 in steps {
-                try stepsContainer.encode(steplist0)
+            for step0 in steps {
+                try stepsContainer.encode(step0)
             }
         }
     }
@@ -11058,8 +11058,8 @@ extension Inspector2ClientTypes.PackageAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let packageNames = packageNames {
             var packageNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .packageNames)
-            for stringfilterlist0 in packageNames {
-                try packageNamesContainer.encode(stringfilterlist0)
+            for stringfilter0 in packageNames {
+                try packageNamesContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -11424,20 +11424,20 @@ extension Inspector2ClientTypes.PackageVulnerabilityDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let cvss = cvss {
             var cvssContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cvss)
-            for cvssscorelist0 in cvss {
-                try cvssContainer.encode(cvssscorelist0)
+            for cvssscore0 in cvss {
+                try cvssContainer.encode(cvssscore0)
             }
         }
         if let referenceUrls = referenceUrls {
             var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
-            for nonemptystringlist0 in referenceUrls {
-                try referenceUrlsContainer.encode(nonemptystringlist0)
+            for nonemptystring0 in referenceUrls {
+                try referenceUrlsContainer.encode(nonemptystring0)
             }
         }
         if let relatedVulnerabilities = relatedVulnerabilities {
             var relatedVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedVulnerabilities)
-            for vulnerabilityidlist0 in relatedVulnerabilities {
-                try relatedVulnerabilitiesContainer.encode(vulnerabilityidlist0)
+            for vulnerabilityid0 in relatedVulnerabilities {
+                try relatedVulnerabilitiesContainer.encode(vulnerabilityid0)
             }
         }
         if let source = self.source {
@@ -11460,8 +11460,8 @@ extension Inspector2ClientTypes.PackageVulnerabilityDetails: Swift.Codable {
         }
         if let vulnerablePackages = vulnerablePackages {
             var vulnerablePackagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerablePackages)
-            for vulnerablepackagelist0 in vulnerablePackages {
-                try vulnerablePackagesContainer.encode(vulnerablepackagelist0)
+            for vulnerablepackage0 in vulnerablePackages {
+                try vulnerablePackagesContainer.encode(vulnerablepackage0)
             }
         }
     }
@@ -11949,8 +11949,8 @@ extension Inspector2ClientTypes.RepositoryAggregation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let repositories = repositories {
             var repositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .repositories)
-            for stringfilterlist0 in repositories {
-                try repositoriesContainer.encode(stringfilterlist0)
+            for stringfilter0 in repositories {
+                try repositoriesContainer.encode(stringfilter0)
             }
         }
         if let sortBy = self.sortBy {
@@ -12135,8 +12135,8 @@ extension Inspector2ClientTypes.Resource: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -12570,6 +12570,7 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
     public enum Runtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case go1X
         case java11
         case java8
         case java8Al2
@@ -12577,6 +12578,7 @@ extension Inspector2ClientTypes {
         case nodejs12X
         case nodejs14X
         case nodejs16X
+        case nodejs18X
         case python37
         case python38
         case python39
@@ -12585,6 +12587,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [Runtime] {
             return [
+                .go1X,
                 .java11,
                 .java8,
                 .java8Al2,
@@ -12592,6 +12595,7 @@ extension Inspector2ClientTypes {
                 .nodejs12X,
                 .nodejs14X,
                 .nodejs16X,
+                .nodejs18X,
                 .python37,
                 .python38,
                 .python39,
@@ -12605,6 +12609,7 @@ extension Inspector2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .go1X: return "GO_1_X"
             case .java11: return "JAVA_11"
             case .java8: return "JAVA_8"
             case .java8Al2: return "JAVA_8_AL2"
@@ -12612,6 +12617,7 @@ extension Inspector2ClientTypes {
             case .nodejs12X: return "NODEJS_12_X"
             case .nodejs14X: return "NODEJS_14_X"
             case .nodejs16X: return "NODEJS_16_X"
+            case .nodejs18X: return "NODEJS_18_X"
             case .python37: return "PYTHON_3_7"
             case .python38: return "PYTHON_3_8"
             case .python39: return "PYTHON_3_9"
@@ -13419,8 +13425,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -13602,14 +13608,14 @@ extension Inspector2ClientTypes.TitleAggregation: Swift.Codable {
         }
         if let titles = titles {
             var titlesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .titles)
-            for stringfilterlist0 in titles {
-                try titlesContainer.encode(stringfilterlist0)
+            for stringfilter0 in titles {
+                try titlesContainer.encode(stringfilter0)
             }
         }
         if let vulnerabilityIds = vulnerabilityIds {
             var vulnerabilityIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vulnerabilityIds)
-            for stringfilterlist0 in vulnerabilityIds {
-                try vulnerabilityIdsContainer.encode(stringfilterlist0)
+            for stringfilter0 in vulnerabilityIds {
+                try vulnerabilityIdsContainer.encode(stringfilter0)
             }
         }
     }
@@ -14333,8 +14339,8 @@ extension Inspector2ClientTypes.UsageTotal: Swift.Codable {
         }
         if let usage = usage {
             var usageContainer = encodeContainer.nestedUnkeyedContainer(forKey: .usage)
-            for usagelist0 in usage {
-                try usageContainer.encode(usagelist0)
+            for usage0 in usage {
+                try usageContainer.encode(usage0)
             }
         }
     }

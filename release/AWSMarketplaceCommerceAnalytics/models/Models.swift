@@ -118,8 +118,8 @@ extension GenerateDataSetInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customerDefinedValues = customerDefinedValues {
             var customerDefinedValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customerDefinedValues)
-            for (dictKey0, customerdefinedvalues0) in customerDefinedValues {
-                try customerDefinedValuesContainer.encode(customerdefinedvalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customerDefinedValues0) in customerDefinedValues {
+                try customerDefinedValuesContainer.encode(customerDefinedValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataSetPublicationDate = self.dataSetPublicationDate {
@@ -422,8 +422,8 @@ extension StartSupportDataExportInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let customerDefinedValues = customerDefinedValues {
             var customerDefinedValuesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .customerDefinedValues)
-            for (dictKey0, customerdefinedvalues0) in customerDefinedValues {
-                try customerDefinedValuesContainer.encode(customerdefinedvalues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, customerDefinedValues0) in customerDefinedValues {
+                try customerDefinedValuesContainer.encode(customerDefinedValues0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let dataSetType = self.dataSetType {

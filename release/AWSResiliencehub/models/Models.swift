@@ -67,8 +67,8 @@ extension AddDraftAppVersionResourceMappingsInput: Swift.Encodable {
         }
         if let resourceMappings = resourceMappings {
             var resourceMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceMappings)
-            for resourcemappinglist0 in resourceMappings {
-                try resourceMappingsContainer.encode(resourcemappinglist0)
+            for resourcemapping0 in resourceMappings {
+                try resourceMappingsContainer.encode(resourcemapping0)
             }
         }
     }
@@ -254,8 +254,8 @@ extension ResiliencehubClientTypes.AlarmRecommendation: Swift.Codable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for recommendationitemlist0 in items {
-                try itemsContainer.encode(recommendationitemlist0)
+            for recommendationitem0 in items {
+                try itemsContainer.encode(recommendationitem0)
             }
         }
         if let name = self.name {
@@ -447,8 +447,8 @@ extension ResiliencehubClientTypes.App: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -598,8 +598,8 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         }
         if let compliance = compliance {
             var complianceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .compliance)
-            for (dictKey0, assessmentcompliance0) in compliance {
-                try complianceContainer.encode(assessmentcompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assessmentCompliance0) in compliance {
+                try complianceContainer.encode(assessmentCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let complianceStatus = self.complianceStatus {
@@ -631,8 +631,8 @@ extension ResiliencehubClientTypes.AppAssessment: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1057,8 +1057,8 @@ extension ResiliencehubClientTypes.AppComponentCompliance: Swift.Codable {
         }
         if let compliance = compliance {
             var complianceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .compliance)
-            for (dictKey0, assessmentcompliance0) in compliance {
-                try complianceContainer.encode(assessmentcompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assessmentCompliance0) in compliance {
+                try complianceContainer.encode(assessmentCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let cost = self.cost {
@@ -1429,8 +1429,8 @@ extension ResiliencehubClientTypes.ComponentRecommendation: Swift.Codable {
         }
         if let configRecommendations = configRecommendations {
             var configRecommendationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configRecommendations)
-            for configrecommendationlist0 in configRecommendations {
-                try configRecommendationsContainer.encode(configrecommendationlist0)
+            for configrecommendation0 in configRecommendations {
+                try configRecommendationsContainer.encode(configrecommendation0)
             }
         }
         if let recommendationStatus = self.recommendationStatus {
@@ -1506,8 +1506,8 @@ extension ResiliencehubClientTypes.ConfigRecommendation: Swift.Codable {
         }
         if let compliance = compliance {
             var complianceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .compliance)
-            for (dictKey0, assessmentcompliance0) in compliance {
-                try complianceContainer.encode(assessmentcompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, assessmentCompliance0) in compliance {
+                try complianceContainer.encode(assessmentCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let cost = self.cost {
@@ -1527,8 +1527,8 @@ extension ResiliencehubClientTypes.ConfigRecommendation: Swift.Codable {
         }
         if let recommendationCompliance = recommendationCompliance {
             var recommendationComplianceContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .recommendationCompliance)
-            for (dictKey0, recommendationcompliance0) in recommendationCompliance {
-                try recommendationComplianceContainer.encode(recommendationcompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, recommendationCompliance0) in recommendationCompliance {
+                try recommendationComplianceContainer.encode(recommendationCompliance0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let referenceId = self.referenceId {
@@ -1536,8 +1536,8 @@ extension ResiliencehubClientTypes.ConfigRecommendation: Swift.Codable {
         }
         if let suggestedChanges = suggestedChanges {
             var suggestedChangesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .suggestedChanges)
-            for suggestedchangeslist0 in suggestedChanges {
-                try suggestedChangesContainer.encode(suggestedchangeslist0)
+            for entitydescription0 in suggestedChanges {
+                try suggestedChangesContainer.encode(entitydescription0)
             }
         }
     }
@@ -1895,8 +1895,8 @@ extension CreateAppInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2098,20 +2098,20 @@ extension CreateRecommendationTemplateInput: Swift.Encodable {
         }
         if let recommendationIds = recommendationIds {
             var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
-            for recommendationidlist0 in recommendationIds {
-                try recommendationIdsContainer.encode(recommendationidlist0)
+            for uuid0 in recommendationIds {
+                try recommendationIdsContainer.encode(uuid0)
             }
         }
         if let recommendationTypes = recommendationTypes {
             var recommendationTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationTypes)
-            for renderrecommendationtypelist0 in recommendationTypes {
-                try recommendationTypesContainer.encode(renderrecommendationtypelist0.rawValue)
+            for renderrecommendationtype0 in recommendationTypes {
+                try recommendationTypesContainer.encode(renderrecommendationtype0.rawValue)
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -2335,8 +2335,8 @@ extension CreateResiliencyPolicyInput: Swift.Encodable {
         }
         if let policy = policy {
             var policyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .policy)
-            for (dictKey0, disruptionpolicy0) in policy {
-                try policyContainer.encode(disruptionpolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, disruptionPolicy0) in policy {
+                try policyContainer.encode(disruptionPolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let policyDescription = self.policyDescription {
@@ -2347,8 +2347,8 @@ extension CreateResiliencyPolicyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tier = self.tier {
@@ -4305,14 +4305,14 @@ extension ImportResourcesToDraftAppVersionInput: Swift.Encodable {
         }
         if let sourceArns = sourceArns {
             var sourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceArns)
-            for arnlist0 in sourceArns {
-                try sourceArnsContainer.encode(arnlist0)
+            for arn0 in sourceArns {
+                try sourceArnsContainer.encode(arn0)
             }
         }
         if let terraformSources = terraformSources {
             var terraformSourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terraformSources)
-            for terraformsourcelist0 in terraformSources {
-                try terraformSourcesContainer.encode(terraformsourcelist0)
+            for terraformsource0 in terraformSources {
+                try terraformSourcesContainer.encode(terraformsource0)
             }
         }
     }
@@ -7167,8 +7167,8 @@ extension ResiliencehubClientTypes.PhysicalResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let appComponents = appComponents {
             var appComponentsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appComponents)
-            for appcomponentlist0 in appComponents {
-                try appComponentsContainer.encode(appcomponentlist0)
+            for appcomponent0 in appComponents {
+                try appComponentsContainer.encode(appcomponent0)
             }
         }
         if let logicalResourceId = self.logicalResourceId {
@@ -7806,8 +7806,8 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.Codable {
         }
         if let recommendationIds = recommendationIds {
             var recommendationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationIds)
-            for recommendationidlist0 in recommendationIds {
-                try recommendationIdsContainer.encode(recommendationidlist0)
+            for uuid0 in recommendationIds {
+                try recommendationIdsContainer.encode(uuid0)
             }
         }
         if let recommendationTemplateArn = self.recommendationTemplateArn {
@@ -7815,8 +7815,8 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.Codable {
         }
         if let recommendationTypes = recommendationTypes {
             var recommendationTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recommendationTypes)
-            for renderrecommendationtypelist0 in recommendationTypes {
-                try recommendationTypesContainer.encode(renderrecommendationtypelist0.rawValue)
+            for renderrecommendationtype0 in recommendationTypes {
+                try recommendationTypesContainer.encode(renderrecommendationtype0.rawValue)
             }
         }
         if let startTime = self.startTime {
@@ -7827,8 +7827,8 @@ extension ResiliencehubClientTypes.RecommendationTemplate: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let templatesLocation = self.templatesLocation {
@@ -8030,32 +8030,32 @@ extension RemoveDraftAppVersionResourceMappingsInput: Swift.Encodable {
         }
         if let appRegistryAppNames = appRegistryAppNames {
             var appRegistryAppNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .appRegistryAppNames)
-            for entitynamelist0 in appRegistryAppNames {
-                try appRegistryAppNamesContainer.encode(entitynamelist0)
+            for entityname0 in appRegistryAppNames {
+                try appRegistryAppNamesContainer.encode(entityname0)
             }
         }
         if let logicalStackNames = logicalStackNames {
             var logicalStackNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logicalStackNames)
-            for string255list0 in logicalStackNames {
-                try logicalStackNamesContainer.encode(string255list0)
+            for string2550 in logicalStackNames {
+                try logicalStackNamesContainer.encode(string2550)
             }
         }
         if let resourceGroupNames = resourceGroupNames {
             var resourceGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceGroupNames)
-            for entitynamelist0 in resourceGroupNames {
-                try resourceGroupNamesContainer.encode(entitynamelist0)
+            for entityname0 in resourceGroupNames {
+                try resourceGroupNamesContainer.encode(entityname0)
             }
         }
         if let resourceNames = resourceNames {
             var resourceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceNames)
-            for entitynamelist0 in resourceNames {
-                try resourceNamesContainer.encode(entitynamelist0)
+            for entityname0 in resourceNames {
+                try resourceNamesContainer.encode(entityname0)
             }
         }
         if let terraformSourceNames = terraformSourceNames {
             var terraformSourceNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .terraformSourceNames)
-            for string255list0 in terraformSourceNames {
-                try terraformSourceNamesContainer.encode(string255list0)
+            for string2550 in terraformSourceNames {
+                try terraformSourceNamesContainer.encode(string2550)
             }
         }
     }
@@ -8325,8 +8325,8 @@ extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.Codable {
         }
         if let policy = policy {
             var policyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .policy)
-            for (dictKey0, disruptionpolicy0) in policy {
-                try policyContainer.encode(disruptionpolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, disruptionPolicy0) in policy {
+                try policyContainer.encode(disruptionPolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let policyArn = self.policyArn {
@@ -8340,8 +8340,8 @@ extension ResiliencehubClientTypes.ResiliencyPolicy: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tier = self.tier {
@@ -8494,8 +8494,8 @@ extension ResiliencehubClientTypes.ResiliencyScore: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let disruptionScore = disruptionScore {
             var disruptionScoreContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .disruptionScore)
-            for (dictKey0, disruptionresiliencyscore0) in disruptionScore {
-                try disruptionScoreContainer.encode(disruptionresiliencyscore0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, disruptionResiliencyScore0) in disruptionScore {
+                try disruptionScoreContainer.encode(disruptionResiliencyScore0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if score != 0.0 {
@@ -8779,8 +8779,8 @@ extension ResiliencehubClientTypes.ResourceErrorsDetails: Swift.Codable {
         }
         if let resourceErrors = resourceErrors {
             var resourceErrorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceErrors)
-            for resourceerrorlist0 in resourceErrors {
-                try resourceErrorsContainer.encode(resourceerrorlist0)
+            for resourceerror0 in resourceErrors {
+                try resourceErrorsContainer.encode(resourceerror0)
             }
         }
     }
@@ -9228,8 +9228,8 @@ extension ResiliencehubClientTypes.SopRecommendation: Swift.Codable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for recommendationitemlist0 in items {
-                try itemsContainer.encode(recommendationitemlist0)
+            for recommendationitem0 in items {
+                try itemsContainer.encode(recommendationitem0)
             }
         }
         if let name = self.name {
@@ -9385,8 +9385,8 @@ extension StartAppAssessmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9560,8 +9560,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9749,8 +9749,8 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         }
         if let dependsOnAlarms = dependsOnAlarms {
             var dependsOnAlarmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOnAlarms)
-            for alarmreferenceidlist0 in dependsOnAlarms {
-                try dependsOnAlarmsContainer.encode(alarmreferenceidlist0)
+            for string5000 in dependsOnAlarms {
+                try dependsOnAlarmsContainer.encode(string5000)
             }
         }
         if let description = self.description {
@@ -9761,8 +9761,8 @@ extension ResiliencehubClientTypes.TestRecommendation: Swift.Codable {
         }
         if let items = items {
             var itemsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .items)
-            for recommendationitemlist0 in items {
-                try itemsContainer.encode(recommendationitemlist0)
+            for recommendationitem0 in items {
+                try itemsContainer.encode(recommendationitem0)
             }
         }
         if let name = self.name {
@@ -10365,8 +10365,8 @@ extension UpdateResiliencyPolicyInput: Swift.Encodable {
         }
         if let policy = policy {
             var policyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .policy)
-            for (dictKey0, disruptionpolicy0) in policy {
-                try policyContainer.encode(disruptionpolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, disruptionPolicy0) in policy {
+                try policyContainer.encode(disruptionPolicy0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let policyArn = self.policyArn {

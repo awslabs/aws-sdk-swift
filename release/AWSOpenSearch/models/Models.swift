@@ -271,8 +271,8 @@ extension AddTagsInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
     }
@@ -383,8 +383,8 @@ extension OpenSearchClientTypes.AdditionalLimit: Swift.Codable {
         }
         if let limitValues = limitValues {
             var limitValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .limitValues)
-            for limitvaluelist0 in limitValues {
-                try limitValuesContainer.encode(limitvaluelist0)
+            for limitvalue0 in limitValues {
+                try limitValuesContainer.encode(limitvalue0)
             }
         }
     }
@@ -439,8 +439,8 @@ extension OpenSearchClientTypes.AdvancedOptionsStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, advancedoptions0) in options {
-                try optionsContainer.encode(advancedoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, advancedOptions0) in options {
+                try optionsContainer.encode(advancedOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -1167,8 +1167,8 @@ extension OpenSearchClientTypes.AutoTuneOptions: Swift.Codable {
         }
         if let maintenanceSchedules = maintenanceSchedules {
             var maintenanceSchedulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceSchedules)
-            for autotunemaintenanceschedulelist0 in maintenanceSchedules {
-                try maintenanceSchedulesContainer.encode(autotunemaintenanceschedulelist0)
+            for autotunemaintenanceschedule0 in maintenanceSchedules {
+                try maintenanceSchedulesContainer.encode(autotunemaintenanceschedule0)
             }
         }
         if let rollbackOnDisable = self.rollbackOnDisable {
@@ -1233,8 +1233,8 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput: Swift.Codable {
         }
         if let maintenanceSchedules = maintenanceSchedules {
             var maintenanceSchedulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .maintenanceSchedules)
-            for autotunemaintenanceschedulelist0 in maintenanceSchedules {
-                try maintenanceSchedulesContainer.encode(autotunemaintenanceschedulelist0)
+            for autotunemaintenanceschedule0 in maintenanceSchedules {
+                try maintenanceSchedulesContainer.encode(autotunemaintenanceschedule0)
             }
         }
     }
@@ -1839,20 +1839,20 @@ extension OpenSearchClientTypes.ChangeProgressStatusDetails: Swift.Codable {
         }
         if let changeProgressStages = changeProgressStages {
             var changeProgressStagesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .changeProgressStages)
-            for changeprogressstagelist0 in changeProgressStages {
-                try changeProgressStagesContainer.encode(changeprogressstagelist0)
+            for changeprogressstage0 in changeProgressStages {
+                try changeProgressStagesContainer.encode(changeprogressstage0)
             }
         }
         if let completedProperties = completedProperties {
             var completedPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .completedProperties)
-            for stringlist0 in completedProperties {
-                try completedPropertiesContainer.encode(stringlist0)
+            for string0 in completedProperties {
+                try completedPropertiesContainer.encode(string0)
             }
         }
         if let pendingProperties = pendingProperties {
             var pendingPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pendingProperties)
-            for stringlist0 in pendingProperties {
-                try pendingPropertiesContainer.encode(stringlist0)
+            for string0 in pendingProperties {
+                try pendingPropertiesContainer.encode(string0)
             }
         }
         if let startTime = self.startTime {
@@ -2295,8 +2295,8 @@ extension OpenSearchClientTypes.CompatibleVersionsMap: Swift.Codable {
         }
         if let targetVersions = targetVersions {
             var targetVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetVersions)
-            for versionlist0 in targetVersions {
-                try targetVersionsContainer.encode(versionlist0)
+            for versionstring0 in targetVersions {
+                try targetVersionsContainer.encode(versionstring0)
             }
         }
     }
@@ -2419,8 +2419,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let advancedOptions = advancedOptions {
             var advancedOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .advancedOptions)
-            for (dictKey0, advancedoptions0) in advancedOptions {
-                try advancedOptionsContainer.encode(advancedoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, advancedOptions0) in advancedOptions {
+                try advancedOptionsContainer.encode(advancedOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let advancedSecurityOptions = self.advancedSecurityOptions {
@@ -2452,8 +2452,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
-            for (dictKey0, logpublishingoptions0) in logPublishingOptions {
-                try logPublishingOptionsContainer.encode(logpublishingoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logPublishingOptions0) in logPublishingOptions {
+                try logPublishingOptionsContainer.encode(logPublishingOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
@@ -2464,8 +2464,8 @@ extension CreateDomainInput: Swift.Encodable {
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
-            for taglist0 in tagList {
-                try tagListContainer.encode(taglist0)
+            for tag0 in tagList {
+                try tagListContainer.encode(tag0)
             }
         }
         if let vpcOptions = self.vpcOptions {
@@ -4275,8 +4275,8 @@ extension DescribeDomainsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let domainNames = domainNames {
             var domainNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .domainNames)
-            for domainnamelist0 in domainNames {
-                try domainNamesContainer.encode(domainnamelist0)
+            for domainname0 in domainNames {
+                try domainNamesContainer.encode(domainname0)
             }
         }
     }
@@ -4416,8 +4416,8 @@ extension DescribeInboundConnectionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if maxResults != 0 {
@@ -4725,8 +4725,8 @@ extension DescribeOutboundConnectionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for filterlist0 in filters {
-                try filtersContainer.encode(filterlist0)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
             }
         }
         if maxResults != 0 {
@@ -4896,8 +4896,8 @@ extension OpenSearchClientTypes.DescribePackagesFilter: Swift.Codable {
         }
         if let value = value {
             var valueContainer = encodeContainer.nestedUnkeyedContainer(forKey: .value)
-            for describepackagesfiltervalues0 in value {
-                try valueContainer.encode(describepackagesfiltervalues0)
+            for describepackagesfiltervalue0 in value {
+                try valueContainer.encode(describepackagesfiltervalue0)
             }
         }
     }
@@ -4986,8 +4986,8 @@ extension DescribePackagesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filters = filters {
             var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
-            for describepackagesfilterlist0 in filters {
-                try filtersContainer.encode(describepackagesfilterlist0)
+            for describepackagesfilter0 in filters {
+                try filtersContainer.encode(describepackagesfilter0)
             }
         }
         if maxResults != 0 {
@@ -5451,8 +5451,8 @@ extension DescribeVpcEndpointsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let vpcEndpointIds = vpcEndpointIds {
             var vpcEndpointIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcEndpointIds)
-            for vpcendpointidlist0 in vpcEndpointIds {
-                try vpcEndpointIdsContainer.encode(vpcendpointidlist0)
+            for vpcendpointid0 in vpcEndpointIds {
+                try vpcEndpointIdsContainer.encode(vpcendpointid0)
             }
         }
     }
@@ -6344,8 +6344,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let advancedOptions = advancedOptions {
             var advancedOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .advancedOptions)
-            for (dictKey0, advancedoptions0) in advancedOptions {
-                try advancedOptionsContainer.encode(advancedoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, advancedOptions0) in advancedOptions {
+                try advancedOptionsContainer.encode(advancedOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let advancedSecurityOptions = self.advancedSecurityOptions {
@@ -6389,8 +6389,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let endpoints = endpoints {
             var endpointsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .endpoints)
-            for (dictKey0, endpointsmap0) in endpoints {
-                try endpointsContainer.encode(endpointsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, endpointsMap0) in endpoints {
+                try endpointsContainer.encode(endpointsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let engineVersion = self.engineVersion {
@@ -6398,8 +6398,8 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
-            for (dictKey0, logpublishingoptions0) in logPublishingOptions {
-                try logPublishingOptionsContainer.encode(logpublishingoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logPublishingOptions0) in logPublishingOptions {
+                try logPublishingOptionsContainer.encode(logPublishingOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
@@ -7022,8 +7022,8 @@ extension OpenSearchClientTypes.Filter: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for valuestringlist0 in values {
-                try valuesContainer.encode(valuestringlist0)
+            for nonemptystring0 in values {
+                try valuesContainer.encode(nonemptystring0)
             }
         }
     }
@@ -7901,8 +7901,8 @@ extension OpenSearchClientTypes.InstanceTypeDetails: Swift.Codable {
         }
         if let instanceRole = instanceRole {
             var instanceRoleContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceRole)
-            for instancerolelist0 in instanceRole {
-                try instanceRoleContainer.encode(instancerolelist0)
+            for instancerole0 in instanceRole {
+                try instanceRoleContainer.encode(instancerole0)
             }
         }
         if let instanceType = self.instanceType {
@@ -8204,8 +8204,8 @@ extension OpenSearchClientTypes.Limits: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalLimits = additionalLimits {
             var additionalLimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .additionalLimits)
-            for additionallimitlist0 in additionalLimits {
-                try additionalLimitsContainer.encode(additionallimitlist0)
+            for additionallimit0 in additionalLimits {
+                try additionalLimitsContainer.encode(additionallimit0)
             }
         }
         if let instanceLimits = self.instanceLimits {
@@ -8213,8 +8213,8 @@ extension OpenSearchClientTypes.Limits: Swift.Codable {
         }
         if let storageTypes = storageTypes {
             var storageTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageTypes)
-            for storagetypelist0 in storageTypes {
-                try storageTypesContainer.encode(storagetypelist0)
+            for storagetype0 in storageTypes {
+                try storageTypesContainer.encode(storagetype0)
             }
         }
     }
@@ -9556,8 +9556,8 @@ extension OpenSearchClientTypes.LogPublishingOptionsStatus: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let options = options {
             var optionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .options)
-            for (dictKey0, logpublishingoptions0) in options {
-                try optionsContainer.encode(logpublishingoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logPublishingOptions0) in options {
+                try optionsContainer.encode(logPublishingOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let status = self.status {
@@ -11131,8 +11131,8 @@ extension RemoveTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for stringlist0 in tagKeys {
-                try tagKeysContainer.encode(stringlist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -11271,8 +11271,8 @@ extension OpenSearchClientTypes.ReservedInstance: Swift.Codable {
         }
         if let recurringCharges = recurringCharges {
             var recurringChargesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recurringCharges)
-            for recurringchargelist0 in recurringCharges {
-                try recurringChargesContainer.encode(recurringchargelist0)
+            for recurringcharge0 in recurringCharges {
+                try recurringChargesContainer.encode(recurringcharge0)
             }
         }
         if let reservationName = self.reservationName {
@@ -11436,8 +11436,8 @@ extension OpenSearchClientTypes.ReservedInstanceOffering: Swift.Codable {
         }
         if let recurringCharges = recurringCharges {
             var recurringChargesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .recurringCharges)
-            for recurringchargelist0 in recurringCharges {
-                try recurringChargesContainer.encode(recurringchargelist0)
+            for recurringcharge0 in recurringCharges {
+                try recurringChargesContainer.encode(recurringcharge0)
             }
         }
         if let reservedInstanceOfferingId = self.reservedInstanceOfferingId {
@@ -12468,8 +12468,8 @@ extension OpenSearchClientTypes.StorageType: Swift.Codable {
         }
         if let storageTypeLimits = storageTypeLimits {
             var storageTypeLimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .storageTypeLimits)
-            for storagetypelimitlist0 in storageTypeLimits {
-                try storageTypeLimitsContainer.encode(storagetypelimitlist0)
+            for storagetypelimit0 in storageTypeLimits {
+                try storageTypeLimitsContainer.encode(storagetypelimit0)
             }
         }
         if let storageTypeName = self.storageTypeName {
@@ -12534,8 +12534,8 @@ extension OpenSearchClientTypes.StorageTypeLimit: Swift.Codable {
         }
         if let limitValues = limitValues {
             var limitValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .limitValues)
-            for limitvaluelist0 in limitValues {
-                try limitValuesContainer.encode(limitvaluelist0)
+            for limitvalue0 in limitValues {
+                try limitValuesContainer.encode(limitvalue0)
             }
         }
     }
@@ -12724,8 +12724,8 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         }
         if let advancedOptions = advancedOptions {
             var advancedOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .advancedOptions)
-            for (dictKey0, advancedoptions0) in advancedOptions {
-                try advancedOptionsContainer.encode(advancedoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, advancedOptions0) in advancedOptions {
+                try advancedOptionsContainer.encode(advancedOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let advancedSecurityOptions = self.advancedSecurityOptions {
@@ -12754,8 +12754,8 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         }
         if let logPublishingOptions = logPublishingOptions {
             var logPublishingOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .logPublishingOptions)
-            for (dictKey0, logpublishingoptions0) in logPublishingOptions {
-                try logPublishingOptionsContainer.encode(logpublishingoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, logPublishingOptions0) in logPublishingOptions {
+                try logPublishingOptionsContainer.encode(logPublishingOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
@@ -13338,8 +13338,8 @@ extension UpgradeDomainInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let advancedOptions = advancedOptions {
             var advancedOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .advancedOptions)
-            for (dictKey0, advancedoptions0) in advancedOptions {
-                try advancedOptionsContainer.encode(advancedoptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, advancedOptions0) in advancedOptions {
+                try advancedOptionsContainer.encode(advancedOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let domainName = self.domainName {
@@ -13572,8 +13572,8 @@ extension OpenSearchClientTypes.UpgradeHistory: Swift.Codable {
         }
         if let stepsList = stepsList {
             var stepsListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .stepsList)
-            for upgradestepslist0 in stepsList {
-                try stepsListContainer.encode(upgradestepslist0)
+            for upgradestepitem0 in stepsList {
+                try stepsListContainer.encode(upgradestepitem0)
             }
         }
         if let upgradeName = self.upgradeName {
@@ -13727,8 +13727,8 @@ extension OpenSearchClientTypes.UpgradeStepItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let issues = issues {
             var issuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .issues)
-            for issues0 in issues {
-                try issuesContainer.encode(issues0)
+            for issue0 in issues {
+                try issuesContainer.encode(issue0)
             }
         }
         if let progressPercent = self.progressPercent {
@@ -13818,20 +13818,20 @@ extension OpenSearchClientTypes.VPCDerivedInfo: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let availabilityZones = availabilityZones {
             var availabilityZonesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .availabilityZones)
-            for stringlist0 in availabilityZones {
-                try availabilityZonesContainer.encode(stringlist0)
+            for string0 in availabilityZones {
+                try availabilityZonesContainer.encode(string0)
             }
         }
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
         if let vpcId = self.vpcId {
@@ -13964,14 +13964,14 @@ extension OpenSearchClientTypes.VPCOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let securityGroupIds = securityGroupIds {
             var securityGroupIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityGroupIds)
-            for stringlist0 in securityGroupIds {
-                try securityGroupIdsContainer.encode(stringlist0)
+            for string0 in securityGroupIds {
+                try securityGroupIdsContainer.encode(string0)
             }
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
-            for stringlist0 in subnetIds {
-                try subnetIdsContainer.encode(stringlist0)
+            for string0 in subnetIds {
+                try subnetIdsContainer.encode(string0)
             }
         }
     }

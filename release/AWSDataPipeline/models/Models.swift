@@ -13,8 +13,8 @@ extension ActivatePipelineInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameterValues = parameterValues {
             var parameterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterValues)
-            for parametervaluelist0 in parameterValues {
-                try parameterValuesContainer.encode(parametervaluelist0)
+            for parametervalue0 in parameterValues {
+                try parameterValuesContainer.encode(parametervalue0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -139,8 +139,8 @@ extension AddTagsInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -257,8 +257,8 @@ extension CreatePipelineInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
         if let uniqueId = self.uniqueId {
@@ -607,8 +607,8 @@ extension DescribeObjectsInput: Swift.Encodable {
         }
         if let objectIds = objectIds {
             var objectIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectIds)
-            for idlist0 in objectIds {
-                try objectIdsContainer.encode(idlist0)
+            for id0 in objectIds {
+                try objectIdsContainer.encode(id0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -796,8 +796,8 @@ extension DescribePipelinesInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let pipelineIds = pipelineIds {
             var pipelineIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineIds)
-            for idlist0 in pipelineIds {
-                try pipelineIdsContainer.encode(idlist0)
+            for id0 in pipelineIds {
+                try pipelineIdsContainer.encode(id0)
             }
         }
     }
@@ -1618,8 +1618,8 @@ extension DataPipelineClientTypes.Operator: Swift.Codable {
         }
         if let values = values {
             var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
-            for stringlist0 in values {
-                try valuesContainer.encode(stringlist0)
+            for string0 in values {
+                try valuesContainer.encode(string0)
             }
         }
     }
@@ -1794,8 +1794,8 @@ extension DataPipelineClientTypes.ParameterObject: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attributes = attributes {
             var attributesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributes)
-            for parameterattributelist0 in attributes {
-                try attributesContainer.encode(parameterattributelist0)
+            for parameterattribute0 in attributes {
+                try attributesContainer.encode(parameterattribute0)
             }
         }
         if let id = self.id {
@@ -1959,8 +1959,8 @@ extension DataPipelineClientTypes.PipelineDescription: Swift.Codable {
         }
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldlist0 in fields {
-                try fieldsContainer.encode(fieldlist0)
+            for field0 in fields {
+                try fieldsContainer.encode(field0)
             }
         }
         if let name = self.name {
@@ -1971,8 +1971,8 @@ extension DataPipelineClientTypes.PipelineDescription: Swift.Codable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
-            for taglist0 in tags {
-                try tagsContainer.encode(taglist0)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
             }
         }
     }
@@ -2154,8 +2154,8 @@ extension DataPipelineClientTypes.PipelineObject: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldlist0 in fields {
-                try fieldsContainer.encode(fieldlist0)
+            for field0 in fields {
+                try fieldsContainer.encode(field0)
             }
         }
         if let id = self.id {
@@ -2366,14 +2366,14 @@ extension PutPipelineDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameterObjects = parameterObjects {
             var parameterObjectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterObjects)
-            for parameterobjectlist0 in parameterObjects {
-                try parameterObjectsContainer.encode(parameterobjectlist0)
+            for parameterobject0 in parameterObjects {
+                try parameterObjectsContainer.encode(parameterobject0)
             }
         }
         if let parameterValues = parameterValues {
             var parameterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterValues)
-            for parametervaluelist0 in parameterValues {
-                try parameterValuesContainer.encode(parametervaluelist0)
+            for parametervalue0 in parameterValues {
+                try parameterValuesContainer.encode(parametervalue0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -2381,8 +2381,8 @@ extension PutPipelineDefinitionInput: Swift.Encodable {
         }
         if let pipelineObjects = pipelineObjects {
             var pipelineObjectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineObjects)
-            for pipelineobjectlist0 in pipelineObjects {
-                try pipelineObjectsContainer.encode(pipelineobjectlist0)
+            for pipelineobject0 in pipelineObjects {
+                try pipelineObjectsContainer.encode(pipelineobject0)
             }
         }
     }
@@ -2594,8 +2594,8 @@ extension DataPipelineClientTypes.Query: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let selectors = selectors {
             var selectorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectors)
-            for selectorlist0 in selectors {
-                try selectorsContainer.encode(selectorlist0)
+            for selector0 in selectors {
+                try selectorsContainer.encode(selector0)
             }
         }
     }
@@ -2842,8 +2842,8 @@ extension RemoveTagsInput: Swift.Encodable {
         }
         if let tagKeys = tagKeys {
             var tagKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagKeys)
-            for stringlist0 in tagKeys {
-                try tagKeysContainer.encode(stringlist0)
+            for string0 in tagKeys {
+                try tagKeysContainer.encode(string0)
             }
         }
     }
@@ -2952,8 +2952,8 @@ extension ReportTaskProgressInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fields = fields {
             var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
-            for fieldlist0 in fields {
-                try fieldsContainer.encode(fieldlist0)
+            for field0 in fields {
+                try fieldsContainer.encode(field0)
             }
         }
         if let taskId = self.taskId {
@@ -3284,8 +3284,8 @@ extension SetStatusInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let objectIds = objectIds {
             var objectIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .objectIds)
-            for idlist0 in objectIds {
-                try objectIdsContainer.encode(idlist0)
+            for id0 in objectIds {
+                try objectIdsContainer.encode(id0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -3652,8 +3652,8 @@ extension DataPipelineClientTypes.TaskObject: Swift.Codable {
         }
         if let objects = objects {
             var objectsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .objects)
-            for (dictKey0, pipelineobjectmap0) in objects {
-                try objectsContainer.encode(pipelineobjectmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, pipelineObjectMap0) in objects {
+                try objectsContainer.encode(pipelineObjectMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let pipelineId = self.pipelineId {
@@ -3761,14 +3761,14 @@ extension ValidatePipelineDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameterObjects = parameterObjects {
             var parameterObjectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterObjects)
-            for parameterobjectlist0 in parameterObjects {
-                try parameterObjectsContainer.encode(parameterobjectlist0)
+            for parameterobject0 in parameterObjects {
+                try parameterObjectsContainer.encode(parameterobject0)
             }
         }
         if let parameterValues = parameterValues {
             var parameterValuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameterValues)
-            for parametervaluelist0 in parameterValues {
-                try parameterValuesContainer.encode(parametervaluelist0)
+            for parametervalue0 in parameterValues {
+                try parameterValuesContainer.encode(parametervalue0)
             }
         }
         if let pipelineId = self.pipelineId {
@@ -3776,8 +3776,8 @@ extension ValidatePipelineDefinitionInput: Swift.Encodable {
         }
         if let pipelineObjects = pipelineObjects {
             var pipelineObjectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineObjects)
-            for pipelineobjectlist0 in pipelineObjects {
-                try pipelineObjectsContainer.encode(pipelineobjectlist0)
+            for pipelineobject0 in pipelineObjects {
+                try pipelineObjectsContainer.encode(pipelineobject0)
             }
         }
     }
@@ -3990,8 +3990,8 @@ extension DataPipelineClientTypes.ValidationError: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let errors = errors {
             var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
-            for validationmessages0 in errors {
-                try errorsContainer.encode(validationmessages0)
+            for validationmessage0 in errors {
+                try errorsContainer.encode(validationmessage0)
             }
         }
         if let id = self.id {
@@ -4050,8 +4050,8 @@ extension DataPipelineClientTypes.ValidationWarning: Swift.Codable {
         }
         if let warnings = warnings {
             var warningsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .warnings)
-            for validationmessages0 in warnings {
-                try warningsContainer.encode(validationmessages0)
+            for validationmessage0 in warnings {
+                try warningsContainer.encode(validationmessage0)
             }
         }
     }

@@ -295,8 +295,8 @@ extension AppConfigClientTypes.AppliedExtension: Swift.Codable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametervaluemap0) in parameters {
-                try parametersContainer.encode(parametervaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterValueMap0) in parameters {
+                try parametersContainer.encode(parameterValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if versionNumber != 0 {
@@ -365,8 +365,8 @@ extension AppConfigClientTypes.BadRequestDetails: Swift.Codable {
         switch self {
             case let .invalidconfiguration(invalidconfiguration):
                 var invalidconfigurationContainer = container.nestedUnkeyedContainer(forKey: .invalidconfiguration)
-                for invalidconfigurationdetaillist0 in invalidconfiguration {
-                    try invalidconfigurationContainer.encode(invalidconfigurationdetaillist0)
+                for invalidconfigurationdetail0 in invalidconfiguration {
+                    try invalidconfigurationContainer.encode(invalidconfigurationdetail0)
                 }
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
@@ -561,8 +561,8 @@ extension AppConfigClientTypes.ConfigurationProfileSummary: Swift.Codable {
         }
         if let validatorTypes = validatorTypes {
             var validatorTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validatorTypes)
-            for validatortypelist0 in validatorTypes {
-                try validatorTypesContainer.encode(validatortypelist0.rawValue)
+            for validatortype0 in validatorTypes {
+                try validatorTypesContainer.encode(validatortype0.rawValue)
             }
         }
     }
@@ -699,8 +699,8 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -878,8 +878,8 @@ extension CreateConfigurationProfileInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let type = self.type {
@@ -887,8 +887,8 @@ extension CreateConfigurationProfileInput: Swift.Encodable {
         }
         if let validators = validators {
             var validatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validators)
-            for validatorlist0 in validators {
-                try validatorsContainer.encode(validatorlist0)
+            for validator0 in validators {
+                try validatorsContainer.encode(validator0)
             }
         }
     }
@@ -1189,8 +1189,8 @@ extension CreateDeploymentStrategyInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1451,8 +1451,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let monitors = monitors {
             var monitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitors)
-            for monitorlist0 in monitors {
-                try monitorsContainer.encode(monitorlist0)
+            for monitor0 in monitors {
+                try monitorsContainer.encode(monitor0)
             }
         }
         if let name = self.name {
@@ -1460,8 +1460,8 @@ extension CreateEnvironmentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1697,8 +1697,8 @@ extension CreateExtensionAssociationInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametervaluemap0) in parameters {
-                try parametersContainer.encode(parametervaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterValueMap0) in parameters {
+                try parametersContainer.encode(parameterValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let resourceIdentifier = self.resourceIdentifier {
@@ -1706,8 +1706,8 @@ extension CreateExtensionAssociationInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -1940,8 +1940,11 @@ extension CreateExtensionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, actionsmap0) in actions {
-                try actionsContainer.encode(actionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionsMap0) in actions {
+                var actionsMap0Container = actionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for action1 in actionsMap0 {
+                    try actionsMap0Container.encode(action1)
+                }
             }
         }
         if let description = self.description {
@@ -1952,14 +1955,14 @@ extension CreateExtensionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametermap0) in parameters {
-                try parametersContainer.encode(parametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -3012,8 +3015,8 @@ extension AppConfigClientTypes.DeploymentEvent: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actionInvocations = actionInvocations {
             var actionInvocationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionInvocations)
-            for actioninvocations0 in actionInvocations {
-                try actionInvocationsContainer.encode(actioninvocations0)
+            for actioninvocation0 in actionInvocations {
+                try actionInvocationsContainer.encode(actioninvocation0)
             }
         }
         if let description = self.description {
@@ -3436,8 +3439,8 @@ extension AppConfigClientTypes.Environment: Swift.Codable {
         }
         if let monitors = monitors {
             var monitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitors)
-            for monitorlist0 in monitors {
-                try monitorsContainer.encode(monitorlist0)
+            for monitor0 in monitors {
+                try monitorsContainer.encode(monitor0)
             }
         }
         if let name = self.name {
@@ -7138,8 +7141,8 @@ extension StartDeploymentInput: Swift.Encodable {
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -7827,8 +7830,8 @@ extension TagResourceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
-            for (dictKey0, tagmap0) in tags {
-                try tagsContainer.encode(tagmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -8224,8 +8227,8 @@ extension UpdateConfigurationProfileInput: Swift.Encodable {
         }
         if let validators = validators {
             var validatorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validators)
-            for validatorlist0 in validators {
-                try validatorsContainer.encode(validatorlist0)
+            for validator0 in validators {
+                try validatorsContainer.encode(validator0)
             }
         }
     }
@@ -8718,8 +8721,8 @@ extension UpdateEnvironmentInput: Swift.Encodable {
         }
         if let monitors = monitors {
             var monitorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .monitors)
-            for monitorlist0 in monitors {
-                try monitorsContainer.encode(monitorlist0)
+            for monitor0 in monitors {
+                try monitorsContainer.encode(monitor0)
             }
         }
         if let name = self.name {
@@ -8938,8 +8941,8 @@ extension UpdateExtensionAssociationInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametervaluemap0) in parameters {
-                try parametersContainer.encode(parametervaluemap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterValueMap0) in parameters {
+                try parametersContainer.encode(parameterValueMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -9134,8 +9137,11 @@ extension UpdateExtensionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let actions = actions {
             var actionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .actions)
-            for (dictKey0, actionsmap0) in actions {
-                try actionsContainer.encode(actionsmap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, actionsMap0) in actions {
+                var actionsMap0Container = actionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for action1 in actionsMap0 {
+                    try actionsMap0Container.encode(action1)
+                }
             }
         }
         if let description = self.description {
@@ -9143,8 +9149,8 @@ extension UpdateExtensionInput: Swift.Encodable {
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
-            for (dictKey0, parametermap0) in parameters {
-                try parametersContainer.encode(parametermap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
         if let versionNumber = self.versionNumber {
