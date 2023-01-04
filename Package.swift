@@ -357,8 +357,8 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.8.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.4.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
     ],
     targets: [
         .target(
