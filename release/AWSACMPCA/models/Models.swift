@@ -821,7 +821,7 @@ extension CertificateMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CertificateMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -873,7 +873,7 @@ extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConcurrentModificationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1031,7 +1031,7 @@ extension CreateCertificateAuthorityAuditReportOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCertificateAuthorityAuditReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.auditReportId = output.auditReportId
             self.s3Key = output.s3Key
@@ -1250,7 +1250,7 @@ extension CreateCertificateAuthorityOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCertificateAuthorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthorityArn = output.certificateAuthorityArn
         } else {
@@ -2096,7 +2096,7 @@ extension DescribeCertificateAuthorityAuditReportOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCertificateAuthorityAuditReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.auditReportStatus = output.auditReportStatus
             self.createdAt = output.createdAt
@@ -2239,7 +2239,7 @@ extension DescribeCertificateAuthorityOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCertificateAuthorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthority = output.certificateAuthority
         } else {
@@ -2761,7 +2761,7 @@ extension GetCertificateAuthorityCertificateOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCertificateAuthorityCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
             self.certificateChain = output.certificateChain
@@ -2906,7 +2906,7 @@ extension GetCertificateAuthorityCsrOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCertificateAuthorityCsrOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.csr = output.csr
         } else {
@@ -3054,7 +3054,7 @@ extension GetCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
             self.certificateChain = output.certificateChain
@@ -3181,7 +3181,7 @@ extension GetPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -3343,7 +3343,7 @@ extension InvalidArgsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidArgsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3395,7 +3395,7 @@ extension InvalidArnException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidArnExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3447,7 +3447,7 @@ extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3499,7 +3499,7 @@ extension InvalidPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3551,7 +3551,7 @@ extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3603,7 +3603,7 @@ extension InvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3655,7 +3655,7 @@ extension InvalidTagException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidTagExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3874,7 +3874,7 @@ extension IssueCertificateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IssueCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateArn = output.certificateArn
         } else {
@@ -4100,7 +4100,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4245,7 +4245,7 @@ extension ListCertificateAuthoritiesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCertificateAuthoritiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateAuthorities = output.certificateAuthorities
             self.nextToken = output.nextToken
@@ -4407,7 +4407,7 @@ extension ListPermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.permissions = output.permissions
@@ -4565,7 +4565,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -4625,7 +4625,7 @@ extension LockoutPreventedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LockoutPreventedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4677,7 +4677,7 @@ extension MalformedCSRException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MalformedCSRExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4729,7 +4729,7 @@ extension MalformedCertificateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MalformedCertificateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4971,7 +4971,7 @@ extension PermissionAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PermissionAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5298,7 +5298,7 @@ extension RequestAlreadyProcessedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestAlreadyProcessedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5350,7 +5350,7 @@ extension RequestFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5402,7 +5402,7 @@ extension RequestInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5454,7 +5454,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6074,7 +6074,7 @@ extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

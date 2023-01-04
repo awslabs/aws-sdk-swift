@@ -117,7 +117,7 @@ extension InvalidInputException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -169,7 +169,7 @@ extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -221,7 +221,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -412,7 +412,7 @@ extension QueryForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: QueryForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecast = output.forecast
         } else {
@@ -592,7 +592,7 @@ extension QueryWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: QueryWhatIfForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecast = output.forecast
         } else {
@@ -633,7 +633,7 @@ extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -685,7 +685,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

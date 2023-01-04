@@ -317,7 +317,7 @@ extension CancelContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactId = output.contactId
         } else {
@@ -971,7 +971,7 @@ extension CreateConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configArn = output.configArn
             self.configId = output.configId
@@ -1144,7 +1144,7 @@ extension CreateDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDataflowEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataflowEndpointGroupId = output.dataflowEndpointGroupId
         } else {
@@ -1357,7 +1357,7 @@ extension CreateEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ephemerisId = output.ephemerisId
         } else {
@@ -1584,7 +1584,7 @@ extension CreateMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateMissionProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.missionProfileId = output.missionProfileId
         } else {
@@ -1974,7 +1974,7 @@ extension DeleteConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configArn = output.configArn
             self.configId = output.configId
@@ -2094,7 +2094,7 @@ extension DeleteDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDataflowEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataflowEndpointGroupId = output.dataflowEndpointGroupId
         } else {
@@ -2193,7 +2193,7 @@ extension DeleteEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ephemerisId = output.ephemerisId
         } else {
@@ -2292,7 +2292,7 @@ extension DeleteMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteMissionProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.missionProfileId = output.missionProfileId
         } else {
@@ -2370,7 +2370,7 @@ extension DependencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DependencyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.parameterName = output.parameterName
@@ -2490,7 +2490,7 @@ extension DescribeContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactId = output.contactId
             self.contactStatus = output.contactStatus
@@ -2737,7 +2737,7 @@ extension DescribeEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.enabled = output.enabled
@@ -3774,7 +3774,7 @@ extension GetConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configArn = output.configArn
             self.configData = output.configData
@@ -3937,7 +3937,7 @@ extension GetDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDataflowEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataflowEndpointGroupArn = output.dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = output.dataflowEndpointGroupId
@@ -4115,7 +4115,7 @@ extension GetMinuteUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMinuteUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.estimatedMinutesRemaining = output.estimatedMinutesRemaining
             self.isReservedMinutesCustomer = output.isReservedMinutesCustomer
@@ -4255,7 +4255,7 @@ extension GetMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMissionProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactPostPassDurationSeconds = output.contactPostPassDurationSeconds
             self.contactPrePassDurationSeconds = output.contactPrePassDurationSeconds
@@ -4472,7 +4472,7 @@ extension GetSatelliteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSatelliteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentEphemeris = output.currentEphemeris
             self.groundStations = output.groundStations
@@ -4618,7 +4618,7 @@ extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.parameterName = output.parameterName
@@ -4755,7 +4755,7 @@ extension ListConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configList = output.configList
             self.nextToken = output.nextToken
@@ -4989,7 +4989,7 @@ extension ListContactsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListContactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactList = output.contactList
             self.nextToken = output.nextToken
@@ -5125,7 +5125,7 @@ extension ListDataflowEndpointGroupsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDataflowEndpointGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataflowEndpointGroupList = output.dataflowEndpointGroupList
             self.nextToken = output.nextToken
@@ -5335,7 +5335,7 @@ extension ListEphemeridesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListEphemeridesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ephemerides = output.ephemerides
             self.nextToken = output.nextToken
@@ -5478,7 +5478,7 @@ extension ListGroundStationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGroundStationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.groundStationList = output.groundStationList
             self.nextToken = output.nextToken
@@ -5614,7 +5614,7 @@ extension ListMissionProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMissionProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.missionProfileList = output.missionProfileList
             self.nextToken = output.nextToken
@@ -5750,7 +5750,7 @@ extension ListSatellitesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSatellitesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.satellites = output.satellites
@@ -5869,7 +5869,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6216,7 +6216,7 @@ extension ReserveContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ReserveContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactId = output.contactId
         } else {
@@ -6258,7 +6258,7 @@ extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.parameterName = output.parameterName
@@ -6320,7 +6320,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7372,7 +7372,7 @@ extension UpdateConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configArn = output.configArn
             self.configId = output.configId
@@ -7540,7 +7540,7 @@ extension UpdateEphemerisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateEphemerisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ephemerisId = output.ephemerisId
         } else {
@@ -7747,7 +7747,7 @@ extension UpdateMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMissionProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.missionProfileId = output.missionProfileId
         } else {

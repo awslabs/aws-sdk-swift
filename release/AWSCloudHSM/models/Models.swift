@@ -105,7 +105,7 @@ extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -179,7 +179,7 @@ extension CloudHsmInternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CloudHsmInternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.retryable = output.retryable
@@ -277,7 +277,7 @@ extension CloudHsmServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CloudHsmServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.retryable = output.retryable
@@ -415,7 +415,7 @@ extension CreateHapgOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
         } else {
@@ -623,7 +623,7 @@ extension CreateHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmArn = output.hsmArn
         } else {
@@ -752,7 +752,7 @@ extension CreateLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientArn = output.clientArn
         } else {
@@ -869,7 +869,7 @@ extension DeleteHapgOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -987,7 +987,7 @@ extension DeleteHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -1104,7 +1104,7 @@ extension DeleteLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -1221,7 +1221,7 @@ extension DescribeHapgOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
             self.hapgSerial = output.hapgSerial
@@ -1465,7 +1465,7 @@ extension DescribeHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityZone = output.availabilityZone
             self.eniId = output.eniId
@@ -1805,7 +1805,7 @@ extension DescribeLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificate = output.certificate
             self.certificateFingerprint = output.certificateFingerprint
@@ -1998,7 +1998,7 @@ extension GetConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configCred = output.configCred
             self.configFile = output.configFile
@@ -2106,7 +2106,7 @@ extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.retryable = output.retryable
@@ -2224,7 +2224,7 @@ extension ListAvailableZonesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableZonesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.azList = output.azList
         } else {
@@ -2347,7 +2347,7 @@ extension ListHapgsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListHapgsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgList = output.hapgList
             self.nextToken = output.nextToken
@@ -2481,7 +2481,7 @@ extension ListHsmsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListHsmsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmList = output.hsmList
             self.nextToken = output.nextToken
@@ -2615,7 +2615,7 @@ extension ListLunaClientsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLunaClientsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientList = output.clientList
             self.nextToken = output.nextToken
@@ -2750,7 +2750,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -2911,7 +2911,7 @@ extension ModifyHapgOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ModifyHapgOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hapgArn = output.hapgArn
         } else {
@@ -3087,7 +3087,7 @@ extension ModifyHsmOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ModifyHsmOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hsmArn = output.hsmArn
         } else {
@@ -3212,7 +3212,7 @@ extension ModifyLunaClientOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ModifyLunaClientOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientArn = output.clientArn
         } else {
@@ -3352,7 +3352,7 @@ extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {

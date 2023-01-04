@@ -116,7 +116,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -413,7 +413,7 @@ extension AssociateAwsAccountWithPartnerAccountOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateAwsAccountWithPartnerAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.sidewalk = output.sidewalk
@@ -944,7 +944,7 @@ extension AssociateWirelessGatewayWithCertificateOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateWirelessGatewayWithCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.iotCertificateId = output.iotCertificateId
         } else {
@@ -1675,7 +1675,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -2026,7 +2026,7 @@ extension CreateDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
@@ -2202,7 +2202,7 @@ extension CreateDeviceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeviceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -2418,7 +2418,7 @@ extension CreateFuotaTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFuotaTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -2609,7 +2609,7 @@ extension CreateMulticastGroupOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateMulticastGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -2848,7 +2848,7 @@ extension CreateNetworkAnalyzerConfigurationOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateNetworkAnalyzerConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.name = output.name
@@ -3024,7 +3024,7 @@ extension CreateServiceProfileOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateServiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -3252,7 +3252,7 @@ extension CreateWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWirelessDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -3441,7 +3441,7 @@ extension CreateWirelessGatewayOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWirelessGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -3632,7 +3632,7 @@ extension CreateWirelessGatewayTaskDefinitionOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWirelessGatewayTaskDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -3771,7 +3771,7 @@ extension CreateWirelessGatewayTaskOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWirelessGatewayTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.wirelessGatewayTaskDefinitionId = output.wirelessGatewayTaskDefinitionId
@@ -6240,7 +6240,7 @@ extension GetDestinationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -6392,7 +6392,7 @@ extension GetDeviceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDeviceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -6509,7 +6509,7 @@ extension GetEventConfigurationByResourceTypesOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEventConfigurationByResourceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionStatus = output.connectionStatus
             self.deviceRegistrationState = output.deviceRegistrationState
@@ -6651,7 +6651,7 @@ extension GetFuotaTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetFuotaTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -6822,7 +6822,7 @@ extension GetLogLevelsByResourceTypesOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLogLevelsByResourceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.defaultLogLevel = output.defaultLogLevel
             self.wirelessDeviceLogOptions = output.wirelessDeviceLogOptions
@@ -6962,7 +6962,7 @@ extension GetMulticastGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMulticastGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -7124,7 +7124,7 @@ extension GetMulticastGroupSessionOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMulticastGroupSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loRaWAN = output.loRaWAN
         } else {
@@ -7226,7 +7226,7 @@ extension GetNetworkAnalyzerConfigurationOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkAnalyzerConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -7414,7 +7414,7 @@ extension GetPartnerAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPartnerAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountLinked = output.accountLinked
             self.sidewalk = output.sidewalk
@@ -7547,7 +7547,7 @@ extension GetPositionConfigurationOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPositionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destination = output.destination
             self.solvers = output.solvers
@@ -7734,8 +7734,7 @@ public enum GetPositionEstimateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPositionEstimateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.geoJsonPayload = data
         } else {
             self.geoJsonPayload = nil
@@ -7857,7 +7856,7 @@ extension GetPositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accuracy = output.accuracy
             self.position = output.position
@@ -8047,7 +8046,7 @@ extension GetResourceEventConfigurationOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourceEventConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionStatus = output.connectionStatus
             self.deviceRegistrationState = output.deviceRegistrationState
@@ -8209,7 +8208,7 @@ extension GetResourceLogLevelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourceLogLevelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.logLevel = output.logLevel
         } else {
@@ -8329,8 +8328,7 @@ public enum GetResourcePositionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetResourcePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.geoJsonPayload = data
         } else {
             self.geoJsonPayload = nil
@@ -8438,7 +8436,7 @@ extension GetServiceEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetServiceEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serverTrust = output.serverTrust
             self.serviceEndpoint = output.serviceEndpoint
@@ -8560,7 +8558,7 @@ extension GetServiceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetServiceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.id = output.id
@@ -8712,7 +8710,7 @@ extension GetWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -8914,7 +8912,7 @@ extension GetWirelessDeviceStatisticsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessDeviceStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastUplinkReceivedAt = output.lastUplinkReceivedAt
             self.loRaWAN = output.loRaWAN
@@ -9046,7 +9044,7 @@ extension GetWirelessGatewayCertificateOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.iotCertificateId = output.iotCertificateId
             self.loRaWANNetworkServerCertificateId = output.loRaWANNetworkServerCertificateId
@@ -9158,7 +9156,7 @@ extension GetWirelessGatewayFirmwareInformationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayFirmwareInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loRaWAN = output.loRaWAN
         } else {
@@ -9280,7 +9278,7 @@ extension GetWirelessGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.description = output.description
@@ -9442,7 +9440,7 @@ extension GetWirelessGatewayStatisticsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionStatus = output.connectionStatus
             self.lastUplinkReceivedAt = output.lastUplinkReceivedAt
@@ -9564,7 +9562,7 @@ extension GetWirelessGatewayTaskDefinitionOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayTaskDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.autoCreateTasks = output.autoCreateTasks
@@ -9696,7 +9694,7 @@ extension GetWirelessGatewayTaskOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWirelessGatewayTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastUplinkReceivedAt = output.lastUplinkReceivedAt
             self.status = output.status
@@ -10198,7 +10196,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10442,7 +10440,7 @@ extension ListDestinationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDestinationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.destinationList = output.destinationList
             self.nextToken = output.nextToken
@@ -10578,7 +10576,7 @@ extension ListDeviceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDeviceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceProfileList = output.deviceProfileList
             self.nextToken = output.nextToken
@@ -10725,7 +10723,7 @@ extension ListEventConfigurationsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListEventConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventConfigurationsList = output.eventConfigurationsList
             self.nextToken = output.nextToken
@@ -10861,7 +10859,7 @@ extension ListFuotaTasksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFuotaTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fuotaTaskList = output.fuotaTaskList
             self.nextToken = output.nextToken
@@ -11007,7 +11005,7 @@ extension ListMulticastGroupsByFuotaTaskOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMulticastGroupsByFuotaTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multicastGroupList = output.multicastGroupList
             self.nextToken = output.nextToken
@@ -11143,7 +11141,7 @@ extension ListMulticastGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMulticastGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.multicastGroupList = output.multicastGroupList
             self.nextToken = output.nextToken
@@ -11279,7 +11277,7 @@ extension ListNetworkAnalyzerConfigurationsOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNetworkAnalyzerConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkAnalyzerConfigurationList = output.networkAnalyzerConfigurationList
             self.nextToken = output.nextToken
@@ -11415,7 +11413,7 @@ extension ListPartnerAccountsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPartnerAccountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sidewalk = output.sidewalk
@@ -11560,7 +11558,7 @@ extension ListPositionConfigurationsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPositionConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.positionConfigurationList = output.positionConfigurationList
@@ -11715,7 +11713,7 @@ extension ListQueuedMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListQueuedMessagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.downlinkQueueMessagesList = output.downlinkQueueMessagesList
             self.nextToken = output.nextToken
@@ -11851,7 +11849,7 @@ extension ListServiceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListServiceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.serviceProfileList = output.serviceProfileList
@@ -11984,7 +11982,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -12158,7 +12156,7 @@ extension ListWirelessDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWirelessDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.wirelessDeviceList = output.wirelessDeviceList
@@ -12302,7 +12300,7 @@ extension ListWirelessGatewayTaskDefinitionsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWirelessGatewayTaskDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.taskDefinitions = output.taskDefinitions
@@ -12438,7 +12436,7 @@ extension ListWirelessGatewaysOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWirelessGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.wirelessGatewayList = output.wirelessGatewayList
@@ -15856,7 +15854,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -16141,7 +16139,7 @@ extension SendDataToMulticastGroupOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SendDataToMulticastGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -16291,7 +16289,7 @@ extension SendDataToWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SendDataToWirelessDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -17978,7 +17976,7 @@ extension TestWirelessDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TestWirelessDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.result = output.result
         } else {
@@ -18019,7 +18017,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18071,7 +18069,7 @@ extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -20249,7 +20247,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

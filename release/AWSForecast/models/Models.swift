@@ -946,7 +946,7 @@ extension CreateAutoPredictorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAutoPredictorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.predictorArn = output.predictorArn
         } else {
@@ -1140,7 +1140,7 @@ extension CreateDatasetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDatasetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetGroupArn = output.datasetGroupArn
         } else {
@@ -1394,7 +1394,7 @@ extension CreateDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDatasetImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetImportJobArn = output.datasetImportJobArn
         } else {
@@ -1610,7 +1610,7 @@ extension CreateDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetArn = output.datasetArn
         } else {
@@ -1803,7 +1803,7 @@ extension CreateExplainabilityExportOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateExplainabilityExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.explainabilityExportArn = output.explainabilityExportArn
         } else {
@@ -2044,7 +2044,7 @@ extension CreateExplainabilityOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateExplainabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.explainabilityArn = output.explainabilityArn
         } else {
@@ -2239,7 +2239,7 @@ extension CreateForecastExportJobOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateForecastExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastExportJobArn = output.forecastExportJobArn
         } else {
@@ -2451,7 +2451,7 @@ extension CreateForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastArn = output.forecastArn
         } else {
@@ -2607,7 +2607,7 @@ extension CreateMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
         } else {
@@ -2800,7 +2800,7 @@ extension CreatePredictorBacktestExportJobOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePredictorBacktestExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.predictorBacktestExportJobArn = output.predictorBacktestExportJobArn
         } else {
@@ -3156,7 +3156,7 @@ extension CreatePredictorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePredictorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.predictorArn = output.predictorArn
         } else {
@@ -3330,7 +3330,7 @@ extension CreateWhatIfAnalysisOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWhatIfAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.whatIfAnalysisArn = output.whatIfAnalysisArn
         } else {
@@ -3523,7 +3523,7 @@ extension CreateWhatIfForecastExportOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWhatIfForecastExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.whatIfForecastExportArn = output.whatIfForecastExportArn
         } else {
@@ -3715,7 +3715,7 @@ extension CreateWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWhatIfForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.whatIfForecastArn = output.whatIfForecastArn
         } else {
@@ -5501,7 +5501,7 @@ extension DescribeAutoPredictorOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAutoPredictorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.dataConfig = output.dataConfig
@@ -5839,7 +5839,7 @@ extension DescribeDatasetGroupOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDatasetGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.datasetArns = output.datasetArns
@@ -6032,7 +6032,7 @@ extension DescribeDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDatasetImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.dataSize = output.dataSize
@@ -6326,7 +6326,7 @@ extension DescribeDatasetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDatasetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.dataFrequency = output.dataFrequency
@@ -6540,7 +6540,7 @@ extension DescribeExplainabilityExportOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeExplainabilityExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.destination = output.destination
@@ -6751,7 +6751,7 @@ extension DescribeExplainabilityOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeExplainabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.dataSource = output.dataSource
@@ -7012,7 +7012,7 @@ extension DescribeForecastExportJobOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeForecastExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.destination = output.destination
@@ -7226,7 +7226,7 @@ extension DescribeForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.datasetGroupArn = output.datasetGroupArn
@@ -7469,7 +7469,7 @@ extension DescribeMonitorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.baseline = output.baseline
             self.creationTime = output.creationTime
@@ -7682,7 +7682,7 @@ extension DescribePredictorBacktestExportJobOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePredictorBacktestExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.destination = output.destination
@@ -7893,7 +7893,7 @@ extension DescribePredictorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePredictorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.algorithmArn = output.algorithmArn
             self.autoMLAlgorithmArns = output.autoMLAlgorithmArns
@@ -8293,7 +8293,7 @@ extension DescribeWhatIfAnalysisOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWhatIfAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.estimatedTimeRemainingInMinutes = output.estimatedTimeRemainingInMinutes
@@ -8513,7 +8513,7 @@ extension DescribeWhatIfForecastExportOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWhatIfForecastExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.destination = output.destination
@@ -8746,7 +8746,7 @@ extension DescribeWhatIfForecastOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWhatIfForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.estimatedTimeRemainingInMinutes = output.estimatedTimeRemainingInMinutes
@@ -10249,7 +10249,7 @@ extension GetAccuracyMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccuracyMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoMLOverrideStrategy = output.autoMLOverrideStrategy
             self.isAutoPredictor = output.isAutoPredictor
@@ -10490,7 +10490,7 @@ extension InvalidInputException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidInputExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10542,7 +10542,7 @@ extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10594,7 +10594,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10727,7 +10727,7 @@ extension ListDatasetGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDatasetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetGroups = output.datasetGroups
             self.nextToken = output.nextToken
@@ -10903,7 +10903,7 @@ extension ListDatasetImportJobsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDatasetImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasetImportJobs = output.datasetImportJobs
             self.nextToken = output.nextToken
@@ -11044,7 +11044,7 @@ extension ListDatasetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDatasetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datasets = output.datasets
             self.nextToken = output.nextToken
@@ -11217,7 +11217,7 @@ extension ListExplainabilitiesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListExplainabilitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.explainabilities = output.explainabilities
             self.nextToken = output.nextToken
@@ -11390,7 +11390,7 @@ extension ListExplainabilityExportsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListExplainabilityExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.explainabilityExports = output.explainabilityExports
             self.nextToken = output.nextToken
@@ -11566,7 +11566,7 @@ extension ListForecastExportJobsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListForecastExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastExportJobs = output.forecastExportJobs
             self.nextToken = output.nextToken
@@ -11742,7 +11742,7 @@ extension ListForecastsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListForecastsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecasts = output.forecasts
             self.nextToken = output.nextToken
@@ -11933,7 +11933,7 @@ extension ListMonitorEvaluationsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMonitorEvaluationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.predictorMonitorEvaluations = output.predictorMonitorEvaluations
@@ -12109,7 +12109,7 @@ extension ListMonitorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMonitorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitors = output.monitors
             self.nextToken = output.nextToken
@@ -12282,7 +12282,7 @@ extension ListPredictorBacktestExportJobsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPredictorBacktestExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.predictorBacktestExportJobs = output.predictorBacktestExportJobs
@@ -12458,7 +12458,7 @@ extension ListPredictorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPredictorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.predictors = output.predictors
@@ -12590,7 +12590,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -12756,7 +12756,7 @@ extension ListWhatIfAnalysesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWhatIfAnalysesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.whatIfAnalyses = output.whatIfAnalyses
@@ -12932,7 +12932,7 @@ extension ListWhatIfForecastExportsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWhatIfForecastExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.whatIfForecastExports = output.whatIfForecastExports
@@ -13108,7 +13108,7 @@ extension ListWhatIfForecastsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWhatIfForecastsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.whatIfForecasts = output.whatIfForecasts
@@ -14421,7 +14421,7 @@ extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14473,7 +14473,7 @@ extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14525,7 +14525,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

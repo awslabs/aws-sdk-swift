@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -357,7 +357,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorArguments = output.errorArguments
             self.errorId = output.errorId
@@ -713,7 +713,7 @@ extension CreateApplicationInstanceOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateApplicationInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationInstanceId = output.applicationInstanceId
         } else {
@@ -870,7 +870,7 @@ extension CreateJobForDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateJobForDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
         } else {
@@ -1097,7 +1097,7 @@ extension CreateNodeFromTemplateJobOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateNodeFromTemplateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -1278,7 +1278,7 @@ extension CreatePackageImportJobOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePackageImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -1420,7 +1420,7 @@ extension CreatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.packageId = output.packageId
@@ -1543,7 +1543,7 @@ extension DeleteDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceId = output.deviceId
         } else {
@@ -1845,7 +1845,7 @@ extension DescribeApplicationInstanceDetailsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeApplicationInstanceDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationInstanceId = output.applicationInstanceId
             self.applicationInstanceIdToReplace = output.applicationInstanceIdToReplace
@@ -2017,7 +2017,7 @@ extension DescribeApplicationInstanceOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeApplicationInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationInstanceId = output.applicationInstanceId
             self.applicationInstanceIdToReplace = output.applicationInstanceIdToReplace
@@ -2308,7 +2308,7 @@ extension DescribeDeviceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDeviceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTime = output.createdTime
             self.deviceArn = output.deviceArn
@@ -2457,7 +2457,7 @@ extension DescribeDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alternateSoftwares = output.alternateSoftwares
             self.arn = output.arn
@@ -2765,7 +2765,7 @@ extension DescribeNodeFromTemplateJobOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeNodeFromTemplateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTime = output.createdTime
             self.jobId = output.jobId
@@ -3022,7 +3022,7 @@ extension DescribeNodeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeNodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assetName = output.assetName
             self.category = output.category
@@ -3264,7 +3264,7 @@ extension DescribePackageImportJobOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePackageImportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientToken = output.clientToken
             self.createdTime = output.createdTime
@@ -3484,7 +3484,7 @@ extension DescribePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdTime = output.createdTime
@@ -3722,7 +3722,7 @@ extension DescribePackageVersionOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePackageVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isLatestPatch = output.isLatestPatch
             self.ownerAccount = output.ownerAccount
@@ -4541,7 +4541,7 @@ extension InternalServerException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4898,7 +4898,7 @@ extension ListApplicationInstanceDependenciesOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationInstanceDependenciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packageObjects = output.packageObjects
@@ -5038,7 +5038,7 @@ extension ListApplicationInstanceNodeInstancesOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationInstanceNodeInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nodeInstances = output.nodeInstances
@@ -5186,7 +5186,7 @@ extension ListApplicationInstancesOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationInstances = output.applicationInstances
             self.nextToken = output.nextToken
@@ -5412,7 +5412,7 @@ extension ListDevicesJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDevicesJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceJobs = output.deviceJobs
             self.nextToken = output.nextToken
@@ -5500,7 +5500,7 @@ extension ListDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devices = output.devices
             self.nextToken = output.nextToken
@@ -5675,7 +5675,7 @@ extension ListNodeFromTemplateJobsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNodeFromTemplateJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nodeFromTemplateJobs = output.nodeFromTemplateJobs
@@ -5850,7 +5850,7 @@ extension ListNodesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nodes = output.nodes
@@ -5986,7 +5986,7 @@ extension ListPackageImportJobsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPackageImportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packageImportJobs = output.packageImportJobs
@@ -6125,7 +6125,7 @@ extension ListPackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packages = output.packages
@@ -6242,7 +6242,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8157,7 +8157,7 @@ extension ProvisionDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ProvisionDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.certificates = output.certificates
@@ -8501,7 +8501,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -8633,7 +8633,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -8824,7 +8824,7 @@ extension SignalApplicationInstanceNodeInstancesOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SignalApplicationInstanceNodeInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationInstanceId = output.applicationInstanceId
         } else {
@@ -9413,7 +9413,7 @@ extension UpdateDeviceMetadataOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDeviceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deviceId = output.deviceId
         } else {
@@ -9501,7 +9501,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorArguments = output.errorArguments
             self.errorId = output.errorId

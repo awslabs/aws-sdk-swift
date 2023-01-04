@@ -1439,7 +1439,7 @@ extension CreateAlarmModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAlarmModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmModelArn = output.alarmModelArn
             self.alarmModelVersion = output.alarmModelVersion
@@ -1696,7 +1696,7 @@ extension CreateDetectorModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDetectorModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectorModelConfiguration = output.detectorModelConfiguration
         } else {
@@ -1864,7 +1864,7 @@ extension CreateInputOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputConfiguration = output.inputConfiguration
         } else {
@@ -2202,7 +2202,7 @@ extension DescribeAlarmModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAlarmModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmCapabilities = output.alarmCapabilities
             self.alarmEventActions = output.alarmEventActions
@@ -2452,7 +2452,7 @@ extension DescribeDetectorModelAnalysisOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDetectorModelAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -2577,7 +2577,7 @@ extension DescribeDetectorModelOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDetectorModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectorModel = output.detectorModel
         } else {
@@ -2679,7 +2679,7 @@ extension DescribeInputOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.input = output.input
         } else {
@@ -2772,7 +2772,7 @@ extension DescribeLoggingOptionsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLoggingOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingOptions = output.loggingOptions
         } else {
@@ -3905,7 +3905,7 @@ extension GetDetectorModelAnalysisResultsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDetectorModelAnalysisResultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisResults = output.analysisResults
             self.nextToken = output.nextToken
@@ -4352,7 +4352,7 @@ extension InternalFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4405,7 +4405,7 @@ extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4798,7 +4798,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4937,7 +4937,7 @@ extension ListAlarmModelVersionsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAlarmModelVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmModelVersionSummaries = output.alarmModelVersionSummaries
             self.nextToken = output.nextToken
@@ -5073,7 +5073,7 @@ extension ListAlarmModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAlarmModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmModelSummaries = output.alarmModelSummaries
             self.nextToken = output.nextToken
@@ -5219,7 +5219,7 @@ extension ListDetectorModelVersionsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDetectorModelVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectorModelVersionSummaries = output.detectorModelVersionSummaries
             self.nextToken = output.nextToken
@@ -5355,7 +5355,7 @@ extension ListDetectorModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDetectorModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectorModelSummaries = output.detectorModelSummaries
             self.nextToken = output.nextToken
@@ -5517,7 +5517,7 @@ extension ListInputRoutingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInputRoutingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.routedResources = output.routedResources
@@ -5653,7 +5653,7 @@ extension ListInputsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputSummaries = output.inputSummaries
             self.nextToken = output.nextToken
@@ -5786,7 +5786,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6469,7 +6469,7 @@ extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceArn = output.resourceArn
@@ -6542,7 +6542,7 @@ extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6595,7 +6595,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6853,7 +6853,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7202,7 +7202,7 @@ extension StartDetectorModelAnalysisOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartDetectorModelAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisId = output.analysisId
         } else {
@@ -7478,7 +7478,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7611,7 +7611,7 @@ extension UnsupportedOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnsupportedOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7921,7 +7921,7 @@ extension UpdateAlarmModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAlarmModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmModelArn = output.alarmModelArn
             self.alarmModelVersion = output.alarmModelVersion
@@ -8135,7 +8135,7 @@ extension UpdateDetectorModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDetectorModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.detectorModelConfiguration = output.detectorModelConfiguration
         } else {
@@ -8276,7 +8276,7 @@ extension UpdateInputOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateInputOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inputConfiguration = output.inputConfiguration
         } else {

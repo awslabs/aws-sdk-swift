@@ -316,7 +316,7 @@ extension DescribeDimensionKeysOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDimensionKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
             self.alignedStartTime = output.alignedStartTime
@@ -1153,7 +1153,7 @@ extension GetDimensionKeyDetailsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDimensionKeyDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensions = output.dimensions
         } else {
@@ -1290,7 +1290,7 @@ extension GetResourceMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.features = output.features
             self.identifier = output.identifier
@@ -1541,7 +1541,7 @@ extension GetResourceMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alignedEndTime = output.alignedEndTime
             self.alignedStartTime = output.alignedStartTime
@@ -1631,7 +1631,7 @@ extension InternalServiceError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServiceErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1683,7 +1683,7 @@ extension InvalidArgumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1871,7 +1871,7 @@ extension ListAvailableResourceDimensionsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableResourceDimensionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricDimensions = output.metricDimensions
             self.nextToken = output.nextToken
@@ -2075,7 +2075,7 @@ extension ListAvailableResourceMetricsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableResourceMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
@@ -2330,7 +2330,7 @@ extension NotAuthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotAuthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

@@ -127,7 +127,7 @@ extension BatchDeleteWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedWorlds = output.unprocessedWorlds
         } else {
@@ -265,7 +265,7 @@ extension BatchDescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.unprocessedJobs = output.unprocessedJobs
@@ -953,7 +953,7 @@ extension ConcurrentDeploymentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConcurrentDeploymentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1162,7 +1162,7 @@ extension CreateDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -1403,7 +1403,7 @@ extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -1637,7 +1637,7 @@ extension CreateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -1902,7 +1902,7 @@ extension CreateRobotApplicationVersionOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRobotApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -2151,7 +2151,7 @@ extension CreateRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
@@ -2430,7 +2430,7 @@ extension CreateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -2715,7 +2715,7 @@ extension CreateSimulationApplicationVersionOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSimulationApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -3118,7 +3118,7 @@ extension CreateSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -3519,7 +3519,7 @@ extension CreateWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -3794,7 +3794,7 @@ extension CreateWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -4072,7 +4072,7 @@ extension CreateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -5385,7 +5385,7 @@ extension DeregisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeregisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
@@ -5514,7 +5514,7 @@ extension DescribeDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -5750,7 +5750,7 @@ extension DescribeFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -5968,7 +5968,7 @@ extension DescribeRobotApplicationOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -6194,7 +6194,7 @@ extension DescribeRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
@@ -6423,7 +6423,7 @@ extension DescribeSimulationApplicationOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -6666,7 +6666,7 @@ extension DescribeSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
@@ -6929,7 +6929,7 @@ extension DescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7282,7 +7282,7 @@ extension DescribeWorldExportJobOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7507,7 +7507,7 @@ extension DescribeWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7742,7 +7742,7 @@ extension DescribeWorldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWorldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -7918,7 +7918,7 @@ extension DescribeWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -8545,7 +8545,7 @@ extension GetWorldTemplateBodyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWorldTemplateBodyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.templateBody = output.templateBody
         } else {
@@ -8586,7 +8586,7 @@ extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8638,7 +8638,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8690,7 +8690,7 @@ extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8851,7 +8851,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9015,7 +9015,7 @@ extension ListDeploymentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDeploymentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentJobs = output.deploymentJobs
             self.nextToken = output.nextToken
@@ -9188,7 +9188,7 @@ extension ListFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetDetails = output.fleetDetails
             self.nextToken = output.nextToken
@@ -9370,7 +9370,7 @@ extension ListRobotApplicationsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRobotApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robotApplicationSummaries = output.robotApplicationSummaries
@@ -9542,7 +9542,7 @@ extension ListRobotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRobotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robots = output.robots
@@ -9724,7 +9724,7 @@ extension ListSimulationApplicationsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSimulationApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationApplicationSummaries = output.simulationApplicationSummaries
@@ -9891,7 +9891,7 @@ extension ListSimulationJobBatchesOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSimulationJobBatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobBatchSummaries = output.simulationJobBatchSummaries
@@ -10060,7 +10060,7 @@ extension ListSimulationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSimulationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobSummaries = output.simulationJobSummaries
@@ -10180,7 +10180,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10339,7 +10339,7 @@ extension ListWorldExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorldExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldExportJobSummaries = output.worldExportJobSummaries
@@ -10509,7 +10509,7 @@ extension ListWorldGenerationJobsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorldGenerationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldGenerationJobSummaries = output.worldGenerationJobSummaries
@@ -10655,7 +10655,7 @@ extension ListWorldTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorldTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templateSummaries = output.templateSummaries
@@ -10824,7 +10824,7 @@ extension ListWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldSummaries = output.worldSummaries
@@ -11281,7 +11281,7 @@ extension RegisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
@@ -11407,7 +11407,7 @@ extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11459,7 +11459,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12321,7 +12321,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13911,7 +13911,7 @@ extension StartSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
@@ -14184,7 +14184,7 @@ extension SyncDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SyncDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -14533,7 +14533,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14892,7 +14892,7 @@ extension UpdateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -15176,7 +15176,7 @@ extension UpdateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -15428,7 +15428,7 @@ extension UpdateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt

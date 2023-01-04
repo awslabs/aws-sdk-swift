@@ -629,7 +629,7 @@ extension CreateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
             self.changeToken = output.changeToken
@@ -773,7 +773,7 @@ extension CreateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.geoMatchSet = output.geoMatchSet
@@ -917,7 +917,7 @@ extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ipSet = output.ipSet
@@ -1128,7 +1128,7 @@ extension CreateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
@@ -1268,7 +1268,7 @@ extension CreateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexMatchSet = output.regexMatchSet
@@ -1408,7 +1408,7 @@ extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.regexPatternSet = output.regexPatternSet
@@ -1591,7 +1591,7 @@ extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.ruleGroup = output.ruleGroup
@@ -1776,7 +1776,7 @@ extension CreateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.rule = output.rule
@@ -1920,7 +1920,7 @@ extension CreateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sizeConstraintSet = output.sizeConstraintSet
@@ -2065,7 +2065,7 @@ extension CreateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
@@ -2338,7 +2338,7 @@ extension CreateWebACLMigrationStackOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWebACLMigrationStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.s3ObjectUrl = output.s3ObjectUrl
         } else {
@@ -2418,7 +2418,7 @@ extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.webACL = output.webACL
@@ -2563,7 +2563,7 @@ extension CreateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
             self.xssMatchSet = output.xssMatchSet
@@ -2708,7 +2708,7 @@ extension DeleteByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -2842,7 +2842,7 @@ extension DeleteGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -2976,7 +2976,7 @@ extension DeleteIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3282,7 +3282,7 @@ extension DeleteRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3416,7 +3416,7 @@ extension DeleteRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3550,7 +3550,7 @@ extension DeleteRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3688,7 +3688,7 @@ extension DeleteRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3826,7 +3826,7 @@ extension DeleteRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -3960,7 +3960,7 @@ extension DeleteSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4095,7 +4095,7 @@ extension DeleteSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4234,7 +4234,7 @@ extension DeleteWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -4369,7 +4369,7 @@ extension DeleteXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -5593,7 +5593,7 @@ extension GetByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSet = output.byteMatchSet
         } else {
@@ -5690,7 +5690,7 @@ extension GetChangeTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetChangeTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -5803,7 +5803,7 @@ extension GetChangeTokenStatusOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetChangeTokenStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeTokenStatus = output.changeTokenStatus
         } else {
@@ -5918,7 +5918,7 @@ extension GetGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSet = output.geoMatchSet
         } else {
@@ -6033,7 +6033,7 @@ extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
         } else {
@@ -6150,7 +6150,7 @@ extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -6263,7 +6263,7 @@ extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -6440,7 +6440,7 @@ extension GetRateBasedRuleManagedKeysOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRateBasedRuleManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedKeys = output.managedKeys
             self.nextMarker = output.nextMarker
@@ -6526,7 +6526,7 @@ extension GetRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
@@ -6641,7 +6641,7 @@ extension GetRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.regexMatchSet = output.regexMatchSet
         } else {
@@ -6756,7 +6756,7 @@ extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.regexPatternSet = output.regexPatternSet
         } else {
@@ -6869,7 +6869,7 @@ extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ruleGroup = output.ruleGroup
         } else {
@@ -6984,7 +6984,7 @@ extension GetRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rule = output.rule
         } else {
@@ -7144,7 +7144,7 @@ extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
             self.sampledRequests = output.sampledRequests
@@ -7288,7 +7288,7 @@ extension GetSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sizeConstraintSet = output.sizeConstraintSet
         } else {
@@ -7410,7 +7410,7 @@ extension GetSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sqlInjectionMatchSet = output.sqlInjectionMatchSet
         } else {
@@ -7532,7 +7532,7 @@ extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
         } else {
@@ -7656,7 +7656,7 @@ extension GetXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.xssMatchSet = output.xssMatchSet
         } else {
@@ -8200,7 +8200,7 @@ extension ListActivatedRulesInRuleGroupOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListActivatedRulesInRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activatedRules = output.activatedRules
             self.nextMarker = output.nextMarker
@@ -8343,7 +8343,7 @@ extension ListByteMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListByteMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.byteMatchSets = output.byteMatchSets
             self.nextMarker = output.nextMarker
@@ -8486,7 +8486,7 @@ extension ListGeoMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGeoMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.geoMatchSets = output.geoMatchSets
             self.nextMarker = output.nextMarker
@@ -8629,7 +8629,7 @@ extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
             self.nextMarker = output.nextMarker
@@ -8774,7 +8774,7 @@ extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextMarker = output.nextMarker
@@ -8917,7 +8917,7 @@ extension ListRateBasedRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRateBasedRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
@@ -9060,7 +9060,7 @@ extension ListRegexMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRegexMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexMatchSets = output.regexMatchSets
@@ -9203,7 +9203,7 @@ extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexPatternSets = output.regexPatternSets
@@ -9344,7 +9344,7 @@ extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -9487,7 +9487,7 @@ extension ListRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.rules = output.rules
@@ -9630,7 +9630,7 @@ extension ListSizeConstraintSetsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSizeConstraintSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sizeConstraintSets = output.sizeConstraintSets
@@ -9774,7 +9774,7 @@ extension ListSqlInjectionMatchSetsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSqlInjectionMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.sqlInjectionMatchSets = output.sqlInjectionMatchSets
@@ -9918,7 +9918,7 @@ extension ListSubscribedRuleGroupsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSubscribedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -10082,7 +10082,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tagInfoForResource = output.tagInfoForResource
@@ -10216,7 +10216,7 @@ extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.webACLs = output.webACLs
@@ -10360,7 +10360,7 @@ extension ListXssMatchSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListXssMatchSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.xssMatchSets = output.xssMatchSets
@@ -10936,7 +10936,7 @@ extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -13204,7 +13204,7 @@ extension UpdateByteMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateByteMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13373,7 +13373,7 @@ extension UpdateGeoMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGeoMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13545,7 +13545,7 @@ extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13723,7 +13723,7 @@ extension UpdateRateBasedRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRateBasedRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -13886,7 +13886,7 @@ extension UpdateRegexMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRegexMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14049,7 +14049,7 @@ extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14210,7 +14210,7 @@ extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14381,7 +14381,7 @@ extension UpdateRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14552,7 +14552,7 @@ extension UpdateSizeConstraintSetOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSizeConstraintSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14722,7 +14722,7 @@ extension UpdateSqlInjectionMatchSetOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSqlInjectionMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -14907,7 +14907,7 @@ extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -15077,7 +15077,7 @@ extension UpdateXssMatchSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateXssMatchSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeToken = output.changeToken
         } else {
@@ -15119,7 +15119,7 @@ extension WAFBadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFBadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15171,7 +15171,7 @@ extension WAFDisallowedNameException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFDisallowedNameExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15223,7 +15223,7 @@ extension WAFEntityMigrationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFEntityMigrationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.migrationErrorReason = output.migrationErrorReason
@@ -15307,7 +15307,7 @@ extension WAFInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15381,7 +15381,7 @@ extension WAFInvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15443,7 +15443,7 @@ extension WAFInvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.field = output.field
             self.parameter = output.parameter
@@ -15531,7 +15531,7 @@ extension WAFInvalidPermissionPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidPermissionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15599,7 +15599,7 @@ extension WAFInvalidRegexPatternException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidRegexPatternExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15651,7 +15651,7 @@ extension WAFLimitsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFLimitsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15703,7 +15703,7 @@ extension WAFNonEmptyEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFNonEmptyEntityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15763,7 +15763,7 @@ extension WAFNonexistentContainerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFNonexistentContainerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15823,7 +15823,7 @@ extension WAFNonexistentItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFNonexistentItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15875,7 +15875,7 @@ extension WAFReferencedItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFReferencedItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15931,7 +15931,7 @@ extension WAFServiceLinkedRoleErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFServiceLinkedRoleErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15983,7 +15983,7 @@ extension WAFStaleDataException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFStaleDataExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16035,7 +16035,7 @@ extension WAFSubscriptionNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFSubscriptionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16087,7 +16087,7 @@ extension WAFTagOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFTagOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16139,7 +16139,7 @@ extension WAFTagOperationInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFTagOperationInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

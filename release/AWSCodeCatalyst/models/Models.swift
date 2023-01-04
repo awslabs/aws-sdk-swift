@@ -261,7 +261,7 @@ extension CreateAccessTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAccessTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiresTime = output.expiresTime
             self.name = output.name
@@ -504,7 +504,7 @@ extension CreateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -656,7 +656,7 @@ extension CreateProjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -827,7 +827,7 @@ extension CreateSourceRepositoryBranchOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSourceRepositoryBranchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.headCommitId = output.headCommitId
             self.lastUpdatedTime = output.lastUpdatedTime
@@ -1026,7 +1026,7 @@ extension DeleteDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -2000,7 +2000,7 @@ extension GetDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.creatorId = output.creatorId
@@ -2248,7 +2248,7 @@ extension GetProjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -2387,7 +2387,7 @@ extension GetSourceRepositoryCloneUrlsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSourceRepositoryCloneUrlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.https = output.https
         } else {
@@ -2480,7 +2480,7 @@ extension GetSpaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSpaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.displayName = output.displayName
@@ -2604,7 +2604,7 @@ extension GetSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsAccountName = output.awsAccountName
             self.subscriptionType = output.subscriptionType
@@ -2723,7 +2723,7 @@ extension GetUserDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUserDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.displayName = output.displayName
             self.primaryEmail = output.primaryEmail
@@ -3011,7 +3011,7 @@ extension ListAccessTokensOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAccessTokensOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3191,7 +3191,7 @@ extension ListDevEnvironmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDevEnvironmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3377,7 +3377,7 @@ extension ListEventLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListEventLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3549,7 +3549,7 @@ extension ListProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -3783,7 +3783,7 @@ extension ListSourceRepositoriesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSourceRepositoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4011,7 +4011,7 @@ extension ListSourceRepositoryBranchesOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSourceRepositoryBranchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4138,7 +4138,7 @@ extension ListSpacesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSpacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -4752,7 +4752,7 @@ extension StartDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -4924,7 +4924,7 @@ extension StartDevEnvironmentSessionOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartDevEnvironmentSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessDetails = output.accessDetails
             self.id = output.id
@@ -5076,7 +5076,7 @@ extension StopDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StopDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.projectName = output.projectName
@@ -5322,7 +5322,7 @@ extension UpdateDevEnvironmentOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDevEnvironmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alias = output.alias
             self.clientToken = output.clientToken
@@ -5607,7 +5607,7 @@ extension VerifySessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: VerifySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identity = output.identity
         } else {

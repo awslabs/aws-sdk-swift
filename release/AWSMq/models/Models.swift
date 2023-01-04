@@ -119,7 +119,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -964,7 +964,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -1377,7 +1377,7 @@ extension CreateBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBrokerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerArn = output.brokerArn
             self.brokerId = output.brokerId
@@ -1567,7 +1567,7 @@ extension CreateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authenticationStrategy = output.authenticationStrategy
@@ -2011,7 +2011,7 @@ extension DeleteBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBrokerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerId = output.brokerId
         } else {
@@ -2338,7 +2338,7 @@ extension DescribeBrokerEngineTypesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBrokerEngineTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerEngineTypes = output.brokerEngineTypes
             self.maxResults = output.maxResults
@@ -2537,7 +2537,7 @@ extension DescribeBrokerInstanceOptionsOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBrokerInstanceOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerInstanceOptions = output.brokerInstanceOptions
             self.maxResults = output.maxResults
@@ -2635,7 +2635,7 @@ extension DescribeBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBrokerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.actionsRequired = output.actionsRequired
             self.authenticationStrategy = output.authenticationStrategy
@@ -3078,7 +3078,7 @@ extension DescribeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.authenticationStrategy = output.authenticationStrategy
@@ -3285,7 +3285,7 @@ extension DescribeConfigurationRevisionOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConfigurationRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationId = output.configurationId
             self.created = output.created
@@ -3423,7 +3423,7 @@ extension DescribeUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerId = output.brokerId
             self.consoleAccess = output.consoleAccess
@@ -3627,7 +3627,7 @@ extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -3690,7 +3690,7 @@ extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -4124,7 +4124,7 @@ extension ListBrokersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBrokersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerSummaries = output.brokerSummaries
             self.nextToken = output.nextToken
@@ -4268,7 +4268,7 @@ extension ListConfigurationRevisionsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConfigurationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationId = output.configurationId
             self.maxResults = output.maxResults
@@ -4422,7 +4422,7 @@ extension ListConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurations = output.configurations
             self.maxResults = output.maxResults
@@ -4551,7 +4551,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4685,7 +4685,7 @@ extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.brokerId = output.brokerId
             self.maxResults = output.maxResults
@@ -4887,7 +4887,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -5156,7 +5156,7 @@ extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorAttribute = output.errorAttribute
             self.message = output.message
@@ -5413,7 +5413,7 @@ extension UpdateBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBrokerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authenticationStrategy = output.authenticationStrategy
             self.autoMinorVersionUpgrade = output.autoMinorVersionUpgrade
@@ -5652,7 +5652,7 @@ extension UpdateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.created = output.created

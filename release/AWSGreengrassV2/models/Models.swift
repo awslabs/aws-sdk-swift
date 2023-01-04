@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -222,7 +222,7 @@ extension AssociateServiceRoleToAccountOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateServiceRoleToAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedAt = output.associatedAt
         } else {
@@ -405,7 +405,7 @@ extension BatchAssociateClientDeviceWithCoreDeviceOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchAssociateClientDeviceWithCoreDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorEntries = output.errorEntries
         } else {
@@ -552,7 +552,7 @@ extension BatchDisassociateClientDeviceFromCoreDeviceOutputResponse: ClientRunti
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDisassociateClientDeviceFromCoreDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorEntries = output.errorEntries
         } else {
@@ -665,7 +665,7 @@ extension CancelDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1454,7 +1454,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -1814,7 +1814,7 @@ extension CreateComponentVersionOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateComponentVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.componentName = output.componentName
@@ -2089,7 +2089,7 @@ extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentId = output.deploymentId
             self.iotJobArn = output.iotJobArn
@@ -2869,7 +2869,7 @@ extension DescribeComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.componentName = output.componentName
@@ -3141,7 +3141,7 @@ extension DisassociateServiceRoleFromAccountOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateServiceRoleFromAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.disassociatedAt = output.disassociatedAt
         } else {
@@ -3517,7 +3517,7 @@ extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetComponentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recipe = output.recipe
             self.recipeOutputFormat = output.recipeOutputFormat
@@ -3658,7 +3658,7 @@ extension GetComponentVersionArtifactOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetComponentVersionArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.preSignedUrl = output.preSignedUrl
         } else {
@@ -3755,7 +3755,7 @@ extension GetConnectivityInfoOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConnectivityInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectivityInfo = output.connectivityInfo
             self.message = output.message
@@ -3876,7 +3876,7 @@ extension GetCoreDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCoreDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.coreDeviceThingName = output.coreDeviceThingName
@@ -4051,7 +4051,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.components = output.components
             self.creationTimestamp = output.creationTimestamp
@@ -4282,7 +4282,7 @@ extension GetServiceRoleForAccountOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetServiceRoleForAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedAt = output.associatedAt
             self.roleArn = output.roleArn
@@ -4547,7 +4547,7 @@ extension InternalServerException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5785,7 +5785,7 @@ extension ListClientDevicesAssociatedWithCoreDeviceOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListClientDevicesAssociatedWithCoreDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedClientDevices = output.associatedClientDevices
             self.nextToken = output.nextToken
@@ -5931,7 +5931,7 @@ extension ListComponentVersionsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListComponentVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.componentVersions = output.componentVersions
             self.nextToken = output.nextToken
@@ -6077,7 +6077,7 @@ extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.components = output.components
             self.nextToken = output.nextToken
@@ -6233,7 +6233,7 @@ extension ListCoreDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCoreDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreDevices = output.coreDevices
             self.nextToken = output.nextToken
@@ -6400,7 +6400,7 @@ extension ListDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
             self.nextToken = output.nextToken
@@ -6546,7 +6546,7 @@ extension ListEffectiveDeploymentsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListEffectiveDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.effectiveDeployments = output.effectiveDeployments
             self.nextToken = output.nextToken
@@ -6707,7 +6707,7 @@ extension ListInstalledComponentsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInstalledComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.installedComponents = output.installedComponents
             self.nextToken = output.nextToken
@@ -6824,7 +6824,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6906,7 +6906,7 @@ extension RequestAlreadyInProgressException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestAlreadyInProgressExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7062,7 +7062,7 @@ extension ResolveComponentCandidatesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResolveComponentCandidatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resolvedComponentVersions = output.resolvedComponentVersions
         } else {
@@ -7203,7 +7203,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -7278,7 +7278,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -7527,7 +7527,7 @@ extension ThrottlingException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.quotaCode = output.quotaCode
@@ -7785,7 +7785,7 @@ extension UpdateConnectivityInfoOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConnectivityInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.version = output.version
@@ -7836,7 +7836,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message

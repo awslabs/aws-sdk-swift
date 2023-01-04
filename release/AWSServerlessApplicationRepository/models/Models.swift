@@ -277,7 +277,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -379,7 +379,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -702,7 +702,7 @@ extension CreateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.author = output.author
@@ -1001,7 +1001,7 @@ extension CreateApplicationVersionOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.creationTime = output.creationTime
@@ -1416,7 +1416,7 @@ extension CreateCloudFormationChangeSetOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCloudFormationChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.changeSetId = output.changeSetId
@@ -1572,7 +1572,7 @@ extension CreateCloudFormationTemplateOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCloudFormationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.creationTime = output.creationTime
@@ -1746,7 +1746,7 @@ extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -1887,7 +1887,7 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.author = output.author
@@ -2118,7 +2118,7 @@ extension GetApplicationPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetApplicationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.statements = output.statements
         } else {
@@ -2237,7 +2237,7 @@ extension GetCloudFormationTemplateOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCloudFormationTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.creationTime = output.creationTime
@@ -2338,7 +2338,7 @@ extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -2495,7 +2495,7 @@ extension ListApplicationDependenciesOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationDependenciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dependencies = output.dependencies
             self.nextToken = output.nextToken
@@ -2641,7 +2641,7 @@ extension ListApplicationVersionsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.versions = output.versions
@@ -2777,7 +2777,7 @@ extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
             self.nextToken = output.nextToken
@@ -2837,7 +2837,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -3226,7 +3226,7 @@ extension PutApplicationPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutApplicationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.statements = output.statements
         } else {
@@ -3462,7 +3462,7 @@ extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -3780,7 +3780,7 @@ extension UpdateApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
             self.author = output.author

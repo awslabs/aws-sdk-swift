@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -182,7 +182,7 @@ extension AddProfileKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddProfileKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyName = output.keyName
             self.values = output.values
@@ -778,7 +778,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1240,7 +1240,7 @@ extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.deadLetterQueueUrl = output.deadLetterQueueUrl
@@ -1513,7 +1513,7 @@ extension CreateIntegrationWorkflowOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateIntegrationWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.workflowId = output.workflowId
@@ -1927,7 +1927,7 @@ extension CreateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profileId = output.profileId
         } else {
@@ -2062,7 +2062,7 @@ extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2190,7 +2190,7 @@ extension DeleteIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2412,7 +2412,7 @@ extension DeleteProfileKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteProfileKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2565,7 +2565,7 @@ extension DeleteProfileObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteProfileObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2675,7 +2675,7 @@ extension DeleteProfileObjectTypeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteProfileObjectTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2747,7 +2747,7 @@ extension DeleteProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3595,7 +3595,7 @@ extension GetAutoMergingPreviewOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAutoMergingPreviewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.numberOfMatchesInSample = output.numberOfMatchesInSample
@@ -3728,7 +3728,7 @@ extension GetDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.deadLetterQueueUrl = output.deadLetterQueueUrl
@@ -3930,7 +3930,7 @@ extension GetIdentityResolutionJobOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIdentityResolutionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoMerging = output.autoMerging
             self.domainName = output.domainName
@@ -4171,7 +4171,7 @@ extension GetIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.domainName = output.domainName
@@ -4400,7 +4400,7 @@ extension GetMatchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.matchGenerationDate = output.matchGenerationDate
             self.matches = output.matches
@@ -4549,7 +4549,7 @@ extension GetProfileObjectTypeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetProfileObjectTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowProfileCreation = output.allowProfileCreation
             self.createdAt = output.createdAt
@@ -4797,7 +4797,7 @@ extension GetProfileObjectTypeTemplateOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetProfileObjectTypeTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowProfileCreation = output.allowProfileCreation
             self.fields = output.fields
@@ -4992,7 +4992,7 @@ extension GetWorkflowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWorkflowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attributes = output.attributes
             self.errorDescription = output.errorDescription
@@ -5197,7 +5197,7 @@ extension GetWorkflowStepsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWorkflowStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -5513,7 +5513,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5825,7 +5825,7 @@ extension ListAccountIntegrationsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAccountIntegrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -6043,7 +6043,7 @@ extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -6189,7 +6189,7 @@ extension ListIdentityResolutionJobsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListIdentityResolutionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.identityResolutionJobsList = output.identityResolutionJobsList
             self.nextToken = output.nextToken
@@ -6486,7 +6486,7 @@ extension ListIntegrationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListIntegrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -6768,7 +6768,7 @@ extension ListProfileObjectTypeTemplatesOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProfileObjectTypeTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -6914,7 +6914,7 @@ extension ListProfileObjectTypesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProfileObjectTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -7165,7 +7165,7 @@ extension ListProfileObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProfileObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -7282,7 +7282,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -7569,7 +7569,7 @@ extension ListWorkflowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorkflowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -8090,7 +8090,7 @@ extension MergeProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MergeProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8860,7 +8860,7 @@ extension PutIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.domainName = output.domainName
@@ -9102,7 +9102,7 @@ extension PutProfileObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutProfileObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profileObjectUniqueKey = output.profileObjectUniqueKey
         } else {
@@ -9379,7 +9379,7 @@ extension PutProfileObjectTypeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutProfileObjectTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowProfileCreation = output.allowProfileCreation
             self.createdAt = output.createdAt
@@ -9566,7 +9566,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10261,7 +10261,7 @@ extension SearchProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.nextToken = output.nextToken
@@ -10978,7 +10978,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11505,7 +11505,7 @@ extension UpdateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdAt = output.createdAt
             self.deadLetterQueueUrl = output.deadLetterQueueUrl
@@ -12002,7 +12002,7 @@ extension UpdateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profileId = output.profileId
         } else {

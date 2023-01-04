@@ -6,7 +6,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -172,7 +172,7 @@ extension BatchAssociateScramSecretOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchAssociateScramSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.unprocessedScramSecrets = output.unprocessedScramSecrets
@@ -335,7 +335,7 @@ extension BatchDisassociateScramSecretOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDisassociateScramSecretOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.unprocessedScramSecrets = output.unprocessedScramSecrets
@@ -1923,7 +1923,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -2249,7 +2249,7 @@ extension CreateClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterName = output.clusterName
@@ -2440,7 +2440,7 @@ extension CreateClusterV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateClusterV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterName = output.clusterName
@@ -2642,7 +2642,7 @@ extension CreateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -2799,7 +2799,7 @@ extension DeleteClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.state = output.state
@@ -2909,7 +2909,7 @@ extension DeleteConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.state = output.state
@@ -3052,7 +3052,7 @@ extension DescribeClusterOperationOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeClusterOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterOperationInfo = output.clusterOperationInfo
         } else {
@@ -3123,7 +3123,7 @@ extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterInfo = output.clusterInfo
         } else {
@@ -3225,7 +3225,7 @@ extension DescribeClusterV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeClusterV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterInfo = output.clusterInfo
         } else {
@@ -3329,7 +3329,7 @@ extension DescribeConfigurationOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -3510,7 +3510,7 @@ extension DescribeConfigurationRevisionOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConfigurationRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationTime = output.creationTime
@@ -3889,7 +3889,7 @@ extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -4013,7 +4013,7 @@ extension GetBootstrapBrokersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBootstrapBrokersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bootstrapBrokerString = output.bootstrapBrokerString
             self.bootstrapBrokerStringPublicSaslIam = output.bootstrapBrokerStringPublicSaslIam
@@ -4188,7 +4188,7 @@ extension GetCompatibleKafkaVersionsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCompatibleKafkaVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compatibleKafkaVersions = output.compatibleKafkaVersions
         } else {
@@ -4273,7 +4273,7 @@ extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -4566,7 +4566,7 @@ extension ListClusterOperationsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListClusterOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterOperationInfoList = output.clusterOperationInfoList
             self.nextToken = output.nextToken
@@ -4710,7 +4710,7 @@ extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterInfoList = output.clusterInfoList
             self.nextToken = output.nextToken
@@ -4862,7 +4862,7 @@ extension ListClustersV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListClustersV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterInfoList = output.clusterInfoList
             self.nextToken = output.nextToken
@@ -5010,7 +5010,7 @@ extension ListConfigurationRevisionsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConfigurationRevisionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.revisions = output.revisions
@@ -5148,7 +5148,7 @@ extension ListConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurations = output.configurations
             self.nextToken = output.nextToken
@@ -5284,7 +5284,7 @@ extension ListKafkaVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListKafkaVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.kafkaVersions = output.kafkaVersions
             self.nextToken = output.nextToken
@@ -5426,7 +5426,7 @@ extension ListNodesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNodesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.nodeInfoList = output.nodeInfoList
@@ -5576,7 +5576,7 @@ extension ListScramSecretsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListScramSecretsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.secretArnList = output.secretArnList
@@ -5693,7 +5693,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6121,7 +6121,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -6794,7 +6794,7 @@ extension RebootBrokerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RebootBrokerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -7163,7 +7163,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -7497,7 +7497,7 @@ extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -7594,7 +7594,7 @@ extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.invalidParameter = output.invalidParameter
             self.message = output.message
@@ -7908,7 +7908,7 @@ extension UpdateBrokerCountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBrokerCountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -8070,7 +8070,7 @@ extension UpdateBrokerStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBrokerStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -8224,7 +8224,7 @@ extension UpdateBrokerTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBrokerTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -8376,7 +8376,7 @@ extension UpdateClusterConfigurationOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateClusterConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -8542,7 +8542,7 @@ extension UpdateClusterKafkaVersionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateClusterKafkaVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -8693,7 +8693,7 @@ extension UpdateConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.latestRevision = output.latestRevision
@@ -8846,7 +8846,7 @@ extension UpdateConnectivityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConnectivityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -9019,7 +9019,7 @@ extension UpdateMonitoringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMonitoringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -9184,7 +9184,7 @@ extension UpdateSecurityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSecurityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn
@@ -9362,7 +9362,7 @@ extension UpdateStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterOperationArn = output.clusterOperationArn

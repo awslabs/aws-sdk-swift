@@ -641,7 +641,7 @@ extension BillExpirationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BillExpirationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2181,7 +2181,7 @@ extension CreateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
         } else {
@@ -2333,7 +2333,7 @@ extension CreateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
         } else {
@@ -2571,7 +2571,7 @@ extension CreateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveStart = output.effectiveStart
@@ -2769,7 +2769,7 @@ extension DataUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3104,7 +3104,7 @@ extension DeleteCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveEnd = output.effectiveEnd
@@ -3239,7 +3239,7 @@ extension DescribeCostCategoryDefinitionOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategory = output.costCategory
         } else {
@@ -4472,7 +4472,7 @@ extension GenerationExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GenerationExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4766,7 +4766,7 @@ extension GetAnomaliesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAnomaliesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalies = output.anomalies
             self.nextPageToken = output.nextPageToken
@@ -4936,7 +4936,7 @@ extension GetAnomalyMonitorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAnomalyMonitorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyMonitors = output.anomalyMonitors
             self.nextPageToken = output.nextPageToken
@@ -5118,7 +5118,7 @@ extension GetAnomalySubscriptionsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAnomalySubscriptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalySubscriptions = output.anomalySubscriptions
             self.nextPageToken = output.nextPageToken
@@ -5343,7 +5343,7 @@ extension GetCostAndUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCostAndUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
             self.groupDefinitions = output.groupDefinitions
@@ -5605,7 +5605,7 @@ extension GetCostAndUsageWithResourcesOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCostAndUsageWithResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValueAttributes = output.dimensionValueAttributes
             self.groupDefinitions = output.groupDefinitions
@@ -5932,7 +5932,7 @@ extension GetCostCategoriesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCostCategoriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryNames = output.costCategoryNames
             self.costCategoryValues = output.costCategoryValues
@@ -6211,7 +6211,7 @@ extension GetCostForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCostForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
             self.total = output.total
@@ -6599,7 +6599,7 @@ extension GetDimensionValuesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDimensionValuesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dimensionValues = output.dimensionValues
             self.nextPageToken = output.nextPageToken
@@ -7003,7 +7003,7 @@ extension GetReservationCoverageOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetReservationCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coveragesByTime = output.coveragesByTime
             self.nextPageToken = output.nextPageToken
@@ -7306,7 +7306,7 @@ extension GetReservationPurchaseRecommendationOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetReservationPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.nextPageToken = output.nextPageToken
@@ -7596,7 +7596,7 @@ extension GetReservationUtilizationOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetReservationUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.total = output.total
@@ -7837,7 +7837,7 @@ extension GetRightsizingRecommendationOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRightsizingRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.metadata = output.metadata
@@ -8137,7 +8137,7 @@ extension GetSavingsPlansCoverageOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSavingsPlansCoverageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.savingsPlansCoverages = output.savingsPlansCoverages
@@ -8357,7 +8357,7 @@ extension GetSavingsPlansPurchaseRecommendationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSavingsPlansPurchaseRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.nextPageToken = output.nextPageToken
@@ -8594,7 +8594,7 @@ extension GetSavingsPlansUtilizationDetailsOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSavingsPlansUtilizationDetailsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.savingsPlansUtilizationDetails = output.savingsPlansUtilizationDetails
@@ -8812,7 +8812,7 @@ extension GetSavingsPlansUtilizationOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSavingsPlansUtilizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.savingsPlansUtilizationsByTime = output.savingsPlansUtilizationsByTime
             self.total = output.total
@@ -9102,7 +9102,7 @@ extension GetTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.returnSize = output.returnSize
@@ -9359,7 +9359,7 @@ extension GetUsageForecastOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsageForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.forecastResultsByTime = output.forecastResultsByTime
             self.total = output.total
@@ -9754,7 +9754,7 @@ extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidNextTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9806,7 +9806,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9989,7 +9989,7 @@ extension ListCostAllocationTagsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCostAllocationTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costAllocationTags = output.costAllocationTags
             self.nextToken = output.nextToken
@@ -10142,7 +10142,7 @@ extension ListCostCategoryDefinitionsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCostCategoryDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryReferences = output.costCategoryReferences
             self.nextToken = output.nextToken
@@ -10321,7 +10321,7 @@ extension ListSavingsPlansPurchaseRecommendationGenerationOutputResponse: Client
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.generationSummaryList = output.generationSummaryList
             self.nextPageToken = output.nextPageToken
@@ -10453,7 +10453,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTags = output.resourceTags
         } else {
@@ -11097,7 +11097,7 @@ extension ProvideAnomalyFeedbackOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ProvideAnomalyFeedbackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyId = output.anomalyId
         } else {
@@ -11361,7 +11361,7 @@ extension RequestChangedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestChangedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12199,7 +12199,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -13894,7 +13894,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14113,7 +14113,7 @@ extension StartSavingsPlansPurchaseRecommendationGenerationOutputResponse: Clien
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartSavingsPlansPurchaseRecommendationGenerationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.estimatedCompletionTime = output.estimatedCompletionTime
             self.generationStartedTime = output.generationStartedTime
@@ -14714,7 +14714,7 @@ extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -14832,7 +14832,7 @@ extension UnknownMonitorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnknownMonitorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14884,7 +14884,7 @@ extension UnknownSubscriptionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnknownSubscriptionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14936,7 +14936,7 @@ extension UnresolvableUsageUnitException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnresolvableUsageUnitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15179,7 +15179,7 @@ extension UpdateAnomalyMonitorOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAnomalyMonitorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monitorArn = output.monitorArn
         } else {
@@ -15400,7 +15400,7 @@ extension UpdateAnomalySubscriptionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAnomalySubscriptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subscriptionArn = output.subscriptionArn
         } else {
@@ -15579,7 +15579,7 @@ extension UpdateCostAllocationTagsStatusOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateCostAllocationTagsStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -15789,7 +15789,7 @@ extension UpdateCostCategoryDefinitionOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateCostCategoryDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.costCategoryArn = output.costCategoryArn
             self.effectiveStart = output.effectiveStart

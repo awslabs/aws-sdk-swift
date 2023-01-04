@@ -1023,7 +1023,7 @@ extension CreateHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -1223,7 +1223,7 @@ extension CreateHITTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateHITTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hitTypeId = output.hitTypeId
         } else {
@@ -1457,7 +1457,7 @@ extension CreateHITWithHITTypeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateHITWithHITTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -1680,7 +1680,7 @@ extension CreateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {
@@ -2295,7 +2295,7 @@ extension GetAccountBalanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccountBalanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availableBalance = output.availableBalance
             self.onHoldBalance = output.onHoldBalance
@@ -2418,7 +2418,7 @@ extension GetAssignmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAssignmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignment = output.assignment
             self.hit = output.hit
@@ -2554,7 +2554,7 @@ extension GetFileUploadURLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetFileUploadURLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileUploadURL = output.fileUploadURL
         } else {
@@ -2667,7 +2667,7 @@ extension GetHITOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hit = output.hit
         } else {
@@ -2793,7 +2793,7 @@ extension GetQualificationScoreOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetQualificationScoreOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualification = output.qualification
         } else {
@@ -2906,7 +2906,7 @@ extension GetQualificationTypeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {
@@ -3474,7 +3474,7 @@ extension ListAssignmentsForHITOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssignmentsForHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignments = output.assignments
             self.nextToken = output.nextToken
@@ -3650,7 +3650,7 @@ extension ListBonusPaymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBonusPaymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bonusPayments = output.bonusPayments
             self.nextToken = output.nextToken
@@ -3816,7 +3816,7 @@ extension ListHITsForQualificationTypeOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListHITsForQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -3968,7 +3968,7 @@ extension ListHITsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListHITsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -4133,7 +4133,7 @@ extension ListQualificationRequestsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListQualificationRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -4323,7 +4323,7 @@ extension ListQualificationTypesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListQualificationTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -4537,7 +4537,7 @@ extension ListReviewPolicyResultsForHITOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListReviewPolicyResultsForHITOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assignmentReviewPolicy = output.assignmentReviewPolicy
             self.assignmentReviewReport = output.assignmentReviewReport
@@ -4735,7 +4735,7 @@ extension ListReviewableHITsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListReviewableHITsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hiTs = output.hiTs
             self.nextToken = output.nextToken
@@ -4887,7 +4887,7 @@ extension ListWorkerBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorkerBlocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -5065,7 +5065,7 @@ extension ListWorkersWithQualificationTypeOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWorkersWithQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.numResults = output.numResults
@@ -5500,7 +5500,7 @@ extension NotifyWorkersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotifyWorkersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.notifyWorkersFailureStatuses = output.notifyWorkersFailureStatuses
         } else {
@@ -6376,7 +6376,7 @@ extension RequestError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.turkErrorCode = output.turkErrorCode
@@ -7084,7 +7084,7 @@ extension ServiceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceFaultBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.turkErrorCode = output.turkErrorCode
@@ -7707,7 +7707,7 @@ extension UpdateQualificationTypeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateQualificationTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.qualificationType = output.qualificationType
         } else {

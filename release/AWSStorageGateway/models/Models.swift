@@ -192,7 +192,7 @@ extension ActivateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ActivateGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -378,7 +378,7 @@ extension AddCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -517,7 +517,7 @@ extension AddTagsToResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddTagsToResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -656,7 +656,7 @@ extension AddUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -797,7 +797,7 @@ extension AddWorkingStorageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -936,7 +936,7 @@ extension AssignTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssignTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -1166,7 +1166,7 @@ extension AssociateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -1330,7 +1330,7 @@ extension AttachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AttachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -1941,7 +1941,7 @@ extension CancelArchivalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelArchivalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -2069,7 +2069,7 @@ extension CancelRetrievalOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelRetrievalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -2409,7 +2409,7 @@ extension CreateCachediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCachediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -2806,7 +2806,7 @@ extension CreateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -3272,7 +3272,7 @@ extension CreateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -3425,7 +3425,7 @@ extension CreateSnapshotFromVolumeRecoveryPointOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSnapshotFromVolumeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
             self.volumeARN = output.volumeARN
@@ -3602,7 +3602,7 @@ extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshotId = output.snapshotId
             self.volumeARN = output.volumeARN
@@ -3849,7 +3849,7 @@ extension CreateStorediSCSIVolumeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateStorediSCSIVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.targetARN = output.targetARN
             self.volumeARN = output.volumeARN
@@ -4044,7 +4044,7 @@ extension CreateTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
         } else {
@@ -4256,7 +4256,7 @@ extension CreateTapeWithBarcodeOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTapeWithBarcodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -4495,7 +4495,7 @@ extension CreateTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARNs = output.tapeARNs
         } else {
@@ -4618,7 +4618,7 @@ extension DeleteAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -4747,7 +4747,7 @@ extension DeleteBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -4879,7 +4879,7 @@ extension DeleteChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
             self.targetARN = output.targetARN
@@ -5016,7 +5016,7 @@ extension DeleteFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -5131,7 +5131,7 @@ extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -5245,7 +5245,7 @@ extension DeleteSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -5371,7 +5371,7 @@ extension DeleteTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -5511,7 +5511,7 @@ extension DeleteTapeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteTapeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -5625,7 +5625,7 @@ extension DeleteTapePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteTapePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.poolARN = output.poolARN
         } else {
@@ -5739,7 +5739,7 @@ extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -5853,7 +5853,7 @@ extension DescribeAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.startTime = output.startTime
@@ -5987,7 +5987,7 @@ extension DescribeBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.averageDownloadRateLimitInBitsPerSec = output.averageDownloadRateLimitInBitsPerSec
             self.averageUploadRateLimitInBitsPerSec = output.averageUploadRateLimitInBitsPerSec
@@ -6121,7 +6121,7 @@ extension DescribeBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bandwidthRateLimitIntervals = output.bandwidthRateLimitIntervals
             self.gatewayARN = output.gatewayARN
@@ -6253,7 +6253,7 @@ extension DescribeCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheAllocatedInBytes = output.cacheAllocatedInBytes
             self.cacheDirtyPercentage = output.cacheDirtyPercentage
@@ -6447,7 +6447,7 @@ extension DescribeCachediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCachediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cachediSCSIVolumes = output.cachediSCSIVolumes
         } else {
@@ -6571,7 +6571,7 @@ extension DescribeChapCredentialsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.chapCredentials = output.chapCredentials
         } else {
@@ -6714,7 +6714,7 @@ extension DescribeFileSystemAssociationsOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationInfoList = output.fileSystemAssociationInfoList
         } else {
@@ -6837,7 +6837,7 @@ extension DescribeGatewayInformationOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchLogGroupARN = output.cloudWatchLogGroupARN
             self.deprecationDate = output.deprecationDate
@@ -7179,7 +7179,7 @@ extension DescribeMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dayOfMonth = output.dayOfMonth
             self.dayOfWeek = output.dayOfWeek
@@ -7366,7 +7366,7 @@ extension DescribeNFSFileSharesOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeNFSFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nfsFileShareInfoList = output.nfsFileShareInfoList
         } else {
@@ -7502,7 +7502,7 @@ extension DescribeSMBFileSharesOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSMBFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.smbFileShareInfoList = output.smbFileShareInfoList
         } else {
@@ -7625,7 +7625,7 @@ extension DescribeSMBSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSMBSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
             self.domainName = output.domainName
@@ -7819,7 +7819,7 @@ extension DescribeSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.recurrenceInHours = output.recurrenceInHours
@@ -8004,7 +8004,7 @@ extension DescribeStorediSCSIVolumesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStorediSCSIVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storediSCSIVolumes = output.storediSCSIVolumes
         } else {
@@ -8194,7 +8194,7 @@ extension DescribeTapeArchivesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTapeArchivesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapeArchives = output.tapeArchives
@@ -8352,7 +8352,7 @@ extension DescribeTapeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTapeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -8544,7 +8544,7 @@ extension DescribeTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapes = output.tapes
@@ -8677,7 +8677,7 @@ extension DescribeUploadBufferOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeUploadBufferOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
             self.gatewayARN = output.gatewayARN
@@ -8878,7 +8878,7 @@ extension DescribeVTLDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVTLDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -9022,7 +9022,7 @@ extension DescribeWorkingStorageOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWorkingStorageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.diskIds = output.diskIds
             self.gatewayARN = output.gatewayARN
@@ -9188,7 +9188,7 @@ extension DetachVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DetachVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -9368,7 +9368,7 @@ extension DisableGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisableGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -9494,7 +9494,7 @@ extension DisassociateFileSystemOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -10452,7 +10452,7 @@ extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -10515,7 +10515,7 @@ extension InvalidGatewayRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidGatewayRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -10743,7 +10743,7 @@ extension JoinDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: JoinDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryStatus = output.activeDirectoryStatus
             self.gatewayARN = output.gatewayARN
@@ -10880,7 +10880,7 @@ extension ListAutomaticTapeCreationPoliciesOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAutomaticTapeCreationPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.automaticTapeCreationPolicyInfos = output.automaticTapeCreationPolicyInfos
         } else {
@@ -11026,7 +11026,7 @@ extension ListFileSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFileSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareInfoList = output.fileShareInfoList
             self.marker = output.marker
@@ -11192,7 +11192,7 @@ extension ListFileSystemAssociationsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFileSystemAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationSummaryList = output.fileSystemAssociationSummaryList
             self.marker = output.marker
@@ -11350,7 +11350,7 @@ extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gateways = output.gateways
             self.marker = output.marker
@@ -11483,7 +11483,7 @@ extension ListLocalDisksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLocalDisksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.disks = output.disks
             self.gatewayARN = output.gatewayARN
@@ -11642,7 +11642,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.resourceARN = output.resourceARN
@@ -11820,7 +11820,7 @@ extension ListTapePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTapePoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.poolInfos = output.poolInfos
@@ -11994,7 +11994,7 @@ extension ListTapesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTapesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.tapeInfos = output.tapeInfos
@@ -12132,7 +12132,7 @@ extension ListVolumeInitiatorsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVolumeInitiatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiators = output.initiators
         } else {
@@ -12255,7 +12255,7 @@ extension ListVolumeRecoveryPointsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVolumeRecoveryPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.volumeRecoveryPointInfos = output.volumeRecoveryPointInfos
@@ -12415,7 +12415,7 @@ extension ListVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.marker = output.marker
@@ -12977,7 +12977,7 @@ extension NotifyWhenUploadedOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotifyWhenUploadedOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
             self.notificationId = output.notificationId
@@ -13302,7 +13302,7 @@ extension RefreshCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RefreshCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
             self.notificationId = output.notificationId
@@ -13452,7 +13452,7 @@ extension RemoveTagsFromResourceOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RemoveTagsFromResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -13566,7 +13566,7 @@ extension ResetCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResetCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -13728,7 +13728,7 @@ extension RetrieveTapeArchiveOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RetrieveTapeArchiveOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -13856,7 +13856,7 @@ extension RetrieveTapeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RetrieveTapeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tapeARN = output.tapeARN
         } else {
@@ -14343,7 +14343,7 @@ extension ServiceUnavailableError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableErrorBody = try responseDecoder.decode(responseBody: data)
             self.error = output.error
             self.message = output.message
@@ -14497,7 +14497,7 @@ extension SetLocalConsolePasswordOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetLocalConsolePasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14629,7 +14629,7 @@ extension SetSMBGuestPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetSMBGuestPasswordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14743,7 +14743,7 @@ extension ShutdownGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ShutdownGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14857,7 +14857,7 @@ extension StartAvailabilityMonitorTestOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartAvailabilityMonitorTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -14971,7 +14971,7 @@ extension StartGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -15901,7 +15901,7 @@ extension UpdateAutomaticTapeCreationPolicyOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAutomaticTapeCreationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16043,7 +16043,7 @@ extension UpdateBandwidthRateLimitOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBandwidthRateLimitOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16182,7 +16182,7 @@ extension UpdateBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16347,7 +16347,7 @@ extension UpdateChapCredentialsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateChapCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.initiatorName = output.initiatorName
             self.targetARN = output.targetARN
@@ -16524,7 +16524,7 @@ extension UpdateFileSystemAssociationOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateFileSystemAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemAssociationARN = output.fileSystemAssociationARN
         } else {
@@ -16685,7 +16685,7 @@ extension UpdateGatewayInformationOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
             self.gatewayName = output.gatewayName
@@ -16810,7 +16810,7 @@ extension UpdateGatewaySoftwareNowOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGatewaySoftwareNowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -16983,7 +16983,7 @@ extension UpdateMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -17284,7 +17284,7 @@ extension UpdateNFSFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateNFSFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -17651,7 +17651,7 @@ extension UpdateSMBFileShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSMBFileShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileShareARN = output.fileShareARN
         } else {
@@ -17778,7 +17778,7 @@ extension UpdateSMBFileShareVisibilityOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSMBFileShareVisibilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -17904,7 +17904,7 @@ extension UpdateSMBLocalGroupsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSMBLocalGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -18030,7 +18030,7 @@ extension UpdateSMBSecurityStrategyOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSMBSecurityStrategyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayARN = output.gatewayARN
         } else {
@@ -18214,7 +18214,7 @@ extension UpdateSnapshotScheduleOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSnapshotScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeARN = output.volumeARN
         } else {
@@ -18341,7 +18341,7 @@ extension UpdateVTLDeviceTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVTLDeviceTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vtlDeviceARN = output.vtlDeviceARN
         } else {

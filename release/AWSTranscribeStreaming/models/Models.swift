@@ -186,7 +186,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -805,7 +805,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1051,7 +1051,7 @@ extension InternalFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1407,7 +1407,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2419,7 +2419,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2809,8 +2809,7 @@ extension StartCallAnalyticsStreamTranscriptionOutputResponse: ClientRuntime.Htt
         } else {
             self.vocabularyName = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: TranscribeStreamingClientTypes.CallAnalyticsTranscriptResultStream = try responseDecoder.decode(responseBody: data)
                 self.callAnalyticsTranscriptResultStream = output
@@ -3183,8 +3182,7 @@ extension StartMedicalStreamTranscriptionOutputResponse: ClientRuntime.HttpRespo
         } else {
             self.vocabularyName = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: TranscribeStreamingClientTypes.MedicalTranscriptResultStream = try responseDecoder.decode(responseBody: data)
                 self.transcriptResultStream = output
@@ -3666,8 +3664,7 @@ extension StartStreamTranscriptionOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.vocabularyNames = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: TranscribeStreamingClientTypes.TranscriptResultStream = try responseDecoder.decode(responseBody: data)
                 self.transcriptResultStream = output

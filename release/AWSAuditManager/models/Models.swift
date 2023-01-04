@@ -96,7 +96,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2100,7 +2100,7 @@ extension BatchAssociateAssessmentReportEvidenceOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchAssociateAssessmentReportEvidenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.evidenceIds = output.evidenceIds
@@ -2320,7 +2320,7 @@ extension BatchCreateDelegationByAssessmentOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchCreateDelegationByAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegations = output.delegations
             self.errors = output.errors
@@ -2540,7 +2540,7 @@ extension BatchDeleteDelegationByAssessmentOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteDelegationByAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -2699,7 +2699,7 @@ extension BatchDisassociateAssessmentReportEvidenceOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDisassociateAssessmentReportEvidenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.evidenceIds = output.evidenceIds
@@ -2935,7 +2935,7 @@ extension BatchImportEvidenceToAssessmentControlOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchImportEvidenceToAssessmentControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -4189,7 +4189,7 @@ extension CreateAssessmentFrameworkOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAssessmentFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.framework = output.framework
         } else {
@@ -4408,7 +4408,7 @@ extension CreateAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
@@ -4557,7 +4557,7 @@ extension CreateAssessmentReportOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAssessmentReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentReport = output.assessmentReport
         } else {
@@ -4876,7 +4876,7 @@ extension CreateControlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.control = output.control
         } else {
@@ -5668,7 +5668,7 @@ extension DeregisterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeregisterAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -6628,7 +6628,7 @@ extension GetAccountStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccountStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -6728,7 +6728,7 @@ extension GetAssessmentFrameworkOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAssessmentFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.framework = output.framework
         } else {
@@ -6828,7 +6828,7 @@ extension GetAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
             self.userRole = output.userRole
@@ -6946,7 +6946,7 @@ extension GetAssessmentReportUrlOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAssessmentReportUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.preSignedUrl = output.preSignedUrl
         } else {
@@ -7087,7 +7087,7 @@ extension GetChangeLogsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetChangeLogsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeLogs = output.changeLogs
             self.nextToken = output.nextToken
@@ -7206,7 +7206,7 @@ extension GetControlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.control = output.control
         } else {
@@ -7321,7 +7321,7 @@ extension GetDelegationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDelegationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.delegations = output.delegations
             self.nextToken = output.nextToken
@@ -7481,7 +7481,7 @@ extension GetEvidenceByEvidenceFolderOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEvidenceByEvidenceFolderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evidence = output.evidence
             self.nextToken = output.nextToken
@@ -7616,7 +7616,7 @@ extension GetEvidenceFolderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEvidenceFolderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evidenceFolder = output.evidenceFolder
         } else {
@@ -7757,7 +7757,7 @@ extension GetEvidenceFoldersByAssessmentControlOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEvidenceFoldersByAssessmentControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evidenceFolders = output.evidenceFolders
             self.nextToken = output.nextToken
@@ -7901,7 +7901,7 @@ extension GetEvidenceFoldersByAssessmentOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEvidenceFoldersByAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evidenceFolders = output.evidenceFolders
             self.nextToken = output.nextToken
@@ -8044,7 +8044,7 @@ extension GetEvidenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetEvidenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.evidence = output.evidence
         } else {
@@ -8144,7 +8144,7 @@ extension GetInsightsByAssessmentOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetInsightsByAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insights = output.insights
         } else {
@@ -8229,7 +8229,7 @@ extension GetInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insights = output.insights
         } else {
@@ -8318,7 +8318,7 @@ extension GetOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetOrganizationAdminAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adminAccountId = output.adminAccountId
             self.organizationId = output.organizationId
@@ -8415,7 +8415,7 @@ extension GetServicesInScopeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetServicesInScopeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceMetadata = output.serviceMetadata
         } else {
@@ -8520,7 +8520,7 @@ extension GetSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.settings = output.settings
         } else {
@@ -8749,7 +8749,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8929,7 +8929,7 @@ extension ListAssessmentControlInsightsByControlDomainOutputResponse: ClientRunt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssessmentControlInsightsByControlDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlInsightsByAssessment = output.controlInsightsByAssessment
             self.nextToken = output.nextToken
@@ -9074,7 +9074,7 @@ extension ListAssessmentFrameworkShareRequestsOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssessmentFrameworkShareRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentFrameworkShareRequests = output.assessmentFrameworkShareRequests
             self.nextToken = output.nextToken
@@ -9219,7 +9219,7 @@ extension ListAssessmentFrameworksOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssessmentFrameworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.frameworkMetadataList = output.frameworkMetadataList
             self.nextToken = output.nextToken
@@ -9353,7 +9353,7 @@ extension ListAssessmentReportsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssessmentReportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentReports = output.assessmentReports
             self.nextToken = output.nextToken
@@ -9495,7 +9495,7 @@ extension ListAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAssessmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentMetadata = output.assessmentMetadata
             self.nextToken = output.nextToken
@@ -9642,7 +9642,7 @@ extension ListControlDomainInsightsByAssessmentOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListControlDomainInsightsByAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlDomainInsights = output.controlDomainInsights
             self.nextToken = output.nextToken
@@ -9778,7 +9778,7 @@ extension ListControlDomainInsightsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListControlDomainInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlDomainInsights = output.controlDomainInsights
             self.nextToken = output.nextToken
@@ -9925,7 +9925,7 @@ extension ListControlInsightsByControlDomainOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListControlInsightsByControlDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlInsightsMetadata = output.controlInsightsMetadata
             self.nextToken = output.nextToken
@@ -10070,7 +10070,7 @@ extension ListControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListControlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlMetadataList = output.controlMetadataList
             self.nextToken = output.nextToken
@@ -10215,7 +10215,7 @@ extension ListKeywordsForDataSourceOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListKeywordsForDataSourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keywords = output.keywords
             self.nextToken = output.nextToken
@@ -10349,7 +10349,7 @@ extension ListNotificationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notifications = output.notifications
@@ -10466,7 +10466,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10786,7 +10786,7 @@ extension RegisterAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -10903,7 +10903,7 @@ extension RegisterOrganizationAdminAccountOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterOrganizationAdminAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adminAccountId = output.adminAccountId
             self.organizationId = output.organizationId
@@ -11015,7 +11015,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -11303,7 +11303,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11904,7 +11904,7 @@ extension StartAssessmentFrameworkShareOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartAssessmentFrameworkShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentFrameworkShareRequest = output.assessmentFrameworkShareRequest
         } else {
@@ -12049,7 +12049,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12347,7 +12347,7 @@ extension UpdateAssessmentControlOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.control = output.control
         } else {
@@ -12493,7 +12493,7 @@ extension UpdateAssessmentControlSetStatusOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentControlSetStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.controlSet = output.controlSet
         } else {
@@ -12736,7 +12736,7 @@ extension UpdateAssessmentFrameworkOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.framework = output.framework
         } else {
@@ -12874,7 +12874,7 @@ extension UpdateAssessmentFrameworkShareOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentFrameworkShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessmentFrameworkShareRequest = output.assessmentFrameworkShareRequest
         } else {
@@ -13059,7 +13059,7 @@ extension UpdateAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
@@ -13186,7 +13186,7 @@ extension UpdateAssessmentStatusOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAssessmentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assessment = output.assessment
         } else {
@@ -13384,7 +13384,7 @@ extension UpdateControlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateControlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.control = output.control
         } else {
@@ -13558,7 +13558,7 @@ extension UpdateSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.settings = output.settings
         } else {
@@ -13675,7 +13675,7 @@ extension ValidateAssessmentReportIntegrityOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidateAssessmentReportIntegrityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.signatureAlgorithm = output.signatureAlgorithm
             self.signatureDateTime = output.signatureDateTime
@@ -13765,7 +13765,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message

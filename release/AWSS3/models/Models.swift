@@ -2255,7 +2255,7 @@ extension CompleteMultipartUploadOutputResponse: ClientRuntime.HttpResponseBindi
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CompleteMultipartUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.checksumCRC32 = output.checksumCRC32
@@ -3117,8 +3117,7 @@ extension CopyObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.versionId = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.CopyObjectResult = try responseDecoder.decode(responseBody: data)
                 self.copyObjectResult = output
@@ -4044,7 +4043,7 @@ extension CreateMultipartUploadOutputResponse: ClientRuntime.HttpResponseBinding
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateMultipartUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.key = output.key
@@ -6304,7 +6303,7 @@ extension DeleteObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleted = output.deleted
             self.errors = output.errors
@@ -8543,7 +8542,7 @@ extension GetBucketAccelerateConfigurationOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketAccelerateConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -8674,7 +8673,7 @@ extension GetBucketAclOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketAclOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.owner = output.owner
@@ -8842,8 +8841,7 @@ public enum GetBucketAnalyticsConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketAnalyticsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.AnalyticsConfiguration = try responseDecoder.decode(responseBody: data)
                 self.analyticsConfiguration = output
@@ -8978,7 +8976,7 @@ extension GetBucketCorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketCorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.corsRules = output.corsRules
         } else {
@@ -9123,8 +9121,7 @@ public enum GetBucketEncryptionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketEncryptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.ServerSideEncryptionConfiguration = try responseDecoder.decode(responseBody: data)
                 self.serverSideEncryptionConfiguration = output
@@ -9255,8 +9252,7 @@ public enum GetBucketIntelligentTieringConfigurationOutputError: Swift.Error, Sw
 
 extension GetBucketIntelligentTieringConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.IntelligentTieringConfiguration = try responseDecoder.decode(responseBody: data)
                 self.intelligentTieringConfiguration = output
@@ -9401,8 +9397,7 @@ public enum GetBucketInventoryConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketInventoryConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.InventoryConfiguration = try responseDecoder.decode(responseBody: data)
                 self.inventoryConfiguration = output
@@ -9537,7 +9532,7 @@ extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketLifecycleConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
@@ -9684,7 +9679,7 @@ extension GetBucketLocationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketLocationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locationConstraint = output.locationConstraint
         } else {
@@ -9815,7 +9810,7 @@ extension GetBucketLoggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketLoggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingEnabled = output.loggingEnabled
         } else {
@@ -9956,8 +9951,7 @@ public enum GetBucketMetricsConfigurationOutputError: Swift.Error, Swift.Equatab
 
 extension GetBucketMetricsConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.MetricsConfiguration = try responseDecoder.decode(responseBody: data)
                 self.metricsConfiguration = output
@@ -10092,7 +10086,7 @@ extension GetBucketNotificationConfigurationOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketNotificationConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.eventBridgeConfiguration = output.eventBridgeConfiguration
             self.lambdaFunctionConfigurations = output.lambdaFunctionConfigurations
@@ -10300,8 +10294,7 @@ public enum GetBucketOwnershipControlsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetBucketOwnershipControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.OwnershipControls = try responseDecoder.decode(responseBody: data)
                 self.ownershipControls = output
@@ -10434,8 +10427,7 @@ public enum GetBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let output = Swift.String(data: data, encoding: .utf8) {
                 self.policy = output
             } else {
@@ -10567,8 +10559,7 @@ public enum GetBucketPolicyStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.PolicyStatus = try responseDecoder.decode(responseBody: data)
                 self.policyStatus = output
@@ -10701,8 +10692,7 @@ public enum GetBucketReplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketReplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.ReplicationConfiguration = try responseDecoder.decode(responseBody: data)
                 self.replicationConfiguration = output
@@ -10837,7 +10827,7 @@ extension GetBucketRequestPaymentOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketRequestPaymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.payer = output.payer
         } else {
@@ -10968,7 +10958,7 @@ extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
@@ -11117,7 +11107,7 @@ extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketVersioningOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mfaDelete = output.mfaDelete
             self.status = output.status
@@ -11258,7 +11248,7 @@ extension GetBucketWebsiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBucketWebsiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errorDocument = output.errorDocument
             self.indexDocument = output.indexDocument
@@ -11466,7 +11456,7 @@ extension GetObjectAclOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetObjectAclOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.grants = output.grants
             self.owner = output.owner
@@ -11723,7 +11713,7 @@ extension GetObjectAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetObjectAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.eTag = output.eTag
@@ -12434,8 +12424,7 @@ public enum GetObjectLegalHoldOutputError: Swift.Error, Swift.Equatable {
 
 extension GetObjectLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.ObjectLockLegalHold = try responseDecoder.decode(responseBody: data)
                 self.legalHold = output
@@ -12568,8 +12557,7 @@ public enum GetObjectLockConfigurationOutputError: Swift.Error, Swift.Equatable 
 
 extension GetObjectLockConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.ObjectLockConfiguration = try responseDecoder.decode(responseBody: data)
                 self.objectLockConfiguration = output
@@ -12841,9 +12829,8 @@ extension GetObjectOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.metadata = [:]
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader
-            self.body = data
+        if let data = httpResponse.body.toBytes()?.getData() {
+            self.body = ByteStream.from(data: data)
         } else {
             self.body = nil
         }
@@ -13141,8 +13128,7 @@ public enum GetObjectRetentionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetObjectRetentionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.ObjectLockRetention = try responseDecoder.decode(responseBody: data)
                 self.retention = output
@@ -13305,7 +13291,7 @@ extension GetObjectTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetObjectTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
@@ -13476,9 +13462,8 @@ extension GetObjectTorrentOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.requestCharged = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader
-            self.body = data
+        if let data = httpResponse.body.toBytes()?.getData() {
+            self.body = ByteStream.from(data: data)
         } else {
             self.body = nil
         }
@@ -13617,8 +13602,7 @@ public enum GetPublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
                 self.publicAccessBlockConfiguration = output
@@ -15073,9 +15057,8 @@ extension S3ClientTypes {
 
 extension InvalidObjectState {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil, requestID2: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: InvalidObjectStateBody = try responseDecoder.decode(responseBody: data)
             self.accessTier = output.accessTier
             self.storageClass = output.storageClass
@@ -16528,7 +16511,7 @@ extension ListBucketAnalyticsConfigurationsOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBucketAnalyticsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analyticsConfigurationList = output.analyticsConfigurationList
             self.continuationToken = output.continuationToken
@@ -16700,7 +16683,7 @@ extension ListBucketIntelligentTieringConfigurationsOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBucketIntelligentTieringConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.intelligentTieringConfigurationList = output.intelligentTieringConfigurationList
@@ -16886,7 +16869,7 @@ extension ListBucketInventoryConfigurationsOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBucketInventoryConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.inventoryConfigurationList = output.inventoryConfigurationList
@@ -17072,7 +17055,7 @@ extension ListBucketMetricsConfigurationsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBucketMetricsConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.continuationToken = output.continuationToken
             self.isTruncated = output.isTruncated
@@ -17217,7 +17200,7 @@ extension ListBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.buckets = output.buckets
             self.owner = output.owner
@@ -17423,7 +17406,7 @@ extension ListMultipartUploadsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMultipartUploadsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.bucket = output.bucket
@@ -17744,7 +17727,7 @@ extension ListObjectVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListObjectVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -18091,7 +18074,7 @@ extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -18409,7 +18392,7 @@ extension ListObjectsV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListObjectsV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.`prefix` = output.`prefix`
             self.commonPrefixes = output.commonPrefixes
@@ -18765,7 +18748,7 @@ extension ListPartsOutputResponse: ClientRuntime.HttpResponseBinding {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.checksumAlgorithm = output.checksumAlgorithm
@@ -29830,8 +29813,7 @@ public enum SelectObjectContentOutputError: Swift.Error, Swift.Equatable {
 
 extension SelectObjectContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.SelectObjectContentEventStream = try responseDecoder.decode(responseBody: data)
                 self.payload = output
@@ -31534,8 +31516,7 @@ extension UploadPartCopyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.serverSideEncryption = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: S3ClientTypes.CopyPartResult = try responseDecoder.decode(responseBody: data)
                 self.copyPartResult = output

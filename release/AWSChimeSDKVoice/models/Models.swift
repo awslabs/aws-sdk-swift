@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -340,7 +340,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponse: ClientRunt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociatePhoneNumbersWithVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -512,7 +512,7 @@ extension AssociatePhoneNumbersWithVoiceConnectorOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociatePhoneNumbersWithVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -561,7 +561,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -724,7 +724,7 @@ extension BatchDeletePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeletePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -876,7 +876,7 @@ extension BatchUpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchUpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -1087,7 +1087,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -1254,7 +1254,7 @@ extension CreatePhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePhoneNumberOrderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberOrder = output.phoneNumberOrder
         } else {
@@ -1478,7 +1478,7 @@ extension CreateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.proxySession = output.proxySession
         } else {
@@ -1671,7 +1671,7 @@ extension CreateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSipMediaApplicationCallOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationCall = output.sipMediaApplicationCall
         } else {
@@ -1832,7 +1832,7 @@ extension CreateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplication = output.sipMediaApplication
         } else {
@@ -2015,7 +2015,7 @@ extension CreateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipRule = output.sipRule
         } else {
@@ -2161,7 +2161,7 @@ extension CreateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnectorGroup = output.voiceConnectorGroup
         } else {
@@ -2307,7 +2307,7 @@ extension CreateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnector = output.voiceConnector
         } else {
@@ -3516,7 +3516,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponse: ClientR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociatePhoneNumbersFromVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -3675,7 +3675,7 @@ extension DisassociatePhoneNumbersFromVoiceConnectorOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociatePhoneNumbersFromVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberErrors = output.phoneNumberErrors
         } else {
@@ -3843,7 +3843,7 @@ extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -4031,7 +4031,7 @@ extension GetGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGlobalSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnector = output.voiceConnector
         } else {
@@ -4170,7 +4170,7 @@ extension GetPhoneNumberOrderOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPhoneNumberOrderOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberOrder = output.phoneNumberOrder
         } else {
@@ -4244,7 +4244,7 @@ extension GetPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumber = output.phoneNumber
         } else {
@@ -4341,7 +4341,7 @@ extension GetPhoneNumberSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPhoneNumberSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.callingName = output.callingName
             self.callingNameUpdatedTimestamp = output.callingNameUpdatedTimestamp
@@ -4461,7 +4461,7 @@ extension GetProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.proxySession = output.proxySession
         } else {
@@ -4565,7 +4565,7 @@ extension GetSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSipMediaApplicationAlexaSkillConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
         } else {
@@ -4699,7 +4699,7 @@ extension GetSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSipMediaApplicationLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
         } else {
@@ -4773,7 +4773,7 @@ extension GetSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplication = output.sipMediaApplication
         } else {
@@ -4877,7 +4877,7 @@ extension GetSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipRule = output.sipRule
         } else {
@@ -4981,7 +4981,7 @@ extension GetVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRu
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorEmergencyCallingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
         } else {
@@ -5085,7 +5085,7 @@ extension GetVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnectorGroup = output.voiceConnectorGroup
         } else {
@@ -5219,7 +5219,7 @@ extension GetVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -5323,7 +5323,7 @@ extension GetVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorOriginationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.origination = output.origination
         } else {
@@ -5397,7 +5397,7 @@ extension GetVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnector = output.voiceConnector
         } else {
@@ -5501,7 +5501,7 @@ extension GetVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorProxyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.proxy = output.proxy
         } else {
@@ -5605,7 +5605,7 @@ extension GetVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorStreamingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.streamingConfiguration = output.streamingConfiguration
         } else {
@@ -5709,7 +5709,7 @@ extension GetVoiceConnectorTerminationHealthOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorTerminationHealthOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.terminationHealth = output.terminationHealth
         } else {
@@ -5813,7 +5813,7 @@ extension GetVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVoiceConnectorTerminationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.termination = output.termination
         } else {
@@ -5905,7 +5905,7 @@ extension ListAvailableVoiceConnectorRegionsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableVoiceConnectorRegionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnectorRegions = output.voiceConnectorRegions
         } else {
@@ -6032,7 +6032,7 @@ extension ListPhoneNumberOrdersOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPhoneNumberOrdersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumberOrders = output.phoneNumberOrders
@@ -6198,7 +6198,7 @@ extension ListPhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumbers = output.phoneNumbers
@@ -6350,7 +6350,7 @@ extension ListProxySessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProxySessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.proxySessions = output.proxySessions
@@ -6486,7 +6486,7 @@ extension ListSipMediaApplicationsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSipMediaApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sipMediaApplications = output.sipMediaApplications
@@ -6629,7 +6629,7 @@ extension ListSipRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSipRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sipRules = output.sipRules
@@ -6763,7 +6763,7 @@ extension ListSupportedPhoneNumberCountriesOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSupportedPhoneNumberCountriesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumberCountries = output.phoneNumberCountries
         } else {
@@ -6890,7 +6890,7 @@ extension ListVoiceConnectorGroupsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVoiceConnectorGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceConnectorGroups = output.voiceConnectorGroups
@@ -7012,7 +7012,7 @@ extension ListVoiceConnectorTerminationCredentialsOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVoiceConnectorTerminationCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.usernames = output.usernames
         } else {
@@ -7139,7 +7139,7 @@ extension ListVoiceConnectorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVoiceConnectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.voiceConnectors = output.voiceConnectors
@@ -7230,7 +7230,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -8759,7 +8759,7 @@ extension PutSipMediaApplicationAlexaSkillConfigurationOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutSipMediaApplicationAlexaSkillConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationAlexaSkillConfiguration = output.sipMediaApplicationAlexaSkillConfiguration
         } else {
@@ -8886,7 +8886,7 @@ extension PutSipMediaApplicationLoggingConfigurationOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutSipMediaApplicationLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationLoggingConfiguration = output.sipMediaApplicationLoggingConfiguration
         } else {
@@ -9014,7 +9014,7 @@ extension PutVoiceConnectorEmergencyCallingConfigurationOutputResponse: ClientRu
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorEmergencyCallingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.emergencyCallingConfiguration = output.emergencyCallingConfiguration
         } else {
@@ -9142,7 +9142,7 @@ extension PutVoiceConnectorLoggingConfigurationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -9270,7 +9270,7 @@ extension PutVoiceConnectorOriginationOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorOriginationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.origination = output.origination
         } else {
@@ -9451,7 +9451,7 @@ extension PutVoiceConnectorProxyOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorProxyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.proxy = output.proxy
         } else {
@@ -9579,7 +9579,7 @@ extension PutVoiceConnectorStreamingConfigurationOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorStreamingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.streamingConfiguration = output.streamingConfiguration
         } else {
@@ -9828,7 +9828,7 @@ extension PutVoiceConnectorTerminationOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutVoiceConnectorTerminationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.termination = output.termination
         } else {
@@ -9868,7 +9868,7 @@ extension ResourceLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10009,7 +10009,7 @@ extension RestorePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RestorePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumber = output.phoneNumber
         } else {
@@ -10172,7 +10172,7 @@ extension SearchAvailablePhoneNumbersOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchAvailablePhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.e164PhoneNumbers = output.e164PhoneNumbers
             self.nextToken = output.nextToken
@@ -10230,7 +10230,7 @@ extension ServiceFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -10290,7 +10290,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -11029,7 +11029,7 @@ extension ThrottledClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottledClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -11089,7 +11089,7 @@ extension UnauthorizedClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnauthorizedClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.message = output.message
@@ -11342,7 +11342,7 @@ extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.phoneNumber = output.phoneNumber
         } else {
@@ -11651,7 +11651,7 @@ extension UpdateProxySessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProxySessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.proxySession = output.proxySession
         } else {
@@ -11800,7 +11800,7 @@ extension UpdateSipMediaApplicationCallOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSipMediaApplicationCallOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplicationCall = output.sipMediaApplicationCall
         } else {
@@ -11952,7 +11952,7 @@ extension UpdateSipMediaApplicationOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSipMediaApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipMediaApplication = output.sipMediaApplication
         } else {
@@ -12118,7 +12118,7 @@ extension UpdateSipRuleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSipRuleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sipRule = output.sipRule
         } else {
@@ -12272,7 +12272,7 @@ extension UpdateVoiceConnectorGroupOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVoiceConnectorGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnectorGroup = output.voiceConnectorGroup
         } else {
@@ -12412,7 +12412,7 @@ extension UpdateVoiceConnectorOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVoiceConnectorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.voiceConnector = output.voiceConnector
         } else {
@@ -12610,7 +12610,7 @@ extension ValidateE911AddressOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidateE911AddressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.address = output.address
             self.addressExternalId = output.addressExternalId

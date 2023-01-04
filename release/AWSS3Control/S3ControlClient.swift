@@ -38,10 +38,6 @@ public class S3ControlClient {
         self.init(config: config)
     }
 
-    deinit {
-        client.close()
-    }
-
     public class S3ControlClientConfiguration: S3ControlClientConfigurationProtocol {
         public var clientLogMode: ClientRuntime.ClientLogMode
         public var decoder: ClientRuntime.ResponseDecoder?
@@ -90,7 +86,7 @@ public class S3ControlClient {
             }
             self.frameworkMetadata = frameworkMetadata
             self.region = region
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useArnRegion = useArnRegion
             self.useDualStack = useDualStack
@@ -157,9 +153,9 @@ public class S3ControlClient {
                 self.endpointResolver = try DefaultEndpointResolver()
             }
             self.frameworkMetadata = frameworkMetadata
-            let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
             self.region = await resolvedRegionResolver.resolveRegion()
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useArnRegion = useArnRegion
             self.useDualStack = useDualStack

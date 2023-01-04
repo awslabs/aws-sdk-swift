@@ -393,7 +393,7 @@ extension BatchGetCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchGetCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionDetails = output.collectionDetails
             self.collectionErrorDetails = output.collectionErrorDetails
@@ -546,7 +546,7 @@ extension BatchGetVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchGetVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpointDetails = output.vpcEndpointDetails
             self.vpcEndpointErrorDetails = output.vpcEndpointErrorDetails
@@ -1046,7 +1046,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1222,7 +1222,7 @@ extension CreateAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
         } else {
@@ -1512,7 +1512,7 @@ extension CreateCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createCollectionDetail = output.createCollectionDetail
         } else {
@@ -1676,7 +1676,7 @@ extension CreateSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
         } else {
@@ -1841,7 +1841,7 @@ extension CreateSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
         } else {
@@ -2085,7 +2085,7 @@ extension CreateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createVpcEndpointDetail = output.createVpcEndpointDetail
         } else {
@@ -2380,7 +2380,7 @@ extension DeleteCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleteCollectionDetail = output.deleteCollectionDetail
         } else {
@@ -2773,7 +2773,7 @@ extension DeleteVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deleteVpcEndpointDetail = output.deleteVpcEndpointDetail
         } else {
@@ -2901,7 +2901,7 @@ extension GetAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
         } else {
@@ -2994,7 +2994,7 @@ extension GetAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettingsDetail = output.accountSettingsDetail
         } else {
@@ -3085,7 +3085,7 @@ extension GetPoliciesStatsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPoliciesStatsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyStats = output.accessPolicyStats
             self.securityConfigStats = output.securityConfigStats
@@ -3230,7 +3230,7 @@ extension GetSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
         } else {
@@ -3358,7 +3358,7 @@ extension GetSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
         } else {
@@ -3399,7 +3399,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3571,7 +3571,7 @@ extension ListAccessPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicySummaries = output.accessPolicySummaries
             self.nextToken = output.nextToken
@@ -3726,7 +3726,7 @@ extension ListCollectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionSummaries = output.collectionSummaries
             self.nextToken = output.nextToken
@@ -3882,7 +3882,7 @@ extension ListSecurityConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSecurityConfigsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.securityConfigSummaries = output.securityConfigSummaries
@@ -4062,7 +4062,7 @@ extension ListSecurityPoliciesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSecurityPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.securityPolicySummaries = output.securityPolicySummaries
@@ -4196,7 +4196,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4341,7 +4341,7 @@ extension ListVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vpcEndpointSummaries = output.vpcEndpointSummaries
@@ -4401,7 +4401,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5430,7 +5430,7 @@ extension UpdateAccessPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicyDetail = output.accessPolicyDetail
         } else {
@@ -5542,7 +5542,7 @@ extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountSettingsDetail = output.accountSettingsDetail
         } else {
@@ -5786,7 +5786,7 @@ extension UpdateCollectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updateCollectionDetail = output.updateCollectionDetail
         } else {
@@ -5952,7 +5952,7 @@ extension UpdateSecurityConfigOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSecurityConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityConfigDetail = output.securityConfigDetail
         } else {
@@ -6131,7 +6131,7 @@ extension UpdateSecurityPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSecurityPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.securityPolicyDetail = output.securityPolicyDetail
         } else {
@@ -6463,7 +6463,7 @@ extension UpdateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updateVpcEndpointDetail = output.updateVpcEndpointDetail
         } else {
@@ -6504,7 +6504,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

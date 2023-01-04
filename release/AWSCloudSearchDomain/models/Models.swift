@@ -130,7 +130,7 @@ extension DocumentServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DocumentServiceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.status = output.status
@@ -559,7 +559,7 @@ extension SearchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -826,7 +826,7 @@ extension SearchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.facets = output.facets
             self.hits = output.hits
@@ -1115,7 +1115,7 @@ extension SuggestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SuggestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
             self.suggest = output.suggest
@@ -1297,7 +1297,7 @@ extension UploadDocumentsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let documents = self.documents {
-            try encodeContainer.encode(documents.toBytes().toData(), forKey: .documents)
+            try encodeContainer.encode(documents.toBytes().getData(), forKey: .documents)
         }
     }
 }
@@ -1393,7 +1393,7 @@ extension UploadDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UploadDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adds = output.adds
             self.deletes = output.deletes

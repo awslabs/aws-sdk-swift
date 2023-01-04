@@ -32,10 +32,6 @@ public class STSClient {
         self.init(config: config)
     }
 
-    deinit {
-        client.close()
-    }
-
     public class STSClientConfiguration: STSClientConfigurationProtocol {
         public var clientLogMode: ClientRuntime.ClientLogMode
         public var decoder: ClientRuntime.ResponseDecoder?
@@ -84,7 +80,7 @@ public class STSClient {
             }
             self.frameworkMetadata = frameworkMetadata
             self.region = region
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS
@@ -151,9 +147,9 @@ public class STSClient {
                 self.endpointResolver = try DefaultEndpointResolver()
             }
             self.frameworkMetadata = frameworkMetadata
-            let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
             self.region = await resolvedRegionResolver.resolveRegion()
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS

@@ -1786,8 +1786,7 @@ public enum CreateComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
                 self.entity = output
@@ -2135,8 +2134,7 @@ public enum CreateFormOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
                 self.entity = output
@@ -2429,8 +2427,7 @@ public enum CreateThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
                 self.entity = output
@@ -2845,7 +2842,7 @@ extension ExchangeCodeForTokenOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExchangeCodeForTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
@@ -3041,7 +3038,7 @@ extension ExportComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExportComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -3182,7 +3179,7 @@ extension ExportFormsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExportFormsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -3323,7 +3320,7 @@ extension ExportThemesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExportThemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -4628,8 +4625,7 @@ public enum GetComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
                 self.component = output
@@ -4745,8 +4741,7 @@ public enum GetFormOutputError: Swift.Error, Swift.Equatable {
 
 extension GetFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
                 self.form = output
@@ -4854,7 +4849,7 @@ extension GetMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.features = output.features
         } else {
@@ -4976,8 +4971,7 @@ public enum GetThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension GetThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
                 self.theme = output
@@ -5022,7 +5016,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5074,7 +5068,7 @@ extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5214,7 +5208,7 @@ extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListComponentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -5363,7 +5357,7 @@ extension ListFormsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFormsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -5512,7 +5506,7 @@ extension ListThemesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListThemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.nextToken = output.nextToken
@@ -6031,7 +6025,7 @@ extension RefreshTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RefreshTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessToken = output.accessToken
             self.expiresIn = output.expiresIn
@@ -6125,7 +6119,7 @@ extension ResourceConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6177,7 +6171,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6305,7 +6299,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6794,7 +6788,7 @@ extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7236,8 +7230,7 @@ public enum UpdateComponentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateComponentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Component = try responseDecoder.decode(responseBody: data)
                 self.entity = output
@@ -7562,8 +7555,7 @@ public enum UpdateFormOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateFormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Form = try responseDecoder.decode(responseBody: data)
                 self.entity = output
@@ -7849,8 +7841,7 @@ public enum UpdateThemeOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateThemeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: AmplifyUIBuilderClientTypes.Theme = try responseDecoder.decode(responseBody: data)
                 self.entity = output

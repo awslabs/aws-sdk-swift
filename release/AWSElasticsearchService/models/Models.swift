@@ -64,7 +64,7 @@ extension AcceptInboundCrossClusterSearchConnectionOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AcceptInboundCrossClusterSearchConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnection = output.crossClusterSearchConnection
         } else {
@@ -106,7 +106,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -727,7 +727,7 @@ extension AssociatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainPackageDetails = output.domainPackageDetails
         } else {
@@ -858,7 +858,7 @@ extension AuthorizeVpcEndpointAccessOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AuthorizeVpcEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorizedPrincipal = output.authorizedPrincipal
         } else {
@@ -1500,7 +1500,7 @@ extension BaseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BaseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1630,7 +1630,7 @@ extension CancelElasticsearchServiceSoftwareUpdateOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelElasticsearchServiceSoftwareUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceSoftwareOptions = output.serviceSoftwareOptions
         } else {
@@ -2118,7 +2118,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2469,7 +2469,7 @@ extension CreateElasticsearchDomainOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateElasticsearchDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -2614,7 +2614,7 @@ extension CreateOutboundCrossClusterSearchConnectionOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateOutboundCrossClusterSearchConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionAlias = output.connectionAlias
             self.connectionStatus = output.connectionStatus
@@ -2817,7 +2817,7 @@ extension CreatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.packageDetails = output.packageDetails
         } else {
@@ -2965,7 +2965,7 @@ extension CreateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpoint = output.vpcEndpoint
         } else {
@@ -3068,7 +3068,7 @@ extension DeleteElasticsearchDomainOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteElasticsearchDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -3222,7 +3222,7 @@ extension DeleteInboundCrossClusterSearchConnectionOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteInboundCrossClusterSearchConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnection = output.crossClusterSearchConnection
         } else {
@@ -3320,7 +3320,7 @@ extension DeleteOutboundCrossClusterSearchConnectionOutputResponse: ClientRuntim
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteOutboundCrossClusterSearchConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnection = output.crossClusterSearchConnection
         } else {
@@ -3426,7 +3426,7 @@ extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeletePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.packageDetails = output.packageDetails
         } else {
@@ -3528,7 +3528,7 @@ extension DeleteVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpointSummary = output.vpcEndpointSummary
         } else {
@@ -3708,7 +3708,7 @@ extension DescribeDomainAutoTunesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDomainAutoTunesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoTunes = output.autoTunes
             self.nextToken = output.nextToken
@@ -3846,7 +3846,7 @@ extension DescribeDomainChangeProgressOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDomainChangeProgressOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeProgressStatus = output.changeProgressStatus
         } else {
@@ -3948,7 +3948,7 @@ extension DescribeElasticsearchDomainConfigOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticsearchDomainConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainConfig = output.domainConfig
         } else {
@@ -4051,7 +4051,7 @@ extension DescribeElasticsearchDomainOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticsearchDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -4181,7 +4181,7 @@ extension DescribeElasticsearchDomainsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticsearchDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatusList = output.domainStatusList
         } else {
@@ -4322,7 +4322,7 @@ extension DescribeElasticsearchInstanceTypeLimitsOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticsearchInstanceTypeLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.limitsByRole = output.limitsByRole
         } else {
@@ -4497,7 +4497,7 @@ extension DescribeInboundCrossClusterSearchConnectionsOutputResponse: ClientRunt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInboundCrossClusterSearchConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnections = output.crossClusterSearchConnections
             self.nextToken = output.nextToken
@@ -4676,7 +4676,7 @@ extension DescribeOutboundCrossClusterSearchConnectionsOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeOutboundCrossClusterSearchConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnections = output.crossClusterSearchConnections
             self.nextToken = output.nextToken
@@ -4943,7 +4943,7 @@ extension DescribePackagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePackagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packageDetailsList = output.packageDetailsList
@@ -5088,7 +5088,7 @@ extension DescribeReservedElasticsearchInstanceOfferingsOutputResponse: ClientRu
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeReservedElasticsearchInstanceOfferingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reservedElasticsearchInstanceOfferings = output.reservedElasticsearchInstanceOfferings
@@ -5234,7 +5234,7 @@ extension DescribeReservedElasticsearchInstancesOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeReservedElasticsearchInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reservedElasticsearchInstances = output.reservedElasticsearchInstances
@@ -5384,7 +5384,7 @@ extension DescribeVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpointErrors = output.vpcEndpointErrors
             self.vpcEndpoints = output.vpcEndpoints
@@ -5456,7 +5456,7 @@ extension DisabledOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisabledOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5581,7 +5581,7 @@ extension DissociatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DissociatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainPackageDetails = output.domainPackageDetails
         } else {
@@ -7462,7 +7462,7 @@ extension GetCompatibleElasticsearchVersionsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCompatibleElasticsearchVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compatibleElasticsearchVersions = output.compatibleElasticsearchVersions
         } else {
@@ -7600,7 +7600,7 @@ extension GetPackageVersionHistoryOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPackageVersionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.packageID = output.packageID
@@ -7756,7 +7756,7 @@ extension GetUpgradeHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUpgradeHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.upgradeHistories = output.upgradeHistories
@@ -7879,7 +7879,7 @@ extension GetUpgradeStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUpgradeStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stepStatus = output.stepStatus
             self.upgradeName = output.upgradeName
@@ -8201,7 +8201,7 @@ extension InternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8254,7 +8254,7 @@ extension InvalidPaginationTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidPaginationTokenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8307,7 +8307,7 @@ extension InvalidTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidTypeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8360,7 +8360,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8563,7 +8563,7 @@ extension ListDomainNamesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDomainNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainNames = output.domainNames
         } else {
@@ -8701,7 +8701,7 @@ extension ListDomainsForPackageOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDomainsForPackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainPackageDetailsList = output.domainPackageDetailsList
             self.nextToken = output.nextToken
@@ -8854,7 +8854,7 @@ extension ListElasticsearchInstanceTypesOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListElasticsearchInstanceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.elasticsearchInstanceTypes = output.elasticsearchInstanceTypes
             self.nextToken = output.nextToken
@@ -8992,7 +8992,7 @@ extension ListElasticsearchVersionsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListElasticsearchVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.elasticsearchVersions = output.elasticsearchVersions
             self.nextToken = output.nextToken
@@ -9140,7 +9140,7 @@ extension ListPackagesForDomainOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPackagesForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainPackageDetailsList = output.domainPackageDetailsList
             self.nextToken = output.nextToken
@@ -9273,7 +9273,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -9401,7 +9401,7 @@ extension ListVpcEndpointAccessOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVpcEndpointAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorizedPrincipalList = output.authorizedPrincipalList
             self.nextToken = output.nextToken
@@ -9541,7 +9541,7 @@ extension ListVpcEndpointsForDomainOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVpcEndpointsForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vpcEndpointSummaryList = output.vpcEndpointSummaryList
@@ -9671,7 +9671,7 @@ extension ListVpcEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVpcEndpointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.vpcEndpointSummaryList = output.vpcEndpointSummaryList
@@ -10813,7 +10813,7 @@ extension PurchaseReservedElasticsearchInstanceOfferingOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PurchaseReservedElasticsearchInstanceOfferingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reservationName = output.reservationName
             self.reservedElasticsearchInstanceId = output.reservedElasticsearchInstanceId
@@ -10966,7 +10966,7 @@ extension RejectInboundCrossClusterSearchConnectionOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RejectInboundCrossClusterSearchConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crossClusterSearchConnection = output.crossClusterSearchConnection
         } else {
@@ -11437,7 +11437,7 @@ extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11490,7 +11490,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12294,7 +12294,7 @@ extension StartElasticsearchServiceSoftwareUpdateOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartElasticsearchServiceSoftwareUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceSoftwareOptions = output.serviceSoftwareOptions
         } else {
@@ -12866,7 +12866,7 @@ extension UpdateElasticsearchDomainConfigOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateElasticsearchDomainConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainConfig = output.domainConfig
             self.dryRunResults = output.dryRunResults
@@ -13037,7 +13037,7 @@ extension UpdatePackageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.packageDetails = output.packageDetails
         } else {
@@ -13173,7 +13173,7 @@ extension UpdateVpcEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVpcEndpointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcEndpoint = output.vpcEndpoint
         } else {
@@ -13322,7 +13322,7 @@ extension UpgradeElasticsearchDomainOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpgradeElasticsearchDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.changeProgressDetails = output.changeProgressDetails
             self.domainName = output.domainName
@@ -13860,7 +13860,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

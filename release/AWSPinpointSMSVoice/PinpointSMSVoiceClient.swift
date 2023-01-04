@@ -36,10 +36,6 @@ public class PinpointSMSVoiceClient {
         self.init(config: config)
     }
 
-    deinit {
-        client.close()
-    }
-
     public class PinpointSMSVoiceClientConfiguration: PinpointSMSVoiceClientConfigurationProtocol {
         public var clientLogMode: ClientRuntime.ClientLogMode
         public var decoder: ClientRuntime.ResponseDecoder?
@@ -86,7 +82,7 @@ public class PinpointSMSVoiceClient {
             }
             self.frameworkMetadata = frameworkMetadata
             self.region = region
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS
@@ -149,9 +145,9 @@ public class PinpointSMSVoiceClient {
                 self.endpointResolver = try DefaultEndpointResolver()
             }
             self.frameworkMetadata = frameworkMetadata
-            let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
             self.region = await resolvedRegionResolver.resolveRegion()
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS

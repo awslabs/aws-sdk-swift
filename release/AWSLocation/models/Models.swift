@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -308,7 +308,7 @@ extension BatchDeleteDevicePositionHistoryOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteDevicePositionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -504,7 +504,7 @@ extension BatchDeleteGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -711,7 +711,7 @@ extension BatchEvaluateGeofencesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchEvaluateGeofencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -909,7 +909,7 @@ extension BatchGetDevicePositionOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchGetDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devicePositions = output.devicePositions
             self.errors = output.errors
@@ -1220,7 +1220,7 @@ extension BatchPutGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchPutGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.successes = output.successes
@@ -1552,7 +1552,7 @@ extension BatchUpdateDevicePositionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchUpdateDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
         } else {
@@ -2118,7 +2118,7 @@ extension CalculateRouteMatrixOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CalculateRouteMatrixOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeMatrix = output.routeMatrix
             self.snappedDeparturePositions = output.snappedDeparturePositions
@@ -2352,7 +2352,7 @@ extension CalculateRouteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CalculateRouteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.legs = output.legs
             self.summary = output.summary
@@ -2671,7 +2671,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2894,7 +2894,7 @@ extension CreateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -3118,7 +3118,7 @@ extension CreateMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.mapArn = output.mapArn
@@ -3361,7 +3361,7 @@ extension CreatePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.indexArn = output.indexArn
@@ -3597,7 +3597,7 @@ extension CreateRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -3858,7 +3858,7 @@ extension CreateTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.trackerArn = output.trackerArn
@@ -4389,7 +4389,7 @@ extension DescribeGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -4589,7 +4589,7 @@ extension DescribeMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
             self.createTime = output.createTime
@@ -4790,7 +4790,7 @@ extension DescribePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.dataSource = output.dataSource
@@ -4998,7 +4998,7 @@ extension DescribeRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -5199,7 +5199,7 @@ extension DescribeTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.description = output.description
@@ -5936,7 +5936,7 @@ extension GetDevicePositionHistoryOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDevicePositionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devicePositions = output.devicePositions
             self.nextToken = output.nextToken
@@ -6071,7 +6071,7 @@ extension GetDevicePositionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDevicePositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accuracy = output.accuracy
             self.deviceId = output.deviceId
@@ -6252,7 +6252,7 @@ extension GetGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.geofenceId = output.geofenceId
@@ -6453,8 +6453,7 @@ extension GetMapGlyphsOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.blob = data
         } else {
             self.blob = nil
@@ -6581,8 +6580,7 @@ extension GetMapSpritesOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.blob = data
         } else {
             self.blob = nil
@@ -6690,8 +6688,7 @@ extension GetMapStyleDescriptorOutputResponse: ClientRuntime.HttpResponseBinding
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.blob = data
         } else {
             self.blob = nil
@@ -6823,8 +6820,7 @@ extension GetMapTileOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.blob = data
         } else {
             self.blob = nil
@@ -6954,7 +6950,7 @@ extension GetPlaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPlaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.place = output.place
         } else {
@@ -7030,7 +7026,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7383,7 +7379,7 @@ extension ListDevicePositionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDevicePositionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -7638,7 +7634,7 @@ extension ListGeofenceCollectionsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGeofenceCollectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -7977,7 +7973,7 @@ extension ListGeofencesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGeofencesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8125,7 +8121,7 @@ extension ListMapsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMapsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8364,7 +8360,7 @@ extension ListPlaceIndexesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPlaceIndexesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8610,7 +8606,7 @@ extension ListRouteCalculatorsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRouteCalculatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -8836,7 +8832,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8985,7 +8981,7 @@ extension ListTrackerConsumersOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTrackerConsumersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.consumerArns = output.consumerArns
             self.nextToken = output.nextToken
@@ -9133,7 +9129,7 @@ extension ListTrackersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTrackersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -9781,7 +9777,7 @@ extension PutGeofenceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutGeofenceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createTime = output.createTime
             self.geofenceId = output.geofenceId
@@ -9845,7 +9841,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10366,7 +10362,7 @@ extension SearchPlaceIndexForPositionOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForPositionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -10708,7 +10704,7 @@ extension SearchPlaceIndexForSuggestionsOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForSuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -11104,7 +11100,7 @@ extension SearchPlaceIndexForTextOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchPlaceIndexForTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.results = output.results
             self.summary = output.summary
@@ -11333,7 +11329,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11617,7 +11613,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12084,7 +12080,7 @@ extension UpdateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGeofenceCollectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.collectionArn = output.collectionArn
             self.collectionName = output.collectionName
@@ -12248,7 +12244,7 @@ extension UpdateMapOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMapOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mapArn = output.mapArn
             self.mapName = output.mapName
@@ -12424,7 +12420,7 @@ extension UpdatePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePlaceIndexOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexArn = output.indexArn
             self.indexName = output.indexName
@@ -12588,7 +12584,7 @@ extension UpdateRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRouteCalculatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.calculatorArn = output.calculatorArn
             self.calculatorName = output.calculatorName
@@ -12783,7 +12779,7 @@ extension UpdateTrackerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateTrackerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trackerArn = output.trackerArn
             self.trackerName = output.trackerName
@@ -12849,7 +12845,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fieldList = output.fieldList
             self.message = output.message

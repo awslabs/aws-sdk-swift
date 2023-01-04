@@ -960,7 +960,7 @@ extension CheckCapacityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CheckCapacityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacity = output.capacity
         } else {
@@ -2238,7 +2238,7 @@ extension CreateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -2441,7 +2441,7 @@ extension CreateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -2699,7 +2699,7 @@ extension CreateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -3011,7 +3011,7 @@ extension CreateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.summary = output.summary
         } else {
@@ -3398,7 +3398,7 @@ extension DeleteFirewallManagerRuleGroupsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteFirewallManagerRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextWebACLLockToken = output.nextWebACLLockToken
         } else {
@@ -4281,7 +4281,7 @@ extension DescribeManagedRuleGroupOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeManagedRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availableLabels = output.availableLabels
             self.capacity = output.capacity
@@ -5172,7 +5172,7 @@ extension GenerateMobileSdkReleaseUrlOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GenerateMobileSdkReleaseUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.url = output.url
         } else {
@@ -5383,7 +5383,7 @@ extension GetIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSet = output.ipSet
             self.lockToken = output.lockToken
@@ -5510,7 +5510,7 @@ extension GetLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -5657,7 +5657,7 @@ extension GetManagedRuleSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetManagedRuleSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.managedRuleSet = output.managedRuleSet
@@ -5797,7 +5797,7 @@ extension GetMobileSdkReleaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMobileSdkReleaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mobileSdkRelease = output.mobileSdkRelease
         } else {
@@ -5912,7 +5912,7 @@ extension GetPermissionPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPermissionPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -6084,7 +6084,7 @@ extension GetRateBasedStatementManagedKeysOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRateBasedStatementManagedKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedKeysIPV4 = output.managedKeysIPV4
             self.managedKeysIPV6 = output.managedKeysIPV6
@@ -6241,7 +6241,7 @@ extension GetRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.regexPatternSet = output.regexPatternSet
@@ -6407,7 +6407,7 @@ extension GetRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lockToken = output.lockToken
             self.ruleGroup = output.ruleGroup
@@ -6588,7 +6588,7 @@ extension GetSampledRequestsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSampledRequestsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.populationSize = output.populationSize
             self.sampledRequests = output.sampledRequests
@@ -6744,7 +6744,7 @@ extension GetWebACLForResourceOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWebACLForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.webACL = output.webACL
         } else {
@@ -6891,7 +6891,7 @@ extension GetWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationIntegrationURL = output.applicationIntegrationURL
             self.lockToken = output.lockToken
@@ -8161,7 +8161,7 @@ extension ListAvailableManagedRuleGroupVersionsOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableManagedRuleGroupVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.currentDefaultVersion = output.currentDefaultVersion
             self.nextMarker = output.nextMarker
@@ -8333,7 +8333,7 @@ extension ListAvailableManagedRuleGroupsOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAvailableManagedRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleGroups = output.managedRuleGroups
             self.nextMarker = output.nextMarker
@@ -8495,7 +8495,7 @@ extension ListIPSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListIPSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ipSets = output.ipSets
             self.nextMarker = output.nextMarker
@@ -8657,7 +8657,7 @@ extension ListLoggingConfigurationsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLoggingConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfigurations = output.loggingConfigurations
             self.nextMarker = output.nextMarker
@@ -8819,7 +8819,7 @@ extension ListManagedRuleSetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListManagedRuleSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRuleSets = output.managedRuleSets
             self.nextMarker = output.nextMarker
@@ -8977,7 +8977,7 @@ extension ListMobileSdkReleasesOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMobileSdkReleasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.releaseSummaries = output.releaseSummaries
@@ -9139,7 +9139,7 @@ extension ListRegexPatternSetsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRegexPatternSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.regexPatternSets = output.regexPatternSets
@@ -9287,7 +9287,7 @@ extension ListResourcesForWebACLOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListResourcesForWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArns = output.resourceArns
         } else {
@@ -9439,7 +9439,7 @@ extension ListRuleGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRuleGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.ruleGroups = output.ruleGroups
@@ -9603,7 +9603,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.tagInfoForResource = output.tagInfoForResource
@@ -9756,7 +9756,7 @@ extension ListWebACLsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListWebACLsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextMarker = output.nextMarker
             self.webACLs = output.webACLs
@@ -11351,7 +11351,7 @@ extension PutLoggingConfigurationOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutLoggingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loggingConfiguration = output.loggingConfiguration
         } else {
@@ -11549,7 +11549,7 @@ extension PutManagedRuleSetVersionsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutManagedRuleSetVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -14386,7 +14386,7 @@ extension UpdateIPSetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateIPSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -14574,7 +14574,7 @@ extension UpdateManagedRuleSetVersionExpiryDateOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateManagedRuleSetVersionExpiryDateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expiringVersion = output.expiringVersion
             self.expiryTimestamp = output.expiryTimestamp
@@ -14797,7 +14797,7 @@ extension UpdateRegexPatternSetOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRegexPatternSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15042,7 +15042,7 @@ extension UpdateRuleGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRuleGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15352,7 +15352,7 @@ extension UpdateWebACLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateWebACLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextLockToken = output.nextLockToken
         } else {
@@ -15552,7 +15552,7 @@ extension WAFAssociatedItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFAssociatedItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15604,7 +15604,7 @@ extension WAFConfigurationWarningException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFConfigurationWarningExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15656,7 +15656,7 @@ extension WAFDuplicateItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFDuplicateItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15708,7 +15708,7 @@ extension WAFExpiredManagedRuleGroupVersionException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFExpiredManagedRuleGroupVersionExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15760,7 +15760,7 @@ extension WAFInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15812,7 +15812,7 @@ extension WAFInvalidOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15864,7 +15864,7 @@ extension WAFInvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.field = output.field
             self.message = output.message
@@ -15954,7 +15954,7 @@ extension WAFInvalidPermissionPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidPermissionPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16019,7 +16019,7 @@ extension WAFInvalidResourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFInvalidResourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16071,7 +16071,7 @@ extension WAFLimitsExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFLimitsExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16123,7 +16123,7 @@ extension WAFLogDestinationPermissionIssueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFLogDestinationPermissionIssueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16175,7 +16175,7 @@ extension WAFNonexistentItemException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFNonexistentItemExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16227,7 +16227,7 @@ extension WAFOptimisticLockException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFOptimisticLockExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16279,7 +16279,7 @@ extension WAFServiceLinkedRoleErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFServiceLinkedRoleErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16331,7 +16331,7 @@ extension WAFSubscriptionNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFSubscriptionNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16383,7 +16383,7 @@ extension WAFTagOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFTagOperationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16435,7 +16435,7 @@ extension WAFTagOperationInternalErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFTagOperationInternalErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16487,7 +16487,7 @@ extension WAFUnavailableEntityException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: WAFUnavailableEntityExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

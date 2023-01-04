@@ -501,7 +501,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -875,7 +875,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1179,7 +1179,7 @@ extension CreateApiKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateApiKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.customerId = output.customerId
@@ -1527,7 +1527,7 @@ extension CreateAuthorizerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAuthorizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authType = output.authType
             self.authorizerCredentials = output.authorizerCredentials
@@ -1781,7 +1781,7 @@ extension CreateBasePathMappingOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBasePathMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.basePath = output.basePath
             self.restApiId = output.restApiId
@@ -2029,7 +2029,7 @@ extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiSummary = output.apiSummary
             self.createdDate = output.createdDate
@@ -2219,7 +2219,7 @@ extension CreateDocumentationPartOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDocumentationPartOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.location = output.location
@@ -2394,7 +2394,7 @@ extension CreateDocumentationVersionOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDocumentationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.description = output.description
@@ -2691,7 +2691,7 @@ extension CreateDomainNameOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDomainNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateArn = output.certificateArn
             self.certificateName = output.certificateName
@@ -3028,7 +3028,7 @@ extension CreateModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentType = output.contentType
             self.description = output.description
@@ -3222,7 +3222,7 @@ extension CreateRequestValidatorOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRequestValidatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.name = output.name
@@ -3391,7 +3391,7 @@ extension CreateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.parentId = output.parentId
@@ -3705,7 +3705,7 @@ extension CreateRestApiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRestApiOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySource = output.apiKeySource
             self.binaryMediaTypes = output.binaryMediaTypes
@@ -4116,7 +4116,7 @@ extension CreateStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessLogSettings = output.accessLogSettings
             self.cacheClusterEnabled = output.cacheClusterEnabled
@@ -4580,7 +4580,7 @@ extension CreateUsagePlanKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateUsagePlanKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.name = output.name
@@ -4684,7 +4684,7 @@ extension CreateUsagePlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateUsagePlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiStages = output.apiStages
             self.description = output.description
@@ -4954,7 +4954,7 @@ extension CreateVpcLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVpcLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.id = output.id
@@ -7965,7 +7965,7 @@ extension GenerateClientCertificateOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GenerateClientCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientCertificateId = output.clientCertificateId
             self.createdDate = output.createdDate
@@ -8115,7 +8115,7 @@ extension GetAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeyVersion = output.apiKeyVersion
             self.cloudwatchRoleArn = output.cloudwatchRoleArn
@@ -8273,7 +8273,7 @@ extension GetApiKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetApiKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.customerId = output.customerId
@@ -8524,7 +8524,7 @@ extension GetApiKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetApiKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
             self.warnings = output.warnings
@@ -8667,7 +8667,7 @@ extension GetAuthorizerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAuthorizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authType = output.authType
             self.authorizerCredentials = output.authorizerCredentials
@@ -8893,7 +8893,7 @@ extension GetAuthorizersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAuthorizersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -9017,7 +9017,7 @@ extension GetBasePathMappingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBasePathMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.basePath = output.basePath
             self.restApiId = output.restApiId
@@ -9164,7 +9164,7 @@ extension GetBasePathMappingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBasePathMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -9280,7 +9280,7 @@ extension GetClientCertificateOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetClientCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientCertificateId = output.clientCertificateId
             self.createdDate = output.createdDate
@@ -9458,7 +9458,7 @@ extension GetClientCertificatesOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetClientCertificatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -9603,7 +9603,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiSummary = output.apiSummary
             self.createdDate = output.createdDate
@@ -9778,7 +9778,7 @@ extension GetDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -9902,7 +9902,7 @@ extension GetDocumentationPartOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDocumentationPartOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.location = output.location
@@ -10081,7 +10081,7 @@ extension GetDocumentationPartsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDocumentationPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -10203,7 +10203,7 @@ extension GetDocumentationVersionOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDocumentationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.description = output.description
@@ -10350,7 +10350,7 @@ extension GetDocumentationVersionsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDocumentationVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -10466,7 +10466,7 @@ extension GetDomainNameOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDomainNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateArn = output.certificateArn
             self.certificateName = output.certificateName
@@ -10754,7 +10754,7 @@ extension GetDomainNamesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDomainNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -10934,8 +10934,7 @@ extension GetExportOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.body = data
         } else {
             self.body = nil
@@ -11052,7 +11051,7 @@ extension GetGatewayResponseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGatewayResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.defaultResponse = output.defaultResponse
             self.responseParameters = output.responseParameters
@@ -11237,7 +11236,7 @@ extension GetGatewayResponsesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGatewayResponsesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -11369,7 +11368,7 @@ extension GetIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheKeyParameters = output.cacheKeyParameters
             self.cacheNamespace = output.cacheNamespace
@@ -11671,7 +11670,7 @@ extension GetIntegrationResponseOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetIntegrationResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentHandling = output.contentHandling
             self.responseParameters = output.responseParameters
@@ -11845,7 +11844,7 @@ extension GetMethodOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMethodOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeyRequired = output.apiKeyRequired
             self.authorizationScopes = output.authorizationScopes
@@ -12105,7 +12104,7 @@ extension GetMethodResponseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMethodResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.responseModels = output.responseModels
             self.responseParameters = output.responseParameters
@@ -12270,7 +12269,7 @@ extension GetModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentType = output.contentType
             self.description = output.description
@@ -12420,7 +12419,7 @@ extension GetModelTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetModelTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.value = output.value
         } else {
@@ -12547,7 +12546,7 @@ extension GetModelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -12671,7 +12670,7 @@ extension GetRequestValidatorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRequestValidatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.name = output.name
@@ -12828,7 +12827,7 @@ extension GetRequestValidatorsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRequestValidatorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -12969,7 +12968,7 @@ extension GetResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.parentId = output.parentId
@@ -13155,7 +13154,7 @@ extension GetResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -13271,7 +13270,7 @@ extension GetRestApiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRestApiOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySource = output.apiKeySource
             self.binaryMediaTypes = output.binaryMediaTypes
@@ -13537,7 +13536,7 @@ extension GetRestApisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRestApisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -13703,8 +13702,7 @@ extension GetSdkOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.contentType = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.body = data
         } else {
             self.body = nil
@@ -13813,7 +13811,7 @@ extension GetSdkTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSdkTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationProperties = output.configurationProperties
             self.description = output.description
@@ -13971,7 +13969,7 @@ extension GetSdkTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSdkTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -14094,7 +14092,7 @@ extension GetStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessLogSettings = output.accessLogSettings
             self.cacheClusterEnabled = output.cacheClusterEnabled
@@ -14404,7 +14402,7 @@ extension GetStagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetStagesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.item = output.item
         } else {
@@ -14540,7 +14538,7 @@ extension GetTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -14706,7 +14704,7 @@ extension GetUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endDate = output.endDate
             self.items = output.items
@@ -14908,7 +14906,7 @@ extension GetUsagePlanKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsagePlanKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.name = output.name
@@ -15073,7 +15071,7 @@ extension GetUsagePlanKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsagePlanKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -15157,7 +15155,7 @@ extension GetUsagePlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsagePlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiStages = output.apiStages
             self.description = output.description
@@ -15372,7 +15370,7 @@ extension GetUsagePlansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetUsagePlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -15488,7 +15486,7 @@ extension GetVpcLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVpcLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.id = output.id
@@ -15685,7 +15683,7 @@ extension GetVpcLinksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVpcLinksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.items = output.items
         } else {
@@ -15877,7 +15875,7 @@ extension ImportApiKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ImportApiKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
             self.warnings = output.warnings
@@ -16087,7 +16085,7 @@ extension ImportDocumentationPartsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ImportDocumentationPartsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ids = output.ids
             self.warnings = output.warnings
@@ -16295,7 +16293,7 @@ extension ImportRestApiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ImportRestApiOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySource = output.apiKeySource
             self.binaryMediaTypes = output.binaryMediaTypes
@@ -16853,7 +16851,7 @@ extension LimitExceededException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17559,7 +17557,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17864,7 +17862,7 @@ extension PutGatewayResponseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutGatewayResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.defaultResponse = output.defaultResponse
             self.responseParameters = output.responseParameters
@@ -18261,7 +18259,7 @@ extension PutIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheKeyParameters = output.cacheKeyParameters
             self.cacheNamespace = output.cacheNamespace
@@ -18651,7 +18649,7 @@ extension PutIntegrationResponseOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutIntegrationResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentHandling = output.contentHandling
             self.responseParameters = output.responseParameters
@@ -18976,7 +18974,7 @@ extension PutMethodOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutMethodOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeyRequired = output.apiKeyRequired
             self.authorizationScopes = output.authorizationScopes
@@ -19302,7 +19300,7 @@ extension PutMethodResponseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutMethodResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.responseModels = output.responseModels
             self.responseParameters = output.responseParameters
@@ -19567,7 +19565,7 @@ extension PutRestApiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutRestApiOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySource = output.apiKeySource
             self.binaryMediaTypes = output.binaryMediaTypes
@@ -20378,7 +20376,7 @@ extension ServiceUnavailableException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21030,7 +21028,7 @@ extension TestInvokeAuthorizerOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TestInvokeAuthorizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authorization = output.authorization
             self.claims = output.claims
@@ -21363,7 +21361,7 @@ extension TestInvokeMethodOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TestInvokeMethodOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.body = output.body
             self.headers = output.headers
@@ -21565,7 +21563,7 @@ extension TooManyRequestsException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21655,7 +21653,7 @@ extension UnauthorizedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnauthorizedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21895,7 +21893,7 @@ extension UpdateAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeyVersion = output.apiKeyVersion
             self.cloudwatchRoleArn = output.cloudwatchRoleArn
@@ -22076,7 +22074,7 @@ extension UpdateApiKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateApiKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.customerId = output.customerId
@@ -22334,7 +22332,7 @@ extension UpdateAuthorizerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAuthorizerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authType = output.authType
             self.authorizerCredentials = output.authorizerCredentials
@@ -22583,7 +22581,7 @@ extension UpdateBasePathMappingOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBasePathMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.basePath = output.basePath
             self.restApiId = output.restApiId
@@ -22745,7 +22743,7 @@ extension UpdateClientCertificateOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateClientCertificateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clientCertificateId = output.clientCertificateId
             self.createdDate = output.createdDate
@@ -22956,7 +22954,7 @@ extension UpdateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiSummary = output.apiSummary
             self.createdDate = output.createdDate
@@ -23152,7 +23150,7 @@ extension UpdateDocumentationPartOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDocumentationPartOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.location = output.location
@@ -23322,7 +23320,7 @@ extension UpdateDocumentationVersionOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDocumentationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdDate = output.createdDate
             self.description = output.description
@@ -23484,7 +23482,7 @@ extension UpdateDomainNameOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainNameOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.certificateArn = output.certificateArn
             self.certificateName = output.certificateName
@@ -23803,7 +23801,7 @@ extension UpdateGatewayResponseOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGatewayResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.defaultResponse = output.defaultResponse
             self.responseParameters = output.responseParameters
@@ -24019,7 +24017,7 @@ extension UpdateIntegrationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateIntegrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cacheKeyParameters = output.cacheKeyParameters
             self.cacheNamespace = output.cacheNamespace
@@ -24361,7 +24359,7 @@ extension UpdateIntegrationResponseOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateIntegrationResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentHandling = output.contentHandling
             self.responseParameters = output.responseParameters
@@ -24575,7 +24573,7 @@ extension UpdateMethodOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMethodOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeyRequired = output.apiKeyRequired
             self.authorizationScopes = output.authorizationScopes
@@ -24877,7 +24875,7 @@ extension UpdateMethodResponseOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateMethodResponseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.responseModels = output.responseModels
             self.responseParameters = output.responseParameters
@@ -25065,7 +25063,7 @@ extension UpdateModelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateModelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentType = output.contentType
             self.description = output.description
@@ -25255,7 +25253,7 @@ extension UpdateRequestValidatorOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRequestValidatorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.name = output.name
@@ -25433,7 +25431,7 @@ extension UpdateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.id = output.id
             self.parentId = output.parentId
@@ -25624,7 +25622,7 @@ extension UpdateRestApiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRestApiOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiKeySource = output.apiKeySource
             self.binaryMediaTypes = output.binaryMediaTypes
@@ -25921,7 +25919,7 @@ extension UpdateStageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateStageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessLogSettings = output.accessLogSettings
             self.cacheClusterEnabled = output.cacheClusterEnabled
@@ -26258,7 +26256,7 @@ extension UpdateUsageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateUsageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endDate = output.endDate
             self.items = output.items
@@ -26460,7 +26458,7 @@ extension UpdateUsagePlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateUsagePlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apiStages = output.apiStages
             self.description = output.description
@@ -26690,7 +26688,7 @@ extension UpdateVpcLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVpcLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.description = output.description
             self.id = output.id

@@ -128,7 +128,7 @@ extension AcceptDirectConnectGatewayAssociationProposalOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AcceptDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
         } else {
@@ -325,7 +325,7 @@ extension AllocateConnectionOnInterconnectOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AllocateConnectionOnInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -766,7 +766,7 @@ extension AllocateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AllocateHostedConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -1157,7 +1157,7 @@ extension AllocatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AllocatePrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress
@@ -1596,7 +1596,7 @@ extension AllocatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AllocatePublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress
@@ -2035,7 +2035,7 @@ extension AllocateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AllocateTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
         } else {
@@ -2161,7 +2161,7 @@ extension AssociateConnectionWithLagOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateConnectionWithLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -2535,7 +2535,7 @@ extension AssociateHostedConnectionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateHostedConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -2932,7 +2932,7 @@ extension AssociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateMacSecKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionId = output.connectionId
             self.macSecKeys = output.macSecKeys
@@ -3077,7 +3077,7 @@ extension AssociateVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress
@@ -3768,7 +3768,7 @@ extension ConfirmConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConfirmConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionState = output.connectionState
         } else {
@@ -3898,7 +3898,7 @@ extension ConfirmCustomerAgreementOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConfirmCustomerAgreementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -4035,7 +4035,7 @@ extension ConfirmPrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConfirmPrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
         } else {
@@ -4166,7 +4166,7 @@ extension ConfirmPublicVirtualInterfaceOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConfirmPublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
         } else {
@@ -4310,7 +4310,7 @@ extension ConfirmTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConfirmTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
         } else {
@@ -4793,7 +4793,7 @@ extension CreateBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBGPPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
         } else {
@@ -4996,7 +4996,7 @@ extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -5405,7 +5405,7 @@ extension CreateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
         } else {
@@ -5592,7 +5592,7 @@ extension CreateDirectConnectGatewayAssociationProposalOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposal = output.directConnectGatewayAssociationProposal
         } else {
@@ -5717,7 +5717,7 @@ extension CreateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
         } else {
@@ -5908,7 +5908,7 @@ extension CreateInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -6313,7 +6313,7 @@ extension CreateLagOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
             self.awsDevice = output.awsDevice
@@ -6686,7 +6686,7 @@ extension CreatePrivateVirtualInterfaceOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePrivateVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress
@@ -7112,7 +7112,7 @@ extension CreatePublicVirtualInterfaceOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePublicVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress
@@ -7538,7 +7538,7 @@ extension CreateTransitVirtualInterfaceOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTransitVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
         } else {
@@ -7731,7 +7731,7 @@ extension DeleteBGPPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBGPPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterface = output.virtualInterface
         } else {
@@ -7844,7 +7844,7 @@ extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -8228,7 +8228,7 @@ extension DeleteDirectConnectGatewayAssociationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
         } else {
@@ -8341,7 +8341,7 @@ extension DeleteDirectConnectGatewayAssociationProposalOutputResponse: ClientRun
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDirectConnectGatewayAssociationProposalOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposal = output.directConnectGatewayAssociationProposal
         } else {
@@ -8454,7 +8454,7 @@ extension DeleteDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
         } else {
@@ -8567,7 +8567,7 @@ extension DeleteInterconnectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interconnectState = output.interconnectState
         } else {
@@ -8694,7 +8694,7 @@ extension DeleteLagOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
             self.awsDevice = output.awsDevice
@@ -9050,7 +9050,7 @@ extension DeleteVirtualInterfaceOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVirtualInterfaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceState = output.virtualInterfaceState
         } else {
@@ -9205,7 +9205,7 @@ extension DescribeConnectionLoaOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConnectionLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loa = output.loa
         } else {
@@ -9365,7 +9365,7 @@ extension DescribeConnectionsOnInterconnectOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConnectionsOnInterconnectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
         } else {
@@ -9439,7 +9439,7 @@ extension DescribeConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
         } else {
@@ -9541,7 +9541,7 @@ extension DescribeCustomerMetadataOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCustomerMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agreements = output.agreements
             self.nniPartnerType = output.nniPartnerType
@@ -9726,7 +9726,7 @@ extension DescribeDirectConnectGatewayAssociationProposalsOutputResponse: Client
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDirectConnectGatewayAssociationProposalsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociationProposals = output.directConnectGatewayAssociationProposals
             self.nextToken = output.nextToken
@@ -9917,7 +9917,7 @@ extension DescribeDirectConnectGatewayAssociationsOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDirectConnectGatewayAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociations = output.directConnectGatewayAssociations
             self.nextToken = output.nextToken
@@ -10084,7 +10084,7 @@ extension DescribeDirectConnectGatewayAttachmentsOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDirectConnectGatewayAttachmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAttachments = output.directConnectGatewayAttachments
             self.nextToken = output.nextToken
@@ -10239,7 +10239,7 @@ extension DescribeDirectConnectGatewaysOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDirectConnectGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateways = output.directConnectGateways
             self.nextToken = output.nextToken
@@ -10371,7 +10371,7 @@ extension DescribeHostedConnectionsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeHostedConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
         } else {
@@ -10517,7 +10517,7 @@ extension DescribeInterconnectLoaOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInterconnectLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loa = output.loa
         } else {
@@ -10629,7 +10629,7 @@ extension DescribeInterconnectsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInterconnectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interconnects = output.interconnects
         } else {
@@ -10750,7 +10750,7 @@ extension DescribeLagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lags = output.lags
         } else {
@@ -10896,7 +10896,7 @@ extension DescribeLoaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLoaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loaContent = output.loaContent
             self.loaContentType = output.loaContentType
@@ -11000,7 +11000,7 @@ extension DescribeLocationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLocationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.locations = output.locations
         } else {
@@ -11135,7 +11135,7 @@ extension DescribeRouterConfigurationOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRouterConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerRouterConfig = output.customerRouterConfig
             self.router = output.router
@@ -11290,7 +11290,7 @@ extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTags = output.resourceTags
         } else {
@@ -11392,7 +11392,7 @@ extension DescribeVirtualGatewaysOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVirtualGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualGateways = output.virtualGateways
         } else {
@@ -11525,7 +11525,7 @@ extension DescribeVirtualInterfacesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVirtualInterfacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaces = output.virtualInterfaces
         } else {
@@ -11575,7 +11575,7 @@ extension DirectConnectClientException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DirectConnectClientExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12278,7 +12278,7 @@ extension DirectConnectServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DirectConnectServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12415,7 +12415,7 @@ extension DisassociateConnectionFromLagOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateConnectionFromLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -12789,7 +12789,7 @@ extension DisassociateMacSecKeyOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateMacSecKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionId = output.connectionId
             self.macSecKeys = output.macSecKeys
@@ -12849,7 +12849,7 @@ extension DuplicateTagKeysException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DuplicateTagKeysExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13693,7 +13693,7 @@ extension ListVirtualInterfaceTestHistoryOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVirtualInterfaceTestHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualInterfaceTestHistory = output.virtualInterfaceTestHistory
@@ -15264,7 +15264,7 @@ extension StartBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartBgpFailoverTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceTest = output.virtualInterfaceTest
         } else {
@@ -15377,7 +15377,7 @@ extension StopBgpFailoverTestOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StopBgpFailoverTestOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualInterfaceTest = output.virtualInterfaceTest
         } else {
@@ -15575,7 +15575,7 @@ extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -15830,7 +15830,7 @@ extension UpdateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.awsDevice = output.awsDevice
             self.awsDeviceV2 = output.awsDeviceV2
@@ -16238,7 +16238,7 @@ extension UpdateDirectConnectGatewayAssociationOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDirectConnectGatewayAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGatewayAssociation = output.directConnectGatewayAssociation
         } else {
@@ -16364,7 +16364,7 @@ extension UpdateDirectConnectGatewayOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDirectConnectGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.directConnectGateway = output.directConnectGateway
         } else {
@@ -16513,7 +16513,7 @@ extension UpdateLagOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateLagOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.allowsHostedConnections = output.allowsHostedConnections
             self.awsDevice = output.awsDevice
@@ -16905,7 +16905,7 @@ extension UpdateVirtualInterfaceAttributesOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVirtualInterfaceAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.addressFamily = output.addressFamily
             self.amazonAddress = output.amazonAddress

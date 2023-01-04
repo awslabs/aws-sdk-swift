@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -392,7 +392,7 @@ extension AssociateOriginationIdentityOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateOriginationIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isoCountryCode = output.isoCountryCode
             self.originationIdentity = output.originationIdentity
@@ -718,7 +718,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -999,7 +999,7 @@ extension CreateConfigurationSetOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -1247,7 +1247,7 @@ extension CreateEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -1424,7 +1424,7 @@ extension CreateOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateOptOutListOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.optOutListArn = output.optOutListArn
@@ -1660,7 +1660,7 @@ extension CreatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
@@ -1904,7 +1904,7 @@ extension DeleteConfigurationSetOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConfigurationSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -2082,7 +2082,7 @@ extension DeleteDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDefaultMessageTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -2221,7 +2221,7 @@ extension DeleteDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDefaultSenderIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -2373,7 +2373,7 @@ extension DeleteEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -2527,7 +2527,7 @@ extension DeleteKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteKeywordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyword = output.keyword
             self.keywordAction = output.keywordAction
@@ -2688,7 +2688,7 @@ extension DeleteOptOutListOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteOptOutListOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.optOutListArn = output.optOutListArn
@@ -2842,7 +2842,7 @@ extension DeleteOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteOptedOutNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endUserOptedOut = output.endUserOptedOut
             self.optOutListArn = output.optOutListArn
@@ -3003,7 +3003,7 @@ extension DeletePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeletePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.messageType = output.messageType
@@ -3196,7 +3196,7 @@ extension DeleteTextMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteTextMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
@@ -3293,7 +3293,7 @@ extension DeleteVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVoiceMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
@@ -3421,7 +3421,7 @@ extension DescribeAccountAttributesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAccountAttributesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountAttributes = output.accountAttributes
             self.nextToken = output.nextToken
@@ -3568,7 +3568,7 @@ extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountLimits = output.accountLimits
             self.nextToken = output.nextToken
@@ -3765,7 +3765,7 @@ extension DescribeConfigurationSetsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConfigurationSetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSets = output.configurationSets
             self.nextToken = output.nextToken
@@ -3975,7 +3975,7 @@ extension DescribeKeywordsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeKeywordsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keywords = output.keywords
             self.nextToken = output.nextToken
@@ -4168,7 +4168,7 @@ extension DescribeOptOutListsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeOptOutListsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.optOutLists = output.optOutLists
@@ -4378,7 +4378,7 @@ extension DescribeOptedOutNumbersOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeOptedOutNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.optOutListArn = output.optOutListArn
@@ -4595,7 +4595,7 @@ extension DescribePhoneNumbersOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePhoneNumbersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.phoneNumbers = output.phoneNumbers
@@ -4792,7 +4792,7 @@ extension DescribePoolsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.pools = output.pools
@@ -4989,7 +4989,7 @@ extension DescribeSenderIdsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSenderIdsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.senderIds = output.senderIds
@@ -5136,7 +5136,7 @@ extension DescribeSpendLimitsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSpendLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.spendLimits = output.spendLimits
@@ -5346,7 +5346,7 @@ extension DisassociateOriginationIdentityOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateOriginationIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.isoCountryCode = output.isoCountryCode
             self.originationIdentity = output.originationIdentity
@@ -5628,7 +5628,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestId = output.requestId
@@ -6044,7 +6044,7 @@ extension ListPoolOriginationIdentitiesOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPoolOriginationIdentitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.originationIdentities = output.originationIdentities
@@ -6202,7 +6202,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.tags = output.tags
@@ -7515,7 +7515,7 @@ extension PutKeywordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutKeywordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.keyword = output.keyword
             self.keywordAction = output.keywordAction
@@ -7687,7 +7687,7 @@ extension PutOptedOutNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutOptedOutNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.endUserOptedOut = output.endUserOptedOut
             self.optOutListArn = output.optOutListArn
@@ -7848,7 +7848,7 @@ extension ReleasePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ReleasePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.isoCountryCode = output.isoCountryCode
@@ -8245,7 +8245,7 @@ extension RequestPhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RequestPhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
@@ -8499,7 +8499,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -8853,7 +8853,7 @@ extension SendTextMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SendTextMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -9101,7 +9101,7 @@ extension SendVoiceMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SendVoiceMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messageId = output.messageId
         } else {
@@ -9375,7 +9375,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -9593,7 +9593,7 @@ extension SetDefaultMessageTypeOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetDefaultMessageTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -9745,7 +9745,7 @@ extension SetDefaultSenderIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetDefaultSenderIdOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -9882,7 +9882,7 @@ extension SetTextMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetTextMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
@@ -9999,7 +9999,7 @@ extension SetVoiceMessageSpendLimitOverrideOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SetVoiceMessageSpendLimitOverrideOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.monthlyLimit = output.monthlyLimit
         } else {
@@ -10339,7 +10339,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -10669,7 +10669,7 @@ extension UpdateEventDestinationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateEventDestinationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configurationSetArn = output.configurationSetArn
             self.configurationSetName = output.configurationSetName
@@ -10870,7 +10870,7 @@ extension UpdatePhoneNumberOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePhoneNumberOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
@@ -11212,7 +11212,7 @@ extension UpdatePoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.createdTimestamp = output.createdTimestamp
             self.deletionProtectionEnabled = output.deletionProtectionEnabled
@@ -11353,7 +11353,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message

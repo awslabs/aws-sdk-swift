@@ -53,7 +53,7 @@ public struct DefaultEndpointResolver: EndpointResolver  {
         }
 
         if crtResolvedEndpoint.getType() == .error {
-            let error = try crtResolvedEndpoint.getError()
+            let error = crtResolvedEndpoint.getError()
             throw EndpointError.unresolved(error)
         }
 

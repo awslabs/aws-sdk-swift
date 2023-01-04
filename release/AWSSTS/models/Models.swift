@@ -268,7 +268,7 @@ extension AssumeRoleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssumeRoleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.credentials = output.credentials
@@ -501,7 +501,7 @@ extension AssumeRoleWithSAMLOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssumeRoleWithSAMLOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.audience = output.audience
@@ -806,7 +806,7 @@ extension AssumeRoleWithWebIdentityOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssumeRoleWithWebIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assumedRoleUser = output.assumedRoleUser
             self.audience = output.audience
@@ -1092,7 +1092,7 @@ extension DecodeAuthorizationMessageOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DecodeAuthorizationMessageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.decodedMessage = output.decodedMessage
         } else {
@@ -1133,9 +1133,8 @@ extension DecodeAuthorizationMessageOutputResponseBody: Swift.Decodable {
 
 extension ExpiredTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ExpiredTokenExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1299,7 +1298,7 @@ extension GetAccessKeyInfoOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAccessKeyInfoOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.account = output.account
         } else {
@@ -1420,7 +1419,7 @@ extension GetCallerIdentityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCallerIdentityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.account = output.account
             self.arn = output.arn
@@ -1650,7 +1649,7 @@ extension GetFederationTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetFederationTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
             self.federatedUser = output.federatedUser
@@ -1801,7 +1800,7 @@ extension GetSessionTokenOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSessionTokenOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
         } else {
@@ -1842,9 +1841,8 @@ extension GetSessionTokenOutputResponseBody: Swift.Decodable {
 
 extension IDPCommunicationErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IDPCommunicationErrorExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1894,9 +1892,8 @@ extension IDPCommunicationErrorExceptionBody: Swift.Decodable {
 
 extension IDPRejectedClaimException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IDPRejectedClaimExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1946,9 +1943,8 @@ extension IDPRejectedClaimExceptionBody: Swift.Decodable {
 
 extension InvalidAuthorizationMessageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidAuthorizationMessageExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1998,9 +1994,8 @@ extension InvalidAuthorizationMessageExceptionBody: Swift.Decodable {
 
 extension InvalidIdentityTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidIdentityTokenExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2050,9 +2045,8 @@ extension InvalidIdentityTokenExceptionBody: Swift.Decodable {
 
 extension MalformedPolicyDocumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<MalformedPolicyDocumentExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2102,9 +2096,8 @@ extension MalformedPolicyDocumentExceptionBody: Swift.Decodable {
 
 extension PackedPolicyTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<PackedPolicyTooLargeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2189,9 +2182,8 @@ extension STSClientTypes {
 
 extension RegionDisabledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<RegionDisabledExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {

@@ -447,9 +447,8 @@ extension CloudSearchClientTypes {
 
 extension BaseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<BaseExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -586,7 +585,7 @@ extension BuildSuggestersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BuildSuggestersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fieldNames = output.fieldNames
         } else {
@@ -722,7 +721,7 @@ extension CreateDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -1015,7 +1014,7 @@ extension DefineAnalysisSchemeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DefineAnalysisSchemeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisScheme = output.analysisScheme
         } else {
@@ -1149,7 +1148,7 @@ extension DefineExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DefineExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expression = output.expression
         } else {
@@ -1283,7 +1282,7 @@ extension DefineIndexFieldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DefineIndexFieldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexField = output.indexField
         } else {
@@ -1417,7 +1416,7 @@ extension DefineSuggesterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DefineSuggesterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggester = output.suggester
         } else {
@@ -1549,7 +1548,7 @@ extension DeleteAnalysisSchemeOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteAnalysisSchemeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisScheme = output.analysisScheme
         } else {
@@ -1663,7 +1662,7 @@ extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatus = output.domainStatus
         } else {
@@ -1794,7 +1793,7 @@ extension DeleteExpressionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteExpressionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expression = output.expression
         } else {
@@ -1926,7 +1925,7 @@ extension DeleteIndexFieldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteIndexFieldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexField = output.indexField
         } else {
@@ -2058,7 +2057,7 @@ extension DeleteSuggesterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSuggesterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggester = output.suggester
         } else {
@@ -2222,7 +2221,7 @@ extension DescribeAnalysisSchemesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAnalysisSchemesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.analysisSchemes = output.analysisSchemes
         } else {
@@ -2372,7 +2371,7 @@ extension DescribeAvailabilityOptionsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAvailabilityOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityOptions = output.availabilityOptions
         } else {
@@ -2502,7 +2501,7 @@ extension DescribeDomainEndpointOptionsOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDomainEndpointOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainEndpointOptions = output.domainEndpointOptions
         } else {
@@ -2640,7 +2639,7 @@ extension DescribeDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainStatusList = output.domainStatusList
         } else {
@@ -2821,7 +2820,7 @@ extension DescribeExpressionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeExpressionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.expressions = output.expressions
         } else {
@@ -3002,7 +3001,7 @@ extension DescribeIndexFieldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeIndexFieldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.indexFields = output.indexFields
         } else {
@@ -3135,7 +3134,7 @@ extension DescribeScalingParametersOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeScalingParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scalingParameters = output.scalingParameters
         } else {
@@ -3262,7 +3261,7 @@ extension DescribeServiceAccessPoliciesOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeServiceAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicies = output.accessPolicies
         } else {
@@ -3426,7 +3425,7 @@ extension DescribeSuggestersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSuggestersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggesters = output.suggesters
         } else {
@@ -3485,9 +3484,8 @@ extension DescribeSuggestersOutputResponseBody: Swift.Decodable {
 
 extension DisabledOperationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<DisabledOperationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -4183,7 +4181,7 @@ extension IndexDocumentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IndexDocumentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fieldNames = output.fieldNames
         } else {
@@ -4665,9 +4663,8 @@ extension CloudSearchClientTypes {
 
 extension InternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InternalExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -4728,9 +4725,8 @@ extension InternalExceptionBody: Swift.Decodable {
 
 extension InvalidTypeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTypeExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -4876,9 +4872,8 @@ extension CloudSearchClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -5025,7 +5020,7 @@ extension ListDomainNamesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDomainNamesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainNames = output.domainNames
         } else {
@@ -5454,9 +5449,8 @@ extension CloudSearchClientTypes {
 
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceAlreadyExistsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -5517,9 +5511,8 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message
@@ -6133,7 +6126,7 @@ extension UpdateAvailabilityOptionsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateAvailabilityOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availabilityOptions = output.availabilityOptions
         } else {
@@ -6268,7 +6261,7 @@ extension UpdateDomainEndpointOptionsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainEndpointOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainEndpointOptions = output.domainEndpointOptions
         } else {
@@ -6401,7 +6394,7 @@ extension UpdateScalingParametersOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateScalingParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.scalingParameters = output.scalingParameters
         } else {
@@ -6535,7 +6528,7 @@ extension UpdateServiceAccessPoliciesOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateServiceAccessPoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPolicies = output.accessPolicies
         } else {
@@ -6577,9 +6570,8 @@ extension UpdateServiceAccessPoliciesOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ValidationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.code = output.error.code
             self.message = output.error.message

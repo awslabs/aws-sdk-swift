@@ -36,10 +36,6 @@ public class Route53RecoveryClusterClient {
         self.init(config: config)
     }
 
-    deinit {
-        client.close()
-    }
-
     public class Route53RecoveryClusterClientConfiguration: Route53RecoveryClusterClientConfigurationProtocol {
         public var clientLogMode: ClientRuntime.ClientLogMode
         public var decoder: ClientRuntime.ResponseDecoder?
@@ -86,7 +82,7 @@ public class Route53RecoveryClusterClient {
             }
             self.frameworkMetadata = frameworkMetadata
             self.region = region
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS
@@ -149,9 +145,9 @@ public class Route53RecoveryClusterClient {
                 self.endpointResolver = try DefaultEndpointResolver()
             }
             self.frameworkMetadata = frameworkMetadata
-            let resolvedRegionResolver = regionResolver ?? DefaultRegionResolver()
+            let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver()
             self.region = await resolvedRegionResolver.resolveRegion()
-            self.regionResolver = regionResolver ?? DefaultRegionResolver()
+            self.regionResolver = try regionResolver ?? DefaultRegionResolver()
             self.signingRegion = signingRegion ?? region
             self.useDualStack = useDualStack
             self.useFIPS = useFIPS

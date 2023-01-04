@@ -2958,7 +2958,7 @@ extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -5045,7 +5045,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -5260,8 +5260,7 @@ public enum CreateAppOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
                 self.applicationResponse = output
@@ -5491,8 +5490,7 @@ public enum CreateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignResponse = output
@@ -5660,8 +5658,7 @@ public enum CreateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
                 self.createTemplateMessageBody = output
@@ -5833,8 +5830,7 @@ public enum CreateExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
                 self.exportJobResponse = output
@@ -6006,8 +6002,7 @@ public enum CreateImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
                 self.importJobResponse = output
@@ -6175,8 +6170,7 @@ public enum CreateInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.TemplateCreateMessageBody = try responseDecoder.decode(responseBody: data)
                 self.templateCreateMessageBody = output
@@ -6348,8 +6342,7 @@ public enum CreateJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyResponse = output
@@ -6517,8 +6510,7 @@ public enum CreatePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
                 self.createTemplateMessageBody = output
@@ -6682,8 +6674,7 @@ public enum CreateRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension CreateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
                 self.recommenderConfigurationResponse = output
@@ -6995,8 +6986,7 @@ public enum CreateSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentResponse = output
@@ -7164,8 +7154,7 @@ public enum CreateSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
                 self.createTemplateMessageBody = output
@@ -7388,8 +7377,7 @@ public enum CreateVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CreateTemplateMessageBody = try responseDecoder.decode(responseBody: data)
                 self.createTemplateMessageBody = output
@@ -8078,8 +8066,7 @@ public enum DeleteAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.admChannelResponse = output
@@ -8188,8 +8175,7 @@ public enum DeleteApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsChannelResponse = output
@@ -8298,8 +8284,7 @@ public enum DeleteApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsSandboxChannelResponse = output
@@ -8408,8 +8393,7 @@ public enum DeleteApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipChannelResponse = output
@@ -8518,8 +8502,7 @@ public enum DeleteApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipSandboxChannelResponse = output
@@ -8628,8 +8611,7 @@ public enum DeleteAppOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
                 self.applicationResponse = output
@@ -8738,8 +8720,7 @@ public enum DeleteBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.baiduChannelResponse = output
@@ -8856,8 +8837,7 @@ public enum DeleteCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignResponse = output
@@ -8966,8 +8946,7 @@ public enum DeleteEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.emailChannelResponse = output
@@ -9099,8 +9078,7 @@ public enum DeleteEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -9217,8 +9195,7 @@ public enum DeleteEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
                 self.endpointResponse = output
@@ -9327,8 +9304,7 @@ public enum DeleteEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
                 self.eventStream = output
@@ -9437,8 +9413,7 @@ public enum DeleteGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.gcmChannelResponse = output
@@ -9570,8 +9545,7 @@ public enum DeleteInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -9688,8 +9662,7 @@ public enum DeleteJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyResponse = output
@@ -9821,8 +9794,7 @@ public enum DeletePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -9931,8 +9903,7 @@ public enum DeleteRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension DeleteRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
                 self.recommenderConfigurationResponse = output
@@ -10049,8 +10020,7 @@ public enum DeleteSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentResponse = output
@@ -10159,8 +10129,7 @@ public enum DeleteSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.smsChannelResponse = output
@@ -10292,8 +10261,7 @@ public enum DeleteSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -10410,8 +10378,7 @@ public enum DeleteUserEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
                 self.endpointsResponse = output
@@ -10520,8 +10487,7 @@ public enum DeleteVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.voiceChannelResponse = output
@@ -10653,8 +10619,7 @@ public enum DeleteVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -13874,7 +13839,7 @@ extension ForbiddenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ForbiddenExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -14592,8 +14557,7 @@ public enum GetAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.admChannelResponse = output
@@ -14702,8 +14666,7 @@ public enum GetApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsChannelResponse = output
@@ -14812,8 +14775,7 @@ public enum GetApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsSandboxChannelResponse = output
@@ -14922,8 +14884,7 @@ public enum GetApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipChannelResponse = output
@@ -15032,8 +14993,7 @@ public enum GetApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipSandboxChannelResponse = output
@@ -15142,8 +15102,7 @@ public enum GetAppOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationResponse = try responseDecoder.decode(responseBody: data)
                 self.applicationResponse = output
@@ -15301,8 +15260,7 @@ public enum GetApplicationDateRangeKpiOutputError: Swift.Error, Swift.Equatable 
 
 extension GetApplicationDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
                 self.applicationDateRangeKpiResponse = output
@@ -15411,8 +15369,7 @@ public enum GetApplicationSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
                 self.applicationSettingsResource = output
@@ -15538,8 +15495,7 @@ public enum GetAppsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAppsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationsResponse = try responseDecoder.decode(responseBody: data)
                 self.applicationsResponse = output
@@ -15648,8 +15604,7 @@ public enum GetBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.baiduChannelResponse = output
@@ -15791,8 +15746,7 @@ public enum GetCampaignActivitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ActivitiesResponse = try responseDecoder.decode(responseBody: data)
                 self.activitiesResponse = output
@@ -15958,8 +15912,7 @@ public enum GetCampaignDateRangeKpiOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignDateRangeKpiResponse = output
@@ -16076,8 +16029,7 @@ public enum GetCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignResponse = output
@@ -16202,8 +16154,7 @@ public enum GetCampaignVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignResponse = output
@@ -16345,8 +16296,7 @@ public enum GetCampaignVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignsResponse = output
@@ -16480,8 +16430,7 @@ public enum GetCampaignsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCampaignsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignsResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignsResponse = output
@@ -16590,8 +16539,7 @@ public enum GetChannelsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetChannelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ChannelsResponse = try responseDecoder.decode(responseBody: data)
                 self.channelsResponse = output
@@ -16700,8 +16648,7 @@ public enum GetEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.emailChannelResponse = output
@@ -16833,8 +16780,7 @@ public enum GetEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EmailTemplateResponse = try responseDecoder.decode(responseBody: data)
                 self.emailTemplateResponse = output
@@ -16951,8 +16897,7 @@ public enum GetEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EndpointResponse = try responseDecoder.decode(responseBody: data)
                 self.endpointResponse = output
@@ -17061,8 +17006,7 @@ public enum GetEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension GetEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
                 self.eventStream = output
@@ -17179,8 +17123,7 @@ public enum GetExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ExportJobResponse = try responseDecoder.decode(responseBody: data)
                 self.exportJobResponse = output
@@ -17314,8 +17257,7 @@ public enum GetExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
                 self.exportJobsResponse = output
@@ -17424,8 +17366,7 @@ public enum GetGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.gcmChannelResponse = output
@@ -17542,8 +17483,7 @@ public enum GetImportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ImportJobResponse = try responseDecoder.decode(responseBody: data)
                 self.importJobResponse = output
@@ -17677,8 +17617,7 @@ public enum GetImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
                 self.importJobsResponse = output
@@ -17795,8 +17734,7 @@ public enum GetInAppMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInAppMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.InAppMessagesResponse = try responseDecoder.decode(responseBody: data)
                 self.inAppMessagesResponse = output
@@ -17928,8 +17866,7 @@ public enum GetInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.InAppTemplateResponse = try responseDecoder.decode(responseBody: data)
                 self.inAppTemplateResponse = output
@@ -18095,8 +18032,7 @@ public enum GetJourneyDateRangeKpiOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJourneyDateRangeKpiOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyDateRangeKpiResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyDateRangeKpiResponse = output
@@ -18246,8 +18182,7 @@ public enum GetJourneyExecutionActivityMetricsOutputError: Swift.Error, Swift.Eq
 
 extension GetJourneyExecutionActivityMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyExecutionActivityMetricsResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyExecutionActivityMetricsResponse = output
@@ -18389,8 +18324,7 @@ public enum GetJourneyExecutionMetricsOutputError: Swift.Error, Swift.Equatable 
 
 extension GetJourneyExecutionMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyExecutionMetricsResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyExecutionMetricsResponse = output
@@ -18507,8 +18441,7 @@ public enum GetJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyResponse = output
@@ -18640,8 +18573,7 @@ public enum GetPushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.PushNotificationTemplateResponse = try responseDecoder.decode(responseBody: data)
                 self.pushNotificationTemplateResponse = output
@@ -18750,8 +18682,7 @@ public enum GetRecommenderConfigurationOutputError: Swift.Error, Swift.Equatable
 
 extension GetRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
                 self.recommenderConfigurationResponse = output
@@ -18877,8 +18808,7 @@ public enum GetRecommenderConfigurationsOutputError: Swift.Error, Swift.Equatabl
 
 extension GetRecommenderConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ListRecommenderConfigurationsResponse = try responseDecoder.decode(responseBody: data)
                 self.listRecommenderConfigurationsResponse = output
@@ -19020,8 +18950,7 @@ public enum GetSegmentExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ExportJobsResponse = try responseDecoder.decode(responseBody: data)
                 self.exportJobsResponse = output
@@ -19163,8 +19092,7 @@ public enum GetSegmentImportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentImportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ImportJobsResponse = try responseDecoder.decode(responseBody: data)
                 self.importJobsResponse = output
@@ -19281,8 +19209,7 @@ public enum GetSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentResponse = output
@@ -19407,8 +19334,7 @@ public enum GetSegmentVersionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentResponse = output
@@ -19550,8 +19476,7 @@ public enum GetSegmentVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentsResponse = output
@@ -19685,8 +19610,7 @@ public enum GetSegmentsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSegmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentsResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentsResponse = output
@@ -19795,8 +19719,7 @@ public enum GetSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.smsChannelResponse = output
@@ -19928,8 +19851,7 @@ public enum GetSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SMSTemplateResponse = try responseDecoder.decode(responseBody: data)
                 self.smsTemplateResponse = output
@@ -20046,8 +19968,7 @@ public enum GetUserEndpointsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetUserEndpointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EndpointsResponse = try responseDecoder.decode(responseBody: data)
                 self.endpointsResponse = output
@@ -20156,8 +20077,7 @@ public enum GetVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.voiceChannelResponse = output
@@ -20289,8 +20209,7 @@ public enum GetVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension GetVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.VoiceTemplateResponse = try responseDecoder.decode(responseBody: data)
                 self.voiceTemplateResponse = output
@@ -21702,7 +21621,7 @@ extension InternalServerErrorException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -23023,8 +22942,7 @@ public enum ListJourneysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJourneysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneysResponse = try responseDecoder.decode(responseBody: data)
                 self.journeysResponse = output
@@ -23177,8 +23095,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.TagsModel = try responseDecoder.decode(responseBody: data)
                 self.tagsModel = output
@@ -23320,8 +23237,7 @@ public enum ListTemplateVersionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTemplateVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.TemplateVersionsResponse = try responseDecoder.decode(responseBody: data)
                 self.templateVersionsResponse = output
@@ -23459,8 +23375,7 @@ public enum ListTemplatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.TemplatesResponse = try responseDecoder.decode(responseBody: data)
                 self.templatesResponse = output
@@ -24154,7 +24069,7 @@ extension MethodNotAllowedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MethodNotAllowedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -24408,7 +24323,7 @@ extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -24989,7 +24904,7 @@ extension PayloadTooLargeException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PayloadTooLargeExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -25170,8 +25085,7 @@ public enum PhoneNumberValidateOutputError: Swift.Error, Swift.Equatable {
 
 extension PhoneNumberValidateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.NumberValidateResponse = try responseDecoder.decode(responseBody: data)
                 self.numberValidateResponse = output
@@ -25895,8 +25809,7 @@ public enum PutEventStreamOutputError: Swift.Error, Swift.Equatable {
 
 extension PutEventStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EventStream = try responseDecoder.decode(responseBody: data)
                 self.eventStream = output
@@ -26068,8 +25981,7 @@ public enum PutEventsOutputError: Swift.Error, Swift.Equatable {
 
 extension PutEventsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EventsResponse = try responseDecoder.decode(responseBody: data)
                 self.eventsResponse = output
@@ -26672,8 +26584,7 @@ public enum RemoveAttributesOutputError: Swift.Error, Swift.Equatable {
 
 extension RemoveAttributesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.AttributesResource = try responseDecoder.decode(responseBody: data)
                 self.attributesResource = output
@@ -28612,8 +28523,7 @@ public enum SendMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension SendMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
                 self.messageResponse = output
@@ -28785,8 +28695,7 @@ public enum SendOTPMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension SendOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageResponse = try responseDecoder.decode(responseBody: data)
                 self.messageResponse = output
@@ -29277,8 +29186,7 @@ public enum SendUsersMessagesOutputError: Swift.Error, Swift.Equatable {
 
 extension SendUsersMessagesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SendUsersMessageResponse = try responseDecoder.decode(responseBody: data)
                 self.sendUsersMessageResponse = output
@@ -30517,7 +30425,7 @@ extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.requestID = output.requestID
@@ -30941,8 +30849,7 @@ public enum UpdateAdmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateAdmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ADMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.admChannelResponse = output
@@ -31114,8 +31021,7 @@ public enum UpdateApnsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsChannelResponse = output
@@ -31287,8 +31193,7 @@ public enum UpdateApnsSandboxChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsSandboxChannelResponse = output
@@ -31460,8 +31365,7 @@ public enum UpdateApnsVoipChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApnsVoipChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipChannelResponse = output
@@ -31633,8 +31537,7 @@ public enum UpdateApnsVoipSandboxChannelOutputError: Swift.Error, Swift.Equatabl
 
 extension UpdateApnsVoipSandboxChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.APNSVoipSandboxChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.apnsVoipSandboxChannelResponse = output
@@ -31806,8 +31709,7 @@ public enum UpdateApplicationSettingsOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.ApplicationSettingsResource = try responseDecoder.decode(responseBody: data)
                 self.applicationSettingsResource = output
@@ -32026,8 +31928,7 @@ public enum UpdateBaiduChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateBaiduChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.BaiduChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.baiduChannelResponse = output
@@ -32207,8 +32108,7 @@ public enum UpdateCampaignOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCampaignOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.CampaignResponse = try responseDecoder.decode(responseBody: data)
                 self.campaignResponse = output
@@ -32380,8 +32280,7 @@ public enum UpdateEmailChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEmailChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.EmailChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.emailChannelResponse = output
@@ -32584,8 +32483,7 @@ public enum UpdateEmailTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEmailTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -32765,8 +32663,7 @@ public enum UpdateEndpointOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -32938,8 +32835,7 @@ public enum UpdateEndpointsBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateEndpointsBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -33111,8 +33007,7 @@ public enum UpdateGcmChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateGcmChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.GCMChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.gcmChannelResponse = output
@@ -33315,8 +33210,7 @@ public enum UpdateInAppTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateInAppTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -33498,8 +33392,7 @@ public enum UpdateJourneyOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJourneyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyResponse = output
@@ -33679,8 +33572,7 @@ public enum UpdateJourneyStateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJourneyStateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.JourneyResponse = try responseDecoder.decode(responseBody: data)
                 self.journeyResponse = output
@@ -33883,8 +33775,7 @@ public enum UpdatePushTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePushTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -34056,8 +33947,7 @@ public enum UpdateRecommenderConfigurationOutputError: Swift.Error, Swift.Equata
 
 extension UpdateRecommenderConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.RecommenderConfigurationResponse = try responseDecoder.decode(responseBody: data)
                 self.recommenderConfigurationResponse = output
@@ -34377,8 +34267,7 @@ public enum UpdateSegmentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSegmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SegmentResponse = try responseDecoder.decode(responseBody: data)
                 self.segmentResponse = output
@@ -34550,8 +34439,7 @@ public enum UpdateSmsChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSmsChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.SMSChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.smsChannelResponse = output
@@ -34754,8 +34642,7 @@ public enum UpdateSmsTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateSmsTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -34935,8 +34822,7 @@ public enum UpdateTemplateActiveVersionOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateTemplateActiveVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -35108,8 +34994,7 @@ public enum UpdateVoiceChannelOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVoiceChannelOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.VoiceChannelResponse = try responseDecoder.decode(responseBody: data)
                 self.voiceChannelResponse = output
@@ -35312,8 +35197,7 @@ public enum UpdateVoiceTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateVoiceTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.MessageBody = try responseDecoder.decode(responseBody: data)
                 self.messageBody = output
@@ -35520,8 +35404,7 @@ public enum VerifyOTPMessageOutputError: Swift.Error, Swift.Equatable {
 
 extension VerifyOTPMessageOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: PinpointClientTypes.VerificationResponse = try responseDecoder.decode(responseBody: data)
                 self.verificationResponse = output

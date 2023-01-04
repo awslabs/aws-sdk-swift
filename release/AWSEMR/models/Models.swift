@@ -129,7 +129,7 @@ extension AddInstanceFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddInstanceFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.clusterId = output.clusterId
@@ -286,7 +286,7 @@ extension AddInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddInstanceGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.instanceGroupIds = output.instanceGroupIds
@@ -465,7 +465,7 @@ extension AddJobFlowStepsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AddJobFlowStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stepIds = output.stepIds
         } else {
@@ -1517,7 +1517,7 @@ extension CancelStepsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cancelStepsInfoList = output.cancelStepsInfoList
         } else {
@@ -2833,7 +2833,7 @@ extension CreateSecurityConfigurationOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSecurityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.name = output.name
@@ -3133,7 +3133,7 @@ extension CreateStudioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.studioId = output.studioId
             self.url = output.url
@@ -3709,7 +3709,7 @@ extension DescribeClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cluster = output.cluster
         } else {
@@ -3881,7 +3881,7 @@ extension DescribeJobFlowsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeJobFlowsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobFlows = output.jobFlows
         } else {
@@ -4004,7 +4004,7 @@ extension DescribeNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeNotebookExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.notebookExecution = output.notebookExecution
         } else {
@@ -4140,7 +4140,7 @@ extension DescribeReleaseLabelOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeReleaseLabelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applications = output.applications
             self.availableOSReleases = output.availableOSReleases
@@ -4301,7 +4301,7 @@ extension DescribeSecurityConfigurationOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSecurityConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.name = output.name
@@ -4448,7 +4448,7 @@ extension DescribeStepOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStepOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.step = output.step
         } else {
@@ -4562,7 +4562,7 @@ extension DescribeStudioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStudioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.studio = output.studio
         } else {
@@ -5187,7 +5187,7 @@ extension GetAutoTerminationPolicyOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAutoTerminationPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoTerminationPolicy = output.autoTerminationPolicy
         } else {
@@ -5280,7 +5280,7 @@ extension GetBlockPublicAccessConfigurationOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBlockPublicAccessConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blockPublicAccessConfiguration = output.blockPublicAccessConfiguration
             self.blockPublicAccessConfigurationMetadata = output.blockPublicAccessConfigurationMetadata
@@ -5418,7 +5418,7 @@ extension GetClusterSessionCredentialsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetClusterSessionCredentialsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.credentials = output.credentials
             self.expiresAt = output.expiresAt
@@ -5537,7 +5537,7 @@ extension GetManagedScalingPolicyOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetManagedScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedScalingPolicy = output.managedScalingPolicy
         } else {
@@ -5687,7 +5687,7 @@ extension GetStudioSessionMappingOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetStudioSessionMappingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.sessionMapping = output.sessionMapping
         } else {
@@ -8323,7 +8323,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8376,7 +8376,7 @@ extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -9424,7 +9424,7 @@ extension ListBootstrapActionsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBootstrapActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bootstrapActions = output.bootstrapActions
             self.marker = output.marker
@@ -9605,7 +9605,7 @@ extension ListClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusters = output.clusters
             self.marker = output.marker
@@ -9750,7 +9750,7 @@ extension ListInstanceFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInstanceFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceFleets = output.instanceFleets
             self.marker = output.marker
@@ -9895,7 +9895,7 @@ extension ListInstanceGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInstanceGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceGroups = output.instanceGroups
             self.marker = output.marker
@@ -10125,7 +10125,7 @@ extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.marker = output.marker
@@ -10325,7 +10325,7 @@ extension ListNotebookExecutionsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListNotebookExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.notebookExecutions = output.notebookExecutions
@@ -10480,7 +10480,7 @@ extension ListReleaseLabelsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListReleaseLabelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.releaseLabels = output.releaseLabels
@@ -10611,7 +10611,7 @@ extension ListSecurityConfigurationsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSecurityConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.securityConfigurations = output.securityConfigurations
@@ -10804,7 +10804,7 @@ extension ListStepsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListStepsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.steps = output.steps
@@ -10960,7 +10960,7 @@ extension ListStudioSessionMappingsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListStudioSessionMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.sessionMappings = output.sessionMappings
@@ -11091,7 +11091,7 @@ extension ListStudiosOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListStudiosOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.marker = output.marker
             self.studios = output.studios
@@ -11347,7 +11347,7 @@ extension ModifyClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ModifyClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stepConcurrencyLevel = output.stepConcurrencyLevel
         } else {
@@ -12446,7 +12446,7 @@ extension PutAutoScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutAutoScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingPolicy = output.autoScalingPolicy
             self.clusterArn = output.clusterArn
@@ -13769,7 +13769,7 @@ extension RunJobFlowOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RunJobFlowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.clusterArn = output.clusterArn
             self.jobFlowId = output.jobFlowId
@@ -14990,7 +14990,7 @@ extension StartNotebookExecutionOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartNotebookExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.notebookExecutionId = output.notebookExecutionId
         } else {

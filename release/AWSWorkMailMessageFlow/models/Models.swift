@@ -57,9 +57,8 @@ public enum GetRawMessageContentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRawMessageContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader
-            self.messageContent = data
+        if let data = httpResponse.body.toBytes()?.getData() {
+            self.messageContent = ByteStream.from(data: data)
         } else {
             self.messageContent = nil
         }
@@ -99,7 +98,7 @@ extension InvalidContentLocation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidContentLocationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -157,7 +156,7 @@ extension MessageFrozen {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MessageFrozenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -209,7 +208,7 @@ extension MessageRejected {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MessageRejectedBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -405,7 +404,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

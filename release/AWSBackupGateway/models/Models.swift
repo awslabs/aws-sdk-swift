@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -152,7 +152,7 @@ extension AssociateGatewayToServerOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateGatewayToServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -295,7 +295,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -476,7 +476,7 @@ extension CreateGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -587,7 +587,7 @@ extension DeleteGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -702,7 +702,7 @@ extension DeleteHypervisorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteHypervisorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
         } else {
@@ -815,7 +815,7 @@ extension DisassociateGatewayFromServerOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateGatewayFromServerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -1135,7 +1135,7 @@ extension GetBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bandwidthRateLimitIntervals = output.bandwidthRateLimitIntervals
             self.gatewayArn = output.gatewayArn
@@ -1265,7 +1265,7 @@ extension GetGatewayOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gateway = output.gateway
         } else {
@@ -1376,7 +1376,7 @@ extension GetHypervisorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetHypervisorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisor = output.hypervisor
         } else {
@@ -1487,7 +1487,7 @@ extension GetHypervisorPropertyMappingsOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetHypervisorPropertyMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
             self.iamRoleArn = output.iamRoleArn
@@ -1627,7 +1627,7 @@ extension GetVirtualMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.virtualMachine = output.virtualMachine
         } else {
@@ -2046,7 +2046,7 @@ extension ImportHypervisorConfigurationOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ImportHypervisorConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
         } else {
@@ -2189,7 +2189,7 @@ extension ListGatewaysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListGatewaysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gateways = output.gateways
             self.nextToken = output.nextToken
@@ -2328,7 +2328,7 @@ extension ListHypervisorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListHypervisorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisors = output.hypervisors
             self.nextToken = output.nextToken
@@ -2458,7 +2458,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.tags = output.tags
@@ -2609,7 +2609,7 @@ extension ListVirtualMachinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListVirtualMachinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.virtualMachines = output.virtualMachines
@@ -2831,7 +2831,7 @@ extension PutBandwidthRateLimitScheduleOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutBandwidthRateLimitScheduleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -2984,7 +2984,7 @@ extension PutHypervisorPropertyMappingsOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutHypervisorPropertyMappingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
         } else {
@@ -3147,7 +3147,7 @@ extension PutMaintenanceStartTimeOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutMaintenanceStartTimeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -3188,7 +3188,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errorCode = output.errorCode
             self.message = output.message
@@ -3322,7 +3322,7 @@ extension StartVirtualMachinesMetadataSyncOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartVirtualMachinesMetadataSyncOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
         } else {
@@ -3546,7 +3546,7 @@ extension TagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -3830,7 +3830,7 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UntagResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceARN = output.resourceARN
         } else {
@@ -3955,7 +3955,7 @@ extension UpdateGatewayInformationOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGatewayInformationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -4066,7 +4066,7 @@ extension UpdateGatewaySoftwareNowOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGatewaySoftwareNowOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.gatewayArn = output.gatewayArn
         } else {
@@ -4246,7 +4246,7 @@ extension UpdateHypervisorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateHypervisorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hypervisorArn = output.hypervisorArn
         } else {

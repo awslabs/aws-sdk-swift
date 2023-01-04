@@ -214,9 +214,8 @@ extension AutoScalingClientTypes {
 
 extension ActiveInstanceRefreshNotFoundFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ActiveInstanceRefreshNotFoundFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -496,9 +495,8 @@ extension AutoScalingClientTypes {
 
 extension AlreadyExistsFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<AlreadyExistsFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1941,7 +1939,7 @@ extension BatchDeleteScheduledActionOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteScheduledActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedScheduledActions = output.failedScheduledActions
         } else {
@@ -2109,7 +2107,7 @@ extension BatchPutScheduledUpdateGroupActionOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchPutScheduledUpdateGroupActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedScheduledUpdateGroupActions = output.failedScheduledUpdateGroupActions
         } else {
@@ -2340,7 +2338,7 @@ extension CancelInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshId = output.instanceRefreshId
         } else {
@@ -4569,7 +4567,7 @@ extension DescribeAccountLimitsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAccountLimitsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.maxNumberOfAutoScalingGroups = output.maxNumberOfAutoScalingGroups
             self.maxNumberOfLaunchConfigurations = output.maxNumberOfLaunchConfigurations
@@ -4681,7 +4679,7 @@ extension DescribeAdjustmentTypesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAdjustmentTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.adjustmentTypes = output.adjustmentTypes
         } else {
@@ -4893,7 +4891,7 @@ extension DescribeAutoScalingGroupsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAutoScalingGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingGroups = output.autoScalingGroups
             self.nextToken = output.nextToken
@@ -5079,7 +5077,7 @@ extension DescribeAutoScalingInstancesOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAutoScalingInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingInstances = output.autoScalingInstances
             self.nextToken = output.nextToken
@@ -5188,7 +5186,7 @@ extension DescribeAutoScalingNotificationTypesOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAutoScalingNotificationTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoScalingNotificationTypes = output.autoScalingNotificationTypes
         } else {
@@ -5375,7 +5373,7 @@ extension DescribeInstanceRefreshesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInstanceRefreshesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshes = output.instanceRefreshes
             self.nextToken = output.nextToken
@@ -5560,7 +5558,7 @@ extension DescribeLaunchConfigurationsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLaunchConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchConfigurations = output.launchConfigurations
             self.nextToken = output.nextToken
@@ -5670,7 +5668,7 @@ extension DescribeLifecycleHookTypesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLifecycleHookTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycleHookTypes = output.lifecycleHookTypes
         } else {
@@ -5833,7 +5831,7 @@ extension DescribeLifecycleHooksOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLifecycleHooksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycleHooks = output.lifecycleHooks
         } else {
@@ -5983,7 +5981,7 @@ extension DescribeLoadBalancerTargetGroupsOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancerTargetGroupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancerTargetGroups = output.loadBalancerTargetGroups
             self.nextToken = output.nextToken
@@ -6143,7 +6141,7 @@ extension DescribeLoadBalancersOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBalancers = output.loadBalancers
             self.nextToken = output.nextToken
@@ -6252,7 +6250,7 @@ extension DescribeMetricCollectionTypesOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeMetricCollectionTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.granularities = output.granularities
             self.metrics = output.metrics
@@ -6454,7 +6452,7 @@ extension DescribeNotificationConfigurationsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeNotificationConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.notificationConfigurations = output.notificationConfigurations
@@ -6690,7 +6688,7 @@ extension DescribePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePoliciesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scalingPolicies = output.scalingPolicies
@@ -6897,7 +6895,7 @@ extension DescribeScalingActivitiesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeScalingActivitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
             self.nextToken = output.nextToken
@@ -7007,7 +7005,7 @@ extension DescribeScalingProcessTypesOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeScalingProcessTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.processes = output.processes
         } else {
@@ -7215,7 +7213,7 @@ extension DescribeScheduledActionsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeScheduledActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.scheduledUpdateGroupActions = output.scheduledUpdateGroupActions
@@ -7400,7 +7398,7 @@ extension DescribeTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -7509,7 +7507,7 @@ extension DescribeTerminationPolicyTypesOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTerminationPolicyTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.terminationPolicyTypes = output.terminationPolicyTypes
         } else {
@@ -7671,7 +7669,7 @@ extension DescribeTrafficSourcesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTrafficSourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.trafficSources = output.trafficSources
@@ -7833,7 +7831,7 @@ extension DescribeWarmPoolOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeWarmPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.nextToken = output.nextToken
@@ -8073,7 +8071,7 @@ extension DetachInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DetachInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
         } else {
@@ -9120,7 +9118,7 @@ extension EnterStandbyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: EnterStandbyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
         } else {
@@ -9406,7 +9404,7 @@ extension ExitStandbyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExitStandbyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
         } else {
@@ -9712,7 +9710,7 @@ extension GetPredictiveScalingForecastOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetPredictiveScalingForecastOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.capacityForecast = output.capacityForecast
             self.loadForecast = output.loadForecast
@@ -10245,9 +10243,8 @@ extension AutoScalingClientTypes {
 
 extension InstanceRefreshInProgressFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InstanceRefreshInProgressFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11128,9 +11125,8 @@ extension AutoScalingClientTypes {
 
 extension InvalidNextToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNextTokenBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11997,9 +11993,8 @@ extension AutoScalingClientTypes {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -14491,7 +14486,7 @@ extension PutScalingPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutScalingPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarms = output.alarms
             self.policyARN = output.policyARN
@@ -15104,9 +15099,8 @@ extension AutoScalingClientTypes {
 
 extension ResourceContentionFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceContentionFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -15157,9 +15151,8 @@ extension ResourceContentionFaultBody: Swift.Decodable {
 
 extension ResourceInUseFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceInUseFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -15347,9 +15340,8 @@ public struct ResumeProcessesOutputResponse: Swift.Equatable {
 
 extension ScalingActivityInProgressFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ScalingActivityInProgressFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -15952,9 +15944,8 @@ extension AutoScalingClientTypes {
 
 extension ServiceLinkedRoleFailure {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ServiceLinkedRoleFailureBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16441,7 +16432,7 @@ extension StartInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceRefreshId = output.instanceRefreshId
         } else {
@@ -17170,7 +17161,7 @@ extension TerminateInstanceInAutoScalingGroupOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TerminateInstanceInAutoScalingGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activity = output.activity
         } else {

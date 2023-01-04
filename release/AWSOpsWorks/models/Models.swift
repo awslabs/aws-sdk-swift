@@ -1437,7 +1437,7 @@ extension CloneStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CloneStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -2451,7 +2451,7 @@ extension CreateAppOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateAppOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.appId = output.appId
         } else {
@@ -2662,7 +2662,7 @@ extension CreateDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeploymentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentId = output.deploymentId
         } else {
@@ -3028,7 +3028,7 @@ extension CreateInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceId = output.instanceId
         } else {
@@ -3397,7 +3397,7 @@ extension CreateLayerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateLayerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.layerId = output.layerId
         } else {
@@ -3808,7 +3808,7 @@ extension CreateStackOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateStackOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackId = output.stackId
         } else {
@@ -3956,7 +3956,7 @@ extension CreateUserProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateUserProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.iamUserArn = output.iamUserArn
         } else {
@@ -5303,7 +5303,7 @@ extension DescribeAgentVersionsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAgentVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentVersions = output.agentVersions
         } else {
@@ -5449,7 +5449,7 @@ extension DescribeAppsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAppsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.apps = output.apps
         } else {
@@ -5607,7 +5607,7 @@ extension DescribeCommandsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCommandsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.commands = output.commands
         } else {
@@ -5765,7 +5765,7 @@ extension DescribeDeploymentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDeploymentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deployments = output.deployments
         } else {
@@ -5935,7 +5935,7 @@ extension DescribeEcsClustersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeEcsClustersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ecsClusters = output.ecsClusters
             self.nextToken = output.nextToken
@@ -6103,7 +6103,7 @@ extension DescribeElasticIpsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticIpsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.elasticIps = output.elasticIps
         } else {
@@ -6249,7 +6249,7 @@ extension DescribeElasticLoadBalancersOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeElasticLoadBalancersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.elasticLoadBalancers = output.elasticLoadBalancers
         } else {
@@ -6420,7 +6420,7 @@ extension DescribeInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
@@ -6566,7 +6566,7 @@ extension DescribeLayersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLayersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.layers = output.layers
         } else {
@@ -6701,7 +6701,7 @@ extension DescribeLoadBasedAutoScalingOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeLoadBasedAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.loadBasedAutoScalingConfigurations = output.loadBasedAutoScalingConfigurations
         } else {
@@ -6800,7 +6800,7 @@ extension DescribeMyUserProfileOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeMyUserProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.userProfile = output.userProfile
         } else {
@@ -6890,7 +6890,7 @@ extension DescribeOperatingSystemsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeOperatingSystemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operatingSystems = output.operatingSystems
         } else {
@@ -7024,7 +7024,7 @@ extension DescribePermissionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.permissions = output.permissions
         } else {
@@ -7188,7 +7188,7 @@ extension DescribeRaidArraysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRaidArraysOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.raidArrays = output.raidArrays
         } else {
@@ -7335,7 +7335,7 @@ extension DescribeRdsDbInstancesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRdsDbInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rdsDbInstances = output.rdsDbInstances
         } else {
@@ -7493,7 +7493,7 @@ extension DescribeServiceErrorsOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeServiceErrorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceErrors = output.serviceErrors
         } else {
@@ -7616,7 +7616,7 @@ extension DescribeStackProvisioningParametersOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStackProvisioningParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.agentInstallerUrl = output.agentInstallerUrl
             self.parameters = output.parameters
@@ -7749,7 +7749,7 @@ extension DescribeStackSummaryOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStackSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stackSummary = output.stackSummary
         } else {
@@ -7874,7 +7874,7 @@ extension DescribeStacksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStacksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stacks = output.stacks
         } else {
@@ -8009,7 +8009,7 @@ extension DescribeTimeBasedAutoScalingOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTimeBasedAutoScalingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.timeBasedAutoScalingConfigurations = output.timeBasedAutoScalingConfigurations
         } else {
@@ -8143,7 +8143,7 @@ extension DescribeUserProfilesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeUserProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.userProfiles = output.userProfiles
         } else {
@@ -8313,7 +8313,7 @@ extension DescribeVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumes = output.volumes
         } else {
@@ -9034,7 +9034,7 @@ extension GetHostnameSuggestionOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetHostnameSuggestionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.hostname = output.hostname
             self.layerId = output.layerId
@@ -9170,7 +9170,7 @@ extension GrantAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GrantAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.temporaryCredential = output.temporaryCredential
         } else {
@@ -10592,7 +10592,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -11530,7 +11530,7 @@ extension RegisterEcsClusterOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterEcsClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.ecsClusterArn = output.ecsClusterArn
         } else {
@@ -11657,7 +11657,7 @@ extension RegisterElasticIpOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterElasticIpOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.elasticIp = output.elasticIp
         } else {
@@ -11843,7 +11843,7 @@ extension RegisterInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instanceId = output.instanceId
         } else {
@@ -12090,7 +12090,7 @@ extension RegisterVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volumeId = output.volumeId
         } else {
@@ -12187,7 +12187,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16016,7 +16016,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

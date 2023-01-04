@@ -769,9 +769,8 @@ extension CloudWatchClientTypes {
 
 extension ConcurrentModificationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ConcurrentModificationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -886,9 +885,8 @@ extension CloudWatchClientTypes {
 
 extension DashboardInvalidInputError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<DashboardInvalidInputErrorBody> = try responseDecoder.decode(responseBody: data)
             self.dashboardValidationMessages = output.error.dashboardValidationMessages
             self.message = output.error.message
@@ -964,9 +962,8 @@ extension DashboardInvalidInputErrorBody: Swift.Decodable {
 
 extension DashboardNotFoundError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<DashboardNotFoundErrorBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1694,7 +1691,7 @@ extension DeleteInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -2003,7 +2000,7 @@ extension DescribeAlarmHistoryOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAlarmHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.alarmHistoryItems = output.alarmHistoryItems
             self.nextToken = output.nextToken
@@ -2230,7 +2227,7 @@ extension DescribeAlarmsForMetricOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAlarmsForMetricOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricAlarms = output.metricAlarms
         } else {
@@ -2495,7 +2492,7 @@ extension DescribeAlarmsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAlarmsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.compositeAlarms = output.compositeAlarms
             self.metricAlarms = output.metricAlarms
@@ -2770,7 +2767,7 @@ extension DescribeAnomalyDetectorsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeAnomalyDetectorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.anomalyDetectors = output.anomalyDetectors
             self.nextToken = output.nextToken
@@ -2916,7 +2913,7 @@ extension DescribeInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.insightRules = output.insightRules
             self.nextToken = output.nextToken
@@ -3274,7 +3271,7 @@ extension DisableInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisableInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -3531,7 +3528,7 @@ extension EnableInsightRulesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: EnableInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -3690,7 +3687,7 @@ extension GetDashboardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDashboardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardArn = output.dashboardArn
             self.dashboardBody = output.dashboardBody
@@ -3932,7 +3929,7 @@ extension GetInsightRuleReportOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetInsightRuleReportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregateValue = output.aggregateValue
             self.aggregationStatistic = output.aggregationStatistic
@@ -4245,7 +4242,7 @@ extension GetMetricDataOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMetricDataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.messages = output.messages
             self.metricDataResults = output.metricDataResults
@@ -4599,7 +4596,7 @@ extension GetMetricStatisticsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMetricStatisticsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.datapoints = output.datapoints
             self.label = output.label
@@ -4743,7 +4740,7 @@ extension GetMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMetricStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.creationDate = output.creationDate
@@ -5036,7 +5033,7 @@ extension GetMetricWidgetImageOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetMetricWidgetImageOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metricWidgetImage = output.metricWidgetImage
         } else {
@@ -5461,9 +5458,8 @@ extension CloudWatchClientTypes {
 
 extension InternalServiceFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InternalServiceFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5514,9 +5510,8 @@ extension InternalServiceFaultBody: Swift.Decodable {
 
 extension InvalidFormatFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidFormatFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5567,9 +5562,8 @@ extension InvalidFormatFaultBody: Swift.Decodable {
 
 extension InvalidNextToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNextTokenBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5620,9 +5614,8 @@ extension InvalidNextTokenBody: Swift.Decodable {
 
 extension InvalidParameterCombinationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterCombinationExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5673,9 +5666,8 @@ extension InvalidParameterCombinationExceptionBody: Swift.Decodable {
 
 extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidParameterValueExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5761,9 +5753,8 @@ extension CloudWatchClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5813,9 +5804,8 @@ extension LimitExceededExceptionBody: Swift.Decodable {
 
 extension LimitExceededFault {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<LimitExceededFaultBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -5947,7 +5937,7 @@ extension ListDashboardsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDashboardsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardEntries = output.dashboardEntries
             self.nextToken = output.nextToken
@@ -6109,7 +6099,7 @@ extension ListManagedInsightRulesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListManagedInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.managedRules = output.managedRules
             self.nextToken = output.nextToken
@@ -6261,7 +6251,7 @@ extension ListMetricStreamsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMetricStreamsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entries = output.entries
             self.nextToken = output.nextToken
@@ -6490,7 +6480,7 @@ extension ListMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListMetricsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metrics = output.metrics
             self.nextToken = output.nextToken
@@ -6657,7 +6647,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -8366,9 +8356,8 @@ extension CloudWatchClientTypes {
 
 extension MissingRequiredParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<MissingRequiredParameterExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -9087,7 +9076,7 @@ extension PutDashboardOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutDashboardOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardValidationMessages = output.dashboardValidationMessages
         } else {
@@ -9382,7 +9371,7 @@ extension PutManagedInsightRulesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutManagedInsightRulesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failures = output.failures
         } else {
@@ -10291,7 +10280,7 @@ extension PutMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutMetricStreamOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
         } else {
@@ -10407,9 +10396,8 @@ extension CloudWatchClientTypes {
 
 extension ResourceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -10460,9 +10448,8 @@ extension ResourceNotFoundBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceNotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
             self.resourceId = output.error.resourceId
