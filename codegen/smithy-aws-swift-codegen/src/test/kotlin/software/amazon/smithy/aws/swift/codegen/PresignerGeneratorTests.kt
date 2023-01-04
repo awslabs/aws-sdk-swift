@@ -18,9 +18,10 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
+            import Foundation
             
             extension GetFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -73,9 +74,10 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
+            import Foundation
             
             extension PostFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -131,9 +133,10 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
+            import Foundation
             
             extension PutFooInput {
-                public func presign(config: ExampleClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "example"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
@@ -191,9 +194,10 @@ class PresignerGeneratorTests {
 
             import AWSClientRuntime
             import ClientRuntime
+            import Foundation
 
             extension PutObjectInput {
-                public func presign(config: S3ClientConfigurationProtocol, expiration: Swift.Int64) async throws -> ClientRuntime.SdkHttpRequest? {
+                public func presign(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
                     let serviceName = "S3"
                     let input = self
                     let encoder = ClientRuntime.JSONEncoder()
