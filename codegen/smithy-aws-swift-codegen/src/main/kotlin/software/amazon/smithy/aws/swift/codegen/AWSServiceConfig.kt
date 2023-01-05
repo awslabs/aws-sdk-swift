@@ -242,6 +242,9 @@ class AWSServiceConfig(writer: SwiftWriter, val ctx: ProtocolGenerator.Generatio
         writer.dedent()
         writer.write("}")
         writer.write("")
+        writer.openBlock("public var partitionID: String? {", "}") {
+            writer.write("return [\"\$L\", region].compactMap { $$0 }.joined(separator: \" - \")", serviceName)
+        }
     }
 
     override fun otherRuntimeConfigProperties(): List<ConfigField> {

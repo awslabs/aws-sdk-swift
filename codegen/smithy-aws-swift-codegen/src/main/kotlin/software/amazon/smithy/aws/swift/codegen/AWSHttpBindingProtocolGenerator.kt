@@ -6,7 +6,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
-import software.amazon.smithy.aws.swift.codegen.middleware.RetryMiddleware
+import software.amazon.smithy.swift.codegen.integration.middlewares.RetryMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
