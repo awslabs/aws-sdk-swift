@@ -56,11 +56,15 @@ class S3ErrorIntegration : SwiftIntegration {
 
     private val httpResponseBinding = SectionWriter { writer, _ ->
         val operationErrorName = writer.getContext("operationErrorName") as String
-        writer.write("let errorDetails = $operationErrorName.isNotFoundAndEmptyBody(httpResponse: httpResponse)")
-        writer.write("    ? $operationErrorName.constructRestXMLError(httpResponse: httpResponse)")
-        writer.write("    : try \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
-        writer.write("let requestID2 = $operationErrorName.getRequestId2(httpResponse: httpResponse)")
-        writer.write("try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId, requestID2: requestID2)")
+        writer.write("let restXMLError = try \$N.makeError(from: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+        writer.openBlock("try self.init(", ")") {
+            writer.write("errorType: restXMLError.errorCode,")
+            writer.write("httpResponse: httpResponse,")
+            writer.write("decoder: decoder,")
+            writer.write("message: restXMLError.message,")
+            writer.write("requestID: restXMLError.requestId,")
+            writer.write("requestID2: httpResponse.requestId2")
+        }
     }
 
     private val httpResponseBindingErrorNarrow = SectionWriter { writer, _ ->
@@ -91,28 +95,6 @@ class S3ErrorIntegration : SwiftIntegration {
             writer.write("}")
             writer.dedent()
             writer.write("}")
-        }
-
-        writer.openBlock("extension $operationErrorName {", "}") {
-            writer.openBlock("static func isNotFoundAndEmptyBody(httpResponse: HttpResponse) -> Bool {", "}") {
-                writer.write("if case .none = httpResponse.body {")
-                writer.indent()
-                writer.write("return httpResponse.statusCode == .notFound")
-                writer.dedent()
-                writer.write("} else if case .empty = httpResponse.body {")
-                writer.indent()
-                writer.write("return httpResponse.statusCode == .notFound")
-                writer.dedent()
-                writer.write("}")
-                writer.write("return false")
-            }
-
-            writer.openBlock("static func constructRestXMLError(httpResponse: HttpResponse) -> AWSClientRuntime.RestXMLError {", "}") {
-                writer.write("return RestXMLError(errorCode: \"NotFound\", requestId: httpResponse.headers.value(for: \"x-amz-request-id\"))")
-            }
-            writer.openBlock("static func getRequestId2(httpResponse: HttpResponse) -> String? {", "}") {
-                writer.write("return httpResponse.headers.value(for: \"x-amz-id-2\")")
-            }
         }
     }
 
