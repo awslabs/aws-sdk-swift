@@ -357,13 +357,6 @@ let package = Package(
         .library(name: "AWSWorkSpacesWeb", targets: ["AWSWorkSpacesWeb"]),
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
-<<<<<<< HEAD
-=======
-    dependencies: [
-        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main")
-    ],
->>>>>>> 45ef4ba84a (Reverts version pinning)
     targets: [
         .target(
             name: "AWSClientRuntime",
