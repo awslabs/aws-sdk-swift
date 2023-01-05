@@ -1,7 +1,8 @@
-name: Release
+# This script is for building the full SDK
+# It will regenerate all models, build the full SDK with the new models, and run tests.
+name: Codegen, Build, and Test
 
 on:
-  pull_request:
   workflow_dispatch:
 
 env:
@@ -16,16 +17,8 @@ env:
   AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
   SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
 
-# This release script is work in progress.  We will need to update the script to
-# * Ensure that unit tests pass for all targets prior to generating a release
-# * Create release based on one of the platform's built results
-# * Add Readme.md file in release folder
-# * Pin to versions of aws-crt-swift and smithy-swift
-#
-
 jobs:
-  macos-release:
-    if:  startsWith(github.head_ref, 'release/')
+  codegen-build-test:
     runs-on: macos-11
     steps:
       - name: Checkout sources
@@ -50,15 +43,8 @@ jobs:
           rm -rf release/
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/mergeModels.sh release
-          AWS_SDK_RELEASE_IN_PROGRESS=1 ./scripts/generatePackageSwift.swift > Package.swift
+          ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
           ./gradlew --stop
           swift build --build-tests
           swift test --skip-build
-      - name: Commit Changes
-        uses: EndBug/add-and-commit@v7
-        with:
-          author_name: AWS CI
-          author_email: nobody@amazonaws.com
-          message: 'aws-sdk-swift release build artifacts'
-          add: 'release Package.swift'
