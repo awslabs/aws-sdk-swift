@@ -3,6 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.customization.route53
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.HttpLabelTrait
@@ -12,13 +13,12 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
+import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
-
-private val Route53ShapeId: ShapeId = ShapeId.from("com.amazonaws.route53#AWSDnsV20130401")
 
 class Route53TrimHostedZone : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
-        return settings.service == Route53ShapeId
+        return model.expectShape<ServiceShape>(settings.service).isRoute53
     }
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
         return ModelTransformer.create().mapShapes(model) {
