@@ -255,7 +255,10 @@ class RestJsonProtocolGeneratorTests {
                             useFIPS: useFIPS
                         )
                     }
-            
+
+                    public var partitionID: String? {
+                        return ["ExampleClient", region].compactMap { ${'$'}0 }.joined(separator: " - ")
+                    }
                 }
             }
             
