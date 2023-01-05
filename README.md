@@ -53,7 +53,7 @@ Testing generated services requires `ClientRuntime` of `smithy-swift` and `AWSCl
 ## SDK Usage Instructions
 *Steps*
 
-AWS SDKs are available under `/release` in a tagged branch.
+AWS SDKs are available under `/Sources` in a tagged branch.
 
 We will walk you through how you can use `CognitoIdentity`  as dependency for example in the steps below.  To use it, we will create a test project called TestSdk.
 

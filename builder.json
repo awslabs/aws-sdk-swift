@@ -6,18 +6,17 @@
     "gradlew": "{source_dir}/gradlew"
   },
   "pre_build_steps": [
-    "cd {source_dir} && rm -rf release",
+    "cd {source_dir}",
     "cd {source_dir} && ./scripts/setup_for_crt_builder.sh"
   ],
   "build_steps": [
     "{gradlew} -p {source_dir}/codegen/smithy-aws-swift-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen build",
     "{gradlew} -p {source_dir}/codegen/protocol-test-codegen-local build",
-    "mkdir -p {source_dir}/release",
-    "cd {source_dir} && swift build --build-tests"
+    "cd {source_dir} && swift build"
   ],
   "test_steps": [
-      "cd {source_dir} && swift test --skip-build",
+      "cd {source_dir} && swift test --skip-build --filter AWSClientRuntimeTests",
       "cd {source_dir} && ./scripts/mergeModels.sh {source_dir}/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models",
       "cd {source_dir}/codegen && swift test"
   ],

@@ -160,37 +160,36 @@ private func dependency(url: String, version: String, branch: String?, path: Str
     return ".package(url: \"\(url)\", .exact(\"\(version)\"))"
 }
 
-func generateTargets(_ releasedSDKs: [String]) {
-    let targetsBeginning = """
-    targets: [
-        .target(
-            name: "AWSClientRuntime",
-            dependencies: [
-                .product(name: "ClientRuntime", package: "smithy-swift"),
-                .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift")
-            ],
-            path: "./AWSClientRuntime/Sources"
-        ),
-        .testTarget(
-            name: "AWSClientRuntimeTests",
-            dependencies: [
-                "AWSClientRuntime",
-                .product(name: "SmithyTestUtil", package: "smithy-swift"),
-                .product(name: "ClientRuntime", package: "smithy-swift")
-            ],
-            path: "./AWSClientRuntime/Tests"
-        ),
-"""
-    print(targetsBeginning)
+func generateServiceTargets(_ releasedSDKs: [String]) {
+    print("        // MARK: - Service Targets")
     for sdk in releasedSDKs {
-        print("        .target(name: \"\(sdk)\", dependencies: [.product(name: \"ClientRuntime\", package: \"smithy-swift\"), \"AWSClientRuntime\"], path: \"./release/\(sdk)\"),")
+        print(#"        .target(name: "\#(sdk)", dependencies: ["AWSClientRuntime"], path: "./Sources/Services/\#(sdk)"),"#)
     }
-    print("    ]")
+    print()
+    print("        // MARK: - Service Test Targets")
+    for sdk in releasedSDKs {
+        print(#"        .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
+    }
+}
+
+func generateCoreTargets() {
+    print("        // MARK: - Core Targets")
+    print(#"        .target(name: "AWSClientRuntime", dependencies: [clientRuntime], path: "./Sources/Core/AWSClientRuntime"),"#)
+    print()
+    print("        // MARK: - Core Test Targets")
+    print(#"        .testTarget(name: "AWSClientRuntimeTests", dependencies: ["AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),"#)
+    print()
+}
+
+func generateCommonDependencies() {
+    print(#"let smithyTestUtil = PackageDescription.Target.Dependency.product(name: "SmithyTestUtil", package: "smithy-swift")"#)
+    print(#"let clientRuntime = PackageDescription.Target.Dependency.product(name: "ClientRuntime", package: "smithy-swift")"#)
+    print()
 }
 
 let releasedSDKs = try! FileManager.default
-    .contentsOfDirectory(atPath: "release")
-    .filter { !$0.hasPrefix(".") }.sorted()
+    .contentsOfDirectory(atPath: "Sources/Services")
+    .sorted()
 
 guard let deps = getPackageDependencies() else {
     print("Failed to get version dependencies")
@@ -199,9 +198,13 @@ guard let deps = getPackageDependencies() else {
 }
 
 generateHeader()
+generateCommonDependencies()
 generatePackageHeader()
 generateProducts(releasedSDKs)
-generateTargets(releasedSDKs)
+print("    targets: [")
+generateCoreTargets()
+generateServiceTargets(releasedSDKs)
+print("    ]")
 print(")")
 print("")
 generateDependencies(deps)
