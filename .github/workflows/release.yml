@@ -47,7 +47,7 @@ jobs:
           chmod a+x builder.pyz
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
-          rm-rf release/
+          rm -rf release/
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/mergeModels.sh release
           AWS_SDK_RELEASE_IN_PROGRESS=1 ./scripts/generatePackageSwift.swift > Package.swift
