@@ -92,13 +92,13 @@ class EndpointResolverGenerator() {
                         writer.write("throw EndpointError.unresolved(error)")
                     }.write("")
 
-                    writer.openBlock("guard let url = try crtResolvedEndpoint.getURL() else {", "}") {
+                    writer.openBlock("guard let url = crtResolvedEndpoint.getURL() else {", "}") {
                         writer.write("assertionFailure(\"This must be a bug in either CRT or the rule engine, if the endpoint is not an error, it must have a url\")")
                         writer.write("throw EndpointError.unresolved(\"Failed to resolved endpoint\")")
                     }.write("")
 
-                    writer.write("let headers = try crtResolvedEndpoint.getHeaders() ?? [:]")
-                    writer.write("let properties = try crtResolvedEndpoint.getProperties() ?? [:]")
+                    writer.write("let headers = crtResolvedEndpoint.getHeaders() ?? [:]")
+                    writer.write("let properties = crtResolvedEndpoint.getProperties() ?? [:]")
                     writer.write("return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)")
                 } ?: run {
                     writer.write("fatalError(\"EndpointResolver not implemented\")")
