@@ -103,23 +103,45 @@ func generateProducts(_ releasedSDKs: [String]) {
 }
 
 func generateDependencies(_ deps: PackageDeps) {
+    let crtURL = "https://github.com/awslabs/aws-crt-swift"
+    let smithyURL = "https://github.com/awslabs/smithy-swift"
+
     let crtSwiftDependency = dependency(
-        url: "https://github.com/awslabs/aws-crt-swift",
+        url: crtURL,
         version: deps.awsCRTSwiftVersion,
         branch: deps.awsCRTSwiftBranch, 
         path: deps.awsCRTSwiftPath
     )
     let clientRuntimeDependency = dependency(
-        url: "https://github.com/awslabs/smithy-swift",
+        url: smithyURL,
         version: deps.clientRuntimeVersion,
         branch: deps.clientRuntimeBranch,
         path: deps.clientRuntimePath
     )
+    
     let dependencies = """
-    dependencies: [
+let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
+let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
+
+switch (useLocalDeps, useMainDeps) {
+case (true, true):
+    fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
+case (true, false):
+    package.dependencies += [
+        .package(path: "../aws-crt-swift"),
+        .package(path: "../smithy-swift")
+    ]
+case (false, true):
+    package.dependencies += [
+        .package(url: \"\(crtURL)\", branch: \"main\"),
+        .package(url: \"\(smithyURL)\", branch: \"main\")
+    ]
+case (false, false):
+    package.dependencies += [
         \(clientRuntimeDependency),
         \(crtSwiftDependency)
-    ],
+    ]
+}
 """
     print(dependencies)
 }
@@ -178,6 +200,7 @@ guard let deps = getPackageDependencies() else {
 generateHeader()
 generatePackageHeader()
 generateProducts(releasedSDKs)
-generateDependencies(deps)
 generateTargets(releasedSDKs)
 print(")")
+print("")
+generateDependencies(deps)
