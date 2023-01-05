@@ -12,8 +12,8 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Http.SdkHttpRequest
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHandler
+import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
-import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.core.CodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
@@ -68,11 +68,12 @@ class PresignerGenerator : SwiftIntegration {
 
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SdkHttpRequest)
+        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
-            writer.openBlock("public func presign(config: \$N, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeProtocol, SwiftTypes.Int64, SdkHttpRequest) {
+            writer.openBlock("public func presign(config: \$N, expiration: \$N) async throws -> \$T {", "}", serviceConfig.typeProtocol, FoundationTypes.TimeInterval, SdkHttpRequest) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")
                 writer.write("let input = self")
                 val operationStackName = "operation"
