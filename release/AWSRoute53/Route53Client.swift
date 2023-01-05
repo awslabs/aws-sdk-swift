@@ -220,7 +220,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>(id: "activateKeySigningKey")
-        operation.initializeStep.intercept(position: .after, middleware: ActivateKeySigningKeyInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse, ActivateKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ActivateKeySigningKeyInput, ActivateKeySigningKeyOutputResponse>())
         guard let region = config.region else {
@@ -264,7 +263,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>(id: "associateVPCWithHostedZone")
-        operation.initializeStep.intercept(position: .after, middleware: AssociateVPCWithHostedZoneInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse, AssociateVPCWithHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateVPCWithHostedZoneInput, AssociateVPCWithHostedZoneOutputResponse>())
         guard let region = config.region else {
@@ -352,7 +350,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>(id: "changeResourceRecordSets")
-        operation.initializeStep.intercept(position: .after, middleware: ChangeResourceRecordSetsInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse, ChangeResourceRecordSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangeResourceRecordSetsInput, ChangeResourceRecordSetsOutputResponse>())
         guard let region = config.region else {
@@ -846,7 +843,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>(id: "createVPCAssociationAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: CreateVPCAssociationAuthorizationInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse, CreateVPCAssociationAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateVPCAssociationAuthorizationInput, CreateVPCAssociationAuthorizationOutputResponse>())
         guard let region = config.region else {
@@ -884,7 +880,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>(id: "deactivateKeySigningKey")
-        operation.initializeStep.intercept(position: .after, middleware: DeactivateKeySigningKeyInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse, DeactivateKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeactivateKeySigningKeyInput, DeactivateKeySigningKeyOutputResponse>())
         guard let region = config.region else {
@@ -1025,7 +1020,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>(id: "deleteKeySigningKey")
-        operation.initializeStep.intercept(position: .after, middleware: DeleteKeySigningKeyInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse, DeleteKeySigningKeyOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteKeySigningKeyInput, DeleteKeySigningKeyOutputResponse>())
         guard let region = config.region else {
@@ -1202,7 +1196,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>(id: "deleteVPCAssociationAuthorization")
-        operation.initializeStep.intercept(position: .after, middleware: DeleteVPCAssociationAuthorizationInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse, DeleteVPCAssociationAuthorizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteVPCAssociationAuthorizationInput, DeleteVPCAssociationAuthorizationOutputResponse>())
         guard let region = config.region else {
@@ -1240,7 +1233,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>(id: "disableHostedZoneDNSSEC")
-        operation.initializeStep.intercept(position: .after, middleware: DisableHostedZoneDNSSECInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse, DisableHostedZoneDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableHostedZoneDNSSECInput, DisableHostedZoneDNSSECOutputResponse>())
         guard let region = config.region else {
@@ -1295,7 +1287,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>(id: "disassociateVPCFromHostedZone")
-        operation.initializeStep.intercept(position: .after, middleware: DisassociateVPCFromHostedZoneInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse, DisassociateVPCFromHostedZoneOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateVPCFromHostedZoneInput, DisassociateVPCFromHostedZoneOutputResponse>())
         guard let region = config.region else {
@@ -1333,7 +1324,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>(id: "enableHostedZoneDNSSEC")
-        operation.initializeStep.intercept(position: .after, middleware: EnableHostedZoneDNSSECInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse, EnableHostedZoneDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableHostedZoneDNSSECInput, EnableHostedZoneDNSSECOutputResponse>())
         guard let region = config.region else {
@@ -1474,7 +1464,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<GetDNSSECInput, GetDNSSECOutputResponse, GetDNSSECOutputError>(id: "getDNSSEC")
-        operation.initializeStep.intercept(position: .after, middleware: GetDNSSECInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDNSSECInput, GetDNSSECOutputResponse, GetDNSSECOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDNSSECInput, GetDNSSECOutputResponse>())
         guard let region = config.region else {
@@ -1748,7 +1737,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>(id: "getHostedZoneLimit")
-        operation.initializeStep.intercept(position: .after, middleware: GetHostedZoneLimitInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse, GetHostedZoneLimitOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetHostedZoneLimitInput, GetHostedZoneLimitOutputResponse>())
         guard let region = config.region else {
@@ -2326,7 +2314,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(id: "listResourceRecordSets")
-        operation.initializeStep.intercept(position: .after, middleware: ListResourceRecordSetsInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse>())
         guard let region = config.region else {
@@ -2643,7 +2630,6 @@ extension Route53Client: Route53ClientProtocol {
                       .withSigningName(value: "route53")
                       .withSigningRegion(value: config.signingRegion)
         var operation = ClientRuntime.OperationStack<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>(id: "listVPCAssociationAuthorizations")
-        operation.initializeStep.intercept(position: .after, middleware: ListVPCAssociationAuthorizationsInputStripHostedZoneMiddleware())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse, ListVPCAssociationAuthorizationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListVPCAssociationAuthorizationsInput, ListVPCAssociationAuthorizationsOutputResponse>())
         guard let region = config.region else {
