@@ -26,7 +26,8 @@ public struct ProfileRegionProvider: RegionProvider {
     }
     
     public func resolveRegion() async throws -> String? {
-        let profileCollection = try profileCollection ?? AwsCommonRuntimeKit.ProfileCollection(fromFile: path, source: .config)
+        let profileCollection = try profileCollection ??
+            AwsCommonRuntimeKit.ProfileCollection(fromFile: path, source: .config)
         guard let profile = profileCollection.profile(for: profileName) else {
             logger.debug("Unable to find profile: \(profileName) in \(path)")
             return nil

@@ -257,7 +257,7 @@ class RestJsonProtocolGeneratorTests {
                     }
 
                     public var partitionID: String? {
-                        return ["ExampleClient", region].compactMap { ${'$'}0 }.joined(separator: " - ")
+                        return "ExampleClient - \(region ?? "")"
                     }
                 }
             }
