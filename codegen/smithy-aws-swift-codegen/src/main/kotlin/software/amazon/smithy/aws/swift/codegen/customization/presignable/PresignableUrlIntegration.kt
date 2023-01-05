@@ -13,6 +13,7 @@ import software.amazon.smithy.model.knowledge.OperationIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -87,14 +88,15 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
         writer.addImport(AWSClientRuntimeTypes.Core.AWSClientConfiguration)
         writer.addImport(ClientRuntimeTypes.Http.SdkHttpRequest)
-        writer.addFoundationImport()
+        writer.addIndividualTypeImport("typealias", "Foundation", "TimeInterval")
 
         val httpBindingResolver = protocolGenerator.getProtocolHttpBindingResolver(protocolGeneratorContext, protocolGenerator.defaultContentType)
 
         writer.openBlock("extension $inputType {", "}") {
             writer.openBlock(
-                "public func presignURL(config: \$N, expiration: Foundation.TimeInterval) async throws -> \$T {", "}",
+                "public func presignURL(config: \$N, expiration: \$N) async throws -> \$T {", "}",
                 serviceConfig.typeProtocol,
+                FoundationTypes.TimeInterval,
                 ClientRuntimeTypes.Core.URL
             ) {
                 writer.write("let serviceName = \"${ctx.settings.sdkId}\"")

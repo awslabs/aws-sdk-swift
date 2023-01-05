@@ -18,7 +18,7 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
-            import Foundation
+            import typealias Foundation.TimeInterval
             
             extension GetFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
@@ -74,7 +74,7 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
-            import Foundation
+            import typealias Foundation.TimeInterval
             
             extension PostFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
@@ -133,7 +133,7 @@ class PresignerGeneratorTests {
             """
             import AWSClientRuntime
             import ClientRuntime
-            import Foundation
+            import typealias Foundation.TimeInterval
             
             extension PutFooInput {
                 public func presign(config: ExampleClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
@@ -194,7 +194,7 @@ class PresignerGeneratorTests {
 
             import AWSClientRuntime
             import ClientRuntime
-            import Foundation
+            import typealias Foundation.TimeInterval
 
             extension PutObjectInput {
                 public func presign(config: S3ClientConfigurationProtocol, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
