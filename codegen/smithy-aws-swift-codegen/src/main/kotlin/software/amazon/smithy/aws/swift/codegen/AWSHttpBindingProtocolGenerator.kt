@@ -6,7 +6,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
-import software.amazon.smithy.swift.codegen.integration.middlewares.RetryMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
@@ -24,6 +23,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestGene
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.RetryMiddleware
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructDecodeGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
