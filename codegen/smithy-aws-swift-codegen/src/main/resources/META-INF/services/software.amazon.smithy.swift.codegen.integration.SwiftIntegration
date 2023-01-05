@@ -2,6 +2,7 @@ software.amazon.smithy.aws.swift.codegen.AddProtocols
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3Expires
 software.amazon.smithy.aws.swift.codegen.customization.route53.Route53TrimHostedZone
+software.amazon.smithy.aws.swift.codegen.customization.route53.Route53InvalidBatchErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.apigateway.ApiGatewayAddAcceptHeader
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAddVersionHeader
 software.amazon.smithy.aws.swift.codegen.customization.glacier.GlacierAccountIdDefault
