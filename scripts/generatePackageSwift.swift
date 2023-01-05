@@ -75,6 +75,7 @@ func generateHeader() {
     // This manifest is auto-generated.  Do not commit edits to this file;
     // they will be overwritten.
 
+    import Foundation
     import PackageDescription
 
     """
