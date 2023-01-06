@@ -185,6 +185,9 @@ public class KinesisVideoWebRTCStorageClient {
             )
         }
 
+        public var partitionID: String? {
+            return "KinesisVideoWebRTCStorageClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension KinesisVideoWebRTCStorageClient: KinesisVideoWebRTCStorageClientProtoc
                       .withOperation(value: "joinStorageSession")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
@@ -230,7 +234,7 @@ extension KinesisVideoWebRTCStorageClient: KinesisVideoWebRTCStorageClientProtoc
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<JoinStorageSessionInput, JoinStorageSessionOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<JoinStorageSessionInput, JoinStorageSessionOutputResponse>(xmlName: "JoinStorageSessionInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(clientLogMode: config.clientLogMode))

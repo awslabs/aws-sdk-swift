@@ -185,6 +185,9 @@ public class CostandUsageReportClient {
             )
         }
 
+        public var partitionID: String? {
+            return "CostandUsageReportClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withOperation(value: "deleteReportDefinition")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
@@ -228,7 +232,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse>(xmlName: "DeleteReportDefinitionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteReportDefinitionOutputResponse, DeleteReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
@@ -248,6 +252,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withOperation(value: "describeReportDefinitions")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
@@ -263,7 +268,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutputResponse>(xmlName: "DescribeReportDefinitionsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeReportDefinitionsOutputResponse, DescribeReportDefinitionsOutputError>(clientLogMode: config.clientLogMode))
@@ -283,6 +288,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withOperation(value: "modifyReportDefinition")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
@@ -298,7 +304,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutputResponse>(xmlName: "ModifyReportDefinitionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<ModifyReportDefinitionOutputResponse, ModifyReportDefinitionOutputError>(clientLogMode: config.clientLogMode))
@@ -318,6 +324,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
                       .withOperation(value: "putReportDefinition")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "cur")
@@ -333,7 +340,7 @@ extension CostandUsageReportClient: CostandUsageReportClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse>(xmlName: "PutReportDefinitionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutReportDefinitionInput, PutReportDefinitionOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutReportDefinitionOutputResponse, PutReportDefinitionOutputError>(clientLogMode: config.clientLogMode))

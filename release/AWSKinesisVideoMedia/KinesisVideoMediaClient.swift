@@ -185,6 +185,9 @@ public class KinesisVideoMediaClient {
             )
         }
 
+        public var partitionID: String? {
+            return "KinesisVideoMediaClient - \(region ?? "")"
+        }
     }
 }
 
@@ -227,6 +230,7 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
                       .withOperation(value: "getMedia")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "kinesisvideo")
@@ -241,7 +245,7 @@ extension KinesisVideoMediaClient: KinesisVideoMediaClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMediaInput, GetMediaOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMediaInput, GetMediaOutputResponse>(xmlName: "GetMediaInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetMediaOutputResponse, GetMediaOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetMediaOutputResponse, GetMediaOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaOutputResponse, GetMediaOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetMediaOutputResponse, GetMediaOutputError>(clientLogMode: config.clientLogMode))

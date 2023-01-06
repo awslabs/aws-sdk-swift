@@ -185,6 +185,9 @@ public class AccountClient {
             )
         }
 
+        public var partitionID: String? {
+            return "AccountClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension AccountClient: AccountClientProtocol {
                       .withOperation(value: "deleteAlternateContact")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "account")
@@ -227,7 +231,7 @@ extension AccountClient: AccountClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutputResponse>(xmlName: "DeleteAlternateContactRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DeleteAlternateContactOutputResponse, DeleteAlternateContactOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DeleteAlternateContactOutputResponse, DeleteAlternateContactOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAlternateContactOutputResponse, DeleteAlternateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DeleteAlternateContactOutputResponse, DeleteAlternateContactOutputError>(clientLogMode: config.clientLogMode))
@@ -247,6 +251,7 @@ extension AccountClient: AccountClientProtocol {
                       .withOperation(value: "getAlternateContact")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "account")
@@ -261,7 +266,7 @@ extension AccountClient: AccountClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetAlternateContactInput, GetAlternateContactOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetAlternateContactInput, GetAlternateContactOutputResponse>(xmlName: "GetAlternateContactRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetAlternateContactOutputResponse, GetAlternateContactOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetAlternateContactOutputResponse, GetAlternateContactOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAlternateContactOutputResponse, GetAlternateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetAlternateContactOutputResponse, GetAlternateContactOutputError>(clientLogMode: config.clientLogMode))
@@ -281,6 +286,7 @@ extension AccountClient: AccountClientProtocol {
                       .withOperation(value: "getContactInformation")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "account")
@@ -295,7 +301,7 @@ extension AccountClient: AccountClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetContactInformationInput, GetContactInformationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetContactInformationInput, GetContactInformationOutputResponse>(xmlName: "GetContactInformationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetContactInformationOutputResponse, GetContactInformationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetContactInformationOutputResponse, GetContactInformationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetContactInformationOutputResponse, GetContactInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetContactInformationOutputResponse, GetContactInformationOutputError>(clientLogMode: config.clientLogMode))
@@ -315,6 +321,7 @@ extension AccountClient: AccountClientProtocol {
                       .withOperation(value: "putAlternateContact")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "account")
@@ -329,7 +336,7 @@ extension AccountClient: AccountClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutAlternateContactInput, PutAlternateContactOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutAlternateContactInput, PutAlternateContactOutputResponse>(xmlName: "PutAlternateContactRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutAlternateContactOutputResponse, PutAlternateContactOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutAlternateContactOutputResponse, PutAlternateContactOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutAlternateContactOutputResponse, PutAlternateContactOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutAlternateContactOutputResponse, PutAlternateContactOutputError>(clientLogMode: config.clientLogMode))
@@ -349,6 +356,7 @@ extension AccountClient: AccountClientProtocol {
                       .withOperation(value: "putContactInformation")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "account")
@@ -363,7 +371,7 @@ extension AccountClient: AccountClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutContactInformationInput, PutContactInformationOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutContactInformationInput, PutContactInformationOutputResponse>(xmlName: "PutContactInformationRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutContactInformationOutputResponse, PutContactInformationOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutContactInformationOutputResponse, PutContactInformationOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutContactInformationOutputResponse, PutContactInformationOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutContactInformationOutputResponse, PutContactInformationOutputError>(clientLogMode: config.clientLogMode))

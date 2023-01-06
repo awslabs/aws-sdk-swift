@@ -185,6 +185,9 @@ public class MarketplaceCommerceAnalyticsClient {
             )
         }
 
+        public var partitionID: String? {
+            return "MarketplaceCommerceAnalyticsClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension MarketplaceCommerceAnalyticsClient: MarketplaceCommerceAnalyticsClient
                       .withOperation(value: "generateDataSet")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "marketplacecommerceanalytics")
@@ -228,7 +232,7 @@ extension MarketplaceCommerceAnalyticsClient: MarketplaceCommerceAnalyticsClient
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GenerateDataSetInput, GenerateDataSetOutputResponse>(xmlName: "GenerateDataSetRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GenerateDataSetInput, GenerateDataSetOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GenerateDataSetOutputResponse, GenerateDataSetOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GenerateDataSetOutputResponse, GenerateDataSetOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GenerateDataSetOutputResponse, GenerateDataSetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GenerateDataSetOutputResponse, GenerateDataSetOutputError>(clientLogMode: config.clientLogMode))
@@ -248,6 +252,7 @@ extension MarketplaceCommerceAnalyticsClient: MarketplaceCommerceAnalyticsClient
                       .withOperation(value: "startSupportDataExport")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "marketplacecommerceanalytics")
@@ -263,7 +268,7 @@ extension MarketplaceCommerceAnalyticsClient: MarketplaceCommerceAnalyticsClient
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSupportDataExportInput, StartSupportDataExportOutputResponse>(xmlName: "StartSupportDataExportRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSupportDataExportInput, StartSupportDataExportOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<StartSupportDataExportOutputResponse, StartSupportDataExportOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartSupportDataExportOutputResponse, StartSupportDataExportOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSupportDataExportOutputResponse, StartSupportDataExportOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartSupportDataExportOutputResponse, StartSupportDataExportOutputError>(clientLogMode: config.clientLogMode))

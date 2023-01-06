@@ -185,6 +185,9 @@ public class WorkMailMessageFlowClient {
             )
         }
 
+        public var partitionID: String? {
+            return "WorkMailMessageFlowClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
                       .withOperation(value: "getRawMessageContent")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "workmailmessageflow")
@@ -224,7 +228,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetRawMessageContentOutputResponse, GetRawMessageContentOutputError>(clientLogMode: config.clientLogMode))
@@ -244,6 +248,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
                       .withOperation(value: "putRawMessageContent")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "workmailmessageflow")
@@ -258,7 +263,7 @@ extension WorkMailMessageFlowClient: WorkMailMessageFlowClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRawMessageContentInput, PutRawMessageContentOutputResponse>(contentType: "application/json"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRawMessageContentInput, PutRawMessageContentOutputResponse>(xmlName: "PutRawMessageContentRequest"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<PutRawMessageContentOutputResponse, PutRawMessageContentOutputError>(clientLogMode: config.clientLogMode))

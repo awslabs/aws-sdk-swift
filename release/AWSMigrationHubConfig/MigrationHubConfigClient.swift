@@ -185,6 +185,9 @@ public class MigrationHubConfigClient {
             )
         }
 
+        public var partitionID: String? {
+            return "MigrationHubConfigClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
                       .withOperation(value: "createHomeRegionControl")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "mgh")
@@ -228,7 +232,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutputResponse>(xmlName: "CreateHomeRegionControlRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateHomeRegionControlInput, CreateHomeRegionControlOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<CreateHomeRegionControlOutputResponse, CreateHomeRegionControlOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<CreateHomeRegionControlOutputResponse, CreateHomeRegionControlOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateHomeRegionControlOutputResponse, CreateHomeRegionControlOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<CreateHomeRegionControlOutputResponse, CreateHomeRegionControlOutputError>(clientLogMode: config.clientLogMode))
@@ -248,6 +252,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
                       .withOperation(value: "describeHomeRegionControls")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "mgh")
@@ -263,7 +268,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutputResponse>(xmlName: "DescribeHomeRegionControlsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeHomeRegionControlsInput, DescribeHomeRegionControlsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<DescribeHomeRegionControlsOutputResponse, DescribeHomeRegionControlsOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<DescribeHomeRegionControlsOutputResponse, DescribeHomeRegionControlsOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeHomeRegionControlsOutputResponse, DescribeHomeRegionControlsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<DescribeHomeRegionControlsOutputResponse, DescribeHomeRegionControlsOutputError>(clientLogMode: config.clientLogMode))
@@ -283,6 +288,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
                       .withOperation(value: "getHomeRegion")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "mgh")
@@ -298,7 +304,7 @@ extension MigrationHubConfigClient: MigrationHubConfigClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetHomeRegionInput, GetHomeRegionOutputResponse>(xmlName: "GetHomeRegionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetHomeRegionInput, GetHomeRegionOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<GetHomeRegionOutputResponse, GetHomeRegionOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetHomeRegionOutputResponse, GetHomeRegionOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHomeRegionOutputResponse, GetHomeRegionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetHomeRegionOutputResponse, GetHomeRegionOutputError>(clientLogMode: config.clientLogMode))

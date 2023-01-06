@@ -185,6 +185,9 @@ public class EC2InstanceConnectClient {
             )
         }
 
+        public var partitionID: String? {
+            return "EC2InstanceConnectClient - \(region ?? "")"
+        }
     }
 }
 
@@ -213,6 +216,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
                       .withOperation(value: "sendSSHPublicKey")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "ec2-instance-connect")
@@ -228,7 +232,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>(xmlName: "SendSSHPublicKeyRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSSHPublicKeyInput, SendSSHPublicKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendSSHPublicKeyOutputResponse, SendSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
@@ -248,6 +252,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
                       .withOperation(value: "sendSerialConsoleSSHPublicKey")
                       .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
                       .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
                       .withCredentialsProvider(value: config.credentialsProvider)
                       .withRegion(value: config.region)
                       .withSigningName(value: "ec2-instance-connect")
@@ -263,7 +268,7 @@ extension EC2InstanceConnectClient: EC2InstanceConnectClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>(xmlName: "SendSerialConsoleSSHPublicKeyRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendSerialConsoleSSHPublicKeyInput, SendSerialConsoleSSHPublicKeyOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: AWSClientRuntime.RetryerMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(retryer: config.retryer))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(retryer: config.retryer))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SendSerialConsoleSSHPublicKeyOutputResponse, SendSerialConsoleSSHPublicKeyOutputError>(clientLogMode: config.clientLogMode))
