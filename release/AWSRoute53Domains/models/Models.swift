@@ -96,7 +96,7 @@ extension AcceptDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AcceptDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -231,7 +231,7 @@ extension AssociateDelegationSignerToDomainOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateDelegationSignerToDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -422,7 +422,7 @@ extension CancelDomainTransferToAnotherAwsAccountOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelDomainTransferToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -560,7 +560,7 @@ extension CheckDomainAvailabilityOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CheckDomainAvailabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.availability = output.availability
         } else {
@@ -700,7 +700,7 @@ extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CheckDomainTransferabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transferability = output.transferability
         } else {
@@ -1874,7 +1874,7 @@ extension DeleteDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2186,7 +2186,7 @@ extension DisableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2319,7 +2319,7 @@ extension DisassociateDelegationSignerFromDomainOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateDelegationSignerFromDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -2455,7 +2455,7 @@ extension DnssecLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DnssecLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2612,7 +2612,7 @@ extension DomainLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DomainLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2895,7 +2895,7 @@ extension DuplicateRequest {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3111,7 +3111,7 @@ extension EnableDomainTransferLockOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: EnableDomainTransferLockOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -3870,7 +3870,7 @@ extension GetContactReachabilityStatusOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetContactReachabilityStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.status = output.status
@@ -3999,7 +3999,7 @@ extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDomainDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.abuseContactEmail = output.abuseContactEmail
             self.abuseContactPhone = output.abuseContactPhone
@@ -4387,7 +4387,7 @@ extension GetDomainSuggestionsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDomainSuggestionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.suggestionsList = output.suggestionsList
         } else {
@@ -4508,7 +4508,7 @@ extension GetOperationDetailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetOperationDetailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.lastUpdatedDate = output.lastUpdatedDate
@@ -4630,7 +4630,7 @@ extension InvalidInput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidInputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4833,7 +4833,7 @@ extension ListDomainsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListDomainsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domains = output.domains
             self.nextPageMarker = output.nextPageMarker
@@ -5060,7 +5060,7 @@ extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
             self.operations = output.operations
@@ -5245,7 +5245,7 @@ extension ListPricesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPricesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageMarker = output.nextPageMarker
             self.prices = output.prices
@@ -5380,7 +5380,7 @@ extension ListTagsForDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -5489,7 +5489,7 @@ extension OperationLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: OperationLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6201,7 +6201,7 @@ extension RegisterDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6318,7 +6318,7 @@ extension RejectDomainTransferFromAnotherAwsAccountOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RejectDomainTransferFromAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6464,7 +6464,7 @@ extension RenewDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RenewDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -6578,7 +6578,7 @@ extension ResendContactReachabilityEmailOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResendContactReachabilityEmailOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainName = output.domainName
             self.emailAddress = output.emailAddress
@@ -6797,7 +6797,7 @@ extension RetrieveDomainAuthCodeOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RetrieveDomainAuthCodeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.authCode = output.authCode
         } else {
@@ -6959,7 +6959,7 @@ extension TLDRulesViolation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TLDRulesViolationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7299,7 +7299,7 @@ extension TransferDomainOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TransferDomainOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7431,7 +7431,7 @@ extension TransferDomainToAnotherAwsAccountOutputResponse: ClientRuntime.HttpRes
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TransferDomainToAnotherAwsAccountOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
             self.password = output.password
@@ -7528,7 +7528,7 @@ extension UnsupportedTLD {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnsupportedTLDBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7713,7 +7713,7 @@ extension UpdateDomainContactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7870,7 +7870,7 @@ extension UpdateDomainContactPrivacyOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainContactPrivacyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -8034,7 +8034,7 @@ extension UpdateDomainNameserversOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDomainNameserversOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -8291,7 +8291,7 @@ extension ViewBillingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ViewBillingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingRecords = output.billingRecords
             self.nextPageMarker = output.nextPageMarker

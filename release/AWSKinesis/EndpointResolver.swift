@@ -68,17 +68,17 @@ public struct DefaultEndpointResolver: EndpointResolver  {
         }
 
         if crtResolvedEndpoint.getType() == .error {
-            let error = try crtResolvedEndpoint.getError()
+            let error = crtResolvedEndpoint.getError()
             throw EndpointError.unresolved(error)
         }
 
-        guard let url = try crtResolvedEndpoint.getURL() else {
+        guard let url = crtResolvedEndpoint.getURL() else {
             assertionFailure("This must be a bug in either CRT or the rule engine, if the endpoint is not an error, it must have a url")
             throw EndpointError.unresolved("Failed to resolved endpoint")
         }
 
-        let headers = try crtResolvedEndpoint.getHeaders() ?? [:]
-        let properties = try crtResolvedEndpoint.getProperties() ?? [:]
+        let headers = crtResolvedEndpoint.getHeaders() ?? [:]
+        let properties = crtResolvedEndpoint.getProperties() ?? [:]
         return try Endpoint(urlString: url, headers: Headers(headers), properties: properties)
     }
 }

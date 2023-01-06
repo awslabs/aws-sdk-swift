@@ -63,7 +63,7 @@ extension AlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.code = output.code
@@ -1917,7 +1917,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -2577,7 +2577,7 @@ extension CreateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlanArn = output.backupPlanArn
@@ -2765,7 +2765,7 @@ extension CreateBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBackupSelectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanId = output.backupPlanId
             self.creationDate = output.creationDate
@@ -2952,7 +2952,7 @@ extension CreateBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
@@ -3164,7 +3164,7 @@ extension CreateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.frameworkArn = output.frameworkArn
             self.frameworkName = output.frameworkName
@@ -3357,7 +3357,7 @@ extension CreateLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.description = output.description
@@ -3610,7 +3610,7 @@ extension CreateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.reportPlanArn = output.reportPlanArn
@@ -3779,7 +3779,7 @@ extension DeleteBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanArn = output.backupPlanArn
             self.backupPlanId = output.backupPlanId
@@ -4430,7 +4430,7 @@ extension DependencyFailureException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DependencyFailureExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -4572,7 +4572,7 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBackupJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
             self.backupJobId = output.backupJobId
@@ -4920,7 +4920,7 @@ extension DescribeBackupVaultOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
@@ -5110,7 +5110,7 @@ extension DescribeCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCopyJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyJob = output.copyJob
         } else {
@@ -5210,7 +5210,7 @@ extension DescribeFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.deploymentStatus = output.deploymentStatus
@@ -5382,7 +5382,7 @@ extension DescribeGlobalSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeGlobalSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalSettings = output.globalSettings
             self.lastUpdateTime = output.lastUpdateTime
@@ -5501,7 +5501,7 @@ extension DescribeProtectedResourceOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProtectedResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastBackupTime = output.lastBackupTime
             self.resourceArn = output.resourceArn
@@ -5629,7 +5629,7 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRecoveryPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupSizeInBytes = output.backupSizeInBytes
             self.backupVaultArn = output.backupVaultArn
@@ -5922,7 +5922,7 @@ extension DescribeRegionSettingsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRegionSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTypeManagementPreference = output.resourceTypeManagementPreference
             self.resourceTypeOptInPreference = output.resourceTypeOptInPreference
@@ -6048,7 +6048,7 @@ extension DescribeReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeReportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportJob = output.reportJob
         } else {
@@ -6148,7 +6148,7 @@ extension DescribeReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportPlan = output.reportPlan
         } else {
@@ -6250,7 +6250,7 @@ extension DescribeRestoreJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRestoreJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountId = output.accountId
             self.backupSizeInBytes = output.backupSizeInBytes
@@ -6630,7 +6630,7 @@ extension ExportBackupPlanTemplateOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExportBackupPlanTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanTemplateJson = output.backupPlanTemplateJson
         } else {
@@ -6902,7 +6902,7 @@ extension GetBackupPlanFromJSONOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupPlanFromJSONOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlan = output.backupPlan
         } else {
@@ -7002,7 +7002,7 @@ extension GetBackupPlanFromTemplateOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupPlanFromTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanDocument = output.backupPlanDocument
         } else {
@@ -7119,7 +7119,7 @@ extension GetBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlan = output.backupPlan
@@ -7316,7 +7316,7 @@ extension GetBackupSelectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupSelectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanId = output.backupPlanId
             self.backupSelection = output.backupSelection
@@ -7456,7 +7456,7 @@ extension GetBackupVaultAccessPolicyOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupVaultAccessPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultName = output.backupVaultName
@@ -7576,7 +7576,7 @@ extension GetBackupVaultNotificationsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetBackupVaultNotificationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.backupVaultEvents = output.backupVaultEvents
@@ -7715,7 +7715,7 @@ extension GetLegalHoldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cancelDescription = output.cancelDescription
             self.cancellationDate = output.cancellationDate
@@ -7918,7 +7918,7 @@ extension GetRecoveryPointRestoreMetadataOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRecoveryPointRestoreMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.recoveryPointArn = output.recoveryPointArn
@@ -8030,7 +8030,7 @@ extension GetSupportedResourceTypesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSupportedResourceTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceTypes = output.resourceTypes
         } else {
@@ -8100,7 +8100,7 @@ extension InvalidParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -8181,7 +8181,7 @@ extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -8262,7 +8262,7 @@ extension InvalidResourceStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidResourceStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -8521,7 +8521,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -8778,7 +8778,7 @@ extension ListBackupJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupJobs = output.backupJobs
             self.nextToken = output.nextToken
@@ -8914,7 +8914,7 @@ extension ListBackupPlanTemplatesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupPlanTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanTemplatesList = output.backupPlanTemplatesList
             self.nextToken = output.nextToken
@@ -9058,7 +9058,7 @@ extension ListBackupPlanVersionsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupPlanVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlanVersionsList = output.backupPlanVersionsList
             self.nextToken = output.nextToken
@@ -9202,7 +9202,7 @@ extension ListBackupPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupPlansList = output.backupPlansList
             self.nextToken = output.nextToken
@@ -9346,7 +9346,7 @@ extension ListBackupSelectionsOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupSelectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupSelectionsList = output.backupSelectionsList
             self.nextToken = output.nextToken
@@ -9482,7 +9482,7 @@ extension ListBackupVaultsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBackupVaultsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultList = output.backupVaultList
             self.nextToken = output.nextToken
@@ -9718,7 +9718,7 @@ extension ListCopyJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCopyJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyJobs = output.copyJobs
             self.nextToken = output.nextToken
@@ -9850,7 +9850,7 @@ extension ListFrameworksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListFrameworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.frameworks = output.frameworks
             self.nextToken = output.nextToken
@@ -9982,7 +9982,7 @@ extension ListLegalHoldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLegalHoldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.legalHolds = output.legalHolds
             self.nextToken = output.nextToken
@@ -10114,7 +10114,7 @@ extension ListProtectedResourcesOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProtectedResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.results = output.results
@@ -10306,7 +10306,7 @@ extension ListRecoveryPointsByBackupVaultOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRecoveryPointsByBackupVaultOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
@@ -10448,7 +10448,7 @@ extension ListRecoveryPointsByLegalHoldOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRecoveryPointsByLegalHoldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
@@ -10592,7 +10592,7 @@ extension ListRecoveryPointsByResourceOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRecoveryPointsByResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.recoveryPoints = output.recoveryPoints
@@ -10758,7 +10758,7 @@ extension ListReportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListReportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportJobs = output.reportJobs
@@ -10890,7 +10890,7 @@ extension ListReportPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListReportPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.reportPlans = output.reportPlans
@@ -11074,7 +11074,7 @@ extension ListRestoreJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRestoreJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.restoreJobs = output.restoreJobs
@@ -11223,7 +11223,7 @@ extension ListTagsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -11283,7 +11283,7 @@ extension MissingParameterValueException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MissingParameterValueExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -12807,7 +12807,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -13084,7 +13084,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.code = output.code
             self.context = output.context
@@ -13372,7 +13372,7 @@ extension StartBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartBackupJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupJobId = output.backupJobId
             self.creationDate = output.creationDate
@@ -13586,7 +13586,7 @@ extension StartCopyJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartCopyJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyJobId = output.copyJobId
             self.creationDate = output.creationDate
@@ -13730,7 +13730,7 @@ extension StartReportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartReportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.reportJobId = output.reportJobId
         } else {
@@ -13951,7 +13951,7 @@ extension StartRestoreJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartRestoreJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.restoreJobId = output.restoreJobId
         } else {
@@ -14406,7 +14406,7 @@ extension UpdateBackupPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBackupPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.advancedBackupSettings = output.advancedBackupSettings
             self.backupPlanArn = output.backupPlanArn
@@ -14621,7 +14621,7 @@ extension UpdateFrameworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateFrameworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.frameworkArn = output.frameworkArn
@@ -14872,7 +14872,7 @@ extension UpdateRecoveryPointLifecycleOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRecoveryPointLifecycleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupVaultArn = output.backupVaultArn
             self.calculatedLifecycle = output.calculatedLifecycle
@@ -15183,7 +15183,7 @@ extension UpdateReportPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateReportPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationTime = output.creationTime
             self.reportPlanArn = output.reportPlanArn

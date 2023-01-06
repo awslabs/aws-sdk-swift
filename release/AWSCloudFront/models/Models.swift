@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDenied {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<AccessDeniedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -595,9 +594,8 @@ public struct AssociateAliasOutputResponse: Swift.Equatable {
 
 extension BatchTooLarge {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<BatchTooLargeBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -647,9 +645,8 @@ extension BatchTooLargeBody: Swift.Decodable {
 
 extension CNAMEAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CNAMEAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1121,9 +1118,8 @@ extension CloudFrontClientTypes {
 
 extension CachePolicyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CachePolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1492,9 +1488,8 @@ extension CloudFrontClientTypes {
 
 extension CachePolicyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CachePolicyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -1944,9 +1939,8 @@ extension CloudFrontClientTypes {
 
 extension CannotChangeImmutablePublicKeyFields {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CannotChangeImmutablePublicKeyFieldsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2105,9 +2099,8 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontOriginAccessIdentityAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CloudFrontOriginAccessIdentityAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2221,9 +2214,8 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontOriginAccessIdentityInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<CloudFrontOriginAccessIdentityInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -2943,9 +2935,8 @@ extension CloudFrontClientTypes {
 
 extension ContinuousDeploymentPolicyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ContinuousDeploymentPolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -3069,9 +3060,8 @@ extension CloudFrontClientTypes {
 
 extension ContinuousDeploymentPolicyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ContinuousDeploymentPolicyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -3832,8 +3822,7 @@ extension CopyDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -4033,8 +4022,7 @@ extension CreateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CachePolicy = try responseDecoder.decode(responseBody: data)
                 self.cachePolicy = output
@@ -4229,8 +4217,7 @@ extension CreateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.Http
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentity = try responseDecoder.decode(responseBody: data)
                 self.cloudFrontOriginAccessIdentity = output
@@ -4427,8 +4414,7 @@ extension CreateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResp
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
                 self.continuousDeploymentPolicy = output
@@ -4743,8 +4729,7 @@ extension CreateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -5068,8 +5053,7 @@ extension CreateDistributionWithTagsOutputResponse: ClientRuntime.HttpResponseBi
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -5270,8 +5254,7 @@ extension CreateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResp
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryption = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryption = output
@@ -5471,8 +5454,7 @@ extension CreateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpRes
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionProfile = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionProfile = output
@@ -5666,8 +5648,7 @@ extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
                 self.functionSummary = output
@@ -5869,8 +5850,7 @@ extension CreateInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Invalidation = try responseDecoder.decode(responseBody: data)
                 self.invalidation = output
@@ -6059,8 +6039,7 @@ extension CreateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.KeyGroup = try responseDecoder.decode(responseBody: data)
                 self.keyGroup = output
@@ -6250,8 +6229,7 @@ public enum CreateMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
                 self.monitoringSubscription = output
@@ -6433,8 +6411,7 @@ extension CreateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBin
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginAccessControl = try responseDecoder.decode(responseBody: data)
                 self.originAccessControl = output
@@ -6634,8 +6611,7 @@ extension CreateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBin
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginRequestPolicy = try responseDecoder.decode(responseBody: data)
                 self.originRequestPolicy = output
@@ -6825,8 +6801,7 @@ extension CreatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.PublicKey = try responseDecoder.decode(responseBody: data)
                 self.publicKey = output
@@ -7050,7 +7025,7 @@ extension CreateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.realtimeLogConfig = output.realtimeLogConfig
         } else {
@@ -7238,8 +7213,7 @@ extension CreateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ResponseHeadersPolicy = try responseDecoder.decode(responseBody: data)
                 self.responseHeadersPolicy = output
@@ -7450,8 +7424,7 @@ extension CreateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
                 self.streamingDistribution = output
@@ -7675,8 +7648,7 @@ extension CreateStreamingDistributionWithTagsOutputResponse: ClientRuntime.HttpR
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
                 self.streamingDistribution = output
@@ -9742,8 +9714,7 @@ extension DescribeFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
                 self.functionSummary = output
@@ -9959,9 +9930,8 @@ extension CloudFrontClientTypes {
 
 extension DistributionAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<DistributionAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -10583,9 +10553,8 @@ extension CloudFrontClientTypes {
 
 extension DistributionNotDisabled {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<DistributionNotDisabledBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11343,9 +11312,8 @@ extension CloudFrontClientTypes {
 
 extension FieldLevelEncryptionConfigAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FieldLevelEncryptionConfigAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11395,9 +11363,8 @@ extension FieldLevelEncryptionConfigAlreadyExistsBody: Swift.Decodable {
 
 extension FieldLevelEncryptionConfigInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FieldLevelEncryptionConfigInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11626,9 +11593,8 @@ extension CloudFrontClientTypes {
 
 extension FieldLevelEncryptionProfileAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FieldLevelEncryptionProfileAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11763,9 +11729,8 @@ extension CloudFrontClientTypes {
 
 extension FieldLevelEncryptionProfileInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FieldLevelEncryptionProfileInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -11919,9 +11884,8 @@ extension CloudFrontClientTypes {
 
 extension FieldLevelEncryptionProfileSizeExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FieldLevelEncryptionProfileSizeExceededBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -12389,9 +12353,8 @@ extension CloudFrontClientTypes {
 
 extension FunctionAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FunctionAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -12652,9 +12615,8 @@ extension CloudFrontClientTypes {
 
 extension FunctionInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FunctionInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -12921,9 +12883,8 @@ extension CloudFrontClientTypes {
 
 extension FunctionSizeLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<FunctionSizeLimitExceededBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -13284,8 +13245,7 @@ extension GetCachePolicyConfigOutputResponse: ClientRuntime.HttpResponseBinding 
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CachePolicyConfig = try responseDecoder.decode(responseBody: data)
                 self.cachePolicyConfig = output
@@ -13391,8 +13351,7 @@ extension GetCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CachePolicy = try responseDecoder.decode(responseBody: data)
                 self.cachePolicy = output
@@ -13499,8 +13458,7 @@ extension GetCloudFrontOriginAccessIdentityConfigOutputResponse: ClientRuntime.H
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig = try responseDecoder.decode(responseBody: data)
                 self.cloudFrontOriginAccessIdentityConfig = output
@@ -13608,8 +13566,7 @@ extension GetCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.HttpRes
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentity = try responseDecoder.decode(responseBody: data)
                 self.cloudFrontOriginAccessIdentity = output
@@ -13716,8 +13673,7 @@ extension GetContinuousDeploymentPolicyConfigOutputResponse: ClientRuntime.HttpR
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ContinuousDeploymentPolicyConfig = try responseDecoder.decode(responseBody: data)
                 self.continuousDeploymentPolicyConfig = output
@@ -13823,8 +13779,7 @@ extension GetContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpRespons
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
                 self.continuousDeploymentPolicy = output
@@ -13931,8 +13886,7 @@ extension GetDistributionConfigOutputResponse: ClientRuntime.HttpResponseBinding
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionConfig = try responseDecoder.decode(responseBody: data)
                 self.distributionConfig = output
@@ -14040,8 +13994,7 @@ extension GetDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -14148,8 +14101,7 @@ extension GetFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpRespons
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionConfig = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionConfig = output
@@ -14255,8 +14207,7 @@ extension GetFieldLevelEncryptionOutputResponse: ClientRuntime.HttpResponseBindi
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryption = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryption = output
@@ -14362,8 +14313,7 @@ extension GetFieldLevelEncryptionProfileConfigOutputResponse: ClientRuntime.Http
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionProfileConfig = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionProfileConfig = output
@@ -14469,8 +14419,7 @@ extension GetFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionProfile = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionProfile = output
@@ -14603,8 +14552,7 @@ extension GetFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             self.functionCode = data
         } else {
             self.functionCode = nil
@@ -14723,8 +14671,7 @@ public enum GetInvalidationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInvalidationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Invalidation = try responseDecoder.decode(responseBody: data)
                 self.invalidation = output
@@ -14825,8 +14772,7 @@ extension GetKeyGroupConfigOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.KeyGroupConfig = try responseDecoder.decode(responseBody: data)
                 self.keyGroupConfig = output
@@ -14930,8 +14876,7 @@ extension GetKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.KeyGroup = try responseDecoder.decode(responseBody: data)
                 self.keyGroup = output
@@ -15036,8 +14981,7 @@ public enum GetMonitoringSubscriptionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMonitoringSubscriptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.MonitoringSubscription = try responseDecoder.decode(responseBody: data)
                 self.monitoringSubscription = output
@@ -15139,8 +15083,7 @@ extension GetOriginAccessControlConfigOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginAccessControlConfig = try responseDecoder.decode(responseBody: data)
                 self.originAccessControlConfig = output
@@ -15246,8 +15189,7 @@ extension GetOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBindin
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginAccessControl = try responseDecoder.decode(responseBody: data)
                 self.originAccessControl = output
@@ -15353,8 +15295,7 @@ extension GetOriginRequestPolicyConfigOutputResponse: ClientRuntime.HttpResponse
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginRequestPolicyConfig = try responseDecoder.decode(responseBody: data)
                 self.originRequestPolicyConfig = output
@@ -15460,8 +15401,7 @@ extension GetOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBindin
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginRequestPolicy = try responseDecoder.decode(responseBody: data)
                 self.originRequestPolicy = output
@@ -15567,8 +15507,7 @@ extension GetPublicKeyConfigOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.PublicKeyConfig = try responseDecoder.decode(responseBody: data)
                 self.publicKeyConfig = output
@@ -15674,8 +15613,7 @@ extension GetPublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.PublicKey = try responseDecoder.decode(responseBody: data)
                 self.publicKey = output
@@ -15825,7 +15763,7 @@ extension GetRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.realtimeLogConfig = output.realtimeLogConfig
         } else {
@@ -15923,8 +15861,7 @@ extension GetResponseHeadersPolicyConfigOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ResponseHeadersPolicyConfig = try responseDecoder.decode(responseBody: data)
                 self.responseHeadersPolicyConfig = output
@@ -16030,8 +15967,7 @@ extension GetResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ResponseHeadersPolicy = try responseDecoder.decode(responseBody: data)
                 self.responseHeadersPolicy = output
@@ -16138,8 +16074,7 @@ extension GetStreamingDistributionConfigOutputResponse: ClientRuntime.HttpRespon
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistributionConfig = try responseDecoder.decode(responseBody: data)
                 self.streamingDistributionConfig = output
@@ -16247,8 +16182,7 @@ extension GetStreamingDistributionOutputResponse: ClientRuntime.HttpResponseBind
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
                 self.streamingDistribution = output
@@ -16452,9 +16386,8 @@ extension CloudFrontClientTypes {
 
 extension IllegalDelete {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IllegalDeleteBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16504,9 +16437,8 @@ extension IllegalDeleteBody: Swift.Decodable {
 
 extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IllegalFieldLevelEncryptionConfigAssociationWithCacheBehaviorBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16556,9 +16488,8 @@ extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehaviorBody: Swi
 
 extension IllegalOriginAccessConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IllegalOriginAccessConfigurationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16608,9 +16539,8 @@ extension IllegalOriginAccessConfigurationBody: Swift.Decodable {
 
 extension IllegalUpdate {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<IllegalUpdateBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16660,9 +16590,8 @@ extension IllegalUpdateBody: Swift.Decodable {
 
 extension InconsistentQuantities {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InconsistentQuantitiesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16712,9 +16641,8 @@ extension InconsistentQuantitiesBody: Swift.Decodable {
 
 extension InvalidArgument {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidArgumentBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16764,9 +16692,8 @@ extension InvalidArgumentBody: Swift.Decodable {
 
 extension InvalidDefaultRootObject {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDefaultRootObjectBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16816,9 +16743,8 @@ extension InvalidDefaultRootObjectBody: Swift.Decodable {
 
 extension InvalidDomainNameForOriginAccessControl {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidDomainNameForOriginAccessControlBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16868,9 +16794,8 @@ extension InvalidDomainNameForOriginAccessControlBody: Swift.Decodable {
 
 extension InvalidErrorCode {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidErrorCodeBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16920,9 +16845,8 @@ extension InvalidErrorCodeBody: Swift.Decodable {
 
 extension InvalidForwardCookies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidForwardCookiesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -16972,9 +16896,8 @@ extension InvalidForwardCookiesBody: Swift.Decodable {
 
 extension InvalidFunctionAssociation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidFunctionAssociationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17024,9 +16947,8 @@ extension InvalidFunctionAssociationBody: Swift.Decodable {
 
 extension InvalidGeoRestrictionParameter {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidGeoRestrictionParameterBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17076,9 +16998,8 @@ extension InvalidGeoRestrictionParameterBody: Swift.Decodable {
 
 extension InvalidHeadersForS3Origin {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidHeadersForS3OriginBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17128,9 +17049,8 @@ extension InvalidHeadersForS3OriginBody: Swift.Decodable {
 
 extension InvalidIfMatchVersion {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidIfMatchVersionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17180,9 +17100,8 @@ extension InvalidIfMatchVersionBody: Swift.Decodable {
 
 extension InvalidLambdaFunctionAssociation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidLambdaFunctionAssociationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17232,9 +17151,8 @@ extension InvalidLambdaFunctionAssociationBody: Swift.Decodable {
 
 extension InvalidLocationCode {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidLocationCodeBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17284,9 +17202,8 @@ extension InvalidLocationCodeBody: Swift.Decodable {
 
 extension InvalidMinimumProtocolVersion {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidMinimumProtocolVersionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17336,9 +17253,8 @@ extension InvalidMinimumProtocolVersionBody: Swift.Decodable {
 
 extension InvalidOrigin {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOriginBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17372,9 +17288,8 @@ public struct InvalidOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatab
 
 extension InvalidOriginAccessControl {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOriginAccessControlBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17424,9 +17339,8 @@ extension InvalidOriginAccessControlBody: Swift.Decodable {
 
 extension InvalidOriginAccessIdentity {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOriginAccessIdentityBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17492,9 +17406,8 @@ extension InvalidOriginBody: Swift.Decodable {
 
 extension InvalidOriginKeepaliveTimeout {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOriginKeepaliveTimeoutBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17544,9 +17457,8 @@ extension InvalidOriginKeepaliveTimeoutBody: Swift.Decodable {
 
 extension InvalidOriginReadTimeout {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidOriginReadTimeoutBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17596,9 +17508,8 @@ extension InvalidOriginReadTimeoutBody: Swift.Decodable {
 
 extension InvalidProtocolSettings {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidProtocolSettingsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17648,9 +17559,8 @@ extension InvalidProtocolSettingsBody: Swift.Decodable {
 
 extension InvalidQueryStringParameters {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidQueryStringParametersBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17700,9 +17610,8 @@ extension InvalidQueryStringParametersBody: Swift.Decodable {
 
 extension InvalidRelativePath {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRelativePathBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17752,9 +17661,8 @@ extension InvalidRelativePathBody: Swift.Decodable {
 
 extension InvalidRequiredProtocol {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRequiredProtocolBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17804,9 +17712,8 @@ extension InvalidRequiredProtocolBody: Swift.Decodable {
 
 extension InvalidResponseCode {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidResponseCodeBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17856,9 +17763,8 @@ extension InvalidResponseCodeBody: Swift.Decodable {
 
 extension InvalidTTLOrder {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTTLOrderBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17908,9 +17814,8 @@ extension InvalidTTLOrderBody: Swift.Decodable {
 
 extension InvalidTagging {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidTaggingBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -17960,9 +17865,8 @@ extension InvalidTaggingBody: Swift.Decodable {
 
 extension InvalidViewerCertificate {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidViewerCertificateBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -18012,9 +17916,8 @@ extension InvalidViewerCertificateBody: Swift.Decodable {
 
 extension InvalidWebACLId {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidWebACLIdBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -18587,9 +18490,8 @@ extension CloudFrontClientTypes {
 
 extension KeyGroupAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<KeyGroupAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -19287,8 +19189,7 @@ public enum ListCachePoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCachePoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CachePolicyList = try responseDecoder.decode(responseBody: data)
                 self.cachePolicyList = output
@@ -19401,8 +19302,7 @@ public enum ListCloudFrontOriginAccessIdentitiesOutputError: Swift.Error, Swift.
 
 extension ListCloudFrontOriginAccessIdentitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentityList = try responseDecoder.decode(responseBody: data)
                 self.cloudFrontOriginAccessIdentityList = output
@@ -19539,8 +19439,7 @@ public enum ListConflictingAliasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListConflictingAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ConflictingAliasesList = try responseDecoder.decode(responseBody: data)
                 self.conflictingAliasesList = output
@@ -19656,8 +19555,7 @@ public enum ListContinuousDeploymentPoliciesOutputError: Swift.Error, Swift.Equa
 
 extension ListContinuousDeploymentPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ContinuousDeploymentPolicyList = try responseDecoder.decode(responseBody: data)
                 self.continuousDeploymentPolicyList = output
@@ -19781,8 +19679,7 @@ public enum ListDistributionsByCachePolicyIdOutputError: Swift.Error, Swift.Equa
 
 extension ListDistributionsByCachePolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
                 self.distributionIdList = output
@@ -19904,8 +19801,7 @@ public enum ListDistributionsByKeyGroupOutputError: Swift.Error, Swift.Equatable
 
 extension ListDistributionsByKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
                 self.distributionIdList = output
@@ -20029,8 +19925,7 @@ public enum ListDistributionsByOriginRequestPolicyIdOutputError: Swift.Error, Sw
 
 extension ListDistributionsByOriginRequestPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
                 self.distributionIdList = output
@@ -20194,8 +20089,7 @@ public enum ListDistributionsByRealtimeLogConfigOutputError: Swift.Error, Swift.
 
 extension ListDistributionsByRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
                 self.distributionList = output
@@ -20319,8 +20213,7 @@ public enum ListDistributionsByResponseHeadersPolicyIdOutputError: Swift.Error, 
 
 extension ListDistributionsByResponseHeadersPolicyIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionIdList = try responseDecoder.decode(responseBody: data)
                 self.distributionIdList = output
@@ -20443,8 +20336,7 @@ public enum ListDistributionsByWebACLIdOutputError: Swift.Error, Swift.Equatable
 
 extension ListDistributionsByWebACLIdOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
                 self.distributionList = output
@@ -20558,8 +20450,7 @@ public enum ListDistributionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.DistributionList = try responseDecoder.decode(responseBody: data)
                 self.distributionList = output
@@ -20672,8 +20563,7 @@ public enum ListFieldLevelEncryptionConfigsOutputError: Swift.Error, Swift.Equat
 
 extension ListFieldLevelEncryptionConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionList = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionList = output
@@ -20785,8 +20675,7 @@ public enum ListFieldLevelEncryptionProfilesOutputError: Swift.Error, Swift.Equa
 
 extension ListFieldLevelEncryptionProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionProfileList = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionProfileList = output
@@ -20908,8 +20797,7 @@ public enum ListFunctionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFunctionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FunctionList = try responseDecoder.decode(responseBody: data)
                 self.functionList = output
@@ -21034,8 +20922,7 @@ public enum ListInvalidationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInvalidationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.InvalidationList = try responseDecoder.decode(responseBody: data)
                 self.invalidationList = output
@@ -21148,8 +21035,7 @@ public enum ListKeyGroupsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListKeyGroupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.KeyGroupList = try responseDecoder.decode(responseBody: data)
                 self.keyGroupList = output
@@ -21261,8 +21147,7 @@ public enum ListOriginAccessControlsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOriginAccessControlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginAccessControlList = try responseDecoder.decode(responseBody: data)
                 self.originAccessControlList = output
@@ -21390,8 +21275,7 @@ public enum ListOriginRequestPoliciesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOriginRequestPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginRequestPolicyList = try responseDecoder.decode(responseBody: data)
                 self.originRequestPolicyList = output
@@ -21503,8 +21387,7 @@ public enum ListPublicKeysOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPublicKeysOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.PublicKeyList = try responseDecoder.decode(responseBody: data)
                 self.publicKeyList = output
@@ -21620,8 +21503,7 @@ public enum ListRealtimeLogConfigsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRealtimeLogConfigsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.RealtimeLogConfigs = try responseDecoder.decode(responseBody: data)
                 self.realtimeLogConfigs = output
@@ -21749,8 +21631,7 @@ public enum ListResponseHeadersPoliciesOutputError: Swift.Error, Swift.Equatable
 
 extension ListResponseHeadersPoliciesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ResponseHeadersPolicyList = try responseDecoder.decode(responseBody: data)
                 self.responseHeadersPolicyList = output
@@ -21863,8 +21744,7 @@ public enum ListStreamingDistributionsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListStreamingDistributionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistributionList = try responseDecoder.decode(responseBody: data)
                 self.streamingDistributionList = output
@@ -21979,8 +21859,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Tags = try responseDecoder.decode(responseBody: data)
                 self.tags = output
@@ -22205,9 +22084,8 @@ extension CloudFrontClientTypes {
 
 extension MissingBody {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<MissingBodyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22309,9 +22187,8 @@ extension CloudFrontClientTypes {
 
 extension MonitoringSubscriptionAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<MonitoringSubscriptionAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22361,9 +22238,8 @@ extension MonitoringSubscriptionAlreadyExistsBody: Swift.Decodable {
 
 extension NoSuchCachePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchCachePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22413,9 +22289,8 @@ extension NoSuchCachePolicyBody: Swift.Decodable {
 
 extension NoSuchCloudFrontOriginAccessIdentity {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchCloudFrontOriginAccessIdentityBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22465,9 +22340,8 @@ extension NoSuchCloudFrontOriginAccessIdentityBody: Swift.Decodable {
 
 extension NoSuchContinuousDeploymentPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchContinuousDeploymentPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22517,9 +22391,8 @@ extension NoSuchContinuousDeploymentPolicyBody: Swift.Decodable {
 
 extension NoSuchDistribution {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchDistributionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22569,9 +22442,8 @@ extension NoSuchDistributionBody: Swift.Decodable {
 
 extension NoSuchFieldLevelEncryptionConfig {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchFieldLevelEncryptionConfigBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22621,9 +22493,8 @@ extension NoSuchFieldLevelEncryptionConfigBody: Swift.Decodable {
 
 extension NoSuchFieldLevelEncryptionProfile {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchFieldLevelEncryptionProfileBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22673,9 +22544,8 @@ extension NoSuchFieldLevelEncryptionProfileBody: Swift.Decodable {
 
 extension NoSuchFunctionExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchFunctionExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22725,9 +22595,8 @@ extension NoSuchFunctionExistsBody: Swift.Decodable {
 
 extension NoSuchInvalidation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchInvalidationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22777,9 +22646,8 @@ extension NoSuchInvalidationBody: Swift.Decodable {
 
 extension NoSuchMonitoringSubscription {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchMonitoringSubscriptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22829,9 +22697,8 @@ extension NoSuchMonitoringSubscriptionBody: Swift.Decodable {
 
 extension NoSuchOrigin {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchOriginBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22865,9 +22732,8 @@ public struct NoSuchOrigin: AWSClientRuntime.AWSHttpServiceError, Swift.Equatabl
 
 extension NoSuchOriginAccessControl {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchOriginAccessControlBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22933,9 +22799,8 @@ extension NoSuchOriginBody: Swift.Decodable {
 
 extension NoSuchOriginRequestPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchOriginRequestPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -22985,9 +22850,8 @@ extension NoSuchOriginRequestPolicyBody: Swift.Decodable {
 
 extension NoSuchPublicKey {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchPublicKeyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23037,9 +22901,8 @@ extension NoSuchPublicKeyBody: Swift.Decodable {
 
 extension NoSuchRealtimeLogConfig {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchRealtimeLogConfigBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23089,9 +22952,8 @@ extension NoSuchRealtimeLogConfigBody: Swift.Decodable {
 
 extension NoSuchResource {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchResourceBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23141,9 +23003,8 @@ extension NoSuchResourceBody: Swift.Decodable {
 
 extension NoSuchResponseHeadersPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23193,9 +23054,8 @@ extension NoSuchResponseHeadersPolicyBody: Swift.Decodable {
 
 extension NoSuchStreamingDistribution {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchStreamingDistributionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23472,9 +23332,8 @@ extension CloudFrontClientTypes {
 
 extension OriginAccessControlAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<OriginAccessControlAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -23626,9 +23485,8 @@ extension CloudFrontClientTypes {
 
 extension OriginAccessControlInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<OriginAccessControlInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -24547,9 +24405,8 @@ extension CloudFrontClientTypes {
 
 extension OriginRequestPolicyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<OriginRequestPolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -24917,9 +24774,8 @@ extension CloudFrontClientTypes {
 
 extension OriginRequestPolicyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<OriginRequestPolicyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -25701,9 +25557,8 @@ extension CloudFrontClientTypes {
 
 extension PreconditionFailed {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<PreconditionFailedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -25863,9 +25718,8 @@ extension CloudFrontClientTypes {
 
 extension PublicKeyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<PublicKeyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -26000,9 +25854,8 @@ extension CloudFrontClientTypes {
 
 extension PublicKeyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<PublicKeyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -26327,8 +26180,7 @@ public enum PublishFunctionOutputError: Swift.Error, Swift.Equatable {
 
 extension PublishFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
                 self.functionSummary = output
@@ -26498,9 +26350,8 @@ extension CloudFrontClientTypes {
 
 extension QueryArgProfileEmpty {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<QueryArgProfileEmptyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -26936,9 +26787,8 @@ extension CloudFrontClientTypes {
 
 extension RealtimeLogConfigAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<RealtimeLogConfigAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -26988,9 +26838,8 @@ extension RealtimeLogConfigAlreadyExistsBody: Swift.Decodable {
 
 extension RealtimeLogConfigInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<RealtimeLogConfigInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -27040,9 +26889,8 @@ extension RealtimeLogConfigInUseBody: Swift.Decodable {
 
 extension RealtimeLogConfigOwnerMismatch {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<RealtimeLogConfigOwnerMismatchBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -27342,9 +27190,8 @@ extension CloudFrontClientTypes {
 
 extension ResourceInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResourceInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -27873,9 +27720,8 @@ extension CloudFrontClientTypes {
 
 extension ResponseHeadersPolicyAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResponseHeadersPolicyAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -28494,9 +28340,8 @@ extension CloudFrontClientTypes {
 
 extension ResponseHeadersPolicyInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<ResponseHeadersPolicyInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -29750,9 +29595,8 @@ extension CloudFrontClientTypes {
 
 extension StagingDistributionInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<StagingDistributionInUseBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -30004,9 +29848,8 @@ extension CloudFrontClientTypes {
 
 extension StreamingDistributionAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<StreamingDistributionAlreadyExistsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -30373,9 +30216,8 @@ extension CloudFrontClientTypes {
 
 extension StreamingDistributionNotDisabled {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<StreamingDistributionNotDisabledBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31033,9 +30875,8 @@ extension CloudFrontClientTypes {
 
 extension TestFunctionFailed {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TestFunctionFailedBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31227,8 +31068,7 @@ public enum TestFunctionOutputError: Swift.Error, Swift.Equatable {
 
 extension TestFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.TestResult = try responseDecoder.decode(responseBody: data)
                 self.testResult = output
@@ -31388,9 +31228,8 @@ extension CloudFrontClientTypes {
 
 extension TooLongCSPInResponseHeadersPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooLongCSPInResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31440,9 +31279,8 @@ extension TooLongCSPInResponseHeadersPolicyBody: Swift.Decodable {
 
 extension TooManyCacheBehaviors {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCacheBehaviorsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31492,9 +31330,8 @@ extension TooManyCacheBehaviorsBody: Swift.Decodable {
 
 extension TooManyCachePolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCachePoliciesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31544,9 +31381,8 @@ extension TooManyCachePoliciesBody: Swift.Decodable {
 
 extension TooManyCertificates {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCertificatesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31596,9 +31432,8 @@ extension TooManyCertificatesBody: Swift.Decodable {
 
 extension TooManyCloudFrontOriginAccessIdentities {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCloudFrontOriginAccessIdentitiesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31648,9 +31483,8 @@ extension TooManyCloudFrontOriginAccessIdentitiesBody: Swift.Decodable {
 
 extension TooManyContinuousDeploymentPolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyContinuousDeploymentPoliciesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31700,9 +31534,8 @@ extension TooManyContinuousDeploymentPoliciesBody: Swift.Decodable {
 
 extension TooManyCookieNamesInWhiteList {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCookieNamesInWhiteListBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31752,9 +31585,8 @@ extension TooManyCookieNamesInWhiteListBody: Swift.Decodable {
 
 extension TooManyCookiesInCachePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCookiesInCachePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31804,9 +31636,8 @@ extension TooManyCookiesInCachePolicyBody: Swift.Decodable {
 
 extension TooManyCookiesInOriginRequestPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCookiesInOriginRequestPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31856,9 +31687,8 @@ extension TooManyCookiesInOriginRequestPolicyBody: Swift.Decodable {
 
 extension TooManyCustomHeadersInResponseHeadersPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyCustomHeadersInResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31908,9 +31738,8 @@ extension TooManyCustomHeadersInResponseHeadersPolicyBody: Swift.Decodable {
 
 extension TooManyDistributionCNAMEs {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionCNAMEsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31960,9 +31789,8 @@ extension TooManyDistributionCNAMEsBody: Swift.Decodable {
 
 extension TooManyDistributions {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -31996,9 +31824,8 @@ public struct TooManyDistributions: AWSClientRuntime.AWSHttpServiceError, Swift.
 
 extension TooManyDistributionsAssociatedToCachePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToCachePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32048,9 +31875,8 @@ extension TooManyDistributionsAssociatedToCachePolicyBody: Swift.Decodable {
 
 extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToFieldLevelEncryptionConfigBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32100,9 +31926,8 @@ extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfigBody: Swift.
 
 extension TooManyDistributionsAssociatedToKeyGroup {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToKeyGroupBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32152,9 +31977,8 @@ extension TooManyDistributionsAssociatedToKeyGroupBody: Swift.Decodable {
 
 extension TooManyDistributionsAssociatedToOriginAccessControl {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToOriginAccessControlBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32204,9 +32028,8 @@ extension TooManyDistributionsAssociatedToOriginAccessControlBody: Swift.Decodab
 
 extension TooManyDistributionsAssociatedToOriginRequestPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToOriginRequestPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32256,9 +32079,8 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicyBody: Swift.Decodab
 
 extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsAssociatedToResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32324,9 +32146,8 @@ extension TooManyDistributionsBody: Swift.Decodable {
 
 extension TooManyDistributionsWithFunctionAssociations {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsWithFunctionAssociationsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32376,9 +32197,8 @@ extension TooManyDistributionsWithFunctionAssociationsBody: Swift.Decodable {
 
 extension TooManyDistributionsWithLambdaAssociations {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsWithLambdaAssociationsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32428,9 +32248,8 @@ extension TooManyDistributionsWithLambdaAssociationsBody: Swift.Decodable {
 
 extension TooManyDistributionsWithSingleFunctionARN {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyDistributionsWithSingleFunctionARNBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32480,9 +32299,8 @@ extension TooManyDistributionsWithSingleFunctionARNBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionConfigs {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionConfigsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32532,9 +32350,8 @@ extension TooManyFieldLevelEncryptionConfigsBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionContentTypeProfiles {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionContentTypeProfilesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32584,9 +32401,8 @@ extension TooManyFieldLevelEncryptionContentTypeProfilesBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionEncryptionEntities {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionEncryptionEntitiesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32636,9 +32452,8 @@ extension TooManyFieldLevelEncryptionEncryptionEntitiesBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionFieldPatterns {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionFieldPatternsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32688,9 +32503,8 @@ extension TooManyFieldLevelEncryptionFieldPatternsBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionProfiles {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionProfilesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32740,9 +32554,8 @@ extension TooManyFieldLevelEncryptionProfilesBody: Swift.Decodable {
 
 extension TooManyFieldLevelEncryptionQueryArgProfiles {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFieldLevelEncryptionQueryArgProfilesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32792,9 +32605,8 @@ extension TooManyFieldLevelEncryptionQueryArgProfilesBody: Swift.Decodable {
 
 extension TooManyFunctionAssociations {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFunctionAssociationsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32844,9 +32656,8 @@ extension TooManyFunctionAssociationsBody: Swift.Decodable {
 
 extension TooManyFunctions {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyFunctionsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32896,9 +32707,8 @@ extension TooManyFunctionsBody: Swift.Decodable {
 
 extension TooManyHeadersInCachePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyHeadersInCachePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -32948,9 +32758,8 @@ extension TooManyHeadersInCachePolicyBody: Swift.Decodable {
 
 extension TooManyHeadersInForwardedValues {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyHeadersInForwardedValuesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33000,9 +32809,8 @@ extension TooManyHeadersInForwardedValuesBody: Swift.Decodable {
 
 extension TooManyHeadersInOriginRequestPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyHeadersInOriginRequestPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33052,9 +32860,8 @@ extension TooManyHeadersInOriginRequestPolicyBody: Swift.Decodable {
 
 extension TooManyInvalidationsInProgress {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyInvalidationsInProgressBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33104,9 +32911,8 @@ extension TooManyInvalidationsInProgressBody: Swift.Decodable {
 
 extension TooManyKeyGroups {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyKeyGroupsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33140,9 +32946,8 @@ public struct TooManyKeyGroups: AWSClientRuntime.AWSHttpServiceError, Swift.Equa
 
 extension TooManyKeyGroupsAssociatedToDistribution {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyKeyGroupsAssociatedToDistributionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33208,9 +33013,8 @@ extension TooManyKeyGroupsBody: Swift.Decodable {
 
 extension TooManyLambdaFunctionAssociations {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyLambdaFunctionAssociationsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33260,9 +33064,8 @@ extension TooManyLambdaFunctionAssociationsBody: Swift.Decodable {
 
 extension TooManyOriginAccessControls {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyOriginAccessControlsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33312,9 +33115,8 @@ extension TooManyOriginAccessControlsBody: Swift.Decodable {
 
 extension TooManyOriginCustomHeaders {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyOriginCustomHeadersBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33364,9 +33166,8 @@ extension TooManyOriginCustomHeadersBody: Swift.Decodable {
 
 extension TooManyOriginGroupsPerDistribution {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyOriginGroupsPerDistributionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33416,9 +33217,8 @@ extension TooManyOriginGroupsPerDistributionBody: Swift.Decodable {
 
 extension TooManyOriginRequestPolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyOriginRequestPoliciesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33468,9 +33268,8 @@ extension TooManyOriginRequestPoliciesBody: Swift.Decodable {
 
 extension TooManyOrigins {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyOriginsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33520,9 +33319,8 @@ extension TooManyOriginsBody: Swift.Decodable {
 
 extension TooManyPublicKeys {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyPublicKeysBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33572,9 +33370,8 @@ extension TooManyPublicKeysBody: Swift.Decodable {
 
 extension TooManyPublicKeysInKeyGroup {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyPublicKeysInKeyGroupBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33624,9 +33421,8 @@ extension TooManyPublicKeysInKeyGroupBody: Swift.Decodable {
 
 extension TooManyQueryStringParameters {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyQueryStringParametersBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33676,9 +33472,8 @@ extension TooManyQueryStringParametersBody: Swift.Decodable {
 
 extension TooManyQueryStringsInCachePolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyQueryStringsInCachePolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33728,9 +33523,8 @@ extension TooManyQueryStringsInCachePolicyBody: Swift.Decodable {
 
 extension TooManyQueryStringsInOriginRequestPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyQueryStringsInOriginRequestPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33780,9 +33574,8 @@ extension TooManyQueryStringsInOriginRequestPolicyBody: Swift.Decodable {
 
 extension TooManyRealtimeLogConfigs {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyRealtimeLogConfigsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33832,9 +33625,8 @@ extension TooManyRealtimeLogConfigsBody: Swift.Decodable {
 
 extension TooManyRemoveHeadersInResponseHeadersPolicy {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyRemoveHeadersInResponseHeadersPolicyBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33884,9 +33676,8 @@ extension TooManyRemoveHeadersInResponseHeadersPolicyBody: Swift.Decodable {
 
 extension TooManyResponseHeadersPolicies {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyResponseHeadersPoliciesBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33936,9 +33727,8 @@ extension TooManyResponseHeadersPoliciesBody: Swift.Decodable {
 
 extension TooManyStreamingDistributionCNAMEs {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyStreamingDistributionCNAMEsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -33988,9 +33778,8 @@ extension TooManyStreamingDistributionCNAMEsBody: Swift.Decodable {
 
 extension TooManyStreamingDistributions {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyStreamingDistributionsBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -34040,9 +33829,8 @@ extension TooManyStreamingDistributionsBody: Swift.Decodable {
 
 extension TooManyTrustedSigners {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTrustedSignersBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -34165,9 +33953,8 @@ extension CloudFrontClientTypes {
 
 extension TrustedKeyGroupDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TrustedKeyGroupDoesNotExistBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -34311,9 +34098,8 @@ extension CloudFrontClientTypes {
 
 extension TrustedSignerDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<TrustedSignerDoesNotExistBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -34457,9 +34243,8 @@ extension CloudFrontClientTypes {
 
 extension UnsupportedOperation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = httpResponse.body.toBytes()?.getData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
             let output: AWSClientRuntime.ErrorResponseContainer<UnsupportedOperationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
         } else {
@@ -34844,8 +34629,7 @@ extension UpdateCachePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CachePolicy = try responseDecoder.decode(responseBody: data)
                 self.cachePolicy = output
@@ -35059,8 +34843,7 @@ extension UpdateCloudFrontOriginAccessIdentityOutputResponse: ClientRuntime.Http
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.CloudFrontOriginAccessIdentity = try responseDecoder.decode(responseBody: data)
                 self.cloudFrontOriginAccessIdentity = output
@@ -35272,8 +35055,7 @@ extension UpdateContinuousDeploymentPolicyOutputResponse: ClientRuntime.HttpResp
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ContinuousDeploymentPolicy = try responseDecoder.decode(responseBody: data)
                 self.continuousDeploymentPolicy = output
@@ -35601,8 +35383,7 @@ extension UpdateDistributionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -35856,8 +35637,7 @@ extension UpdateDistributionWithStagingConfigOutputResponse: ClientRuntime.HttpR
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.Distribution = try responseDecoder.decode(responseBody: data)
                 self.distribution = output
@@ -36076,8 +35856,7 @@ extension UpdateFieldLevelEncryptionConfigOutputResponse: ClientRuntime.HttpResp
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryption = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryption = output
@@ -36298,8 +36077,7 @@ extension UpdateFieldLevelEncryptionProfileOutputResponse: ClientRuntime.HttpRes
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FieldLevelEncryptionProfile = try responseDecoder.decode(responseBody: data)
                 self.fieldLevelEncryptionProfile = output
@@ -36496,8 +36274,7 @@ extension UpdateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.FunctionSummary = try responseDecoder.decode(responseBody: data)
                 self.functionSummary = output
@@ -36706,8 +36483,7 @@ extension UpdateKeyGroupOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.KeyGroup = try responseDecoder.decode(responseBody: data)
                 self.keyGroup = output
@@ -36918,8 +36694,7 @@ extension UpdateOriginAccessControlOutputResponse: ClientRuntime.HttpResponseBin
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginAccessControl = try responseDecoder.decode(responseBody: data)
                 self.originAccessControl = output
@@ -37138,8 +36913,7 @@ extension UpdateOriginRequestPolicyOutputResponse: ClientRuntime.HttpResponseBin
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.OriginRequestPolicy = try responseDecoder.decode(responseBody: data)
                 self.originRequestPolicy = output
@@ -37350,8 +37124,7 @@ extension UpdatePublicKeyOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.PublicKey = try responseDecoder.decode(responseBody: data)
                 self.publicKey = output
@@ -37577,7 +37350,7 @@ extension UpdateRealtimeLogConfigOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateRealtimeLogConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.realtimeLogConfig = output.realtimeLogConfig
         } else {
@@ -37788,8 +37561,7 @@ extension UpdateResponseHeadersPolicyOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.ResponseHeadersPolicy = try responseDecoder.decode(responseBody: data)
                 self.responseHeadersPolicy = output
@@ -38015,8 +37787,7 @@ extension UpdateStreamingDistributionOutputResponse: ClientRuntime.HttpResponseB
         } else {
             self.eTag = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader.toBytes().toData()
+        if let data = httpResponse.body.toBytes()?.getData() {
             if let responseDecoder = decoder {
                 let output: CloudFrontClientTypes.StreamingDistribution = try responseDecoder.decode(responseBody: data)
                 self.streamingDistribution = output

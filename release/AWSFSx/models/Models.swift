@@ -61,7 +61,7 @@ extension ActiveDirectoryError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ActiveDirectoryErrorBody = try responseDecoder.decode(responseBody: data)
             self.activeDirectoryId = output.activeDirectoryId
             self.message = output.message
@@ -651,7 +651,7 @@ extension AssociateFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
         } else {
@@ -1068,7 +1068,7 @@ extension BackupBeingCopied {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BackupBeingCopiedBody = try responseDecoder.decode(responseBody: data)
             self.backupId = output.backupId
             self.message = output.message
@@ -1166,7 +1166,7 @@ extension BackupInProgress {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BackupInProgressBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1281,7 +1281,7 @@ extension BackupNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BackupNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1334,7 +1334,7 @@ extension BackupRestoring {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BackupRestoringBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemId = output.fileSystemId
             self.message = output.message
@@ -1433,7 +1433,7 @@ extension BadRequest {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BadRequestBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1565,7 +1565,7 @@ extension CancelDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CancelDataRepositoryTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.taskId = output.taskId
@@ -1867,7 +1867,7 @@ extension CopyBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CopyBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backup = output.backup
         } else {
@@ -2040,7 +2040,7 @@ extension CreateBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backup = output.backup
         } else {
@@ -2259,7 +2259,7 @@ extension CreateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.association = output.association
         } else {
@@ -2484,7 +2484,7 @@ extension CreateDataRepositoryTaskOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDataRepositoryTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataRepositoryTask = output.dataRepositoryTask
         } else {
@@ -2853,7 +2853,7 @@ extension CreateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileCache = output.fileCache
         } else {
@@ -3176,7 +3176,7 @@ extension CreateFileSystemFromBackupOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFileSystemFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystem = output.fileSystem
         } else {
@@ -4014,7 +4014,7 @@ extension CreateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystem = output.fileSystem
         } else {
@@ -4715,7 +4715,7 @@ extension CreateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -4934,7 +4934,7 @@ extension CreateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storageVirtualMachine = output.storageVirtualMachine
         } else {
@@ -5166,7 +5166,7 @@ extension CreateVolumeFromBackupOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVolumeFromBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volume = output.volume
         } else {
@@ -5364,7 +5364,7 @@ extension CreateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volume = output.volume
         } else {
@@ -5680,7 +5680,7 @@ extension DataRepositoryAssociationNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataRepositoryAssociationNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6139,7 +6139,7 @@ extension DataRepositoryTaskEnded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataRepositoryTaskEndedBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6192,7 +6192,7 @@ extension DataRepositoryTaskExecuting {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataRepositoryTaskExecutingBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6423,7 +6423,7 @@ extension DataRepositoryTaskNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataRepositoryTaskNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6684,7 +6684,7 @@ extension DeleteBackupOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBackupOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backupId = output.backupId
             self.lifecycle = output.lifecycle
@@ -6838,7 +6838,7 @@ extension DeleteDataRepositoryAssociationOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associationId = output.associationId
             self.deleteDataInFileSystem = output.deleteDataInFileSystem
@@ -6989,7 +6989,7 @@ extension DeleteFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileCacheId = output.fileCacheId
             self.lifecycle = output.lifecycle
@@ -7446,7 +7446,7 @@ extension DeleteFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystemId = output.fileSystemId
             self.lifecycle = output.lifecycle
@@ -7757,7 +7757,7 @@ extension DeleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.snapshotId = output.snapshotId
@@ -7896,7 +7896,7 @@ extension DeleteStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.storageVirtualMachineId = output.storageVirtualMachineId
@@ -8220,7 +8220,7 @@ extension DeleteVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lifecycle = output.lifecycle
             self.ontapResponse = output.ontapResponse
@@ -8419,7 +8419,7 @@ extension DescribeBackupsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBackupsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.backups = output.backups
             self.nextToken = output.nextToken
@@ -8617,7 +8617,7 @@ extension DescribeDataRepositoryAssociationsOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDataRepositoryAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associations = output.associations
             self.nextToken = output.nextToken
@@ -8812,7 +8812,7 @@ extension DescribeDataRepositoryTasksOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeDataRepositoryTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dataRepositoryTasks = output.dataRepositoryTasks
             self.nextToken = output.nextToken
@@ -8981,7 +8981,7 @@ extension DescribeFileCachesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFileCachesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileCaches = output.fileCaches
             self.nextToken = output.nextToken
@@ -9152,7 +9152,7 @@ extension DescribeFileSystemAliasesOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
             self.nextToken = output.nextToken
@@ -9323,7 +9323,7 @@ extension DescribeFileSystemsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeFileSystemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystems = output.fileSystems
             self.nextToken = output.nextToken
@@ -9517,7 +9517,7 @@ extension DescribeSnapshotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSnapshotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.snapshots = output.snapshots
@@ -9710,7 +9710,7 @@ extension DescribeStorageVirtualMachinesOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeStorageVirtualMachinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.storageVirtualMachines = output.storageVirtualMachines
@@ -9903,7 +9903,7 @@ extension DescribeVolumesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeVolumesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.volumes = output.volumes
@@ -10075,7 +10075,7 @@ extension DisassociateFileSystemAliasesOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateFileSystemAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aliases = output.aliases
         } else {
@@ -11138,7 +11138,7 @@ extension FileCacheNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: FileCacheNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11743,7 +11743,7 @@ extension FileSystemNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: FileSystemNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11975,7 +11975,7 @@ extension IncompatibleParameterError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IncompatibleParameterErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.parameter = output.parameter
@@ -12039,7 +12039,7 @@ extension IncompatibleRegionForMultiAZ {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IncompatibleRegionForMultiAZBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12124,7 +12124,7 @@ extension InternalServerError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12177,7 +12177,7 @@ extension InvalidDataRepositoryType {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidDataRepositoryTypeBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12230,7 +12230,7 @@ extension InvalidDestinationKmsKey {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidDestinationKmsKeyBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12283,7 +12283,7 @@ extension InvalidExportPath {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidExportPathBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12336,7 +12336,7 @@ extension InvalidImportPath {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidImportPathBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12389,7 +12389,7 @@ extension InvalidNetworkSettings {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidNetworkSettingsBody = try responseDecoder.decode(responseBody: data)
             self.invalidRouteTableId = output.invalidRouteTableId
             self.invalidSecurityGroupId = output.invalidSecurityGroupId
@@ -12472,7 +12472,7 @@ extension InvalidPerUnitStorageThroughput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidPerUnitStorageThroughputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12525,7 +12525,7 @@ extension InvalidRegion {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidRegionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12578,7 +12578,7 @@ extension InvalidSourceKmsKey {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidSourceKmsKeyBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12769,7 +12769,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.tags = output.tags
@@ -13253,7 +13253,7 @@ extension MissingFileCacheConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MissingFileCacheConfigurationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13306,7 +13306,7 @@ extension MissingFileSystemConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MissingFileSystemConfigurationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13359,7 +13359,7 @@ extension MissingVolumeConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: MissingVolumeConfigurationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13509,7 +13509,7 @@ extension NotServiceResourceError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotServiceResourceErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceARN = output.resourceARN
@@ -14814,7 +14814,7 @@ extension ReleaseFileSystemNfsV3LocksOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ReleaseFileSystemNfsV3LocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystem = output.fileSystem
         } else {
@@ -14913,7 +14913,7 @@ extension ResourceDoesNotSupportTagging {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceDoesNotSupportTaggingBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceARN = output.resourceARN
@@ -14977,7 +14977,7 @@ extension ResourceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceARN = output.resourceARN
@@ -15232,7 +15232,7 @@ extension RestoreVolumeFromSnapshotOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RestoreVolumeFromSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.administrativeActions = output.administrativeActions
             self.lifecycle = output.lifecycle
@@ -15704,7 +15704,7 @@ extension ServiceLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.limit = output.limit
             self.message = output.message
@@ -16042,7 +16042,7 @@ extension SnapshotNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SnapshotNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16095,7 +16095,7 @@ extension SourceBackupUnavailable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SourceBackupUnavailableBody = try responseDecoder.decode(responseBody: data)
             self.backupId = output.backupId
             self.message = output.message
@@ -16541,7 +16541,7 @@ extension StorageVirtualMachineNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StorageVirtualMachineNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17104,7 +17104,7 @@ extension UnsupportedOperation {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UnsupportedOperationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17386,7 +17386,7 @@ extension UpdateDataRepositoryAssociationOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDataRepositoryAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.association = output.association
         } else {
@@ -17568,7 +17568,7 @@ extension UpdateFileCacheOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateFileCacheOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileCache = output.fileCache
         } else {
@@ -18121,7 +18121,7 @@ extension UpdateFileSystemOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateFileSystemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fileSystem = output.fileSystem
         } else {
@@ -18576,7 +18576,7 @@ extension UpdateSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.snapshot = output.snapshot
         } else {
@@ -18736,7 +18736,7 @@ extension UpdateStorageVirtualMachineOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateStorageVirtualMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.storageVirtualMachine = output.storageVirtualMachine
         } else {
@@ -18938,7 +18938,7 @@ extension UpdateVolumeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVolumeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.volume = output.volume
         } else {
@@ -19298,7 +19298,7 @@ extension VolumeNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: VolumeNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

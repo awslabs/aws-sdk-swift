@@ -114,7 +114,7 @@ extension AcceptAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AcceptAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -155,7 +155,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -368,7 +368,7 @@ extension AssociateConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociation = output.connectPeerAssociation
         } else {
@@ -524,7 +524,7 @@ extension AssociateCustomerGatewayOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateCustomerGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociation = output.customerGatewayAssociation
         } else {
@@ -668,7 +668,7 @@ extension AssociateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociation = output.linkAssociation
         } else {
@@ -824,7 +824,7 @@ extension AssociateTransitGatewayConnectPeerOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AssociateTransitGatewayConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayConnectPeerAssociation = output.transitGatewayConnectPeerAssociation
         } else {
@@ -1383,7 +1383,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceId = output.resourceId
@@ -3181,7 +3181,7 @@ extension CoreNetworkPolicyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CoreNetworkPolicyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.message = output.message
@@ -3772,7 +3772,7 @@ extension CreateConnectAttachmentOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConnectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectAttachment = output.connectAttachment
         } else {
@@ -3991,7 +3991,7 @@ extension CreateConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -4193,7 +4193,7 @@ extension CreateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -4376,7 +4376,7 @@ extension CreateCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -4619,7 +4619,7 @@ extension CreateDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -4763,7 +4763,7 @@ extension CreateGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -4967,7 +4967,7 @@ extension CreateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -5144,7 +5144,7 @@ extension CreateSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -5314,7 +5314,7 @@ extension CreateSiteToSiteVpnAttachmentOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSiteToSiteVpnAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.siteToSiteVpnAttachment = output.siteToSiteVpnAttachment
         } else {
@@ -5484,7 +5484,7 @@ extension CreateTransitGatewayPeeringOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTransitGatewayPeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayPeering = output.transitGatewayPeering
         } else {
@@ -5654,7 +5654,7 @@ extension CreateTransitGatewayRouteTableAttachmentOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTransitGatewayRouteTableAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRouteTableAttachment = output.transitGatewayRouteTableAttachment
         } else {
@@ -5861,7 +5861,7 @@ extension CreateVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -6078,7 +6078,7 @@ extension DeleteAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -6182,7 +6182,7 @@ extension DeleteConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -6294,7 +6294,7 @@ extension DeleteConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -6398,7 +6398,7 @@ extension DeleteCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -6510,7 +6510,7 @@ extension DeleteCoreNetworkPolicyVersionOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteCoreNetworkPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -6622,7 +6622,7 @@ extension DeleteDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -6726,7 +6726,7 @@ extension DeleteGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -6838,7 +6838,7 @@ extension DeleteLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -6942,7 +6942,7 @@ extension DeletePeeringOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeletePeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.peering = output.peering
         } else {
@@ -7125,7 +7125,7 @@ extension DeleteSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -7237,7 +7237,7 @@ extension DeregisterTransitGatewayOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeregisterTransitGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRegistration = output.transitGatewayRegistration
         } else {
@@ -7366,7 +7366,7 @@ extension DescribeGlobalNetworksOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeGlobalNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetworks = output.globalNetworks
             self.nextToken = output.nextToken
@@ -7717,7 +7717,7 @@ extension DisassociateConnectPeerOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociation = output.connectPeerAssociation
         } else {
@@ -7829,7 +7829,7 @@ extension DisassociateCustomerGatewayOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateCustomerGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociation = output.customerGatewayAssociation
         } else {
@@ -7964,7 +7964,7 @@ extension DisassociateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociation = output.linkAssociation
         } else {
@@ -8076,7 +8076,7 @@ extension DisassociateTransitGatewayConnectPeerOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DisassociateTransitGatewayConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayConnectPeerAssociation = output.transitGatewayConnectPeerAssociation
         } else {
@@ -8259,7 +8259,7 @@ extension GetConnectAttachmentOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConnectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectAttachment = output.connectAttachment
         } else {
@@ -8398,7 +8398,7 @@ extension GetConnectPeerAssociationsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConnectPeerAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeerAssociations = output.connectPeerAssociations
             self.nextToken = output.nextToken
@@ -8519,7 +8519,7 @@ extension GetConnectPeerOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConnectPeerOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeer = output.connectPeer
         } else {
@@ -8664,7 +8664,7 @@ extension GetConnectionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetConnectionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connections = output.connections
             self.nextToken = output.nextToken
@@ -8818,7 +8818,7 @@ extension GetCoreNetworkChangeEventsOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCoreNetworkChangeEventsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkChangeEvents = output.coreNetworkChangeEvents
             self.nextToken = output.nextToken
@@ -8972,7 +8972,7 @@ extension GetCoreNetworkChangeSetOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCoreNetworkChangeSetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkChanges = output.coreNetworkChanges
             self.nextToken = output.nextToken
@@ -9093,7 +9093,7 @@ extension GetCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -9220,7 +9220,7 @@ extension GetCoreNetworkPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCoreNetworkPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -9359,7 +9359,7 @@ extension GetCustomerGatewayAssociationsOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetCustomerGatewayAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.customerGatewayAssociations = output.customerGatewayAssociations
             self.nextToken = output.nextToken
@@ -9523,7 +9523,7 @@ extension GetDevicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetDevicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.devices = output.devices
             self.nextToken = output.nextToken
@@ -9685,7 +9685,7 @@ extension GetLinkAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLinkAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.linkAssociations = output.linkAssociations
             self.nextToken = output.nextToken
@@ -9865,7 +9865,7 @@ extension GetLinksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetLinksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.links = output.links
             self.nextToken = output.nextToken
@@ -10049,7 +10049,7 @@ extension GetNetworkResourceCountsOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkResourceCountsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResourceCounts = output.networkResourceCounts
             self.nextToken = output.nextToken
@@ -10275,7 +10275,7 @@ extension GetNetworkResourceRelationshipsOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkResourceRelationshipsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.relationships = output.relationships
@@ -10501,7 +10501,7 @@ extension GetNetworkResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkResourcesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkResources = output.networkResources
             self.nextToken = output.nextToken
@@ -10849,7 +10849,7 @@ extension GetNetworkRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkSegmentEdge = output.coreNetworkSegmentEdge
             self.networkRoutes = output.networkRoutes
@@ -11105,7 +11105,7 @@ extension GetNetworkTelemetryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetNetworkTelemetryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.networkTelemetry = output.networkTelemetry
             self.nextToken = output.nextToken
@@ -11224,7 +11224,7 @@ extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyDocument = output.policyDocument
         } else {
@@ -11334,7 +11334,7 @@ extension GetRouteAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetRouteAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeAnalysis = output.routeAnalysis
         } else {
@@ -11436,7 +11436,7 @@ extension GetSiteToSiteVpnAttachmentOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSiteToSiteVpnAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.siteToSiteVpnAttachment = output.siteToSiteVpnAttachment
         } else {
@@ -11573,7 +11573,7 @@ extension GetSitesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetSitesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sites = output.sites
@@ -11731,7 +11731,7 @@ extension GetTransitGatewayConnectPeerAssociationsOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTransitGatewayConnectPeerAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.transitGatewayConnectPeerAssociations = output.transitGatewayConnectPeerAssociations
@@ -11852,7 +11852,7 @@ extension GetTransitGatewayPeeringOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTransitGatewayPeeringOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayPeering = output.transitGatewayPeering
         } else {
@@ -11989,7 +11989,7 @@ extension GetTransitGatewayRegistrationsOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTransitGatewayRegistrationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.transitGatewayRegistrations = output.transitGatewayRegistrations
@@ -12110,7 +12110,7 @@ extension GetTransitGatewayRouteTableAttachmentOutputResponse: ClientRuntime.Htt
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetTransitGatewayRouteTableAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRouteTableAttachment = output.transitGatewayRouteTableAttachment
         } else {
@@ -12212,7 +12212,7 @@ extension GetVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -12393,7 +12393,7 @@ extension InternalServerException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12846,7 +12846,7 @@ extension ListAttachmentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAttachmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachments = output.attachments
             self.nextToken = output.nextToken
@@ -12998,7 +12998,7 @@ extension ListConnectPeersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConnectPeersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectPeers = output.connectPeers
             self.nextToken = output.nextToken
@@ -13144,7 +13144,7 @@ extension ListCoreNetworkPolicyVersionsOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCoreNetworkPolicyVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicyVersions = output.coreNetworkPolicyVersions
             self.nextToken = output.nextToken
@@ -13280,7 +13280,7 @@ extension ListCoreNetworksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCoreNetworksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworks = output.coreNetworks
             self.nextToken = output.nextToken
@@ -13408,7 +13408,7 @@ extension ListOrganizationServiceAccessStatusOutputResponse: ClientRuntime.HttpR
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListOrganizationServiceAccessStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.organizationStatus = output.organizationStatus
@@ -13567,7 +13567,7 @@ extension ListPeeringsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPeeringsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.peerings = output.peerings
@@ -13688,7 +13688,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagList = output.tagList
         } else {
@@ -14936,7 +14936,7 @@ extension PutCoreNetworkPolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutCoreNetworkPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -15163,7 +15163,7 @@ extension RegisterTransitGatewayOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RegisterTransitGatewayOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.transitGatewayRegistration = output.transitGatewayRegistration
         } else {
@@ -15267,7 +15267,7 @@ extension RejectAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RejectAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.attachment = output.attachment
         } else {
@@ -15353,7 +15353,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.context = output.context
             self.message = output.message
@@ -15518,7 +15518,7 @@ extension RestoreCoreNetworkPolicyVersionOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RestoreCoreNetworkPolicyVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetworkPolicy = output.coreNetworkPolicy
         } else {
@@ -16203,7 +16203,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.limitCode = output.limitCode
             self.message = output.message
@@ -16584,7 +16584,7 @@ extension StartOrganizationServiceAccessUpdateOutputResponse: ClientRuntime.Http
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartOrganizationServiceAccessUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationStatus = output.organizationStatus
         } else {
@@ -16750,7 +16750,7 @@ extension StartRouteAnalysisOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartRouteAnalysisOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.routeAnalysis = output.routeAnalysis
         } else {
@@ -16953,7 +16953,7 @@ extension ThrottlingException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -17617,7 +17617,7 @@ extension UpdateConnectionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connection = output.connection
         } else {
@@ -17745,7 +17745,7 @@ extension UpdateCoreNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateCoreNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.coreNetwork = output.coreNetwork
         } else {
@@ -17970,7 +17970,7 @@ extension UpdateDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateDeviceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.device = output.device
         } else {
@@ -18098,7 +18098,7 @@ extension UpdateGlobalNetworkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateGlobalNetworkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.globalNetwork = output.globalNetwork
         } else {
@@ -18272,7 +18272,7 @@ extension UpdateLinkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateLinkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.link = output.link
         } else {
@@ -18421,7 +18421,7 @@ extension UpdateNetworkResourceMetadataOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateNetworkResourceMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.metadata = output.metadata
             self.resourceArn = output.resourceArn
@@ -18599,7 +18599,7 @@ extension UpdateSiteOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSiteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.site = output.site
         } else {
@@ -18775,7 +18775,7 @@ extension UpdateVpcAttachmentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateVpcAttachmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.vpcAttachment = output.vpcAttachment
         } else {
@@ -18816,7 +18816,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.fields = output.fields
             self.message = output.message

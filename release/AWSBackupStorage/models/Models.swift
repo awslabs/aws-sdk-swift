@@ -6,7 +6,7 @@ extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -226,7 +226,7 @@ extension DataAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DataAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.checksum = output.checksum
             self.checksumAlgorithm = output.checksumAlgorithm
@@ -496,9 +496,8 @@ extension GetChunkOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.length = 0
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader
-            self.data = data
+        if let data = httpResponse.body.toBytes()?.getData() {
+            self.data = ByteStream.from(data: data)
         } else {
             self.data = nil
         }
@@ -646,9 +645,8 @@ extension GetObjectMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.metadataString = nil
         }
-        if case .stream(let reader) = httpResponse.body {
-            let data = reader
-            self.metadataBlob = data
+        if let data = httpResponse.body.toBytes()?.getData() {
+            self.metadataBlob = ByteStream.from(data: data)
         } else {
             self.metadataBlob = nil
         }
@@ -703,7 +701,7 @@ extension IllegalArgumentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: IllegalArgumentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -755,7 +753,7 @@ extension KMSInvalidKeyUsageException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: KMSInvalidKeyUsageExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -903,7 +901,7 @@ extension ListChunksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListChunksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.chunkList = output.chunkList
             self.nextToken = output.nextToken
@@ -1088,7 +1086,7 @@ extension ListObjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListObjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.objectList = output.objectList
@@ -1149,7 +1147,7 @@ extension NotReadableInputStreamException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotReadableInputStreamExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1231,7 +1229,7 @@ extension NotifyObjectCompleteInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let metadataBlob = self.metadataBlob {
-            try encodeContainer.encode(metadataBlob.toBytes().toData(), forKey: .metadataBlob)
+            try encodeContainer.encode(metadataBlob.toBytes().getData(), forKey: .metadataBlob)
         }
     }
 }
@@ -1389,7 +1387,7 @@ extension NotifyObjectCompleteOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: NotifyObjectCompleteOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.objectChecksum = output.objectChecksum
             self.objectChecksumAlgorithm = output.objectChecksumAlgorithm
@@ -1472,7 +1470,7 @@ extension PutChunkInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let data = self.data {
-            try encodeContainer.encode(data.toBytes().toData(), forKey: .data)
+            try encodeContainer.encode(data.toBytes().getData(), forKey: .data)
         }
     }
 }
@@ -1611,7 +1609,7 @@ extension PutChunkOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutChunkOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.chunkChecksum = output.chunkChecksum
             self.chunkChecksumAlgorithm = output.chunkChecksumAlgorithm
@@ -1694,7 +1692,7 @@ extension PutObjectInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let inlineChunk = self.inlineChunk {
-            try encodeContainer.encode(inlineChunk.toBytes().toData(), forKey: .inlineChunk)
+            try encodeContainer.encode(inlineChunk.toBytes().getData(), forKey: .inlineChunk)
         }
     }
 }
@@ -1854,7 +1852,7 @@ extension PutObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PutObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inlineChunkChecksum = output.inlineChunkChecksum
             self.inlineChunkChecksumAlgorithm = output.inlineChunkChecksumAlgorithm
@@ -1929,7 +1927,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1981,7 +1979,7 @@ extension RetryableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: RetryableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2033,7 +2031,7 @@ extension ServiceInternalException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceInternalExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2085,7 +2083,7 @@ extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2236,7 +2234,7 @@ extension StartObjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartObjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.uploadId = output.uploadId
         } else {
@@ -2307,7 +2305,7 @@ extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

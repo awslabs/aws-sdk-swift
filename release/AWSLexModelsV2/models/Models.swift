@@ -838,7 +838,7 @@ extension BatchCreateCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchCreateCustomVocabularyItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -1051,7 +1051,7 @@ extension BatchDeleteCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDeleteCustomVocabularyItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -1264,7 +1264,7 @@ extension BatchUpdateCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchUpdateCustomVocabularyItemOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -3117,7 +3117,7 @@ extension BuildBotLocaleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BuildBotLocaleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleStatus = output.botLocaleStatus
@@ -3791,7 +3791,7 @@ extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4096,7 +4096,7 @@ extension CreateBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botAliasLocaleSettings = output.botAliasLocaleSettings
@@ -4543,7 +4543,7 @@ extension CreateBotLocaleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBotLocaleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleStatus = output.botLocaleStatus
@@ -4696,7 +4696,7 @@ extension CreateBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botName = output.botName
@@ -4957,7 +4957,7 @@ extension CreateBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateBotVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botStatus = output.botStatus
@@ -5167,7 +5167,7 @@ extension CreateExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.exportId = output.exportId
@@ -5520,7 +5520,7 @@ extension CreateIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -5836,7 +5836,7 @@ extension CreateResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.revisionId = output.revisionId
@@ -6091,7 +6091,7 @@ extension CreateResourcePolicyStatementOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateResourcePolicyStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.revisionId = output.revisionId
@@ -6327,7 +6327,7 @@ extension CreateSlotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSlotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -6683,7 +6683,7 @@ extension CreateSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateSlotTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -6893,7 +6893,7 @@ extension CreateUploadUrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateUploadUrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importId = output.importId
             self.uploadUrl = output.uploadUrl
@@ -7525,7 +7525,7 @@ extension DeleteBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botAliasStatus = output.botAliasStatus
@@ -7713,7 +7713,7 @@ extension DeleteBotLocaleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBotLocaleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleStatus = output.botLocaleStatus
@@ -7816,7 +7816,7 @@ extension DeleteBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botStatus = output.botStatus
@@ -7955,7 +7955,7 @@ extension DeleteBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteBotVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botStatus = output.botStatus
@@ -8095,7 +8095,7 @@ extension DeleteCustomVocabularyOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteCustomVocabularyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -8227,7 +8227,7 @@ extension DeleteExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.exportId = output.exportId
             self.exportStatus = output.exportStatus
@@ -8339,7 +8339,7 @@ extension DeleteImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.importId = output.importId
             self.importStatus = output.importStatus
@@ -8563,7 +8563,7 @@ extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.revisionId = output.revisionId
@@ -8698,7 +8698,7 @@ extension DeleteResourcePolicyStatementOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeleteResourcePolicyStatementOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.revisionId = output.revisionId
@@ -9129,7 +9129,7 @@ extension DescribeBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasHistoryEvents = output.botAliasHistoryEvents
             self.botAliasId = output.botAliasId
@@ -9406,7 +9406,7 @@ extension DescribeBotLocaleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBotLocaleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleHistoryEvents = output.botLocaleHistoryEvents
@@ -9654,7 +9654,7 @@ extension DescribeBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botName = output.botName
@@ -9858,7 +9858,7 @@ extension DescribeBotRecommendationOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBotRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationId = output.botRecommendationId
@@ -10093,7 +10093,7 @@ extension DescribeBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeBotVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botName = output.botName
@@ -10310,7 +10310,7 @@ extension DescribeCustomVocabularyMetadataOutputResponse: ClientRuntime.HttpResp
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCustomVocabularyMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -10460,7 +10460,7 @@ extension DescribeExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.downloadUrl = output.downloadUrl
@@ -10639,7 +10639,7 @@ extension DescribeImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.failureReasons = output.failureReasons
@@ -10854,7 +10854,7 @@ extension DescribeIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -11168,7 +11168,7 @@ extension DescribeResourcePolicyOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
             self.resourceArn = output.resourceArn
@@ -11322,7 +11322,7 @@ extension DescribeSlotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSlotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -11578,7 +11578,7 @@ extension DescribeSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeSlotTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -14334,7 +14334,7 @@ extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14705,7 +14705,7 @@ extension ListAggregatedUtterancesOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAggregatedUtterancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.aggregatedUtterancesSummaries = output.aggregatedUtterancesSummaries
             self.aggregationDuration = output.aggregationDuration
@@ -14946,7 +14946,7 @@ extension ListBotAliasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBotAliasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasSummaries = output.botAliasSummaries
             self.botId = output.botId
@@ -15155,7 +15155,7 @@ extension ListBotLocalesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBotLocalesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleSummaries = output.botLocaleSummaries
@@ -15346,7 +15346,7 @@ extension ListBotRecommendationsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBotRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationSummaries = output.botRecommendationSummaries
@@ -15543,7 +15543,7 @@ extension ListBotVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBotVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersionSummaries = output.botVersionSummaries
@@ -15736,7 +15736,7 @@ extension ListBotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botSummaries = output.botSummaries
             self.nextToken = output.nextToken
@@ -15903,7 +15903,7 @@ extension ListBuiltInIntentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBuiltInIntentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builtInIntentSummaries = output.builtInIntentSummaries
             self.localeId = output.localeId
@@ -16080,7 +16080,7 @@ extension ListBuiltInSlotTypesOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBuiltInSlotTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.builtInSlotTypeSummaries = output.builtInSlotTypeSummaries
             self.localeId = output.localeId
@@ -16263,7 +16263,7 @@ extension ListCustomVocabularyItemsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListCustomVocabularyItemsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -16510,7 +16510,7 @@ extension ListExportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListExportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -16757,7 +16757,7 @@ extension ListImportsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -16994,7 +16994,7 @@ extension ListIntentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListIntentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -17205,7 +17205,7 @@ extension ListRecommendedIntentsOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRecommendedIntentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationId = output.botRecommendationId
@@ -17452,7 +17452,7 @@ extension ListSlotTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSlotTypesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -17697,7 +17697,7 @@ extension ListSlotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListSlotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -17856,7 +17856,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -18626,7 +18626,7 @@ extension PreconditionFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: PreconditionFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -19049,7 +19049,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -19559,7 +19559,7 @@ extension SearchAssociatedTranscriptsOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchAssociatedTranscriptsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.associatedTranscripts = output.associatedTranscripts
             self.botId = output.botId
@@ -19737,7 +19737,7 @@ extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -21372,7 +21372,7 @@ extension StartBotRecommendationOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartBotRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationId = output.botRecommendationId
@@ -21606,7 +21606,7 @@ extension StartImportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StartImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.importId = output.importId
@@ -21856,7 +21856,7 @@ extension StopBotRecommendationOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: StopBotRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationId = output.botRecommendationId
@@ -22349,7 +22349,7 @@ extension ThrottlingException {
         }
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -22797,7 +22797,7 @@ extension UpdateBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBotAliasOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botAliasId = output.botAliasId
             self.botAliasLocaleSettings = output.botAliasLocaleSettings
@@ -23182,7 +23182,7 @@ extension UpdateBotLocaleOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBotLocaleOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botLocaleStatus = output.botLocaleStatus
@@ -23383,7 +23383,7 @@ extension UpdateBotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botName = output.botName
@@ -23618,7 +23618,7 @@ extension UpdateBotRecommendationOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateBotRecommendationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botRecommendationId = output.botRecommendationId
@@ -23831,7 +23831,7 @@ extension UpdateExportOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateExportOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDateTime = output.creationDateTime
             self.exportId = output.exportId
@@ -24226,7 +24226,7 @@ extension UpdateIntentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateIntentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -24588,7 +24588,7 @@ extension UpdateResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.resourceArn = output.resourceArn
             self.revisionId = output.revisionId
@@ -24832,7 +24832,7 @@ extension UpdateSlotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSlotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -25199,7 +25199,7 @@ extension UpdateSlotTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateSlotTypeOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
             self.botVersion = output.botVersion
@@ -25405,7 +25405,7 @@ extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

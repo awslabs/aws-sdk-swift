@@ -935,7 +935,7 @@ extension BatchAssociateServiceActionWithProvisioningArtifactOutputResponse: Cli
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchAssociateServiceActionWithProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedServiceActionAssociations = output.failedServiceActionAssociations
         } else {
@@ -1085,7 +1085,7 @@ extension BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse: 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: BatchDisassociateServiceActionFromProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedServiceActionAssociations = output.failedServiceActionAssociations
         } else {
@@ -1671,7 +1671,7 @@ extension CopyProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CopyProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyProductToken = output.copyProductToken
         } else {
@@ -1915,7 +1915,7 @@ extension CreateConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -2130,7 +2130,7 @@ extension CreatePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioDetail = output.portfolioDetail
             self.tags = output.tags
@@ -2334,7 +2334,7 @@ extension CreatePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreatePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
         } else {
@@ -2618,7 +2618,7 @@ extension CreateProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewDetail = output.productViewDetail
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -2929,7 +2929,7 @@ extension CreateProvisionedProductPlanOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.planId = output.planId
             self.planName = output.planName
@@ -3128,7 +3128,7 @@ extension CreateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -3351,7 +3351,7 @@ extension CreateServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -3479,7 +3479,7 @@ extension CreateTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: CreateTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {
@@ -3842,7 +3842,7 @@ extension DeletePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DeletePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
         } else {
@@ -4474,7 +4474,7 @@ extension DescribeConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -4623,7 +4623,7 @@ extension DescribeCopyProductStatusOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeCopyProductStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyProductStatus = output.copyProductStatus
             self.statusDetail = output.statusDetail
@@ -4772,7 +4772,7 @@ extension DescribePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.portfolioDetail = output.portfolioDetail
@@ -4944,7 +4944,7 @@ extension DescribePortfolioShareStatusOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePortfolioShareStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationNodeValue = output.organizationNodeValue
             self.portfolioId = output.portfolioId
@@ -5172,7 +5172,7 @@ extension DescribePortfolioSharesOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribePortfolioSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioShareDetails = output.portfolioShareDetails
@@ -5345,7 +5345,7 @@ extension DescribeProductAsAdminOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProductAsAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.productViewDetail = output.productViewDetail
@@ -5563,7 +5563,7 @@ extension DescribeProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.launchPaths = output.launchPaths
@@ -5751,7 +5751,7 @@ extension DescribeProductViewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProductViewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewSummary = output.productViewSummary
             self.provisioningArtifacts = output.provisioningArtifacts
@@ -5913,7 +5913,7 @@ extension DescribeProvisionedProductOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchDashboards = output.cloudWatchDashboards
             self.provisionedProductDetail = output.provisionedProductDetail
@@ -6087,7 +6087,7 @@ extension DescribeProvisionedProductPlanOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProductPlanDetails = output.provisionedProductPlanDetails
@@ -6294,7 +6294,7 @@ extension DescribeProvisioningArtifactOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -6513,7 +6513,7 @@ extension DescribeProvisioningParametersOutputResponse: ClientRuntime.HttpRespon
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeProvisioningParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintSummaries = output.constraintSummaries
             self.provisioningArtifactOutputKeys = output.provisioningArtifactOutputKeys
@@ -6781,7 +6781,7 @@ extension DescribeRecordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.recordDetail = output.recordDetail
@@ -6954,7 +6954,7 @@ extension DescribeServiceActionExecutionParametersOutputResponse: ClientRuntime.
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeServiceActionExecutionParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionParameters = output.serviceActionParameters
         } else {
@@ -7092,7 +7092,7 @@ extension DescribeServiceActionOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -7193,7 +7193,7 @@ extension DescribeTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DescribeTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {
@@ -7830,7 +7830,7 @@ extension DuplicateResourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: DuplicateResourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8083,7 +8083,7 @@ extension ExecuteProvisionedProductPlanOutputResponse: ClientRuntime.HttpRespons
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExecuteProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8276,7 +8276,7 @@ extension ExecuteProvisionedProductServiceActionOutputResponse: ClientRuntime.Ht
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ExecuteProvisionedProductServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8511,7 +8511,7 @@ extension GetAWSOrganizationsAccessStatusOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetAWSOrganizationsAccessStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessStatus = output.accessStatus
         } else {
@@ -8701,7 +8701,7 @@ extension GetProvisionedProductOutputsOutputResponse: ClientRuntime.HttpResponse
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: GetProvisionedProductOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.outputs = output.outputs
@@ -8907,7 +8907,7 @@ extension ImportAsProvisionedProductOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ImportAsProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8948,7 +8948,7 @@ extension InvalidParametersException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidParametersExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9000,7 +9000,7 @@ extension InvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: InvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9303,7 +9303,7 @@ extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9474,7 +9474,7 @@ extension ListAcceptedPortfolioSharesOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListAcceptedPortfolioSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -9648,7 +9648,7 @@ extension ListBudgetsForResourceOutputResponse: ClientRuntime.HttpResponseBindin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListBudgetsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.nextPageToken = output.nextPageToken
@@ -9834,7 +9834,7 @@ extension ListConstraintsForPortfolioOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListConstraintsForPortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetails = output.constraintDetails
             self.nextPageToken = output.nextPageToken
@@ -10008,7 +10008,7 @@ extension ListLaunchPathsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListLaunchPathsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchPathSummaries = output.launchPathSummaries
             self.nextPageToken = output.nextPageToken
@@ -10203,7 +10203,7 @@ extension ListOrganizationPortfolioAccessOutputResponse: ClientRuntime.HttpRespo
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListOrganizationPortfolioAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.organizationNodes = output.organizationNodes
@@ -10389,7 +10389,7 @@ extension ListPortfolioAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPortfolioAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountIds = output.accountIds
             self.nextPageToken = output.nextPageToken
@@ -10563,7 +10563,7 @@ extension ListPortfoliosForProductOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPortfoliosForProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -10722,7 +10722,7 @@ extension ListPortfoliosOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPortfoliosOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -10896,7 +10896,7 @@ extension ListPrincipalsForPortfolioOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListPrincipalsForPortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.principals = output.principals
@@ -11081,7 +11081,7 @@ extension ListProvisionedProductPlansOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProvisionedProductPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProductPlans = output.provisionedProductPlans
@@ -11255,7 +11255,7 @@ extension ListProvisioningArtifactsForServiceActionOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProvisioningArtifactsForServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisioningArtifactViews = output.provisioningArtifactViews
@@ -11405,7 +11405,7 @@ extension ListProvisioningArtifactsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListProvisioningArtifactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisioningArtifactDetails = output.provisioningArtifactDetails
@@ -11588,7 +11588,7 @@ extension ListRecordHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListRecordHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.recordDetails = output.recordDetails
@@ -11775,7 +11775,7 @@ extension ListResourcesForTagOptionOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListResourcesForTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pageToken = output.pageToken
             self.resourceDetails = output.resourceDetails
@@ -11962,7 +11962,7 @@ extension ListServiceActionsForProvisioningArtifactOutputResponse: ClientRuntime
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListServiceActionsForProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.serviceActionSummaries = output.serviceActionSummaries
@@ -12121,7 +12121,7 @@ extension ListServiceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListServiceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.serviceActionSummaries = output.serviceActionSummaries
@@ -12295,7 +12295,7 @@ extension ListStackInstancesForProvisionedProductOutputResponse: ClientRuntime.H
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListStackInstancesForProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.stackInstances = output.stackInstances
@@ -12505,7 +12505,7 @@ extension ListTagOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ListTagOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pageToken = output.pageToken
             self.tagOptionDetails = output.tagOptionDetails
@@ -12565,7 +12565,7 @@ extension OperationNotSupportedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: OperationNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13764,7 +13764,7 @@ extension ProvisionProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ProvisionProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -16421,7 +16421,7 @@ extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16473,7 +16473,7 @@ extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16691,7 +16691,7 @@ extension ScanProvisionedProductsOutputResponse: ClientRuntime.HttpResponseBindi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: ScanProvisionedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProducts = output.provisionedProducts
@@ -16934,7 +16934,7 @@ extension SearchProductsAsAdminOutputResponse: ClientRuntime.HttpResponseBinding
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchProductsAsAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.productViewDetails = output.productViewDetails
@@ -17151,7 +17151,7 @@ extension SearchProductsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.productViewAggregations = output.productViewAggregations
@@ -17406,7 +17406,7 @@ extension SearchProvisionedProductsOutputResponse: ClientRuntime.HttpResponseBin
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: SearchProvisionedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProducts = output.provisionedProducts
@@ -18436,7 +18436,7 @@ extension TagOptionNotMigratedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TagOptionNotMigratedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18681,7 +18681,7 @@ extension TerminateProvisionedProductOutputResponse: ClientRuntime.HttpResponseB
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: TerminateProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -18836,7 +18836,7 @@ extension UpdateConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -19075,7 +19075,7 @@ extension UpdatePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioDetail = output.portfolioDetail
             self.tags = output.tags
@@ -19277,7 +19277,7 @@ extension UpdatePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding 
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdatePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
             self.status = output.status
@@ -19568,7 +19568,7 @@ extension UpdateProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewDetail = output.productViewDetail
             self.tags = output.tags
@@ -19874,7 +19874,7 @@ extension UpdateProvisionedProductOutputResponse: ClientRuntime.HttpResponseBind
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -20045,7 +20045,7 @@ extension UpdateProvisionedProductPropertiesOutputResponse: ClientRuntime.HttpRe
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProvisionedProductPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.provisionedProductId = output.provisionedProductId
             self.provisionedProductProperties = output.provisionedProductProperties
@@ -20276,7 +20276,7 @@ extension UpdateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBi
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -20658,7 +20658,7 @@ extension UpdateServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -20799,7 +20799,7 @@ extension UpdateTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
-            let data = reader.toBytes().toData()
+            let data = reader.toBytes().getData()
             let output: UpdateTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {
