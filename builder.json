@@ -16,7 +16,7 @@
     "cd {source_dir} && swift build"
   ],
   "test_steps": [
-      "cd {source_dir} && swift test --skip-build --filter AWSClientRuntimeTests",
+      "cd {source_dir} && swift test --filter AWSClientRuntimeTests",
       "cd {source_dir} && ./scripts/mergeModels.sh {source_dir}/codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/aws-restjson/swift-codegen/AWSRestJsonTestSDK/models",
       "cd {source_dir}/codegen && swift test"
   ],
