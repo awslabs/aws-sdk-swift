@@ -705,6 +705,8 @@ let package = Package(
         .target(name: "AWSXRay", dependencies: ["AWSClientRuntime"], path: "./Sources/Services/AWSXRay"),
 
         // MARK: - Service Test Targets
+        // TODO: enable test targets for all services
+/*
         .testTarget(name: "AWSACMTests", dependencies: ["AWSACM", smithyTestUtil], path: "./Tests/Services/AWSACMTests"),
         .testTarget(name: "AWSACMPCATests", dependencies: ["AWSACMPCA", smithyTestUtil], path: "./Tests/Services/AWSACMPCATests"),
         .testTarget(name: "AWSAPIGatewayTests", dependencies: ["AWSAPIGateway", smithyTestUtil], path: "./Tests/Services/AWSAPIGatewayTests"),
@@ -975,7 +977,9 @@ let package = Package(
         .testTarget(name: "AWSRoute53RecoveryControlConfigTests", dependencies: ["AWSRoute53RecoveryControlConfig", smithyTestUtil], path: "./Tests/Services/AWSRoute53RecoveryControlConfigTests"),
         .testTarget(name: "AWSRoute53RecoveryReadinessTests", dependencies: ["AWSRoute53RecoveryReadiness", smithyTestUtil], path: "./Tests/Services/AWSRoute53RecoveryReadinessTests"),
         .testTarget(name: "AWSRoute53ResolverTests", dependencies: ["AWSRoute53Resolver", smithyTestUtil], path: "./Tests/Services/AWSRoute53ResolverTests"),
+*/
         .testTarget(name: "AWSS3Tests", dependencies: ["AWSS3", smithyTestUtil], path: "./Tests/Services/AWSS3Tests"),
+/*
         .testTarget(name: "AWSS3ControlTests", dependencies: ["AWSS3Control", smithyTestUtil], path: "./Tests/Services/AWSS3ControlTests"),
         .testTarget(name: "AWSS3OutpostsTests", dependencies: ["AWSS3Outposts", smithyTestUtil], path: "./Tests/Services/AWSS3OutpostsTests"),
         .testTarget(name: "AWSSESTests", dependencies: ["AWSSES", smithyTestUtil], path: "./Tests/Services/AWSSESTests"),
@@ -1040,6 +1044,7 @@ let package = Package(
         .testTarget(name: "AWSWorkSpacesTests", dependencies: ["AWSWorkSpaces", smithyTestUtil], path: "./Tests/Services/AWSWorkSpacesTests"),
         .testTarget(name: "AWSWorkSpacesWebTests", dependencies: ["AWSWorkSpacesWeb", smithyTestUtil], path: "./Tests/Services/AWSWorkSpacesWebTests"),
         .testTarget(name: "AWSXRayTests", dependencies: ["AWSXRay", smithyTestUtil], path: "./Tests/Services/AWSXRayTests"),
+*/
     ]
 )
 

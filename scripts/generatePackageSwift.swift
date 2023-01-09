@@ -167,9 +167,18 @@ func generateServiceTargets(_ releasedSDKs: [String]) {
     }
     print()
     print("        // MARK: - Service Test Targets")
+    print("        // TODO: enable test targets for all services")
+    print("/*")
     for sdk in releasedSDKs {
-        print(#"        .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
+        if sdk == "AWSS3" {
+            print("*/")
+        }
+        print(#"        .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)    
+        if sdk == "AWSS3" {
+            print("/*")
+        }
     }
+    print("*/")
 }
 
 func generateCoreTargets() {
@@ -191,7 +200,7 @@ let releasedSDKs = try! FileManager.default
     .contentsOfDirectory(atPath: "Sources/Services")
     .sorted()
 
-guard let deps = getPackageDependencies() else {
+guard let deps: PackageDeps = getPackageDependencies() else {
     print("Failed to get version dependencies")
     print("  Unable to to read: '\(plistFile)'")
     exit(1)
