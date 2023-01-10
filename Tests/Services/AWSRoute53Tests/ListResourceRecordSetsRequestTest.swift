@@ -28,6 +28,7 @@ class ListResourceRecordSetsRequestTest: HttpRequestTestBase {
         let input = ListResourceRecordSetsInput(
             hostedZoneId: "/hostedzone/IDOFMYHOSTEDZONE"
         )
+        let endpointParams = EndpointParams()
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
@@ -38,13 +39,7 @@ class ListResourceRecordSetsRequestTest: HttpRequestTestBase {
         var operationStack = OperationStack<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(id: "ListResourceRecordSetsTrimHostedZone")
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(urlPrefix: urlPrefix))
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse>(host: hostOnly))
-        operationStack.buildStep.intercept(position: .after, id: "RequestTestEndpointResolver") { (context, input, next) -> ClientRuntime.OperationOutput<ListResourceRecordSetsOutputResponse> in
-            input.withMethod(context.getMethod())
-            input.withPath(context.getPath())
-            let host = "\(context.getHostPrefix() ?? "")\(context.getHost() ?? "")"
-            input.withHost(host)
-            return try await next.handle(context: context, input: input)
-        }
+        operationStack.buildStep.intercept(position: .after, middleware: EndpointResolverMiddleware<ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(endpointResolver: try DefaultEndpointResolver(), endpointParams: endpointParams))
         operationStack.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListResourceRecordSetsInput, ListResourceRecordSetsOutputResponse>())
         operationStack.deserializeStep.intercept(position: .after,
                      middleware: MockDeserializeMiddleware<ListResourceRecordSetsOutputResponse, ListResourceRecordSetsOutputError>(
