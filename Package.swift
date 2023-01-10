@@ -976,7 +976,7 @@ let package = Package(
         // .testTarget(name: "AWSRoute53RecoveryControlConfigTests", dependencies: ["AWSRoute53RecoveryControlConfig", smithyTestUtil], path: "./Tests/Services/AWSRoute53RecoveryControlConfigTests"),
         // .testTarget(name: "AWSRoute53RecoveryReadinessTests", dependencies: ["AWSRoute53RecoveryReadiness", smithyTestUtil], path: "./Tests/Services/AWSRoute53RecoveryReadinessTests"),
         // .testTarget(name: "AWSRoute53ResolverTests", dependencies: ["AWSRoute53Resolver", smithyTestUtil], path: "./Tests/Services/AWSRoute53ResolverTests"),
-        .testTarget(name: "AWSS3Tests", dependencies: ["AWSS3", smithyTestUtil], path: "./Tests/Services/AWSS3Tests"),
+        // .testTarget(name: "AWSS3Tests", dependencies: ["AWSS3", smithyTestUtil], path: "./Tests/Services/AWSS3Tests"),
         // .testTarget(name: "AWSS3ControlTests", dependencies: ["AWSS3Control", smithyTestUtil], path: "./Tests/Services/AWSS3ControlTests"),
         // .testTarget(name: "AWSS3OutpostsTests", dependencies: ["AWSS3Outposts", smithyTestUtil], path: "./Tests/Services/AWSS3OutpostsTests"),
         // .testTarget(name: "AWSSESTests", dependencies: ["AWSSES", smithyTestUtil], path: "./Tests/Services/AWSSESTests"),

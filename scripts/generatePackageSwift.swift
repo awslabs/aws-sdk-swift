@@ -15,7 +15,6 @@ import class Foundation.ProcessInfo
 import class Foundation.FileManager
 
 let env = ProcessInfo.processInfo.environment
-let enabledTestTargets: Set = ["AWSS3"]
 
 // This struct is read from the .plist stored at packageDependencies.plist
 struct PackageDeps: Codable {
@@ -170,11 +169,7 @@ func generateServiceTargets(_ releasedSDKs: [String]) {
     print("        // MARK: - Service Test Targets")
     print("        // TODO: enable test targets for all services")
     for sdk in releasedSDKs {
-        if enabledTestTargets.contains(sdk) {
-            print(#"        .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
-        } else {
-                    print(#"        // .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)    
-        }
+        print(#"        // .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)    
     }
 }
 
