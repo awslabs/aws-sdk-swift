@@ -705,7 +705,7 @@ let package = Package(
         .target(name: "AWSXRay", dependencies: ["AWSClientRuntime"], path: "./Sources/Services/AWSXRay"),
 
         // MARK: - Service Test Targets
-        // TODO: enable test targets for all services
+        // TODO: enable test targets for all services https://github.com/awslabs/aws-sdk-swift/issues/814
         // .testTarget(name: "AWSACMTests", dependencies: ["AWSACM", smithyTestUtil], path: "./Tests/Services/AWSACMTests"),
         // .testTarget(name: "AWSACMPCATests", dependencies: ["AWSACMPCA", smithyTestUtil], path: "./Tests/Services/AWSACMPCATests"),
         // .testTarget(name: "AWSAPIGatewayTests", dependencies: ["AWSAPIGateway", smithyTestUtil], path: "./Tests/Services/AWSAPIGatewayTests"),
