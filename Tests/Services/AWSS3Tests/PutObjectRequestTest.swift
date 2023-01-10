@@ -103,7 +103,7 @@ class PutObjectRequestTest: HttpRequestTestBase {
             contentType: "application/json",
             key: "mykey"
         )
-        let endpointParams = EndpointParams()
+        let endpointParams = EndpointParams(bucket: "mybucket", forcePathStyle: true, region: "us-west-2")
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")

@@ -2801,8 +2801,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable],
-                        "signingName": "events",
-                        "name": "sigv4a"
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2912,8 +2912,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable],
-                        "signingName": "events",
-                        "name": "sigv4a"
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -2944,8 +2944,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                         "signingRegionSet": [
                             "*"
                         ] as [AnyHashable],
-                        "signingName": "events",
-                        "name": "sigv4a"
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

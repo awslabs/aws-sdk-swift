@@ -23,8 +23,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "signingName": "chime",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "chime"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

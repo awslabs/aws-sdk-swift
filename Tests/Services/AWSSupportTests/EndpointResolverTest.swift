@@ -23,8 +23,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "cn-north-1",
-                        "signingName": "support",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "support"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -51,8 +51,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-east-1",
-                        "signingName": "support",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "support"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -79,8 +79,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-iso-east-1",
-                        "signingName": "support",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "support"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -187,8 +187,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-isob-east-1",
-                        "signingName": "support",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "support"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -215,8 +215,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "signingRegion": "us-gov-west-1",
-                        "signingName": "support",
-                        "name": "sigv4"
+                        "name": "sigv4",
+                        "signingName": "support"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
