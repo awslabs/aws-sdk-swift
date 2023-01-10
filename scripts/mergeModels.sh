@@ -39,7 +39,7 @@ mergeFilesInDir() {
 	fi
 	pushd ${MODELDIR}    
 	if [ -f ${MODELS} ]; then
-	    echo "${sdk} has ${MODELS} already generated"
+        echo "${sdk} has ${MODELS} already generated"
         echo "Removing ${MODELS}"
         rm -f ${MODELS}
 	fi
