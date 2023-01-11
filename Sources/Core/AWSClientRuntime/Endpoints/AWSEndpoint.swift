@@ -92,7 +92,7 @@ extension Endpoint {
     /// This is an internal API and subject to change without notice
     /// - Parameter authScheme: authScheme to get signing region from
     /// - Returns: signing region if present, eg. "us-east-1" or "*"
-    public func signingRegion(from authScheme: [String: Any]?) -> String? {
+    public static func signingRegion(from authScheme: [String: Any]?) -> String? {
         if let region = authScheme?["signingRegion"] as? String {
             return region
         }
@@ -108,7 +108,7 @@ extension Endpoint {
     /// This is an internal API and subject to change without notice
     /// - Parameter authScheme: authScheme to get signing name from
     /// - Returns: signing name if present, eg. "s3"
-    public func signingName(from authScheme: [String: Any]?) -> String? {
+    public static func signingName(from authScheme: [String: Any]?) -> String? {
         return authScheme?["signingName"] as? String
     }
 
@@ -116,7 +116,7 @@ extension Endpoint {
     /// This is an internal API and subject to change without notice
     /// - Parameter authScheme: authScheme to get name from
     /// - Returns: name of the auth scheme if present, eg. sigv4, sigv4a
-    public func signingAlgorithm(from authScheme: [String: Any]?) -> String? {
+    public static func signingAlgorithm(from authScheme: [String: Any]?) -> String? {
         return authScheme?["name"] as? String
     }
  }

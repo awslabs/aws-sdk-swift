@@ -54,9 +54,9 @@ class EndpointResolverMiddleware(
             .write("")
 
         writer.write("""let authScheme = endpoint.firstAuthScheme()""")
-        writer.write("""let signingName = endpoint.signingName(from: authScheme)""")
-        writer.write("""let signingRegion = endpoint.signingRegion(from: authScheme)""")
-        writer.write("""let signingAlgorithm = endpoint.signingAlgorithm(from: authScheme)""")
+        writer.write("""let signingName = Endpoint.signingName(from: authScheme)""")
+        writer.write("""let signingRegion = Endpoint.signingRegion(from: authScheme)""")
+        writer.write("""let signingAlgorithm = Endpoint.signingAlgorithm(from: authScheme)""")
             .write("")
         writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)""")
             .write("")

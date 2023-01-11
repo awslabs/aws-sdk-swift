@@ -123,6 +123,42 @@ class EndpointsTests: XCTestCase {
         let actual = try AWSEndpoint.resolveEndpoint(partitions: testPartitions, region: testCase.region)
         XCTAssert(testCase.expected == actual, "endpoint failed for test case: \(testCase.description)")
     }
+    
+    func testSigV4aAuthScheme() throws {
+        let authSchemes = [
+            "signingRegionSet": [
+                "*"
+            ],
+            "name": "sigv4a",
+            "signingName": "s3"
+        ] as [String: AnyHashable]
+
+        let actualSigningName = Endpoint.signingName(from: authSchemes)
+        XCTAssertEqual(actualSigningName, "s3")
+
+        let actualSigningRegion = Endpoint.signingRegion(from: authSchemes)
+        XCTAssertEqual(actualSigningRegion, "*")
+
+        let actualSigningAlgorithm = Endpoint.signingAlgorithm(from: authSchemes)
+        XCTAssertEqual(actualSigningAlgorithm, "sigv4a")
+    }
+    
+    func testSigV4AuthScheme() throws {
+        let authSchemes = [
+            "signingRegion": "us-west-2",
+            "name": "sigv4",
+            "signingName": "s3"
+        ]
+
+        let actualSigningName = Endpoint.signingName(from: authSchemes)
+        XCTAssertEqual(actualSigningName, "s3")
+
+        let actualSigningRegion = Endpoint.signingRegion(from: authSchemes)
+        XCTAssertEqual(actualSigningRegion, "us-west-2")
+
+        let actualSigningAlgorithm = Endpoint.signingAlgorithm(from: authSchemes)
+        XCTAssertEqual(actualSigningAlgorithm, "sigv4")
+    }
 }
 
 struct ResolveTest {
