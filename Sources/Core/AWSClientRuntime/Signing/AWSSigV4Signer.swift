@@ -18,7 +18,8 @@ public class AWSSigV4Signer {
         signingName: Swift.String,
         signingRegion: Swift.String,
         date: ClientRuntime.Date,
-        expiration: TimeInterval
+        expiration: TimeInterval,
+        signingAlgorithm: AWSSigningAlgorithm
     ) async -> ClientRuntime.URL? {
         do {
             let credentials = try await credentialsProvider.getCredentials()
@@ -36,7 +37,8 @@ public class AWSSigV4Signer {
                 date: date,
                 service: signingName,
                 region: signingRegion,
-                signatureType: .requestQueryParams
+                signatureType: .requestQueryParams,
+                signingAlgorithm: signingAlgorithm
             )
             let builtRequest = await sigV4SignedRequest(requestBuilder: requestBuilder, signingConfig: signingConfig)
             guard let presignedURL = builtRequest?.endpoint.url else {

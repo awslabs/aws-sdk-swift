@@ -33,7 +33,7 @@ public struct AWSSigningConfig {
         region: String,
         shouldSignHeader: ((String) -> Bool)? = nil,
         signatureType: AWSSignatureType,
-        signingAlgorithm: AWSSigningAlgorithm = .sigv4
+        signingAlgorithm: AWSSigningAlgorithm
     ) {
         self.credentials = credentials
         self.credentialsProvider = credentialsProvider

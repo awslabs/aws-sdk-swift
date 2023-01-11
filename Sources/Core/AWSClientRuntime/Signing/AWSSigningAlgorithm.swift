@@ -6,14 +6,16 @@
 //
 import AwsCommonRuntimeKit
 
-public enum AWSSigningAlgorithm {
+public enum AWSSigningAlgorithm : String {
     case sigv4
+    case sigv4a
 }
 
 extension AWSSigningAlgorithm {
     func toCRTType() -> SigningAlgorithmType {
         switch self {
         case .sigv4: return .signingV4
+        case .sigv4a: return .signingV4Asymmetric
         }
     }
 }

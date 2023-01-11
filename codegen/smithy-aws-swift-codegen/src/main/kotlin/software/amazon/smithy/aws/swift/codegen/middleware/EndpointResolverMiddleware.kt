@@ -53,9 +53,12 @@ class EndpointResolverMiddleware(
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
             .write("")
 
-        writer.write("""let authScheme = endpoint.authScheme(name: "sigv4")""")
-
-        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)""")
+        writer.write("""let authScheme = endpoint.firstAuthScheme()""")
+        writer.write("""let signingName = endpoint.signingName(from: authScheme)""")
+        writer.write("""let signingRegion = endpoint.signingRegion(from: authScheme)""")
+        writer.write("""let signingAlgorithm = endpoint.signingAlgorithm(from: authScheme)""")
+            .write("")
+        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)""")
             .write("")
 
         writer.write("""var host = """"")
@@ -73,11 +76,14 @@ class EndpointResolverMiddleware(
         }.write("")
 
         writer.write("var updatedContext = context")
-            .openBlock("if let signingRegion = awsEndpoint.signingRegion {", "}") {
+        writer.openBlock("if let signingRegion = signingRegion {", "}") {
                 writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
             }
-        writer.openBlock("if let signingName = awsEndpoint.signingName {", "}") {
+        writer.openBlock("if let signingName = signingName {", "}") {
             writer.write("updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)")
+        }
+        writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
+            writer.write("updatedContext.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)")
         }.write("")
 
         writer.openBlock("if let headers = endpoint.headers {", "}") {

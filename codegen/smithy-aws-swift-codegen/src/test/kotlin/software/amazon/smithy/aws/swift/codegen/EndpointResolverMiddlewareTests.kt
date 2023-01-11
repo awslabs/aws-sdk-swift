@@ -47,8 +47,12 @@ class EndpointResolverMiddlewareTests {
                 {
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
             
-                    let authScheme = endpoint.authScheme(name: "sigv4")
-                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: authScheme?["signingName"] as? String, signingRegion: authScheme?["signingRegion"] as? String)
+                    let authScheme = endpoint.firstAuthScheme()
+                    let signingName = endpoint.signingName(from: authScheme)
+                    let signingRegion = endpoint.signingRegion(from: authScheme)
+                    let signingAlgorithm = endpoint.signingAlgorithm(from: authScheme)
+            
+                    let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
             
                     var host = ""
                     if let hostOverride = context.getHost() {
@@ -62,11 +66,14 @@ class EndpointResolverMiddlewareTests {
                     }
             
                     var updatedContext = context
-                    if let signingRegion = awsEndpoint.signingRegion {
+                    if let signingRegion = signingRegion {
                         updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)
                     }
-                    if let signingName = awsEndpoint.signingName {
+                    if let signingName = signingName {
                         updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)
+                    }
+                    if let signingAlgorithm = signingAlgorithm {
+                        updatedContext.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)
                     }
             
                     if let headers = endpoint.headers {

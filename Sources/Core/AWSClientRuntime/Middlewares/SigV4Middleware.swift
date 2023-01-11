@@ -49,6 +49,11 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
                 ClientError.authError("AwsSigv4Signer requires a signing region"))
         }
         
+        guard let signingAlgorithm = context.getSigningAlgorithm() else {
+            throw SdkError<OperationStackError>.client(
+                ClientError.authError("AwsSigv4Signer requires a signing algorithm"))
+        }
+        
         let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
                                  shouldNormalizeURIPath: config.shouldNormalizeURIPath,
                                  omitSessionToken: config.omitSessionToken)
@@ -64,7 +69,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
             date: Date(),
             service: signingName,
             region: signingRegion,
-            signatureType: config.signatureType
+            signatureType: config.signatureType,
+            signingAlgorithm: signingAlgorithm
         )
         
         let crtSignedRequest = try await Signer.signRequest(

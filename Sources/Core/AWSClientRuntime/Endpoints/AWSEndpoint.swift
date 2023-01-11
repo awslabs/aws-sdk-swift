@@ -58,6 +58,11 @@ public struct AWSEndpoint: Equatable {
 }
 
 extension Endpoint {
+
+    /// Returns the auth scheme for the given name
+    /// This is an internal API and subject to change without notice
+    /// - Parameter name: Name of the auth scheme
+    /// - Returns: auth scheme for given auth scheme name if present
     public func authScheme(name: String) -> [String: Any]? {
         guard let authSchemes = properties["authSchemes"] as? [[String: Any]],
               let scheme = authSchemes.first(where: {
@@ -70,4 +75,48 @@ extension Endpoint {
         
         return scheme
     }
-}
+
+    /// Returns the first auth scheme
+    /// This is an internal API and subject to change without notice
+    /// - Returns: first auth scheme if present
+    public func firstAuthScheme()  -> [String: Any]? {
+        guard let authSchemes = properties["authSchemes"] as? [[String: Any]],
+              let scheme = authSchemes.first else {
+            return nil
+        }
+        
+        return scheme
+    }
+
+    /// Returns signing region from the auth scheme
+    /// This is an internal API and subject to change without notice
+    /// - Parameter authScheme: authScheme to get signing region from
+    /// - Returns: signing region if present, eg. "us-east-1" or "*"
+    public func signingRegion(from authScheme: [String: Any]?) -> String? {
+        if let region = authScheme?["signingRegion"] as? String {
+            return region
+        }
+        
+        if let regionSet = authScheme?["signingRegionSet"] as? [String] {
+            return regionSet.first
+        }
+        
+        return nil
+    }
+
+    /// Returns signing name from the auth scheme
+    /// This is an internal API and subject to change without notice
+    /// - Parameter authScheme: authScheme to get signing name from
+    /// - Returns: signing name if present, eg. "s3"
+    public func signingName(from authScheme: [String: Any]?) -> String? {
+        return authScheme?["signingName"] as? String
+    }
+
+    /// Returns name of the auth scheme which used to determine which signing algorithm to use http request
+    /// This is an internal API and subject to change without notice
+    /// - Parameter authScheme: authScheme to get name from
+    /// - Returns: name of the auth scheme if present, eg. sigv4, sigv4a
+    public func signingAlgorithm(from authScheme: [String: Any]?) -> String? {
+        return authScheme?["name"] as? String
+    }
+ }
