@@ -6,7 +6,7 @@
 //
 import AwsCommonRuntimeKit
 
-public enum AWSSigningAlgorithm : String {
+public enum AWSSigningAlgorithm: String {
     case sigv4
     case sigv4a
 }

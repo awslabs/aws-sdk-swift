@@ -79,7 +79,7 @@ extension Endpoint {
     /// Returns the first auth scheme
     /// This is an internal API and subject to change without notice
     /// - Returns: first auth scheme if present
-    public func firstAuthScheme()  -> [String: Any]? {
+    public func firstAuthScheme() -> [String: Any]? {
         guard let authSchemes = properties["authSchemes"] as? [[String: Any]],
               let scheme = authSchemes.first else {
             return nil
