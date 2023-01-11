@@ -77,8 +77,8 @@ class EndpointResolverMiddleware(
 
         writer.write("var updatedContext = context")
         writer.openBlock("if let signingRegion = signingRegion {", "}") {
-                writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
-            }
+            writer.write("updatedContext.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
+        }
         writer.openBlock("if let signingName = signingName {", "}") {
             writer.write("updatedContext.attributes.set(key: HttpContext.signingName, value: signingName)")
         }
