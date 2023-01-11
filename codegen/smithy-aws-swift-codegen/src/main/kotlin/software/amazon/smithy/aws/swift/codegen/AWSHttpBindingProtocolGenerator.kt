@@ -27,6 +27,7 @@ import software.amazon.smithy.swift.codegen.integration.serde.json.StructDecodeG
 import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.testModuleName
 
 abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
 
@@ -71,7 +72,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
                 return 0
             }
 
-            ctx.delegator.useFileWriter("./${ctx.settings.moduleName}Tests/EndpointResolverTest.swift") { swiftWriter ->
+            ctx.delegator.useFileWriter("./${ctx.settings.testModuleName}/EndpointResolverTest.swift") { swiftWriter ->
                 testCount = + EndpointTestGenerator(testsTrait, ruleSet, ctx).render(swiftWriter)
             }
         }

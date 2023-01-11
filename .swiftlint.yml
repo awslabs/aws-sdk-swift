@@ -1,5 +1,5 @@
 included:
-  - AWSClientRuntime/Sources
+  - Sources/Core/AWSClientRuntime
 
 analyzer_rules:
   - unused_import
