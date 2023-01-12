@@ -6,7 +6,6 @@ analyzer_rules:
   - unused_declaration
 
 disabled_rules:
-  - trailing_whitespace
   - todo
   - identifier_name
   - compiler_protocol_init

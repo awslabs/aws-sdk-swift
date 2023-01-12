@@ -9,13 +9,13 @@ import AwsCommonRuntimeKit
 
 public struct AWSCredentialsProviderStaticConfig {
     public let shutDownCallback: ShutDownCallback?
-    
+
     public let accessKey: String
-    
+
     public let secret: String
-    
+
     public let sessionToken: String?
-    
+
     public init(
         accessKey: String,
         secret: String,

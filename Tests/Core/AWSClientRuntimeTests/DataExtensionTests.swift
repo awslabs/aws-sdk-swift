@@ -23,7 +23,7 @@ class DataExtensionTests: XCTestCase {
         let bytes = data.bytes()
         XCTAssertEqual(bytes, expectedBytes)
     }
-    
+
     func testChunkedReturnsEqualSizedChunks() {
         let data = Data(repeating: 0x01, count: 12)
         let chunks = data.chunked(size: 3)
@@ -32,7 +32,7 @@ class DataExtensionTests: XCTestCase {
             XCTAssertEqual($0.count, 3)
         }
     }
-    
+
     func testLastItemInChunkedIsLessThanSize() {
         let data = Data(repeating: 0x01, count: 15)
         let chunks = data.chunked(size: 2)

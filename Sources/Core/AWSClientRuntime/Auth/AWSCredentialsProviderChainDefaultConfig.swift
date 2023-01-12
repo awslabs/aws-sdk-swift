@@ -10,7 +10,7 @@ import ClientRuntime
 
 public struct AWSCredentialsProviderChainDefaultConfig {
     let shutDownCallback: ShutDownCallback?
-    
+
     public init(shutDownCallback: ShutDownCallback? = nil) {
         self.shutDownCallback = shutDownCallback
     }

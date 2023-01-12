@@ -35,7 +35,7 @@ public struct AWSEndpoint: Equatable {
     This overrides the default signing region used by an SDK client.
      */
     public let signingRegion: String?
-    
+
     public init(endpoint: Endpoint,
                 isHostnameImmutable: Bool = false,
                 signingName: String? = nil,
@@ -45,13 +45,13 @@ public struct AWSEndpoint: Equatable {
         self.signingName = signingName
         self.signingRegion = signingRegion
     }
-    
+
     public static func resolveEndpoint(partitions: [Partition], region: String) throws -> AWSEndpoint {
         guard !partitions.isEmpty else {
             throw EndpointError.partitionsEmpty(
                 "The partitions array cannot be empty in order to properly resolve an AWS endpoint")
         }
-        
+
         let candidate = partitions.first { $0.canResolveEndpoint(region: region)} ?? partitions[0]
         return try candidate.resolveEndpoint(region: region)
     }
@@ -67,7 +67,7 @@ extension Endpoint {
                   return name == schemeName }) else {
             return nil
         }
-        
+
         return scheme
     }
 }

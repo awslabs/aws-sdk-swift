@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 public struct Ec2NarrowedError<T>: Decodable where T: Decodable {
     public let error: T
 

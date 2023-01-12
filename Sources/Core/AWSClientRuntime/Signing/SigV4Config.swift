@@ -6,7 +6,7 @@
 //
 
 import Foundation
-        
+
 public struct SigV4Config {
     let credentialsProvider: AWSCredentialsProvider?
     let signingService: String?
@@ -17,7 +17,7 @@ public struct SigV4Config {
     let expiration: TimeInterval
     let signedBodyHeader: AWSSignedBodyHeader
     let unsignedBody: Bool
-    
+
     public init(
         credentialsProvider: AWSCredentialsProvider? = nil,
         signingService: String? = nil,

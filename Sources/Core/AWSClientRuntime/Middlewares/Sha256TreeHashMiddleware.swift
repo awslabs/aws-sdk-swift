@@ -8,13 +8,13 @@ import AwsCCal
 public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding,
                                        OperationStackError: HttpResponseBinding>: Middleware {
     public let id: String = "Sha256TreeHash"
-    
+
     private let X_AMZ_SHA256_TREE_HASH_HEADER_NAME = "X-Amz-Sha256-Tree-Hash"
-    
+
     private let X_AMZ_CONTENT_SHA256_HEADER_NAME = "X-Amz-Content-Sha256"
-    
+
     public init() {}
-    
+
     public func handle<H>(context: Context,
                           input: MInput,
                           next: H) async throws -> MOutput
@@ -23,7 +23,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
           Self.MOutput == H.Output,
           Self.Context == H.Context {
               let request = input.build()
-              
+
               switch request.body {
               case .data(let data):
                   guard let data = data else {
@@ -46,10 +46,10 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
               case .empty, .none:
                   break
               }
-              
+
               return try await next.handle(context: context, input: input)
           }
-    
+
     /// Computes the tree-hash and linear hash of Data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html for more information.
     private func computeHashes(data: Data) throws -> (String?, String?) {
@@ -57,7 +57,7 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
         let hashes: [[UInt8]] = try data.chunked(size: ONE_MB).map { try $0.sha256().bytes() }
         return try (data.sha256().encodeToHexString(), computeTreeHash(hashes: hashes))
     }
-    
+
     /// Builds a tree hash root node given a slice of hashes. Glacier tree hash to be derived from SHA256 hashes
     /// of 1MB chunks of the data.
     /// See http://docs.aws.amazon.com/amazonglacier/latest/dev/checksum-calculations.html
@@ -76,18 +76,18 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                     concatenatedLevelHash.append(contentsOf: previousLevelHashes[index + 1])
                     let data = Data(concatenatedLevelHash)
                     currentLevelHashes.append(try data.sha256().bytes())
-                    
+
                 } else {
                     currentLevelHashes.append(previousLevelHashes[index])
                 }
             }
             previousLevelHashes = currentLevelHashes
         }
-        
+
         let data = Data(previousLevelHashes[0])
         return data.encodeToHexString()
     }
-    
+
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext

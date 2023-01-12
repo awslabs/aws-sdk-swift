@@ -11,7 +11,7 @@ import Foundation
 
 public class AWSSigV4Signer {
     static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
-    
+
     public static func sigV4SignedURL(
         requestBuilder: SdkHttpRequestBuilder,
         credentialsProvider: CredentialsProvider,
@@ -49,7 +49,7 @@ public class AWSSigV4Signer {
             return nil
         }
     }
-    
+
     public static func sigV4SignedRequest(
         requestBuilder: SdkHttpRequestBuilder,
         signingConfig: AWSSigningConfig
@@ -57,7 +57,7 @@ public class AWSSigV4Signer {
         let originalRequest = requestBuilder.build()
         do {
             let crtUnsignedRequest = try originalRequest.toHttpRequest()
-        
+
             let crtSignedRequest = try await Signer.signRequest(
                 request: crtUnsignedRequest,
                 config: signingConfig.toCRTType()

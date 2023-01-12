@@ -4,18 +4,18 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
-        
+
 public struct AWSCredentialsProviderSTSConfig {
     public let credentialsProvider: AWSCredentialsProvider
     public let roleArn: String
     public let sessionName: String
     public let durationSeconds: TimeInterval
     public let shutDownCallback: ShutDownCallback?
-    
+
     public init(
         credentialsProvider: AWSCredentialsProvider,
         roleArn: String,

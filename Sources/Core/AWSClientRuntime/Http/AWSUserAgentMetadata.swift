@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import ClientRuntime
-        
+
 public struct AWSUserAgentMetadata {
     let sdkMetadata: SDKMetadata
     let apiMetadata: APIMetadata
@@ -13,7 +13,7 @@ public struct AWSUserAgentMetadata {
     let languageMetadata: LanguageMetadata
     let executionEnvMetadata: ExecutionEnvMetadata?
     let frameworkMetadata: FrameworkMetadata?
-    
+
     ///  ABNF for the user agent:
     ///  ua-string =
     ///     sdk-metadata RWS
@@ -39,12 +39,12 @@ public struct AWSUserAgentMetadata {
         }
         return components.joined(separator: " ")
     }
-    
+
     /// Legacy user agent header value for `UserAgent`
     var userAgent: String {
         return "\(sdkMetadata)"
     }
-    
+
     public init(
         sdkMetadata: SDKMetadata,
         apiMetadata: APIMetadata,
@@ -60,7 +60,7 @@ public struct AWSUserAgentMetadata {
         self.executionEnvMetadata = executionEnvMetadata
         self.frameworkMetadata = frameworkMetadata
     }
-    
+
     public static func fromEnv(
         apiMetadata: APIMetadata,
         frameworkMetadata: FrameworkMetadata? = nil

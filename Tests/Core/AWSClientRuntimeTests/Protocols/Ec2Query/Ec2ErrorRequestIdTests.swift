@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 
 import ClientRuntime
 import SmithyTestUtil
@@ -12,7 +12,7 @@ import XCTest
 @testable import AWSClientRuntime
 
 class Ec2ErrorRequestIdTests: XCTestCase {
-    
+
     func testEc2ResponseDecodesRequestID() throws {
         let data = """
         <Ec2Response>
@@ -28,7 +28,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         let response = try XMLDecoder().decode(Ec2Response.self, from: data)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
-    
+
     func testEc2ResponseDecodesRequestId() throws {
         let data = """
         <Ec2Response>
@@ -44,7 +44,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         let response = try XMLDecoder().decode(Ec2Response.self, from: data)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
-    
+
     func testEc2NarrowedResponseDecodesRequestID() throws {
         let data = """
         <Ec2NarrowedResponse>
@@ -57,7 +57,7 @@ class Ec2ErrorRequestIdTests: XCTestCase {
         let response = try XMLDecoder().decode(Ec2NarrowedResponse<String>.self, from: data)
         XCTAssertEqual(response.requestId, "abcdefg12345")
     }
-    
+
     func testEc2NarrowResponseDecodesRequestId() throws {
         let data = """
         <Ec2Response>

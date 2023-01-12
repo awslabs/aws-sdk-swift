@@ -10,13 +10,13 @@ public typealias ShutDownCallback = () -> Void
 
 public struct AWSCredentialsProviderProfileOptions {
     public let shutdownCallback: ShutDownCallback?
-    
+
     public let configFileNameOverride: String?
-    
+
     public let profileFileNameOverride: String?
-    
+
     public let credentialsFileNameOverride: String?
-    
+
     public init(
         configFileNameOverride: String? = nil,
         profileFileNameOverride: String? = nil,

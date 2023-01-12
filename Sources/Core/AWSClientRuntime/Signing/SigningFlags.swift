@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 import AwsCommonRuntimeKit
-        
+
 public struct SigningFlags {
     public let useDoubleURIEncode: Bool
     public let shouldNormalizeURIPath: Bool

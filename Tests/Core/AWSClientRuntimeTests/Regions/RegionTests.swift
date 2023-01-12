@@ -4,20 +4,20 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 @testable import AWSClientRuntime
 
 class RegionTests: XCTestCase {
-    
+
     func testItResolvesRegionFromEnvironment() async throws {
         let providers = [EnvironmentRegionProvider(env: MockEnvironment(region: "us-west-1"))]
         let region = try await DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-west-1")
     }
-    
+
     func testCustomChain() async throws {
         let providers: [RegionProvider] = [
             EnvironmentRegionProvider(env: MockEnvironment(region: nil)),
@@ -27,7 +27,7 @@ class RegionTests: XCTestCase {
         let region = try await DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-east-1")
     }
-    
+
     func testChainWithBadProfileProviderFailsGracefully() async throws {
         let providers: [RegionProvider] = [
             EnvironmentRegionProvider(env: MockEnvironment(region: nil)),
@@ -38,7 +38,7 @@ class RegionTests: XCTestCase {
         let region = try await DefaultRegionResolver(providers: providers).resolveRegion()
         XCTAssertEqual(region, "us-east-1")
     }
-    
+
     func testChainWithBadProfileProviderFails() async throws {
         let providers: [RegionProvider] = [
             EnvironmentRegionProvider(env: MockEnvironment(region: nil)),
@@ -48,7 +48,7 @@ class RegionTests: XCTestCase {
         XCTAssertEqual(region, nil)
     }
 }
-    
+
 struct MockEnvironment: Environment {
     let region: String?
     func environmentVariable(key: String) -> String? {

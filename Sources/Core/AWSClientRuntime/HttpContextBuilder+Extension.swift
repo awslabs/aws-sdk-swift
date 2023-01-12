@@ -20,11 +20,11 @@ extension HttpContext {
     func getRegion() -> String? {
         return attributes.get(key: HttpContext.region)
     }
-    
+
     func getSigningName() -> String? {
         return attributes.get(key: HttpContext.signingName)
     }
-    
+
     func getSigningRegion() -> String? {
         return attributes.get(key: HttpContext.signingRegion)
     }
@@ -43,13 +43,13 @@ extension HttpContextBuilder {
         self.attributes.set(key: AttributeKey<CredentialsProvider>(name: "CredentialsProvider"), value: value)
         return self
     }
-    
+
     @discardableResult
     public func withSigningName(value: String) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<String>(name: "SigningName"), value: value)
         return self
     }
-    
+
     @discardableResult
     public func withSigningRegion(value: String?) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<String>(name: "SigningRegion"), value: value)

@@ -13,7 +13,7 @@ public struct AWSCredentials {
     let secret: String
     let expirationTimeout: Date?
     let sessionToken: String?
-    
+
     public init(
         accessKey: String,
         secret: String,
