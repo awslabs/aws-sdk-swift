@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 private let VALID_CHAR = Set(arrayLiteral: Character("!"),
                                               Character("#"),
                                               Character("$"),

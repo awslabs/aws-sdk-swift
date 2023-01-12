@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 import XCTest
 @testable import AWSClientRuntime
 
@@ -14,7 +14,7 @@ class LanguageMetadataTests: XCTestCase {
 
         XCTAssertEqual("lang/swift/5.0", sut.description)
     }
-    
+
     func testHappyPathWithSingleExtra() {
         let sut = LanguageMetadata(version: "5.1", extras: ["test1": "4.3"])
 

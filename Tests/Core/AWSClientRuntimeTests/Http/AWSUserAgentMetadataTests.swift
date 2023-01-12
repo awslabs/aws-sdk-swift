@@ -35,7 +35,7 @@ class AWSUseragentMetadataTests: XCTestCase {
 
         XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 md/test1/1.2.3", sut.xAmzUserAgent)
     }
-    
+
     func testWithExecutionEnv() {
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
@@ -87,7 +87,7 @@ class AWSUseragentMetadataTests: XCTestCase {
         let ua = AWSUserAgentMetadata.fromEnv(apiMetadata: APIMetadata(serviceId: "Test Service", version: "1.2.3"))
         XCTAssert(ua.userAgent == "aws-sdk-swift/1.2.3")
     }
-    
+
     func testXAmzUserAgent() {
         let currentOS = ClientRuntime.currentOS
         let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")

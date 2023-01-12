@@ -80,7 +80,7 @@ extension Endpoint {
             return name == schemeName }) else {
             return nil
         }
-        
+
         return scheme
     }
 

@@ -5,17 +5,17 @@ import AwsCommonRuntimeKit
 
 /// Wrapper for CRTAWSEndpointResolvedEndpoint
 public class AWSEndpointsResolvedEndpoint {
-    
+
     let crtResolvedEndpoint: AwsCommonRuntimeKit.ResolvedEndpoint
-    
+
     init(crtResolvedEndpoint: AwsCommonRuntimeKit.ResolvedEndpoint) {
         self.crtResolvedEndpoint = crtResolvedEndpoint
     }
-    
+
     public func getType() -> AWSEndpointsResolvedEndpointType {
         AWSEndpointsResolvedEndpointType(crtType: crtResolvedEndpoint)
     }
-    
+
     public func getError() -> String? {
         switch crtResolvedEndpoint {
         case .endpoint:
@@ -24,7 +24,7 @@ public class AWSEndpointsResolvedEndpoint {
             return message
         }
     }
-    
+
     public func getURL() -> String? {
         switch crtResolvedEndpoint {
         case let .endpoint(url, _, _):
@@ -33,7 +33,7 @@ public class AWSEndpointsResolvedEndpoint {
             return nil
         }
     }
-    
+
     public func getProperties() -> [String: AnyHashable]? {
         switch crtResolvedEndpoint {
         case let .endpoint(_, _, properties):
@@ -42,7 +42,7 @@ public class AWSEndpointsResolvedEndpoint {
             return nil
         }
     }
-    
+
     public func getHeaders() -> [String: [String]]? {
         switch crtResolvedEndpoint {
         case let .endpoint(_, headers, _):

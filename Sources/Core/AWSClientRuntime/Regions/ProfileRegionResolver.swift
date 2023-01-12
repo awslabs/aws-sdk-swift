@@ -12,19 +12,19 @@ public struct ProfileRegionProvider: RegionProvider {
     let profileName: String
     let path: String
     let logger: SwiftLogger
-    
+
     init(profileCollection: ProfileCollection?, profileName: String, path: String) {
         self.profileCollection = profileCollection
         self.profileName = profileName
         self.logger = SwiftLogger(label: "ProfileRegionResolver")
         self.path = path
     }
-    
+
     // TODO: expose these config fields up to the sdk so customer can override path and profile name
     public init(path: String = "~/.aws/config", profileName: String = "default") {
         self.init(profileCollection: nil, profileName: profileName, path: path)
     }
-    
+
     public func resolveRegion() async throws -> String? {
         let profileCollection = try profileCollection ??
             AwsCommonRuntimeKit.ProfileCollection(fromFile: path, source: .config)

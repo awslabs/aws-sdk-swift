@@ -19,7 +19,7 @@ public struct Ec2QueryError {
             message = nil
             return
         }
-        
+
         let decoded: Ec2Response = try XMLDecoder().decode(responseBody: data)
         self.errorCode = decoded.errors.error.code
         self.message = decoded.errors.error.message

@@ -11,7 +11,7 @@ import XCTest
 @testable import AWSClientRuntime
 
 class AWSCredentialProviderTests: XCTestCase {
-    
+
     func testYouCanUseCustomCredentialsProvider() async throws {
         let awsCredsProvider = try AWSCredentialsProvider.fromCustom(MyCustomCredentialsProvider())
         let credentials = try await awsCredsProvider.getCredentials()

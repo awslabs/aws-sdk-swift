@@ -7,10 +7,10 @@
 
 import AwsCommonRuntimeKit
 import ClientRuntime
-        
+
 public struct AWSCredentialsProviderWebIdentityConfig {
     public let shutDownCallback: ShutDownCallback?
-    
+
     public init(shutDownCallback: ShutDownCallback? = nil) throws {
         self.shutDownCallback = shutDownCallback
     }

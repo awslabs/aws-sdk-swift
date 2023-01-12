@@ -8,16 +8,16 @@ import ClientRuntime
 
 public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Middleware {
     public let id: String = "UserAgentHeader"
-    
+
     private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
     private let USER_AGENT: String = "User-Agent"
-    
+
     let metadata: AWSUserAgentMetadata
-    
+
     public init(metadata: AWSUserAgentMetadata) {
         self.metadata = metadata
     }
-    
+
     public func handle<H>(context: Context,
                           input: SdkHttpRequestBuilder,
                           next: H) async throws -> OperationOutput<OperationStackOutput>
@@ -29,10 +29,10 @@ public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Mi
         // sdk-user-agent-header SEP. More details here in the SEP about legacy issues with metrics
         input.withHeader(name: X_AMZ_USER_AGENT, value: metadata.userAgent)
         input.withHeader(name: USER_AGENT, value: metadata.xAmzUserAgent)
-        
+
         return try await next.handle(context: context, input: input)
     }
-    
+
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext

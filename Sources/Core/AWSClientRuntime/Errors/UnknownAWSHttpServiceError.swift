@@ -11,7 +11,7 @@ public struct UnknownAWSHttpServiceError: AWSHttpServiceError, Equatable {
     public var _errorType: String?
 
     public var _isThrottling: Bool = false
-    
+
     public var _statusCode: HttpStatusCode?
 
     public var _headers: Headers?

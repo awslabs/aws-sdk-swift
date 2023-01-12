@@ -33,7 +33,7 @@ class Sigv4SigningTests: XCTestCase {
             return
         }
 
-        
+
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
             .withPath("")
@@ -42,7 +42,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
             .withQueryItem(URLQueryItem(name: "%E1%88%B4", value: "bar"))
-        
+
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
                                                             credentialsProvider: MyCustomCredentialsProvider(),
                                                             signingName: "service",

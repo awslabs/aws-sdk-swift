@@ -18,7 +18,7 @@ extension Data {
             self[$0 ..< Swift.min($0 + size, count)]
         }
     }
-    
+
     /// Returns an array of bytes representing the data.
     /// - Returns: A byte array representation of the data.
     func bytes() -> [UInt8] {

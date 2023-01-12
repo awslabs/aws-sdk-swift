@@ -10,13 +10,13 @@ public struct Profile {
     public let name: String?
     public let propertyCount: Int
     let crtProfile: AwsCommonRuntimeKit.Profile?
-    
+
     init(crtProfile: AwsCommonRuntimeKit.Profile) {
         self.name = crtProfile.name
         self.propertyCount = crtProfile.propertyCount
         self.crtProfile = crtProfile
     }
-    
+
     func getProperty(name: String) -> String? {
         guard let crtProfile = crtProfile else {
             return nil

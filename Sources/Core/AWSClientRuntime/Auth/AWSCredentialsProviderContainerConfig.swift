@@ -13,7 +13,7 @@ public struct AWSCredentialsProviderContainerConfig {
     public let host: String
     public let pathAndQuery: String
     public let shutDownCallback: ShutDownCallback?
-    
+
     init(
         authToken: String,
         host: String,

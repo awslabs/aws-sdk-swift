@@ -7,16 +7,16 @@ import ClientRuntime
 
 public class AWSCredentialsProvider: CredentialsProvider {
     let crtCredentialsProvider: AwsCommonRuntimeKit.CredentialsProvider
-    
+
     init(awsCredentialsProvider: AwsCommonRuntimeKit.CredentialsProvider) {
         self.crtCredentialsProvider = awsCredentialsProvider
     }
-    
+
     public static func fromEnv() throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .environment())
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromProfile(
         _ options: AWSCredentialsProviderProfileOptions = AWSCredentialsProviderProfileOptions()
     ) throws -> AWSCredentialsProvider {
@@ -28,7 +28,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromStatic(_ config: AWSCredentialsProviderStaticConfig) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .static(
             accessKey: config.accessKey,
@@ -38,7 +38,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromStatic(_ credentials: AWSCredentials) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .static(
             accessKey: credentials.accessKey,
@@ -47,7 +47,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromWebIdentity(shutDownCallback: ShutDownCallback? = nil) throws -> AWSCredentialsProvider {
         let config = try AWSCredentialsProviderWebIdentityConfig(shutDownCallback: shutDownCallback)
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .stsWebIdentity(
@@ -57,7 +57,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromSTS(_ config: AWSCredentialsProviderSTSConfig) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .sts(
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
@@ -70,7 +70,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromContainer(
         _ config: AWSCredentialsProviderContainerConfig
     ) throws -> AWSCredentialsProvider {
@@ -84,7 +84,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromCached(_ config: AWSCredentialsProviderCachedConfig) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .cached(
             source: config.source.crtCredentialsProvider,
@@ -93,7 +93,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromChain(shutDownCallback: ShutDownCallback? = nil) throws -> AWSCredentialsProvider {
         let config = AWSCredentialsProviderChainDefaultConfig(shutDownCallback: shutDownCallback)
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .defaultChain(
@@ -102,23 +102,23 @@ public class AWSCredentialsProvider: CredentialsProvider {
         ))
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public static func fromCustom(_ credentialsProvider: CredentialsProvider) throws -> AWSCredentialsProvider {
         let crtCredentialsProviderWrapper = CredentialsProviderCRTAdapter(credentialsProvider: credentialsProvider)
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(provider: crtCredentialsProviderWrapper)
         return AWSCredentialsProvider(awsCredentialsProvider: credsProvider)
     }
-    
+
     public func getCredentials() async throws -> AWSCredentials {
         let crtCredentials = try await crtCredentialsProvider.getCredentials()
-        
+
         guard
             let accessKey = crtCredentials.getAccessKey(),
             let secret = crtCredentials.getSecret()
         else {
             throw ClientError.authError("Unable to get credentials.  Required: accessKey, secret.")
         }
-        
+
         return AWSCredentials(
             accessKey: accessKey,
             secret: secret,
