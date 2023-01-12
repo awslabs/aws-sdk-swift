@@ -67,6 +67,22 @@ private enum AuthSchemeKeys {
 }
 
 extension Endpoint {
+    
+    /// Returns the auth scheme for the given name
+    /// This is an internal API and subject to change without notice
+    /// - Parameter name: Name of the auth scheme
+    /// - Returns: auth scheme for given auth scheme name if present
+    public func authScheme(name: String) -> [String: Any]? {
+        guard let scheme = authSchemes()?.first(where: {
+            guard let schemeName = $0[AuthSchemeKeys.name] as? String else {
+                return false
+            }
+            return name == schemeName }) else {
+            return nil
+        }
+        
+        return scheme
+    }
 
     /// Returns list of auth schemes
     /// This is an internal API and subject to change without notice
