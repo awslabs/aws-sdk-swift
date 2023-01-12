@@ -7,6 +7,7 @@
 import AwsCommonRuntimeKit
 
 /// Type of signing algorithm
+/// String raw value used for serialization and deserialization
 public enum AWSSigningAlgorithm: String {
     ///  Signature Version 4
     case sigv4
