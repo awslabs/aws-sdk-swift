@@ -7,7 +7,7 @@ import AwsCommonRuntimeKit
 public enum AWSEndpointsResolvedEndpointType {
     case error
     case endpoint
-    
+
     init(crtType: AwsCommonRuntimeKit.ResolvedEndpoint) {
         switch crtType {
         case .error:

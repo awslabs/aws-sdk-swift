@@ -6,7 +6,7 @@
 //
 import AwsCommonRuntimeKit
 import Foundation
-        
+
 public struct AWSSigningConfig {
     public let credentials: AWSCredentials?
     public let credentialsProvider: AWSCredentialsProvider?
@@ -20,7 +20,7 @@ public struct AWSSigningConfig {
     public let shouldSignHeader: ((String) -> Bool)?
     public let signatureType: AWSSignatureType
     public let signingAlgorithm: AWSSigningAlgorithm
-    
+
     public init(
         credentials: AWSCredentials? = nil,
         credentialsProvider: AWSCredentialsProvider? = nil,

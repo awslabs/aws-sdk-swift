@@ -17,7 +17,7 @@ import ClientRuntime
 public class IMDSClient {
     let crtIMDSClient: AwsCommonRuntimeKit.IMDSClient
     private let sharedDefaultIO: SDKDefaultIO = SDKDefaultIO.shared
-    
+
     public init(config: IMDSConfig = IMDSConfig()) throws {
         self.crtIMDSClient = try AwsCommonRuntimeKit.IMDSClient(
             bootstrap: sharedDefaultIO.clientBootstrap,
@@ -27,7 +27,7 @@ public class IMDSClient {
             )
         )
     }
-    
+
     public func get(path: String) async throws -> String? {
         return try await crtIMDSClient.getResource(resourcePath: path)
     }

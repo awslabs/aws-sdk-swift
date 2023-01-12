@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-        
+
 public protocol ProfileCollection {
     func profile(for name: String) -> Profile?
 }

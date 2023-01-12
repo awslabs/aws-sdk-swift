@@ -24,7 +24,7 @@ public struct DefaultRegionResolver: RegionResolver {
         #endif
         self.logger = SwiftLogger(label: "DefaultRegionProvider")
     }
-    
+
     public func resolveRegion() async -> String? {
         for provider in providers {
             logger.debug("Attempting to resolve region with: \(String(describing: type(of: provider)))")

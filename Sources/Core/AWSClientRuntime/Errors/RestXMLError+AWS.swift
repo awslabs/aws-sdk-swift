@@ -20,7 +20,7 @@ extension RestXMLError {
             ? .makeNotFoundError(requestID: response.requestId)
             : try .init(httpResponse: response)
     }
-    
+
     static func makeNotFoundError(requestID: String?) -> RestXMLError {
         return RestXMLError(errorCode: "NotFound", requestId: requestID)
     }

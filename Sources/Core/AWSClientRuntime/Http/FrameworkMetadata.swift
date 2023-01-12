@@ -6,12 +6,12 @@
 //
 
 import ClientRuntime
-        
+
 public struct FrameworkMetadata {
     let name: String
     let version: String
     let extras: [String: String]
-    
+
     var sanitizedName: String {
         name.sanitizeForUserAgentToken()
     }

@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 
 import ClientRuntime
 import SmithyTestUtil
@@ -57,7 +57,7 @@ class RestXMLErrorTests: HttpResponseTestBase {
             XCTFail(err.localizedDescription)
         }
     }
-    
+
     func testComplexError() {
         do {
             guard let httpResponse = buildHttpResponse(

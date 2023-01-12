@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 public struct Ec2Errors: Decodable {
     public let error: Ec2Error
 

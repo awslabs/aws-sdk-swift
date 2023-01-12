@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
-        
+
 #if os(iOS) || os(watchOS) || os(tvOS)
 import Foundation.NSBundle
 public typealias Bundle = Foundation.Bundle

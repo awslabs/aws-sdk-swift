@@ -12,7 +12,7 @@ import SmithyTestUtil
 @testable import AWSClientRuntime
 
 class Sha256TreeHashMiddlewareTests: XCTestCase {
-    
+
     func testTreeHashAllZeroes() async throws {
         let context = HttpContextBuilder().build()
         let expectation = XCTestExpectation(description: "closure was run")
@@ -34,7 +34,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
             expectation.fulfill()
             return output
         }))
-        
+
         wait(for: [expectation], timeout: 3.0)
     }
 }
