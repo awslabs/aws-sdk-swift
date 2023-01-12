@@ -67,7 +67,7 @@ private enum AuthSchemeKeys {
 }
 
 extension Endpoint {
-    
+
     /// Returns the auth scheme for the given name
     /// This is an internal API and subject to change without notice
     /// - Parameter name: Name of the auth scheme
@@ -119,7 +119,7 @@ extension Endpoint {
         return authScheme?[AuthSchemeKeys.signingName] as? String
     }
 
-    /// Returns name of the auth scheme which used to determine which signing algorithm to use http request
+    /// Returns name of the auth scheme which used to determine which signing algorithm to use to sign http request
     /// This is an internal API and subject to change without notice
     /// - Parameter authScheme: authScheme to get name from
     /// - Returns: name of the auth scheme if present, eg. sigv4, sigv4a
