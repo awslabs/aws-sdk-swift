@@ -6,7 +6,6 @@
 //
 import AwsCommonRuntimeKit
 
-
 /// Type of signing algorithm
 public enum AWSSigningAlgorithm: String {
     ///  Signature Version 4
