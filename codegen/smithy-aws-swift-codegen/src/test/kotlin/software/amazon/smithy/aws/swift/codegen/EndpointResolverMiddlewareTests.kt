@@ -47,7 +47,7 @@ class EndpointResolverMiddlewareTests {
                 {
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
             
-                    let authScheme = endpoint.firstAuthScheme()
+                    let authScheme = endpoint.authSchemes()?.first
                     let signingName = Endpoint.signingName(from: authScheme)
                     let signingRegion = Endpoint.signingRegion(from: authScheme)
                     let signingAlgorithm = Endpoint.signingAlgorithm(from: authScheme)

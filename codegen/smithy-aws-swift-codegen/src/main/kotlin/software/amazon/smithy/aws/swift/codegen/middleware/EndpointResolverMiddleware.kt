@@ -53,12 +53,12 @@ class EndpointResolverMiddleware(
         writer.write("let endpoint = try endpointResolver.resolve(params: endpointParams)")
             .write("")
 
-        writer.write("""let authScheme = endpoint.firstAuthScheme()""")
-        writer.write("""let signingName = Endpoint.signingName(from: authScheme)""")
-        writer.write("""let signingRegion = Endpoint.signingRegion(from: authScheme)""")
-        writer.write("""let signingAlgorithm = Endpoint.signingAlgorithm(from: authScheme)""")
+        writer.write("let authScheme = endpoint.authSchemes()?.first")
+        writer.write("let signingName = Endpoint.signingName(from: authScheme)")
+        writer.write("let signingRegion = Endpoint.signingRegion(from: authScheme)")
+        writer.write("let signingAlgorithm = Endpoint.signingAlgorithm(from: authScheme)")
             .write("")
-        writer.write("""let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)""")
+        writer.write("let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)")
             .write("")
 
         writer.write("""var host = """"")
