@@ -20,17 +20,20 @@ let env = ProcessInfo.processInfo.environment
 struct PackageDeps: Codable {
     // Versions will always be defined in packageDependencies.plist
     // Versions are the only reference used when releasing.
+    var awsCRTSwiftVersion: String
     var clientRuntimeVersion: String
     // Branches are normally set to main in packageDependencies.plist,
     // but may be changed during development on a feature branch if desired.
     // These values override environment vars set on CI.
     // Branches are ignored when building a release.
+    var awsCRTSwiftBranch: String?
     var clientRuntimeBranch: String?
     // Paths may be used to point to paths on a development machine.
     // They may be set by the developer during testing, but should
     // never be set outside a development branch.
     // On CI, paths may be read from env vars and set at build time.
     // Paths are ignored when building a release.
+    var awsCRTSwiftPath: String?
     var clientRuntimePath: String?
 }
 
@@ -44,7 +47,8 @@ func getPackageDependencies() -> PackageDeps? {
     }
     // If env vars are set for package paths in the AWS CRT Builder script, use them
     // unless generating the manifest for release
-    if let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+    if let awsCRTSwiftCIPath = env["AWS_CRT_SWIFT_CI_DIR"], let smithySwiftCIPath = env["SMITHY_SWIFT_CI_DIR"] {
+        deps.awsCRTSwiftPath = awsCRTSwiftCIPath
         deps.clientRuntimePath = smithySwiftCIPath
     }
     return deps
@@ -92,6 +96,16 @@ func generateProducts(_ releasedSDKs: [String]) {
     print("    ],")
 }
 
+func generateFixedDependencies(_ deps: PackageDeps) {
+    let crtURL = "https://github.com/awslabs/aws-crt-swift"
+    let dependencies = """
+        dependencies: [
+            .package(url: \"\(crtURL)\", .exact(\"\(deps.awsCRTSwiftVersion)\"))
+        ],
+    """
+    print(dependencies)
+}
+
 func generateDependencies(_ deps: PackageDeps) {
     let smithyURL = "https://github.com/awslabs/smithy-swift"
     let dependencies = """
@@ -121,28 +135,29 @@ case (false, false):
 func generateServiceTargets(_ releasedSDKs: [String]) {
     print("        // MARK: - Service Targets")
     for sdk in releasedSDKs {
-        print(#"        .target(name: "\#(sdk)", dependencies: ["AWSClientRuntime"], path: "./Sources/Services/\#(sdk)"),"#)
+        print(#"        .target(name: "\#(sdk)", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/\#(sdk)"),"#)
     }
     print()
     print("        // MARK: - Service Test Targets")
     print("        // TODO: enable test targets for all services https://github.com/awslabs/aws-sdk-swift/issues/814")
     for sdk in releasedSDKs {
-        print(#"        // .testTarget(name: "\#(sdk)Tests", dependencies: ["\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
+        print(#"        // .testTarget(name: "\#(sdk)Tests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
     }
 }
 
 func generateCoreTargets() {
     print("        // MARK: - Core Targets")
-    print(#"        .target(name: "AWSClientRuntime", dependencies: [clientRuntime], path: "./Sources/Core/AWSClientRuntime"),"#)
+    print(#"        .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),"#)
     print()
     print("        // MARK: - Core Test Targets")
-    print(#"        .testTarget(name: "AWSClientRuntimeTests", dependencies: ["AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),"#)
+    print(#"        .testTarget(name: "AWSClientRuntimeTests", dependencies: [clientRuntime, "AWSClientRuntime", smithyTestUtil], path: "./Tests/Core/AWSClientRuntimeTests"),"#)
     print()
 }
 
 func generateCommonDependencies() {
     print(#"let smithyTestUtil = PackageDescription.Target.Dependency.product(name: "SmithyTestUtil", package: "smithy-swift")"#)
     print(#"let clientRuntime = PackageDescription.Target.Dependency.product(name: "ClientRuntime", package: "smithy-swift")"#)
+    print(#"let awsCommonRuntimeKit = PackageDescription.Target.Dependency.product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift")"#)
     print()
 }
 
@@ -160,6 +175,7 @@ generateHeader()
 generateCommonDependencies()
 generatePackageHeader()
 generateProducts(releasedSDKs)
+generateFixedDependencies(deps)
 print("    targets: [")
 generateCoreTargets()
 generateServiceTargets(releasedSDKs)
