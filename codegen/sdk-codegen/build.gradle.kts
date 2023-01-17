@@ -168,11 +168,6 @@ val AwsService.outputDir: String
 
 val sourcesDir: String = rootProject.file("Sources/Services").absolutePath
 
-val AwsService.sourcesDir: String
-    get() {
-        return sourcesDir
-    }
-
 val AwsService.testsDir: String
     get() {
         return rootProject.file("Tests/Services").absolutePath
@@ -188,12 +183,12 @@ task("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK(s) from build directory to Sources and Tests directories"
     doLast {
-        delete(rootProject.file(sourcesDir).absolutePath)
+        delete(sourcesDir)
         discoveredServices.forEach {
-            logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
+            logger.info("copying ${it.outputDir} source to $sourcesDir")
             copy {
                 from("${it.outputDir}")
-                into("${it.sourcesDir}")
+                into(sourcesDir)
                 exclude("Package.swift")
                 exclude("*Tests")
             }
