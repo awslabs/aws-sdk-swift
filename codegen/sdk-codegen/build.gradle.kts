@@ -166,13 +166,15 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val AwsService.outputDir: String
     get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
 
+val sourcesDir: String = rootProject.file("Sources/Services").absolutePath
+
 val AwsService.sourcesDir: String
-    get(){
-        return rootProject.file("Sources/Services").absolutePath
+    get() {
+        return sourcesDir
     }
 
 val AwsService.testsDir: String
-    get(){
+    get() {
         return rootProject.file("Tests/Services").absolutePath
     }
 
@@ -186,6 +188,7 @@ task("stageSdks") {
     group = "codegen"
     description = "relocate generated SDK(s) from build directory to Sources and Tests directories"
     doLast {
+        delete(rootProject.file(sourcesDir).absolutePath)
         discoveredServices.forEach {
             logger.info("copying ${it.outputDir} source to ${it.sourcesDir}")
             copy {
