@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListBundlesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBundlesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBundlesOutputResponse`
 extension MobileClient {
+    /// Paginate over `[ListBundlesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBundlesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBundlesOutputResponse`
     public func listBundlesPaginated(input: ListBundlesInput) -> ClientRuntime.PaginatorSequence<ListBundlesInput, ListBundlesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBundlesInput, ListBundlesOutputResponse>(input: input, inputKey: \ListBundlesInput.nextToken, outputKey: \ListBundlesOutputResponse.nextToken, paginationFunction: self.listBundles(input:))
     }
@@ -24,16 +23,15 @@ extension ListBundlesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListProjectsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProjectsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
 extension MobileClient {
+    /// Paginate over `[ListProjectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutputResponse.nextToken, paginationFunction: self.listProjects(input:))
     }

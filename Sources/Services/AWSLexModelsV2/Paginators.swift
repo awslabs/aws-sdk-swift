@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAggregatedUtterancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAggregatedUtterancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAggregatedUtterancesOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListAggregatedUtterancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAggregatedUtterancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAggregatedUtterancesOutputResponse`
     public func listAggregatedUtterancesPaginated(input: ListAggregatedUtterancesInput) -> ClientRuntime.PaginatorSequence<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutputResponse>(input: input, inputKey: \ListAggregatedUtterancesInput.nextToken, outputKey: \ListAggregatedUtterancesOutputResponse.nextToken, paginationFunction: self.listAggregatedUtterances(input:))
     }
@@ -31,16 +30,15 @@ extension ListAggregatedUtterancesInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListBotAliasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBotAliasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBotAliasesOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotAliasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotAliasesOutputResponse`
     public func listBotAliasesPaginated(input: ListBotAliasesInput) -> ClientRuntime.PaginatorSequence<ListBotAliasesInput, ListBotAliasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBotAliasesInput, ListBotAliasesOutputResponse>(input: input, inputKey: \ListBotAliasesInput.nextToken, outputKey: \ListBotAliasesOutputResponse.nextToken, paginationFunction: self.listBotAliases(input:))
     }
@@ -54,16 +52,15 @@ extension ListBotAliasesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListBotLocalesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBotLocalesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBotLocalesOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotLocalesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotLocalesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotLocalesOutputResponse`
     public func listBotLocalesPaginated(input: ListBotLocalesInput) -> ClientRuntime.PaginatorSequence<ListBotLocalesInput, ListBotLocalesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBotLocalesInput, ListBotLocalesOutputResponse>(input: input, inputKey: \ListBotLocalesInput.nextToken, outputKey: \ListBotLocalesOutputResponse.nextToken, paginationFunction: self.listBotLocales(input:))
     }
@@ -80,16 +77,15 @@ extension ListBotLocalesInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListBotRecommendationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBotRecommendationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBotRecommendationsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotRecommendationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotRecommendationsOutputResponse`
     public func listBotRecommendationsPaginated(input: ListBotRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListBotRecommendationsInput, ListBotRecommendationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBotRecommendationsInput, ListBotRecommendationsOutputResponse>(input: input, inputKey: \ListBotRecommendationsInput.nextToken, outputKey: \ListBotRecommendationsOutputResponse.nextToken, paginationFunction: self.listBotRecommendations(input:))
     }
@@ -105,16 +101,15 @@ extension ListBotRecommendationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListBotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBotsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotsOutputResponse`
     public func listBotsPaginated(input: ListBotsInput) -> ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBotsInput, ListBotsOutputResponse>(input: input, inputKey: \ListBotsInput.nextToken, outputKey: \ListBotsOutputResponse.nextToken, paginationFunction: self.listBots(input:))
     }
@@ -129,16 +124,15 @@ extension ListBotsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListBotVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBotVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBotVersionsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotVersionsOutputResponse`
     public func listBotVersionsPaginated(input: ListBotVersionsInput) -> ClientRuntime.PaginatorSequence<ListBotVersionsInput, ListBotVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBotVersionsInput, ListBotVersionsOutputResponse>(input: input, inputKey: \ListBotVersionsInput.nextToken, outputKey: \ListBotVersionsOutputResponse.nextToken, paginationFunction: self.listBotVersions(input:))
     }
@@ -153,16 +147,15 @@ extension ListBotVersionsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListBuiltInIntentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuiltInIntentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInIntentsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBuiltInIntentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuiltInIntentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInIntentsOutputResponse`
     public func listBuiltInIntentsPaginated(input: ListBuiltInIntentsInput) -> ClientRuntime.PaginatorSequence<ListBuiltInIntentsInput, ListBuiltInIntentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuiltInIntentsInput, ListBuiltInIntentsOutputResponse>(input: input, inputKey: \ListBuiltInIntentsInput.nextToken, outputKey: \ListBuiltInIntentsOutputResponse.nextToken, paginationFunction: self.listBuiltInIntents(input:))
     }
@@ -177,16 +170,15 @@ extension ListBuiltInIntentsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListBuiltInSlotTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuiltInSlotTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInSlotTypesOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListBuiltInSlotTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuiltInSlotTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuiltInSlotTypesOutputResponse`
     public func listBuiltInSlotTypesPaginated(input: ListBuiltInSlotTypesInput) -> ClientRuntime.PaginatorSequence<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutputResponse>(input: input, inputKey: \ListBuiltInSlotTypesInput.nextToken, outputKey: \ListBuiltInSlotTypesOutputResponse.nextToken, paginationFunction: self.listBuiltInSlotTypes(input:))
     }
@@ -201,16 +193,15 @@ extension ListBuiltInSlotTypesInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListCustomVocabularyItemsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCustomVocabularyItemsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCustomVocabularyItemsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListCustomVocabularyItemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomVocabularyItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVocabularyItemsOutputResponse`
     public func listCustomVocabularyItemsPaginated(input: ListCustomVocabularyItemsInput) -> ClientRuntime.PaginatorSequence<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutputResponse>(input: input, inputKey: \ListCustomVocabularyItemsInput.nextToken, outputKey: \ListCustomVocabularyItemsOutputResponse.nextToken, paginationFunction: self.listCustomVocabularyItems(input:))
     }
@@ -226,16 +217,15 @@ extension ListCustomVocabularyItemsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListExportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListExportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
     public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutputResponse.nextToken, paginationFunction: self.listExports(input:))
     }
@@ -253,16 +243,15 @@ extension ListExportsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListImportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListImportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutputResponse.nextToken, paginationFunction: self.listImports(input:))
     }
@@ -280,16 +269,15 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListIntentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListIntentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListIntentsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListIntentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIntentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIntentsOutputResponse`
     public func listIntentsPaginated(input: ListIntentsInput) -> ClientRuntime.PaginatorSequence<ListIntentsInput, ListIntentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListIntentsInput, ListIntentsOutputResponse>(input: input, inputKey: \ListIntentsInput.nextToken, outputKey: \ListIntentsOutputResponse.nextToken, paginationFunction: self.listIntents(input:))
     }
@@ -307,16 +295,15 @@ extension ListIntentsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListRecommendedIntentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRecommendedIntentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRecommendedIntentsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListRecommendedIntentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendedIntentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendedIntentsOutputResponse`
     public func listRecommendedIntentsPaginated(input: ListRecommendedIntentsInput) -> ClientRuntime.PaginatorSequence<ListRecommendedIntentsInput, ListRecommendedIntentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRecommendedIntentsInput, ListRecommendedIntentsOutputResponse>(input: input, inputKey: \ListRecommendedIntentsInput.nextToken, outputKey: \ListRecommendedIntentsOutputResponse.nextToken, paginationFunction: self.listRecommendedIntents(input:))
     }
@@ -333,16 +320,15 @@ extension ListRecommendedIntentsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListSlotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSlotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSlotsOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListSlotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSlotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSlotsOutputResponse`
     public func listSlotsPaginated(input: ListSlotsInput) -> ClientRuntime.PaginatorSequence<ListSlotsInput, ListSlotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSlotsInput, ListSlotsOutputResponse>(input: input, inputKey: \ListSlotsInput.nextToken, outputKey: \ListSlotsOutputResponse.nextToken, paginationFunction: self.listSlots(input:))
     }
@@ -361,16 +347,15 @@ extension ListSlotsInput: ClientRuntime.PaginateToken {
             sortBy: self.sortBy
         )}
 }
-
-/// Paginate over `[ListSlotTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSlotTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSlotTypesOutputResponse`
 extension LexModelsV2Client {
+    /// Paginate over `[ListSlotTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSlotTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSlotTypesOutputResponse`
     public func listSlotTypesPaginated(input: ListSlotTypesInput) -> ClientRuntime.PaginatorSequence<ListSlotTypesInput, ListSlotTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSlotTypesInput, ListSlotTypesOutputResponse>(input: input, inputKey: \ListSlotTypesInput.nextToken, outputKey: \ListSlotTypesOutputResponse.nextToken, paginationFunction: self.listSlotTypes(input:))
     }

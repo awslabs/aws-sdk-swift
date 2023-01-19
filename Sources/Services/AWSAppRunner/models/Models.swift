@@ -597,6 +597,7 @@ extension AppRunnerClientTypes.CodeConfigurationValues: Swift.Codable {
         case buildCommand = "BuildCommand"
         case port = "Port"
         case runtime = "Runtime"
+        case runtimeEnvironmentSecrets = "RuntimeEnvironmentSecrets"
         case runtimeEnvironmentVariables = "RuntimeEnvironmentVariables"
         case startCommand = "StartCommand"
     }
@@ -611,6 +612,12 @@ extension AppRunnerClientTypes.CodeConfigurationValues: Swift.Codable {
         }
         if let runtime = self.runtime {
             try encodeContainer.encode(runtime.rawValue, forKey: .runtime)
+        }
+        if let runtimeEnvironmentSecrets = runtimeEnvironmentSecrets {
+            var runtimeEnvironmentSecretsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentSecrets)
+            for (dictKey0, runtimeEnvironmentSecrets0) in runtimeEnvironmentSecrets {
+                try runtimeEnvironmentSecretsContainer.encode(runtimeEnvironmentSecrets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let runtimeEnvironmentVariables = runtimeEnvironmentVariables {
             var runtimeEnvironmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentVariables)
@@ -644,12 +651,23 @@ extension AppRunnerClientTypes.CodeConfigurationValues: Swift.Codable {
             }
         }
         runtimeEnvironmentVariables = runtimeEnvironmentVariablesDecoded0
+        let runtimeEnvironmentSecretsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .runtimeEnvironmentSecrets)
+        var runtimeEnvironmentSecretsDecoded0: [Swift.String:Swift.String]? = nil
+        if let runtimeEnvironmentSecretsContainer = runtimeEnvironmentSecretsContainer {
+            runtimeEnvironmentSecretsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, runtimeenvironmentsecretsvalue0) in runtimeEnvironmentSecretsContainer {
+                if let runtimeenvironmentsecretsvalue0 = runtimeenvironmentsecretsvalue0 {
+                    runtimeEnvironmentSecretsDecoded0?[key0] = runtimeenvironmentsecretsvalue0
+                }
+            }
+        }
+        runtimeEnvironmentSecrets = runtimeEnvironmentSecretsDecoded0
     }
 }
 
 extension AppRunnerClientTypes.CodeConfigurationValues: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CodeConfigurationValues(port: \(Swift.String(describing: port)), runtime: \(Swift.String(describing: runtime)), runtimeEnvironmentVariables: \(Swift.String(describing: runtimeEnvironmentVariables)), buildCommand: \"CONTENT_REDACTED\", startCommand: \"CONTENT_REDACTED\")"}
+        "CodeConfigurationValues(port: \(Swift.String(describing: port)), runtime: \(Swift.String(describing: runtime)), runtimeEnvironmentSecrets: \(Swift.String(describing: runtimeEnvironmentSecrets)), runtimeEnvironmentVariables: \(Swift.String(describing: runtimeEnvironmentVariables)), buildCommand: \"CONTENT_REDACTED\", startCommand: \"CONTENT_REDACTED\")"}
 }
 
 extension AppRunnerClientTypes {
@@ -662,7 +680,13 @@ extension AppRunnerClientTypes {
         /// A runtime environment type for building and running an App Runner service. It represents a programming language runtime.
         /// This member is required.
         public var runtime: AppRunnerClientTypes.Runtime?
-        /// The environment variables that are available to your running App Runner service. An array of key-value pairs. Keys with a prefix of AWSAPPRUNNER are reserved for system use and aren't valid.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.
+        ///
+        /// * If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching, you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.
+        ///
+        /// * Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        public var runtimeEnvironmentSecrets: [Swift.String:Swift.String]?
+        /// The environment variables that are available to your running App Runner service. An array of key-value pairs.
         public var runtimeEnvironmentVariables: [Swift.String:Swift.String]?
         /// The command App Runner runs to start your application.
         public var startCommand: Swift.String?
@@ -671,6 +695,7 @@ extension AppRunnerClientTypes {
             buildCommand: Swift.String? = nil,
             port: Swift.String? = nil,
             runtime: AppRunnerClientTypes.Runtime? = nil,
+            runtimeEnvironmentSecrets: [Swift.String:Swift.String]? = nil,
             runtimeEnvironmentVariables: [Swift.String:Swift.String]? = nil,
             startCommand: Swift.String? = nil
         )
@@ -678,6 +703,7 @@ extension AppRunnerClientTypes {
             self.buildCommand = buildCommand
             self.port = port
             self.runtime = runtime
+            self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
             self.runtimeEnvironmentVariables = runtimeEnvironmentVariables
             self.startCommand = startCommand
         }
@@ -4060,6 +4086,7 @@ extension AppRunnerClientTypes {
 extension AppRunnerClientTypes.ImageConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case port = "Port"
+        case runtimeEnvironmentSecrets = "RuntimeEnvironmentSecrets"
         case runtimeEnvironmentVariables = "RuntimeEnvironmentVariables"
         case startCommand = "StartCommand"
     }
@@ -4068,6 +4095,12 @@ extension AppRunnerClientTypes.ImageConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
+        }
+        if let runtimeEnvironmentSecrets = runtimeEnvironmentSecrets {
+            var runtimeEnvironmentSecretsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentSecrets)
+            for (dictKey0, runtimeEnvironmentSecrets0) in runtimeEnvironmentSecrets {
+                try runtimeEnvironmentSecretsContainer.encode(runtimeEnvironmentSecrets0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let runtimeEnvironmentVariables = runtimeEnvironmentVariables {
             var runtimeEnvironmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .runtimeEnvironmentVariables)
@@ -4097,12 +4130,23 @@ extension AppRunnerClientTypes.ImageConfiguration: Swift.Codable {
         startCommand = startCommandDecoded
         let portDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .port)
         port = portDecoded
+        let runtimeEnvironmentSecretsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .runtimeEnvironmentSecrets)
+        var runtimeEnvironmentSecretsDecoded0: [Swift.String:Swift.String]? = nil
+        if let runtimeEnvironmentSecretsContainer = runtimeEnvironmentSecretsContainer {
+            runtimeEnvironmentSecretsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, runtimeenvironmentsecretsvalue0) in runtimeEnvironmentSecretsContainer {
+                if let runtimeenvironmentsecretsvalue0 = runtimeenvironmentsecretsvalue0 {
+                    runtimeEnvironmentSecretsDecoded0?[key0] = runtimeenvironmentsecretsvalue0
+                }
+            }
+        }
+        runtimeEnvironmentSecrets = runtimeEnvironmentSecretsDecoded0
     }
 }
 
 extension AppRunnerClientTypes.ImageConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ImageConfiguration(port: \(Swift.String(describing: port)), runtimeEnvironmentVariables: \(Swift.String(describing: runtimeEnvironmentVariables)), startCommand: \"CONTENT_REDACTED\")"}
+        "ImageConfiguration(port: \(Swift.String(describing: port)), runtimeEnvironmentSecrets: \(Swift.String(describing: runtimeEnvironmentSecrets)), runtimeEnvironmentVariables: \(Swift.String(describing: runtimeEnvironmentVariables)), startCommand: \"CONTENT_REDACTED\")"}
 }
 
 extension AppRunnerClientTypes {
@@ -4110,18 +4154,26 @@ extension AppRunnerClientTypes {
     public struct ImageConfiguration: Swift.Equatable {
         /// The port that your application listens to in the container. Default: 8080
         public var port: Swift.String?
-        /// Environment variables that are available to your running App Runner service. An array of key-value pairs. Keys with a prefix of AWSAPPRUNNER are reserved for system use and aren't valid.
+        /// An array of key-value pairs representing the secrets and parameters that get referenced to your service as an environment variable. The supported values are either the full Amazon Resource Name (ARN) of the Secrets Manager secret or the full ARN of the parameter in the Amazon Web Services Systems Manager Parameter Store.
+        ///
+        /// * If the Amazon Web Services Systems Manager Parameter Store parameter exists in the same Amazon Web Services Region as the service that you're launching, you can use either the full ARN or name of the secret. If the parameter exists in a different Region, then the full ARN must be specified.
+        ///
+        /// * Currently, cross account referencing of Amazon Web Services Systems Manager Parameter Store parameter is not supported.
+        public var runtimeEnvironmentSecrets: [Swift.String:Swift.String]?
+        /// Environment variables that are available to your running App Runner service. An array of key-value pairs.
         public var runtimeEnvironmentVariables: [Swift.String:Swift.String]?
         /// An optional command that App Runner runs to start the application in the source image. If specified, this command overrides the Docker image’s default start command.
         public var startCommand: Swift.String?
 
         public init (
             port: Swift.String? = nil,
+            runtimeEnvironmentSecrets: [Swift.String:Swift.String]? = nil,
             runtimeEnvironmentVariables: [Swift.String:Swift.String]? = nil,
             startCommand: Swift.String? = nil
         )
         {
             self.port = port
+            self.runtimeEnvironmentSecrets = runtimeEnvironmentSecrets
             self.runtimeEnvironmentVariables = runtimeEnvironmentVariables
             self.startCommand = startCommand
         }

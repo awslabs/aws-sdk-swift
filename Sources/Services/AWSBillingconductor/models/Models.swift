@@ -2052,7 +2052,7 @@ extension CreatePricingPlanOutputResponseBody: Swift.Decodable {
 
 extension CreatePricingRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePricingRuleInput(billingEntity: \(Swift.String(describing: billingEntity)), clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreatePricingRuleInput(billingEntity: \(Swift.String(describing: billingEntity)), clientToken: \(Swift.String(describing: clientToken)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), operation: \(Swift.String(describing: operation)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tags: \(Swift.String(describing: tags)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), usageType: \(Swift.String(describing: usageType)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePricingRuleInput: Swift.Encodable {
@@ -2061,11 +2061,13 @@ extension CreatePricingRuleInput: Swift.Encodable {
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case operation = "Operation"
         case scope = "Scope"
         case service = "Service"
         case tags = "Tags"
         case tiering = "Tiering"
         case type = "Type"
+        case usageType = "UsageType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2081,6 +2083,9 @@ extension CreatePricingRuleInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let operation = self.operation {
+            try encodeContainer.encode(operation, forKey: .operation)
         }
         if let scope = self.scope {
             try encodeContainer.encode(scope.rawValue, forKey: .scope)
@@ -2099,6 +2104,9 @@ extension CreatePricingRuleInput: Swift.Encodable {
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let usageType = self.usageType {
+            try encodeContainer.encode(usageType, forKey: .usageType)
         }
     }
 }
@@ -2131,10 +2139,12 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     /// The pricing rule name. The names must be unique to each pricing rule.
     /// This member is required.
     public var name: Swift.String?
+    /// Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item. If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+    public var operation: Swift.String?
     /// The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
     /// This member is required.
     public var scope: BillingconductorClientTypes.PricingRuleScope?
-    /// If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
+    /// If the Scope attribute is set to SERVICE or SKU, the attribute indicates which service the PricingRule is applicable for.
     public var service: Swift.String?
     /// A map that contains tag keys and tag values that are attached to a pricing rule.
     public var tags: [Swift.String:Swift.String]?
@@ -2143,6 +2153,8 @@ public struct CreatePricingRuleInput: Swift.Equatable {
     /// The type of pricing rule.
     /// This member is required.
     public var type: BillingconductorClientTypes.PricingRuleType?
+    /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+    public var usageType: Swift.String?
 
     public init (
         billingEntity: Swift.String? = nil,
@@ -2150,11 +2162,13 @@ public struct CreatePricingRuleInput: Swift.Equatable {
         description: Swift.String? = nil,
         modifierPercentage: Swift.Double? = nil,
         name: Swift.String? = nil,
+        operation: Swift.String? = nil,
         scope: BillingconductorClientTypes.PricingRuleScope? = nil,
         service: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         tiering: BillingconductorClientTypes.CreateTieringInput? = nil,
-        type: BillingconductorClientTypes.PricingRuleType? = nil
+        type: BillingconductorClientTypes.PricingRuleType? = nil,
+        usageType: Swift.String? = nil
     )
     {
         self.billingEntity = billingEntity
@@ -2162,11 +2176,13 @@ public struct CreatePricingRuleInput: Swift.Equatable {
         self.description = description
         self.modifierPercentage = modifierPercentage
         self.name = name
+        self.operation = operation
         self.scope = scope
         self.service = service
         self.tags = tags
         self.tiering = tiering
         self.type = type
+        self.usageType = usageType
     }
 }
 
@@ -2180,6 +2196,8 @@ struct CreatePricingRuleInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let billingEntity: Swift.String?
     let tiering: BillingconductorClientTypes.CreateTieringInput?
+    let usageType: Swift.String?
+    let operation: Swift.String?
 }
 
 extension CreatePricingRuleInputBody: Swift.Decodable {
@@ -2188,11 +2206,13 @@ extension CreatePricingRuleInputBody: Swift.Decodable {
         case description = "Description"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case operation = "Operation"
         case scope = "Scope"
         case service = "Service"
         case tags = "Tags"
         case tiering = "Tiering"
         case type = "Type"
+        case usageType = "UsageType"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2224,6 +2244,10 @@ extension CreatePricingRuleInputBody: Swift.Decodable {
         billingEntity = billingEntityDecoded
         let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CreateTieringInput.self, forKey: .tiering)
         tiering = tieringDecoded
+        let usageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usageType)
+        usageType = usageTypeDecoded
+        let operationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operation)
+        operation = operationDecoded
     }
 }
 
@@ -8130,7 +8154,7 @@ public enum UpdatePricingRuleOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePricingRuleOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdatePricingRuleOutputResponse(arn: \(Swift.String(describing: arn)), associatedPricingPlanCount: \(Swift.String(describing: associatedPricingPlanCount)), billingEntity: \(Swift.String(describing: billingEntity)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), modifierPercentage: \(Swift.String(describing: modifierPercentage)), operation: \(Swift.String(describing: operation)), scope: \(Swift.String(describing: scope)), service: \(Swift.String(describing: service)), tiering: \(Swift.String(describing: tiering)), type: \(Swift.String(describing: type)), usageType: \(Swift.String(describing: usageType)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8146,10 +8170,12 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTime = output.lastModifiedTime
             self.modifierPercentage = output.modifierPercentage
             self.name = output.name
+            self.operation = output.operation
             self.scope = output.scope
             self.service = output.service
             self.tiering = output.tiering
             self.type = output.type
+            self.usageType = output.usageType
         } else {
             self.arn = nil
             self.associatedPricingPlanCount = 0
@@ -8158,10 +8184,12 @@ extension UpdatePricingRuleOutputResponse: ClientRuntime.HttpResponseBinding {
             self.lastModifiedTime = 0
             self.modifierPercentage = nil
             self.name = nil
+            self.operation = nil
             self.scope = nil
             self.service = nil
             self.tiering = nil
             self.type = nil
+            self.usageType = nil
         }
     }
 }
@@ -8181,6 +8209,8 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     public var modifierPercentage: Swift.Double?
     /// The new name of the pricing rule. The name must be unique to each pricing rule.
     public var name: Swift.String?
+    /// Operation refers to the specific Amazon Web Services covered by this line item. This describes the specific usage of the line item. If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
+    public var operation: Swift.String?
     /// The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
     public var scope: BillingconductorClientTypes.PricingRuleScope?
     /// If the Scope attribute is set to SERVICE, the attribute indicates which service the PricingRule is applicable for.
@@ -8189,6 +8219,8 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
     public var tiering: BillingconductorClientTypes.UpdateTieringInput?
     /// The new pricing rule type.
     public var type: BillingconductorClientTypes.PricingRuleType?
+    /// Usage type is the unit that each service uses to measure the usage of a specific type of resource. If the Scope attribute is set to SKU, this attribute indicates which usage type the PricingRule is modifying. For example, USW2-BoxUsage:m2.2xlarge describes an M2 High Memory Double Extra Large instance in the US West (Oregon) Region.
+    public var usageType: Swift.String?
 
     public init (
         arn: Swift.String? = nil,
@@ -8198,10 +8230,12 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
         lastModifiedTime: Swift.Int = 0,
         modifierPercentage: Swift.Double? = nil,
         name: Swift.String? = nil,
+        operation: Swift.String? = nil,
         scope: BillingconductorClientTypes.PricingRuleScope? = nil,
         service: Swift.String? = nil,
         tiering: BillingconductorClientTypes.UpdateTieringInput? = nil,
-        type: BillingconductorClientTypes.PricingRuleType? = nil
+        type: BillingconductorClientTypes.PricingRuleType? = nil,
+        usageType: Swift.String? = nil
     )
     {
         self.arn = arn
@@ -8211,10 +8245,12 @@ public struct UpdatePricingRuleOutputResponse: Swift.Equatable {
         self.lastModifiedTime = lastModifiedTime
         self.modifierPercentage = modifierPercentage
         self.name = name
+        self.operation = operation
         self.scope = scope
         self.service = service
         self.tiering = tiering
         self.type = type
+        self.usageType = usageType
     }
 }
 
@@ -8230,6 +8266,8 @@ struct UpdatePricingRuleOutputResponseBody: Swift.Equatable {
     let lastModifiedTime: Swift.Int
     let billingEntity: Swift.String?
     let tiering: BillingconductorClientTypes.UpdateTieringInput?
+    let usageType: Swift.String?
+    let operation: Swift.String?
 }
 
 extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
@@ -8241,10 +8279,12 @@ extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
         case lastModifiedTime = "LastModifiedTime"
         case modifierPercentage = "ModifierPercentage"
         case name = "Name"
+        case operation = "Operation"
         case scope = "Scope"
         case service = "Service"
         case tiering = "Tiering"
         case type = "Type"
+        case usageType = "UsageType"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -8271,6 +8311,10 @@ extension UpdatePricingRuleOutputResponseBody: Swift.Decodable {
         billingEntity = billingEntityDecoded
         let tieringDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateTieringInput.self, forKey: .tiering)
         tiering = tieringDecoded
+        let usageTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usageType)
+        usageType = usageTypeDecoded
+        let operationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operation)
+        operation = operationDecoded
     }
 }
 

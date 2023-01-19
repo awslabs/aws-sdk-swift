@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListDatasetGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDatasetGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDatasetGroupsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListDatasetGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetGroupsOutputResponse`
     public func listDatasetGroupsPaginated(input: ListDatasetGroupsInput) -> ClientRuntime.PaginatorSequence<ListDatasetGroupsInput, ListDatasetGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDatasetGroupsInput, ListDatasetGroupsOutputResponse>(input: input, inputKey: \ListDatasetGroupsInput.nextToken, outputKey: \ListDatasetGroupsOutputResponse.nextToken, paginationFunction: self.listDatasetGroups(input:))
     }
@@ -25,24 +24,23 @@ extension ListDatasetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDatasetGroupsPaginated`
-/// to access the nested member `[ForecastClientTypes.DatasetGroupSummary]`
-/// - Returns: `[ForecastClientTypes.DatasetGroupSummary]`
 extension PaginatorSequence where Input == ListDatasetGroupsInput, Output == ListDatasetGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetGroupsPaginated`
+    /// to access the nested member `[ForecastClientTypes.DatasetGroupSummary]`
+    /// - Returns: `[ForecastClientTypes.DatasetGroupSummary]`
     public func datasetGroups() async throws -> [ForecastClientTypes.DatasetGroupSummary] {
         return try await self.asyncCompactMap { item in item.datasetGroups }
     }
 }
-
-/// Paginate over `[ListDatasetImportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDatasetImportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDatasetImportJobsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListDatasetImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetImportJobsOutputResponse`
     public func listDatasetImportJobsPaginated(input: ListDatasetImportJobsInput) -> ClientRuntime.PaginatorSequence<ListDatasetImportJobsInput, ListDatasetImportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDatasetImportJobsInput, ListDatasetImportJobsOutputResponse>(input: input, inputKey: \ListDatasetImportJobsInput.nextToken, outputKey: \ListDatasetImportJobsOutputResponse.nextToken, paginationFunction: self.listDatasetImportJobs(input:))
     }
@@ -57,24 +55,23 @@ extension ListDatasetImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDatasetImportJobsPaginated`
-/// to access the nested member `[ForecastClientTypes.DatasetImportJobSummary]`
-/// - Returns: `[ForecastClientTypes.DatasetImportJobSummary]`
 extension PaginatorSequence where Input == ListDatasetImportJobsInput, Output == ListDatasetImportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetImportJobsPaginated`
+    /// to access the nested member `[ForecastClientTypes.DatasetImportJobSummary]`
+    /// - Returns: `[ForecastClientTypes.DatasetImportJobSummary]`
     public func datasetImportJobs() async throws -> [ForecastClientTypes.DatasetImportJobSummary] {
         return try await self.asyncCompactMap { item in item.datasetImportJobs }
     }
 }
-
-/// Paginate over `[ListDatasetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDatasetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
     }
@@ -88,24 +85,23 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
-/// to access the nested member `[ForecastClientTypes.DatasetSummary]`
-/// - Returns: `[ForecastClientTypes.DatasetSummary]`
 extension PaginatorSequence where Input == ListDatasetsInput, Output == ListDatasetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
+    /// to access the nested member `[ForecastClientTypes.DatasetSummary]`
+    /// - Returns: `[ForecastClientTypes.DatasetSummary]`
     public func datasets() async throws -> [ForecastClientTypes.DatasetSummary] {
         return try await self.asyncCompactMap { item in item.datasets }
     }
 }
-
-/// Paginate over `[ListExplainabilitiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExplainabilitiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilitiesOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListExplainabilitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExplainabilitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilitiesOutputResponse`
     public func listExplainabilitiesPaginated(input: ListExplainabilitiesInput) -> ClientRuntime.PaginatorSequence<ListExplainabilitiesInput, ListExplainabilitiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExplainabilitiesInput, ListExplainabilitiesOutputResponse>(input: input, inputKey: \ListExplainabilitiesInput.nextToken, outputKey: \ListExplainabilitiesOutputResponse.nextToken, paginationFunction: self.listExplainabilities(input:))
     }
@@ -120,24 +116,23 @@ extension ListExplainabilitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listExplainabilitiesPaginated`
-/// to access the nested member `[ForecastClientTypes.ExplainabilitySummary]`
-/// - Returns: `[ForecastClientTypes.ExplainabilitySummary]`
 extension PaginatorSequence where Input == ListExplainabilitiesInput, Output == ListExplainabilitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExplainabilitiesPaginated`
+    /// to access the nested member `[ForecastClientTypes.ExplainabilitySummary]`
+    /// - Returns: `[ForecastClientTypes.ExplainabilitySummary]`
     public func explainabilities() async throws -> [ForecastClientTypes.ExplainabilitySummary] {
         return try await self.asyncCompactMap { item in item.explainabilities }
     }
 }
-
-/// Paginate over `[ListExplainabilityExportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExplainabilityExportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilityExportsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListExplainabilityExportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExplainabilityExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExplainabilityExportsOutputResponse`
     public func listExplainabilityExportsPaginated(input: ListExplainabilityExportsInput) -> ClientRuntime.PaginatorSequence<ListExplainabilityExportsInput, ListExplainabilityExportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExplainabilityExportsInput, ListExplainabilityExportsOutputResponse>(input: input, inputKey: \ListExplainabilityExportsInput.nextToken, outputKey: \ListExplainabilityExportsOutputResponse.nextToken, paginationFunction: self.listExplainabilityExports(input:))
     }
@@ -152,24 +147,23 @@ extension ListExplainabilityExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listExplainabilityExportsPaginated`
-/// to access the nested member `[ForecastClientTypes.ExplainabilityExportSummary]`
-/// - Returns: `[ForecastClientTypes.ExplainabilityExportSummary]`
 extension PaginatorSequence where Input == ListExplainabilityExportsInput, Output == ListExplainabilityExportsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExplainabilityExportsPaginated`
+    /// to access the nested member `[ForecastClientTypes.ExplainabilityExportSummary]`
+    /// - Returns: `[ForecastClientTypes.ExplainabilityExportSummary]`
     public func explainabilityExports() async throws -> [ForecastClientTypes.ExplainabilityExportSummary] {
         return try await self.asyncCompactMap { item in item.explainabilityExports }
     }
 }
-
-/// Paginate over `[ListForecastExportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListForecastExportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListForecastExportJobsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListForecastExportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListForecastExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListForecastExportJobsOutputResponse`
     public func listForecastExportJobsPaginated(input: ListForecastExportJobsInput) -> ClientRuntime.PaginatorSequence<ListForecastExportJobsInput, ListForecastExportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListForecastExportJobsInput, ListForecastExportJobsOutputResponse>(input: input, inputKey: \ListForecastExportJobsInput.nextToken, outputKey: \ListForecastExportJobsOutputResponse.nextToken, paginationFunction: self.listForecastExportJobs(input:))
     }
@@ -184,24 +178,23 @@ extension ListForecastExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listForecastExportJobsPaginated`
-/// to access the nested member `[ForecastClientTypes.ForecastExportJobSummary]`
-/// - Returns: `[ForecastClientTypes.ForecastExportJobSummary]`
 extension PaginatorSequence where Input == ListForecastExportJobsInput, Output == ListForecastExportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listForecastExportJobsPaginated`
+    /// to access the nested member `[ForecastClientTypes.ForecastExportJobSummary]`
+    /// - Returns: `[ForecastClientTypes.ForecastExportJobSummary]`
     public func forecastExportJobs() async throws -> [ForecastClientTypes.ForecastExportJobSummary] {
         return try await self.asyncCompactMap { item in item.forecastExportJobs }
     }
 }
-
-/// Paginate over `[ListForecastsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListForecastsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListForecastsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListForecastsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListForecastsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListForecastsOutputResponse`
     public func listForecastsPaginated(input: ListForecastsInput) -> ClientRuntime.PaginatorSequence<ListForecastsInput, ListForecastsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListForecastsInput, ListForecastsOutputResponse>(input: input, inputKey: \ListForecastsInput.nextToken, outputKey: \ListForecastsOutputResponse.nextToken, paginationFunction: self.listForecasts(input:))
     }
@@ -216,24 +209,23 @@ extension ListForecastsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listForecastsPaginated`
-/// to access the nested member `[ForecastClientTypes.ForecastSummary]`
-/// - Returns: `[ForecastClientTypes.ForecastSummary]`
 extension PaginatorSequence where Input == ListForecastsInput, Output == ListForecastsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listForecastsPaginated`
+    /// to access the nested member `[ForecastClientTypes.ForecastSummary]`
+    /// - Returns: `[ForecastClientTypes.ForecastSummary]`
     public func forecasts() async throws -> [ForecastClientTypes.ForecastSummary] {
         return try await self.asyncCompactMap { item in item.forecasts }
     }
 }
-
-/// Paginate over `[ListMonitorEvaluationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMonitorEvaluationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMonitorEvaluationsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListMonitorEvaluationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMonitorEvaluationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMonitorEvaluationsOutputResponse`
     public func listMonitorEvaluationsPaginated(input: ListMonitorEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutputResponse>(input: input, inputKey: \ListMonitorEvaluationsInput.nextToken, outputKey: \ListMonitorEvaluationsOutputResponse.nextToken, paginationFunction: self.listMonitorEvaluations(input:))
     }
@@ -249,24 +241,23 @@ extension ListMonitorEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listMonitorEvaluationsPaginated`
-/// to access the nested member `[ForecastClientTypes.PredictorMonitorEvaluation]`
-/// - Returns: `[ForecastClientTypes.PredictorMonitorEvaluation]`
 extension PaginatorSequence where Input == ListMonitorEvaluationsInput, Output == ListMonitorEvaluationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listMonitorEvaluationsPaginated`
+    /// to access the nested member `[ForecastClientTypes.PredictorMonitorEvaluation]`
+    /// - Returns: `[ForecastClientTypes.PredictorMonitorEvaluation]`
     public func predictorMonitorEvaluations() async throws -> [ForecastClientTypes.PredictorMonitorEvaluation] {
         return try await self.asyncCompactMap { item in item.predictorMonitorEvaluations }
     }
 }
-
-/// Paginate over `[ListMonitorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMonitorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMonitorsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListMonitorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMonitorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMonitorsOutputResponse`
     public func listMonitorsPaginated(input: ListMonitorsInput) -> ClientRuntime.PaginatorSequence<ListMonitorsInput, ListMonitorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMonitorsInput, ListMonitorsOutputResponse>(input: input, inputKey: \ListMonitorsInput.nextToken, outputKey: \ListMonitorsOutputResponse.nextToken, paginationFunction: self.listMonitors(input:))
     }
@@ -281,24 +272,23 @@ extension ListMonitorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listMonitorsPaginated`
-/// to access the nested member `[ForecastClientTypes.MonitorSummary]`
-/// - Returns: `[ForecastClientTypes.MonitorSummary]`
 extension PaginatorSequence where Input == ListMonitorsInput, Output == ListMonitorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listMonitorsPaginated`
+    /// to access the nested member `[ForecastClientTypes.MonitorSummary]`
+    /// - Returns: `[ForecastClientTypes.MonitorSummary]`
     public func monitors() async throws -> [ForecastClientTypes.MonitorSummary] {
         return try await self.asyncCompactMap { item in item.monitors }
     }
 }
-
-/// Paginate over `[ListPredictorBacktestExportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPredictorBacktestExportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPredictorBacktestExportJobsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListPredictorBacktestExportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPredictorBacktestExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPredictorBacktestExportJobsOutputResponse`
     public func listPredictorBacktestExportJobsPaginated(input: ListPredictorBacktestExportJobsInput) -> ClientRuntime.PaginatorSequence<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutputResponse>(input: input, inputKey: \ListPredictorBacktestExportJobsInput.nextToken, outputKey: \ListPredictorBacktestExportJobsOutputResponse.nextToken, paginationFunction: self.listPredictorBacktestExportJobs(input:))
     }
@@ -313,24 +303,23 @@ extension ListPredictorBacktestExportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPredictorBacktestExportJobsPaginated`
-/// to access the nested member `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
-/// - Returns: `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
 extension PaginatorSequence where Input == ListPredictorBacktestExportJobsInput, Output == ListPredictorBacktestExportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPredictorBacktestExportJobsPaginated`
+    /// to access the nested member `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
+    /// - Returns: `[ForecastClientTypes.PredictorBacktestExportJobSummary]`
     public func predictorBacktestExportJobs() async throws -> [ForecastClientTypes.PredictorBacktestExportJobSummary] {
         return try await self.asyncCompactMap { item in item.predictorBacktestExportJobs }
     }
 }
-
-/// Paginate over `[ListPredictorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPredictorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPredictorsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListPredictorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPredictorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPredictorsOutputResponse`
     public func listPredictorsPaginated(input: ListPredictorsInput) -> ClientRuntime.PaginatorSequence<ListPredictorsInput, ListPredictorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPredictorsInput, ListPredictorsOutputResponse>(input: input, inputKey: \ListPredictorsInput.nextToken, outputKey: \ListPredictorsOutputResponse.nextToken, paginationFunction: self.listPredictors(input:))
     }
@@ -345,24 +334,23 @@ extension ListPredictorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPredictorsPaginated`
-/// to access the nested member `[ForecastClientTypes.PredictorSummary]`
-/// - Returns: `[ForecastClientTypes.PredictorSummary]`
 extension PaginatorSequence where Input == ListPredictorsInput, Output == ListPredictorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPredictorsPaginated`
+    /// to access the nested member `[ForecastClientTypes.PredictorSummary]`
+    /// - Returns: `[ForecastClientTypes.PredictorSummary]`
     public func predictors() async throws -> [ForecastClientTypes.PredictorSummary] {
         return try await self.asyncCompactMap { item in item.predictors }
     }
 }
-
-/// Paginate over `[ListWhatIfAnalysesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListWhatIfAnalysesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfAnalysesOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListWhatIfAnalysesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWhatIfAnalysesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfAnalysesOutputResponse`
     public func listWhatIfAnalysesPaginated(input: ListWhatIfAnalysesInput) -> ClientRuntime.PaginatorSequence<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutputResponse>(input: input, inputKey: \ListWhatIfAnalysesInput.nextToken, outputKey: \ListWhatIfAnalysesOutputResponse.nextToken, paginationFunction: self.listWhatIfAnalyses(input:))
     }
@@ -377,24 +365,23 @@ extension ListWhatIfAnalysesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listWhatIfAnalysesPaginated`
-/// to access the nested member `[ForecastClientTypes.WhatIfAnalysisSummary]`
-/// - Returns: `[ForecastClientTypes.WhatIfAnalysisSummary]`
 extension PaginatorSequence where Input == ListWhatIfAnalysesInput, Output == ListWhatIfAnalysesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWhatIfAnalysesPaginated`
+    /// to access the nested member `[ForecastClientTypes.WhatIfAnalysisSummary]`
+    /// - Returns: `[ForecastClientTypes.WhatIfAnalysisSummary]`
     public func whatIfAnalyses() async throws -> [ForecastClientTypes.WhatIfAnalysisSummary] {
         return try await self.asyncCompactMap { item in item.whatIfAnalyses }
     }
 }
-
-/// Paginate over `[ListWhatIfForecastExportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListWhatIfForecastExportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastExportsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListWhatIfForecastExportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWhatIfForecastExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastExportsOutputResponse`
     public func listWhatIfForecastExportsPaginated(input: ListWhatIfForecastExportsInput) -> ClientRuntime.PaginatorSequence<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutputResponse>(input: input, inputKey: \ListWhatIfForecastExportsInput.nextToken, outputKey: \ListWhatIfForecastExportsOutputResponse.nextToken, paginationFunction: self.listWhatIfForecastExports(input:))
     }
@@ -409,24 +396,23 @@ extension ListWhatIfForecastExportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastExportsPaginated`
-/// to access the nested member `[ForecastClientTypes.WhatIfForecastExportSummary]`
-/// - Returns: `[ForecastClientTypes.WhatIfForecastExportSummary]`
 extension PaginatorSequence where Input == ListWhatIfForecastExportsInput, Output == ListWhatIfForecastExportsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastExportsPaginated`
+    /// to access the nested member `[ForecastClientTypes.WhatIfForecastExportSummary]`
+    /// - Returns: `[ForecastClientTypes.WhatIfForecastExportSummary]`
     public func whatIfForecastExports() async throws -> [ForecastClientTypes.WhatIfForecastExportSummary] {
         return try await self.asyncCompactMap { item in item.whatIfForecastExports }
     }
 }
-
-/// Paginate over `[ListWhatIfForecastsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListWhatIfForecastsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastsOutputResponse`
 extension ForecastClient {
+    /// Paginate over `[ListWhatIfForecastsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWhatIfForecastsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWhatIfForecastsOutputResponse`
     public func listWhatIfForecastsPaginated(input: ListWhatIfForecastsInput) -> ClientRuntime.PaginatorSequence<ListWhatIfForecastsInput, ListWhatIfForecastsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListWhatIfForecastsInput, ListWhatIfForecastsOutputResponse>(input: input, inputKey: \ListWhatIfForecastsInput.nextToken, outputKey: \ListWhatIfForecastsOutputResponse.nextToken, paginationFunction: self.listWhatIfForecasts(input:))
     }
@@ -441,10 +427,10 @@ extension ListWhatIfForecastsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastsPaginated`
-/// to access the nested member `[ForecastClientTypes.WhatIfForecastSummary]`
-/// - Returns: `[ForecastClientTypes.WhatIfForecastSummary]`
 extension PaginatorSequence where Input == ListWhatIfForecastsInput, Output == ListWhatIfForecastsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWhatIfForecastsPaginated`
+    /// to access the nested member `[ForecastClientTypes.WhatIfForecastSummary]`
+    /// - Returns: `[ForecastClientTypes.WhatIfForecastSummary]`
     public func whatIfForecasts() async throws -> [ForecastClientTypes.WhatIfForecastSummary] {
         return try await self.asyncCompactMap { item in item.whatIfForecasts }
     }

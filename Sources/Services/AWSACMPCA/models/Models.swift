@@ -377,7 +377,7 @@ extension ACMPCAClientTypes.ApiPassthrough: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Contains X.509 certificate information to be placed in an issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. If conflicting or duplicate certificate information is supplied from other sources, ACM Private CA applies [order of operation rules](https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
+    /// Contains X.509 certificate information to be placed in an issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. If conflicting or duplicate certificate information is supplied from other sources, Amazon Web Services Private CA applies [order of operation rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
     public struct ApiPassthrough: Swift.Equatable {
         /// Specifies X.509 extension information for a certificate.
         public var extensions: ACMPCAClientTypes.Extensions?
@@ -567,7 +567,7 @@ extension ACMPCAClientTypes.CertificateAuthority: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Contains information about your private certificate authority (CA). Your private CA can issue and revoke X.509 digital certificates. Digital certificates verify that the entity named in the certificate Subject field owns or controls the public key contained in the Subject Public Key Info field. Call the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action to create your private CA. You must then call the [GetCertificateAuthorityCertificate](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificateAuthorityCertificate.html) action to retrieve a private CA certificate signing request (CSR). Sign the CSR with your ACM Private CA-hosted or on-premises root or subordinate CA certificate. Call the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action to import the signed certificate into Certificate Manager (ACM).
+    /// Contains information about your private certificate authority (CA). Your private CA can issue and revoke X.509 digital certificates. Digital certificates verify that the entity named in the certificate Subject field owns or controls the public key contained in the Subject Public Key Info field. Call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action to create your private CA. You must then call the [GetCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html) action to retrieve a private CA certificate signing request (CSR). Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA certificate. Call the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action to import the signed certificate into Certificate Manager (ACM).
     public struct CertificateAuthority: Swift.Equatable {
         /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
         public var arn: Swift.String?
@@ -587,7 +587,7 @@ extension ACMPCAClientTypes {
         public var notBefore: ClientRuntime.Date?
         /// The Amazon Web Services account ID that owns the certificate authority.
         public var ownerAccount: Swift.String?
-        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the [DeleteCertificateAuthorityRequest](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html) action.
+        /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the [DeleteCertificateAuthorityRequest](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeleteCertificateAuthorityRequest.html) action.
         public var restorableUntil: ClientRuntime.Date?
         /// Information about the Online Certificate Status Protocol (OCSP) configuration or certificate revocation list (CRL) created and maintained by your private CA.
         public var revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
@@ -676,7 +676,7 @@ extension ACMPCAClientTypes.CertificateAuthorityConfiguration: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Contains configuration information for your private certificate authority (CA). This includes information about the class of public key algorithm and the key pair that your private CA creates when it issues a certificate. It also includes the signature algorithm that it uses when issuing certificates, and its X.500 distinguished name. You must specify this information when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action.
+    /// Contains configuration information for your private certificate authority (CA). This includes information about the class of public key algorithm and the key pair that your private CA creates when it issues a certificate. It also includes the signature algorithm that it uses when issuing certificates, and its X.500 distinguished name. You must specify this information when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action.
     public struct CertificateAuthorityConfiguration: Swift.Equatable {
         /// Specifies information to be added to the extension section of the certificate signing request (CSR).
         public var csrExtensions: ACMPCAClientTypes.CsrExtensions?
@@ -1131,7 +1131,7 @@ public struct CreateCertificateAuthorityInput: Swift.Equatable {
     /// The type of the certificate authority.
     /// This member is required.
     public var certificateAuthorityType: ACMPCAClientTypes.CertificateAuthorityType?
-    /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, ACM Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificate authorities.
+    /// Custom string that can be used to distinguish between calls to the CreateCertificateAuthority action. Idempotency tokens for CreateCertificateAuthority time out after five minutes. Therefore, if you call CreateCertificateAuthority multiple times with the same idempotency token within five minutes, Amazon Web Services Private CA recognizes that you are requesting only certificate authority and will issue only one. If you change the idempotency token for each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificate authorities.
     public var idempotencyToken: Swift.String?
     /// Specifies a cryptographic key management compliance standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following Regions:
     ///
@@ -1142,7 +1142,18 @@ public struct CreateCertificateAuthorityInput: Swift.Equatable {
     ///
     /// When creating a CA in these Regions, you must provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do this results in an InvalidArgsException with the message, "A certificate authority cannot be created in this region with the specified security standard."
     public var keyStorageSecurityStandard: ACMPCAClientTypes.KeyStorageSecurityStandard?
-    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. The default is for both certificate validation mechanisms to be disabled. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CrlConfiguration.html) types.
+    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. The default is for both certificate validation mechanisms to be disabled. The following requirements apply to revocation configurations.
+    ///
+    /// * A configuration disabling CRLs or OCSP must contain only the Enabled=False parameter, and will fail if other parameters such as CustomCname or ExpirationInDays are included.
+    ///
+    /// * In a CRL configuration, the S3BucketName parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+    ///
+    /// * A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or OCSP must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in a CNAME.
+    ///
+    /// * In a CRL or OCSP configuration, the value of a CNAME parameter must not include a protocol prefix such as "http://" or "https://".
+    ///
+    ///
+    /// For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html) types.
     public var revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
     /// Key-value pairs that will be attached to the new private CA. You can associate up to 50 tags with a private CA. For information using tags with IAM to manage permissions, see [Controlling Access Using IAM Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html).
     public var tags: [ACMPCAClientTypes.Tag]?
@@ -1325,7 +1336,7 @@ public struct CreatePermissionInput: Swift.Equatable {
     /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
     /// This member is required.
     public var actions: [ACMPCAClientTypes.ActionType]?
-    /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+    /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// The Amazon Web Services service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com.
@@ -1471,7 +1482,7 @@ extension ACMPCAClientTypes.CrlConfiguration: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Contains configuration information for a certificate revocation list (CRL). Your private certificate authority (CA) creates base CRLs. Delta CRLs are not supported. You can enable CRLs for your new or an existing private CA by setting the Enabled parameter to true. Your private CA writes CRLs to an S3 bucket that you specify in the S3BucketName parameter. You can hide the name of your bucket by specifying a value for the CustomCname parameter. Your private CA copies the CNAME or the S3 bucket name to the CRL Distribution Points extension of each certificate it issues. Your S3 bucket policy must give write permission to ACM Private CA. ACM Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#crl-encryption). Your private CA uses the value in the ExpirationInDays parameter to calculate the nextUpdate field in the CRL. The CRL is refreshed prior to a certificate's expiration date or when a certificate is revoked. When a certificate is revoked, it appears in the CRL until the certificate expires, and then in one additional CRL after expiration, and it always appears in the audit report. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, ACM Private CA makes further attempts every 15 minutes. CRLs contain the following fields:
+    /// Contains configuration information for a certificate revocation list (CRL). Your private certificate authority (CA) creates base CRLs. Delta CRLs are not supported. You can enable CRLs for your new or an existing private CA by setting the Enabled parameter to true. Your private CA writes CRLs to an S3 bucket that you specify in the S3BucketName parameter. You can hide the name of your bucket by specifying a value for the CustomCname parameter. Your private CA copies the CNAME or the S3 bucket name to the CRL Distribution Points extension of each certificate it issues. Your S3 bucket policy must give write permission to Amazon Web Services Private CA. Amazon Web Services Private CA assets that are stored in Amazon S3 can be protected with encryption. For more information, see [Encrypting Your CRLs](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption). Your private CA uses the value in the ExpirationInDays parameter to calculate the nextUpdate field in the CRL. The CRL is refreshed prior to a certificate's expiration date or when a certificate is revoked. When a certificate is revoked, it appears in the CRL until the certificate expires, and then in one additional CRL after expiration, and it always appears in the audit report. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes. CRLs contain the following fields:
     ///
     /// * Version: The current version number defined in RFC 5280 is V2. The integer value is 0x1.
     ///
@@ -1513,18 +1524,18 @@ extension ACMPCAClientTypes {
     /// * Signature Value: Signature computed over the CRL.
     ///
     ///
-    /// Certificate revocation lists created by ACM Private CA are DER-encoded. You can use the following OpenSSL command to list a CRL. openssl crl -inform DER -text -in crl_path -noout For more information, see [Planning a certificate revocation list (CRL)](https://docs.aws.amazon.com/acm-pca/latest/userguide/crl-planning.html) in the Private Certificate Authority (PCA) User Guide
+    /// Certificate revocation lists created by Amazon Web Services Private CA are DER-encoded. You can use the following OpenSSL command to list a CRL. openssl crl -inform DER -text -in crl_path -noout For more information, see [Planning a certificate revocation list (CRL)](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html) in the Amazon Web Services Private Certificate Authority User Guide
     public struct CrlConfiguration: Swift.Equatable {
-        /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public.
+        /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://".
         public var customCname: Swift.String?
-        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action or for an existing CA when you call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html) action.
+        /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled. You can use this value to enable certificate revocation for a new CA when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action or for an existing CA when you call the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) action.
         /// This member is required.
         public var enabled: Swift.Bool?
         /// Validity period of the CRL in days.
         public var expirationInDays: Swift.Int?
-        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the [UpdateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html) operation. You must specify a [bucket policy](https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#s3-policies) that allows ACM Private CA to write the CRL to your bucket.
+        /// Name of the S3 bucket that contains the CRL. If you do not provide a value for the CustomCname argument, the name of your S3 bucket is placed into the CRL Distribution Points extension of the issued certificate. You can change the name of your bucket by calling the [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) operation. You must specify a [bucket policy](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-policies) that allows Amazon Web Services Private CA to write the CRL to your bucket. The S3BucketName parameter must conform to the [S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
         public var s3BucketName: Swift.String?
-        /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access. If no value is specified, the default is PUBLIC_READ. Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see [Blocking public access to the S3 bucket](https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaCreateCa.html#s3-bpa).
+        /// Determines whether the CRL will be publicly readable or privately held in the CRL Amazon S3 bucket. If you choose PUBLIC_READ, the CRL will be accessible over the public internet. If you choose BUCKET_OWNER_FULL_CONTROL, only the owner of the CRL S3 bucket can access the CRL, and your PKI clients may need an alternative method of access. If no value is specified, the default is PUBLIC_READ. Note: This default can cause CA creation to fail in some circumstances. If you have have enabled the Block Public Access (BPA) feature in your S3 account, then you must specify the value of this parameter as BUCKET_OWNER_FULL_CONTROL, and not doing so results in an error. If you have disabled BPA in S3, then you can specify either BUCKET_OWNER_FULL_CONTROL or PUBLIC_READ as the value. For more information, see [Blocking public access to the S3 bucket](https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa).
         public var s3ObjectAcl: ACMPCAClientTypes.S3ObjectAcl?
 
         public init (
@@ -1681,7 +1692,7 @@ extension ACMPCAClientTypes.CustomExtension: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Specifies the X.509 extension information for a certificate. Extensions present in CustomExtensions follow the ApiPassthrough[template rules](https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations).
+    /// Specifies the X.509 extension information for a certificate. Extensions present in CustomExtensions follow the ApiPassthrough[template rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations).
     public struct CustomExtension: Swift.Equatable {
         /// Specifies the critical flag of the X.509 extension.
         public var critical: Swift.Bool?
@@ -1730,7 +1741,7 @@ extension DeleteCertificateAuthorityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteCertificateAuthorityInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// The number of days to make a CA restorable after it has been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
@@ -1832,7 +1843,7 @@ extension DeletePermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeletePermissionInput: Swift.Equatable {
-    /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+    /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// The Amazon Web Services service or identity that will have its CA permissions revoked. At this time, the only valid service principal is acm.amazonaws.com
@@ -1935,7 +1946,7 @@ extension DeletePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeletePolicyInput: Swift.Equatable {
-    /// The Amazon Resource Number (ARN) of the private CA that will have its policy deleted. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action. The ARN value must have the form arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab.
+    /// The Amazon Resource Number (ARN) of the private CA that will have its policy deleted. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. The ARN value must have the form arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2029,7 +2040,7 @@ extension DescribeCertificateAuthorityAuditReportInput: ClientRuntime.URLPathPro
 }
 
 public struct DescribeCertificateAuthorityAuditReportInput: Swift.Equatable {
-    /// The report ID returned by calling the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action.
+    /// The report ID returned by calling the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action.
     /// This member is required.
     public var auditReportId: Swift.String?
     /// The Amazon Resource Name (ARN) of the private CA. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
@@ -2183,7 +2194,7 @@ extension DescribeCertificateAuthorityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeCertificateAuthorityInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
 
@@ -2249,7 +2260,7 @@ extension DescribeCertificateAuthorityOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct DescribeCertificateAuthorityOutputResponse: Swift.Equatable {
-    /// A [CertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CertificateAuthority.html) structure that contains information about your private CA.
+    /// A [CertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html) structure that contains information about your private CA.
     public var certificateAuthority: ACMPCAClientTypes.CertificateAuthority?
 
     public init (
@@ -2828,7 +2839,7 @@ extension GetCertificateAuthorityCsrInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCertificateAuthorityCsrInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
 
@@ -2970,7 +2981,7 @@ public struct GetCertificateInput: Swift.Equatable {
     /// The ARN of the issued certificate. The ARN contains the certificate serial number and must be in the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
     /// This member is required.
     public var certificateArn: Swift.String?
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
 
@@ -3249,10 +3260,10 @@ public struct ImportCertificateAuthorityCertificateInput: Swift.Equatable {
     /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
     /// This member is required.
     public var certificate: ClientRuntime.Data?
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
-    /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your ACM Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
+    /// A PEM-encoded file that contains all of your certificates, other than the certificate you're importing, chaining up to your root CA. Your Amazon Web Services Private CA-hosted or on-premises root certificate is the last in the chain, and each certificate in the chain signs the one preceding. This parameter must be supplied when you import a subordinate CA. When you import a root CA, there is no chain.
     public var certificateChain: ClientRuntime.Data?
 
     public init (
@@ -3460,7 +3471,7 @@ extension InvalidNextTokenException {
     }
 }
 
-/// The token specified in the NextToken argument is not valid. Use the token returned from your previous call to [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html).
+/// The token specified in the NextToken argument is not valid. Use the token returned from your previous call to [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html).
 public struct InvalidNextTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3751,25 +3762,25 @@ extension IssueCertificateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct IssueCertificateInput: Swift.Equatable {
-    /// Specifies X.509 certificate information to be included in the issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. For more information about using these templates, see [Understanding Certificate Templates](https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html). If conflicting or duplicate certificate information is supplied during certificate issuance, ACM Private CA applies [order of operation rules](https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
+    /// Specifies X.509 certificate information to be included in the issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. For more information about using these templates, see [Understanding Certificate Templates](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html). If conflicting or duplicate certificate information is supplied during certificate issuance, Amazon Web Services Private CA applies [order of operation rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
     public var apiPassthrough: ACMPCAClientTypes.ApiPassthrough?
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key. openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions. openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
     /// This member is required.
     public var csr: ClientRuntime.Data?
-    /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you call IssueCertificate multiple times with the same idempotency token within one minute, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
+    /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you call IssueCertificate multiple times with the same idempotency token within one minute, Amazon Web Services Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, Amazon Web Services Private CA recognizes that you are requesting multiple certificates.
     public var idempotencyToken: Swift.String?
     /// The name of the algorithm that will be used to sign the certificate to be issued. This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action. The specified signing algorithm family (RSA or ECDSA) much match the algorithm family of the CA's secret key.
     /// This member is required.
     public var signingAlgorithm: ACMPCAClientTypes.SigningAlgorithm?
-    /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the [CA depth](https://docs.aws.amazon.com/acm-pca/latest/userguide/PcaTerms.html#terms-cadepth). Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by ACM Private CA, see [Understanding Certificate Templates](https://docs.aws.amazon.com/acm-pca/latest/userguide/UsingTemplates.html).
+    /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, Amazon Web Services Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the [CA depth](https://docs.aws.amazon.com/privateca/latest/userguide/PcaTerms.html#terms-cadepth). Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by Amazon Web Services Private CA, see [Understanding Certificate Templates](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html).
     public var templateArn: Swift.String?
     /// Information describing the end of the validity period of the certificate. This parameter sets the “Not After” date for the certificate. Certificate validity is the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the certificate expires, or as a span of time after issuance, stated in days, months, or years. For more information, see [Validity](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5) in RFC 5280. This value is unaffected when ValidityNotBefore is also specified. For example, if Validity is set to 20 days in the future, the certificate will expire 20 days from issuance time regardless of the ValidityNotBefore value. The end of the validity period configured on a certificate must not exceed the limit set on its parents in the CA hierarchy.
     /// This member is required.
     public var validity: ACMPCAClientTypes.Validity?
-    /// Information describing the start of the validity period of the certificate. This parameter sets the “Not Before" date for the certificate. By default, when issuing a certificate, ACM Private CA sets the "Not Before" date to the issuance time minus 60 minutes. This compensates for clock inconsistencies across computer systems. The ValidityNotBefore parameter can be used to customize the “Not Before” value. Unlike the Validity parameter, the ValidityNotBefore parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time, using the Validity type value ABSOLUTE. For more information, see [Validity](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html) in this API reference and [Validity](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5) in RFC 5280.
+    /// Information describing the start of the validity period of the certificate. This parameter sets the “Not Before" date for the certificate. By default, when issuing a certificate, Amazon Web Services Private CA sets the "Not Before" date to the issuance time minus 60 minutes. This compensates for clock inconsistencies across computer systems. The ValidityNotBefore parameter can be used to customize the “Not Before” value. Unlike the Validity parameter, the ValidityNotBefore parameter is optional. The ValidityNotBefore value is expressed as an explicit date and time, using the Validity type value ABSOLUTE. For more information, see [Validity](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html) in this API reference and [Validity](https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5) in RFC 5280.
     public var validityNotBefore: ACMPCAClientTypes.Validity?
 
     public init (
@@ -4113,7 +4124,7 @@ extension LimitExceededException {
     }
 }
 
-/// An ACM Private CA quota has been exceeded. See the exception message returned to determine the quota that was exceeded.
+/// An Amazon Web Services Private CA quota has been exceeded. See the exception message returned to determine the quota that was exceeded.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4329,7 +4340,7 @@ extension ListPermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPermissionsInput: Swift.Equatable {
-    /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action.
+    /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action.
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// When paginating results, use this parameter to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
@@ -4491,7 +4502,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// Use this parameter when paginating results to specify the maximum number of items to return in the response. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items.
@@ -4808,7 +4819,7 @@ extension ACMPCAClientTypes {
         /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating certificate revocation status.
         /// This member is required.
         public var enabled: Swift.Bool?
-        /// By default, ACM Private CA injects an Amazon Web Services domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can alternatively use this object to define a CNAME specifying a customized OCSP domain. Note: The value of the CNAME must not include a protocol prefix such as "http://" or "https://". For more information, see [Customizing Online Certificate Status Protocol (OCSP) ](https://docs.aws.amazon.com/acm-pca/latest/userguide/ocsp-customize.html) in the Private Certificate Authority (PCA) User Guide.
+        /// By default, Amazon Web Services Private CA injects an Amazon Web Services domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can alternatively use this object to define a CNAME specifying a customized OCSP domain. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://". For more information, see [Customizing Online Certificate Status Protocol (OCSP) ](https://docs.aws.amazon.com/privateca/latest/userguide/ocsp-customize.html) in the Amazon Web Services Private Certificate Authority User Guide.
         public var ocspCustomCname: Swift.String?
 
         public init (
@@ -4932,7 +4943,7 @@ extension ACMPCAClientTypes.Permission: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Permissions designate which private CA actions can be performed by an Amazon Web Services service or entity. In order for ACM to automatically renew private certificates, you must give the ACM service principal all available permissions (IssueCertificate, GetCertificate, and ListPermissions). Permissions can be assigned with the [CreatePermission](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreatePermission.html) action, removed with the [DeletePermission](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_DeletePermission.html) action, and listed with the [ListPermissions](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListPermissions.html) action.
+    /// Permissions designate which private CA actions can be performed by an Amazon Web Services service or entity. In order for ACM to automatically renew private certificates, you must give the ACM service principal all available permissions (IssueCertificate, GetCertificate, and ListPermissions). Permissions can be assigned with the [CreatePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html) action, removed with the [DeletePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html) action, and listed with the [ListPermissions](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html) action.
     public struct Permission: Swift.Equatable {
         /// The private CA actions that can be performed by the designated Amazon Web Services service.
         public var actions: [ACMPCAClientTypes.ActionType]?
@@ -5062,7 +5073,7 @@ extension ACMPCAClientTypes {
         /// Specifies the object identifier (OID) of the certificate policy under which the certificate was issued. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier).
         /// This member is required.
         public var certPolicyId: Swift.String?
-        /// Modifies the given CertPolicyId with a qualifier. ACM Private CA supports the certification practice statement (CPS) qualifier.
+        /// Modifies the given CertPolicyId with a qualifier. Amazon Web Services Private CA supports the certification practice statement (CPS) qualifier.
         public var policyQualifiers: [ACMPCAClientTypes.PolicyQualifierInfo]?
 
         public init (
@@ -5132,12 +5143,12 @@ extension ACMPCAClientTypes.PolicyQualifierInfo: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Modifies the CertPolicyId of a PolicyInformation object with a qualifier. ACM Private CA supports the certification practice statement (CPS) qualifier.
+    /// Modifies the CertPolicyId of a PolicyInformation object with a qualifier. Amazon Web Services Private CA supports the certification practice statement (CPS) qualifier.
     public struct PolicyQualifierInfo: Swift.Equatable {
         /// Identifies the qualifier modifying a CertPolicyId.
         /// This member is required.
         public var policyQualifierId: ACMPCAClientTypes.PolicyQualifierId?
-        /// Defines the qualifier type. ACM Private CA supports the use of a URI for a CPS qualifier in this field.
+        /// Defines the qualifier type. Amazon Web Services Private CA supports the use of a URI for a CPS qualifier in this field.
         /// This member is required.
         public var qualifier: ACMPCAClientTypes.Qualifier?
 
@@ -5180,7 +5191,7 @@ public struct PutPolicyInput: Swift.Equatable {
     /// The path and file name of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see [Overview of JSON Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json).
     /// This member is required.
     public var policy: Swift.String?
-    /// The Amazon Resource Number (ARN) of the private CA to associate with the policy. The ARN of the CA can be found by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_ListCertificateAuthorities.html) action.
+    /// The Amazon Resource Number (ARN) of the private CA to associate with the policy. The ARN of the CA can be found by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5278,7 +5289,7 @@ extension ACMPCAClientTypes.Qualifier: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Defines a PolicyInformation qualifier. ACM Private CA supports the [certification practice statement (CPS) qualifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4) defined in RFC 5280.
+    /// Defines a PolicyInformation qualifier. Amazon Web Services Private CA supports the [certification practice statement (CPS) qualifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4) defined in RFC 5280.
     public struct Qualifier: Swift.Equatable {
         /// Contains a pointer to a certification practice statement (CPS) published by the CA.
         /// This member is required.
@@ -5554,7 +5565,7 @@ extension RestoreCertificateAuthorityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreCertificateAuthorityInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
 
@@ -5644,9 +5655,9 @@ extension ACMPCAClientTypes.RevocationConfiguration: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Certificate revocation information used by the [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html) and [UpdateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UpdateCertificateAuthority.html) actions. Your private certificate authority (CA) can configure Online Certificate Status Protocol (OCSP) support and/or maintain a certificate revocation list (CRL). OCSP returns validation information about certificates as requested by clients, and a CRL contains an updated list of certificates revoked by your CA. For more information, see [RevokeCertificate](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_RevokeCertificate.html) and [Setting up a certificate revocation method](https://docs.aws.amazon.com/acm-pca/latest/userguide/revocation-setup.html) in the Private Certificate Authority (PCA) User Guide.
+    /// Certificate revocation information used by the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) and [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) actions. Your private certificate authority (CA) can configure Online Certificate Status Protocol (OCSP) support and/or maintain a certificate revocation list (CRL). OCSP returns validation information about certificates as requested by clients, and a CRL contains an updated list of certificates revoked by your CA. For more information, see [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) and [Setting up a certificate revocation method](https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html) in the Amazon Web Services Private Certificate Authority User Guide.
     public struct RevocationConfiguration: Swift.Equatable {
-        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, ACM Private CA makes further attempts every 15 minutes.
+        /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes.
         public var crlConfiguration: ACMPCAClientTypes.CrlConfiguration?
         /// Configuration of Online Certificate Status Protocol (OCSP) support, if any, maintained by your private CA. When you revoke a certificate, OCSP responses may take up to 60 minutes to reflect the new status.
         public var ocspConfiguration: ACMPCAClientTypes.OcspConfiguration?
@@ -5744,7 +5755,7 @@ public struct RevokeCertificateInput: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
-    /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling [GetCertificate](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_GetCertificate.html) with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in file_path -text -noout You can also copy the serial number from the console or use the [DescribeCertificate](https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html) action in the Certificate Manager API Reference.
+    /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling [GetCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificate.html) with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number. openssl x509 -in file_path -text -noout You can also copy the serial number from the console or use the [DescribeCertificate](https://docs.aws.amazon.com/acm/latest/APIReference/API_DescribeCertificate.html) action in the Certificate Manager API Reference.
     /// This member is required.
     public var certificateSerial: Swift.String?
     /// Specifies why you revoked the certificate.
@@ -5937,7 +5948,7 @@ extension ACMPCAClientTypes.Tag: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Tags are labels that you can use to identify and organize your private CAs. Each tag consists of a key and an optional value. You can associate up to 50 tags with a private CA. To add one or more tags to a private CA, call the [TagCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_TagCertificateAuthority.html) action. To remove a tag, call the [UntagCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_UntagCertificateAuthority.html) action.
+    /// Tags are labels that you can use to identify and organize your private CAs. Each tag consists of a key and an optional value. You can associate up to 50 tags with a private CA. To add one or more tags to a private CA, call the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html) action. To remove a tag, call the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action.
     public struct Tag: Swift.Equatable {
         /// Key (name) of the tag.
         /// This member is required.
@@ -5984,7 +5995,7 @@ extension TagCertificateAuthorityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagCertificateAuthorityInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// List of tags to be associated with the CA.
@@ -6149,7 +6160,7 @@ extension UntagCertificateAuthorityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagCertificateAuthorityInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
+    /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
     /// List of tags to be removed from the CA.
@@ -6264,7 +6275,15 @@ public struct UpdateCertificateAuthorityInput: Swift.Equatable {
     /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
-    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. If this parameter is not supplied, existing capibilites remain unchanged. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_CrlConfiguration.html) types.
+    /// Contains information to enable Online Certificate Status Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or to enable neither. If this parameter is not supplied, existing capibilites remain unchanged. For more information, see the [OcspConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_OcspConfiguration.html) and [CrlConfiguration](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html) types. The following requirements apply to revocation configurations.
+    ///
+    /// * A configuration disabling CRLs or OCSP must contain only the Enabled=False parameter, and will fail if other parameters such as CustomCname or ExpirationInDays are included.
+    ///
+    /// * In a CRL configuration, the S3BucketName parameter must conform to [Amazon S3 bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html).
+    ///
+    /// * A configuration containing a custom Canonical Name (CNAME) parameter for CRLs or OCSP must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in a CNAME.
+    ///
+    /// * In a CRL or OCSP configuration, the value of a CNAME parameter must not include a protocol prefix such as "http://" or "https://".
     public var revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
     /// Status of your private CA.
     public var status: ACMPCAClientTypes.CertificateAuthorityStatus?
@@ -6373,9 +6392,9 @@ extension ACMPCAClientTypes.Validity: Swift.Codable {
 }
 
 extension ACMPCAClientTypes {
-    /// Validity specifies the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the validity of a certificate starts or expires, or as a span of time after issuance, stated in days, months, or years. For more information, see [Validity](https://tools.ietf.org/html/rfc5280#section-4.1.2.5) in RFC 5280. ACM Private CA API consumes the Validity data type differently in two distinct parameters of the IssueCertificate action. The required parameter IssueCertificate:Validity specifies the end of a certificate's validity period. The optional parameter IssueCertificate:ValidityNotBefore specifies a customized starting time for the validity period.
+    /// Validity specifies the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the validity of a certificate starts or expires, or as a span of time after issuance, stated in days, months, or years. For more information, see [Validity](https://tools.ietf.org/html/rfc5280#section-4.1.2.5) in RFC 5280. Amazon Web Services Private CA API consumes the Validity data type differently in two distinct parameters of the IssueCertificate action. The required parameter IssueCertificate:Validity specifies the end of a certificate's validity period. The optional parameter IssueCertificate:ValidityNotBefore specifies a customized starting time for the validity period.
     public struct Validity: Swift.Equatable {
-        /// Determines how ACM Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output. END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.
+        /// Determines how Amazon Web Services Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output. END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.
         ///
         /// * Sample input value: 491231235959 (UTCTime format)
         ///

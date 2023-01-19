@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetComplianceSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetComplianceSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetComplianceSummaryOutputResponse`
 extension ResourceGroupsTaggingAPIClient {
+    /// Paginate over `[GetComplianceSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetComplianceSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceSummaryOutputResponse`
     public func getComplianceSummaryPaginated(input: GetComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetComplianceSummaryInput, GetComplianceSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetComplianceSummaryInput, GetComplianceSummaryOutputResponse>(input: input, inputKey: \GetComplianceSummaryInput.paginationToken, outputKey: \GetComplianceSummaryOutputResponse.paginationToken, paginationFunction: self.getComplianceSummary(input:))
     }
@@ -30,24 +29,23 @@ extension GetComplianceSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getComplianceSummaryPaginated`
-/// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.Summary]`
-/// - Returns: `[ResourceGroupsTaggingAPIClientTypes.Summary]`
 extension PaginatorSequence where Input == GetComplianceSummaryInput, Output == GetComplianceSummaryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getComplianceSummaryPaginated`
+    /// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.Summary]`
+    /// - Returns: `[ResourceGroupsTaggingAPIClientTypes.Summary]`
     public func summaryList() async throws -> [ResourceGroupsTaggingAPIClientTypes.Summary] {
         return try await self.asyncCompactMap { item in item.summaryList }
     }
 }
-
-/// Paginate over `[GetResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutputResponse`
 extension ResourceGroupsTaggingAPIClient {
+    /// Paginate over `[GetResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcesOutputResponse`
     public func getResourcesPaginated(input: GetResourcesInput) -> ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourcesInput, GetResourcesOutputResponse>(input: input, inputKey: \GetResourcesInput.paginationToken, outputKey: \GetResourcesOutputResponse.paginationToken, paginationFunction: self.getResources(input:))
     }
@@ -67,24 +65,23 @@ extension GetResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getResourcesPaginated`
-/// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
-/// - Returns: `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
 extension PaginatorSequence where Input == GetResourcesInput, Output == GetResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourcesPaginated`
+    /// to access the nested member `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
+    /// - Returns: `[ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping]`
     public func resourceTagMappingList() async throws -> [ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping] {
         return try await self.asyncCompactMap { item in item.resourceTagMappingList }
     }
 }
-
-/// Paginate over `[GetTagKeysOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetTagKeysInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetTagKeysOutputResponse`
 extension ResourceGroupsTaggingAPIClient {
+    /// Paginate over `[GetTagKeysOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTagKeysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTagKeysOutputResponse`
     public func getTagKeysPaginated(input: GetTagKeysInput) -> ClientRuntime.PaginatorSequence<GetTagKeysInput, GetTagKeysOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetTagKeysInput, GetTagKeysOutputResponse>(input: input, inputKey: \GetTagKeysInput.paginationToken, outputKey: \GetTagKeysOutputResponse.paginationToken, paginationFunction: self.getTagKeys(input:))
     }
@@ -97,24 +94,23 @@ extension GetTagKeysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getTagKeysPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == GetTagKeysInput, Output == GetTagKeysOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getTagKeysPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func tagKeys() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.tagKeys }
     }
 }
-
-/// Paginate over `[GetTagValuesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetTagValuesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetTagValuesOutputResponse`
 extension ResourceGroupsTaggingAPIClient {
+    /// Paginate over `[GetTagValuesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTagValuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTagValuesOutputResponse`
     public func getTagValuesPaginated(input: GetTagValuesInput) -> ClientRuntime.PaginatorSequence<GetTagValuesInput, GetTagValuesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetTagValuesInput, GetTagValuesOutputResponse>(input: input, inputKey: \GetTagValuesInput.paginationToken, outputKey: \GetTagValuesOutputResponse.paginationToken, paginationFunction: self.getTagValues(input:))
     }
@@ -128,10 +124,10 @@ extension GetTagValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getTagValuesPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == GetTagValuesInput, Output == GetTagValuesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getTagValuesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func tagValues() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.tagValues }
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAssetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutputResponse`
 extension MediaPackageVodClient {
+    /// Paginate over `[ListAssetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutputResponse`
     public func listAssetsPaginated(input: ListAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutputResponse>(input: input, inputKey: \ListAssetsInput.nextToken, outputKey: \ListAssetsOutputResponse.nextToken, paginationFunction: self.listAssets(input:))
     }
@@ -26,24 +25,23 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
-/// to access the nested member `[MediaPackageVodClientTypes.AssetShallow]`
-/// - Returns: `[MediaPackageVodClientTypes.AssetShallow]`
 extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
+    /// to access the nested member `[MediaPackageVodClientTypes.AssetShallow]`
+    /// - Returns: `[MediaPackageVodClientTypes.AssetShallow]`
     public func assets() async throws -> [MediaPackageVodClientTypes.AssetShallow] {
         return try await self.asyncCompactMap { item in item.assets }
     }
 }
-
-/// Paginate over `[ListPackagingConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPackagingConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPackagingConfigurationsOutputResponse`
 extension MediaPackageVodClient {
+    /// Paginate over `[ListPackagingConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPackagingConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagingConfigurationsOutputResponse`
     public func listPackagingConfigurationsPaginated(input: ListPackagingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutputResponse>(input: input, inputKey: \ListPackagingConfigurationsInput.nextToken, outputKey: \ListPackagingConfigurationsOutputResponse.nextToken, paginationFunction: self.listPackagingConfigurations(input:))
     }
@@ -58,24 +56,23 @@ extension ListPackagingConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPackagingConfigurationsPaginated`
-/// to access the nested member `[MediaPackageVodClientTypes.PackagingConfiguration]`
-/// - Returns: `[MediaPackageVodClientTypes.PackagingConfiguration]`
 extension PaginatorSequence where Input == ListPackagingConfigurationsInput, Output == ListPackagingConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPackagingConfigurationsPaginated`
+    /// to access the nested member `[MediaPackageVodClientTypes.PackagingConfiguration]`
+    /// - Returns: `[MediaPackageVodClientTypes.PackagingConfiguration]`
     public func packagingConfigurations() async throws -> [MediaPackageVodClientTypes.PackagingConfiguration] {
         return try await self.asyncCompactMap { item in item.packagingConfigurations }
     }
 }
-
-/// Paginate over `[ListPackagingGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPackagingGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPackagingGroupsOutputResponse`
 extension MediaPackageVodClient {
+    /// Paginate over `[ListPackagingGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPackagingGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagingGroupsOutputResponse`
     public func listPackagingGroupsPaginated(input: ListPackagingGroupsInput) -> ClientRuntime.PaginatorSequence<ListPackagingGroupsInput, ListPackagingGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPackagingGroupsInput, ListPackagingGroupsOutputResponse>(input: input, inputKey: \ListPackagingGroupsInput.nextToken, outputKey: \ListPackagingGroupsOutputResponse.nextToken, paginationFunction: self.listPackagingGroups(input:))
     }
@@ -89,10 +86,10 @@ extension ListPackagingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPackagingGroupsPaginated`
-/// to access the nested member `[MediaPackageVodClientTypes.PackagingGroup]`
-/// - Returns: `[MediaPackageVodClientTypes.PackagingGroup]`
 extension PaginatorSequence where Input == ListPackagingGroupsInput, Output == ListPackagingGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPackagingGroupsPaginated`
+    /// to access the nested member `[MediaPackageVodClientTypes.PackagingGroup]`
+    /// - Returns: `[MediaPackageVodClientTypes.PackagingGroup]`
     public func packagingGroups() async throws -> [MediaPackageVodClientTypes.PackagingGroup] {
         return try await self.asyncCompactMap { item in item.packagingGroups }
     }

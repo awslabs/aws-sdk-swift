@@ -30,7 +30,7 @@ extension ECRPUBLICClientTypes.AuthorizationData: Swift.Codable {
 extension ECRPUBLICClientTypes {
     /// An authorization token data object that corresponds to a public registry.
     public struct AuthorizationData: Swift.Equatable {
-        /// A base64-encoded string that contains authorization data for a public Amazon ECR registry. When the string is decoded, it is presented in the format user:password for public registry authentication using docker login.
+        /// A base64-encoded string that contains authorization data for a public Amazon ECR registry. When the string is decoded, it's presented in the format user:password for public registry authentication using docker login.
         public var authorizationToken: Swift.String?
         /// The Unix time in seconds and milliseconds when the authorization token expires. Authorization tokens are valid for 12 hours.
         public var expiresAt: ClientRuntime.Date?
@@ -81,9 +81,9 @@ public struct BatchCheckLayerAvailabilityInput: Swift.Equatable {
     /// The digests of the image layers to check.
     /// This member is required.
     public var layerDigests: [Swift.String]?
-    /// The AWS account ID associated with the public registry that contains the image layers to check. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, associated with the public registry that contains the image layers to check. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
-    /// The name of the repository that is associated with the image layers to check.
+    /// The name of the repository that's associated with the image layers to check.
     /// This member is required.
     public var repositoryName: Swift.String?
 
@@ -147,6 +147,7 @@ extension BatchCheckLayerAvailabilityOutputError {
         case "RegistryNotFoundException" : self = .registryNotFoundException(try RegistryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -157,6 +158,7 @@ public enum BatchCheckLayerAvailabilityOutputError: Swift.Error, Swift.Equatable
     case registryNotFoundException(RegistryNotFoundException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -178,7 +180,7 @@ extension BatchCheckLayerAvailabilityOutputResponse: ClientRuntime.HttpResponseB
 public struct BatchCheckLayerAvailabilityOutputResponse: Swift.Equatable {
     /// Any failures associated with the call.
     public var failures: [ECRPUBLICClientTypes.LayerFailure]?
-    /// A list of image layer objects corresponding to the image layer references in the request.
+    /// A list of image layer objects that correspond to the image layer references in the request.
     public var layers: [ECRPUBLICClientTypes.Layer]?
 
     public init (
@@ -263,7 +265,7 @@ public struct BatchDeleteImageInput: Swift.Equatable {
     /// A list of image ID references that correspond to images to delete. The format of the imageIds reference is imageTag=tag or imageDigest=digest.
     /// This member is required.
     public var imageIds: [ECRPUBLICClientTypes.ImageIdentifier]?
-    /// The AWS account ID associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the registry that contains the image to delete. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The repository in a public registry that contains the image to delete.
     /// This member is required.
@@ -328,6 +330,7 @@ extension BatchDeleteImageOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -337,6 +340,7 @@ public enum BatchDeleteImageOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -447,7 +451,7 @@ public struct CompleteLayerUploadInput: Swift.Equatable {
     /// The sha256 digest of the image layer.
     /// This member is required.
     public var layerDigests: [Swift.String]?
-    /// The AWS account ID associated with the registry to which to upload layers. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, associated with the registry where layers are uploaded. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository in a public registry to associate with the image layer.
     /// This member is required.
@@ -569,11 +573,11 @@ extension CompleteLayerUploadOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CompleteLayerUploadOutputResponse: Swift.Equatable {
     /// The sha256 digest of the image layer.
     public var layerDigest: Swift.String?
-    /// The public registry ID associated with the request.
+    /// The public registry ID that's associated with the request.
     public var registryId: Swift.String?
-    /// The repository name associated with the request.
+    /// The repository name that's associated with the request.
     public var repositoryName: Swift.String?
-    /// The upload ID associated with the layer.
+    /// The upload ID that's associated with the layer.
     public var uploadId: Swift.String?
 
     public init (
@@ -651,10 +655,10 @@ extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
 public struct CreateRepositoryInput: Swift.Equatable {
     /// The details about the repository that are publicly visible in the Amazon ECR Public Gallery.
     public var catalogData: ECRPUBLICClientTypes.RepositoryCatalogDataInput?
-    /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
+    /// The name to use for the repository. This appears publicly in the Amazon ECR Public Gallery. The repository name can be specified on its own (for example nginx-web-app) or prepended with a namespace to group the repository into a category (for example project-a/nginx-web-app).
     /// This member is required.
     public var repositoryName: Swift.String?
-    /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// The metadata that you apply to each repository to help categorize and organize your repositories. Each tag consists of a key and an optional value. You define both of them. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
     public var tags: [ECRPUBLICClientTypes.Tag]?
 
     public init (
@@ -719,6 +723,7 @@ extension CreateRepositoryOutputError {
         case "RepositoryAlreadyExistsException" : self = .repositoryAlreadyExistsException(try RepositoryAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -731,6 +736,7 @@ public enum CreateRepositoryOutputError: Swift.Error, Swift.Equatable {
     case repositoryAlreadyExistsException(RepositoryAlreadyExistsException)
     case serverException(ServerException)
     case tooManyTagsException(TooManyTagsException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -813,9 +819,9 @@ extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRepositoryInput: Swift.Equatable {
-    /// If a repository contains images, forces the deletion.
+    /// The force option can be used to delete a repository that contains images. If the force option is not used, the repository must be empty prior to deletion.
     public var force: Swift.Bool
-    /// The AWS account ID associated with the public registry that contains the repository to delete. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry that contains the repository to delete. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to delete.
     /// This member is required.
@@ -872,6 +878,7 @@ extension DeleteRepositoryOutputError {
         case "RepositoryNotEmptyException" : self = .repositoryNotEmptyException(try RepositoryNotEmptyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -882,6 +889,7 @@ public enum DeleteRepositoryOutputError: Swift.Error, Swift.Equatable {
     case repositoryNotEmptyException(RepositoryNotEmptyException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -950,9 +958,9 @@ extension DeleteRepositoryPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRepositoryPolicyInput: Swift.Equatable {
-    /// The AWS account ID associated with the public registry that contains the repository policy to delete. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry that contains the repository policy to delete. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
-    /// The name of the repository that is associated with the repository policy to delete.
+    /// The name of the repository that's associated with the repository policy to delete.
     /// This member is required.
     public var repositoryName: Swift.String?
 
@@ -1001,6 +1009,7 @@ extension DeleteRepositoryPolicyOutputError {
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryPolicyNotFoundException" : self = .repositoryPolicyNotFoundException(try RepositoryPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -1011,6 +1020,7 @@ public enum DeleteRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
     case repositoryNotFoundException(RepositoryNotFoundException)
     case repositoryPolicyNotFoundException(RepositoryPolicyNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1034,9 +1044,9 @@ extension DeleteRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBindin
 public struct DeleteRepositoryPolicyOutputResponse: Swift.Equatable {
     /// The JSON repository policy that was deleted from the repository.
     public var policyText: Swift.String?
-    /// The registry ID associated with the request.
+    /// The registry ID that's associated with the request.
     public var registryId: Swift.String?
-    /// The repository name associated with the request.
+    /// The repository name that's associated with the request.
     public var repositoryName: Swift.String?
 
     public init (
@@ -1107,11 +1117,11 @@ extension DescribeImageTagsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeImageTagsInput: Swift.Equatable {
-    /// The maximum number of repository results returned by DescribeImageTags in paginated output. When this parameter is used, DescribeImageTags only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImageTags request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImageTags returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
+    /// The maximum number of repository results that's returned by DescribeImageTags in paginated output. When this parameter is used, DescribeImageTags only returns maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another DescribeImageTags request with the returned nextToken value. This value can be between 1 and 1000. If this parameter isn't used, then DescribeImageTags returns up to 100 results and a nextToken value, if applicable. If you specify images with imageIds, you can't use this option.
     public var maxResults: Swift.Int?
-    /// The nextToken value returned from a previous paginated DescribeImageTags request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
+    /// The nextToken value that's returned from a previous paginated DescribeImageTags request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. If there are no more results to return, this value is null. If you specify images with imageIds, you can't use this option.
     public var nextToken: Swift.String?
-    /// The AWS account ID associated with the public registry that contains the repository in which to describe images. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry that contains the repository where images are described. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository that contains the image tag details to describe.
     /// This member is required.
@@ -1173,6 +1183,7 @@ extension DescribeImageTagsOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -1182,6 +1193,7 @@ public enum DescribeImageTagsOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1203,7 +1215,7 @@ extension DescribeImageTagsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeImageTagsOutputResponse: Swift.Equatable {
     /// The image tag details for the images in the requested repository.
     public var imageTagDetails: [ECRPUBLICClientTypes.ImageTagDetail]?
-    /// The nextToken value to include in a future DescribeImageTags request. When the results of a DescribeImageTags request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    /// The nextToken value to include in a future DescribeImageTags request. When the results of a DescribeImageTags request exceed maxResults, you can use this value to retrieve the next page of results. If there are no more results to return, this value is null.
     public var nextToken: Swift.String?
 
     public init (
@@ -1286,11 +1298,11 @@ extension DescribeImagesInput: ClientRuntime.URLPathProvider {
 public struct DescribeImagesInput: Swift.Equatable {
     /// The list of image IDs for the requested repository.
     public var imageIds: [ECRPUBLICClientTypes.ImageIdentifier]?
-    /// The maximum number of repository results returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify images with imageIds.
+    /// The maximum number of repository results that's returned by DescribeImages in paginated output. When this parameter is used, DescribeImages only returns maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another DescribeImages request with the returned nextToken value. This value can be between 1 and 1000. If this parameter isn't used, then DescribeImages returns up to 100 results and a nextToken value, if applicable. If you specify images with imageIds, you can't use this option.
     public var maxResults: Swift.Int?
-    /// The nextToken value returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify images with imageIds.
+    /// The nextToken value that's returned from a previous paginated DescribeImages request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. If there are no more results to return, this value is null. If you specify images with imageIds, you can't use this option.
     public var nextToken: Swift.String?
-    /// The AWS account ID associated with the public registry that contains the repository in which to describe images. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry that contains the repository where images are described. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The repository that contains the images to describe.
     /// This member is required.
@@ -1368,6 +1380,7 @@ extension DescribeImagesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -1378,6 +1391,7 @@ public enum DescribeImagesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1399,7 +1413,7 @@ extension DescribeImagesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeImagesOutputResponse: Swift.Equatable {
     /// A list of [ImageDetail] objects that contain data about the image.
     public var imageDetails: [ECRPUBLICClientTypes.ImageDetail]?
-    /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    /// The nextToken value to include in a future DescribeImages request. When the results of a DescribeImages request exceed maxResults, you can use this value to retrieve the next page of results. If there are no more results to return, this value is null.
     public var nextToken: Swift.String?
 
     public init (
@@ -1465,9 +1479,9 @@ extension DescribeRegistriesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRegistriesInput: Swift.Equatable {
-    /// The maximum number of repository results returned by DescribeRegistries in paginated output. When this parameter is used, DescribeRegistries only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRegistries request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRegistries returns up to 100 results and a nextToken value, if applicable.
+    /// The maximum number of repository results that's returned by DescribeRegistries in paginated output. When this parameter is used, DescribeRegistries only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRegistries request with the returned nextToken value. This value can be between 1 and 1000. If this parameter isn't used, then DescribeRegistries returns up to 100 results and a nextToken value, if applicable.
     public var maxResults: Swift.Int?
-    /// The nextToken value returned from a previous paginated DescribeRegistries request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value that's returned from a previous paginated DescribeRegistries request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. If there are no more results to return, this value is null. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
 
     public init (
@@ -1542,9 +1556,9 @@ extension DescribeRegistriesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeRegistriesOutputResponse: Swift.Equatable {
-    /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    /// The nextToken value to include in a future DescribeRepositories request. If the results of a DescribeRepositories request exceed maxResults, you can use this value to retrieve the next page of results. If there are no more results, this value is null.
     public var nextToken: Swift.String?
-    /// An object containing the details for a public registry.
+    /// An object that contains the details for a public registry.
     /// This member is required.
     public var registries: [ECRPUBLICClientTypes.Registry]?
 
@@ -1622,11 +1636,11 @@ extension DescribeRepositoriesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRepositoriesInput: Swift.Equatable {
-    /// The maximum number of repository results returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. This option cannot be used when you specify repositories with repositoryNames.
+    /// The maximum number of repository results that's returned by DescribeRepositories in paginated output. When this parameter is used, DescribeRepositories only returns maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another DescribeRepositories request with the returned nextToken value. This value can be between 1 and 1000. If this parameter isn't used, then DescribeRepositories returns up to 100 results and a nextToken value, if applicable. If you specify repositories with repositoryNames, you can't use this option.
     public var maxResults: Swift.Int?
-    /// The nextToken value returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return. This option cannot be used when you specify repositories with repositoryNames. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    /// The nextToken value that's returned from a previous paginated DescribeRepositories request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. If there are no more results to return, this value is null. If you specify repositories with repositoryNames, you can't use this option. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
-    /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// A list of repositories to describe. If this parameter is omitted, then all repositories in a registry are described.
     public var repositoryNames: [Swift.String]?
@@ -1696,6 +1710,7 @@ extension DescribeRepositoriesOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -1705,6 +1720,7 @@ public enum DescribeRepositoriesOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -1724,7 +1740,7 @@ extension DescribeRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DescribeRepositoriesOutputResponse: Swift.Equatable {
-    /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+    /// The nextToken value to include in a future DescribeRepositories request. When the results of a DescribeRepositories request exceed maxResults, this value can be used to retrieve the next page of results. If there are no more results to return, this value is null.
     public var nextToken: Swift.String?
     /// A list of repository objects corresponding to valid repositories.
     public var repositories: [ECRPUBLICClientTypes.Repository]?
@@ -1785,7 +1801,7 @@ extension EmptyUploadException {
     }
 }
 
-/// The specified layer upload does not contain any layer parts.
+/// The specified layer upload doesn't contain any layer parts.
 public struct EmptyUploadException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1861,6 +1877,7 @@ extension GetAuthorizationTokenOutputError {
         switch errorType {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -1869,6 +1886,7 @@ extension GetAuthorizationTokenOutputError {
 public enum GetAuthorizationTokenOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2031,7 +2049,7 @@ extension GetRepositoryCatalogDataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRepositoryCatalogDataInput: Swift.Equatable {
-    /// The AWS account ID associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the registry that contains the repositories to be described. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to retrieve the catalog metadata for.
     /// This member is required.
@@ -2079,8 +2097,10 @@ extension GetRepositoryCatalogDataOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "RepositoryCatalogDataNotFoundException" : self = .repositoryCatalogDataNotFoundException(try RepositoryCatalogDataNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2088,8 +2108,10 @@ extension GetRepositoryCatalogDataOutputError {
 
 public enum GetRepositoryCatalogDataOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
+    case repositoryCatalogDataNotFoundException(RepositoryCatalogDataNotFoundException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2158,7 +2180,7 @@ extension GetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRepositoryPolicyInput: Swift.Equatable {
-    /// The AWS account ID associated with the public registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository with the policy to retrieve.
     /// This member is required.
@@ -2209,6 +2231,7 @@ extension GetRepositoryPolicyOutputError {
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryPolicyNotFoundException" : self = .repositoryPolicyNotFoundException(try RepositoryPolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -2219,6 +2242,7 @@ public enum GetRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
     case repositoryNotFoundException(RepositoryNotFoundException)
     case repositoryPolicyNotFoundException(RepositoryPolicyNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -2240,11 +2264,11 @@ extension GetRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetRepositoryPolicyOutputResponse: Swift.Equatable {
-    /// The repository policy text associated with the repository. The policy text will be in JSON format.
+    /// The repository policy text that's associated with the repository. The policy text will be in JSON format.
     public var policyText: Swift.String?
-    /// The registry ID associated with the request.
+    /// The registry ID that's associated with the request.
     public var registryId: Swift.String?
-    /// The repository name associated with the request.
+    /// The repository name that's associated with the request.
     public var repositoryName: Swift.String?
 
     public init (
@@ -2327,17 +2351,17 @@ extension ECRPUBLICClientTypes.Image: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing an Amazon ECR image.
+    /// An object that represents an Amazon ECR image.
     public struct Image: Swift.Equatable {
-        /// An object containing the image tag and image digest associated with an image.
+        /// An object that contains the image tag and image digest associated with an image.
         public var imageId: ECRPUBLICClientTypes.ImageIdentifier?
-        /// The image manifest associated with the image.
+        /// The image manifest that's associated with the image.
         public var imageManifest: Swift.String?
         /// The manifest media type of the image.
         public var imageManifestMediaType: Swift.String?
-        /// The AWS account ID associated with the registry containing the image.
+        /// The Amazon Web Services account ID that's associated with the registry containing the image.
         public var registryId: Swift.String?
-        /// The name of the repository associated with the image.
+        /// The name of the repository that's associated with the image.
         public var repositoryName: Swift.String?
 
         public init (
@@ -2484,7 +2508,7 @@ extension ECRPUBLICClientTypes.ImageDetail: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object that describes an image returned by a [DescribeImages] operation.
+    /// An object that describes an image that's returned by a [DescribeImages] operation.
     public struct ImageDetail: Swift.Equatable {
         /// The artifact media type of the image.
         public var artifactMediaType: Swift.String?
@@ -2492,15 +2516,15 @@ extension ECRPUBLICClientTypes {
         public var imageDigest: Swift.String?
         /// The media type of the image manifest.
         public var imageManifestMediaType: Swift.String?
-        /// The date and time, expressed in standard JavaScript date format, at which the current image was pushed to the repository.
+        /// The date and time, expressed in standard JavaScript date format, that the current image was pushed to the repository at.
         public var imagePushedAt: ClientRuntime.Date?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by [DescribeImages].
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this is the max size of all manifests in the list. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it might return a larger image size than the image sizes that are returned by [DescribeImages].
         public var imageSizeInBytes: Swift.Int?
-        /// The list of tags associated with this image.
+        /// The list of tags that's associated with this image.
         public var imageTags: [Swift.String]?
-        /// The AWS account ID associated with the public registry to which this image belongs.
+        /// The Amazon Web Services account ID that's associated with the public registry where this image belongs.
         public var registryId: Swift.String?
-        /// The name of the repository to which this image belongs.
+        /// The name of the repository where this image belongs.
         public var repositoryName: Swift.String?
 
         public init (
@@ -2544,7 +2568,7 @@ extension ImageDigestDoesNotMatchException {
     }
 }
 
-/// The specified image digest does not match the digest that Amazon ECR calculated for the image.
+/// The specified image digest doesn't match the digest that Amazon ECR calculated for the image.
 public struct ImageDigestDoesNotMatchException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2611,13 +2635,13 @@ extension ECRPUBLICClientTypes.ImageFailure: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing an Amazon ECR image failure.
+    /// An object that represents an Amazon ECR image failure.
     public struct ImageFailure: Swift.Equatable {
-        /// The code associated with the failure.
+        /// The code that's associated with the failure.
         public var failureCode: ECRPUBLICClientTypes.ImageFailureCode?
         /// The reason for the failure.
         public var failureReason: Swift.String?
-        /// The image ID associated with the failure.
+        /// The image ID that's associated with the failure.
         public var imageId: ECRPUBLICClientTypes.ImageIdentifier?
 
         public init (
@@ -2711,7 +2735,7 @@ extension ECRPUBLICClientTypes {
     public struct ImageIdentifier: Swift.Equatable {
         /// The sha256 digest of the image manifest.
         public var imageDigest: Swift.String?
-        /// The tag used for the image.
+        /// The tag that's used for the image.
         public var imageTag: Swift.String?
 
         public init (
@@ -2743,7 +2767,7 @@ extension ImageNotFoundException {
     }
 }
 
-/// The image requested does not exist in the specified repository.
+/// The image requested doesn't exist in the specified repository.
 public struct ImageNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2862,13 +2886,13 @@ extension ECRPUBLICClientTypes.ImageTagDetail: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing the image tag details for an image.
+    /// An object that represents the image tag details for an image.
     public struct ImageTagDetail: Swift.Equatable {
-        /// The time stamp indicating when the image tag was created.
+        /// The time stamp that indicates when the image tag was created.
         public var createdAt: ClientRuntime.Date?
         /// An object that describes the details of an image.
         public var imageDetail: ECRPUBLICClientTypes.ReferencedImageDetail?
-        /// The tag associated with the image.
+        /// The tag that's associated with the image.
         public var imageTag: Swift.String?
 
         public init (
@@ -2909,9 +2933,9 @@ extension InitiateLayerUploadInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InitiateLayerUploadInput: Swift.Equatable {
-    /// The AWS account ID associated with the registry to which you intend to upload layers. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the registry to which you intend to upload layers. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
-    /// The name of the repository to which you intend to upload layers.
+    /// The name of the repository that you want to upload layers to.
     /// This member is required.
     public var repositoryName: Swift.String?
 
@@ -3043,7 +3067,7 @@ extension InvalidLayerException {
     }
 }
 
-/// The layer digest calculation performed by Amazon ECR upon receipt of the image layer does not match the digest specified.
+/// The layer digest calculation performed by Amazon ECR when the image layer doesn't match the digest specified.
 public struct InvalidLayerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3103,7 +3127,7 @@ extension InvalidLayerPartException {
     }
 }
 
-/// The layer part size is not valid, or the first byte specified is not consecutive to the last byte of a previous layer part upload.
+/// The layer part size isn't valid, or the first byte specified isn't consecutive to the last byte of a previous layer part upload.
 public struct InvalidLayerPartException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3115,11 +3139,11 @@ public struct InvalidLayerPartException: AWSClientRuntime.AWSHttpServiceError, S
     /// The position of the last byte of the layer part.
     public var lastValidByteReceived: Swift.Int?
     public var message: Swift.String?
-    /// The AWS account ID associated with the layer part.
+    /// The Amazon Web Services account ID that's associated with the layer part.
     public var registryId: Swift.String?
     /// The name of the repository.
     public var repositoryName: Swift.String?
-    /// The upload ID associated with the layer part.
+    /// The upload ID that's associated with the layer part.
     public var uploadId: Swift.String?
 
     public init (
@@ -3312,7 +3336,7 @@ extension ECRPUBLICClientTypes.Layer: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing an Amazon ECR image layer.
+    /// An object that represents an Amazon ECR image layer.
     public struct Layer: Swift.Equatable {
         /// The availability status of the image layer.
         public var layerAvailability: ECRPUBLICClientTypes.LayerAvailability?
@@ -3455,13 +3479,13 @@ extension ECRPUBLICClientTypes.LayerFailure: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing an Amazon ECR image layer failure.
+    /// An object that represents an Amazon ECR image layer failure.
     public struct LayerFailure: Swift.Equatable {
-        /// The failure code associated with the failure.
+        /// The failure code that's associated with the failure.
         public var failureCode: ECRPUBLICClientTypes.LayerFailureCode?
         /// The reason for the failure.
         public var failureReason: Swift.String?
-        /// The layer digest associated with the failure.
+        /// The layer digest that's associated with the failure.
         public var layerDigest: Swift.String?
 
         public init (
@@ -3579,7 +3603,7 @@ extension LayersNotFoundException {
     }
 }
 
-/// The specified layers could not be found, or the specified layer is not valid for this repository.
+/// The specified layers can't be found, or the specified layer isn't valid for this repository.
 public struct LayersNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3631,7 +3655,7 @@ extension LimitExceededException {
     }
 }
 
-/// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR Service Quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+/// The operation didn't succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR Service Quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3686,7 +3710,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resource is an Amazon ECR Public repository.
+    /// The Amazon Resource Name (ARN) that identifies the resource to list the tags for. Currently, the supported resource is an Amazon ECR Public repository.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -3728,6 +3752,7 @@ extension ListTagsForResourceOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -3737,6 +3762,7 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -3830,18 +3856,18 @@ extension PutImageInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutImageInput: Swift.Equatable {
-    /// The image digest of the image manifest corresponding to the image.
+    /// The image digest of the image manifest that corresponds to the image.
     public var imageDigest: Swift.String?
-    /// The image manifest corresponding to the image to be uploaded.
+    /// The image manifest that corresponds to the image to be uploaded.
     /// This member is required.
     public var imageManifest: Swift.String?
-    /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
+    /// The media type of the image manifest. If you push an image manifest that doesn't contain the mediaType field, you must specify the imageManifestMediaType in the request.
     public var imageManifestMediaType: Swift.String?
     /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
     public var imageTag: Swift.String?
-    /// The AWS account ID associated with the public registry that contains the repository in which to put the image. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the public registry that contains the repository where the image is put. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
-    /// The name of the repository in which to put the image.
+    /// The name of the repository where the image is put.
     /// This member is required.
     public var repositoryName: Swift.String?
 
@@ -4128,7 +4154,7 @@ public struct PutRepositoryCatalogDataInput: Swift.Equatable {
     /// An object containing the catalog data for a repository. This data is publicly visible in the Amazon ECR Public Gallery.
     /// This member is required.
     public var catalogData: ECRPUBLICClientTypes.RepositoryCatalogDataInput?
-    /// The AWS account ID associated with the public registry the repository is in. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the public registry the repository is in. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to create or update the catalog data for.
     /// This member is required.
@@ -4184,6 +4210,7 @@ extension PutRepositoryCatalogDataOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -4193,6 +4220,7 @@ public enum PutRepositoryCatalogDataOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -4281,7 +4309,7 @@ extension ECRPUBLICClientTypes.ReferencedImageDetail: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object that describes the image tag details returned by a [DescribeImageTags] action.
+    /// An object that describes the image tag details that are returned by a [DescribeImageTags] action.
     public struct ReferencedImageDetail: Swift.Equatable {
         /// The artifact media type of the image.
         public var artifactMediaType: Swift.String?
@@ -4289,9 +4317,9 @@ extension ECRPUBLICClientTypes {
         public var imageDigest: Swift.String?
         /// The media type of the image manifest.
         public var imageManifestMediaType: Swift.String?
-        /// The date and time, expressed in standard JavaScript date format, at which the current image tag was pushed to the repository.
+        /// The date and time, expressed in standard JavaScript date format, which the current image tag was pushed to the repository at.
         public var imagePushedAt: ClientRuntime.Date?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by [DescribeImages].
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this is the max size of all manifests in the list. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it might return a larger image size than the image sizes that are returned by [DescribeImages].
         public var imageSizeInBytes: Swift.Int?
 
         public init (
@@ -4329,7 +4357,7 @@ extension ReferencedImagesNotFoundException {
     }
 }
 
-/// The manifest list is referencing an image that does not exist.
+/// The manifest list is referencing an image that doesn't exist.
 public struct ReferencedImagesNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4422,19 +4450,19 @@ extension ECRPUBLICClientTypes.Registry: Swift.Codable {
 extension ECRPUBLICClientTypes {
     /// The details of a public registry.
     public struct Registry: Swift.Equatable {
-        /// An array of objects representing the aliases for a public registry.
+        /// An array of objects that represents the aliases for a public registry.
         /// This member is required.
         public var aliases: [ECRPUBLICClientTypes.RegistryAlias]?
         /// The Amazon Resource Name (ARN) of the public registry.
         /// This member is required.
         public var registryArn: Swift.String?
-        /// The AWS account ID associated with the registry. If you do not specify a registry, the default public registry is assumed.
+        /// The Amazon Web Services account ID that's associated with the registry. If you do not specify a registry, the default public registry is assumed.
         /// This member is required.
         public var registryId: Swift.String?
         /// The URI of a public registry. The URI contains a universal prefix and the registry alias.
         /// This member is required.
         public var registryUri: Swift.String?
-        /// Whether the account is verified. This indicates whether the account is an AWS Marketplace vendor. If an account is verified, each public repository will received a verified account badge on the Amazon ECR Public Gallery.
+        /// Indicates whether the account is a verified Amazon Web Services Marketplace vendor. If an account is verified, each public repository receives a verified account badge on the Amazon ECR Public Gallery.
         /// This member is required.
         public var verified: Swift.Bool?
 
@@ -4494,15 +4522,15 @@ extension ECRPUBLICClientTypes.RegistryAlias: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object representing the aliases for a public registry. A public registry is given an alias upon creation but a custom alias can be set using the Amazon ECR console. For more information, see [Registries](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html) in the Amazon Elastic Container Registry User Guide.
+    /// An object representing the aliases for a public registry. A public registry is given an alias when it's created. However, a custom alias can be set using the Amazon ECR console. For more information, see [Registries](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Registries.html) in the Amazon Elastic Container Registry User Guide.
     public struct RegistryAlias: Swift.Equatable {
-        /// Whether or not the registry alias is the default alias for the registry. When the first public repository is created, your public registry is assigned a default registry alias.
+        /// Indicates whether the registry alias is the default alias for the registry. When the first public repository is created, your public registry is assigned a default registry alias.
         /// This member is required.
         public var defaultRegistryAlias: Swift.Bool
         /// The name of the registry alias.
         /// This member is required.
         public var name: Swift.String?
-        /// Whether or not the registry alias is the primary alias for the registry. If true, the alias is the primary registry alias and is displayed in both the repository URL and the image URI used in the docker pull commands on the Amazon ECR Public Gallery. A registry alias that is not the primary registry alias can be used in the repository URI in a docker pull command.
+        /// Indicates whether the registry alias is the primary alias for the registry. If true, the alias is the primary registry alias and is displayed in both the repository URL and the image URI used in the docker pull commands on the Amazon ECR Public Gallery. A registry alias that isn't the primary registry alias can be used in the repository URI in a docker pull command.
         /// This member is required.
         public var primaryRegistryAlias: Swift.Bool
         /// The status of the registry alias.
@@ -4612,7 +4640,7 @@ extension RegistryNotFoundException {
     }
 }
 
-/// The registry does not exist.
+/// The registry doesn't exist.
 public struct RegistryNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -4695,9 +4723,9 @@ extension ECRPUBLICClientTypes {
     public struct Repository: Swift.Equatable {
         /// The date and time, in JavaScript date format, when the repository was created.
         public var createdAt: ClientRuntime.Date?
-        /// The AWS account ID associated with the public registry that contains the repository.
+        /// The Amazon Web Services account ID that's associated with the public registry that contains the repository.
         public var registryId: Swift.String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, AWS account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
         public var repositoryArn: Swift.String?
         /// The name of the repository.
         public var repositoryName: Swift.String?
@@ -4862,9 +4890,9 @@ extension ECRPUBLICClientTypes {
         public var architectures: [Swift.String]?
         /// The short description of the repository.
         public var description: Swift.String?
-        /// The URL containing the logo associated with the repository.
+        /// The URL that contains the logo that's associated with the repository.
         public var logoUrl: Swift.String?
-        /// Whether or not the repository is certified by AWS Marketplace.
+        /// Indicates whether the repository is certified by Amazon Web Services Marketplace.
         public var marketplaceCertified: Swift.Bool?
         /// The operating system tags that are associated with the repository. Only supported operating system tags appear publicly in the Amazon ECR Public Gallery. For more information, see [RepositoryCatalogDataInput].
         public var operatingSystems: [Swift.String]?
@@ -4967,24 +4995,11 @@ extension ECRPUBLICClientTypes.RepositoryCatalogDataInput: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// An object containing the catalog data for a repository. This data is publicly visible in the Amazon ECR Public Gallery.
+    /// An object that contains the catalog data for a repository. This data is publicly visible in the Amazon ECR Public Gallery.
     public struct RepositoryCatalogDataInput: Swift.Equatable {
-        /// A detailed description of the contents of the repository. It is publicly visible in the Amazon ECR Public Gallery. The text must be in markdown format.
+        /// A detailed description of the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The text must be in markdown format.
         public var aboutText: Swift.String?
-        /// The system architecture that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported architectures will appear as badges on the repository and are used as search filters.
-        ///
-        /// * Linux
-        ///
-        /// * Windows
-        ///
-        ///
-        /// If an unsupported tag is added to your repository catalog data, it will be associated with the repository and can be retrieved using the API but will not be discoverable in the Amazon ECR Public Gallery.
-        public var architectures: [Swift.String]?
-        /// A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery.
-        public var description: Swift.String?
-        /// The base64-encoded repository logo payload. The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts.
-        public var logoImageBlob: ClientRuntime.Data?
-        /// The operating systems that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported operating systems will appear as badges on the repository and are used as search filters.
+        /// The system architecture that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported architectures appear as badges on the repository and are used as search filters. If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be retrieved using the API but isn't discoverable in the Amazon ECR Public Gallery.
         ///
         /// * ARM
         ///
@@ -4993,11 +5008,18 @@ extension ECRPUBLICClientTypes {
         /// * x86
         ///
         /// * x86-64
+        public var architectures: [Swift.String]?
+        /// A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery.
+        public var description: Swift.String?
+        /// The base64-encoded repository logo payload. The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts.
+        public var logoImageBlob: ClientRuntime.Data?
+        /// The operating systems that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported operating systems appear as badges on the repository and are used as search filters. If an unsupported tag is added to your repository catalog data, it's associated with the repository and can be retrieved using the API but isn't discoverable in the Amazon ECR Public Gallery.
         ///
+        /// * Linux
         ///
-        /// If an unsupported tag is added to your repository catalog data, it will be associated with the repository and can be retrieved using the API but will not be discoverable in the Amazon ECR Public Gallery.
+        /// * Windows
         public var operatingSystems: [Swift.String]?
-        /// Detailed information on how to use the contents of the repository. It is publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and additional usage details for users of the repository. The text must be in markdown format.
+        /// Detailed information about how to use the contents of the repository. It's publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and additional usage details for users of the repository. The text must be in markdown format.
         public var usageText: Swift.String?
 
         public init (
@@ -5018,6 +5040,58 @@ extension ECRPUBLICClientTypes {
         }
     }
 
+}
+
+extension RepositoryCatalogDataNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RepositoryCatalogDataNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The repository catalog data doesn't exist.
+public struct RepositoryCatalogDataNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct RepositoryCatalogDataNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension RepositoryCatalogDataNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension RepositoryNotEmptyException {
@@ -5089,7 +5163,7 @@ extension RepositoryNotFoundException {
     }
 }
 
-/// The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
+/// The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
 public struct RepositoryNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5141,7 +5215,7 @@ extension RepositoryPolicyNotFoundException {
     }
 }
 
-/// The specified repository and registry combination does not have an associated repository policy.
+/// The specified repository and registry combination doesn't have an associated repository policy.
 public struct RepositoryPolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5260,12 +5334,12 @@ extension SetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SetRepositoryPolicyInput: Swift.Equatable {
-    /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This is intended to prevent accidental repository lock outs.
+    /// If the policy that you want to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This prevents accidental repository lockouts.
     public var force: Swift.Bool
     /// The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the Amazon Elastic Container Registry User Guide.
     /// This member is required.
     public var policyText: Swift.String?
-    /// The AWS account ID associated with the registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID that's associated with the registry that contains the repository. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to receive the policy.
     /// This member is required.
@@ -5327,6 +5401,7 @@ extension SetRepositoryPolicyOutputError {
         case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -5336,6 +5411,7 @@ public enum SetRepositoryPolicyOutputError: Swift.Error, Swift.Equatable {
     case invalidParameterException(InvalidParameterException)
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -5357,11 +5433,11 @@ extension SetRepositoryPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct SetRepositoryPolicyOutputResponse: Swift.Equatable {
-    /// The JSON repository policy text applied to the repository.
+    /// The JSON repository policy text that's applied to the repository.
     public var policyText: Swift.String?
-    /// The registry ID associated with the request.
+    /// The registry ID that's associated with the request.
     public var registryId: Swift.String?
-    /// The repository name associated with the request.
+    /// The repository name that's associated with the request.
     public var repositoryName: Swift.String?
 
     public init (
@@ -5426,7 +5502,7 @@ extension ECRPUBLICClientTypes.Tag: Swift.Codable {
 }
 
 extension ECRPUBLICClientTypes {
-    /// The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// The metadata that you apply to a resource to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
     public struct Tag: Swift.Equatable {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public var key: Swift.String?
@@ -5472,7 +5548,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource to which to add tags. Currently, the supported resource is an Amazon ECR Public repository.
+    /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resource is an Amazon ECR Public repository.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -5534,6 +5610,7 @@ extension TagResourceOutputError {
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -5545,6 +5622,7 @@ public enum TagResourceOutputError: Swift.Error, Swift.Equatable {
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
     case tooManyTagsException(TooManyTagsException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -5627,7 +5705,7 @@ extension UnsupportedCommandException {
     }
 }
 
-/// The action is not supported in this Region.
+/// The action isn't supported in this Region.
 public struct UnsupportedCommandException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5689,7 +5767,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource from which to delete tags. Currently, the supported resource is an Amazon ECR Public repository.
+    /// The Amazon Resource Name (ARN) of the resource to delete tags from. Currently, the supported resource is an Amazon ECR Public repository.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The keys of the tags to be removed.
@@ -5751,6 +5829,7 @@ extension UntagResourceOutputError {
         case "RepositoryNotFoundException" : self = .repositoryNotFoundException(try RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ServerException" : self = .serverException(try ServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "TooManyTagsException" : self = .tooManyTagsException(try TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedCommandException" : self = .unsupportedCommandException(try UnsupportedCommandException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
     }
@@ -5762,6 +5841,7 @@ public enum UntagResourceOutputError: Swift.Error, Swift.Equatable {
     case repositoryNotFoundException(RepositoryNotFoundException)
     case serverException(ServerException)
     case tooManyTagsException(TooManyTagsException)
+    case unsupportedCommandException(UnsupportedCommandException)
     case unknown(UnknownAWSHttpServiceError)
 }
 
@@ -5824,9 +5904,9 @@ public struct UploadLayerPartInput: Swift.Equatable {
     /// The position of the last byte of the layer part within the overall image layer.
     /// This member is required.
     public var partLastByte: Swift.Int?
-    /// The AWS account ID associated with the registry to which you are uploading layer parts. If you do not specify a registry, the default public registry is assumed.
+    /// The Amazon Web Services account ID, or registry alias, that's associated with the registry that you're uploading layer parts to. If you do not specify a registry, the default public registry is assumed.
     public var registryId: Swift.String?
-    /// The name of the repository to which you are uploading layer parts.
+    /// The name of the repository that you're uploading layer parts to.
     /// This member is required.
     public var repositoryName: Swift.String?
     /// The upload ID from a previous [InitiateLayerUpload] operation to associate with the layer part upload.
@@ -5943,13 +6023,13 @@ extension UploadLayerPartOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UploadLayerPartOutputResponse: Swift.Equatable {
-    /// The integer value of the last byte received in the request.
+    /// The integer value of the last byte that's received in the request.
     public var lastByteReceived: Swift.Int?
-    /// The registry ID associated with the request.
+    /// The registry ID that's associated with the request.
     public var registryId: Swift.String?
-    /// The repository name associated with the request.
+    /// The repository name that's associated with the request.
     public var repositoryName: Swift.String?
-    /// The upload ID associated with the request.
+    /// The upload ID that's associated with the request.
     public var uploadId: Swift.String?
 
     public init (
@@ -6011,7 +6091,7 @@ extension UploadNotFoundException {
     }
 }
 
-/// The upload could not be found, or the specified upload ID is not valid for this repository.
+/// The upload can't be found, or the specified upload ID isn't valid for this repository.
 public struct UploadNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

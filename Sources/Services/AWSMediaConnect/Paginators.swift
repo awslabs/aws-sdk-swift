@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListEntitlementsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEntitlementsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEntitlementsOutputResponse`
 extension MediaConnectClient {
+    /// Paginate over `[ListEntitlementsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntitlementsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntitlementsOutputResponse`
     public func listEntitlementsPaginated(input: ListEntitlementsInput) -> ClientRuntime.PaginatorSequence<ListEntitlementsInput, ListEntitlementsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEntitlementsInput, ListEntitlementsOutputResponse>(input: input, inputKey: \ListEntitlementsInput.nextToken, outputKey: \ListEntitlementsOutputResponse.nextToken, paginationFunction: self.listEntitlements(input:))
     }
@@ -25,24 +24,23 @@ extension ListEntitlementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listEntitlementsPaginated`
-/// to access the nested member `[MediaConnectClientTypes.ListedEntitlement]`
-/// - Returns: `[MediaConnectClientTypes.ListedEntitlement]`
 extension PaginatorSequence where Input == ListEntitlementsInput, Output == ListEntitlementsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEntitlementsPaginated`
+    /// to access the nested member `[MediaConnectClientTypes.ListedEntitlement]`
+    /// - Returns: `[MediaConnectClientTypes.ListedEntitlement]`
     public func entitlements() async throws -> [MediaConnectClientTypes.ListedEntitlement] {
         return try await self.asyncCompactMap { item in item.entitlements }
     }
 }
-
-/// Paginate over `[ListFlowsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFlowsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutputResponse`
 extension MediaConnectClient {
+    /// Paginate over `[ListFlowsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowsOutputResponse`
     public func listFlowsPaginated(input: ListFlowsInput) -> ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFlowsInput, ListFlowsOutputResponse>(input: input, inputKey: \ListFlowsInput.nextToken, outputKey: \ListFlowsOutputResponse.nextToken, paginationFunction: self.listFlows(input:))
     }
@@ -56,24 +54,23 @@ extension ListFlowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFlowsPaginated`
-/// to access the nested member `[MediaConnectClientTypes.ListedFlow]`
-/// - Returns: `[MediaConnectClientTypes.ListedFlow]`
 extension PaginatorSequence where Input == ListFlowsInput, Output == ListFlowsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFlowsPaginated`
+    /// to access the nested member `[MediaConnectClientTypes.ListedFlow]`
+    /// - Returns: `[MediaConnectClientTypes.ListedFlow]`
     public func flows() async throws -> [MediaConnectClientTypes.ListedFlow] {
         return try await self.asyncCompactMap { item in item.flows }
     }
 }
-
-/// Paginate over `[ListOfferingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOfferingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutputResponse`
 extension MediaConnectClient {
+    /// Paginate over `[ListOfferingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOfferingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOfferingsOutputResponse`
     public func listOfferingsPaginated(input: ListOfferingsInput) -> ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOfferingsInput, ListOfferingsOutputResponse>(input: input, inputKey: \ListOfferingsInput.nextToken, outputKey: \ListOfferingsOutputResponse.nextToken, paginationFunction: self.listOfferings(input:))
     }
@@ -87,24 +84,23 @@ extension ListOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
-/// to access the nested member `[MediaConnectClientTypes.Offering]`
-/// - Returns: `[MediaConnectClientTypes.Offering]`
 extension PaginatorSequence where Input == ListOfferingsInput, Output == ListOfferingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOfferingsPaginated`
+    /// to access the nested member `[MediaConnectClientTypes.Offering]`
+    /// - Returns: `[MediaConnectClientTypes.Offering]`
     public func offerings() async throws -> [MediaConnectClientTypes.Offering] {
         return try await self.asyncCompactMap { item in item.offerings }
     }
 }
-
-/// Paginate over `[ListReservationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListReservationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutputResponse`
 extension MediaConnectClient {
+    /// Paginate over `[ListReservationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReservationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReservationsOutputResponse`
     public func listReservationsPaginated(input: ListReservationsInput) -> ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListReservationsInput, ListReservationsOutputResponse>(input: input, inputKey: \ListReservationsInput.nextToken, outputKey: \ListReservationsOutputResponse.nextToken, paginationFunction: self.listReservations(input:))
     }
@@ -118,10 +114,10 @@ extension ListReservationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listReservationsPaginated`
-/// to access the nested member `[MediaConnectClientTypes.Reservation]`
-/// - Returns: `[MediaConnectClientTypes.Reservation]`
 extension PaginatorSequence where Input == ListReservationsInput, Output == ListReservationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReservationsPaginated`
+    /// to access the nested member `[MediaConnectClientTypes.Reservation]`
+    /// - Returns: `[MediaConnectClientTypes.Reservation]`
     public func reservations() async throws -> [MediaConnectClientTypes.Reservation] {
         return try await self.asyncCompactMap { item in item.reservations }
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListDiscoverersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDiscoverersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDiscoverersOutputResponse`
 extension SchemasClient {
+    /// Paginate over `[ListDiscoverersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDiscoverersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoverersOutputResponse`
     public func listDiscoverersPaginated(input: ListDiscoverersInput) -> ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDiscoverersInput, ListDiscoverersOutputResponse>(input: input, inputKey: \ListDiscoverersInput.nextToken, outputKey: \ListDiscoverersOutputResponse.nextToken, paginationFunction: self.listDiscoverers(input:))
     }
@@ -27,24 +26,23 @@ extension ListDiscoverersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDiscoverersPaginated`
-/// to access the nested member `[SchemasClientTypes.DiscovererSummary]`
-/// - Returns: `[SchemasClientTypes.DiscovererSummary]`
 extension PaginatorSequence where Input == ListDiscoverersInput, Output == ListDiscoverersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDiscoverersPaginated`
+    /// to access the nested member `[SchemasClientTypes.DiscovererSummary]`
+    /// - Returns: `[SchemasClientTypes.DiscovererSummary]`
     public func discoverers() async throws -> [SchemasClientTypes.DiscovererSummary] {
         return try await self.asyncCompactMap { item in item.discoverers }
     }
 }
-
-/// Paginate over `[ListRegistriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRegistriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutputResponse`
 extension SchemasClient {
+    /// Paginate over `[ListRegistriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRegistriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutputResponse`
     public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutputResponse.nextToken, paginationFunction: self.listRegistries(input:))
     }
@@ -60,24 +58,23 @@ extension ListRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
-/// to access the nested member `[SchemasClientTypes.RegistrySummary]`
-/// - Returns: `[SchemasClientTypes.RegistrySummary]`
 extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
+    /// to access the nested member `[SchemasClientTypes.RegistrySummary]`
+    /// - Returns: `[SchemasClientTypes.RegistrySummary]`
     public func registries() async throws -> [SchemasClientTypes.RegistrySummary] {
         return try await self.asyncCompactMap { item in item.registries }
     }
 }
-
-/// Paginate over `[ListSchemasOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSchemasInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
 extension SchemasClient {
+    /// Paginate over `[ListSchemasOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSchemasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
     public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutputResponse.nextToken, paginationFunction: self.listSchemas(input:))
     }
@@ -93,24 +90,23 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
-/// to access the nested member `[SchemasClientTypes.SchemaSummary]`
-/// - Returns: `[SchemasClientTypes.SchemaSummary]`
 extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
+    /// to access the nested member `[SchemasClientTypes.SchemaSummary]`
+    /// - Returns: `[SchemasClientTypes.SchemaSummary]`
     public func schemas() async throws -> [SchemasClientTypes.SchemaSummary] {
         return try await self.asyncCompactMap { item in item.schemas }
     }
 }
-
-/// Paginate over `[ListSchemaVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSchemaVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutputResponse`
 extension SchemasClient {
+    /// Paginate over `[ListSchemaVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSchemaVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutputResponse`
     public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutputResponse.nextToken, paginationFunction: self.listSchemaVersions(input:))
     }
@@ -126,24 +122,23 @@ extension ListSchemaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
-/// to access the nested member `[SchemasClientTypes.SchemaVersionSummary]`
-/// - Returns: `[SchemasClientTypes.SchemaVersionSummary]`
 extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
+    /// to access the nested member `[SchemasClientTypes.SchemaVersionSummary]`
+    /// - Returns: `[SchemasClientTypes.SchemaVersionSummary]`
     public func schemaVersions() async throws -> [SchemasClientTypes.SchemaVersionSummary] {
         return try await self.asyncCompactMap { item in item.schemaVersions }
     }
 }
-
-/// Paginate over `[SearchSchemasOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchSchemasInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchSchemasOutputResponse`
 extension SchemasClient {
+    /// Paginate over `[SearchSchemasOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchSchemasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchSchemasOutputResponse`
     public func searchSchemasPaginated(input: SearchSchemasInput) -> ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchSchemasInput, SearchSchemasOutputResponse>(input: input, inputKey: \SearchSchemasInput.nextToken, outputKey: \SearchSchemasOutputResponse.nextToken, paginationFunction: self.searchSchemas(input:))
     }
@@ -159,10 +154,10 @@ extension SearchSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchSchemasPaginated`
-/// to access the nested member `[SchemasClientTypes.SearchSchemaSummary]`
-/// - Returns: `[SchemasClientTypes.SearchSchemaSummary]`
 extension PaginatorSequence where Input == SearchSchemasInput, Output == SearchSchemasOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchSchemasPaginated`
+    /// to access the nested member `[SchemasClientTypes.SearchSchemaSummary]`
+    /// - Returns: `[SchemasClientTypes.SearchSchemaSummary]`
     public func schemas() async throws -> [SchemasClientTypes.SearchSchemaSummary] {
         return try await self.asyncCompactMap { item in item.schemas }
     }

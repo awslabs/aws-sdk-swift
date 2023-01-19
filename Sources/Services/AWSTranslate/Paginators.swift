@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListLanguagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListLanguagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListLanguagesOutputResponse`
 extension TranslateClient {
+    /// Paginate over `[ListLanguagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLanguagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLanguagesOutputResponse`
     public func listLanguagesPaginated(input: ListLanguagesInput) -> ClientRuntime.PaginatorSequence<ListLanguagesInput, ListLanguagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListLanguagesInput, ListLanguagesOutputResponse>(input: input, inputKey: \ListLanguagesInput.nextToken, outputKey: \ListLanguagesOutputResponse.nextToken, paginationFunction: self.listLanguages(input:))
     }
@@ -25,16 +24,15 @@ extension ListLanguagesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListParallelDataOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListParallelDataInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListParallelDataOutputResponse`
 extension TranslateClient {
+    /// Paginate over `[ListParallelDataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListParallelDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListParallelDataOutputResponse`
     public func listParallelDataPaginated(input: ListParallelDataInput) -> ClientRuntime.PaginatorSequence<ListParallelDataInput, ListParallelDataOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListParallelDataInput, ListParallelDataOutputResponse>(input: input, inputKey: \ListParallelDataInput.nextToken, outputKey: \ListParallelDataOutputResponse.nextToken, paginationFunction: self.listParallelData(input:))
     }
@@ -47,16 +45,15 @@ extension ListParallelDataInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListTerminologiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTerminologiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTerminologiesOutputResponse`
 extension TranslateClient {
+    /// Paginate over `[ListTerminologiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTerminologiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTerminologiesOutputResponse`
     public func listTerminologiesPaginated(input: ListTerminologiesInput) -> ClientRuntime.PaginatorSequence<ListTerminologiesInput, ListTerminologiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTerminologiesInput, ListTerminologiesOutputResponse>(input: input, inputKey: \ListTerminologiesInput.nextToken, outputKey: \ListTerminologiesOutputResponse.nextToken, paginationFunction: self.listTerminologies(input:))
     }
@@ -69,16 +66,15 @@ extension ListTerminologiesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListTextTranslationJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTextTranslationJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTextTranslationJobsOutputResponse`
 extension TranslateClient {
+    /// Paginate over `[ListTextTranslationJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTextTranslationJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTextTranslationJobsOutputResponse`
     public func listTextTranslationJobsPaginated(input: ListTextTranslationJobsInput) -> ClientRuntime.PaginatorSequence<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTextTranslationJobsInput, ListTextTranslationJobsOutputResponse>(input: input, inputKey: \ListTextTranslationJobsInput.nextToken, outputKey: \ListTextTranslationJobsOutputResponse.nextToken, paginationFunction: self.listTextTranslationJobs(input:))
     }

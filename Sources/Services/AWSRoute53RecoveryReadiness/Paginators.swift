@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetCellReadinessSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetCellReadinessSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetCellReadinessSummaryOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[GetCellReadinessSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCellReadinessSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCellReadinessSummaryOutputResponse`
     public func getCellReadinessSummaryPaginated(input: GetCellReadinessSummaryInput) -> ClientRuntime.PaginatorSequence<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetCellReadinessSummaryInput, GetCellReadinessSummaryOutputResponse>(input: input, inputKey: \GetCellReadinessSummaryInput.nextToken, outputKey: \GetCellReadinessSummaryOutputResponse.nextToken, paginationFunction: self.getCellReadinessSummary(input:))
     }
@@ -26,24 +25,23 @@ extension GetCellReadinessSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getCellReadinessSummaryPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
 extension PaginatorSequence where Input == GetCellReadinessSummaryInput, Output == GetCellReadinessSummaryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getCellReadinessSummaryPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
     public func readinessChecks() async throws -> [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary] {
         return try await self.asyncCompactMap { item in item.readinessChecks }
     }
 }
-
-/// Paginate over `[GetReadinessCheckResourceStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetReadinessCheckResourceStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckResourceStatusOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[GetReadinessCheckResourceStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetReadinessCheckResourceStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckResourceStatusOutputResponse`
     public func getReadinessCheckResourceStatusPaginated(input: GetReadinessCheckResourceStatusInput) -> ClientRuntime.PaginatorSequence<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetReadinessCheckResourceStatusInput, GetReadinessCheckResourceStatusOutputResponse>(input: input, inputKey: \GetReadinessCheckResourceStatusInput.nextToken, outputKey: \GetReadinessCheckResourceStatusOutputResponse.nextToken, paginationFunction: self.getReadinessCheckResourceStatus(input:))
     }
@@ -59,24 +57,23 @@ extension GetReadinessCheckResourceStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckResourceStatusPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.RuleResult]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.RuleResult]`
 extension PaginatorSequence where Input == GetReadinessCheckResourceStatusInput, Output == GetReadinessCheckResourceStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckResourceStatusPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.RuleResult]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.RuleResult]`
     public func rules() async throws -> [Route53RecoveryReadinessClientTypes.RuleResult] {
         return try await self.asyncCompactMap { item in item.rules }
     }
 }
-
-/// Paginate over `[GetReadinessCheckStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetReadinessCheckStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckStatusOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[GetReadinessCheckStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetReadinessCheckStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReadinessCheckStatusOutputResponse`
     public func getReadinessCheckStatusPaginated(input: GetReadinessCheckStatusInput) -> ClientRuntime.PaginatorSequence<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetReadinessCheckStatusInput, GetReadinessCheckStatusOutputResponse>(input: input, inputKey: \GetReadinessCheckStatusInput.nextToken, outputKey: \GetReadinessCheckStatusOutputResponse.nextToken, paginationFunction: self.getReadinessCheckStatus(input:))
     }
@@ -91,24 +88,23 @@ extension GetReadinessCheckStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckStatusPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceResult]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceResult]`
 extension PaginatorSequence where Input == GetReadinessCheckStatusInput, Output == GetReadinessCheckStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getReadinessCheckStatusPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceResult]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceResult]`
     public func resources() async throws -> [Route53RecoveryReadinessClientTypes.ResourceResult] {
         return try await self.asyncCompactMap { item in item.resources }
     }
 }
-
-/// Paginate over `[GetRecoveryGroupReadinessSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetRecoveryGroupReadinessSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetRecoveryGroupReadinessSummaryOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[GetRecoveryGroupReadinessSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetRecoveryGroupReadinessSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRecoveryGroupReadinessSummaryOutputResponse`
     public func getRecoveryGroupReadinessSummaryPaginated(input: GetRecoveryGroupReadinessSummaryInput) -> ClientRuntime.PaginatorSequence<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetRecoveryGroupReadinessSummaryInput, GetRecoveryGroupReadinessSummaryOutputResponse>(input: input, inputKey: \GetRecoveryGroupReadinessSummaryInput.nextToken, outputKey: \GetRecoveryGroupReadinessSummaryOutputResponse.nextToken, paginationFunction: self.getRecoveryGroupReadinessSummary(input:))
     }
@@ -123,24 +119,23 @@ extension GetRecoveryGroupReadinessSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getRecoveryGroupReadinessSummaryPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
 extension PaginatorSequence where Input == GetRecoveryGroupReadinessSummaryInput, Output == GetRecoveryGroupReadinessSummaryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getRecoveryGroupReadinessSummaryPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckSummary]`
     public func readinessChecks() async throws -> [Route53RecoveryReadinessClientTypes.ReadinessCheckSummary] {
         return try await self.asyncCompactMap { item in item.readinessChecks }
     }
 }
-
-/// Paginate over `[ListCellsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCellsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCellsOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListCellsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCellsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCellsOutputResponse`
     public func listCellsPaginated(input: ListCellsInput) -> ClientRuntime.PaginatorSequence<ListCellsInput, ListCellsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCellsInput, ListCellsOutputResponse>(input: input, inputKey: \ListCellsInput.nextToken, outputKey: \ListCellsOutputResponse.nextToken, paginationFunction: self.listCells(input:))
     }
@@ -154,24 +149,23 @@ extension ListCellsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCellsPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.CellOutput]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.CellOutput]`
 extension PaginatorSequence where Input == ListCellsInput, Output == ListCellsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCellsPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.CellOutput]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.CellOutput]`
     public func cells() async throws -> [Route53RecoveryReadinessClientTypes.CellOutput] {
         return try await self.asyncCompactMap { item in item.cells }
     }
 }
-
-/// Paginate over `[ListCrossAccountAuthorizationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCrossAccountAuthorizationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountAuthorizationsOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListCrossAccountAuthorizationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCrossAccountAuthorizationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCrossAccountAuthorizationsOutputResponse`
     public func listCrossAccountAuthorizationsPaginated(input: ListCrossAccountAuthorizationsInput) -> ClientRuntime.PaginatorSequence<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCrossAccountAuthorizationsInput, ListCrossAccountAuthorizationsOutputResponse>(input: input, inputKey: \ListCrossAccountAuthorizationsInput.nextToken, outputKey: \ListCrossAccountAuthorizationsOutputResponse.nextToken, paginationFunction: self.listCrossAccountAuthorizations(input:))
     }
@@ -185,24 +179,23 @@ extension ListCrossAccountAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCrossAccountAuthorizationsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListCrossAccountAuthorizationsInput, Output == ListCrossAccountAuthorizationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCrossAccountAuthorizationsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func crossAccountAuthorizations() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.crossAccountAuthorizations }
     }
 }
-
-/// Paginate over `[ListReadinessChecksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListReadinessChecksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListReadinessChecksOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListReadinessChecksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReadinessChecksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReadinessChecksOutputResponse`
     public func listReadinessChecksPaginated(input: ListReadinessChecksInput) -> ClientRuntime.PaginatorSequence<ListReadinessChecksInput, ListReadinessChecksOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListReadinessChecksInput, ListReadinessChecksOutputResponse>(input: input, inputKey: \ListReadinessChecksInput.nextToken, outputKey: \ListReadinessChecksOutputResponse.nextToken, paginationFunction: self.listReadinessChecks(input:))
     }
@@ -216,24 +209,23 @@ extension ListReadinessChecksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listReadinessChecksPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
 extension PaginatorSequence where Input == ListReadinessChecksInput, Output == ListReadinessChecksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReadinessChecksPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ReadinessCheckOutput]`
     public func readinessChecks() async throws -> [Route53RecoveryReadinessClientTypes.ReadinessCheckOutput] {
         return try await self.asyncCompactMap { item in item.readinessChecks }
     }
 }
-
-/// Paginate over `[ListRecoveryGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRecoveryGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryGroupsOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListRecoveryGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecoveryGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecoveryGroupsOutputResponse`
     public func listRecoveryGroupsPaginated(input: ListRecoveryGroupsInput) -> ClientRuntime.PaginatorSequence<ListRecoveryGroupsInput, ListRecoveryGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRecoveryGroupsInput, ListRecoveryGroupsOutputResponse>(input: input, inputKey: \ListRecoveryGroupsInput.nextToken, outputKey: \ListRecoveryGroupsOutputResponse.nextToken, paginationFunction: self.listRecoveryGroups(input:))
     }
@@ -247,24 +239,23 @@ extension ListRecoveryGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRecoveryGroupsPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
 extension PaginatorSequence where Input == ListRecoveryGroupsInput, Output == ListRecoveryGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecoveryGroupsPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.RecoveryGroupOutput]`
     public func recoveryGroups() async throws -> [Route53RecoveryReadinessClientTypes.RecoveryGroupOutput] {
         return try await self.asyncCompactMap { item in item.recoveryGroups }
     }
 }
-
-/// Paginate over `[ListResourceSetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListResourceSetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListResourceSetsOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListResourceSetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceSetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceSetsOutputResponse`
     public func listResourceSetsPaginated(input: ListResourceSetsInput) -> ClientRuntime.PaginatorSequence<ListResourceSetsInput, ListResourceSetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListResourceSetsInput, ListResourceSetsOutputResponse>(input: input, inputKey: \ListResourceSetsInput.nextToken, outputKey: \ListResourceSetsOutputResponse.nextToken, paginationFunction: self.listResourceSets(input:))
     }
@@ -278,24 +269,23 @@ extension ListResourceSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listResourceSetsPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
 extension PaginatorSequence where Input == ListResourceSetsInput, Output == ListResourceSetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceSetsPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ResourceSetOutput]`
     public func resourceSets() async throws -> [Route53RecoveryReadinessClientTypes.ResourceSetOutput] {
         return try await self.asyncCompactMap { item in item.resourceSets }
     }
 }
-
-/// Paginate over `[ListRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
 extension Route53RecoveryReadinessClient {
+    /// Paginate over `[ListRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
     public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutputResponse.nextToken, paginationFunction: self.listRules(input:))
     }
@@ -310,10 +300,10 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
-/// to access the nested member `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`
-/// - Returns: `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`
 extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
+    /// to access the nested member `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`
+    /// - Returns: `[Route53RecoveryReadinessClientTypes.ListRulesOutput]`
     public func rules() async throws -> [Route53RecoveryReadinessClientTypes.ListRulesOutput] {
         return try await self.asyncCompactMap { item in item.rules }
     }

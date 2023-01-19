@@ -18311,7 +18311,9 @@ extension SSMClientTypes {
 extension SSMClientTypes.DocumentRequires: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
+        case requireType = "RequireType"
         case version = "Version"
+        case versionName = "VersionName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -18319,8 +18321,14 @@ extension SSMClientTypes.DocumentRequires: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let requireType = self.requireType {
+            try encodeContainer.encode(requireType, forKey: .requireType)
+        }
         if let version = self.version {
             try encodeContainer.encode(version, forKey: .version)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
         }
     }
 
@@ -18330,6 +18338,10 @@ extension SSMClientTypes.DocumentRequires: Swift.Codable {
         name = nameDecoded
         let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
         version = versionDecoded
+        let requireTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requireType)
+        requireType = requireTypeDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
     }
 }
 
@@ -18339,16 +18351,24 @@ extension SSMClientTypes {
         /// The name of the required SSM document. The name can be an Amazon Resource Name (ARN).
         /// This member is required.
         public var name: Swift.String?
+        /// The document type of the required SSM document.
+        public var requireType: Swift.String?
         /// The document version required by the current document.
         public var version: Swift.String?
+        /// An optional field specifying the version of the artifact associated with the document. For example, "Release 12, Update 6". This value is unique across all versions of a document, and can't be changed.
+        public var versionName: Swift.String?
 
         public init (
             name: Swift.String? = nil,
-            version: Swift.String? = nil
+            requireType: Swift.String? = nil,
+            version: Swift.String? = nil,
+            versionName: Swift.String? = nil
         )
         {
             self.name = name
+            self.requireType = requireType
             self.version = version
+            self.versionName = versionName
         }
     }
 
@@ -18668,6 +18688,7 @@ extension SSMClientTypes {
         case policy
         case problemanalysis
         case problemanalysistemplate
+        case quicksetup
         case session
         case sdkUnknown(Swift.String)
 
@@ -18686,6 +18707,7 @@ extension SSMClientTypes {
                 .policy,
                 .problemanalysis,
                 .problemanalysistemplate,
+                .quicksetup,
                 .session,
                 .sdkUnknown("")
             ]
@@ -18709,6 +18731,7 @@ extension SSMClientTypes {
             case .policy: return "Policy"
             case .problemanalysis: return "ProblemAnalysis"
             case .problemanalysistemplate: return "ProblemAnalysisTemplate"
+            case .quicksetup: return "QuickSetup"
             case .session: return "Session"
             case let .sdkUnknown(s): return s
             }

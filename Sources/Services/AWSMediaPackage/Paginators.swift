@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListChannelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListChannelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
 extension MediaPackageClient {
+    /// Paginate over `[ListChannelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChannelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutputResponse.nextToken, paginationFunction: self.listChannels(input:))
     }
@@ -25,24 +24,23 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
-/// to access the nested member `[MediaPackageClientTypes.Channel]`
-/// - Returns: `[MediaPackageClientTypes.Channel]`
 extension PaginatorSequence where Input == ListChannelsInput, Output == ListChannelsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listChannelsPaginated`
+    /// to access the nested member `[MediaPackageClientTypes.Channel]`
+    /// - Returns: `[MediaPackageClientTypes.Channel]`
     public func channels() async throws -> [MediaPackageClientTypes.Channel] {
         return try await self.asyncCompactMap { item in item.channels }
     }
 }
-
-/// Paginate over `[ListHarvestJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListHarvestJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListHarvestJobsOutputResponse`
 extension MediaPackageClient {
+    /// Paginate over `[ListHarvestJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListHarvestJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListHarvestJobsOutputResponse`
     public func listHarvestJobsPaginated(input: ListHarvestJobsInput) -> ClientRuntime.PaginatorSequence<ListHarvestJobsInput, ListHarvestJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListHarvestJobsInput, ListHarvestJobsOutputResponse>(input: input, inputKey: \ListHarvestJobsInput.nextToken, outputKey: \ListHarvestJobsOutputResponse.nextToken, paginationFunction: self.listHarvestJobs(input:))
     }
@@ -58,24 +56,23 @@ extension ListHarvestJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listHarvestJobsPaginated`
-/// to access the nested member `[MediaPackageClientTypes.HarvestJob]`
-/// - Returns: `[MediaPackageClientTypes.HarvestJob]`
 extension PaginatorSequence where Input == ListHarvestJobsInput, Output == ListHarvestJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listHarvestJobsPaginated`
+    /// to access the nested member `[MediaPackageClientTypes.HarvestJob]`
+    /// - Returns: `[MediaPackageClientTypes.HarvestJob]`
     public func harvestJobs() async throws -> [MediaPackageClientTypes.HarvestJob] {
         return try await self.asyncCompactMap { item in item.harvestJobs }
     }
 }
-
-/// Paginate over `[ListOriginEndpointsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOriginEndpointsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOriginEndpointsOutputResponse`
 extension MediaPackageClient {
+    /// Paginate over `[ListOriginEndpointsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOriginEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOriginEndpointsOutputResponse`
     public func listOriginEndpointsPaginated(input: ListOriginEndpointsInput) -> ClientRuntime.PaginatorSequence<ListOriginEndpointsInput, ListOriginEndpointsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOriginEndpointsInput, ListOriginEndpointsOutputResponse>(input: input, inputKey: \ListOriginEndpointsInput.nextToken, outputKey: \ListOriginEndpointsOutputResponse.nextToken, paginationFunction: self.listOriginEndpoints(input:))
     }
@@ -90,10 +87,10 @@ extension ListOriginEndpointsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listOriginEndpointsPaginated`
-/// to access the nested member `[MediaPackageClientTypes.OriginEndpoint]`
-/// - Returns: `[MediaPackageClientTypes.OriginEndpoint]`
 extension PaginatorSequence where Input == ListOriginEndpointsInput, Output == ListOriginEndpointsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOriginEndpointsPaginated`
+    /// to access the nested member `[MediaPackageClientTypes.OriginEndpoint]`
+    /// - Returns: `[MediaPackageClientTypes.OriginEndpoint]`
     public func originEndpoints() async throws -> [MediaPackageClientTypes.OriginEndpoint] {
         return try await self.asyncCompactMap { item in item.originEndpoints }
     }

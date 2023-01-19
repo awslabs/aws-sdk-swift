@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListChannelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListChannelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListChannelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChannelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChannelsOutputResponse`
     public func listChannelsPaginated(input: ListChannelsInput) -> ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListChannelsInput, ListChannelsOutputResponse>(input: input, inputKey: \ListChannelsInput.nextToken, outputKey: \ListChannelsOutputResponse.nextToken, paginationFunction: self.listChannels(input:))
     }
@@ -26,16 +25,15 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListPlaybackKeyPairsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPlaybackKeyPairsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPlaybackKeyPairsOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListPlaybackKeyPairsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPlaybackKeyPairsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPlaybackKeyPairsOutputResponse`
     public func listPlaybackKeyPairsPaginated(input: ListPlaybackKeyPairsInput) -> ClientRuntime.PaginatorSequence<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPlaybackKeyPairsInput, ListPlaybackKeyPairsOutputResponse>(input: input, inputKey: \ListPlaybackKeyPairsInput.nextToken, outputKey: \ListPlaybackKeyPairsOutputResponse.nextToken, paginationFunction: self.listPlaybackKeyPairs(input:))
     }
@@ -48,16 +46,15 @@ extension ListPlaybackKeyPairsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListRecordingConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRecordingConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRecordingConfigurationsOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListRecordingConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecordingConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecordingConfigurationsOutputResponse`
     public func listRecordingConfigurationsPaginated(input: ListRecordingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRecordingConfigurationsInput, ListRecordingConfigurationsOutputResponse>(input: input, inputKey: \ListRecordingConfigurationsInput.nextToken, outputKey: \ListRecordingConfigurationsOutputResponse.nextToken, paginationFunction: self.listRecordingConfigurations(input:))
     }
@@ -70,16 +67,15 @@ extension ListRecordingConfigurationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListStreamKeysOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStreamKeysInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStreamKeysOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListStreamKeysOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamKeysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamKeysOutputResponse`
     public func listStreamKeysPaginated(input: ListStreamKeysInput) -> ClientRuntime.PaginatorSequence<ListStreamKeysInput, ListStreamKeysOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStreamKeysInput, ListStreamKeysOutputResponse>(input: input, inputKey: \ListStreamKeysInput.nextToken, outputKey: \ListStreamKeysOutputResponse.nextToken, paginationFunction: self.listStreamKeys(input:))
     }
@@ -93,16 +89,15 @@ extension ListStreamKeysInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListStreamsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStreamsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListStreamsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutputResponse`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutputResponse.nextToken, paginationFunction: self.listStreams(input:))
     }
@@ -116,16 +111,15 @@ extension ListStreamsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListStreamSessionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStreamSessionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStreamSessionsOutputResponse`
 extension IvsClient {
+    /// Paginate over `[ListStreamSessionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamSessionsOutputResponse`
     public func listStreamSessionsPaginated(input: ListStreamSessionsInput) -> ClientRuntime.PaginatorSequence<ListStreamSessionsInput, ListStreamSessionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStreamSessionsInput, ListStreamSessionsOutputResponse>(input: input, inputKey: \ListStreamSessionsInput.nextToken, outputKey: \ListStreamSessionsOutputResponse.nextToken, paginationFunction: self.listStreamSessions(input:))
     }

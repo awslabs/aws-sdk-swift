@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetBlueprintRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetBlueprintRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetBlueprintRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetBlueprintRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetBlueprintRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBlueprintRunsOutputResponse`
     public func getBlueprintRunsPaginated(input: GetBlueprintRunsInput) -> ClientRuntime.PaginatorSequence<GetBlueprintRunsInput, GetBlueprintRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetBlueprintRunsInput, GetBlueprintRunsOutputResponse>(input: input, inputKey: \GetBlueprintRunsInput.nextToken, outputKey: \GetBlueprintRunsOutputResponse.nextToken, paginationFunction: self.getBlueprintRuns(input:))
     }
@@ -25,16 +24,15 @@ extension GetBlueprintRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetClassifiersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetClassifiersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetClassifiersOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetClassifiersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetClassifiersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetClassifiersOutputResponse`
     public func getClassifiersPaginated(input: GetClassifiersInput) -> ClientRuntime.PaginatorSequence<GetClassifiersInput, GetClassifiersOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetClassifiersInput, GetClassifiersOutputResponse>(input: input, inputKey: \GetClassifiersInput.nextToken, outputKey: \GetClassifiersOutputResponse.nextToken, paginationFunction: self.getClassifiers(input:))
     }
@@ -47,16 +45,15 @@ extension GetClassifiersInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetConnectionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetConnectionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetConnectionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConnectionsOutputResponse`
     public func getConnectionsPaginated(input: GetConnectionsInput) -> ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetConnectionsInput, GetConnectionsOutputResponse>(input: input, inputKey: \GetConnectionsInput.nextToken, outputKey: \GetConnectionsOutputResponse.nextToken, paginationFunction: self.getConnections(input:))
     }
@@ -72,16 +69,15 @@ extension GetConnectionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetCrawlerMetricsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetCrawlerMetricsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetCrawlerMetricsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetCrawlerMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCrawlerMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCrawlerMetricsOutputResponse`
     public func getCrawlerMetricsPaginated(input: GetCrawlerMetricsInput) -> ClientRuntime.PaginatorSequence<GetCrawlerMetricsInput, GetCrawlerMetricsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetCrawlerMetricsInput, GetCrawlerMetricsOutputResponse>(input: input, inputKey: \GetCrawlerMetricsInput.nextToken, outputKey: \GetCrawlerMetricsOutputResponse.nextToken, paginationFunction: self.getCrawlerMetrics(input:))
     }
@@ -95,16 +91,15 @@ extension GetCrawlerMetricsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetCrawlersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetCrawlersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetCrawlersOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetCrawlersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCrawlersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCrawlersOutputResponse`
     public func getCrawlersPaginated(input: GetCrawlersInput) -> ClientRuntime.PaginatorSequence<GetCrawlersInput, GetCrawlersOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetCrawlersInput, GetCrawlersOutputResponse>(input: input, inputKey: \GetCrawlersInput.nextToken, outputKey: \GetCrawlersOutputResponse.nextToken, paginationFunction: self.getCrawlers(input:))
     }
@@ -117,16 +112,15 @@ extension GetCrawlersInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetDatabasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetDatabasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetDatabasesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetDatabasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetDatabasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDatabasesOutputResponse`
     public func getDatabasesPaginated(input: GetDatabasesInput) -> ClientRuntime.PaginatorSequence<GetDatabasesInput, GetDatabasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetDatabasesInput, GetDatabasesOutputResponse>(input: input, inputKey: \GetDatabasesInput.nextToken, outputKey: \GetDatabasesOutputResponse.nextToken, paginationFunction: self.getDatabases(input:))
     }
@@ -141,16 +135,15 @@ extension GetDatabasesInput: ClientRuntime.PaginateToken {
             resourceShareType: self.resourceShareType
         )}
 }
-
-/// Paginate over `[GetDevEndpointsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetDevEndpointsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetDevEndpointsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetDevEndpointsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetDevEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDevEndpointsOutputResponse`
     public func getDevEndpointsPaginated(input: GetDevEndpointsInput) -> ClientRuntime.PaginatorSequence<GetDevEndpointsInput, GetDevEndpointsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetDevEndpointsInput, GetDevEndpointsOutputResponse>(input: input, inputKey: \GetDevEndpointsInput.nextToken, outputKey: \GetDevEndpointsOutputResponse.nextToken, paginationFunction: self.getDevEndpoints(input:))
     }
@@ -163,16 +156,15 @@ extension GetDevEndpointsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetJobRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetJobRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetJobRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetJobRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetJobRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetJobRunsOutputResponse`
     public func getJobRunsPaginated(input: GetJobRunsInput) -> ClientRuntime.PaginatorSequence<GetJobRunsInput, GetJobRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetJobRunsInput, GetJobRunsOutputResponse>(input: input, inputKey: \GetJobRunsInput.nextToken, outputKey: \GetJobRunsOutputResponse.nextToken, paginationFunction: self.getJobRuns(input:))
     }
@@ -186,16 +178,15 @@ extension GetJobRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetJobsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetJobsOutputResponse`
     public func getJobsPaginated(input: GetJobsInput) -> ClientRuntime.PaginatorSequence<GetJobsInput, GetJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetJobsInput, GetJobsOutputResponse>(input: input, inputKey: \GetJobsInput.nextToken, outputKey: \GetJobsOutputResponse.nextToken, paginationFunction: self.getJobs(input:))
     }
@@ -208,16 +199,15 @@ extension GetJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetMLTaskRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetMLTaskRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetMLTaskRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetMLTaskRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetMLTaskRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMLTaskRunsOutputResponse`
     public func getMLTaskRunsPaginated(input: GetMLTaskRunsInput) -> ClientRuntime.PaginatorSequence<GetMLTaskRunsInput, GetMLTaskRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetMLTaskRunsInput, GetMLTaskRunsOutputResponse>(input: input, inputKey: \GetMLTaskRunsInput.nextToken, outputKey: \GetMLTaskRunsOutputResponse.nextToken, paginationFunction: self.getMLTaskRuns(input:))
     }
@@ -233,16 +223,15 @@ extension GetMLTaskRunsInput: ClientRuntime.PaginateToken {
             transformId: self.transformId
         )}
 }
-
-/// Paginate over `[GetMLTransformsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetMLTransformsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetMLTransformsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetMLTransformsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetMLTransformsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMLTransformsOutputResponse`
     public func getMLTransformsPaginated(input: GetMLTransformsInput) -> ClientRuntime.PaginatorSequence<GetMLTransformsInput, GetMLTransformsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetMLTransformsInput, GetMLTransformsOutputResponse>(input: input, inputKey: \GetMLTransformsInput.nextToken, outputKey: \GetMLTransformsOutputResponse.nextToken, paginationFunction: self.getMLTransforms(input:))
     }
@@ -257,16 +246,15 @@ extension GetMLTransformsInput: ClientRuntime.PaginateToken {
             sort: self.sort
         )}
 }
-
-/// Paginate over `[GetPartitionIndexesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetPartitionIndexesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetPartitionIndexesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetPartitionIndexesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetPartitionIndexesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPartitionIndexesOutputResponse`
     public func getPartitionIndexesPaginated(input: GetPartitionIndexesInput) -> ClientRuntime.PaginatorSequence<GetPartitionIndexesInput, GetPartitionIndexesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetPartitionIndexesInput, GetPartitionIndexesOutputResponse>(input: input, inputKey: \GetPartitionIndexesInput.nextToken, outputKey: \GetPartitionIndexesOutputResponse.nextToken, paginationFunction: self.getPartitionIndexes(input:))
     }
@@ -282,24 +270,23 @@ extension GetPartitionIndexesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getPartitionIndexesPaginated`
-/// to access the nested member `[GlueClientTypes.PartitionIndexDescriptor]`
-/// - Returns: `[GlueClientTypes.PartitionIndexDescriptor]`
 extension PaginatorSequence where Input == GetPartitionIndexesInput, Output == GetPartitionIndexesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getPartitionIndexesPaginated`
+    /// to access the nested member `[GlueClientTypes.PartitionIndexDescriptor]`
+    /// - Returns: `[GlueClientTypes.PartitionIndexDescriptor]`
     public func partitionIndexDescriptorList() async throws -> [GlueClientTypes.PartitionIndexDescriptor] {
         return try await self.asyncCompactMap { item in item.partitionIndexDescriptorList }
     }
 }
-
-/// Paginate over `[GetPartitionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetPartitionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetPartitionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetPartitionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetPartitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPartitionsOutputResponse`
     public func getPartitionsPaginated(input: GetPartitionsInput) -> ClientRuntime.PaginatorSequence<GetPartitionsInput, GetPartitionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetPartitionsInput, GetPartitionsOutputResponse>(input: input, inputKey: \GetPartitionsInput.nextToken, outputKey: \GetPartitionsOutputResponse.nextToken, paginationFunction: self.getPartitions(input:))
     }
@@ -320,16 +307,15 @@ extension GetPartitionsInput: ClientRuntime.PaginateToken {
             transactionId: self.transactionId
         )}
 }
-
-/// Paginate over `[GetResourcePoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourcePoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetResourcePoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourcePoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
     public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutputResponse.nextToken, paginationFunction: self.getResourcePolicies(input:))
     }
@@ -343,24 +329,23 @@ extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
-/// to access the nested member `[GlueClientTypes.GluePolicy]`
-/// - Returns: `[GlueClientTypes.GluePolicy]`
 extension PaginatorSequence where Input == GetResourcePoliciesInput, Output == GetResourcePoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
+    /// to access the nested member `[GlueClientTypes.GluePolicy]`
+    /// - Returns: `[GlueClientTypes.GluePolicy]`
     public func getResourcePoliciesResponseList() async throws -> [GlueClientTypes.GluePolicy] {
         return try await self.asyncCompactMap { item in item.getResourcePoliciesResponseList }
     }
 }
-
-/// Paginate over `[GetSecurityConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetSecurityConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetSecurityConfigurationsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetSecurityConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSecurityConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSecurityConfigurationsOutputResponse`
     public func getSecurityConfigurationsPaginated(input: GetSecurityConfigurationsInput) -> ClientRuntime.PaginatorSequence<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetSecurityConfigurationsInput, GetSecurityConfigurationsOutputResponse>(input: input, inputKey: \GetSecurityConfigurationsInput.nextToken, outputKey: \GetSecurityConfigurationsOutputResponse.nextToken, paginationFunction: self.getSecurityConfigurations(input:))
     }
@@ -374,24 +359,23 @@ extension GetSecurityConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getSecurityConfigurationsPaginated`
-/// to access the nested member `[GlueClientTypes.SecurityConfiguration]`
-/// - Returns: `[GlueClientTypes.SecurityConfiguration]`
 extension PaginatorSequence where Input == GetSecurityConfigurationsInput, Output == GetSecurityConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getSecurityConfigurationsPaginated`
+    /// to access the nested member `[GlueClientTypes.SecurityConfiguration]`
+    /// - Returns: `[GlueClientTypes.SecurityConfiguration]`
     public func securityConfigurations() async throws -> [GlueClientTypes.SecurityConfiguration] {
         return try await self.asyncCompactMap { item in item.securityConfigurations }
     }
 }
-
-/// Paginate over `[GetTablesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetTablesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetTablesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetTablesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTablesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTablesOutputResponse`
     public func getTablesPaginated(input: GetTablesInput) -> ClientRuntime.PaginatorSequence<GetTablesInput, GetTablesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetTablesInput, GetTablesOutputResponse>(input: input, inputKey: \GetTablesInput.nextToken, outputKey: \GetTablesOutputResponse.nextToken, paginationFunction: self.getTables(input:))
     }
@@ -409,16 +393,15 @@ extension GetTablesInput: ClientRuntime.PaginateToken {
             transactionId: self.transactionId
         )}
 }
-
-/// Paginate over `[GetTableVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetTableVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetTableVersionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetTableVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTableVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTableVersionsOutputResponse`
     public func getTableVersionsPaginated(input: GetTableVersionsInput) -> ClientRuntime.PaginatorSequence<GetTableVersionsInput, GetTableVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetTableVersionsInput, GetTableVersionsOutputResponse>(input: input, inputKey: \GetTableVersionsInput.nextToken, outputKey: \GetTableVersionsOutputResponse.nextToken, paginationFunction: self.getTableVersions(input:))
     }
@@ -434,16 +417,15 @@ extension GetTableVersionsInput: ClientRuntime.PaginateToken {
             tableName: self.tableName
         )}
 }
-
-/// Paginate over `[GetTriggersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetTriggersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetTriggersOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetTriggersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetTriggersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetTriggersOutputResponse`
     public func getTriggersPaginated(input: GetTriggersInput) -> ClientRuntime.PaginatorSequence<GetTriggersInput, GetTriggersOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetTriggersInput, GetTriggersOutputResponse>(input: input, inputKey: \GetTriggersInput.nextToken, outputKey: \GetTriggersOutputResponse.nextToken, paginationFunction: self.getTriggers(input:))
     }
@@ -457,16 +439,15 @@ extension GetTriggersInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetUnfilteredPartitionsMetadataOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetUnfilteredPartitionsMetadataInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetUnfilteredPartitionsMetadataOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetUnfilteredPartitionsMetadataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetUnfilteredPartitionsMetadataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUnfilteredPartitionsMetadataOutputResponse`
     public func getUnfilteredPartitionsMetadataPaginated(input: GetUnfilteredPartitionsMetadataInput) -> ClientRuntime.PaginatorSequence<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetUnfilteredPartitionsMetadataInput, GetUnfilteredPartitionsMetadataOutputResponse>(input: input, inputKey: \GetUnfilteredPartitionsMetadataInput.nextToken, outputKey: \GetUnfilteredPartitionsMetadataOutputResponse.nextToken, paginationFunction: self.getUnfilteredPartitionsMetadata(input:))
     }
@@ -486,16 +467,15 @@ extension GetUnfilteredPartitionsMetadataInput: ClientRuntime.PaginateToken {
             tableName: self.tableName
         )}
 }
-
-/// Paginate over `[GetUserDefinedFunctionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetUserDefinedFunctionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetUserDefinedFunctionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetUserDefinedFunctionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetUserDefinedFunctionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUserDefinedFunctionsOutputResponse`
     public func getUserDefinedFunctionsPaginated(input: GetUserDefinedFunctionsInput) -> ClientRuntime.PaginatorSequence<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetUserDefinedFunctionsInput, GetUserDefinedFunctionsOutputResponse>(input: input, inputKey: \GetUserDefinedFunctionsInput.nextToken, outputKey: \GetUserDefinedFunctionsOutputResponse.nextToken, paginationFunction: self.getUserDefinedFunctions(input:))
     }
@@ -511,16 +491,15 @@ extension GetUserDefinedFunctionsInput: ClientRuntime.PaginateToken {
             pattern: self.pattern
         )}
 }
-
-/// Paginate over `[GetWorkflowRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetWorkflowRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[GetWorkflowRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetWorkflowRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetWorkflowRunsOutputResponse`
     public func getWorkflowRunsPaginated(input: GetWorkflowRunsInput) -> ClientRuntime.PaginatorSequence<GetWorkflowRunsInput, GetWorkflowRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetWorkflowRunsInput, GetWorkflowRunsOutputResponse>(input: input, inputKey: \GetWorkflowRunsInput.nextToken, outputKey: \GetWorkflowRunsOutputResponse.nextToken, paginationFunction: self.getWorkflowRuns(input:))
     }
@@ -535,16 +514,15 @@ extension GetWorkflowRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListBlueprintsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBlueprintsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBlueprintsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListBlueprintsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBlueprintsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBlueprintsOutputResponse`
     public func listBlueprintsPaginated(input: ListBlueprintsInput) -> ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBlueprintsInput, ListBlueprintsOutputResponse>(input: input, inputKey: \ListBlueprintsInput.nextToken, outputKey: \ListBlueprintsOutputResponse.nextToken, paginationFunction: self.listBlueprints(input:))
     }
@@ -558,16 +536,15 @@ extension ListBlueprintsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListCrawlersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCrawlersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCrawlersOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListCrawlersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCrawlersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCrawlersOutputResponse`
     public func listCrawlersPaginated(input: ListCrawlersInput) -> ClientRuntime.PaginatorSequence<ListCrawlersInput, ListCrawlersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCrawlersInput, ListCrawlersOutputResponse>(input: input, inputKey: \ListCrawlersInput.nextToken, outputKey: \ListCrawlersOutputResponse.nextToken, paginationFunction: self.listCrawlers(input:))
     }
@@ -581,16 +558,15 @@ extension ListCrawlersInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListCustomEntityTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCustomEntityTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCustomEntityTypesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListCustomEntityTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomEntityTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomEntityTypesOutputResponse`
     public func listCustomEntityTypesPaginated(input: ListCustomEntityTypesInput) -> ClientRuntime.PaginatorSequence<ListCustomEntityTypesInput, ListCustomEntityTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCustomEntityTypesInput, ListCustomEntityTypesOutputResponse>(input: input, inputKey: \ListCustomEntityTypesInput.nextToken, outputKey: \ListCustomEntityTypesOutputResponse.nextToken, paginationFunction: self.listCustomEntityTypes(input:))
     }
@@ -603,16 +579,15 @@ extension ListCustomEntityTypesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataQualityResultsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataQualityResultsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityResultsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListDataQualityResultsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataQualityResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityResultsOutputResponse`
     public func listDataQualityResultsPaginated(input: ListDataQualityResultsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataQualityResultsInput, ListDataQualityResultsOutputResponse>(input: input, inputKey: \ListDataQualityResultsInput.nextToken, outputKey: \ListDataQualityResultsOutputResponse.nextToken, paginationFunction: self.listDataQualityResults(input:))
     }
@@ -626,16 +601,15 @@ extension ListDataQualityResultsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataQualityRuleRecommendationRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataQualityRuleRecommendationRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRuleRecommendationRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListDataQualityRuleRecommendationRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataQualityRuleRecommendationRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRuleRecommendationRunsOutputResponse`
     public func listDataQualityRuleRecommendationRunsPaginated(input: ListDataQualityRuleRecommendationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataQualityRuleRecommendationRunsInput, ListDataQualityRuleRecommendationRunsOutputResponse>(input: input, inputKey: \ListDataQualityRuleRecommendationRunsInput.nextToken, outputKey: \ListDataQualityRuleRecommendationRunsOutputResponse.nextToken, paginationFunction: self.listDataQualityRuleRecommendationRuns(input:))
     }
@@ -649,16 +623,15 @@ extension ListDataQualityRuleRecommendationRunsInput: ClientRuntime.PaginateToke
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataQualityRulesetEvaluationRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataQualityRulesetEvaluationRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetEvaluationRunsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListDataQualityRulesetEvaluationRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataQualityRulesetEvaluationRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetEvaluationRunsOutputResponse`
     public func listDataQualityRulesetEvaluationRunsPaginated(input: ListDataQualityRulesetEvaluationRunsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataQualityRulesetEvaluationRunsInput, ListDataQualityRulesetEvaluationRunsOutputResponse>(input: input, inputKey: \ListDataQualityRulesetEvaluationRunsInput.nextToken, outputKey: \ListDataQualityRulesetEvaluationRunsOutputResponse.nextToken, paginationFunction: self.listDataQualityRulesetEvaluationRuns(input:))
     }
@@ -672,16 +645,15 @@ extension ListDataQualityRulesetEvaluationRunsInput: ClientRuntime.PaginateToken
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataQualityRulesetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataQualityRulesetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListDataQualityRulesetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataQualityRulesetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataQualityRulesetsOutputResponse`
     public func listDataQualityRulesetsPaginated(input: ListDataQualityRulesetsInput) -> ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataQualityRulesetsInput, ListDataQualityRulesetsOutputResponse>(input: input, inputKey: \ListDataQualityRulesetsInput.nextToken, outputKey: \ListDataQualityRulesetsOutputResponse.nextToken, paginationFunction: self.listDataQualityRulesets(input:))
     }
@@ -696,16 +668,15 @@ extension ListDataQualityRulesetsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListDevEndpointsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDevEndpointsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDevEndpointsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListDevEndpointsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDevEndpointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDevEndpointsOutputResponse`
     public func listDevEndpointsPaginated(input: ListDevEndpointsInput) -> ClientRuntime.PaginatorSequence<ListDevEndpointsInput, ListDevEndpointsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDevEndpointsInput, ListDevEndpointsOutputResponse>(input: input, inputKey: \ListDevEndpointsInput.nextToken, outputKey: \ListDevEndpointsOutputResponse.nextToken, paginationFunction: self.listDevEndpoints(input:))
     }
@@ -719,16 +690,15 @@ extension ListDevEndpointsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
     }
@@ -742,16 +712,15 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListMLTransformsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMLTransformsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMLTransformsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListMLTransformsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMLTransformsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMLTransformsOutputResponse`
     public func listMLTransformsPaginated(input: ListMLTransformsInput) -> ClientRuntime.PaginatorSequence<ListMLTransformsInput, ListMLTransformsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMLTransformsInput, ListMLTransformsOutputResponse>(input: input, inputKey: \ListMLTransformsInput.nextToken, outputKey: \ListMLTransformsOutputResponse.nextToken, paginationFunction: self.listMLTransforms(input:))
     }
@@ -767,16 +736,15 @@ extension ListMLTransformsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListRegistriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRegistriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListRegistriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRegistriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegistriesOutputResponse`
     public func listRegistriesPaginated(input: ListRegistriesInput) -> ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRegistriesInput, ListRegistriesOutputResponse>(input: input, inputKey: \ListRegistriesInput.nextToken, outputKey: \ListRegistriesOutputResponse.nextToken, paginationFunction: self.listRegistries(input:))
     }
@@ -790,24 +758,23 @@ extension ListRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
-/// to access the nested member `[GlueClientTypes.RegistryListItem]`
-/// - Returns: `[GlueClientTypes.RegistryListItem]`
 extension PaginatorSequence where Input == ListRegistriesInput, Output == ListRegistriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRegistriesPaginated`
+    /// to access the nested member `[GlueClientTypes.RegistryListItem]`
+    /// - Returns: `[GlueClientTypes.RegistryListItem]`
     public func registries() async throws -> [GlueClientTypes.RegistryListItem] {
         return try await self.asyncCompactMap { item in item.registries }
     }
 }
-
-/// Paginate over `[ListSchemasOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSchemasInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListSchemasOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSchemasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemasOutputResponse`
     public func listSchemasPaginated(input: ListSchemasInput) -> ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSchemasInput, ListSchemasOutputResponse>(input: input, inputKey: \ListSchemasInput.nextToken, outputKey: \ListSchemasOutputResponse.nextToken, paginationFunction: self.listSchemas(input:))
     }
@@ -822,24 +789,23 @@ extension ListSchemasInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
-/// to access the nested member `[GlueClientTypes.SchemaListItem]`
-/// - Returns: `[GlueClientTypes.SchemaListItem]`
 extension PaginatorSequence where Input == ListSchemasInput, Output == ListSchemasOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSchemasPaginated`
+    /// to access the nested member `[GlueClientTypes.SchemaListItem]`
+    /// - Returns: `[GlueClientTypes.SchemaListItem]`
     public func schemas() async throws -> [GlueClientTypes.SchemaListItem] {
         return try await self.asyncCompactMap { item in item.schemas }
     }
 }
-
-/// Paginate over `[ListSchemaVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSchemaVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListSchemaVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSchemaVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSchemaVersionsOutputResponse`
     public func listSchemaVersionsPaginated(input: ListSchemaVersionsInput) -> ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSchemaVersionsInput, ListSchemaVersionsOutputResponse>(input: input, inputKey: \ListSchemaVersionsInput.nextToken, outputKey: \ListSchemaVersionsOutputResponse.nextToken, paginationFunction: self.listSchemaVersions(input:))
     }
@@ -854,24 +820,23 @@ extension ListSchemaVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
-/// to access the nested member `[GlueClientTypes.SchemaVersionListItem]`
-/// - Returns: `[GlueClientTypes.SchemaVersionListItem]`
 extension PaginatorSequence where Input == ListSchemaVersionsInput, Output == ListSchemaVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSchemaVersionsPaginated`
+    /// to access the nested member `[GlueClientTypes.SchemaVersionListItem]`
+    /// - Returns: `[GlueClientTypes.SchemaVersionListItem]`
     public func schemas() async throws -> [GlueClientTypes.SchemaVersionListItem] {
         return try await self.asyncCompactMap { item in item.schemas }
     }
 }
-
-/// Paginate over `[ListSessionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSessionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListSessionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSessionsOutputResponse`
     public func listSessionsPaginated(input: ListSessionsInput) -> ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSessionsInput, ListSessionsOutputResponse>(input: input, inputKey: \ListSessionsInput.nextToken, outputKey: \ListSessionsOutputResponse.nextToken, paginationFunction: self.listSessions(input:))
     }
@@ -886,16 +851,15 @@ extension ListSessionsInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListTriggersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTriggersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTriggersOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListTriggersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTriggersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTriggersOutputResponse`
     public func listTriggersPaginated(input: ListTriggersInput) -> ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTriggersInput, ListTriggersOutputResponse>(input: input, inputKey: \ListTriggersInput.nextToken, outputKey: \ListTriggersOutputResponse.nextToken, paginationFunction: self.listTriggers(input:))
     }
@@ -910,16 +874,15 @@ extension ListTriggersInput: ClientRuntime.PaginateToken {
             tags: self.tags
         )}
 }
-
-/// Paginate over `[ListWorkflowsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListWorkflowsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutputResponse`
 extension GlueClient {
+    /// Paginate over `[ListWorkflowsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutputResponse`
     public func listWorkflowsPaginated(input: ListWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutputResponse>(input: input, inputKey: \ListWorkflowsInput.nextToken, outputKey: \ListWorkflowsOutputResponse.nextToken, paginationFunction: self.listWorkflows(input:))
     }
@@ -932,16 +895,15 @@ extension ListWorkflowsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[SearchTablesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchTablesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchTablesOutputResponse`
 extension GlueClient {
+    /// Paginate over `[SearchTablesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTablesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTablesOutputResponse`
     public func searchTablesPaginated(input: SearchTablesInput) -> ClientRuntime.PaginatorSequence<SearchTablesInput, SearchTablesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchTablesInput, SearchTablesOutputResponse>(input: input, inputKey: \SearchTablesInput.nextToken, outputKey: \SearchTablesOutputResponse.nextToken, paginationFunction: self.searchTables(input:))
     }

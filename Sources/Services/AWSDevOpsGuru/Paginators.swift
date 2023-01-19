@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeOrganizationResourceCollectionHealthOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrganizationResourceCollectionHealthInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationResourceCollectionHealthOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[DescribeOrganizationResourceCollectionHealthOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationResourceCollectionHealthInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationResourceCollectionHealthOutputResponse`
     public func describeOrganizationResourceCollectionHealthPaginated(input: DescribeOrganizationResourceCollectionHealthInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrganizationResourceCollectionHealthInput, DescribeOrganizationResourceCollectionHealthOutputResponse>(input: input, inputKey: \DescribeOrganizationResourceCollectionHealthInput.nextToken, outputKey: \DescribeOrganizationResourceCollectionHealthOutputResponse.nextToken, paginationFunction: self.describeOrganizationResourceCollectionHealth(input:))
     }
@@ -27,16 +26,15 @@ extension DescribeOrganizationResourceCollectionHealthInput: ClientRuntime.Pagin
             organizationalUnitIds: self.organizationalUnitIds
         )}
 }
-
-/// Paginate over `[DescribeResourceCollectionHealthOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeResourceCollectionHealthInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeResourceCollectionHealthOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[DescribeResourceCollectionHealthOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeResourceCollectionHealthInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeResourceCollectionHealthOutputResponse`
     public func describeResourceCollectionHealthPaginated(input: DescribeResourceCollectionHealthInput) -> ClientRuntime.PaginatorSequence<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeResourceCollectionHealthInput, DescribeResourceCollectionHealthOutputResponse>(input: input, inputKey: \DescribeResourceCollectionHealthInput.nextToken, outputKey: \DescribeResourceCollectionHealthOutputResponse.nextToken, paginationFunction: self.describeResourceCollectionHealth(input:))
     }
@@ -49,16 +47,15 @@ extension DescribeResourceCollectionHealthInput: ClientRuntime.PaginateToken {
             resourceCollectionType: self.resourceCollectionType
         )}
 }
-
-/// Paginate over `[GetCostEstimationOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetCostEstimationInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetCostEstimationOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[GetCostEstimationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCostEstimationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCostEstimationOutputResponse`
     public func getCostEstimationPaginated(input: GetCostEstimationInput) -> ClientRuntime.PaginatorSequence<GetCostEstimationInput, GetCostEstimationOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetCostEstimationInput, GetCostEstimationOutputResponse>(input: input, inputKey: \GetCostEstimationInput.nextToken, outputKey: \GetCostEstimationOutputResponse.nextToken, paginationFunction: self.getCostEstimation(input:))
     }
@@ -70,16 +67,15 @@ extension GetCostEstimationInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetResourceCollectionOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourceCollectionInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourceCollectionOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[GetResourceCollectionOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourceCollectionInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceCollectionOutputResponse`
     public func getResourceCollectionPaginated(input: GetResourceCollectionInput) -> ClientRuntime.PaginatorSequence<GetResourceCollectionInput, GetResourceCollectionOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourceCollectionInput, GetResourceCollectionOutputResponse>(input: input, inputKey: \GetResourceCollectionInput.nextToken, outputKey: \GetResourceCollectionOutputResponse.nextToken, paginationFunction: self.getResourceCollection(input:))
     }
@@ -92,16 +88,15 @@ extension GetResourceCollectionInput: ClientRuntime.PaginateToken {
             resourceCollectionType: self.resourceCollectionType
         )}
 }
-
-/// Paginate over `[ListAnomaliesForInsightOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAnomaliesForInsightInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAnomaliesForInsightOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListAnomaliesForInsightOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAnomaliesForInsightInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAnomaliesForInsightOutputResponse`
     public func listAnomaliesForInsightPaginated(input: ListAnomaliesForInsightInput) -> ClientRuntime.PaginatorSequence<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAnomaliesForInsightInput, ListAnomaliesForInsightOutputResponse>(input: input, inputKey: \ListAnomaliesForInsightInput.nextToken, outputKey: \ListAnomaliesForInsightOutputResponse.nextToken, paginationFunction: self.listAnomaliesForInsight(input:))
     }
@@ -117,16 +112,15 @@ extension ListAnomaliesForInsightInput: ClientRuntime.PaginateToken {
             startTimeRange: self.startTimeRange
         )}
 }
-
-/// Paginate over `[ListAnomalousLogGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAnomalousLogGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAnomalousLogGroupsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListAnomalousLogGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAnomalousLogGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAnomalousLogGroupsOutputResponse`
     public func listAnomalousLogGroupsPaginated(input: ListAnomalousLogGroupsInput) -> ClientRuntime.PaginatorSequence<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAnomalousLogGroupsInput, ListAnomalousLogGroupsOutputResponse>(input: input, inputKey: \ListAnomalousLogGroupsInput.nextToken, outputKey: \ListAnomalousLogGroupsOutputResponse.nextToken, paginationFunction: self.listAnomalousLogGroups(input:))
     }
@@ -140,16 +134,15 @@ extension ListAnomalousLogGroupsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListEventsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEventsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEventsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListEventsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventsOutputResponse`
     public func listEventsPaginated(input: ListEventsInput) -> ClientRuntime.PaginatorSequence<ListEventsInput, ListEventsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEventsInput, ListEventsOutputResponse>(input: input, inputKey: \ListEventsInput.nextToken, outputKey: \ListEventsOutputResponse.nextToken, paginationFunction: self.listEvents(input:))
     }
@@ -165,24 +158,23 @@ extension ListEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listEventsPaginated`
-/// to access the nested member `[DevOpsGuruClientTypes.Event]`
-/// - Returns: `[DevOpsGuruClientTypes.Event]`
 extension PaginatorSequence where Input == ListEventsInput, Output == ListEventsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventsPaginated`
+    /// to access the nested member `[DevOpsGuruClientTypes.Event]`
+    /// - Returns: `[DevOpsGuruClientTypes.Event]`
     public func events() async throws -> [DevOpsGuruClientTypes.Event] {
         return try await self.asyncCompactMap { item in item.events }
     }
 }
-
-/// Paginate over `[ListInsightsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListInsightsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListInsightsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListInsightsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInsightsOutputResponse`
     public func listInsightsPaginated(input: ListInsightsInput) -> ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListInsightsInput, ListInsightsOutputResponse>(input: input, inputKey: \ListInsightsInput.nextToken, outputKey: \ListInsightsOutputResponse.nextToken, paginationFunction: self.listInsights(input:))
     }
@@ -196,16 +188,15 @@ extension ListInsightsInput: ClientRuntime.PaginateToken {
             statusFilter: self.statusFilter
         )}
 }
-
-/// Paginate over `[ListMonitoredResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMonitoredResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMonitoredResourcesOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListMonitoredResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMonitoredResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMonitoredResourcesOutputResponse`
     public func listMonitoredResourcesPaginated(input: ListMonitoredResourcesInput) -> ClientRuntime.PaginatorSequence<ListMonitoredResourcesInput, ListMonitoredResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMonitoredResourcesInput, ListMonitoredResourcesOutputResponse>(input: input, inputKey: \ListMonitoredResourcesInput.nextToken, outputKey: \ListMonitoredResourcesOutputResponse.nextToken, paginationFunction: self.listMonitoredResources(input:))
     }
@@ -219,16 +210,15 @@ extension ListMonitoredResourcesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListNotificationChannelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListNotificationChannelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListNotificationChannelsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListNotificationChannelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListNotificationChannelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListNotificationChannelsOutputResponse`
     public func listNotificationChannelsPaginated(input: ListNotificationChannelsInput) -> ClientRuntime.PaginatorSequence<ListNotificationChannelsInput, ListNotificationChannelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListNotificationChannelsInput, ListNotificationChannelsOutputResponse>(input: input, inputKey: \ListNotificationChannelsInput.nextToken, outputKey: \ListNotificationChannelsOutputResponse.nextToken, paginationFunction: self.listNotificationChannels(input:))
     }
@@ -241,24 +231,23 @@ extension ListNotificationChannelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listNotificationChannelsPaginated`
-/// to access the nested member `[DevOpsGuruClientTypes.NotificationChannel]`
-/// - Returns: `[DevOpsGuruClientTypes.NotificationChannel]`
 extension PaginatorSequence where Input == ListNotificationChannelsInput, Output == ListNotificationChannelsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listNotificationChannelsPaginated`
+    /// to access the nested member `[DevOpsGuruClientTypes.NotificationChannel]`
+    /// - Returns: `[DevOpsGuruClientTypes.NotificationChannel]`
     public func channels() async throws -> [DevOpsGuruClientTypes.NotificationChannel] {
         return try await self.asyncCompactMap { item in item.channels }
     }
 }
-
-/// Paginate over `[ListOrganizationInsightsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOrganizationInsightsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationInsightsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListOrganizationInsightsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOrganizationInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOrganizationInsightsOutputResponse`
     public func listOrganizationInsightsPaginated(input: ListOrganizationInsightsInput) -> ClientRuntime.PaginatorSequence<ListOrganizationInsightsInput, ListOrganizationInsightsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOrganizationInsightsInput, ListOrganizationInsightsOutputResponse>(input: input, inputKey: \ListOrganizationInsightsInput.nextToken, outputKey: \ListOrganizationInsightsOutputResponse.nextToken, paginationFunction: self.listOrganizationInsights(input:))
     }
@@ -274,16 +263,15 @@ extension ListOrganizationInsightsInput: ClientRuntime.PaginateToken {
             statusFilter: self.statusFilter
         )}
 }
-
-/// Paginate over `[ListRecommendationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRecommendationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[ListRecommendationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutputResponse`
     public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutputResponse.nextToken, paginationFunction: self.listRecommendations(input:))
     }
@@ -299,24 +287,23 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRecommendationsPaginated`
-/// to access the nested member `[DevOpsGuruClientTypes.Recommendation]`
-/// - Returns: `[DevOpsGuruClientTypes.Recommendation]`
 extension PaginatorSequence where Input == ListRecommendationsInput, Output == ListRecommendationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommendationsPaginated`
+    /// to access the nested member `[DevOpsGuruClientTypes.Recommendation]`
+    /// - Returns: `[DevOpsGuruClientTypes.Recommendation]`
     public func recommendations() async throws -> [DevOpsGuruClientTypes.Recommendation] {
         return try await self.asyncCompactMap { item in item.recommendations }
     }
 }
-
-/// Paginate over `[SearchInsightsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchInsightsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchInsightsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[SearchInsightsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchInsightsOutputResponse`
     public func searchInsightsPaginated(input: SearchInsightsInput) -> ClientRuntime.PaginatorSequence<SearchInsightsInput, SearchInsightsOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchInsightsInput, SearchInsightsOutputResponse>(input: input, inputKey: \SearchInsightsInput.nextToken, outputKey: \SearchInsightsOutputResponse.nextToken, paginationFunction: self.searchInsights(input:))
     }
@@ -332,16 +319,15 @@ extension SearchInsightsInput: ClientRuntime.PaginateToken {
             type: self.type
         )}
 }
-
-/// Paginate over `[SearchOrganizationInsightsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchOrganizationInsightsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchOrganizationInsightsOutputResponse`
 extension DevOpsGuruClient {
+    /// Paginate over `[SearchOrganizationInsightsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchOrganizationInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchOrganizationInsightsOutputResponse`
     public func searchOrganizationInsightsPaginated(input: SearchOrganizationInsightsInput) -> ClientRuntime.PaginatorSequence<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchOrganizationInsightsInput, SearchOrganizationInsightsOutputResponse>(input: input, inputKey: \SearchOrganizationInsightsInput.nextToken, outputKey: \SearchOrganizationInsightsOutputResponse.nextToken, paginationFunction: self.searchOrganizationInsights(input:))
     }

@@ -10,6 +10,7 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         case autoStartConfiguration
         case autoStopConfiguration
         case createdAt
+        case imageConfiguration
         case initialCapacity
         case maximumCapacity
         case name
@@ -20,6 +21,7 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         case tags
         case type
         case updatedAt
+        case workerTypeSpecifications
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -41,6 +43,9 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let imageConfiguration = self.imageConfiguration {
+            try encodeContainer.encode(imageConfiguration, forKey: .imageConfiguration)
         }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
@@ -77,6 +82,12 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
+        }
+        if let workerTypeSpecifications = workerTypeSpecifications {
+            var workerTypeSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workerTypeSpecifications)
+            for (dictKey0, workerTypeSpecificationMap0) in workerTypeSpecifications {
+                try workerTypeSpecificationsContainer.encode(workerTypeSpecificationMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 
@@ -132,6 +143,19 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         networkConfiguration = networkConfigurationDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
         architecture = architectureDecoded
+        let imageConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ImageConfiguration.self, forKey: .imageConfiguration)
+        imageConfiguration = imageConfigurationDecoded
+        let workerTypeSpecificationsContainer = try containerValues.decodeIfPresent([Swift.String: EMRServerlessClientTypes.WorkerTypeSpecification?].self, forKey: .workerTypeSpecifications)
+        var workerTypeSpecificationsDecoded0: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecification]? = nil
+        if let workerTypeSpecificationsContainer = workerTypeSpecificationsContainer {
+            workerTypeSpecificationsDecoded0 = [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecification]()
+            for (key0, workertypespecification0) in workerTypeSpecificationsContainer {
+                if let workertypespecification0 = workertypespecification0 {
+                    workerTypeSpecificationsDecoded0?[key0] = workertypespecification0
+                }
+            }
+        }
+        workerTypeSpecifications = workerTypeSpecificationsDecoded0
     }
 }
 
@@ -153,6 +177,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the application run was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
+        /// The image configuration applied to all worker types.
+        public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
         /// The initial capacity of the application.
         public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
@@ -161,7 +187,7 @@ extension EMRServerlessClientTypes {
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity for the application.
         public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-        /// The EMR release version associated with the application.
+        /// The EMR release associated with the application.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the application.
@@ -177,6 +203,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the application run was last updated.
         /// This member is required.
         public var updatedAt: ClientRuntime.Date?
+        /// The specification applied to each worker type.
+        public var workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecification]?
 
         public init (
             applicationId: Swift.String? = nil,
@@ -185,6 +213,7 @@ extension EMRServerlessClientTypes {
             autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
             autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
             maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
             name: Swift.String? = nil,
@@ -194,7 +223,8 @@ extension EMRServerlessClientTypes {
             stateDetails: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: Swift.String? = nil,
-            updatedAt: ClientRuntime.Date? = nil
+            updatedAt: ClientRuntime.Date? = nil,
+            workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecification]? = nil
         )
         {
             self.applicationId = applicationId
@@ -203,6 +233,7 @@ extension EMRServerlessClientTypes {
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
             self.name = name
@@ -213,6 +244,7 @@ extension EMRServerlessClientTypes {
             self.tags = tags
             self.type = type
             self.updatedAt = updatedAt
+            self.workerTypeSpecifications = workerTypeSpecifications
         }
     }
 
@@ -354,7 +386,7 @@ extension EMRServerlessClientTypes {
         public var id: Swift.String?
         /// The name of the application.
         public var name: Swift.String?
-        /// The EMR release version associated with the application.
+        /// The EMR release associated with the application.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the application.
@@ -828,6 +860,7 @@ extension CreateApplicationInput: Swift.Encodable {
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
+        case imageConfiguration
         case initialCapacity
         case maximumCapacity
         case name
@@ -835,6 +868,7 @@ extension CreateApplicationInput: Swift.Encodable {
         case releaseLabel
         case tags
         case type
+        case workerTypeSpecifications
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -850,6 +884,9 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let imageConfiguration = self.imageConfiguration {
+            try encodeContainer.encode(imageConfiguration, forKey: .imageConfiguration)
         }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
@@ -878,6 +915,12 @@ extension CreateApplicationInput: Swift.Encodable {
         if let type = self.type {
             try encodeContainer.encode(type, forKey: .type)
         }
+        if let workerTypeSpecifications = workerTypeSpecifications {
+            var workerTypeSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workerTypeSpecifications)
+            for (dictKey0, workerTypeSpecificationInputMap0) in workerTypeSpecifications {
+                try workerTypeSpecificationsContainer.encode(workerTypeSpecificationInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 }
 
@@ -897,6 +940,8 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The client idempotency token of the application to create. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
+    public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is created.
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
@@ -905,7 +950,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var name: Swift.String?
     /// The network configuration for customer VPC connectivity.
     public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-    /// The EMR release version associated with the application.
+    /// The EMR release associated with the application.
     /// This member is required.
     public var releaseLabel: Swift.String?
     /// The tags assigned to the application.
@@ -913,25 +958,30 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The type of application you want to start, such as Spark or Hive.
     /// This member is required.
     public var type: Swift.String?
+    /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+    public var workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 
     public init (
         architecture: EMRServerlessClientTypes.Architecture? = nil,
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
         name: Swift.String? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
         releaseLabel: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        type: Swift.String? = nil
+        type: Swift.String? = nil,
+        workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
     )
     {
         self.architecture = architecture
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.maximumCapacity = maximumCapacity
         self.name = name
@@ -939,6 +989,7 @@ public struct CreateApplicationInput: Swift.Equatable {
         self.releaseLabel = releaseLabel
         self.tags = tags
         self.type = type
+        self.workerTypeSpecifications = workerTypeSpecifications
     }
 }
 
@@ -954,6 +1005,8 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig?
     let networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
     let architecture: EMRServerlessClientTypes.Architecture?
+    let imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
+    let workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
@@ -962,6 +1015,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
+        case imageConfiguration
         case initialCapacity
         case maximumCapacity
         case name
@@ -969,6 +1023,7 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case releaseLabel
         case tags
         case type
+        case workerTypeSpecifications
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1013,6 +1068,19 @@ extension CreateApplicationInputBody: Swift.Decodable {
         networkConfiguration = networkConfigurationDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
         architecture = architectureDecoded
+        let imageConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ImageConfigurationInput.self, forKey: .imageConfiguration)
+        imageConfiguration = imageConfigurationDecoded
+        let workerTypeSpecificationsContainer = try containerValues.decodeIfPresent([Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput?].self, forKey: .workerTypeSpecifications)
+        var workerTypeSpecificationsDecoded0: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
+        if let workerTypeSpecificationsContainer = workerTypeSpecificationsContainer {
+            workerTypeSpecificationsDecoded0 = [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]()
+            for (key0, workertypespecificationinput0) in workerTypeSpecificationsContainer {
+                if let workertypespecificationinput0 = workertypespecificationinput0 {
+                    workerTypeSpecificationsDecoded0?[key0] = workertypespecificationinput0
+                }
+            }
+        }
+        workerTypeSpecifications = workerTypeSpecificationsDecoded0
     }
 }
 
@@ -1029,6 +1097,7 @@ extension CreateApplicationOutputError {
         switch errorType {
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
         }
@@ -1038,6 +1107,7 @@ extension CreateApplicationOutputError {
 public enum CreateApplicationOutputError: Swift.Error, Swift.Equatable {
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
 }
@@ -1545,6 +1615,87 @@ extension EMRServerlessClientTypes {
 
 }
 
+extension EMRServerlessClientTypes.ImageConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageUri
+        case resolvedImageDigest
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageUri = self.imageUri {
+            try encodeContainer.encode(imageUri, forKey: .imageUri)
+        }
+        if let resolvedImageDigest = self.resolvedImageDigest {
+            try encodeContainer.encode(resolvedImageDigest, forKey: .resolvedImageDigest)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUri)
+        imageUri = imageUriDecoded
+        let resolvedImageDigestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resolvedImageDigest)
+        resolvedImageDigest = resolvedImageDigestDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The applied image configuration.
+    public struct ImageConfiguration: Swift.Equatable {
+        /// The image URI.
+        /// This member is required.
+        public var imageUri: Swift.String?
+        /// The SHA256 digest of the image URI. This indicates which specific image the application is configured for. The image digest doesn't exist until an application has started.
+        public var resolvedImageDigest: Swift.String?
+
+        public init (
+            imageUri: Swift.String? = nil,
+            resolvedImageDigest: Swift.String? = nil
+        )
+        {
+            self.imageUri = imageUri
+            self.resolvedImageDigest = resolvedImageDigest
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes.ImageConfigurationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageUri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageUri = self.imageUri {
+            try encodeContainer.encode(imageUri, forKey: .imageUri)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUri)
+        imageUri = imageUriDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The image configuration.
+    public struct ImageConfigurationInput: Swift.Equatable {
+        /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
+        public var imageUri: Swift.String?
+
+        public init (
+            imageUri: Swift.String? = nil
+        )
+        {
+            self.imageUri = imageUri
+        }
+    }
+
+}
+
 extension EMRServerlessClientTypes.InitialCapacityConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workerConfiguration
@@ -1848,7 +1999,7 @@ extension EMRServerlessClientTypes {
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity.
         public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
-        /// The EMR release version associated with the application your job is running on.
+        /// The EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the job run.
@@ -2067,7 +2218,7 @@ extension EMRServerlessClientTypes {
         public var id: Swift.String?
         /// The optional job run name. This doesn't have to be unique.
         public var name: Swift.String?
-        /// The EMR release version associated with the application your job is running on.
+        /// The EMR release associated with the application your job is running on.
         /// This member is required.
         public var releaseLabel: Swift.String?
         /// The state of the job run.
@@ -3594,9 +3745,11 @@ extension UpdateApplicationInput: Swift.Encodable {
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
+        case imageConfiguration
         case initialCapacity
         case maximumCapacity
         case networkConfiguration
+        case workerTypeSpecifications
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3613,6 +3766,9 @@ extension UpdateApplicationInput: Swift.Encodable {
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
+        if let imageConfiguration = self.imageConfiguration {
+            try encodeContainer.encode(imageConfiguration, forKey: .imageConfiguration)
+        }
         if let initialCapacity = initialCapacity {
             var initialCapacityContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .initialCapacity)
             for (dictKey0, initialCapacityConfigMap0) in initialCapacity {
@@ -3624,6 +3780,12 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let networkConfiguration = self.networkConfiguration {
             try encodeContainer.encode(networkConfiguration, forKey: .networkConfiguration)
+        }
+        if let workerTypeSpecifications = workerTypeSpecifications {
+            var workerTypeSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workerTypeSpecifications)
+            for (dictKey0, workerTypeSpecificationInputMap0) in workerTypeSpecifications {
+                try workerTypeSpecificationsContainer.encode(workerTypeSpecificationInputMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -3650,12 +3812,16 @@ public struct UpdateApplicationInput: Swift.Equatable {
     /// The client idempotency token of the application to update. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
+    public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is updated.
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
     /// The network configuration for customer VPC connectivity.
     public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
+    /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
+    public var workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 
     public init (
         applicationId: Swift.String? = nil,
@@ -3663,9 +3829,11 @@ public struct UpdateApplicationInput: Swift.Equatable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
-        networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil
+        networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
+        workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
     )
     {
         self.applicationId = applicationId
@@ -3673,9 +3841,11 @@ public struct UpdateApplicationInput: Swift.Equatable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.maximumCapacity = maximumCapacity
         self.networkConfiguration = networkConfiguration
+        self.workerTypeSpecifications = workerTypeSpecifications
     }
 }
 
@@ -3687,6 +3857,8 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig?
     let networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
     let architecture: EMRServerlessClientTypes.Architecture?
+    let imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
+    let workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
@@ -3695,9 +3867,11 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case autoStartConfiguration
         case autoStopConfiguration
         case clientToken
+        case imageConfiguration
         case initialCapacity
         case maximumCapacity
         case networkConfiguration
+        case workerTypeSpecifications
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -3725,6 +3899,19 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         networkConfiguration = networkConfigurationDecoded
         let architectureDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.Architecture.self, forKey: .architecture)
         architecture = architectureDecoded
+        let imageConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ImageConfigurationInput.self, forKey: .imageConfiguration)
+        imageConfiguration = imageConfigurationDecoded
+        let workerTypeSpecificationsContainer = try containerValues.decodeIfPresent([Swift.String: EMRServerlessClientTypes.WorkerTypeSpecificationInput?].self, forKey: .workerTypeSpecifications)
+        var workerTypeSpecificationsDecoded0: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
+        if let workerTypeSpecificationsContainer = workerTypeSpecificationsContainer {
+            workerTypeSpecificationsDecoded0 = [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]()
+            for (key0, workertypespecificationinput0) in workerTypeSpecificationsContainer {
+                if let workertypespecificationinput0 = workertypespecificationinput0 {
+                    workerTypeSpecificationsDecoded0?[key0] = workertypespecificationinput0
+                }
+            }
+        }
+        workerTypeSpecifications = workerTypeSpecificationsDecoded0
     }
 }
 
@@ -3901,6 +4088,76 @@ extension EMRServerlessClientTypes {
             self.cpu = cpu
             self.disk = disk
             self.memory = memory
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes.WorkerTypeSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageConfiguration = self.imageConfiguration {
+            try encodeContainer.encode(imageConfiguration, forKey: .imageConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ImageConfiguration.self, forKey: .imageConfiguration)
+        imageConfiguration = imageConfigurationDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The specifications for a worker type.
+    public struct WorkerTypeSpecification: Swift.Equatable {
+        /// The image configuration for a worker type.
+        public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
+
+        public init (
+            imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil
+        )
+        {
+            self.imageConfiguration = imageConfiguration
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes.WorkerTypeSpecificationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case imageConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let imageConfiguration = self.imageConfiguration {
+            try encodeContainer.encode(imageConfiguration, forKey: .imageConfiguration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let imageConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.ImageConfigurationInput.self, forKey: .imageConfiguration)
+        imageConfiguration = imageConfigurationDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The specifications for a worker type.
+    public struct WorkerTypeSpecificationInput: Swift.Equatable {
+        /// The image configuration for a worker type.
+        public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
+
+        public init (
+            imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil
+        )
+        {
+            self.imageConfiguration = imageConfiguration
         }
     }
 

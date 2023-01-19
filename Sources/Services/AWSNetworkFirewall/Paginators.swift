@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListFirewallPoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFirewallPoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFirewallPoliciesOutputResponse`
 extension NetworkFirewallClient {
+    /// Paginate over `[ListFirewallPoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallPoliciesOutputResponse`
     public func listFirewallPoliciesPaginated(input: ListFirewallPoliciesInput) -> ClientRuntime.PaginatorSequence<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFirewallPoliciesInput, ListFirewallPoliciesOutputResponse>(input: input, inputKey: \ListFirewallPoliciesInput.nextToken, outputKey: \ListFirewallPoliciesOutputResponse.nextToken, paginationFunction: self.listFirewallPolicies(input:))
     }
@@ -25,24 +24,23 @@ extension ListFirewallPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFirewallPoliciesPaginated`
-/// to access the nested member `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
-/// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
 extension PaginatorSequence where Input == ListFirewallPoliciesInput, Output == ListFirewallPoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallPoliciesPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.FirewallPolicyMetadata]`
     public func firewallPolicies() async throws -> [NetworkFirewallClientTypes.FirewallPolicyMetadata] {
         return try await self.asyncCompactMap { item in item.firewallPolicies }
     }
 }
-
-/// Paginate over `[ListFirewallsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFirewallsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFirewallsOutputResponse`
 extension NetworkFirewallClient {
+    /// Paginate over `[ListFirewallsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFirewallsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFirewallsOutputResponse`
     public func listFirewallsPaginated(input: ListFirewallsInput) -> ClientRuntime.PaginatorSequence<ListFirewallsInput, ListFirewallsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFirewallsInput, ListFirewallsOutputResponse>(input: input, inputKey: \ListFirewallsInput.nextToken, outputKey: \ListFirewallsOutputResponse.nextToken, paginationFunction: self.listFirewalls(input:))
     }
@@ -57,24 +55,23 @@ extension ListFirewallsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFirewallsPaginated`
-/// to access the nested member `[NetworkFirewallClientTypes.FirewallMetadata]`
-/// - Returns: `[NetworkFirewallClientTypes.FirewallMetadata]`
 extension PaginatorSequence where Input == ListFirewallsInput, Output == ListFirewallsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFirewallsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.FirewallMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.FirewallMetadata]`
     public func firewalls() async throws -> [NetworkFirewallClientTypes.FirewallMetadata] {
         return try await self.asyncCompactMap { item in item.firewalls }
     }
 }
-
-/// Paginate over `[ListRuleGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRuleGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRuleGroupsOutputResponse`
 extension NetworkFirewallClient {
+    /// Paginate over `[ListRuleGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRuleGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRuleGroupsOutputResponse`
     public func listRuleGroupsPaginated(input: ListRuleGroupsInput) -> ClientRuntime.PaginatorSequence<ListRuleGroupsInput, ListRuleGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRuleGroupsInput, ListRuleGroupsOutputResponse>(input: input, inputKey: \ListRuleGroupsInput.nextToken, outputKey: \ListRuleGroupsOutputResponse.nextToken, paginationFunction: self.listRuleGroups(input:))
     }
@@ -91,24 +88,23 @@ extension ListRuleGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRuleGroupsPaginated`
-/// to access the nested member `[NetworkFirewallClientTypes.RuleGroupMetadata]`
-/// - Returns: `[NetworkFirewallClientTypes.RuleGroupMetadata]`
 extension PaginatorSequence where Input == ListRuleGroupsInput, Output == ListRuleGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRuleGroupsPaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.RuleGroupMetadata]`
+    /// - Returns: `[NetworkFirewallClientTypes.RuleGroupMetadata]`
     public func ruleGroups() async throws -> [NetworkFirewallClientTypes.RuleGroupMetadata] {
         return try await self.asyncCompactMap { item in item.ruleGroups }
     }
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension NetworkFirewallClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
@@ -123,10 +119,10 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
-/// to access the nested member `[NetworkFirewallClientTypes.Tag]`
-/// - Returns: `[NetworkFirewallClientTypes.Tag]`
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[NetworkFirewallClientTypes.Tag]`
+    /// - Returns: `[NetworkFirewallClientTypes.Tag]`
     public func tags() async throws -> [NetworkFirewallClientTypes.Tag] {
         return try await self.asyncCompactMap { item in item.tags }
     }

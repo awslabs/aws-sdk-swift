@@ -417,7 +417,7 @@ extension AuditManagerClientTypes {
         public var comments: [AuditManagerClientTypes.ControlComment]?
         /// The description of the control.
         public var description: Swift.String?
-        /// The amount of evidence that's generated for the control.
+        /// The amount of evidence that's collected for the control.
         public var evidenceCount: Swift.Int
         /// The list of data sources for the evidence.
         public var evidenceSources: [Swift.String]?
@@ -568,7 +568,7 @@ extension AuditManagerClientTypes {
         public var manualEvidenceCount: Swift.Int
         /// The roles that are associated with the control set.
         public var roles: [AuditManagerClientTypes.Role]?
-        /// Specifies the current status of the control set.
+        /// The current status of the control set.
         public var status: AuditManagerClientTypes.ControlSetStatus?
         /// The total number of evidence objects that are retrieved automatically for the control set.
         public var systemEvidenceCount: Swift.Int
@@ -969,13 +969,13 @@ extension AuditManagerClientTypes {
         public var controlSetsCount: Swift.Int
         /// The number of controls that are associated with the framework.
         public var controlsCount: Swift.Int
-        /// Specifies when the framework was created.
+        /// The time when the framework was created.
         public var createdAt: ClientRuntime.Date?
         /// The description of the framework.
         public var description: Swift.String?
         /// The unique identifier for the framework.
         public var id: Swift.String?
-        /// Specifies when the framework was most recently updated.
+        /// The time when the framework was most recently updated.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The logo that's associated with the framework.
         public var logo: Swift.String?
@@ -3196,7 +3196,7 @@ extension AuditManagerClientTypes {
         public var controlMappingSources: [AuditManagerClientTypes.ControlMappingSource]?
         /// The data source types that determine where Audit Manager collects evidence from for the control.
         public var controlSources: Swift.String?
-        /// Specifies when the control was created.
+        /// The time when the control was created.
         public var createdAt: ClientRuntime.Date?
         /// The IAM user or role that created the control.
         public var createdBy: Swift.String?
@@ -3204,7 +3204,7 @@ extension AuditManagerClientTypes {
         public var description: Swift.String?
         /// The unique identifier for the control.
         public var id: Swift.String?
-        /// Specifies when the control was most recently updated.
+        /// The time when the control was most recently updated.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The IAM user or role that most recently updated the control.
         public var lastUpdatedBy: Swift.String?
@@ -3619,7 +3619,7 @@ extension AuditManagerClientTypes {
         public var sourceName: Swift.String?
         /// The setup option for the data source. This option reflects if the evidence collection is automated or manual.
         public var sourceSetUpOption: AuditManagerClientTypes.SourceSetUpOption?
-        /// Specifies one of the five types of data sources for evidence collection.
+        /// Specifies one of the five data source types for evidence collection.
         public var sourceType: AuditManagerClientTypes.SourceType?
         /// The instructions for troubleshooting the control.
         public var troubleshootingText: Swift.String?
@@ -3704,11 +3704,11 @@ extension AuditManagerClientTypes {
         public var arn: Swift.String?
         /// The data source that determines where Audit Manager collects evidence from for the control.
         public var controlSources: Swift.String?
-        /// Specifies when the control was created.
+        /// The time when the control was created.
         public var createdAt: ClientRuntime.Date?
         /// The unique identifier for the control.
         public var id: Swift.String?
-        /// Specifies when the control was most recently updated.
+        /// The time when the control was most recently updated.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The name of the control.
         public var name: Swift.String?
@@ -4484,7 +4484,7 @@ public struct CreateAssessmentReportInput: Swift.Equatable {
     /// The name of the new assessment report.
     /// This member is required.
     public var name: Swift.String?
-    /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence), or [associated with a report using the API](https://docs.aws.amazon.com/APIReference-evidenceFinder/API_BatchAssociateAssessmentReportEvidence.html). To use this parameter, the [enablementStatus](https://docs.aws.amazon.com/APIReference-evidenceFinder/API_EvidenceFinderSetup.html#auditmanager-Type-EvidenceFinderSetup-enablementStatus) of evidence finder must be ENABLED. For examples and help resolving queryStatement validation exceptions, see [Troubleshooting evidence finder issues](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-finder-issues.html#querystatement-exceptions) in the AWS Audit Manager User Guide.
+    /// A SQL statement that represents an evidence finder query. Provide this parameter when you want to generate an assessment report from the results of an evidence finder search query. When you use this parameter, Audit Manager generates a one-time report using only the evidence from the query output. This report does not include any assessment evidence that was manually [added to a report using the console](https://docs.aws.amazon.com/audit-manager/latest/userguide/generate-assessment-report.html#generate-assessment-report-include-evidence), or [associated with a report using the API](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_BatchAssociateAssessmentReportEvidence.html). To use this parameter, the [enablementStatus](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_EvidenceFinderEnablement.html#auditmanager-Type-EvidenceFinderEnablement-enablementStatus) of evidence finder must be ENABLED. For examples and help resolving queryStatement validation exceptions, see [Troubleshooting evidence finder issues](https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-finder-issues.html#querystatement-exceptions) in the Audit Manager User Guide.
     public var queryStatement: Swift.String?
 
     public init (
@@ -5616,6 +5616,38 @@ public struct DeleteControlOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension AuditManagerClientTypes {
+    public enum DeleteResources: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case `default`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeleteResources] {
+            return [
+                .all,
+                .default,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .default: return "DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeleteResources(rawValue: rawValue) ?? DeleteResources.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DeregisterAccountInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         return "/account/deregisterAccount"
@@ -5788,6 +5820,45 @@ extension DeregisterOrganizationAdminAccountOutputResponse: ClientRuntime.HttpRe
 public struct DeregisterOrganizationAdminAccountOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension AuditManagerClientTypes.DeregistrationPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleteResources
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleteResources = self.deleteResources {
+            try encodeContainer.encode(deleteResources.rawValue, forKey: .deleteResources)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deleteResourcesDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DeleteResources.self, forKey: .deleteResources)
+        deleteResources = deleteResourcesDecoded
+    }
+}
+
+extension AuditManagerClientTypes {
+    /// The deregistration policy for the data that's stored in Audit Manager. You can use this attribute to determine how your data is handled when you [deregister Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html). By default, Audit Manager retains evidence data for two years from the time of its creation. Other Audit Manager resources (including assessments, custom controls, and custom frameworks) remain in Audit Manager indefinitely, and are available if you [re-register Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html) in the future. For more information about data retention, see [Data Protection](https://docs.aws.amazon.com/audit-manager/latest/userguide/data-protection.html) in the Audit Manager User Guide. If you choose to delete all data, this action permanently deletes all evidence data in your account within seven days. It also deletes all of the Audit Manager resources that you created, including assessments, custom controls, and custom frameworks. Your data will not be available if you re-register Audit Manager in the future.
+    public struct DeregistrationPolicy: Swift.Equatable {
+        /// Specifies which Audit Manager data will be deleted when you deregister Audit Manager.
+        ///
+        /// * If you set the value to ALL, all of your data is deleted within seven days of deregistration.
+        ///
+        /// * If you set the value to DEFAULT, none of your data is deleted at the time of deregistration. However, keep in mind that the Audit Manager data retention policy still applies. As a result, any evidence data will be deleted two years after its creation date. Your other Audit Manager resources will continue to exist indefinitely.
+        public var deleteResources: AuditManagerClientTypes.DeleteResources?
+
+        public init (
+            deleteResources: AuditManagerClientTypes.DeleteResources? = nil
+        )
+        {
+            self.deleteResources = deleteResources
+        }
+    }
+
 }
 
 extension DisassociateAssessmentReportEvidenceFolderInput: Swift.Encodable {
@@ -6012,7 +6083,7 @@ extension AuditManagerClientTypes.Evidence: Swift.Codable {
 }
 
 extension AuditManagerClientTypes {
-    /// A record that contains the information needed to demonstrate compliance with the requirements specified by a control. Examples of evidence include change activity triggered by a user, or a system configuration snapshot.
+    /// A record that contains the information needed to demonstrate compliance with the requirements specified by a control. Examples of evidence include change activity invoked by a user, or a system configuration snapshot.
     public struct Evidence: Swift.Equatable {
         /// Specifies whether the evidence is included in the assessment report.
         public var assessmentReportSelection: Swift.String?
@@ -6164,11 +6235,11 @@ extension AuditManagerClientTypes.EvidenceFinderEnablement: Swift.Codable {
 extension AuditManagerClientTypes {
     /// The settings object that specifies whether evidence finder is enabled. This object also describes the related event data store, and the backfill status for populating the event data store with evidence data.
     public struct EvidenceFinderEnablement: Swift.Equatable {
-        /// The current status of the evidence data backfill process. The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past evidence data so that your evidence can be queried.
+        /// The current status of the evidence data backfill process. The backfill starts after you enable evidence finder. During this task, Audit Manager populates an event data store with your past two years’ worth of evidence data so that your evidence can be queried.
         ///
         /// * NOT_STARTED means that the backfill hasn’t started yet.
         ///
-        /// * IN_PROGRESS means that the backfill is in progress. This can take up to 24 hours to complete, depending on the amount of evidence data.
+        /// * IN_PROGRESS means that the backfill is in progress. This can take up to 7 days to complete, depending on the amount of evidence data.
         ///
         /// * COMPLETED means that the backfill is complete. All of your past evidence is now queryable.
         public var backfillStatus: AuditManagerClientTypes.EvidenceFinderBackfillStatus?
@@ -6176,7 +6247,7 @@ extension AuditManagerClientTypes {
         ///
         /// * ENABLE_IN_PROGRESS means that you requested to enable evidence finder. An event data store is currently being created to support evidence finder queries.
         ///
-        /// * ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 24 hours until the event data store is backfilled with your past evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.
+        /// * ENABLED means that an event data store was successfully created and evidence finder is enabled. We recommend that you wait 7 days until the event data store is backfilled with your past two years’ worth of evidence data. You can use evidence finder in the meantime, but not all data might be available until the backfill is complete.
         ///
         /// * DISABLE_IN_PROGRESS means that you requested to disable evidence finder, and your request is pending the deletion of the event data store.
         ///
@@ -6428,7 +6499,7 @@ extension AuditManagerClientTypes {
         public var controlSets: [AuditManagerClientTypes.ControlSet]?
         /// The sources that Audit Manager collects evidence from for the control.
         public var controlSources: Swift.String?
-        /// Specifies when the framework was created.
+        /// The time when the framework was created.
         public var createdAt: ClientRuntime.Date?
         /// The IAM user or role that created the framework.
         public var createdBy: Swift.String?
@@ -6436,7 +6507,7 @@ extension AuditManagerClientTypes {
         public var description: Swift.String?
         /// The unique identifier for the framework.
         public var id: Swift.String?
-        /// Specifies when the framework was most recently updated.
+        /// The time when the framework was most recently updated.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The IAM user or role that most recently updated the framework.
         public var lastUpdatedBy: Swift.String?
@@ -8054,7 +8125,7 @@ extension GetEvidenceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetEvidenceOutputResponse: Swift.Equatable {
-    /// The evidence that the GetEvidenceResponse API returned.
+    /// The evidence that the GetEvidence API returned.
     public var evidence: AuditManagerClientTypes.Evidence?
 
     public init (
@@ -8471,7 +8542,7 @@ extension GetSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetSettingsInput: Swift.Equatable {
-    /// The list of SettingAttribute enum values.
+    /// The list of setting attribute enum values.
     /// This member is required.
     public var attribute: AuditManagerClientTypes.SettingAttribute?
 
@@ -11357,6 +11428,7 @@ extension AuditManagerClientTypes {
         case all
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case deregistrationPolicy
         case evidenceFinderEnablement
         case isAwsOrgEnabled
         case snsTopic
@@ -11367,6 +11439,7 @@ extension AuditManagerClientTypes {
                 .all,
                 .defaultAssessmentReportsDestination,
                 .defaultProcessOwners,
+                .deregistrationPolicy,
                 .evidenceFinderEnablement,
                 .isAwsOrgEnabled,
                 .snsTopic,
@@ -11382,6 +11455,7 @@ extension AuditManagerClientTypes {
             case .all: return "ALL"
             case .defaultAssessmentReportsDestination: return "DEFAULT_ASSESSMENT_REPORTS_DESTINATION"
             case .defaultProcessOwners: return "DEFAULT_PROCESS_OWNERS"
+            case .deregistrationPolicy: return "DEREGISTRATION_POLICY"
             case .evidenceFinderEnablement: return "EVIDENCE_FINDER_ENABLEMENT"
             case .isAwsOrgEnabled: return "IS_AWS_ORG_ENABLED"
             case .snsTopic: return "SNS_TOPIC"
@@ -11400,6 +11474,7 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case deregistrationPolicy
         case evidenceFinderEnablement
         case isAwsOrgEnabled
         case kmsKey
@@ -11416,6 +11491,9 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
             for role0 in defaultProcessOwners {
                 try defaultProcessOwnersContainer.encode(role0)
             }
+        }
+        if let deregistrationPolicy = self.deregistrationPolicy {
+            try encodeContainer.encode(deregistrationPolicy, forKey: .deregistrationPolicy)
         }
         if let evidenceFinderEnablement = self.evidenceFinderEnablement {
             try encodeContainer.encode(evidenceFinderEnablement, forKey: .evidenceFinderEnablement)
@@ -11454,6 +11532,8 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         kmsKey = kmsKeyDecoded
         let evidenceFinderEnablementDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.EvidenceFinderEnablement.self, forKey: .evidenceFinderEnablement)
         evidenceFinderEnablement = evidenceFinderEnablementDecoded
+        let deregistrationPolicyDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DeregistrationPolicy.self, forKey: .deregistrationPolicy)
+        deregistrationPolicy = deregistrationPolicyDecoded
     }
 }
 
@@ -11464,6 +11544,8 @@ extension AuditManagerClientTypes {
         public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
         /// The designated default audit owners.
         public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
+        /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
+        public var deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy?
         /// The current evidence finder status and event data store details.
         public var evidenceFinderEnablement: AuditManagerClientTypes.EvidenceFinderEnablement?
         /// Specifies whether Organizations is enabled.
@@ -11476,6 +11558,7 @@ extension AuditManagerClientTypes {
         public init (
             defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
             defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
+            deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy? = nil,
             evidenceFinderEnablement: AuditManagerClientTypes.EvidenceFinderEnablement? = nil,
             isAwsOrgEnabled: Swift.Bool? = nil,
             kmsKey: Swift.String? = nil,
@@ -11484,6 +11567,7 @@ extension AuditManagerClientTypes {
         {
             self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
             self.defaultProcessOwners = defaultProcessOwners
+            self.deregistrationPolicy = deregistrationPolicy
             self.evidenceFinderEnablement = evidenceFinderEnablement
             self.isAwsOrgEnabled = isAwsOrgEnabled
             self.kmsKey = kmsKey
@@ -13069,7 +13153,7 @@ extension UpdateAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateAssessmentOutputResponse: Swift.Equatable {
-    /// The response object for the UpdateAssessmentRequest API. This is the name of the updated assessment.
+    /// The response object for the UpdateAssessment API. This is the name of the updated assessment.
     public var assessment: AuditManagerClientTypes.Assessment?
 
     public init (
@@ -13425,6 +13509,7 @@ extension UpdateSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case deregistrationPolicy
         case evidenceFinderEnabled
         case kmsKey
         case snsTopic
@@ -13440,6 +13525,9 @@ extension UpdateSettingsInput: Swift.Encodable {
             for role0 in defaultProcessOwners {
                 try defaultProcessOwnersContainer.encode(role0)
             }
+        }
+        if let deregistrationPolicy = self.deregistrationPolicy {
+            try encodeContainer.encode(deregistrationPolicy, forKey: .deregistrationPolicy)
         }
         if let evidenceFinderEnabled = self.evidenceFinderEnabled {
             try encodeContainer.encode(evidenceFinderEnabled, forKey: .evidenceFinderEnabled)
@@ -13464,7 +13552,9 @@ public struct UpdateSettingsInput: Swift.Equatable {
     public var defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination?
     /// A list of the default audit owners.
     public var defaultProcessOwners: [AuditManagerClientTypes.Role]?
-    /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder. When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to [deregister](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html) and then [re-register](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html) Audit Manager. Disabling evidence finder is permanent, so consider this decision carefully before you proceed. If you’re using Audit Manager as a delegated administrator, keep in mind that this action applies to all member accounts in your organization.
+    /// The deregistration policy for your Audit Manager data. You can use this attribute to determine how your data is handled when you deregister Audit Manager.
+    public var deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy?
+    /// Specifies whether the evidence finder feature is enabled. Change this attribute to enable or disable evidence finder. When you use this attribute to disable evidence finder, Audit Manager deletes the event data store that’s used to query your evidence data. As a result, you can’t re-enable evidence finder and use the feature again. Your only alternative is to [deregister](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_DeregisterAccount.html) and then [re-register](https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_RegisterAccount.html) Audit Manager.
     public var evidenceFinderEnabled: Swift.Bool?
     /// The KMS key details.
     public var kmsKey: Swift.String?
@@ -13474,6 +13564,7 @@ public struct UpdateSettingsInput: Swift.Equatable {
     public init (
         defaultAssessmentReportsDestination: AuditManagerClientTypes.AssessmentReportsDestination? = nil,
         defaultProcessOwners: [AuditManagerClientTypes.Role]? = nil,
+        deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy? = nil,
         evidenceFinderEnabled: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         snsTopic: Swift.String? = nil
@@ -13481,6 +13572,7 @@ public struct UpdateSettingsInput: Swift.Equatable {
     {
         self.defaultAssessmentReportsDestination = defaultAssessmentReportsDestination
         self.defaultProcessOwners = defaultProcessOwners
+        self.deregistrationPolicy = deregistrationPolicy
         self.evidenceFinderEnabled = evidenceFinderEnabled
         self.kmsKey = kmsKey
         self.snsTopic = snsTopic
@@ -13493,12 +13585,14 @@ struct UpdateSettingsInputBody: Swift.Equatable {
     let defaultProcessOwners: [AuditManagerClientTypes.Role]?
     let kmsKey: Swift.String?
     let evidenceFinderEnabled: Swift.Bool?
+    let deregistrationPolicy: AuditManagerClientTypes.DeregistrationPolicy?
 }
 
 extension UpdateSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultAssessmentReportsDestination
         case defaultProcessOwners
+        case deregistrationPolicy
         case evidenceFinderEnabled
         case kmsKey
         case snsTopic
@@ -13525,6 +13619,8 @@ extension UpdateSettingsInputBody: Swift.Decodable {
         kmsKey = kmsKeyDecoded
         let evidenceFinderEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .evidenceFinderEnabled)
         evidenceFinderEnabled = evidenceFinderEnabledDecoded
+        let deregistrationPolicyDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DeregistrationPolicy.self, forKey: .deregistrationPolicy)
+        deregistrationPolicy = deregistrationPolicyDecoded
     }
 }
 

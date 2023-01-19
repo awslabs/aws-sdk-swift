@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeServicesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeServicesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeServicesOutputResponse`
 extension PricingClient {
+    /// Paginate over `[DescribeServicesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeServicesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeServicesOutputResponse`
     public func describeServicesPaginated(input: DescribeServicesInput) -> ClientRuntime.PaginatorSequence<DescribeServicesInput, DescribeServicesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeServicesInput, DescribeServicesOutputResponse>(input: input, inputKey: \DescribeServicesInput.nextToken, outputKey: \DescribeServicesOutputResponse.nextToken, paginationFunction: self.describeServices(input:))
     }
@@ -26,16 +25,15 @@ extension DescribeServicesInput: ClientRuntime.PaginateToken {
             serviceCode: self.serviceCode
         )}
 }
-
-/// Paginate over `[GetAttributeValuesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAttributeValuesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAttributeValuesOutputResponse`
 extension PricingClient {
+    /// Paginate over `[GetAttributeValuesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAttributeValuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAttributeValuesOutputResponse`
     public func getAttributeValuesPaginated(input: GetAttributeValuesInput) -> ClientRuntime.PaginatorSequence<GetAttributeValuesInput, GetAttributeValuesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAttributeValuesInput, GetAttributeValuesOutputResponse>(input: input, inputKey: \GetAttributeValuesInput.nextToken, outputKey: \GetAttributeValuesOutputResponse.nextToken, paginationFunction: self.getAttributeValues(input:))
     }
@@ -50,16 +48,15 @@ extension GetAttributeValuesInput: ClientRuntime.PaginateToken {
             serviceCode: self.serviceCode
         )}
 }
-
-/// Paginate over `[GetProductsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetProductsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetProductsOutputResponse`
 extension PricingClient {
+    /// Paginate over `[GetProductsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetProductsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetProductsOutputResponse`
     public func getProductsPaginated(input: GetProductsInput) -> ClientRuntime.PaginatorSequence<GetProductsInput, GetProductsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetProductsInput, GetProductsOutputResponse>(input: input, inputKey: \GetProductsInput.nextToken, outputKey: \GetProductsOutputResponse.nextToken, paginationFunction: self.getProducts(input:))
     }

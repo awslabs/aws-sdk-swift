@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetSnapshotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetSnapshotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetSnapshotsOutputResponse`
 extension KendraClient {
+    /// Paginate over `[GetSnapshotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSnapshotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSnapshotsOutputResponse`
     public func getSnapshotsPaginated(input: GetSnapshotsInput) -> ClientRuntime.PaginatorSequence<GetSnapshotsInput, GetSnapshotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetSnapshotsInput, GetSnapshotsOutputResponse>(input: input, inputKey: \GetSnapshotsInput.nextToken, outputKey: \GetSnapshotsOutputResponse.nextToken, paginationFunction: self.getSnapshots(input:))
     }
@@ -27,16 +26,15 @@ extension GetSnapshotsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListAccessControlConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAccessControlConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAccessControlConfigurationsOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListAccessControlConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessControlConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessControlConfigurationsOutputResponse`
     public func listAccessControlConfigurationsPaginated(input: ListAccessControlConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAccessControlConfigurationsInput, ListAccessControlConfigurationsOutputResponse>(input: input, inputKey: \ListAccessControlConfigurationsInput.nextToken, outputKey: \ListAccessControlConfigurationsOutputResponse.nextToken, paginationFunction: self.listAccessControlConfigurations(input:))
     }
@@ -50,16 +48,15 @@ extension ListAccessControlConfigurationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataSourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataSourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListDataSourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataSourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourcesOutputResponse`
     public func listDataSourcesPaginated(input: ListDataSourcesInput) -> ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataSourcesInput, ListDataSourcesOutputResponse>(input: input, inputKey: \ListDataSourcesInput.nextToken, outputKey: \ListDataSourcesOutputResponse.nextToken, paginationFunction: self.listDataSources(input:))
     }
@@ -73,16 +70,15 @@ extension ListDataSourcesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDataSourceSyncJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataSourceSyncJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataSourceSyncJobsOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListDataSourceSyncJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataSourceSyncJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSourceSyncJobsOutputResponse`
     public func listDataSourceSyncJobsPaginated(input: ListDataSourceSyncJobsInput) -> ClientRuntime.PaginatorSequence<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutputResponse>(input: input, inputKey: \ListDataSourceSyncJobsInput.nextToken, outputKey: \ListDataSourceSyncJobsOutputResponse.nextToken, paginationFunction: self.listDataSourceSyncJobs(input:))
     }
@@ -99,16 +95,15 @@ extension ListDataSourceSyncJobsInput: ClientRuntime.PaginateToken {
             statusFilter: self.statusFilter
         )}
 }
-
-/// Paginate over `[ListEntityPersonasOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEntityPersonasInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEntityPersonasOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListEntityPersonasOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEntityPersonasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEntityPersonasOutputResponse`
     public func listEntityPersonasPaginated(input: ListEntityPersonasInput) -> ClientRuntime.PaginatorSequence<ListEntityPersonasInput, ListEntityPersonasOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEntityPersonasInput, ListEntityPersonasOutputResponse>(input: input, inputKey: \ListEntityPersonasInput.nextToken, outputKey: \ListEntityPersonasOutputResponse.nextToken, paginationFunction: self.listEntityPersonas(input:))
     }
@@ -123,16 +118,15 @@ extension ListEntityPersonasInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListExperienceEntitiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExperienceEntitiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExperienceEntitiesOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListExperienceEntitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExperienceEntitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExperienceEntitiesOutputResponse`
     public func listExperienceEntitiesPaginated(input: ListExperienceEntitiesInput) -> ClientRuntime.PaginatorSequence<ListExperienceEntitiesInput, ListExperienceEntitiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExperienceEntitiesInput, ListExperienceEntitiesOutputResponse>(input: input, inputKey: \ListExperienceEntitiesInput.nextToken, outputKey: \ListExperienceEntitiesOutputResponse.nextToken, paginationFunction: self.listExperienceEntities(input:))
     }
@@ -146,16 +140,15 @@ extension ListExperienceEntitiesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListExperiencesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExperiencesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExperiencesOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListExperiencesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExperiencesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExperiencesOutputResponse`
     public func listExperiencesPaginated(input: ListExperiencesInput) -> ClientRuntime.PaginatorSequence<ListExperiencesInput, ListExperiencesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExperiencesInput, ListExperiencesOutputResponse>(input: input, inputKey: \ListExperiencesInput.nextToken, outputKey: \ListExperiencesOutputResponse.nextToken, paginationFunction: self.listExperiences(input:))
     }
@@ -169,16 +162,15 @@ extension ListExperiencesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListFaqsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFaqsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFaqsOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListFaqsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFaqsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFaqsOutputResponse`
     public func listFaqsPaginated(input: ListFaqsInput) -> ClientRuntime.PaginatorSequence<ListFaqsInput, ListFaqsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFaqsInput, ListFaqsOutputResponse>(input: input, inputKey: \ListFaqsInput.nextToken, outputKey: \ListFaqsOutputResponse.nextToken, paginationFunction: self.listFaqs(input:))
     }
@@ -192,16 +184,15 @@ extension ListFaqsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListGroupsOlderThanOrderingIdOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupsOlderThanOrderingIdInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOlderThanOrderingIdOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListGroupsOlderThanOrderingIdOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupsOlderThanOrderingIdInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOlderThanOrderingIdOutputResponse`
     public func listGroupsOlderThanOrderingIdPaginated(input: ListGroupsOlderThanOrderingIdInput) -> ClientRuntime.PaginatorSequence<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupsOlderThanOrderingIdInput, ListGroupsOlderThanOrderingIdOutputResponse>(input: input, inputKey: \ListGroupsOlderThanOrderingIdInput.nextToken, outputKey: \ListGroupsOlderThanOrderingIdOutputResponse.nextToken, paginationFunction: self.listGroupsOlderThanOrderingId(input:))
     }
@@ -217,16 +208,15 @@ extension ListGroupsOlderThanOrderingIdInput: ClientRuntime.PaginateToken {
             orderingId: self.orderingId
         )}
 }
-
-/// Paginate over `[ListIndicesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListIndicesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListIndicesOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListIndicesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIndicesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIndicesOutputResponse`
     public func listIndicesPaginated(input: ListIndicesInput) -> ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListIndicesInput, ListIndicesOutputResponse>(input: input, inputKey: \ListIndicesInput.nextToken, outputKey: \ListIndicesOutputResponse.nextToken, paginationFunction: self.listIndices(input:))
     }
@@ -239,16 +229,15 @@ extension ListIndicesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListQuerySuggestionsBlockListsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListQuerySuggestionsBlockListsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListQuerySuggestionsBlockListsOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListQuerySuggestionsBlockListsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListQuerySuggestionsBlockListsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListQuerySuggestionsBlockListsOutputResponse`
     public func listQuerySuggestionsBlockListsPaginated(input: ListQuerySuggestionsBlockListsInput) -> ClientRuntime.PaginatorSequence<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListQuerySuggestionsBlockListsInput, ListQuerySuggestionsBlockListsOutputResponse>(input: input, inputKey: \ListQuerySuggestionsBlockListsInput.nextToken, outputKey: \ListQuerySuggestionsBlockListsOutputResponse.nextToken, paginationFunction: self.listQuerySuggestionsBlockLists(input:))
     }
@@ -262,16 +251,15 @@ extension ListQuerySuggestionsBlockListsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListThesauriOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListThesauriInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListThesauriOutputResponse`
 extension KendraClient {
+    /// Paginate over `[ListThesauriOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThesauriInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThesauriOutputResponse`
     public func listThesauriPaginated(input: ListThesauriInput) -> ClientRuntime.PaginatorSequence<ListThesauriInput, ListThesauriOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListThesauriInput, ListThesauriOutputResponse>(input: input, inputKey: \ListThesauriInput.nextToken, outputKey: \ListThesauriOutputResponse.nextToken, paginationFunction: self.listThesauri(input:))
     }

@@ -3,10 +3,7 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Lambda Overview Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see [What is Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response. You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see [Tools for Amazon Web Services](http://aws.amazon.com/tools/). For a list of Region-specific endpoints that Lambda supports, see [Lambda endpoints and quotas ](https://docs.aws.amazon.com/general/latest/gr/lambda-service.html/) in the Amazon Web Services General Reference..
-///
-///
-/// When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see [Signature Version 4 signing process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) in the Amazon Web Services General Reference.. CA certificates Because Amazon Web Services SDKs use the CA certificates from your computer, changes to the certificates on the Amazon Web Services servers can cause connection failures when you attempt to use an SDK. You can prevent these failures by keeping your computer's CA certificates and operating system up-to-date. If you encounter this issue in a corporate environment and do not manage your own computer, you might need to ask an administrator to assist with the update process. The following list shows minimum operating system and Java versions:
+/// Lambda Overview Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see [What is Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response. You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see [Tools for Amazon Web Services](http://aws.amazon.com/tools/). For a list of Region-specific endpoints that Lambda supports, see [Lambda endpoints and quotas ](https://docs.aws.amazon.com/general/latest/gr/lambda-service.html/) in the Amazon Web Services General Reference.. When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see [Signature Version 4 signing process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) in the Amazon Web Services General Reference.. CA certificates Because Amazon Web Services SDKs use the CA certificates from your computer, changes to the certificates on the Amazon Web Services servers can cause connection failures when you attempt to use an SDK. You can prevent these failures by keeping your computer's CA certificates and operating system up-to-date. If you encounter this issue in a corporate environment and do not manage your own computer, you might need to ask an administrator to assist with the update process. The following list shows minimum operating system and Java versions:
 ///
 /// * Microsoft Windows versions that have updates from January 2005 or later installed contain at least one of the required CAs in their trust list.
 ///
@@ -53,15 +50,15 @@ public protocol LambdaClientProtocol {
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
-    /// * BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.
+    /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
     ///
-    /// * DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
-    /// * MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
+    /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
-    /// * MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
-    /// * ParallelizationFactor - Process multiple batches from each shard concurrently.
+    /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.
@@ -202,15 +199,15 @@ public protocol LambdaClientProtocol {
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
-    /// * BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.
+    /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
     ///
-    /// * DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
-    /// * MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
+    /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
-    /// * MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
-    /// * ParallelizationFactor - Process multiple batches from each shard concurrently.
+    /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListApplicationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListApplicationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
 extension ServiceCatalogAppRegistryClient {
+    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListApplicationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
     }
@@ -25,24 +24,23 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
-/// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
-/// - Returns: `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
 extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
+    /// - Returns: `[ServiceCatalogAppRegistryClientTypes.ApplicationSummary]`
     public func applications() async throws -> [ServiceCatalogAppRegistryClientTypes.ApplicationSummary] {
         return try await self.asyncCompactMap { item in item.applications }
     }
 }
-
-/// Paginate over `[ListAssociatedAttributeGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociatedAttributeGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAttributeGroupsOutputResponse`
 extension ServiceCatalogAppRegistryClient {
+    /// Paginate over `[ListAssociatedAttributeGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociatedAttributeGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAttributeGroupsOutputResponse`
     public func listAssociatedAttributeGroupsPaginated(input: ListAssociatedAttributeGroupsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociatedAttributeGroupsInput, ListAssociatedAttributeGroupsOutputResponse>(input: input, inputKey: \ListAssociatedAttributeGroupsInput.nextToken, outputKey: \ListAssociatedAttributeGroupsOutputResponse.nextToken, paginationFunction: self.listAssociatedAttributeGroups(input:))
     }
@@ -57,24 +55,23 @@ extension ListAssociatedAttributeGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssociatedAttributeGroupsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListAssociatedAttributeGroupsInput, Output == ListAssociatedAttributeGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAttributeGroupsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func attributeGroups() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.attributeGroups }
     }
 }
-
-/// Paginate over `[ListAssociatedResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociatedResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedResourcesOutputResponse`
 extension ServiceCatalogAppRegistryClient {
+    /// Paginate over `[ListAssociatedResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociatedResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedResourcesOutputResponse`
     public func listAssociatedResourcesPaginated(input: ListAssociatedResourcesInput) -> ClientRuntime.PaginatorSequence<ListAssociatedResourcesInput, ListAssociatedResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociatedResourcesInput, ListAssociatedResourcesOutputResponse>(input: input, inputKey: \ListAssociatedResourcesInput.nextToken, outputKey: \ListAssociatedResourcesOutputResponse.nextToken, paginationFunction: self.listAssociatedResources(input:))
     }
@@ -89,24 +86,23 @@ extension ListAssociatedResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssociatedResourcesPaginated`
-/// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
-/// - Returns: `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
 extension PaginatorSequence where Input == ListAssociatedResourcesInput, Output == ListAssociatedResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociatedResourcesPaginated`
+    /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
+    /// - Returns: `[ServiceCatalogAppRegistryClientTypes.ResourceInfo]`
     public func resources() async throws -> [ServiceCatalogAppRegistryClientTypes.ResourceInfo] {
         return try await self.asyncCompactMap { item in item.resources }
     }
 }
-
-/// Paginate over `[ListAttributeGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAttributeGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsOutputResponse`
 extension ServiceCatalogAppRegistryClient {
+    /// Paginate over `[ListAttributeGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttributeGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsOutputResponse`
     public func listAttributeGroupsPaginated(input: ListAttributeGroupsInput) -> ClientRuntime.PaginatorSequence<ListAttributeGroupsInput, ListAttributeGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAttributeGroupsInput, ListAttributeGroupsOutputResponse>(input: input, inputKey: \ListAttributeGroupsInput.nextToken, outputKey: \ListAttributeGroupsOutputResponse.nextToken, paginationFunction: self.listAttributeGroups(input:))
     }
@@ -120,24 +116,23 @@ extension ListAttributeGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsPaginated`
-/// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
-/// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
 extension PaginatorSequence where Input == ListAttributeGroupsInput, Output == ListAttributeGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsPaginated`
+    /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
+    /// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary]`
     public func attributeGroups() async throws -> [ServiceCatalogAppRegistryClientTypes.AttributeGroupSummary] {
         return try await self.asyncCompactMap { item in item.attributeGroups }
     }
 }
-
-/// Paginate over `[ListAttributeGroupsForApplicationOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAttributeGroupsForApplicationInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsForApplicationOutputResponse`
 extension ServiceCatalogAppRegistryClient {
+    /// Paginate over `[ListAttributeGroupsForApplicationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttributeGroupsForApplicationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttributeGroupsForApplicationOutputResponse`
     public func listAttributeGroupsForApplicationPaginated(input: ListAttributeGroupsForApplicationInput) -> ClientRuntime.PaginatorSequence<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAttributeGroupsForApplicationInput, ListAttributeGroupsForApplicationOutputResponse>(input: input, inputKey: \ListAttributeGroupsForApplicationInput.nextToken, outputKey: \ListAttributeGroupsForApplicationOutputResponse.nextToken, paginationFunction: self.listAttributeGroupsForApplication(input:))
     }
@@ -152,10 +147,10 @@ extension ListAttributeGroupsForApplicationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsForApplicationPaginated`
-/// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`
-/// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`
 extension PaginatorSequence where Input == ListAttributeGroupsForApplicationInput, Output == ListAttributeGroupsForApplicationOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAttributeGroupsForApplicationPaginated`
+    /// to access the nested member `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`
+    /// - Returns: `[ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails]`
     public func attributeGroupsDetails() async throws -> [ServiceCatalogAppRegistryClientTypes.AttributeGroupDetails] {
         return try await self.asyncCompactMap { item in item.attributeGroupsDetails }
     }
