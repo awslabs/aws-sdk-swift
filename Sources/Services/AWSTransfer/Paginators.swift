@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAccessesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAccessesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAccessesOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListAccessesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessesOutputResponse`
     public func listAccessesPaginated(input: ListAccessesInput) -> ClientRuntime.PaginatorSequence<ListAccessesInput, ListAccessesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAccessesInput, ListAccessesOutputResponse>(input: input, inputKey: \ListAccessesInput.nextToken, outputKey: \ListAccessesOutputResponse.nextToken, paginationFunction: self.listAccesses(input:))
     }
@@ -26,24 +25,23 @@ extension ListAccessesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAccessesPaginated`
-/// to access the nested member `[TransferClientTypes.ListedAccess]`
-/// - Returns: `[TransferClientTypes.ListedAccess]`
 extension PaginatorSequence where Input == ListAccessesInput, Output == ListAccessesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccessesPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedAccess]`
+    /// - Returns: `[TransferClientTypes.ListedAccess]`
     public func accesses() async throws -> [TransferClientTypes.ListedAccess] {
         return try await self.asyncCompactMap { item in item.accesses }
     }
 }
-
-/// Paginate over `[ListAgreementsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAgreementsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAgreementsOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListAgreementsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAgreementsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAgreementsOutputResponse`
     public func listAgreementsPaginated(input: ListAgreementsInput) -> ClientRuntime.PaginatorSequence<ListAgreementsInput, ListAgreementsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAgreementsInput, ListAgreementsOutputResponse>(input: input, inputKey: \ListAgreementsInput.nextToken, outputKey: \ListAgreementsOutputResponse.nextToken, paginationFunction: self.listAgreements(input:))
     }
@@ -58,24 +56,23 @@ extension ListAgreementsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAgreementsPaginated`
-/// to access the nested member `[TransferClientTypes.ListedAgreement]`
-/// - Returns: `[TransferClientTypes.ListedAgreement]`
 extension PaginatorSequence where Input == ListAgreementsInput, Output == ListAgreementsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAgreementsPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedAgreement]`
+    /// - Returns: `[TransferClientTypes.ListedAgreement]`
     public func agreements() async throws -> [TransferClientTypes.ListedAgreement] {
         return try await self.asyncCompactMap { item in item.agreements }
     }
 }
-
-/// Paginate over `[ListCertificatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCertificatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListCertificatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCertificatesOutputResponse`
     public func listCertificatesPaginated(input: ListCertificatesInput) -> ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCertificatesInput, ListCertificatesOutputResponse>(input: input, inputKey: \ListCertificatesInput.nextToken, outputKey: \ListCertificatesOutputResponse.nextToken, paginationFunction: self.listCertificates(input:))
     }
@@ -89,24 +86,23 @@ extension ListCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
-/// to access the nested member `[TransferClientTypes.ListedCertificate]`
-/// - Returns: `[TransferClientTypes.ListedCertificate]`
 extension PaginatorSequence where Input == ListCertificatesInput, Output == ListCertificatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCertificatesPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedCertificate]`
+    /// - Returns: `[TransferClientTypes.ListedCertificate]`
     public func certificates() async throws -> [TransferClientTypes.ListedCertificate] {
         return try await self.asyncCompactMap { item in item.certificates }
     }
 }
-
-/// Paginate over `[ListConnectorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListConnectorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListConnectorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectorsOutputResponse`
     public func listConnectorsPaginated(input: ListConnectorsInput) -> ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListConnectorsInput, ListConnectorsOutputResponse>(input: input, inputKey: \ListConnectorsInput.nextToken, outputKey: \ListConnectorsOutputResponse.nextToken, paginationFunction: self.listConnectors(input:))
     }
@@ -120,24 +116,23 @@ extension ListConnectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listConnectorsPaginated`
-/// to access the nested member `[TransferClientTypes.ListedConnector]`
-/// - Returns: `[TransferClientTypes.ListedConnector]`
 extension PaginatorSequence where Input == ListConnectorsInput, Output == ListConnectorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listConnectorsPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedConnector]`
+    /// - Returns: `[TransferClientTypes.ListedConnector]`
     public func connectors() async throws -> [TransferClientTypes.ListedConnector] {
         return try await self.asyncCompactMap { item in item.connectors }
     }
 }
-
-/// Paginate over `[ListExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExecutionsOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExecutionsOutputResponse`
     public func listExecutionsPaginated(input: ListExecutionsInput) -> ClientRuntime.PaginatorSequence<ListExecutionsInput, ListExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExecutionsInput, ListExecutionsOutputResponse>(input: input, inputKey: \ListExecutionsInput.nextToken, outputKey: \ListExecutionsOutputResponse.nextToken, paginationFunction: self.listExecutions(input:))
     }
@@ -152,24 +147,23 @@ extension ListExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listExecutionsPaginated`
-/// to access the nested member `[TransferClientTypes.ListedExecution]`
-/// - Returns: `[TransferClientTypes.ListedExecution]`
 extension PaginatorSequence where Input == ListExecutionsInput, Output == ListExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExecutionsPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedExecution]`
+    /// - Returns: `[TransferClientTypes.ListedExecution]`
     public func executions() async throws -> [TransferClientTypes.ListedExecution] {
         return try await self.asyncCompactMap { item in item.executions }
     }
 }
-
-/// Paginate over `[ListProfilesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProfilesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProfilesOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListProfilesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProfilesOutputResponse`
     public func listProfilesPaginated(input: ListProfilesInput) -> ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProfilesInput, ListProfilesOutputResponse>(input: input, inputKey: \ListProfilesInput.nextToken, outputKey: \ListProfilesOutputResponse.nextToken, paginationFunction: self.listProfiles(input:))
     }
@@ -184,24 +178,23 @@ extension ListProfilesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProfilesPaginated`
-/// to access the nested member `[TransferClientTypes.ListedProfile]`
-/// - Returns: `[TransferClientTypes.ListedProfile]`
 extension PaginatorSequence where Input == ListProfilesInput, Output == ListProfilesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProfilesPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedProfile]`
+    /// - Returns: `[TransferClientTypes.ListedProfile]`
     public func profiles() async throws -> [TransferClientTypes.ListedProfile] {
         return try await self.asyncCompactMap { item in item.profiles }
     }
 }
-
-/// Paginate over `[ListSecurityPoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSecurityPoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSecurityPoliciesOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListSecurityPoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityPoliciesOutputResponse`
     public func listSecurityPoliciesPaginated(input: ListSecurityPoliciesInput) -> ClientRuntime.PaginatorSequence<ListSecurityPoliciesInput, ListSecurityPoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSecurityPoliciesInput, ListSecurityPoliciesOutputResponse>(input: input, inputKey: \ListSecurityPoliciesInput.nextToken, outputKey: \ListSecurityPoliciesOutputResponse.nextToken, paginationFunction: self.listSecurityPolicies(input:))
     }
@@ -215,24 +208,23 @@ extension ListSecurityPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSecurityPoliciesPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListSecurityPoliciesInput, Output == ListSecurityPoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityPoliciesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func securityPolicyNames() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.securityPolicyNames }
     }
 }
-
-/// Paginate over `[ListServersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListServersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListServersOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListServersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServersOutputResponse`
     public func listServersPaginated(input: ListServersInput) -> ClientRuntime.PaginatorSequence<ListServersInput, ListServersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListServersInput, ListServersOutputResponse>(input: input, inputKey: \ListServersInput.nextToken, outputKey: \ListServersOutputResponse.nextToken, paginationFunction: self.listServers(input:))
     }
@@ -246,24 +238,23 @@ extension ListServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listServersPaginated`
-/// to access the nested member `[TransferClientTypes.ListedServer]`
-/// - Returns: `[TransferClientTypes.ListedServer]`
 extension PaginatorSequence where Input == ListServersInput, Output == ListServersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listServersPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedServer]`
+    /// - Returns: `[TransferClientTypes.ListedServer]`
     public func servers() async throws -> [TransferClientTypes.ListedServer] {
         return try await self.asyncCompactMap { item in item.servers }
     }
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
@@ -278,24 +269,23 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
-/// to access the nested member `[TransferClientTypes.Tag]`
-/// - Returns: `[TransferClientTypes.Tag]`
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[TransferClientTypes.Tag]`
+    /// - Returns: `[TransferClientTypes.Tag]`
     public func tags() async throws -> [TransferClientTypes.Tag] {
         return try await self.asyncCompactMap { item in item.tags }
     }
 }
-
-/// Paginate over `[ListUsersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListUsersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListUsersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUsersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
     }
@@ -310,24 +300,23 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
-/// to access the nested member `[TransferClientTypes.ListedUser]`
-/// - Returns: `[TransferClientTypes.ListedUser]`
 extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedUser]`
+    /// - Returns: `[TransferClientTypes.ListedUser]`
     public func users() async throws -> [TransferClientTypes.ListedUser] {
         return try await self.asyncCompactMap { item in item.users }
     }
 }
-
-/// Paginate over `[ListWorkflowsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListWorkflowsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutputResponse`
 extension TransferClient {
+    /// Paginate over `[ListWorkflowsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListWorkflowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListWorkflowsOutputResponse`
     public func listWorkflowsPaginated(input: ListWorkflowsInput) -> ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListWorkflowsInput, ListWorkflowsOutputResponse>(input: input, inputKey: \ListWorkflowsInput.nextToken, outputKey: \ListWorkflowsOutputResponse.nextToken, paginationFunction: self.listWorkflows(input:))
     }
@@ -341,10 +330,10 @@ extension ListWorkflowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listWorkflowsPaginated`
-/// to access the nested member `[TransferClientTypes.ListedWorkflow]`
-/// - Returns: `[TransferClientTypes.ListedWorkflow]`
 extension PaginatorSequence where Input == ListWorkflowsInput, Output == ListWorkflowsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorkflowsPaginated`
+    /// to access the nested member `[TransferClientTypes.ListedWorkflow]`
+    /// - Returns: `[TransferClientTypes.ListedWorkflow]`
     public func workflows() async throws -> [TransferClientTypes.ListedWorkflow] {
         return try await self.asyncCompactMap { item in item.workflows }
     }

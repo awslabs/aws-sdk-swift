@@ -8,13 +8,13 @@ import ClientRuntime
 ///
 /// and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:
 ///
-/// * Amazon EC2: [AmazonEC2 product page](http://aws.amazon.com/ec2), [Amazon EC2 documentation](http://aws.amazon.com/documentation/ec2)
+/// * Amazon EC2: [Amazon EC2 product page](http://aws.amazon.com/ec2), [Amazon EC2 documentation](https://docs.aws.amazon.com/ec2/index.html)
 ///
-/// * Amazon EBS: [Amazon EBS product page](http://aws.amazon.com/ebs), [Amazon EBS documentation](http://aws.amazon.com/documentation/ebs)
+/// * Amazon EBS: [Amazon EBS product page](http://aws.amazon.com/ebs), [Amazon EBS documentation](https://docs.aws.amazon.com/ebs/index.html)
 ///
-/// * Amazon VPC: [Amazon VPC product page](http://aws.amazon.com/vpc), [Amazon VPC documentation](http://aws.amazon.com/documentation/vpc)
+/// * Amazon VPC: [Amazon VPC product page](http://aws.amazon.com/vpc), [Amazon VPC documentation](https://docs.aws.amazon.com/vpc/index.html)
 ///
-/// * Amazon Web Services VPN: [Amazon Web Services VPN product page](http://aws.amazon.com/vpn), [Amazon Web Services VPN documentation](http://aws.amazon.com/documentation/vpn)
+/// * VPN: [VPN product page](http://aws.amazon.com/vpn), [VPN documentation](https://docs.aws.amazon.com/vpn/index.html)
 public protocol EC2ClientProtocol {
     /// Accepts an Elastic IP address transfer. For more information, see [Accept a transferred Elastic IP address](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-eips.html#using-instance-addressing-eips-transfer-accept) in the Amazon Virtual Private Cloud User Guide.
     func acceptAddressTransfer(input: AcceptAddressTransferInput) async throws -> AcceptAddressTransferOutputResponse
@@ -26,7 +26,7 @@ public protocol EC2ClientProtocol {
     func acceptTransitGatewayPeeringAttachment(input: AcceptTransitGatewayPeeringAttachmentInput) async throws -> AcceptTransitGatewayPeeringAttachmentOutputResponse
     /// Accepts a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [RejectTransitGatewayVpcAttachment] to reject a VPC attachment request.
     func acceptTransitGatewayVpcAttachment(input: AcceptTransitGatewayVpcAttachmentInput) async throws -> AcceptTransitGatewayVpcAttachmentOutputResponse
-    /// Accepts one or more interface VPC endpoint connection requests to your VPC endpoint service.
+    /// Accepts connection requests to your VPC endpoint service.
     func acceptVpcEndpointConnections(input: AcceptVpcEndpointConnectionsInput) async throws -> AcceptVpcEndpointConnectionsOutputResponse
     /// Accept a VPC peering connection request. To accept a request, the VPC peering connection must be in the pending-acceptance state, and you must be the owner of the peer VPC. Use [DescribeVpcPeeringConnections] to view your outstanding VPC peering connection requests. For an inter-Region VPC peering connection request, you must accept the VPC peering connection in the Region of the accepter VPC.
     func acceptVpcPeeringConnection(input: AcceptVpcPeeringConnectionInput) async throws -> AcceptVpcPeeringConnectionOutputResponse
@@ -264,7 +264,7 @@ public protocol EC2ClientProtocol {
     func createSpotDatafeedSubscription(input: CreateSpotDatafeedSubscriptionInput) async throws -> CreateSpotDatafeedSubscriptionOutputResponse
     /// Stores an AMI as a single object in an Amazon S3 bucket. To use this API, you must have the required permissions. For more information, see [Permissions for storing and restoring AMIs using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html#ami-s3-permissions) in the Amazon EC2 User Guide. For more information, see [Store and restore an AMI using Amazon S3](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-store-restore.html) in the Amazon EC2 User Guide.
     func createStoreImageTask(input: CreateStoreImageTaskInput) async throws -> CreateStoreImageTaskOutputResponse
-    /// Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet. After you create a subnet, you can't change its CIDR block. The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses). The CIDR block must not overlap with the CIDR block of an existing subnet in the VPC. If you've associated an IPv6 CIDR block with your VPC, you can create a subnet with an IPv6 CIDR block that uses a /64 prefix length. Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for use. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information about subnets, see [Your VPC and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block with a subnet when you create it. The allowed block size for an IPv6 subnet is a /64 netmask. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon Virtual Private Cloud User Guide.
     func createSubnet(input: CreateSubnetInput) async throws -> CreateSubnetOutputResponse
     /// Creates a subnet CIDR reservation. For information about subnet CIDR reservations, see [Subnet CIDR reservations](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-cidr-reservation.html) in the Amazon Virtual Private Cloud User Guide.
     func createSubnetCidrReservation(input: CreateSubnetCidrReservationInput) async throws -> CreateSubnetCidrReservationOutputResponse
@@ -310,13 +310,13 @@ public protocol EC2ClientProtocol {
     func createVerifiedAccessTrustProvider(input: CreateVerifiedAccessTrustProviderInput) async throws -> CreateVerifiedAccessTrustProviderOutputResponse
     /// Creates an EBS volume that can be attached to an instance in the same Availability Zone. You can create a new empty volume or restore a volume from an EBS snapshot. Any Amazon Web Services Marketplace product codes from the snapshot are propagated to the volume. You can create encrypted volumes. Encrypted volumes must be attached to instances that support Amazon EBS encryption. Volumes that are created from encrypted snapshots are also automatically encrypted. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html) in the Amazon Elastic Compute Cloud User Guide. You can tag your volumes during creation. For more information, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon Elastic Compute Cloud User Guide. For more information, see [Create an Amazon EBS volume](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html) in the Amazon Elastic Compute Cloud User Guide.
     func createVolume(input: CreateVolumeInput) async throws -> CreateVolumeOutputResponse
-    /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). For more information about how large to make your VPC, see [Your VPC and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a VPC with the specified CIDR blocks. For more information, see [VPC CIDR blocks](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html#vpc-cidr-blocks) in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance that you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon Elastic Compute Cloud User Guide.
     func createVpc(input: CreateVpcInput) async throws -> CreateVpcOutputResponse
     /// Creates a VPC endpoint for a specified service. An endpoint enables you to create a private connection between your VPC and the service. The service may be provided by Amazon Web Services, an Amazon Web Services Marketplace Partner, or another Amazon Web Services account. For more information, see the [Amazon Web Services PrivateLink Guide](https://docs.aws.amazon.com/vpc/latest/privatelink/).
     func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutputResponse
     /// Creates a connection notification for a specified VPC endpoint or VPC endpoint service. A connection notification notifies you of specific endpoint events. You must create an SNS topic to receive notifications. For more information, see [Create a Topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html) in the Amazon Simple Notification Service Developer Guide. You can create a connection notification for interface endpoints only.
     func createVpcEndpointConnectionNotification(input: CreateVpcEndpointConnectionNotificationInput) async throws -> CreateVpcEndpointConnectionNotificationOutputResponse
-    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, IAM users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:
+    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:
     ///
     /// * A [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/). Service consumers connect to your service using an interface endpoint.
     ///
@@ -470,26 +470,11 @@ public protocol EC2ClientProtocol {
     func deleteVolume(input: DeleteVolumeInput) async throws -> DeleteVolumeOutputResponse
     /// Deletes the specified VPC. You must detach or delete all gateways and resources that are associated with the VPC before you can delete it. For example, you must terminate all instances running in the VPC, delete all security groups associated with the VPC (except the default one), delete all route tables associated with the VPC (except the default one), and so on.
     func deleteVpc(input: DeleteVpcInput) async throws -> DeleteVpcOutputResponse
-    /// Deletes one or more VPC endpoint connection notifications.
+    /// Deletes the specified VPC endpoint connection notifications.
     func deleteVpcEndpointConnectionNotifications(input: DeleteVpcEndpointConnectionNotificationsInput) async throws -> DeleteVpcEndpointConnectionNotificationsOutputResponse
-    /// Deletes one or more specified VPC endpoints. You can delete any of the following types of VPC endpoints.
-    ///
-    /// * Gateway endpoint,
-    ///
-    /// * Gateway Load Balancer endpoint,
-    ///
-    /// * Interface endpoint
-    ///
-    ///
-    /// The following rules apply when you delete a VPC endpoint:
-    ///
-    /// * When you delete a gateway endpoint, we delete the endpoint routes in the route tables that are associated with the endpoint.
-    ///
-    /// * When you delete a Gateway Load Balancer endpoint, we delete the endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted.
-    ///
-    /// * When you delete an interface endpoint, we delete the endpoint network interfaces.
+    /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces.
     func deleteVpcEndpoints(input: DeleteVpcEndpointsInput) async throws -> DeleteVpcEndpointsOutputResponse
-    /// Deletes one or more VPC endpoint service configurations in your account. Before you delete the endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
+    /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
     func deleteVpcEndpointServiceConfigurations(input: DeleteVpcEndpointServiceConfigurationsInput) async throws -> DeleteVpcEndpointServiceConfigurationsOutputResponse
     /// Deletes a VPC peering connection. Either the owner of the requester VPC or the owner of the accepter VPC can delete the VPC peering connection if it's in the active state. The owner of the requester VPC can delete a VPC peering connection in the pending-acceptance state. You cannot delete a VPC peering connection that's in the failed state.
     func deleteVpcPeeringConnection(input: DeleteVpcPeeringConnectionInput) async throws -> DeleteVpcPeeringConnectionOutputResponse
@@ -811,7 +796,7 @@ public protocol EC2ClientProtocol {
     func describeVpcEndpointConnectionNotifications(input: DescribeVpcEndpointConnectionNotificationsInput) async throws -> DescribeVpcEndpointConnectionNotificationsOutputResponse
     /// Describes the VPC endpoint connections to your VPC endpoint services, including any endpoints that are pending your acceptance.
     func describeVpcEndpointConnections(input: DescribeVpcEndpointConnectionsInput) async throws -> DescribeVpcEndpointConnectionsOutputResponse
-    /// Describes one or more of your VPC endpoints.
+    /// Describes your VPC endpoints.
     func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutputResponse
     /// Describes the VPC endpoint service configurations in your account (your services).
     func describeVpcEndpointServiceConfigurations(input: DescribeVpcEndpointServiceConfigurationsInput) async throws -> DescribeVpcEndpointServiceConfigurationsOutputResponse
@@ -1169,7 +1154,7 @@ public protocol EC2ClientProtocol {
     func modifyVpcEndpointServiceConfiguration(input: ModifyVpcEndpointServiceConfigurationInput) async throws -> ModifyVpcEndpointServiceConfigurationOutputResponse
     /// Modifies the payer responsibility for your VPC endpoint service.
     func modifyVpcEndpointServicePayerResponsibility(input: ModifyVpcEndpointServicePayerResponsibilityInput) async throws -> ModifyVpcEndpointServicePayerResponsibilityOutputResponse
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (IAM users, IAM roles, and Amazon Web Services accounts) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
     func modifyVpcEndpointServicePermissions(input: ModifyVpcEndpointServicePermissionsInput) async throws -> ModifyVpcEndpointServicePermissionsOutputResponse
     /// We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information, see [Migrate from EC2-Classic to a VPC](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html) in the Amazon Elastic Compute Cloud User Guide. Modifies the VPC peering connection options on one side of a VPC peering connection. You can do the following:
     ///
@@ -1246,7 +1231,7 @@ public protocol EC2ClientProtocol {
     func rejectTransitGatewayPeeringAttachment(input: RejectTransitGatewayPeeringAttachmentInput) async throws -> RejectTransitGatewayPeeringAttachmentOutputResponse
     /// Rejects a request to attach a VPC to a transit gateway. The VPC attachment must be in the pendingAcceptance state. Use [DescribeTransitGatewayVpcAttachments] to view your pending VPC attachment requests. Use [AcceptTransitGatewayVpcAttachment] to accept a VPC attachment request.
     func rejectTransitGatewayVpcAttachment(input: RejectTransitGatewayVpcAttachmentInput) async throws -> RejectTransitGatewayVpcAttachmentOutputResponse
-    /// Rejects one or more VPC endpoint connection requests to your VPC endpoint service.
+    /// Rejects VPC endpoint connection requests to your VPC endpoint service.
     func rejectVpcEndpointConnections(input: RejectVpcEndpointConnectionsInput) async throws -> RejectVpcEndpointConnectionsOutputResponse
     /// Rejects a VPC peering connection request. The VPC peering connection must be in the pending-acceptance state. Use the [DescribeVpcPeeringConnections] request to view your outstanding VPC peering connection requests. To delete an active VPC peering connection, or to delete a VPC peering connection request that you initiated, use [DeleteVpcPeeringConnection].
     func rejectVpcPeeringConnection(input: RejectVpcPeeringConnectionInput) async throws -> RejectVpcPeeringConnectionOutputResponse

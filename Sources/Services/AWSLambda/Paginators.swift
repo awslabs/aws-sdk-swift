@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAliasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAliasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListAliasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAliasesOutputResponse`
     public func listAliasesPaginated(input: ListAliasesInput) -> ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAliasesInput, ListAliasesOutputResponse>(input: input, inputKey: \ListAliasesInput.marker, outputKey: \ListAliasesOutputResponse.nextMarker, paginationFunction: self.listAliases(input:))
     }
@@ -27,24 +26,23 @@ extension ListAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
-/// to access the nested member `[LambdaClientTypes.AliasConfiguration]`
-/// - Returns: `[LambdaClientTypes.AliasConfiguration]`
 extension PaginatorSequence where Input == ListAliasesInput, Output == ListAliasesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAliasesPaginated`
+    /// to access the nested member `[LambdaClientTypes.AliasConfiguration]`
+    /// - Returns: `[LambdaClientTypes.AliasConfiguration]`
     public func aliases() async throws -> [LambdaClientTypes.AliasConfiguration] {
         return try await self.asyncCompactMap { item in item.aliases }
     }
 }
-
-/// Paginate over `[ListCodeSigningConfigsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCodeSigningConfigsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCodeSigningConfigsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListCodeSigningConfigsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCodeSigningConfigsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCodeSigningConfigsOutputResponse`
     public func listCodeSigningConfigsPaginated(input: ListCodeSigningConfigsInput) -> ClientRuntime.PaginatorSequence<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutputResponse>(input: input, inputKey: \ListCodeSigningConfigsInput.marker, outputKey: \ListCodeSigningConfigsOutputResponse.nextMarker, paginationFunction: self.listCodeSigningConfigs(input:))
     }
@@ -58,24 +56,23 @@ extension ListCodeSigningConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCodeSigningConfigsPaginated`
-/// to access the nested member `[LambdaClientTypes.CodeSigningConfig]`
-/// - Returns: `[LambdaClientTypes.CodeSigningConfig]`
 extension PaginatorSequence where Input == ListCodeSigningConfigsInput, Output == ListCodeSigningConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCodeSigningConfigsPaginated`
+    /// to access the nested member `[LambdaClientTypes.CodeSigningConfig]`
+    /// - Returns: `[LambdaClientTypes.CodeSigningConfig]`
     public func codeSigningConfigs() async throws -> [LambdaClientTypes.CodeSigningConfig] {
         return try await self.asyncCompactMap { item in item.codeSigningConfigs }
     }
 }
-
-/// Paginate over `[ListEventSourceMappingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEventSourceMappingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEventSourceMappingsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListEventSourceMappingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventSourceMappingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventSourceMappingsOutputResponse`
     public func listEventSourceMappingsPaginated(input: ListEventSourceMappingsInput) -> ClientRuntime.PaginatorSequence<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEventSourceMappingsInput, ListEventSourceMappingsOutputResponse>(input: input, inputKey: \ListEventSourceMappingsInput.marker, outputKey: \ListEventSourceMappingsOutputResponse.nextMarker, paginationFunction: self.listEventSourceMappings(input:))
     }
@@ -91,24 +88,23 @@ extension ListEventSourceMappingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listEventSourceMappingsPaginated`
-/// to access the nested member `[LambdaClientTypes.EventSourceMappingConfiguration]`
-/// - Returns: `[LambdaClientTypes.EventSourceMappingConfiguration]`
 extension PaginatorSequence where Input == ListEventSourceMappingsInput, Output == ListEventSourceMappingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventSourceMappingsPaginated`
+    /// to access the nested member `[LambdaClientTypes.EventSourceMappingConfiguration]`
+    /// - Returns: `[LambdaClientTypes.EventSourceMappingConfiguration]`
     public func eventSourceMappings() async throws -> [LambdaClientTypes.EventSourceMappingConfiguration] {
         return try await self.asyncCompactMap { item in item.eventSourceMappings }
     }
 }
-
-/// Paginate over `[ListFunctionEventInvokeConfigsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFunctionEventInvokeConfigsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFunctionEventInvokeConfigsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListFunctionEventInvokeConfigsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFunctionEventInvokeConfigsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionEventInvokeConfigsOutputResponse`
     public func listFunctionEventInvokeConfigsPaginated(input: ListFunctionEventInvokeConfigsInput) -> ClientRuntime.PaginatorSequence<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutputResponse>(input: input, inputKey: \ListFunctionEventInvokeConfigsInput.marker, outputKey: \ListFunctionEventInvokeConfigsOutputResponse.nextMarker, paginationFunction: self.listFunctionEventInvokeConfigs(input:))
     }
@@ -123,24 +119,23 @@ extension ListFunctionEventInvokeConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFunctionEventInvokeConfigsPaginated`
-/// to access the nested member `[LambdaClientTypes.FunctionEventInvokeConfig]`
-/// - Returns: `[LambdaClientTypes.FunctionEventInvokeConfig]`
 extension PaginatorSequence where Input == ListFunctionEventInvokeConfigsInput, Output == ListFunctionEventInvokeConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFunctionEventInvokeConfigsPaginated`
+    /// to access the nested member `[LambdaClientTypes.FunctionEventInvokeConfig]`
+    /// - Returns: `[LambdaClientTypes.FunctionEventInvokeConfig]`
     public func functionEventInvokeConfigs() async throws -> [LambdaClientTypes.FunctionEventInvokeConfig] {
         return try await self.asyncCompactMap { item in item.functionEventInvokeConfigs }
     }
 }
-
-/// Paginate over `[ListFunctionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFunctionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListFunctionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFunctionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsOutputResponse`
     public func listFunctionsPaginated(input: ListFunctionsInput) -> ClientRuntime.PaginatorSequence<ListFunctionsInput, ListFunctionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFunctionsInput, ListFunctionsOutputResponse>(input: input, inputKey: \ListFunctionsInput.marker, outputKey: \ListFunctionsOutputResponse.nextMarker, paginationFunction: self.listFunctions(input:))
     }
@@ -156,24 +151,23 @@ extension ListFunctionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFunctionsPaginated`
-/// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
-/// - Returns: `[LambdaClientTypes.FunctionConfiguration]`
 extension PaginatorSequence where Input == ListFunctionsInput, Output == ListFunctionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFunctionsPaginated`
+    /// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
+    /// - Returns: `[LambdaClientTypes.FunctionConfiguration]`
     public func functions() async throws -> [LambdaClientTypes.FunctionConfiguration] {
         return try await self.asyncCompactMap { item in item.functions }
     }
 }
-
-/// Paginate over `[ListFunctionsByCodeSigningConfigOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFunctionsByCodeSigningConfigInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsByCodeSigningConfigOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListFunctionsByCodeSigningConfigOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFunctionsByCodeSigningConfigInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionsByCodeSigningConfigOutputResponse`
     public func listFunctionsByCodeSigningConfigPaginated(input: ListFunctionsByCodeSigningConfigInput) -> ClientRuntime.PaginatorSequence<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutputResponse>(input: input, inputKey: \ListFunctionsByCodeSigningConfigInput.marker, outputKey: \ListFunctionsByCodeSigningConfigOutputResponse.nextMarker, paginationFunction: self.listFunctionsByCodeSigningConfig(input:))
     }
@@ -188,24 +182,23 @@ extension ListFunctionsByCodeSigningConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFunctionsByCodeSigningConfigPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListFunctionsByCodeSigningConfigInput, Output == ListFunctionsByCodeSigningConfigOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFunctionsByCodeSigningConfigPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func functionArns() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.functionArns }
     }
 }
-
-/// Paginate over `[ListFunctionUrlConfigsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFunctionUrlConfigsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFunctionUrlConfigsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListFunctionUrlConfigsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFunctionUrlConfigsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFunctionUrlConfigsOutputResponse`
     public func listFunctionUrlConfigsPaginated(input: ListFunctionUrlConfigsInput) -> ClientRuntime.PaginatorSequence<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutputResponse>(input: input, inputKey: \ListFunctionUrlConfigsInput.marker, outputKey: \ListFunctionUrlConfigsOutputResponse.nextMarker, paginationFunction: self.listFunctionUrlConfigs(input:))
     }
@@ -220,24 +213,23 @@ extension ListFunctionUrlConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFunctionUrlConfigsPaginated`
-/// to access the nested member `[LambdaClientTypes.FunctionUrlConfig]`
-/// - Returns: `[LambdaClientTypes.FunctionUrlConfig]`
 extension PaginatorSequence where Input == ListFunctionUrlConfigsInput, Output == ListFunctionUrlConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFunctionUrlConfigsPaginated`
+    /// to access the nested member `[LambdaClientTypes.FunctionUrlConfig]`
+    /// - Returns: `[LambdaClientTypes.FunctionUrlConfig]`
     public func functionUrlConfigs() async throws -> [LambdaClientTypes.FunctionUrlConfig] {
         return try await self.asyncCompactMap { item in item.functionUrlConfigs }
     }
 }
-
-/// Paginate over `[ListLayersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListLayersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListLayersOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListLayersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLayersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLayersOutputResponse`
     public func listLayersPaginated(input: ListLayersInput) -> ClientRuntime.PaginatorSequence<ListLayersInput, ListLayersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListLayersInput, ListLayersOutputResponse>(input: input, inputKey: \ListLayersInput.marker, outputKey: \ListLayersOutputResponse.nextMarker, paginationFunction: self.listLayers(input:))
     }
@@ -253,24 +245,23 @@ extension ListLayersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listLayersPaginated`
-/// to access the nested member `[LambdaClientTypes.LayersListItem]`
-/// - Returns: `[LambdaClientTypes.LayersListItem]`
 extension PaginatorSequence where Input == ListLayersInput, Output == ListLayersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listLayersPaginated`
+    /// to access the nested member `[LambdaClientTypes.LayersListItem]`
+    /// - Returns: `[LambdaClientTypes.LayersListItem]`
     public func layers() async throws -> [LambdaClientTypes.LayersListItem] {
         return try await self.asyncCompactMap { item in item.layers }
     }
 }
-
-/// Paginate over `[ListLayerVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListLayerVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListLayerVersionsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListLayerVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLayerVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLayerVersionsOutputResponse`
     public func listLayerVersionsPaginated(input: ListLayerVersionsInput) -> ClientRuntime.PaginatorSequence<ListLayerVersionsInput, ListLayerVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListLayerVersionsInput, ListLayerVersionsOutputResponse>(input: input, inputKey: \ListLayerVersionsInput.marker, outputKey: \ListLayerVersionsOutputResponse.nextMarker, paginationFunction: self.listLayerVersions(input:))
     }
@@ -287,24 +278,23 @@ extension ListLayerVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listLayerVersionsPaginated`
-/// to access the nested member `[LambdaClientTypes.LayerVersionsListItem]`
-/// - Returns: `[LambdaClientTypes.LayerVersionsListItem]`
 extension PaginatorSequence where Input == ListLayerVersionsInput, Output == ListLayerVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listLayerVersionsPaginated`
+    /// to access the nested member `[LambdaClientTypes.LayerVersionsListItem]`
+    /// - Returns: `[LambdaClientTypes.LayerVersionsListItem]`
     public func layerVersions() async throws -> [LambdaClientTypes.LayerVersionsListItem] {
         return try await self.asyncCompactMap { item in item.layerVersions }
     }
 }
-
-/// Paginate over `[ListProvisionedConcurrencyConfigsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProvisionedConcurrencyConfigsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProvisionedConcurrencyConfigsOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListProvisionedConcurrencyConfigsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProvisionedConcurrencyConfigsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProvisionedConcurrencyConfigsOutputResponse`
     public func listProvisionedConcurrencyConfigsPaginated(input: ListProvisionedConcurrencyConfigsInput) -> ClientRuntime.PaginatorSequence<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutputResponse>(input: input, inputKey: \ListProvisionedConcurrencyConfigsInput.marker, outputKey: \ListProvisionedConcurrencyConfigsOutputResponse.nextMarker, paginationFunction: self.listProvisionedConcurrencyConfigs(input:))
     }
@@ -319,24 +309,23 @@ extension ListProvisionedConcurrencyConfigsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProvisionedConcurrencyConfigsPaginated`
-/// to access the nested member `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
-/// - Returns: `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
 extension PaginatorSequence where Input == ListProvisionedConcurrencyConfigsInput, Output == ListProvisionedConcurrencyConfigsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProvisionedConcurrencyConfigsPaginated`
+    /// to access the nested member `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
+    /// - Returns: `[LambdaClientTypes.ProvisionedConcurrencyConfigListItem]`
     public func provisionedConcurrencyConfigs() async throws -> [LambdaClientTypes.ProvisionedConcurrencyConfigListItem] {
         return try await self.asyncCompactMap { item in item.provisionedConcurrencyConfigs }
     }
 }
-
-/// Paginate over `[ListVersionsByFunctionOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListVersionsByFunctionInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListVersionsByFunctionOutputResponse`
 extension LambdaClient {
+    /// Paginate over `[ListVersionsByFunctionOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVersionsByFunctionInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVersionsByFunctionOutputResponse`
     public func listVersionsByFunctionPaginated(input: ListVersionsByFunctionInput) -> ClientRuntime.PaginatorSequence<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListVersionsByFunctionInput, ListVersionsByFunctionOutputResponse>(input: input, inputKey: \ListVersionsByFunctionInput.marker, outputKey: \ListVersionsByFunctionOutputResponse.nextMarker, paginationFunction: self.listVersionsByFunction(input:))
     }
@@ -351,10 +340,10 @@ extension ListVersionsByFunctionInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listVersionsByFunctionPaginated`
-/// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
-/// - Returns: `[LambdaClientTypes.FunctionConfiguration]`
 extension PaginatorSequence where Input == ListVersionsByFunctionInput, Output == ListVersionsByFunctionOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listVersionsByFunctionPaginated`
+    /// to access the nested member `[LambdaClientTypes.FunctionConfiguration]`
+    /// - Returns: `[LambdaClientTypes.FunctionConfiguration]`
     public func versions() async throws -> [LambdaClientTypes.FunctionConfiguration] {
         return try await self.asyncCompactMap { item in item.versions }
     }

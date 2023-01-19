@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListFHIRDatastoresOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFHIRDatastoresInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFHIRDatastoresOutputResponse`
 extension HealthLakeClient {
+    /// Paginate over `[ListFHIRDatastoresOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFHIRDatastoresInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRDatastoresOutputResponse`
     public func listFHIRDatastoresPaginated(input: ListFHIRDatastoresInput) -> ClientRuntime.PaginatorSequence<ListFHIRDatastoresInput, ListFHIRDatastoresOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFHIRDatastoresInput, ListFHIRDatastoresOutputResponse>(input: input, inputKey: \ListFHIRDatastoresInput.nextToken, outputKey: \ListFHIRDatastoresOutputResponse.nextToken, paginationFunction: self.listFHIRDatastores(input:))
     }
@@ -25,16 +24,15 @@ extension ListFHIRDatastoresInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListFHIRExportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFHIRExportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFHIRExportJobsOutputResponse`
 extension HealthLakeClient {
+    /// Paginate over `[ListFHIRExportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFHIRExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRExportJobsOutputResponse`
     public func listFHIRExportJobsPaginated(input: ListFHIRExportJobsInput) -> ClientRuntime.PaginatorSequence<ListFHIRExportJobsInput, ListFHIRExportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFHIRExportJobsInput, ListFHIRExportJobsOutputResponse>(input: input, inputKey: \ListFHIRExportJobsInput.nextToken, outputKey: \ListFHIRExportJobsOutputResponse.nextToken, paginationFunction: self.listFHIRExportJobs(input:))
     }
@@ -52,16 +50,15 @@ extension ListFHIRExportJobsInput: ClientRuntime.PaginateToken {
             submittedBefore: self.submittedBefore
         )}
 }
-
-/// Paginate over `[ListFHIRImportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFHIRImportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFHIRImportJobsOutputResponse`
 extension HealthLakeClient {
+    /// Paginate over `[ListFHIRImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFHIRImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFHIRImportJobsOutputResponse`
     public func listFHIRImportJobsPaginated(input: ListFHIRImportJobsInput) -> ClientRuntime.PaginatorSequence<ListFHIRImportJobsInput, ListFHIRImportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFHIRImportJobsInput, ListFHIRImportJobsOutputResponse>(input: input, inputKey: \ListFHIRImportJobsInput.nextToken, outputKey: \ListFHIRImportJobsOutputResponse.nextToken, paginationFunction: self.listFHIRImportJobs(input:))
     }

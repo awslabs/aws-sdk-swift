@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListStreamConsumersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStreamConsumersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStreamConsumersOutputResponse`
 extension KinesisClient {
+    /// Paginate over `[ListStreamConsumersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamConsumersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamConsumersOutputResponse`
     public func listStreamConsumersPaginated(input: ListStreamConsumersInput) -> ClientRuntime.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutputResponse>(input: input, inputKey: \ListStreamConsumersInput.nextToken, outputKey: \ListStreamConsumersOutputResponse.nextToken, paginationFunction: self.listStreamConsumers(input:))
     }
@@ -26,16 +25,15 @@ extension ListStreamConsumersInput: ClientRuntime.PaginateToken {
             streamCreationTimestamp: self.streamCreationTimestamp
         )}
 }
-
-/// Paginate over `[ListStreamsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStreamsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutputResponse`
 extension KinesisClient {
+    /// Paginate over `[ListStreamsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStreamsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStreamsOutputResponse`
     public func listStreamsPaginated(input: ListStreamsInput) -> ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStreamsInput, ListStreamsOutputResponse>(input: input, inputKey: \ListStreamsInput.nextToken, outputKey: \ListStreamsOutputResponse.nextToken, paginationFunction: self.listStreams(input:))
     }

@@ -2124,7 +2124,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
+    /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public func describeCertificates(input: DescribeCertificatesInput) async throws -> DescribeCertificatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5175,7 +5175,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Starts a database activity stream to monitor activity on the database. For more information, see [Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide.
+    /// Starts a database activity stream to monitor activity on the database. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
     public func startActivityStream(input: StartActivityStreamInput) async throws -> StartActivityStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5365,7 +5365,7 @@ extension RDSClient: RDSClientProtocol {
         return result
     }
 
-    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream action. For more information, see [Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide.
+    /// Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream action. For more information, see [ Monitoring Amazon Aurora with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/DBActivityStreams.html) in the Amazon Aurora User Guide or [ Monitoring Amazon RDS with Database Activity Streams](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/DBActivityStreams.html) in the Amazon RDS User Guide.
     public func stopActivityStream(input: StopActivityStreamInput) async throws -> StopActivityStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

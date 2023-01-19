@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListGroupResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutputResponse`
 extension ResourceGroupsClient {
+    /// Paginate over `[ListGroupResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutputResponse`
     public func listGroupResourcesPaginated(input: ListGroupResourcesInput) -> ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutputResponse>(input: input, inputKey: \ListGroupResourcesInput.nextToken, outputKey: \ListGroupResourcesOutputResponse.nextToken, paginationFunction: self.listGroupResources(input:))
     }
@@ -28,15 +27,23 @@ extension ListGroupResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
+extension PaginatorSequence where Input == ListGroupResourcesInput, Output == ListGroupResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGroupResourcesPaginated`
+    /// to access the nested member `[ResourceGroupsClientTypes.ResourceIdentifier]`
+    /// - Returns: `[ResourceGroupsClientTypes.ResourceIdentifier]`
+    public func resourceIdentifiers() async throws -> [ResourceGroupsClientTypes.ResourceIdentifier] {
+        return try await self.asyncCompactMap { item in item.resourceIdentifiers }
+    }
+}
 extension ResourceGroupsClient {
+    /// Paginate over `[ListGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutputResponse.nextToken, paginationFunction: self.listGroups(input:))
     }
@@ -51,15 +58,23 @@ extension ListGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[SearchResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutputResponse`
+extension PaginatorSequence where Input == ListGroupsInput, Output == ListGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGroupsPaginated`
+    /// to access the nested member `[ResourceGroupsClientTypes.GroupIdentifier]`
+    /// - Returns: `[ResourceGroupsClientTypes.GroupIdentifier]`
+    public func groupIdentifiers() async throws -> [ResourceGroupsClientTypes.GroupIdentifier] {
+        return try await self.asyncCompactMap { item in item.groupIdentifiers }
+    }
+}
 extension ResourceGroupsClient {
+    /// Paginate over `[SearchResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchResourcesOutputResponse`
     public func searchResourcesPaginated(input: SearchResourcesInput) -> ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchResourcesInput, SearchResourcesOutputResponse>(input: input, inputKey: \SearchResourcesInput.nextToken, outputKey: \SearchResourcesOutputResponse.nextToken, paginationFunction: self.searchResources(input:))
     }
@@ -72,4 +87,13 @@ extension SearchResourcesInput: ClientRuntime.PaginateToken {
             nextToken: token,
             resourceQuery: self.resourceQuery
         )}
+}
+
+extension PaginatorSequence where Input == SearchResourcesInput, Output == SearchResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchResourcesPaginated`
+    /// to access the nested member `[ResourceGroupsClientTypes.ResourceIdentifier]`
+    /// - Returns: `[ResourceGroupsClientTypes.ResourceIdentifier]`
+    public func resourceIdentifiers() async throws -> [ResourceGroupsClientTypes.ResourceIdentifier] {
+        return try await self.asyncCompactMap { item in item.resourceIdentifiers }
+    }
 }

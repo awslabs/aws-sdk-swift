@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListApplicationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListApplicationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
 extension SsmSapClient {
+    /// Paginate over `[ListApplicationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListApplicationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListApplicationsOutputResponse`
     public func listApplicationsPaginated(input: ListApplicationsInput) -> ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListApplicationsInput, ListApplicationsOutputResponse>(input: input, inputKey: \ListApplicationsInput.nextToken, outputKey: \ListApplicationsOutputResponse.nextToken, paginationFunction: self.listApplications(input:))
     }
@@ -25,24 +24,23 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
-/// to access the nested member `[SsmSapClientTypes.ApplicationSummary]`
-/// - Returns: `[SsmSapClientTypes.ApplicationSummary]`
 extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.ApplicationSummary]`
+    /// - Returns: `[SsmSapClientTypes.ApplicationSummary]`
     public func applications() async throws -> [SsmSapClientTypes.ApplicationSummary] {
         return try await self.asyncCompactMap { item in item.applications }
     }
 }
-
-/// Paginate over `[ListComponentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComponentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutputResponse`
 extension SsmSapClient {
+    /// Paginate over `[ListComponentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComponentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutputResponse`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutputResponse.nextToken, paginationFunction: self.listComponents(input:))
     }
@@ -57,24 +55,23 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
-/// to access the nested member `[SsmSapClientTypes.ComponentSummary]`
-/// - Returns: `[SsmSapClientTypes.ComponentSummary]`
 extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.ComponentSummary]`
+    /// - Returns: `[SsmSapClientTypes.ComponentSummary]`
     public func components() async throws -> [SsmSapClientTypes.ComponentSummary] {
         return try await self.asyncCompactMap { item in item.components }
     }
 }
-
-/// Paginate over `[ListDatabasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDatabasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutputResponse`
 extension SsmSapClient {
+    /// Paginate over `[ListDatabasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatabasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatabasesOutputResponse`
     public func listDatabasesPaginated(input: ListDatabasesInput) -> ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDatabasesInput, ListDatabasesOutputResponse>(input: input, inputKey: \ListDatabasesInput.nextToken, outputKey: \ListDatabasesOutputResponse.nextToken, paginationFunction: self.listDatabases(input:))
     }
@@ -90,10 +87,10 @@ extension ListDatabasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
-/// to access the nested member `[SsmSapClientTypes.DatabaseSummary]`
-/// - Returns: `[SsmSapClientTypes.DatabaseSummary]`
 extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDatabasesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatabasesPaginated`
+    /// to access the nested member `[SsmSapClientTypes.DatabaseSummary]`
+    /// - Returns: `[SsmSapClientTypes.DatabaseSummary]`
     public func databases() async throws -> [SsmSapClientTypes.DatabaseSummary] {
         return try await self.asyncCompactMap { item in item.databases }
     }

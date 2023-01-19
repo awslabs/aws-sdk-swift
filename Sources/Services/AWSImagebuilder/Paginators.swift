@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListComponentBuildVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComponentBuildVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComponentBuildVersionsOutputResponse`
 extension ImagebuilderClient {
+    /// Paginate over `[ListComponentBuildVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComponentBuildVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentBuildVersionsOutputResponse`
     public func listComponentBuildVersionsPaginated(input: ListComponentBuildVersionsInput) -> ClientRuntime.PaginatorSequence<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComponentBuildVersionsInput, ListComponentBuildVersionsOutputResponse>(input: input, inputKey: \ListComponentBuildVersionsInput.nextToken, outputKey: \ListComponentBuildVersionsOutputResponse.nextToken, paginationFunction: self.listComponentBuildVersions(input:))
     }
@@ -26,15 +25,23 @@ extension ListComponentBuildVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListComponentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComponentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutputResponse`
+extension PaginatorSequence where Input == ListComponentBuildVersionsInput, Output == ListComponentBuildVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComponentBuildVersionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ComponentSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.ComponentSummary]`
+    public func componentSummaryList() async throws -> [ImagebuilderClientTypes.ComponentSummary] {
+        return try await self.asyncCompactMap { item in item.componentSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListComponentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComponentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComponentsOutputResponse`
     public func listComponentsPaginated(input: ListComponentsInput) -> ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComponentsInput, ListComponentsOutputResponse>(input: input, inputKey: \ListComponentsInput.nextToken, outputKey: \ListComponentsOutputResponse.nextToken, paginationFunction: self.listComponents(input:))
     }
@@ -51,15 +58,23 @@ extension ListComponentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListContainerRecipesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListContainerRecipesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListContainerRecipesOutputResponse`
+extension PaginatorSequence where Input == ListComponentsInput, Output == ListComponentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComponentsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ComponentVersion]`
+    /// - Returns: `[ImagebuilderClientTypes.ComponentVersion]`
+    public func componentVersionList() async throws -> [ImagebuilderClientTypes.ComponentVersion] {
+        return try await self.asyncCompactMap { item in item.componentVersionList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListContainerRecipesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContainerRecipesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContainerRecipesOutputResponse`
     public func listContainerRecipesPaginated(input: ListContainerRecipesInput) -> ClientRuntime.PaginatorSequence<ListContainerRecipesInput, ListContainerRecipesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListContainerRecipesInput, ListContainerRecipesOutputResponse>(input: input, inputKey: \ListContainerRecipesInput.nextToken, outputKey: \ListContainerRecipesOutputResponse.nextToken, paginationFunction: self.listContainerRecipes(input:))
     }
@@ -75,15 +90,23 @@ extension ListContainerRecipesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListDistributionConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDistributionConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDistributionConfigurationsOutputResponse`
+extension PaginatorSequence where Input == ListContainerRecipesInput, Output == ListContainerRecipesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listContainerRecipesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ContainerRecipeSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.ContainerRecipeSummary]`
+    public func containerRecipeSummaryList() async throws -> [ImagebuilderClientTypes.ContainerRecipeSummary] {
+        return try await self.asyncCompactMap { item in item.containerRecipeSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListDistributionConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDistributionConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDistributionConfigurationsOutputResponse`
     public func listDistributionConfigurationsPaginated(input: ListDistributionConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDistributionConfigurationsInput, ListDistributionConfigurationsOutputResponse>(input: input, inputKey: \ListDistributionConfigurationsInput.nextToken, outputKey: \ListDistributionConfigurationsOutputResponse.nextToken, paginationFunction: self.listDistributionConfigurations(input:))
     }
@@ -98,15 +121,23 @@ extension ListDistributionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImageBuildVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImageBuildVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImageBuildVersionsOutputResponse`
+extension PaginatorSequence where Input == ListDistributionConfigurationsInput, Output == ListDistributionConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDistributionConfigurationsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.DistributionConfigurationSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.DistributionConfigurationSummary]`
+    public func distributionConfigurationSummaryList() async throws -> [ImagebuilderClientTypes.DistributionConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.distributionConfigurationSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImageBuildVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImageBuildVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImageBuildVersionsOutputResponse`
     public func listImageBuildVersionsPaginated(input: ListImageBuildVersionsInput) -> ClientRuntime.PaginatorSequence<ListImageBuildVersionsInput, ListImageBuildVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImageBuildVersionsInput, ListImageBuildVersionsOutputResponse>(input: input, inputKey: \ListImageBuildVersionsInput.nextToken, outputKey: \ListImageBuildVersionsOutputResponse.nextToken, paginationFunction: self.listImageBuildVersions(input:))
     }
@@ -122,15 +153,23 @@ extension ListImageBuildVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImagePackagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImagePackagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImagePackagesOutputResponse`
+extension PaginatorSequence where Input == ListImageBuildVersionsInput, Output == ListImageBuildVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImageBuildVersionsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageSummary]`
+    public func imageSummaryList() async throws -> [ImagebuilderClientTypes.ImageSummary] {
+        return try await self.asyncCompactMap { item in item.imageSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImagePackagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImagePackagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImagePackagesOutputResponse`
     public func listImagePackagesPaginated(input: ListImagePackagesInput) -> ClientRuntime.PaginatorSequence<ListImagePackagesInput, ListImagePackagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImagePackagesInput, ListImagePackagesOutputResponse>(input: input, inputKey: \ListImagePackagesInput.nextToken, outputKey: \ListImagePackagesOutputResponse.nextToken, paginationFunction: self.listImagePackages(input:))
     }
@@ -145,15 +184,23 @@ extension ListImagePackagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImagePipelineImagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImagePipelineImagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelineImagesOutputResponse`
+extension PaginatorSequence where Input == ListImagePackagesInput, Output == ListImagePackagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImagePackagesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImagePackage]`
+    /// - Returns: `[ImagebuilderClientTypes.ImagePackage]`
+    public func imagePackageList() async throws -> [ImagebuilderClientTypes.ImagePackage] {
+        return try await self.asyncCompactMap { item in item.imagePackageList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImagePipelineImagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImagePipelineImagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelineImagesOutputResponse`
     public func listImagePipelineImagesPaginated(input: ListImagePipelineImagesInput) -> ClientRuntime.PaginatorSequence<ListImagePipelineImagesInput, ListImagePipelineImagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImagePipelineImagesInput, ListImagePipelineImagesOutputResponse>(input: input, inputKey: \ListImagePipelineImagesInput.nextToken, outputKey: \ListImagePipelineImagesOutputResponse.nextToken, paginationFunction: self.listImagePipelineImages(input:))
     }
@@ -169,15 +216,23 @@ extension ListImagePipelineImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImagePipelinesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImagePipelinesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelinesOutputResponse`
+extension PaginatorSequence where Input == ListImagePipelineImagesInput, Output == ListImagePipelineImagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImagePipelineImagesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageSummary]`
+    public func imageSummaryList() async throws -> [ImagebuilderClientTypes.ImageSummary] {
+        return try await self.asyncCompactMap { item in item.imageSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImagePipelinesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImagePipelinesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImagePipelinesOutputResponse`
     public func listImagePipelinesPaginated(input: ListImagePipelinesInput) -> ClientRuntime.PaginatorSequence<ListImagePipelinesInput, ListImagePipelinesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImagePipelinesInput, ListImagePipelinesOutputResponse>(input: input, inputKey: \ListImagePipelinesInput.nextToken, outputKey: \ListImagePipelinesOutputResponse.nextToken, paginationFunction: self.listImagePipelines(input:))
     }
@@ -192,15 +247,23 @@ extension ListImagePipelinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImageRecipesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImageRecipesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImageRecipesOutputResponse`
+extension PaginatorSequence where Input == ListImagePipelinesInput, Output == ListImagePipelinesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImagePipelinesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImagePipeline]`
+    /// - Returns: `[ImagebuilderClientTypes.ImagePipeline]`
+    public func imagePipelineList() async throws -> [ImagebuilderClientTypes.ImagePipeline] {
+        return try await self.asyncCompactMap { item in item.imagePipelineList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImageRecipesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImageRecipesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImageRecipesOutputResponse`
     public func listImageRecipesPaginated(input: ListImageRecipesInput) -> ClientRuntime.PaginatorSequence<ListImageRecipesInput, ListImageRecipesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImageRecipesInput, ListImageRecipesOutputResponse>(input: input, inputKey: \ListImageRecipesInput.nextToken, outputKey: \ListImageRecipesOutputResponse.nextToken, paginationFunction: self.listImageRecipes(input:))
     }
@@ -216,15 +279,23 @@ extension ListImageRecipesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListImagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImagesOutputResponse`
+extension PaginatorSequence where Input == ListImageRecipesInput, Output == ListImageRecipesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImageRecipesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageRecipeSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageRecipeSummary]`
+    public func imageRecipeSummaryList() async throws -> [ImagebuilderClientTypes.ImageRecipeSummary] {
+        return try await self.asyncCompactMap { item in item.imageRecipeSummaryList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListImagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImagesOutputResponse`
     public func listImagesPaginated(input: ListImagesInput) -> ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImagesInput, ListImagesOutputResponse>(input: input, inputKey: \ListImagesInput.nextToken, outputKey: \ListImagesOutputResponse.nextToken, paginationFunction: self.listImages(input:))
     }
@@ -242,15 +313,23 @@ extension ListImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// Paginate over `[ListInfrastructureConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListInfrastructureConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListInfrastructureConfigurationsOutputResponse`
+extension PaginatorSequence where Input == ListImagesInput, Output == ListImagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listImagesPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.ImageVersion]`
+    /// - Returns: `[ImagebuilderClientTypes.ImageVersion]`
+    public func imageVersionList() async throws -> [ImagebuilderClientTypes.ImageVersion] {
+        return try await self.asyncCompactMap { item in item.imageVersionList }
+    }
+}
 extension ImagebuilderClient {
+    /// Paginate over `[ListInfrastructureConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInfrastructureConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInfrastructureConfigurationsOutputResponse`
     public func listInfrastructureConfigurationsPaginated(input: ListInfrastructureConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListInfrastructureConfigurationsInput, ListInfrastructureConfigurationsOutputResponse>(input: input, inputKey: \ListInfrastructureConfigurationsInput.nextToken, outputKey: \ListInfrastructureConfigurationsOutputResponse.nextToken, paginationFunction: self.listInfrastructureConfigurations(input:))
     }
@@ -263,4 +342,13 @@ extension ListInfrastructureConfigurationsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListInfrastructureConfigurationsInput, Output == ListInfrastructureConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listInfrastructureConfigurationsPaginated`
+    /// to access the nested member `[ImagebuilderClientTypes.InfrastructureConfigurationSummary]`
+    /// - Returns: `[ImagebuilderClientTypes.InfrastructureConfigurationSummary]`
+    public func infrastructureConfigurationSummaryList() async throws -> [ImagebuilderClientTypes.InfrastructureConfigurationSummary] {
+        return try await self.asyncCompactMap { item in item.infrastructureConfigurationSummaryList }
+    }
 }

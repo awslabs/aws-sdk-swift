@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAttendeesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAttendeesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAttendeesOutputResponse`
 extension ChimeSDKMeetingsClient {
+    /// Paginate over `[ListAttendeesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAttendeesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAttendeesOutputResponse`
     public func listAttendeesPaginated(input: ListAttendeesInput) -> ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAttendeesInput, ListAttendeesOutputResponse>(input: input, inputKey: \ListAttendeesInput.nextToken, outputKey: \ListAttendeesOutputResponse.nextToken, paginationFunction: self.listAttendees(input:))
     }

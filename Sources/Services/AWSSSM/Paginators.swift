@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeActivationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeActivationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeActivationsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeActivationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeActivationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeActivationsOutputResponse`
     public func describeActivationsPaginated(input: DescribeActivationsInput) -> ClientRuntime.PaginatorSequence<DescribeActivationsInput, DescribeActivationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeActivationsInput, DescribeActivationsOutputResponse>(input: input, inputKey: \DescribeActivationsInput.nextToken, outputKey: \DescribeActivationsOutputResponse.nextToken, paginationFunction: self.describeActivations(input:))
     }
@@ -26,24 +25,23 @@ extension DescribeActivationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeActivationsPaginated`
-/// to access the nested member `[SSMClientTypes.Activation]`
-/// - Returns: `[SSMClientTypes.Activation]`
 extension PaginatorSequence where Input == DescribeActivationsInput, Output == DescribeActivationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeActivationsPaginated`
+    /// to access the nested member `[SSMClientTypes.Activation]`
+    /// - Returns: `[SSMClientTypes.Activation]`
     public func activationList() async throws -> [SSMClientTypes.Activation] {
         return try await self.asyncCompactMap { item in item.activationList }
     }
 }
-
-/// Paginate over `[DescribeAssociationExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAssociationExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeAssociationExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAssociationExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionsOutputResponse`
     public func describeAssociationExecutionsPaginated(input: DescribeAssociationExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutputResponse>(input: input, inputKey: \DescribeAssociationExecutionsInput.nextToken, outputKey: \DescribeAssociationExecutionsOutputResponse.nextToken, paginationFunction: self.describeAssociationExecutions(input:))
     }
@@ -59,24 +57,23 @@ extension DescribeAssociationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionsPaginated`
-/// to access the nested member `[SSMClientTypes.AssociationExecution]`
-/// - Returns: `[SSMClientTypes.AssociationExecution]`
 extension PaginatorSequence where Input == DescribeAssociationExecutionsInput, Output == DescribeAssociationExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionsPaginated`
+    /// to access the nested member `[SSMClientTypes.AssociationExecution]`
+    /// - Returns: `[SSMClientTypes.AssociationExecution]`
     public func associationExecutions() async throws -> [SSMClientTypes.AssociationExecution] {
         return try await self.asyncCompactMap { item in item.associationExecutions }
     }
 }
-
-/// Paginate over `[DescribeAssociationExecutionTargetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAssociationExecutionTargetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionTargetsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeAssociationExecutionTargetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAssociationExecutionTargetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAssociationExecutionTargetsOutputResponse`
     public func describeAssociationExecutionTargetsPaginated(input: DescribeAssociationExecutionTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutputResponse>(input: input, inputKey: \DescribeAssociationExecutionTargetsInput.nextToken, outputKey: \DescribeAssociationExecutionTargetsOutputResponse.nextToken, paginationFunction: self.describeAssociationExecutionTargets(input:))
     }
@@ -93,24 +90,23 @@ extension DescribeAssociationExecutionTargetsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionTargetsPaginated`
-/// to access the nested member `[SSMClientTypes.AssociationExecutionTarget]`
-/// - Returns: `[SSMClientTypes.AssociationExecutionTarget]`
 extension PaginatorSequence where Input == DescribeAssociationExecutionTargetsInput, Output == DescribeAssociationExecutionTargetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAssociationExecutionTargetsPaginated`
+    /// to access the nested member `[SSMClientTypes.AssociationExecutionTarget]`
+    /// - Returns: `[SSMClientTypes.AssociationExecutionTarget]`
     public func associationExecutionTargets() async throws -> [SSMClientTypes.AssociationExecutionTarget] {
         return try await self.asyncCompactMap { item in item.associationExecutionTargets }
     }
 }
-
-/// Paginate over `[DescribeAutomationExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAutomationExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationExecutionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeAutomationExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAutomationExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationExecutionsOutputResponse`
     public func describeAutomationExecutionsPaginated(input: DescribeAutomationExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutputResponse>(input: input, inputKey: \DescribeAutomationExecutionsInput.nextToken, outputKey: \DescribeAutomationExecutionsOutputResponse.nextToken, paginationFunction: self.describeAutomationExecutions(input:))
     }
@@ -125,24 +121,23 @@ extension DescribeAutomationExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAutomationExecutionsPaginated`
-/// to access the nested member `[SSMClientTypes.AutomationExecutionMetadata]`
-/// - Returns: `[SSMClientTypes.AutomationExecutionMetadata]`
 extension PaginatorSequence where Input == DescribeAutomationExecutionsInput, Output == DescribeAutomationExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAutomationExecutionsPaginated`
+    /// to access the nested member `[SSMClientTypes.AutomationExecutionMetadata]`
+    /// - Returns: `[SSMClientTypes.AutomationExecutionMetadata]`
     public func automationExecutionMetadataList() async throws -> [SSMClientTypes.AutomationExecutionMetadata] {
         return try await self.asyncCompactMap { item in item.automationExecutionMetadataList }
     }
 }
-
-/// Paginate over `[DescribeAutomationStepExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAutomationStepExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationStepExecutionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeAutomationStepExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAutomationStepExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutomationStepExecutionsOutputResponse`
     public func describeAutomationStepExecutionsPaginated(input: DescribeAutomationStepExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutputResponse>(input: input, inputKey: \DescribeAutomationStepExecutionsInput.nextToken, outputKey: \DescribeAutomationStepExecutionsOutputResponse.nextToken, paginationFunction: self.describeAutomationStepExecutions(input:))
     }
@@ -159,24 +154,23 @@ extension DescribeAutomationStepExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAutomationStepExecutionsPaginated`
-/// to access the nested member `[SSMClientTypes.StepExecution]`
-/// - Returns: `[SSMClientTypes.StepExecution]`
 extension PaginatorSequence where Input == DescribeAutomationStepExecutionsInput, Output == DescribeAutomationStepExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAutomationStepExecutionsPaginated`
+    /// to access the nested member `[SSMClientTypes.StepExecution]`
+    /// - Returns: `[SSMClientTypes.StepExecution]`
     public func stepExecutions() async throws -> [SSMClientTypes.StepExecution] {
         return try await self.asyncCompactMap { item in item.stepExecutions }
     }
 }
-
-/// Paginate over `[DescribeAvailablePatchesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAvailablePatchesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAvailablePatchesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeAvailablePatchesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAvailablePatchesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAvailablePatchesOutputResponse`
     public func describeAvailablePatchesPaginated(input: DescribeAvailablePatchesInput) -> ClientRuntime.PaginatorSequence<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutputResponse>(input: input, inputKey: \DescribeAvailablePatchesInput.nextToken, outputKey: \DescribeAvailablePatchesOutputResponse.nextToken, paginationFunction: self.describeAvailablePatches(input:))
     }
@@ -191,24 +185,23 @@ extension DescribeAvailablePatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAvailablePatchesPaginated`
-/// to access the nested member `[SSMClientTypes.Patch]`
-/// - Returns: `[SSMClientTypes.Patch]`
 extension PaginatorSequence where Input == DescribeAvailablePatchesInput, Output == DescribeAvailablePatchesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAvailablePatchesPaginated`
+    /// to access the nested member `[SSMClientTypes.Patch]`
+    /// - Returns: `[SSMClientTypes.Patch]`
     public func patches() async throws -> [SSMClientTypes.Patch] {
         return try await self.asyncCompactMap { item in item.patches }
     }
 }
-
-/// Paginate over `[DescribeEffectiveInstanceAssociationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEffectiveInstanceAssociationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectiveInstanceAssociationsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeEffectiveInstanceAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEffectiveInstanceAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectiveInstanceAssociationsOutputResponse`
     public func describeEffectiveInstanceAssociationsPaginated(input: DescribeEffectiveInstanceAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutputResponse>(input: input, inputKey: \DescribeEffectiveInstanceAssociationsInput.nextToken, outputKey: \DescribeEffectiveInstanceAssociationsOutputResponse.nextToken, paginationFunction: self.describeEffectiveInstanceAssociations(input:))
     }
@@ -223,24 +216,23 @@ extension DescribeEffectiveInstanceAssociationsInput: ClientRuntime.PaginateToke
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEffectiveInstanceAssociationsPaginated`
-/// to access the nested member `[SSMClientTypes.InstanceAssociation]`
-/// - Returns: `[SSMClientTypes.InstanceAssociation]`
 extension PaginatorSequence where Input == DescribeEffectiveInstanceAssociationsInput, Output == DescribeEffectiveInstanceAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEffectiveInstanceAssociationsPaginated`
+    /// to access the nested member `[SSMClientTypes.InstanceAssociation]`
+    /// - Returns: `[SSMClientTypes.InstanceAssociation]`
     public func associations() async throws -> [SSMClientTypes.InstanceAssociation] {
         return try await self.asyncCompactMap { item in item.associations }
     }
 }
-
-/// Paginate over `[DescribeEffectivePatchesForPatchBaselineOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEffectivePatchesForPatchBaselineInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectivePatchesForPatchBaselineOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeEffectivePatchesForPatchBaselineOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEffectivePatchesForPatchBaselineInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEffectivePatchesForPatchBaselineOutputResponse`
     public func describeEffectivePatchesForPatchBaselinePaginated(input: DescribeEffectivePatchesForPatchBaselineInput) -> ClientRuntime.PaginatorSequence<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutputResponse>(input: input, inputKey: \DescribeEffectivePatchesForPatchBaselineInput.nextToken, outputKey: \DescribeEffectivePatchesForPatchBaselineOutputResponse.nextToken, paginationFunction: self.describeEffectivePatchesForPatchBaseline(input:))
     }
@@ -255,24 +247,23 @@ extension DescribeEffectivePatchesForPatchBaselineInput: ClientRuntime.PaginateT
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEffectivePatchesForPatchBaselinePaginated`
-/// to access the nested member `[SSMClientTypes.EffectivePatch]`
-/// - Returns: `[SSMClientTypes.EffectivePatch]`
 extension PaginatorSequence where Input == DescribeEffectivePatchesForPatchBaselineInput, Output == DescribeEffectivePatchesForPatchBaselineOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEffectivePatchesForPatchBaselinePaginated`
+    /// to access the nested member `[SSMClientTypes.EffectivePatch]`
+    /// - Returns: `[SSMClientTypes.EffectivePatch]`
     public func effectivePatches() async throws -> [SSMClientTypes.EffectivePatch] {
         return try await self.asyncCompactMap { item in item.effectivePatches }
     }
 }
-
-/// Paginate over `[DescribeInstanceAssociationsStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInstanceAssociationsStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceAssociationsStatusOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInstanceAssociationsStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceAssociationsStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceAssociationsStatusOutputResponse`
     public func describeInstanceAssociationsStatusPaginated(input: DescribeInstanceAssociationsStatusInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutputResponse>(input: input, inputKey: \DescribeInstanceAssociationsStatusInput.nextToken, outputKey: \DescribeInstanceAssociationsStatusOutputResponse.nextToken, paginationFunction: self.describeInstanceAssociationsStatus(input:))
     }
@@ -287,24 +278,23 @@ extension DescribeInstanceAssociationsStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInstanceAssociationsStatusPaginated`
-/// to access the nested member `[SSMClientTypes.InstanceAssociationStatusInfo]`
-/// - Returns: `[SSMClientTypes.InstanceAssociationStatusInfo]`
 extension PaginatorSequence where Input == DescribeInstanceAssociationsStatusInput, Output == DescribeInstanceAssociationsStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstanceAssociationsStatusPaginated`
+    /// to access the nested member `[SSMClientTypes.InstanceAssociationStatusInfo]`
+    /// - Returns: `[SSMClientTypes.InstanceAssociationStatusInfo]`
     public func instanceAssociationStatusInfos() async throws -> [SSMClientTypes.InstanceAssociationStatusInfo] {
         return try await self.asyncCompactMap { item in item.instanceAssociationStatusInfos }
     }
 }
-
-/// Paginate over `[DescribeInstanceInformationOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInstanceInformationInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceInformationOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInstanceInformationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceInformationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceInformationOutputResponse`
     public func describeInstanceInformationPaginated(input: DescribeInstanceInformationInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceInformationInput, DescribeInstanceInformationOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInstanceInformationInput, DescribeInstanceInformationOutputResponse>(input: input, inputKey: \DescribeInstanceInformationInput.nextToken, outputKey: \DescribeInstanceInformationOutputResponse.nextToken, paginationFunction: self.describeInstanceInformation(input:))
     }
@@ -320,24 +310,23 @@ extension DescribeInstanceInformationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInstanceInformationPaginated`
-/// to access the nested member `[SSMClientTypes.InstanceInformation]`
-/// - Returns: `[SSMClientTypes.InstanceInformation]`
 extension PaginatorSequence where Input == DescribeInstanceInformationInput, Output == DescribeInstanceInformationOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstanceInformationPaginated`
+    /// to access the nested member `[SSMClientTypes.InstanceInformation]`
+    /// - Returns: `[SSMClientTypes.InstanceInformation]`
     public func instanceInformationList() async throws -> [SSMClientTypes.InstanceInformation] {
         return try await self.asyncCompactMap { item in item.instanceInformationList }
     }
 }
-
-/// Paginate over `[DescribeInstancePatchesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInstancePatchesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInstancePatchesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstancePatchesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchesOutputResponse`
     public func describeInstancePatchesPaginated(input: DescribeInstancePatchesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchesInput, DescribeInstancePatchesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchesInput, DescribeInstancePatchesOutputResponse>(input: input, inputKey: \DescribeInstancePatchesInput.nextToken, outputKey: \DescribeInstancePatchesOutputResponse.nextToken, paginationFunction: self.describeInstancePatches(input:))
     }
@@ -353,24 +342,23 @@ extension DescribeInstancePatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchesPaginated`
-/// to access the nested member `[SSMClientTypes.PatchComplianceData]`
-/// - Returns: `[SSMClientTypes.PatchComplianceData]`
 extension PaginatorSequence where Input == DescribeInstancePatchesInput, Output == DescribeInstancePatchesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchesPaginated`
+    /// to access the nested member `[SSMClientTypes.PatchComplianceData]`
+    /// - Returns: `[SSMClientTypes.PatchComplianceData]`
     public func patches() async throws -> [SSMClientTypes.PatchComplianceData] {
         return try await self.asyncCompactMap { item in item.patches }
     }
 }
-
-/// Paginate over `[DescribeInstancePatchStatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInstancePatchStatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInstancePatchStatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstancePatchStatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesOutputResponse`
     public func describeInstancePatchStatesPaginated(input: DescribeInstancePatchStatesInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutputResponse>(input: input, inputKey: \DescribeInstancePatchStatesInput.nextToken, outputKey: \DescribeInstancePatchStatesOutputResponse.nextToken, paginationFunction: self.describeInstancePatchStates(input:))
     }
@@ -385,24 +373,23 @@ extension DescribeInstancePatchStatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesPaginated`
-/// to access the nested member `[SSMClientTypes.InstancePatchState]`
-/// - Returns: `[SSMClientTypes.InstancePatchState]`
 extension PaginatorSequence where Input == DescribeInstancePatchStatesInput, Output == DescribeInstancePatchStatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesPaginated`
+    /// to access the nested member `[SSMClientTypes.InstancePatchState]`
+    /// - Returns: `[SSMClientTypes.InstancePatchState]`
     public func instancePatchStates() async throws -> [SSMClientTypes.InstancePatchState] {
         return try await self.asyncCompactMap { item in item.instancePatchStates }
     }
 }
-
-/// Paginate over `[DescribeInstancePatchStatesForPatchGroupOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInstancePatchStatesForPatchGroupInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesForPatchGroupOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInstancePatchStatesForPatchGroupOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstancePatchStatesForPatchGroupInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstancePatchStatesForPatchGroupOutputResponse`
     public func describeInstancePatchStatesForPatchGroupPaginated(input: DescribeInstancePatchStatesForPatchGroupInput) -> ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutputResponse>(input: input, inputKey: \DescribeInstancePatchStatesForPatchGroupInput.nextToken, outputKey: \DescribeInstancePatchStatesForPatchGroupOutputResponse.nextToken, paginationFunction: self.describeInstancePatchStatesForPatchGroup(input:))
     }
@@ -418,24 +405,23 @@ extension DescribeInstancePatchStatesForPatchGroupInput: ClientRuntime.PaginateT
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesForPatchGroupPaginated`
-/// to access the nested member `[SSMClientTypes.InstancePatchState]`
-/// - Returns: `[SSMClientTypes.InstancePatchState]`
 extension PaginatorSequence where Input == DescribeInstancePatchStatesForPatchGroupInput, Output == DescribeInstancePatchStatesForPatchGroupOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInstancePatchStatesForPatchGroupPaginated`
+    /// to access the nested member `[SSMClientTypes.InstancePatchState]`
+    /// - Returns: `[SSMClientTypes.InstancePatchState]`
     public func instancePatchStates() async throws -> [SSMClientTypes.InstancePatchState] {
         return try await self.asyncCompactMap { item in item.instancePatchStates }
     }
 }
-
-/// Paginate over `[DescribeInventoryDeletionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInventoryDeletionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInventoryDeletionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeInventoryDeletionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInventoryDeletionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInventoryDeletionsOutputResponse`
     public func describeInventoryDeletionsPaginated(input: DescribeInventoryDeletionsInput) -> ClientRuntime.PaginatorSequence<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutputResponse>(input: input, inputKey: \DescribeInventoryDeletionsInput.nextToken, outputKey: \DescribeInventoryDeletionsOutputResponse.nextToken, paginationFunction: self.describeInventoryDeletions(input:))
     }
@@ -450,24 +436,23 @@ extension DescribeInventoryDeletionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeInventoryDeletionsPaginated`
-/// to access the nested member `[SSMClientTypes.InventoryDeletionStatusItem]`
-/// - Returns: `[SSMClientTypes.InventoryDeletionStatusItem]`
 extension PaginatorSequence where Input == DescribeInventoryDeletionsInput, Output == DescribeInventoryDeletionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeInventoryDeletionsPaginated`
+    /// to access the nested member `[SSMClientTypes.InventoryDeletionStatusItem]`
+    /// - Returns: `[SSMClientTypes.InventoryDeletionStatusItem]`
     public func inventoryDeletions() async throws -> [SSMClientTypes.InventoryDeletionStatusItem] {
         return try await self.asyncCompactMap { item in item.inventoryDeletions }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionsOutputResponse`
     public func describeMaintenanceWindowExecutionsPaginated(input: DescribeMaintenanceWindowExecutionsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowExecutionsInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionsOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowExecutions(input:))
     }
@@ -483,24 +468,23 @@ extension DescribeMaintenanceWindowExecutionsInput: ClientRuntime.PaginateToken 
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionsPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowExecution]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowExecution]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionsInput, Output == DescribeMaintenanceWindowExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionsPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecution]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowExecution]`
     public func windowExecutions() async throws -> [SSMClientTypes.MaintenanceWindowExecution] {
         return try await self.asyncCompactMap { item in item.windowExecutions }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowExecutionTaskInvocationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowExecutionTaskInvocationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse`
     public func describeMaintenanceWindowExecutionTaskInvocationsPaginated(input: DescribeMaintenanceWindowExecutionTaskInvocationsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTaskInvocations(input:))
     }
@@ -517,24 +501,23 @@ extension DescribeMaintenanceWindowExecutionTaskInvocationsInput: ClientRuntime.
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTaskInvocationsPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionTaskInvocationsInput, Output == DescribeMaintenanceWindowExecutionTaskInvocationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTaskInvocationsPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity]`
     public func windowExecutionTaskInvocationIdentities() async throws -> [SSMClientTypes.MaintenanceWindowExecutionTaskInvocationIdentity] {
         return try await self.asyncCompactMap { item in item.windowExecutionTaskInvocationIdentities }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowExecutionTasksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowExecutionTasksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTasksOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowExecutionTasksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowExecutionTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowExecutionTasksOutputResponse`
     public func describeMaintenanceWindowExecutionTasksPaginated(input: DescribeMaintenanceWindowExecutionTasksInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowExecutionTasksInput.nextToken, outputKey: \DescribeMaintenanceWindowExecutionTasksOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowExecutionTasks(input:))
     }
@@ -550,24 +533,23 @@ extension DescribeMaintenanceWindowExecutionTasksInput: ClientRuntime.PaginateTo
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTasksPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowExecutionTasksInput, Output == DescribeMaintenanceWindowExecutionTasksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowExecutionTasksPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowExecutionTaskIdentity]`
     public func windowExecutionTaskIdentities() async throws -> [SSMClientTypes.MaintenanceWindowExecutionTaskIdentity] {
         return try await self.asyncCompactMap { item in item.windowExecutionTaskIdentities }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsOutputResponse`
     public func describeMaintenanceWindowsPaginated(input: DescribeMaintenanceWindowsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowsInput.nextToken, outputKey: \DescribeMaintenanceWindowsOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindows(input:))
     }
@@ -582,24 +564,23 @@ extension DescribeMaintenanceWindowsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentity]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowIdentity]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowsInput, Output == DescribeMaintenanceWindowsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentity]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowIdentity]`
     public func windowIdentities() async throws -> [SSMClientTypes.MaintenanceWindowIdentity] {
         return try await self.asyncCompactMap { item in item.windowIdentities }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowScheduleOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowScheduleInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowScheduleOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowScheduleOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowScheduleInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowScheduleOutputResponse`
     public func describeMaintenanceWindowSchedulePaginated(input: DescribeMaintenanceWindowScheduleInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowScheduleInput.nextToken, outputKey: \DescribeMaintenanceWindowScheduleOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowSchedule(input:))
     }
@@ -617,24 +598,23 @@ extension DescribeMaintenanceWindowScheduleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowSchedulePaginated`
-/// to access the nested member `[SSMClientTypes.ScheduledWindowExecution]`
-/// - Returns: `[SSMClientTypes.ScheduledWindowExecution]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowScheduleInput, Output == DescribeMaintenanceWindowScheduleOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowSchedulePaginated`
+    /// to access the nested member `[SSMClientTypes.ScheduledWindowExecution]`
+    /// - Returns: `[SSMClientTypes.ScheduledWindowExecution]`
     public func scheduledWindowExecutions() async throws -> [SSMClientTypes.ScheduledWindowExecution] {
         return try await self.asyncCompactMap { item in item.scheduledWindowExecutions }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowsForTargetOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowsForTargetInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsForTargetOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowsForTargetOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowsForTargetInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowsForTargetOutputResponse`
     public func describeMaintenanceWindowsForTargetPaginated(input: DescribeMaintenanceWindowsForTargetInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowsForTargetInput.nextToken, outputKey: \DescribeMaintenanceWindowsForTargetOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowsForTarget(input:))
     }
@@ -650,24 +630,23 @@ extension DescribeMaintenanceWindowsForTargetInput: ClientRuntime.PaginateToken 
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsForTargetPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowsForTargetInput, Output == DescribeMaintenanceWindowsForTargetOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowsForTargetPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowIdentityForTarget]`
     public func windowIdentities() async throws -> [SSMClientTypes.MaintenanceWindowIdentityForTarget] {
         return try await self.asyncCompactMap { item in item.windowIdentities }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowTargetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowTargetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTargetsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowTargetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowTargetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTargetsOutputResponse`
     public func describeMaintenanceWindowTargetsPaginated(input: DescribeMaintenanceWindowTargetsInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowTargetsInput.nextToken, outputKey: \DescribeMaintenanceWindowTargetsOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowTargets(input:))
     }
@@ -683,24 +662,23 @@ extension DescribeMaintenanceWindowTargetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTargetsPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowTarget]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowTarget]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowTargetsInput, Output == DescribeMaintenanceWindowTargetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTargetsPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowTarget]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowTarget]`
     public func targets() async throws -> [SSMClientTypes.MaintenanceWindowTarget] {
         return try await self.asyncCompactMap { item in item.targets }
     }
 }
-
-/// Paginate over `[DescribeMaintenanceWindowTasksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeMaintenanceWindowTasksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTasksOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeMaintenanceWindowTasksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMaintenanceWindowTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMaintenanceWindowTasksOutputResponse`
     public func describeMaintenanceWindowTasksPaginated(input: DescribeMaintenanceWindowTasksInput) -> ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutputResponse>(input: input, inputKey: \DescribeMaintenanceWindowTasksInput.nextToken, outputKey: \DescribeMaintenanceWindowTasksOutputResponse.nextToken, paginationFunction: self.describeMaintenanceWindowTasks(input:))
     }
@@ -716,24 +694,23 @@ extension DescribeMaintenanceWindowTasksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTasksPaginated`
-/// to access the nested member `[SSMClientTypes.MaintenanceWindowTask]`
-/// - Returns: `[SSMClientTypes.MaintenanceWindowTask]`
 extension PaginatorSequence where Input == DescribeMaintenanceWindowTasksInput, Output == DescribeMaintenanceWindowTasksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMaintenanceWindowTasksPaginated`
+    /// to access the nested member `[SSMClientTypes.MaintenanceWindowTask]`
+    /// - Returns: `[SSMClientTypes.MaintenanceWindowTask]`
     public func tasks() async throws -> [SSMClientTypes.MaintenanceWindowTask] {
         return try await self.asyncCompactMap { item in item.tasks }
     }
 }
-
-/// Paginate over `[DescribeOpsItemsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOpsItemsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOpsItemsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeOpsItemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOpsItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOpsItemsOutputResponse`
     public func describeOpsItemsPaginated(input: DescribeOpsItemsInput) -> ClientRuntime.PaginatorSequence<DescribeOpsItemsInput, DescribeOpsItemsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOpsItemsInput, DescribeOpsItemsOutputResponse>(input: input, inputKey: \DescribeOpsItemsInput.nextToken, outputKey: \DescribeOpsItemsOutputResponse.nextToken, paginationFunction: self.describeOpsItems(input:))
     }
@@ -748,24 +725,23 @@ extension DescribeOpsItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOpsItemsPaginated`
-/// to access the nested member `[SSMClientTypes.OpsItemSummary]`
-/// - Returns: `[SSMClientTypes.OpsItemSummary]`
 extension PaginatorSequence where Input == DescribeOpsItemsInput, Output == DescribeOpsItemsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOpsItemsPaginated`
+    /// to access the nested member `[SSMClientTypes.OpsItemSummary]`
+    /// - Returns: `[SSMClientTypes.OpsItemSummary]`
     public func opsItemSummaries() async throws -> [SSMClientTypes.OpsItemSummary] {
         return try await self.asyncCompactMap { item in item.opsItemSummaries }
     }
 }
-
-/// Paginate over `[DescribeParametersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeParametersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeParametersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeParametersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeParametersOutputResponse`
     public func describeParametersPaginated(input: DescribeParametersInput) -> ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeParametersInput, DescribeParametersOutputResponse>(input: input, inputKey: \DescribeParametersInput.nextToken, outputKey: \DescribeParametersOutputResponse.nextToken, paginationFunction: self.describeParameters(input:))
     }
@@ -780,16 +756,15 @@ extension DescribeParametersInput: ClientRuntime.PaginateToken {
             parameterFilters: self.parameterFilters
         )}
 }
-
-/// Paginate over `[DescribePatchBaselinesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePatchBaselinesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePatchBaselinesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribePatchBaselinesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePatchBaselinesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchBaselinesOutputResponse`
     public func describePatchBaselinesPaginated(input: DescribePatchBaselinesInput) -> ClientRuntime.PaginatorSequence<DescribePatchBaselinesInput, DescribePatchBaselinesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePatchBaselinesInput, DescribePatchBaselinesOutputResponse>(input: input, inputKey: \DescribePatchBaselinesInput.nextToken, outputKey: \DescribePatchBaselinesOutputResponse.nextToken, paginationFunction: self.describePatchBaselines(input:))
     }
@@ -804,24 +779,23 @@ extension DescribePatchBaselinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePatchBaselinesPaginated`
-/// to access the nested member `[SSMClientTypes.PatchBaselineIdentity]`
-/// - Returns: `[SSMClientTypes.PatchBaselineIdentity]`
 extension PaginatorSequence where Input == DescribePatchBaselinesInput, Output == DescribePatchBaselinesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePatchBaselinesPaginated`
+    /// to access the nested member `[SSMClientTypes.PatchBaselineIdentity]`
+    /// - Returns: `[SSMClientTypes.PatchBaselineIdentity]`
     public func baselineIdentities() async throws -> [SSMClientTypes.PatchBaselineIdentity] {
         return try await self.asyncCompactMap { item in item.baselineIdentities }
     }
 }
-
-/// Paginate over `[DescribePatchGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePatchGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePatchGroupsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribePatchGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePatchGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchGroupsOutputResponse`
     public func describePatchGroupsPaginated(input: DescribePatchGroupsInput) -> ClientRuntime.PaginatorSequence<DescribePatchGroupsInput, DescribePatchGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePatchGroupsInput, DescribePatchGroupsOutputResponse>(input: input, inputKey: \DescribePatchGroupsInput.nextToken, outputKey: \DescribePatchGroupsOutputResponse.nextToken, paginationFunction: self.describePatchGroups(input:))
     }
@@ -836,24 +810,23 @@ extension DescribePatchGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePatchGroupsPaginated`
-/// to access the nested member `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
-/// - Returns: `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
 extension PaginatorSequence where Input == DescribePatchGroupsInput, Output == DescribePatchGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePatchGroupsPaginated`
+    /// to access the nested member `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
+    /// - Returns: `[SSMClientTypes.PatchGroupPatchBaselineMapping]`
     public func mappings() async throws -> [SSMClientTypes.PatchGroupPatchBaselineMapping] {
         return try await self.asyncCompactMap { item in item.mappings }
     }
 }
-
-/// Paginate over `[DescribePatchPropertiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePatchPropertiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePatchPropertiesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribePatchPropertiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePatchPropertiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePatchPropertiesOutputResponse`
     public func describePatchPropertiesPaginated(input: DescribePatchPropertiesInput) -> ClientRuntime.PaginatorSequence<DescribePatchPropertiesInput, DescribePatchPropertiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePatchPropertiesInput, DescribePatchPropertiesOutputResponse>(input: input, inputKey: \DescribePatchPropertiesInput.nextToken, outputKey: \DescribePatchPropertiesOutputResponse.nextToken, paginationFunction: self.describePatchProperties(input:))
     }
@@ -870,24 +843,23 @@ extension DescribePatchPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePatchPropertiesPaginated`
-/// to access the nested member `[[Swift.String:Swift.String]]`
-/// - Returns: `[[Swift.String:Swift.String]]`
 extension PaginatorSequence where Input == DescribePatchPropertiesInput, Output == DescribePatchPropertiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePatchPropertiesPaginated`
+    /// to access the nested member `[[Swift.String:Swift.String]]`
+    /// - Returns: `[[Swift.String:Swift.String]]`
     public func properties() async throws -> [[Swift.String:Swift.String]] {
         return try await self.asyncCompactMap { item in item.properties }
     }
 }
-
-/// Paginate over `[DescribeSessionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeSessionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeSessionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[DescribeSessionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSessionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSessionsOutputResponse`
     public func describeSessionsPaginated(input: DescribeSessionsInput) -> ClientRuntime.PaginatorSequence<DescribeSessionsInput, DescribeSessionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeSessionsInput, DescribeSessionsOutputResponse>(input: input, inputKey: \DescribeSessionsInput.nextToken, outputKey: \DescribeSessionsOutputResponse.nextToken, paginationFunction: self.describeSessions(input:))
     }
@@ -903,24 +875,23 @@ extension DescribeSessionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeSessionsPaginated`
-/// to access the nested member `[SSMClientTypes.Session]`
-/// - Returns: `[SSMClientTypes.Session]`
 extension PaginatorSequence where Input == DescribeSessionsInput, Output == DescribeSessionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSessionsPaginated`
+    /// to access the nested member `[SSMClientTypes.Session]`
+    /// - Returns: `[SSMClientTypes.Session]`
     public func sessions() async throws -> [SSMClientTypes.Session] {
         return try await self.asyncCompactMap { item in item.sessions }
     }
 }
-
-/// Paginate over `[GetInventoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetInventoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetInventoryOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetInventoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetInventoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInventoryOutputResponse`
     public func getInventoryPaginated(input: GetInventoryInput) -> ClientRuntime.PaginatorSequence<GetInventoryInput, GetInventoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetInventoryInput, GetInventoryOutputResponse>(input: input, inputKey: \GetInventoryInput.nextToken, outputKey: \GetInventoryOutputResponse.nextToken, paginationFunction: self.getInventory(input:))
     }
@@ -937,24 +908,23 @@ extension GetInventoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getInventoryPaginated`
-/// to access the nested member `[SSMClientTypes.InventoryResultEntity]`
-/// - Returns: `[SSMClientTypes.InventoryResultEntity]`
 extension PaginatorSequence where Input == GetInventoryInput, Output == GetInventoryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getInventoryPaginated`
+    /// to access the nested member `[SSMClientTypes.InventoryResultEntity]`
+    /// - Returns: `[SSMClientTypes.InventoryResultEntity]`
     public func entities() async throws -> [SSMClientTypes.InventoryResultEntity] {
         return try await self.asyncCompactMap { item in item.entities }
     }
 }
-
-/// Paginate over `[GetInventorySchemaOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetInventorySchemaInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetInventorySchemaOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetInventorySchemaOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetInventorySchemaInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInventorySchemaOutputResponse`
     public func getInventorySchemaPaginated(input: GetInventorySchemaInput) -> ClientRuntime.PaginatorSequence<GetInventorySchemaInput, GetInventorySchemaOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetInventorySchemaInput, GetInventorySchemaOutputResponse>(input: input, inputKey: \GetInventorySchemaInput.nextToken, outputKey: \GetInventorySchemaOutputResponse.nextToken, paginationFunction: self.getInventorySchema(input:))
     }
@@ -971,24 +941,23 @@ extension GetInventorySchemaInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getInventorySchemaPaginated`
-/// to access the nested member `[SSMClientTypes.InventoryItemSchema]`
-/// - Returns: `[SSMClientTypes.InventoryItemSchema]`
 extension PaginatorSequence where Input == GetInventorySchemaInput, Output == GetInventorySchemaOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getInventorySchemaPaginated`
+    /// to access the nested member `[SSMClientTypes.InventoryItemSchema]`
+    /// - Returns: `[SSMClientTypes.InventoryItemSchema]`
     public func schemas() async throws -> [SSMClientTypes.InventoryItemSchema] {
         return try await self.asyncCompactMap { item in item.schemas }
     }
 }
-
-/// Paginate over `[GetOpsSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetOpsSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetOpsSummaryOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetOpsSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOpsSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOpsSummaryOutputResponse`
     public func getOpsSummaryPaginated(input: GetOpsSummaryInput) -> ClientRuntime.PaginatorSequence<GetOpsSummaryInput, GetOpsSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetOpsSummaryInput, GetOpsSummaryOutputResponse>(input: input, inputKey: \GetOpsSummaryInput.nextToken, outputKey: \GetOpsSummaryOutputResponse.nextToken, paginationFunction: self.getOpsSummary(input:))
     }
@@ -1006,24 +975,23 @@ extension GetOpsSummaryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getOpsSummaryPaginated`
-/// to access the nested member `[SSMClientTypes.OpsEntity]`
-/// - Returns: `[SSMClientTypes.OpsEntity]`
 extension PaginatorSequence where Input == GetOpsSummaryInput, Output == GetOpsSummaryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getOpsSummaryPaginated`
+    /// to access the nested member `[SSMClientTypes.OpsEntity]`
+    /// - Returns: `[SSMClientTypes.OpsEntity]`
     public func entities() async throws -> [SSMClientTypes.OpsEntity] {
         return try await self.asyncCompactMap { item in item.entities }
     }
 }
-
-/// Paginate over `[GetParameterHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetParameterHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetParameterHistoryOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetParameterHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetParameterHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetParameterHistoryOutputResponse`
     public func getParameterHistoryPaginated(input: GetParameterHistoryInput) -> ClientRuntime.PaginatorSequence<GetParameterHistoryInput, GetParameterHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetParameterHistoryInput, GetParameterHistoryOutputResponse>(input: input, inputKey: \GetParameterHistoryInput.nextToken, outputKey: \GetParameterHistoryOutputResponse.nextToken, paginationFunction: self.getParameterHistory(input:))
     }
@@ -1038,16 +1006,15 @@ extension GetParameterHistoryInput: ClientRuntime.PaginateToken {
             withDecryption: self.withDecryption
         )}
 }
-
-/// Paginate over `[GetParametersByPathOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetParametersByPathInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetParametersByPathOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetParametersByPathOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetParametersByPathInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetParametersByPathOutputResponse`
     public func getParametersByPathPaginated(input: GetParametersByPathInput) -> ClientRuntime.PaginatorSequence<GetParametersByPathInput, GetParametersByPathOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetParametersByPathInput, GetParametersByPathOutputResponse>(input: input, inputKey: \GetParametersByPathInput.nextToken, outputKey: \GetParametersByPathOutputResponse.nextToken, paginationFunction: self.getParametersByPath(input:))
     }
@@ -1064,16 +1031,15 @@ extension GetParametersByPathInput: ClientRuntime.PaginateToken {
             withDecryption: self.withDecryption
         )}
 }
-
-/// Paginate over `[GetResourcePoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourcePoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[GetResourcePoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourcePoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourcePoliciesOutputResponse`
     public func getResourcePoliciesPaginated(input: GetResourcePoliciesInput) -> ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourcePoliciesInput, GetResourcePoliciesOutputResponse>(input: input, inputKey: \GetResourcePoliciesInput.nextToken, outputKey: \GetResourcePoliciesOutputResponse.nextToken, paginationFunction: self.getResourcePolicies(input:))
     }
@@ -1088,24 +1054,23 @@ extension GetResourcePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
-/// to access the nested member `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
-/// - Returns: `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
 extension PaginatorSequence where Input == GetResourcePoliciesInput, Output == GetResourcePoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourcePoliciesPaginated`
+    /// to access the nested member `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
+    /// - Returns: `[SSMClientTypes.GetResourcePoliciesResponseEntry]`
     public func policies() async throws -> [SSMClientTypes.GetResourcePoliciesResponseEntry] {
         return try await self.asyncCompactMap { item in item.policies }
     }
 }
-
-/// Paginate over `[ListAssociationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociationsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociationsOutputResponse`
     public func listAssociationsPaginated(input: ListAssociationsInput) -> ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociationsInput, ListAssociationsOutputResponse>(input: input, inputKey: \ListAssociationsInput.nextToken, outputKey: \ListAssociationsOutputResponse.nextToken, paginationFunction: self.listAssociations(input:))
     }
@@ -1120,24 +1085,23 @@ extension ListAssociationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssociationsPaginated`
-/// to access the nested member `[SSMClientTypes.Association]`
-/// - Returns: `[SSMClientTypes.Association]`
 extension PaginatorSequence where Input == ListAssociationsInput, Output == ListAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociationsPaginated`
+    /// to access the nested member `[SSMClientTypes.Association]`
+    /// - Returns: `[SSMClientTypes.Association]`
     public func associations() async throws -> [SSMClientTypes.Association] {
         return try await self.asyncCompactMap { item in item.associations }
     }
 }
-
-/// Paginate over `[ListAssociationVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociationVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociationVersionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListAssociationVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociationVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociationVersionsOutputResponse`
     public func listAssociationVersionsPaginated(input: ListAssociationVersionsInput) -> ClientRuntime.PaginatorSequence<ListAssociationVersionsInput, ListAssociationVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociationVersionsInput, ListAssociationVersionsOutputResponse>(input: input, inputKey: \ListAssociationVersionsInput.nextToken, outputKey: \ListAssociationVersionsOutputResponse.nextToken, paginationFunction: self.listAssociationVersions(input:))
     }
@@ -1152,24 +1116,23 @@ extension ListAssociationVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssociationVersionsPaginated`
-/// to access the nested member `[SSMClientTypes.AssociationVersionInfo]`
-/// - Returns: `[SSMClientTypes.AssociationVersionInfo]`
 extension PaginatorSequence where Input == ListAssociationVersionsInput, Output == ListAssociationVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociationVersionsPaginated`
+    /// to access the nested member `[SSMClientTypes.AssociationVersionInfo]`
+    /// - Returns: `[SSMClientTypes.AssociationVersionInfo]`
     public func associationVersions() async throws -> [SSMClientTypes.AssociationVersionInfo] {
         return try await self.asyncCompactMap { item in item.associationVersions }
     }
 }
-
-/// Paginate over `[ListCommandInvocationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCommandInvocationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCommandInvocationsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListCommandInvocationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommandInvocationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommandInvocationsOutputResponse`
     public func listCommandInvocationsPaginated(input: ListCommandInvocationsInput) -> ClientRuntime.PaginatorSequence<ListCommandInvocationsInput, ListCommandInvocationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCommandInvocationsInput, ListCommandInvocationsOutputResponse>(input: input, inputKey: \ListCommandInvocationsInput.nextToken, outputKey: \ListCommandInvocationsOutputResponse.nextToken, paginationFunction: self.listCommandInvocations(input:))
     }
@@ -1187,24 +1150,23 @@ extension ListCommandInvocationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCommandInvocationsPaginated`
-/// to access the nested member `[SSMClientTypes.CommandInvocation]`
-/// - Returns: `[SSMClientTypes.CommandInvocation]`
 extension PaginatorSequence where Input == ListCommandInvocationsInput, Output == ListCommandInvocationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommandInvocationsPaginated`
+    /// to access the nested member `[SSMClientTypes.CommandInvocation]`
+    /// - Returns: `[SSMClientTypes.CommandInvocation]`
     public func commandInvocations() async throws -> [SSMClientTypes.CommandInvocation] {
         return try await self.asyncCompactMap { item in item.commandInvocations }
     }
 }
-
-/// Paginate over `[ListCommandsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCommandsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCommandsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListCommandsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCommandsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCommandsOutputResponse`
     public func listCommandsPaginated(input: ListCommandsInput) -> ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCommandsInput, ListCommandsOutputResponse>(input: input, inputKey: \ListCommandsInput.nextToken, outputKey: \ListCommandsOutputResponse.nextToken, paginationFunction: self.listCommands(input:))
     }
@@ -1221,24 +1183,23 @@ extension ListCommandsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listCommandsPaginated`
-/// to access the nested member `[SSMClientTypes.Command]`
-/// - Returns: `[SSMClientTypes.Command]`
 extension PaginatorSequence where Input == ListCommandsInput, Output == ListCommandsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listCommandsPaginated`
+    /// to access the nested member `[SSMClientTypes.Command]`
+    /// - Returns: `[SSMClientTypes.Command]`
     public func commands() async throws -> [SSMClientTypes.Command] {
         return try await self.asyncCompactMap { item in item.commands }
     }
 }
-
-/// Paginate over `[ListComplianceItemsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComplianceItemsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComplianceItemsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListComplianceItemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComplianceItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceItemsOutputResponse`
     public func listComplianceItemsPaginated(input: ListComplianceItemsInput) -> ClientRuntime.PaginatorSequence<ListComplianceItemsInput, ListComplianceItemsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComplianceItemsInput, ListComplianceItemsOutputResponse>(input: input, inputKey: \ListComplianceItemsInput.nextToken, outputKey: \ListComplianceItemsOutputResponse.nextToken, paginationFunction: self.listComplianceItems(input:))
     }
@@ -1255,24 +1216,23 @@ extension ListComplianceItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listComplianceItemsPaginated`
-/// to access the nested member `[SSMClientTypes.ComplianceItem]`
-/// - Returns: `[SSMClientTypes.ComplianceItem]`
 extension PaginatorSequence where Input == ListComplianceItemsInput, Output == ListComplianceItemsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComplianceItemsPaginated`
+    /// to access the nested member `[SSMClientTypes.ComplianceItem]`
+    /// - Returns: `[SSMClientTypes.ComplianceItem]`
     public func complianceItems() async throws -> [SSMClientTypes.ComplianceItem] {
         return try await self.asyncCompactMap { item in item.complianceItems }
     }
 }
-
-/// Paginate over `[ListComplianceSummariesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComplianceSummariesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComplianceSummariesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListComplianceSummariesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComplianceSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceSummariesOutputResponse`
     public func listComplianceSummariesPaginated(input: ListComplianceSummariesInput) -> ClientRuntime.PaginatorSequence<ListComplianceSummariesInput, ListComplianceSummariesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComplianceSummariesInput, ListComplianceSummariesOutputResponse>(input: input, inputKey: \ListComplianceSummariesInput.nextToken, outputKey: \ListComplianceSummariesOutputResponse.nextToken, paginationFunction: self.listComplianceSummaries(input:))
     }
@@ -1287,24 +1247,23 @@ extension ListComplianceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listComplianceSummariesPaginated`
-/// to access the nested member `[SSMClientTypes.ComplianceSummaryItem]`
-/// - Returns: `[SSMClientTypes.ComplianceSummaryItem]`
 extension PaginatorSequence where Input == ListComplianceSummariesInput, Output == ListComplianceSummariesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComplianceSummariesPaginated`
+    /// to access the nested member `[SSMClientTypes.ComplianceSummaryItem]`
+    /// - Returns: `[SSMClientTypes.ComplianceSummaryItem]`
     public func complianceSummaryItems() async throws -> [SSMClientTypes.ComplianceSummaryItem] {
         return try await self.asyncCompactMap { item in item.complianceSummaryItems }
     }
 }
-
-/// Paginate over `[ListDocumentsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDocumentsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDocumentsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListDocumentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDocumentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentsOutputResponse`
     public func listDocumentsPaginated(input: ListDocumentsInput) -> ClientRuntime.PaginatorSequence<ListDocumentsInput, ListDocumentsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDocumentsInput, ListDocumentsOutputResponse>(input: input, inputKey: \ListDocumentsInput.nextToken, outputKey: \ListDocumentsOutputResponse.nextToken, paginationFunction: self.listDocuments(input:))
     }
@@ -1320,24 +1279,23 @@ extension ListDocumentsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDocumentsPaginated`
-/// to access the nested member `[SSMClientTypes.DocumentIdentifier]`
-/// - Returns: `[SSMClientTypes.DocumentIdentifier]`
 extension PaginatorSequence where Input == ListDocumentsInput, Output == ListDocumentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDocumentsPaginated`
+    /// to access the nested member `[SSMClientTypes.DocumentIdentifier]`
+    /// - Returns: `[SSMClientTypes.DocumentIdentifier]`
     public func documentIdentifiers() async throws -> [SSMClientTypes.DocumentIdentifier] {
         return try await self.asyncCompactMap { item in item.documentIdentifiers }
     }
 }
-
-/// Paginate over `[ListDocumentVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDocumentVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDocumentVersionsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListDocumentVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDocumentVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDocumentVersionsOutputResponse`
     public func listDocumentVersionsPaginated(input: ListDocumentVersionsInput) -> ClientRuntime.PaginatorSequence<ListDocumentVersionsInput, ListDocumentVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDocumentVersionsInput, ListDocumentVersionsOutputResponse>(input: input, inputKey: \ListDocumentVersionsInput.nextToken, outputKey: \ListDocumentVersionsOutputResponse.nextToken, paginationFunction: self.listDocumentVersions(input:))
     }
@@ -1352,24 +1310,23 @@ extension ListDocumentVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDocumentVersionsPaginated`
-/// to access the nested member `[SSMClientTypes.DocumentVersionInfo]`
-/// - Returns: `[SSMClientTypes.DocumentVersionInfo]`
 extension PaginatorSequence where Input == ListDocumentVersionsInput, Output == ListDocumentVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDocumentVersionsPaginated`
+    /// to access the nested member `[SSMClientTypes.DocumentVersionInfo]`
+    /// - Returns: `[SSMClientTypes.DocumentVersionInfo]`
     public func documentVersions() async throws -> [SSMClientTypes.DocumentVersionInfo] {
         return try await self.asyncCompactMap { item in item.documentVersions }
     }
 }
-
-/// Paginate over `[ListOpsItemEventsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOpsItemEventsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemEventsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListOpsItemEventsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOpsItemEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemEventsOutputResponse`
     public func listOpsItemEventsPaginated(input: ListOpsItemEventsInput) -> ClientRuntime.PaginatorSequence<ListOpsItemEventsInput, ListOpsItemEventsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOpsItemEventsInput, ListOpsItemEventsOutputResponse>(input: input, inputKey: \ListOpsItemEventsInput.nextToken, outputKey: \ListOpsItemEventsOutputResponse.nextToken, paginationFunction: self.listOpsItemEvents(input:))
     }
@@ -1384,24 +1341,23 @@ extension ListOpsItemEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listOpsItemEventsPaginated`
-/// to access the nested member `[SSMClientTypes.OpsItemEventSummary]`
-/// - Returns: `[SSMClientTypes.OpsItemEventSummary]`
 extension PaginatorSequence where Input == ListOpsItemEventsInput, Output == ListOpsItemEventsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOpsItemEventsPaginated`
+    /// to access the nested member `[SSMClientTypes.OpsItemEventSummary]`
+    /// - Returns: `[SSMClientTypes.OpsItemEventSummary]`
     public func summaries() async throws -> [SSMClientTypes.OpsItemEventSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[ListOpsItemRelatedItemsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOpsItemRelatedItemsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemRelatedItemsOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListOpsItemRelatedItemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOpsItemRelatedItemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOpsItemRelatedItemsOutputResponse`
     public func listOpsItemRelatedItemsPaginated(input: ListOpsItemRelatedItemsInput) -> ClientRuntime.PaginatorSequence<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutputResponse>(input: input, inputKey: \ListOpsItemRelatedItemsInput.nextToken, outputKey: \ListOpsItemRelatedItemsOutputResponse.nextToken, paginationFunction: self.listOpsItemRelatedItems(input:))
     }
@@ -1417,24 +1373,23 @@ extension ListOpsItemRelatedItemsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listOpsItemRelatedItemsPaginated`
-/// to access the nested member `[SSMClientTypes.OpsItemRelatedItemSummary]`
-/// - Returns: `[SSMClientTypes.OpsItemRelatedItemSummary]`
 extension PaginatorSequence where Input == ListOpsItemRelatedItemsInput, Output == ListOpsItemRelatedItemsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOpsItemRelatedItemsPaginated`
+    /// to access the nested member `[SSMClientTypes.OpsItemRelatedItemSummary]`
+    /// - Returns: `[SSMClientTypes.OpsItemRelatedItemSummary]`
     public func summaries() async throws -> [SSMClientTypes.OpsItemRelatedItemSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[ListOpsMetadataOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOpsMetadataInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOpsMetadataOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListOpsMetadataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOpsMetadataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOpsMetadataOutputResponse`
     public func listOpsMetadataPaginated(input: ListOpsMetadataInput) -> ClientRuntime.PaginatorSequence<ListOpsMetadataInput, ListOpsMetadataOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOpsMetadataInput, ListOpsMetadataOutputResponse>(input: input, inputKey: \ListOpsMetadataInput.nextToken, outputKey: \ListOpsMetadataOutputResponse.nextToken, paginationFunction: self.listOpsMetadata(input:))
     }
@@ -1449,24 +1404,23 @@ extension ListOpsMetadataInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listOpsMetadataPaginated`
-/// to access the nested member `[SSMClientTypes.OpsMetadata]`
-/// - Returns: `[SSMClientTypes.OpsMetadata]`
 extension PaginatorSequence where Input == ListOpsMetadataInput, Output == ListOpsMetadataOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOpsMetadataPaginated`
+    /// to access the nested member `[SSMClientTypes.OpsMetadata]`
+    /// - Returns: `[SSMClientTypes.OpsMetadata]`
     public func opsMetadataList() async throws -> [SSMClientTypes.OpsMetadata] {
         return try await self.asyncCompactMap { item in item.opsMetadataList }
     }
 }
-
-/// Paginate over `[ListResourceComplianceSummariesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListResourceComplianceSummariesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListResourceComplianceSummariesOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListResourceComplianceSummariesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceComplianceSummariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceComplianceSummariesOutputResponse`
     public func listResourceComplianceSummariesPaginated(input: ListResourceComplianceSummariesInput) -> ClientRuntime.PaginatorSequence<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutputResponse>(input: input, inputKey: \ListResourceComplianceSummariesInput.nextToken, outputKey: \ListResourceComplianceSummariesOutputResponse.nextToken, paginationFunction: self.listResourceComplianceSummaries(input:))
     }
@@ -1481,24 +1435,23 @@ extension ListResourceComplianceSummariesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listResourceComplianceSummariesPaginated`
-/// to access the nested member `[SSMClientTypes.ResourceComplianceSummaryItem]`
-/// - Returns: `[SSMClientTypes.ResourceComplianceSummaryItem]`
 extension PaginatorSequence where Input == ListResourceComplianceSummariesInput, Output == ListResourceComplianceSummariesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceComplianceSummariesPaginated`
+    /// to access the nested member `[SSMClientTypes.ResourceComplianceSummaryItem]`
+    /// - Returns: `[SSMClientTypes.ResourceComplianceSummaryItem]`
     public func resourceComplianceSummaryItems() async throws -> [SSMClientTypes.ResourceComplianceSummaryItem] {
         return try await self.asyncCompactMap { item in item.resourceComplianceSummaryItems }
     }
 }
-
-/// Paginate over `[ListResourceDataSyncOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListResourceDataSyncInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListResourceDataSyncOutputResponse`
 extension SSMClient {
+    /// Paginate over `[ListResourceDataSyncOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceDataSyncInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceDataSyncOutputResponse`
     public func listResourceDataSyncPaginated(input: ListResourceDataSyncInput) -> ClientRuntime.PaginatorSequence<ListResourceDataSyncInput, ListResourceDataSyncOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListResourceDataSyncInput, ListResourceDataSyncOutputResponse>(input: input, inputKey: \ListResourceDataSyncInput.nextToken, outputKey: \ListResourceDataSyncOutputResponse.nextToken, paginationFunction: self.listResourceDataSync(input:))
     }
@@ -1513,10 +1466,10 @@ extension ListResourceDataSyncInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listResourceDataSyncPaginated`
-/// to access the nested member `[SSMClientTypes.ResourceDataSyncItem]`
-/// - Returns: `[SSMClientTypes.ResourceDataSyncItem]`
 extension PaginatorSequence where Input == ListResourceDataSyncInput, Output == ListResourceDataSyncOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceDataSyncPaginated`
+    /// to access the nested member `[SSMClientTypes.ResourceDataSyncItem]`
+    /// - Returns: `[SSMClientTypes.ResourceDataSyncItem]`
     public func resourceDataSyncItems() async throws -> [SSMClientTypes.ResourceDataSyncItem] {
         return try await self.asyncCompactMap { item in item.resourceDataSyncItems }
     }

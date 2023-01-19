@@ -1992,6 +1992,7 @@ extension MediaConvertClientTypes.AudioNormalizationSettings: Swift.Codable {
         case loudnessLogging = "loudnessLogging"
         case peakCalculation = "peakCalculation"
         case targetLkfs = "targetLkfs"
+        case truePeakLimiterThreshold = "truePeakLimiterThreshold"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2014,6 +2015,9 @@ extension MediaConvertClientTypes.AudioNormalizationSettings: Swift.Codable {
         if let targetLkfs = self.targetLkfs {
             try encodeContainer.encode(targetLkfs, forKey: .targetLkfs)
         }
+        if let truePeakLimiterThreshold = self.truePeakLimiterThreshold {
+            try encodeContainer.encode(truePeakLimiterThreshold, forKey: .truePeakLimiterThreshold)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2030,6 +2034,8 @@ extension MediaConvertClientTypes.AudioNormalizationSettings: Swift.Codable {
         peakCalculation = peakCalculationDecoded
         let targetLkfsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .targetLkfs)
         targetLkfs = targetLkfsDecoded
+        let truePeakLimiterThresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .truePeakLimiterThreshold)
+        truePeakLimiterThreshold = truePeakLimiterThresholdDecoded
     }
 }
 
@@ -2048,6 +2054,8 @@ extension MediaConvertClientTypes {
         public var peakCalculation: MediaConvertClientTypes.AudioNormalizationPeakCalculation?
         /// When you use Audio normalization (AudioNormalizationSettings), optionally use this setting to specify a target loudness. If you don't specify a value here, the encoder chooses a value for you, based on the algorithm that you choose for Algorithm (algorithm). If you choose algorithm 1770-1, the encoder will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
         public var targetLkfs: Swift.Double?
+        /// Specify the True-peak limiter threshold in decibels relative to full scale (dBFS). The peak inter-audio sample loudness in your output will be limited to the value that you specify, without affecting the overall target LKFS. Enter a value from 0 to -20. Leave blank to use the default value 0.
+        public var truePeakLimiterThreshold: Swift.Double?
 
         public init (
             algorithm: MediaConvertClientTypes.AudioNormalizationAlgorithm? = nil,
@@ -2055,7 +2063,8 @@ extension MediaConvertClientTypes {
             correctionGateLevel: Swift.Int? = nil,
             loudnessLogging: MediaConvertClientTypes.AudioNormalizationLoudnessLogging? = nil,
             peakCalculation: MediaConvertClientTypes.AudioNormalizationPeakCalculation? = nil,
-            targetLkfs: Swift.Double? = nil
+            targetLkfs: Swift.Double? = nil,
+            truePeakLimiterThreshold: Swift.Double? = nil
         )
         {
             self.algorithm = algorithm
@@ -2064,6 +2073,7 @@ extension MediaConvertClientTypes {
             self.loudnessLogging = loudnessLogging
             self.peakCalculation = peakCalculation
             self.targetLkfs = targetLkfs
+            self.truePeakLimiterThreshold = truePeakLimiterThreshold
         }
     }
 
@@ -4860,6 +4870,71 @@ extension MediaConvertClientTypes {
 
 }
 
+extension MediaConvertClientTypes.ClipLimits: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximumRGBTolerance = "maximumRGBTolerance"
+        case maximumYUV = "maximumYUV"
+        case minimumRGBTolerance = "minimumRGBTolerance"
+        case minimumYUV = "minimumYUV"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maximumRGBTolerance = self.maximumRGBTolerance {
+            try encodeContainer.encode(maximumRGBTolerance, forKey: .maximumRGBTolerance)
+        }
+        if let maximumYUV = self.maximumYUV {
+            try encodeContainer.encode(maximumYUV, forKey: .maximumYUV)
+        }
+        if let minimumRGBTolerance = self.minimumRGBTolerance {
+            try encodeContainer.encode(minimumRGBTolerance, forKey: .minimumRGBTolerance)
+        }
+        if let minimumYUV = self.minimumYUV {
+            try encodeContainer.encode(minimumYUV, forKey: .minimumYUV)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maximumRGBToleranceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumRGBTolerance)
+        maximumRGBTolerance = maximumRGBToleranceDecoded
+        let maximumYUVDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumYUV)
+        maximumYUV = maximumYUVDecoded
+        let minimumRGBToleranceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumRGBTolerance)
+        minimumRGBTolerance = minimumRGBToleranceDecoded
+        let minimumYUVDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumYUV)
+        minimumYUV = minimumYUVDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
+    public struct ClipLimits: Swift.Equatable {
+        /// Specify the Maximum RGB color sample range tolerance for your output. MediaConvert corrects any YUV values that, when converted to RGB, would be outside the upper tolerance that you specify. Enter an integer from 90 to 105 as an offset percentage to the maximum possible value. Leave blank to use the default value 100. When you specify a value for Maximum RGB tolerance, you must set Sample range conversion to Limited range clip.
+        public var maximumRGBTolerance: Swift.Int?
+        /// Specify the Maximum YUV color sample limit. MediaConvert conforms any pixels in your input above the value that you specify to typical limited range bounds. Enter an integer from 920 to 1023. Leave blank to use the default value 940. The value that you enter applies to 10-bit ranges. For 8-bit ranges, MediaConvert automatically scales this value down. When you specify a value for Maximum YUV, you must set Sample range conversion to Limited range clip.
+        public var maximumYUV: Swift.Int?
+        /// Specify the Minimum RGB color sample range tolerance for your output. MediaConvert corrects any YUV values that, when converted to RGB, would be outside the lower tolerance that you specify. Enter an integer from -5 to 10 as an offset percentage to the minimum possible value. Leave blank to use the default value 0. When you specify a value for Minimum RGB tolerance, you must set Sample range conversion to Limited range clip.
+        public var minimumRGBTolerance: Swift.Int?
+        /// Specify the Minimum YUV color sample limit. MediaConvert conforms any pixels in your input below the value that you specify to typical limited range bounds. Enter an integer from 0 to 128. Leave blank to use the default value 64. The value that you enter applies to 10-bit ranges. For 8-bit ranges, MediaConvert automatically scales this value down. When you specify a value for Minumum YUV, you must set Sample range conversion to Limited range clip.
+        public var minimumYUV: Swift.Int?
+
+        public init (
+            maximumRGBTolerance: Swift.Int? = nil,
+            maximumYUV: Swift.Int? = nil,
+            minimumRGBTolerance: Swift.Int? = nil,
+            minimumYUV: Swift.Int? = nil
+        )
+        {
+            self.maximumRGBTolerance = maximumRGBTolerance
+            self.maximumYUV = maximumYUV
+            self.minimumRGBTolerance = minimumRGBTolerance
+            self.minimumYUV = minimumYUV
+        }
+    }
+
+}
+
 extension MediaConvertClientTypes.CmafAdditionalManifest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case manifestNameModifier = "manifestNameModifier"
@@ -5107,6 +5182,7 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         case baseUrl = "baseUrl"
         case clientCache = "clientCache"
         case codecSpecification = "codecSpecification"
+        case dashManifestStyle = "dashManifestStyle"
         case destination = "destination"
         case destinationSettings = "destinationSettings"
         case encryption = "encryption"
@@ -5147,6 +5223,9 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         }
         if let codecSpecification = self.codecSpecification {
             try encodeContainer.encode(codecSpecification.rawValue, forKey: .codecSpecification)
+        }
+        if let dashManifestStyle = self.dashManifestStyle {
+            try encodeContainer.encode(dashManifestStyle.rawValue, forKey: .dashManifestStyle)
         }
         if let destination = self.destination {
             try encodeContainer.encode(destination, forKey: .destination)
@@ -5235,6 +5314,8 @@ extension MediaConvertClientTypes.CmafGroupSettings: Swift.Codable {
         clientCache = clientCacheDecoded
         let codecSpecificationDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.CmafCodecSpecification.self, forKey: .codecSpecification)
         codecSpecification = codecSpecificationDecoded
+        let dashManifestStyleDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashManifestStyle.self, forKey: .dashManifestStyle)
+        dashManifestStyle = dashManifestStyleDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
         let destinationSettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DestinationSettings.self, forKey: .destinationSettings)
@@ -5293,6 +5374,8 @@ extension MediaConvertClientTypes {
         public var clientCache: MediaConvertClientTypes.CmafClientCache?
         /// Specification to use (RFC-6381 or the default RFC-4281) during m3u8 playlist generation.
         public var codecSpecification: MediaConvertClientTypes.CmafCodecSpecification?
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -5343,6 +5426,7 @@ extension MediaConvertClientTypes {
             baseUrl: Swift.String? = nil,
             clientCache: MediaConvertClientTypes.CmafClientCache? = nil,
             codecSpecification: MediaConvertClientTypes.CmafCodecSpecification? = nil,
+            dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.DestinationSettings? = nil,
             encryption: MediaConvertClientTypes.CmafEncryptionSettings? = nil,
@@ -5371,6 +5455,7 @@ extension MediaConvertClientTypes {
             self.baseUrl = baseUrl
             self.clientCache = clientCache
             self.codecSpecification = codecSpecification
+            self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
             self.encryption = encryption
@@ -6219,7 +6304,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
     public enum CmfcManifestMetadataSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -6431,7 +6516,7 @@ extension MediaConvertClientTypes {
         public var iFrameOnlyManifest: MediaConvertClientTypes.CmfcIFrameOnlyManifest?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.CmfcKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
         public var manifestMetadataSignaling: MediaConvertClientTypes.CmfcManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public var scte35Esam: MediaConvertClientTypes.CmfcScte35Esam?
@@ -6551,6 +6636,7 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case brightness = "brightness"
+        case clipLimits = "clipLimits"
         case colorSpaceConversion = "colorSpaceConversion"
         case contrast = "contrast"
         case hdr10Metadata = "hdr10Metadata"
@@ -6564,6 +6650,9 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let brightness = self.brightness {
             try encodeContainer.encode(brightness, forKey: .brightness)
+        }
+        if let clipLimits = self.clipLimits {
+            try encodeContainer.encode(clipLimits, forKey: .clipLimits)
         }
         if let colorSpaceConversion = self.colorSpaceConversion {
             try encodeContainer.encode(colorSpaceConversion.rawValue, forKey: .colorSpaceConversion)
@@ -6592,6 +6681,8 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let brightnessDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .brightness)
         brightness = brightnessDecoded
+        let clipLimitsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ClipLimits.self, forKey: .clipLimits)
+        clipLimits = clipLimitsDecoded
         let colorSpaceConversionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ColorSpaceConversion.self, forKey: .colorSpaceConversion)
         colorSpaceConversion = colorSpaceConversionDecoded
         let contrastDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contrast)
@@ -6614,6 +6705,8 @@ extension MediaConvertClientTypes {
     public struct ColorCorrector: Swift.Equatable {
         /// Brightness level.
         public var brightness: Swift.Int?
+        /// Specify YUV limits and RGB tolerances when you set Sample range conversion to Limited range clip.
+        public var clipLimits: MediaConvertClientTypes.ClipLimits?
         /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR. Select Force P3D65 (SDR) to set the output color space metadata to the following: * Color primaries: Display P3 * Transfer characteristics: SMPTE 428M * Matrix coefficients: BT.709
         public var colorSpaceConversion: MediaConvertClientTypes.ColorSpaceConversion?
         /// Contrast level.
@@ -6622,7 +6715,7 @@ extension MediaConvertClientTypes {
         public var hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata?
         /// Hue in degrees.
         public var hue: Swift.Int?
-        /// Specify the video color sample range for this output. To create a full range output, you must start with a full range YUV input and keep the default value, None (NONE). To create a limited range output from a full range input, choose Limited range (LIMITED_RANGE_SQUEEZE). With RGB inputs, your output is always limited range, regardless of your choice here. When you create a limited range output from a full range input, MediaConvert limits the active pixel values in a way that depends on the output's bit depth: 8-bit outputs contain only values from 16 through 235 and 10-bit outputs contain only values from 64 through 940. With this conversion, MediaConvert also changes the output metadata to note the limited range.
+        /// Specify how MediaConvert limits the color sample range for this output. To create a limited range output from a full range input: Choose Limited range squeeze. For full range inputs, MediaConvert performs a linear offset to color samples equally across all pixels and frames. Color samples in 10-bit outputs are limited to 64 through 940, and 8-bit outputs are limited to 16 through 235. Note: For limited range inputs, values for color samples are passed through to your output unchanged. MediaConvert does not limit the sample range. To correct pixels in your input that are out of range or out of gamut: Choose Limited range clip. Use for broadcast applications. MediaConvert conforms any pixels outside of the values that you specify under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also corrects any YUV values that, when converted to RGB, would be outside the bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance. With either limited range conversion, MediaConvert writes the sample range metadata in the output.
         public var sampleRangeConversion: MediaConvertClientTypes.SampleRangeConversion?
         /// Saturation level.
         public var saturation: Swift.Int?
@@ -6631,6 +6724,7 @@ extension MediaConvertClientTypes {
 
         public init (
             brightness: Swift.Int? = nil,
+            clipLimits: MediaConvertClientTypes.ClipLimits? = nil,
             colorSpaceConversion: MediaConvertClientTypes.ColorSpaceConversion? = nil,
             contrast: Swift.Int? = nil,
             hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata? = nil,
@@ -6641,6 +6735,7 @@ extension MediaConvertClientTypes {
         )
         {
             self.brightness = brightness
+            self.clipLimits = clipLimits
             self.colorSpaceConversion = colorSpaceConversion
             self.contrast = contrast
             self.hdr10Metadata = hdr10Metadata
@@ -7192,7 +7287,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var accelerationSettings: MediaConvertClientTypes.AccelerationSettings?
     /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
     public var billingTagsSource: MediaConvertClientTypes.BillingTagsSource?
-    /// Optional. Idempotency token for CreateJob operation.
+    /// Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     public var clientRequestToken: Swift.String?
     /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
     public var hopDestinations: [MediaConvertClientTypes.HopDestination]?
@@ -8182,6 +8277,7 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         case additionalManifests = "additionalManifests"
         case audioChannelConfigSchemeIdUri = "audioChannelConfigSchemeIdUri"
         case baseUrl = "baseUrl"
+        case dashManifestStyle = "dashManifestStyle"
         case destination = "destination"
         case destinationSettings = "destinationSettings"
         case encryption = "encryption"
@@ -8214,6 +8310,9 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         }
         if let baseUrl = self.baseUrl {
             try encodeContainer.encode(baseUrl, forKey: .baseUrl)
+        }
+        if let dashManifestStyle = self.dashManifestStyle {
+            try encodeContainer.encode(dashManifestStyle.rawValue, forKey: .dashManifestStyle)
         }
         if let destination = self.destination {
             try encodeContainer.encode(destination, forKey: .destination)
@@ -8285,6 +8384,8 @@ extension MediaConvertClientTypes.DashIsoGroupSettings: Swift.Codable {
         audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUriDecoded
         let baseUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baseUrl)
         baseUrl = baseUrlDecoded
+        let dashManifestStyleDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DashManifestStyle.self, forKey: .dashManifestStyle)
+        dashManifestStyle = dashManifestStyleDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
         let destinationSettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DestinationSettings.self, forKey: .destinationSettings)
@@ -8331,6 +8432,8 @@ extension MediaConvertClientTypes {
         public var audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
         public var baseUrl: Swift.String?
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -8370,6 +8473,7 @@ extension MediaConvertClientTypes {
             additionalManifests: [MediaConvertClientTypes.DashAdditionalManifest]? = nil,
             audioChannelConfigSchemeIdUri: MediaConvertClientTypes.DashIsoGroupAudioChannelConfigSchemeIdUri? = nil,
             baseUrl: Swift.String? = nil,
+            dashManifestStyle: MediaConvertClientTypes.DashManifestStyle? = nil,
             destination: Swift.String? = nil,
             destinationSettings: MediaConvertClientTypes.DestinationSettings? = nil,
             encryption: MediaConvertClientTypes.DashIsoEncryptionSettings? = nil,
@@ -8392,6 +8496,7 @@ extension MediaConvertClientTypes {
             self.additionalManifests = additionalManifests
             self.audioChannelConfigSchemeIdUri = audioChannelConfigSchemeIdUri
             self.baseUrl = baseUrl
+            self.dashManifestStyle = dashManifestStyle
             self.destination = destination
             self.destinationSettings = destinationSettings
             self.encryption = encryption
@@ -8864,6 +8969,42 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DashIsoWriteSegmentTimelineInRepresentation(rawValue: rawValue) ?? DashIsoWriteSegmentTimelineInRepresentation.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+    public enum DashManifestStyle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case basic
+        case compact
+        case distinct
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashManifestStyle] {
+            return [
+                .basic,
+                .compact,
+                .distinct,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .compact: return "COMPACT"
+            case .distinct: return "DISTINCT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashManifestStyle(rawValue: rawValue) ?? DashManifestStyle.sdkUnknown(rawValue)
         }
     }
 }
@@ -24608,7 +24749,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+    /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
     public enum MpdManifestMetadataSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -24796,7 +24937,7 @@ extension MediaConvertClientTypes {
         public var captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.MpdKlvMetadata?
-        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled.
+        /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
         public var manifestMetadataSignaling: MediaConvertClientTypes.MpdManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public var scte35Esam: MediaConvertClientTypes.MpdScte35Esam?
@@ -29803,14 +29944,16 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the video color sample range for this output. To create a full range output, you must start with a full range YUV input and keep the default value, None (NONE). To create a limited range output from a full range input, choose Limited range (LIMITED_RANGE_SQUEEZE). With RGB inputs, your output is always limited range, regardless of your choice here. When you create a limited range output from a full range input, MediaConvert limits the active pixel values in a way that depends on the output's bit depth: 8-bit outputs contain only values from 16 through 235 and 10-bit outputs contain only values from 64 through 940. With this conversion, MediaConvert also changes the output metadata to note the limited range.
+    /// Specify how MediaConvert limits the color sample range for this output. To create a limited range output from a full range input: Choose Limited range squeeze. For full range inputs, MediaConvert performs a linear offset to color samples equally across all pixels and frames. Color samples in 10-bit outputs are limited to 64 through 940, and 8-bit outputs are limited to 16 through 235. Note: For limited range inputs, values for color samples are passed through to your output unchanged. MediaConvert does not limit the sample range. To correct pixels in your input that are out of range or out of gamut: Choose Limited range clip. Use for broadcast applications. MediaConvert conforms any pixels outside of the values that you specify under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also corrects any YUV values that, when converted to RGB, would be outside the bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance. With either limited range conversion, MediaConvert writes the sample range metadata in the output.
     public enum SampleRangeConversion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case limitedRangeClip
         case limitedRangeSqueeze
         case `none`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SampleRangeConversion] {
             return [
+                .limitedRangeClip,
                 .limitedRangeSqueeze,
                 .none,
                 .sdkUnknown("")
@@ -29822,6 +29965,7 @@ extension MediaConvertClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .limitedRangeClip: return "LIMITED_RANGE_CLIP"
             case .limitedRangeSqueeze: return "LIMITED_RANGE_SQUEEZE"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s

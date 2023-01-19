@@ -1711,6 +1711,7 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -1770,6 +1771,9 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
                 try queuesContainer.encode(queue0)
             }
         }
+        if let scalingConfig = self.scalingConfig {
+            try encodeContainer.encode(scalingConfig, forKey: .scalingConfig)
+        }
         if let selfManagedEventSource = self.selfManagedEventSource {
             try encodeContainer.encode(selfManagedEventSource, forKey: .selfManagedEventSource)
         }
@@ -1811,17 +1815,17 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
     ///
-    /// * Amazon Kinesis - Default 100. Max 10,000.
+    /// * Amazon Kinesis – Default 100. Max 10,000.
     ///
-    /// * Amazon DynamoDB Streams - Default 100. Max 10,000.
+    /// * Amazon DynamoDB Streams – Default 100. Max 10,000.
     ///
-    /// * Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
+    /// * Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
+    /// * Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.
     ///
-    /// * Self-managed Apache Kafka - Default 100. Max 10,000.
+    /// * Self-managed Apache Kafka – Default 100. Max 10,000.
     ///
-    /// * Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+    /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
     public var batchSize: Swift.Int?
     /// (Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
@@ -1831,27 +1835,27 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var enabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the event source.
     ///
-    /// * Amazon Kinesis - The ARN of the data stream or a stream consumer.
+    /// * Amazon Kinesis – The ARN of the data stream or a stream consumer.
     ///
-    /// * Amazon DynamoDB Streams - The ARN of the stream.
+    /// * Amazon DynamoDB Streams – The ARN of the stream.
     ///
-    /// * Amazon Simple Queue Service - The ARN of the queue.
+    /// * Amazon Simple Queue Service – The ARN of the queue.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
+    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
     ///
-    /// * Amazon MQ - The ARN of the broker.
+    /// * Amazon MQ – The ARN of the broker.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The name of the Lambda function. Name formats
     ///
-    /// * Function name - MyFunction.
+    /// * Function name – MyFunction.
     ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
     ///
-    /// * Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
     ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
+    /// * Partial ARN – 123456789012:function:MyFunction.
     ///
     ///
     /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
@@ -1869,6 +1873,8 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var parallelizationFactor: Swift.Int?
     /// (MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// The self-managed Apache Kafka cluster to receive records from.
     public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
     /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -1899,6 +1905,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
         selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -1922,6 +1929,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
+        self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
         self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -1954,6 +1962,7 @@ struct CreateEventSourceMappingInputBody: Swift.Equatable {
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension CreateEventSourceMappingInputBody: Swift.Decodable {
@@ -1972,6 +1981,7 @@ extension CreateEventSourceMappingInputBody: Swift.Decodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -2061,6 +2071,8 @@ extension CreateEventSourceMappingInputBody: Swift.Decodable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -2115,6 +2127,7 @@ extension CreateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = output.maximumRetryAttempts
             self.parallelizationFactor = output.parallelizationFactor
             self.queues = output.queues
+            self.scalingConfig = output.scalingConfig
             self.selfManagedEventSource = output.selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = output.selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = output.sourceAccessConfigurations
@@ -2141,6 +2154,7 @@ extension CreateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = nil
             self.parallelizationFactor = nil
             self.queues = nil
+            self.scalingConfig = nil
             self.selfManagedEventSource = nil
             self.selfManagedKafkaEventSourceConfig = nil
             self.sourceAccessConfigurations = nil
@@ -2187,6 +2201,8 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// The self-managed Apache Kafka cluster for your event source.
     public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
     /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -2224,6 +2240,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
         selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -2251,6 +2268,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
+        self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
         self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -2290,6 +2308,7 @@ struct CreateEventSourceMappingOutputResponseBody: Swift.Equatable {
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -2309,6 +2328,7 @@ extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -2409,6 +2429,8 @@ extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -2954,7 +2976,7 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
     public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public var snapStart: LambdaClientTypes.SnapStartResponse?
     /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
     public var state: LambdaClientTypes.State?
@@ -3701,6 +3723,7 @@ extension DeleteEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = output.maximumRetryAttempts
             self.parallelizationFactor = output.parallelizationFactor
             self.queues = output.queues
+            self.scalingConfig = output.scalingConfig
             self.selfManagedEventSource = output.selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = output.selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = output.sourceAccessConfigurations
@@ -3727,6 +3750,7 @@ extension DeleteEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = nil
             self.parallelizationFactor = nil
             self.queues = nil
+            self.scalingConfig = nil
             self.selfManagedEventSource = nil
             self.selfManagedKafkaEventSourceConfig = nil
             self.sourceAccessConfigurations = nil
@@ -3773,6 +3797,8 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// The self-managed Apache Kafka cluster for your event source.
     public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
     /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -3810,6 +3836,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
         selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -3837,6 +3864,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
+        self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
         self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -3876,6 +3904,7 @@ struct DeleteEventSourceMappingOutputResponseBody: Swift.Equatable {
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -3895,6 +3924,7 @@ extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -3995,6 +4025,8 @@ extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -5407,6 +5439,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -5471,6 +5504,9 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
             for queue0 in queues {
                 try queuesContainer.encode(queue0)
             }
+        }
+        if let scalingConfig = self.scalingConfig {
+            try encodeContainer.encode(scalingConfig, forKey: .scalingConfig)
         }
         if let selfManagedEventSource = self.selfManagedEventSource {
             try encodeContainer.encode(selfManagedEventSource, forKey: .selfManagedEventSource)
@@ -5598,6 +5634,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -5634,6 +5672,8 @@ extension LambdaClientTypes {
         public var parallelizationFactor: Swift.Int?
         /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public var queues: [Swift.String]?
+        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+        public var scalingConfig: LambdaClientTypes.ScalingConfig?
         /// The self-managed Apache Kafka cluster for your event source.
         public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
         /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -5671,6 +5711,7 @@ extension LambdaClientTypes {
             maximumRetryAttempts: Swift.Int? = nil,
             parallelizationFactor: Swift.Int? = nil,
             queues: [Swift.String]? = nil,
+            scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
             selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
             selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
             sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -5698,6 +5739,7 @@ extension LambdaClientTypes {
             self.maximumRetryAttempts = maximumRetryAttempts
             self.parallelizationFactor = parallelizationFactor
             self.queues = queues
+            self.scalingConfig = scalingConfig
             self.selfManagedEventSource = selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -6330,7 +6372,7 @@ extension LambdaClientTypes {
         public var signingJobArn: Swift.String?
         /// The ARN of the signing profile version.
         public var signingProfileVersionArn: Swift.String?
-        /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+        /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
         public var snapStart: LambdaClientTypes.SnapStartResponse?
         /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
         public var state: LambdaClientTypes.State?
@@ -7127,6 +7169,7 @@ extension GetEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBinding
             self.maximumRetryAttempts = output.maximumRetryAttempts
             self.parallelizationFactor = output.parallelizationFactor
             self.queues = output.queues
+            self.scalingConfig = output.scalingConfig
             self.selfManagedEventSource = output.selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = output.selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = output.sourceAccessConfigurations
@@ -7153,6 +7196,7 @@ extension GetEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBinding
             self.maximumRetryAttempts = nil
             self.parallelizationFactor = nil
             self.queues = nil
+            self.scalingConfig = nil
             self.selfManagedEventSource = nil
             self.selfManagedKafkaEventSourceConfig = nil
             self.sourceAccessConfigurations = nil
@@ -7199,6 +7243,8 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// The self-managed Apache Kafka cluster for your event source.
     public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
     /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -7236,6 +7282,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
         selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -7263,6 +7310,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
+        self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
         self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -7302,6 +7350,7 @@ struct GetEventSourceMappingOutputResponseBody: Swift.Equatable {
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -7321,6 +7370,7 @@ extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -7421,6 +7471,8 @@ extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -7881,7 +7933,7 @@ public struct GetFunctionConfigurationOutputResponse: Swift.Equatable {
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
     public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public var snapStart: LambdaClientTypes.SnapStartResponse?
     /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
     public var state: LambdaClientTypes.State?
@@ -11708,25 +11760,25 @@ extension ListEventSourceMappingsInput: ClientRuntime.URLPathProvider {
 public struct ListEventSourceMappingsInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the event source.
     ///
-    /// * Amazon Kinesis - The ARN of the data stream or a stream consumer.
+    /// * Amazon Kinesis – The ARN of the data stream or a stream consumer.
     ///
-    /// * Amazon DynamoDB Streams - The ARN of the stream.
+    /// * Amazon DynamoDB Streams – The ARN of the stream.
     ///
-    /// * Amazon Simple Queue Service - The ARN of the queue.
+    /// * Amazon Simple Queue Service – The ARN of the queue.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
+    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
     ///
-    /// * Amazon MQ - The ARN of the broker.
+    /// * Amazon MQ – The ARN of the broker.
     public var eventSourceArn: Swift.String?
     /// The name of the Lambda function. Name formats
     ///
-    /// * Function name - MyFunction.
+    /// * Function name – MyFunction.
     ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
     ///
-    /// * Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
     ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
+    /// * Partial ARN – 123456789012:function:MyFunction.
     ///
     ///
     /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
@@ -14180,7 +14232,7 @@ public struct PublishVersionOutputResponse: Swift.Equatable {
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
     public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public var snapStart: LambdaClientTypes.SnapStartResponse?
     /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
     public var state: LambdaClientTypes.State?
@@ -15812,6 +15864,41 @@ extension LambdaClientTypes {
     }
 }
 
+extension LambdaClientTypes.ScalingConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximumConcurrency = "MaximumConcurrency"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maximumConcurrency = self.maximumConcurrency {
+            try encodeContainer.encode(maximumConcurrency, forKey: .maximumConcurrency)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maximumConcurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumConcurrency)
+        maximumConcurrency = maximumConcurrencyDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    /// (Amazon SQS only) The scaling configuration for the event source. To remove the configuration, pass an empty value.
+    public struct ScalingConfig: Swift.Equatable {
+        /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
+        public var maximumConcurrency: Swift.Int?
+
+        public init (
+            maximumConcurrency: Swift.Int? = nil
+        )
+        {
+            self.maximumConcurrency = maximumConcurrency
+        }
+    }
+
+}
+
 extension LambdaClientTypes.SelfManagedEventSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endpoints = "Endpoints"
@@ -15985,7 +16072,7 @@ extension LambdaClientTypes.SnapStart: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    /// The function's SnapStart setting. Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// The function's Lambda SnapStart setting. Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. SnapStart is supported with the java11 runtime. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public struct SnapStart: Swift.Equatable {
         /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
         public var applyOn: LambdaClientTypes.SnapStartApplyOn?
@@ -16322,23 +16409,23 @@ extension LambdaClientTypes {
     public struct SourceAccessConfiguration: Swift.Equatable {
         /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".
         ///
-        /// * BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.
+        /// * BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.
         ///
-        /// * BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.
+        /// * BASIC_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.
         ///
-        /// * VPC_SUBNET - (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.
+        /// * VPC_SUBNET – (Self-managed Apache Kafka) The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.
         ///
-        /// * VPC_SECURITY_GROUP - (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.
+        /// * VPC_SECURITY_GROUP – (Self-managed Apache Kafka) The VPC security group used to manage access to your self-managed Apache Kafka brokers.
         ///
-        /// * SASL_SCRAM_256_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.
+        /// * SASL_SCRAM_256_AUTH – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.
         ///
-        /// * SASL_SCRAM_512_AUTH - (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.
+        /// * SASL_SCRAM_512_AUTH – (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.
         ///
-        /// * VIRTUAL_HOST - (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.
+        /// * VIRTUAL_HOST –- (RabbitMQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.
         ///
-        /// * CLIENT_CERTIFICATE_TLS_AUTH - (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.
+        /// * CLIENT_CERTIFICATE_TLS_AUTH – (Amazon MSK, self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.
         ///
-        /// * SERVER_ROOT_CA_CERTIFICATE - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
+        /// * SERVER_ROOT_CA_CERTIFICATE – (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
         public var type: LambdaClientTypes.SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public var uri: Swift.String?
@@ -17481,6 +17568,7 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
+        case scalingConfig = "ScalingConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
         case tumblingWindowInSeconds = "TumblingWindowInSeconds"
     }
@@ -17523,6 +17611,9 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         if let parallelizationFactor = self.parallelizationFactor {
             try encodeContainer.encode(parallelizationFactor, forKey: .parallelizationFactor)
         }
+        if let scalingConfig = self.scalingConfig {
+            try encodeContainer.encode(scalingConfig, forKey: .scalingConfig)
+        }
         if let sourceAccessConfigurations = sourceAccessConfigurations {
             var sourceAccessConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceAccessConfigurations)
             for sourceaccessconfiguration0 in sourceAccessConfigurations {
@@ -17547,17 +17638,17 @@ extension UpdateEventSourceMappingInput: ClientRuntime.URLPathProvider {
 public struct UpdateEventSourceMappingInput: Swift.Equatable {
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
     ///
-    /// * Amazon Kinesis - Default 100. Max 10,000.
+    /// * Amazon Kinesis – Default 100. Max 10,000.
     ///
-    /// * Amazon DynamoDB Streams - Default 100. Max 10,000.
+    /// * Amazon DynamoDB Streams – Default 100. Max 10,000.
     ///
-    /// * Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
+    /// * Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.
+    /// * Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.
     ///
-    /// * Self-managed Apache Kafka - Default 100. Max 10,000.
+    /// * Self-managed Apache Kafka – Default 100. Max 10,000.
     ///
-    /// * Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
+    /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
     public var batchSize: Swift.Int?
     /// (Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
@@ -17569,13 +17660,13 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
     /// The name of the Lambda function. Name formats
     ///
-    /// * Function name - MyFunction.
+    /// * Function name – MyFunction.
     ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
     ///
-    /// * Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
     ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
+    /// * Partial ARN – 123456789012:function:MyFunction.
     ///
     ///
     /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
@@ -17590,6 +17681,8 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     public var maximumRetryAttempts: Swift.Int?
     /// (Streams only) The number of batches to process from each shard concurrently.
     public var parallelizationFactor: Swift.Int?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// An array of authentication protocols or VPC components required to secure your event source.
     public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
     /// (Streams only) The duration in seconds of a processing window. The range is between 1 second and 900 seconds.
@@ -17610,6 +17703,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
         tumblingWindowInSeconds: Swift.Int? = nil,
         uuid: Swift.String? = nil
@@ -17626,6 +17720,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
+        self.scalingConfig = scalingConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
         self.tumblingWindowInSeconds = tumblingWindowInSeconds
         self.uuid = uuid
@@ -17646,6 +17741,7 @@ struct UpdateEventSourceMappingInputBody: Swift.Equatable {
     let sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
     let tumblingWindowInSeconds: Swift.Int?
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension UpdateEventSourceMappingInputBody: Swift.Decodable {
@@ -17661,6 +17757,7 @@ extension UpdateEventSourceMappingInputBody: Swift.Decodable {
         case maximumRecordAgeInSeconds = "MaximumRecordAgeInSeconds"
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
+        case scalingConfig = "ScalingConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
         case tumblingWindowInSeconds = "TumblingWindowInSeconds"
     }
@@ -17711,6 +17808,8 @@ extension UpdateEventSourceMappingInputBody: Swift.Decodable {
             }
         }
         functionResponseTypes = functionResponseTypesDecoded0
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -17767,6 +17866,7 @@ extension UpdateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = output.maximumRetryAttempts
             self.parallelizationFactor = output.parallelizationFactor
             self.queues = output.queues
+            self.scalingConfig = output.scalingConfig
             self.selfManagedEventSource = output.selfManagedEventSource
             self.selfManagedKafkaEventSourceConfig = output.selfManagedKafkaEventSourceConfig
             self.sourceAccessConfigurations = output.sourceAccessConfigurations
@@ -17793,6 +17893,7 @@ extension UpdateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.maximumRetryAttempts = nil
             self.parallelizationFactor = nil
             self.queues = nil
+            self.scalingConfig = nil
             self.selfManagedEventSource = nil
             self.selfManagedKafkaEventSourceConfig = nil
             self.sourceAccessConfigurations = nil
@@ -17839,6 +17940,8 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var parallelizationFactor: Swift.Int?
     /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
     public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
     /// The self-managed Apache Kafka cluster for your event source.
     public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
     /// Specific configuration settings for a self-managed Apache Kafka event source.
@@ -17876,6 +17979,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
         maximumRetryAttempts: Swift.Int? = nil,
         parallelizationFactor: Swift.Int? = nil,
         queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
         selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
         selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
         sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
@@ -17903,6 +18007,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
         self.maximumRetryAttempts = maximumRetryAttempts
         self.parallelizationFactor = parallelizationFactor
         self.queues = queues
+        self.scalingConfig = scalingConfig
         self.selfManagedEventSource = selfManagedEventSource
         self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
         self.sourceAccessConfigurations = sourceAccessConfigurations
@@ -17942,6 +18047,7 @@ struct UpdateEventSourceMappingOutputResponseBody: Swift.Equatable {
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    let scalingConfig: LambdaClientTypes.ScalingConfig?
 }
 
 extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -17961,6 +18067,7 @@ extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
         case maximumRetryAttempts = "MaximumRetryAttempts"
         case parallelizationFactor = "ParallelizationFactor"
         case queues = "Queues"
+        case scalingConfig = "ScalingConfig"
         case selfManagedEventSource = "SelfManagedEventSource"
         case selfManagedKafkaEventSourceConfig = "SelfManagedKafkaEventSourceConfig"
         case sourceAccessConfigurations = "SourceAccessConfigurations"
@@ -18061,6 +18168,8 @@ extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
         amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfigDecoded
         let selfManagedKafkaEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SelfManagedKafkaEventSourceConfig.self, forKey: .selfManagedKafkaEventSourceConfig)
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
+        let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
+        scalingConfig = scalingConfigDecoded
     }
 }
 
@@ -18414,7 +18523,7 @@ public struct UpdateFunctionCodeOutputResponse: Swift.Equatable {
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
     public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public var snapStart: LambdaClientTypes.SnapStartResponse?
     /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
     public var state: LambdaClientTypes.State?
@@ -19131,7 +19240,7 @@ public struct UpdateFunctionConfigurationOutputResponse: Swift.Equatable {
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
     public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Reducing startup time with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
     public var snapStart: LambdaClientTypes.SnapStartResponse?
     /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
     public var state: LambdaClientTypes.State?

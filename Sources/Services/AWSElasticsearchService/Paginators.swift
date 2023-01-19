@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeDomainAutoTunesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDomainAutoTunesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribeDomainAutoTunesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDomainAutoTunesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDomainAutoTunesOutputResponse`
     public func describeDomainAutoTunesPaginated(input: DescribeDomainAutoTunesInput) -> ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDomainAutoTunesInput, DescribeDomainAutoTunesOutputResponse>(input: input, inputKey: \DescribeDomainAutoTunesInput.nextToken, outputKey: \DescribeDomainAutoTunesOutputResponse.nextToken, paginationFunction: self.describeDomainAutoTunes(input:))
     }
@@ -25,16 +24,15 @@ extension DescribeDomainAutoTunesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeInboundCrossClusterSearchConnectionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInboundCrossClusterSearchConnectionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundCrossClusterSearchConnectionsOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribeInboundCrossClusterSearchConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInboundCrossClusterSearchConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInboundCrossClusterSearchConnectionsOutputResponse`
     public func describeInboundCrossClusterSearchConnectionsPaginated(input: DescribeInboundCrossClusterSearchConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInboundCrossClusterSearchConnectionsInput, DescribeInboundCrossClusterSearchConnectionsOutputResponse>(input: input, inputKey: \DescribeInboundCrossClusterSearchConnectionsInput.nextToken, outputKey: \DescribeInboundCrossClusterSearchConnectionsOutputResponse.nextToken, paginationFunction: self.describeInboundCrossClusterSearchConnections(input:))
     }
@@ -48,16 +46,15 @@ extension DescribeInboundCrossClusterSearchConnectionsInput: ClientRuntime.Pagin
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeOutboundCrossClusterSearchConnectionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOutboundCrossClusterSearchConnectionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundCrossClusterSearchConnectionsOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribeOutboundCrossClusterSearchConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOutboundCrossClusterSearchConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOutboundCrossClusterSearchConnectionsOutputResponse`
     public func describeOutboundCrossClusterSearchConnectionsPaginated(input: DescribeOutboundCrossClusterSearchConnectionsInput) -> ClientRuntime.PaginatorSequence<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOutboundCrossClusterSearchConnectionsInput, DescribeOutboundCrossClusterSearchConnectionsOutputResponse>(input: input, inputKey: \DescribeOutboundCrossClusterSearchConnectionsInput.nextToken, outputKey: \DescribeOutboundCrossClusterSearchConnectionsOutputResponse.nextToken, paginationFunction: self.describeOutboundCrossClusterSearchConnections(input:))
     }
@@ -71,16 +68,15 @@ extension DescribeOutboundCrossClusterSearchConnectionsInput: ClientRuntime.Pagi
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribePackagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePackagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribePackagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePackagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePackagesOutputResponse`
     public func describePackagesPaginated(input: DescribePackagesInput) -> ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePackagesInput, DescribePackagesOutputResponse>(input: input, inputKey: \DescribePackagesInput.nextToken, outputKey: \DescribePackagesOutputResponse.nextToken, paginationFunction: self.describePackages(input:))
     }
@@ -94,16 +90,15 @@ extension DescribePackagesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeReservedElasticsearchInstanceOfferingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeReservedElasticsearchInstanceOfferingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstanceOfferingsOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribeReservedElasticsearchInstanceOfferingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReservedElasticsearchInstanceOfferingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstanceOfferingsOutputResponse`
     public func describeReservedElasticsearchInstanceOfferingsPaginated(input: DescribeReservedElasticsearchInstanceOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstanceOfferingsInput, DescribeReservedElasticsearchInstanceOfferingsOutputResponse>(input: input, inputKey: \DescribeReservedElasticsearchInstanceOfferingsInput.nextToken, outputKey: \DescribeReservedElasticsearchInstanceOfferingsOutputResponse.nextToken, paginationFunction: self.describeReservedElasticsearchInstanceOfferings(input:))
     }
@@ -117,16 +112,15 @@ extension DescribeReservedElasticsearchInstanceOfferingsInput: ClientRuntime.Pag
             reservedElasticsearchInstanceOfferingId: self.reservedElasticsearchInstanceOfferingId
         )}
 }
-
-/// Paginate over `[DescribeReservedElasticsearchInstancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeReservedElasticsearchInstancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstancesOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[DescribeReservedElasticsearchInstancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReservedElasticsearchInstancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedElasticsearchInstancesOutputResponse`
     public func describeReservedElasticsearchInstancesPaginated(input: DescribeReservedElasticsearchInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeReservedElasticsearchInstancesInput, DescribeReservedElasticsearchInstancesOutputResponse>(input: input, inputKey: \DescribeReservedElasticsearchInstancesInput.nextToken, outputKey: \DescribeReservedElasticsearchInstancesOutputResponse.nextToken, paginationFunction: self.describeReservedElasticsearchInstances(input:))
     }
@@ -140,16 +134,15 @@ extension DescribeReservedElasticsearchInstancesInput: ClientRuntime.PaginateTok
             reservedElasticsearchInstanceId: self.reservedElasticsearchInstanceId
         )}
 }
-
-/// Paginate over `[GetPackageVersionHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetPackageVersionHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[GetPackageVersionHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetPackageVersionHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetPackageVersionHistoryOutputResponse`
     public func getPackageVersionHistoryPaginated(input: GetPackageVersionHistoryInput) -> ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetPackageVersionHistoryInput, GetPackageVersionHistoryOutputResponse>(input: input, inputKey: \GetPackageVersionHistoryInput.nextToken, outputKey: \GetPackageVersionHistoryOutputResponse.nextToken, paginationFunction: self.getPackageVersionHistory(input:))
     }
@@ -163,16 +156,15 @@ extension GetPackageVersionHistoryInput: ClientRuntime.PaginateToken {
             packageID: self.packageID
         )}
 }
-
-/// Paginate over `[GetUpgradeHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetUpgradeHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[GetUpgradeHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetUpgradeHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetUpgradeHistoryOutputResponse`
     public func getUpgradeHistoryPaginated(input: GetUpgradeHistoryInput) -> ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetUpgradeHistoryInput, GetUpgradeHistoryOutputResponse>(input: input, inputKey: \GetUpgradeHistoryInput.nextToken, outputKey: \GetUpgradeHistoryOutputResponse.nextToken, paginationFunction: self.getUpgradeHistory(input:))
     }
@@ -186,16 +178,15 @@ extension GetUpgradeHistoryInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListDomainsForPackageOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDomainsForPackageInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[ListDomainsForPackageOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainsForPackageInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainsForPackageOutputResponse`
     public func listDomainsForPackagePaginated(input: ListDomainsForPackageInput) -> ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDomainsForPackageInput, ListDomainsForPackageOutputResponse>(input: input, inputKey: \ListDomainsForPackageInput.nextToken, outputKey: \ListDomainsForPackageOutputResponse.nextToken, paginationFunction: self.listDomainsForPackage(input:))
     }
@@ -209,16 +200,15 @@ extension ListDomainsForPackageInput: ClientRuntime.PaginateToken {
             packageID: self.packageID
         )}
 }
-
-/// Paginate over `[ListElasticsearchInstanceTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListElasticsearchInstanceTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchInstanceTypesOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[ListElasticsearchInstanceTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListElasticsearchInstanceTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchInstanceTypesOutputResponse`
     public func listElasticsearchInstanceTypesPaginated(input: ListElasticsearchInstanceTypesInput) -> ClientRuntime.PaginatorSequence<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListElasticsearchInstanceTypesInput, ListElasticsearchInstanceTypesOutputResponse>(input: input, inputKey: \ListElasticsearchInstanceTypesInput.nextToken, outputKey: \ListElasticsearchInstanceTypesOutputResponse.nextToken, paginationFunction: self.listElasticsearchInstanceTypes(input:))
     }
@@ -233,16 +223,15 @@ extension ListElasticsearchInstanceTypesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListElasticsearchVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListElasticsearchVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchVersionsOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[ListElasticsearchVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListElasticsearchVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListElasticsearchVersionsOutputResponse`
     public func listElasticsearchVersionsPaginated(input: ListElasticsearchVersionsInput) -> ClientRuntime.PaginatorSequence<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListElasticsearchVersionsInput, ListElasticsearchVersionsOutputResponse>(input: input, inputKey: \ListElasticsearchVersionsInput.nextToken, outputKey: \ListElasticsearchVersionsOutputResponse.nextToken, paginationFunction: self.listElasticsearchVersions(input:))
     }
@@ -255,16 +244,15 @@ extension ListElasticsearchVersionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListPackagesForDomainOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPackagesForDomainInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutputResponse`
 extension ElasticsearchClient {
+    /// Paginate over `[ListPackagesForDomainOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPackagesForDomainInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPackagesForDomainOutputResponse`
     public func listPackagesForDomainPaginated(input: ListPackagesForDomainInput) -> ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPackagesForDomainInput, ListPackagesForDomainOutputResponse>(input: input, inputKey: \ListPackagesForDomainInput.nextToken, outputKey: \ListPackagesForDomainOutputResponse.nextToken, paginationFunction: self.listPackagesForDomain(input:))
     }

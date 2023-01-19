@@ -28,7 +28,7 @@ extension ImagebuilderClientTypes.AdditionalInstanceConfiguration: Swift.Codable
 }
 
 extension ImagebuilderClientTypes {
-    /// In addition to your infrastruction configuration, these settings provide an extra layer of control over your build instances. For instances where Image Builder installs the Systems Manager agent, you can choose whether to keep it for the AMI that you create. You can also specify commands to run on launch for all of your build instances.
+    /// In addition to your infrastructure configuration, these settings provide an extra layer of control over your build instances. You can also specify commands to run on launch for all of your build instances. Image Builder does not automatically install the Systems Manager agent on Windows instances. If your base image includes the Systems Manager agent, then the AMI that you create will also include the agent. For Linux instances, if the base image does not already include the Systems Manager agent, Image Builder installs it. For Linux instances where Image Builder installs the Systems Manager agent, you can choose whether to keep it for the AMI that you create.
     public struct AdditionalInstanceConfiguration: Swift.Equatable {
         /// Contains settings for the Systems Manager agent on your build instance.
         public var systemsManagerAgent: ImagebuilderClientTypes.SystemsManagerAgent?
@@ -548,9 +548,11 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
         case encrypted
         case kmsKeyId
         case name
+        case obfuscate
         case owner
         case parameters
         case platform
+        case publisher
         case state
         case supportedOsVersions
         case tags
@@ -584,6 +586,9 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if obfuscate != false {
+            try encodeContainer.encode(obfuscate, forKey: .obfuscate)
+        }
         if let owner = self.owner {
             try encodeContainer.encode(owner, forKey: .owner)
         }
@@ -595,6 +600,9 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
         }
         if let platform = self.platform {
             try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let publisher = self.publisher {
+            try encodeContainer.encode(publisher, forKey: .publisher)
         }
         if let state = self.state {
             try encodeContainer.encode(state, forKey: .state)
@@ -680,6 +688,10 @@ extension ImagebuilderClientTypes.Component: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let publisherDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisher)
+        publisher = publisherDecoded
+        let obfuscateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .obfuscate) ?? false
+        obfuscate = obfuscateDecoded
     }
 }
 
@@ -692,7 +704,7 @@ extension ImagebuilderClientTypes {
         public var changeDescription: Swift.String?
         /// Component data contains the YAML document content for the component.
         public var data: Swift.String?
-        /// The date that the component was created.
+        /// The date that Image Builder created the component.
         public var dateCreated: Swift.String?
         /// The description of the component.
         public var description: Swift.String?
@@ -702,19 +714,23 @@ extension ImagebuilderClientTypes {
         public var kmsKeyId: Swift.String?
         /// The name of the component.
         public var name: Swift.String?
+        /// Indicates whether component source is hidden from view in the console, and from component detail results for API, CLI, or SDK operations.
+        public var obfuscate: Swift.Bool
         /// The owner of the component.
         public var owner: Swift.String?
-        /// Contains parameter details for each of the parameters that are defined for the component.
+        /// Contains parameter details for each of the parameters that the component document defined for the component.
         public var parameters: [ImagebuilderClientTypes.ComponentParameterDetail]?
-        /// The platform of the component.
+        /// The operating system platform of the component.
         public var platform: ImagebuilderClientTypes.Platform?
+        /// Contains the name of the publisher if this is a third-party component. Otherwise, this property is empty.
+        public var publisher: Swift.String?
         /// Describes the current status of the component. This is used for components that are no longer active.
         public var state: ImagebuilderClientTypes.ComponentState?
-        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation.
+        /// The operating system (OS) version supported by the component. If the OS information is available, Image Builder performs a prefix match against the base image OS version during image recipe creation.
         public var supportedOsVersions: [Swift.String]?
-        /// The tags associated with the component.
+        /// The tags that apply to the component.
         public var tags: [Swift.String:Swift.String]?
-        /// The type of the component denotes whether the component is used to build the image or only to test it.
+        /// The component type specifies whether Image Builder uses the component to build the image or only to test it.
         public var type: ImagebuilderClientTypes.ComponentType?
         /// The version of the component.
         public var version: Swift.String?
@@ -728,9 +744,11 @@ extension ImagebuilderClientTypes {
             encrypted: Swift.Bool? = nil,
             kmsKeyId: Swift.String? = nil,
             name: Swift.String? = nil,
+            obfuscate: Swift.Bool = false,
             owner: Swift.String? = nil,
             parameters: [ImagebuilderClientTypes.ComponentParameterDetail]? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
+            publisher: Swift.String? = nil,
             state: ImagebuilderClientTypes.ComponentState? = nil,
             supportedOsVersions: [Swift.String]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -746,9 +764,11 @@ extension ImagebuilderClientTypes {
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
             self.name = name
+            self.obfuscate = obfuscate
             self.owner = owner
             self.parameters = parameters
             self.platform = platform
+            self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
@@ -802,7 +822,7 @@ extension ImagebuilderClientTypes {
         /// The Amazon Resource Name (ARN) of the component.
         /// This member is required.
         public var componentArn: Swift.String?
-        /// A group of parameter settings that are used to configure the component for a specific recipe.
+        /// A group of parameter settings that Image Builder uses to configure the component for a specific recipe.
         public var parameters: [ImagebuilderClientTypes.ComponentParameter]?
 
         public init (
@@ -1065,8 +1085,10 @@ extension ImagebuilderClientTypes.ComponentSummary: Swift.Codable {
         case dateCreated
         case description
         case name
+        case obfuscate
         case owner
         case platform
+        case publisher
         case state
         case supportedOsVersions
         case tags
@@ -1091,11 +1113,17 @@ extension ImagebuilderClientTypes.ComponentSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if obfuscate != false {
+            try encodeContainer.encode(obfuscate, forKey: .obfuscate)
+        }
         if let owner = self.owner {
             try encodeContainer.encode(owner, forKey: .owner)
         }
         if let platform = self.platform {
             try encodeContainer.encode(platform.rawValue, forKey: .platform)
+        }
+        if let publisher = self.publisher {
+            try encodeContainer.encode(publisher, forKey: .publisher)
         }
         if let state = self.state {
             try encodeContainer.encode(state, forKey: .state)
@@ -1164,6 +1192,10 @@ extension ImagebuilderClientTypes.ComponentSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let publisherDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .publisher)
+        publisher = publisherDecoded
+        let obfuscateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .obfuscate) ?? false
+        obfuscate = obfuscateDecoded
     }
 }
 
@@ -1172,25 +1204,29 @@ extension ImagebuilderClientTypes {
     public struct ComponentSummary: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the component.
         public var arn: Swift.String?
-        /// The change description of the component.
+        /// The change description for the current version of the component.
         public var changeDescription: Swift.String?
-        /// The date that the component was created.
+        /// The original creation date of the component.
         public var dateCreated: Swift.String?
         /// The description of the component.
         public var description: Swift.String?
         /// The name of the component.
         public var name: Swift.String?
+        /// Indicates whether component source is hidden from view in the console, and from component detail results for API, CLI, or SDK operations.
+        public var obfuscate: Swift.Bool
         /// The owner of the component.
         public var owner: Swift.String?
-        /// The platform of the component.
+        /// The operating system platform of the component.
         public var platform: ImagebuilderClientTypes.Platform?
+        /// Contains the name of the publisher if this is a third-party component. Otherwise, this property is empty.
+        public var publisher: Swift.String?
         /// Describes the current status of the component.
         public var state: ImagebuilderClientTypes.ComponentState?
-        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation.
+        /// The operating system (OS) version that the component supports. If the OS information is available, Image Builder performs a prefix match against the base image OS version during image recipe creation.
         public var supportedOsVersions: [Swift.String]?
-        /// The tags associated with the component.
+        /// The tags that apply to the component.
         public var tags: [Swift.String:Swift.String]?
-        /// The type of the component denotes whether the component is used to build the image or only to test it.
+        /// The component type specifies whether Image Builder uses the component to build the image or only to test it.
         public var type: ImagebuilderClientTypes.ComponentType?
         /// The version of the component.
         public var version: Swift.String?
@@ -1201,8 +1237,10 @@ extension ImagebuilderClientTypes {
             dateCreated: Swift.String? = nil,
             description: Swift.String? = nil,
             name: Swift.String? = nil,
+            obfuscate: Swift.Bool = false,
             owner: Swift.String? = nil,
             platform: ImagebuilderClientTypes.Platform? = nil,
+            publisher: Swift.String? = nil,
             state: ImagebuilderClientTypes.ComponentState? = nil,
             supportedOsVersions: [Swift.String]? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -1215,8 +1253,10 @@ extension ImagebuilderClientTypes {
             self.dateCreated = dateCreated
             self.description = description
             self.name = name
+            self.obfuscate = obfuscate
             self.owner = owner
             self.platform = platform
+            self.publisher = publisher
             self.state = state
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
@@ -1667,7 +1707,7 @@ extension ImagebuilderClientTypes {
         ///
         /// * Build version ARNs have all four nodes, and point to a specific build for a specific version of an object.
         public var arn: Swift.String?
-        /// Components for build and test that are included in the container recipe.
+        /// Build and test components that are included in the container recipe. Recipes require a minimum of one build component, and can have a maximum of 20 build and test components in any combination.
         public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
         /// Specifies the type of container, such as Docker.
         public var containerType: ImagebuilderClientTypes.ContainerType?
@@ -1990,14 +2030,14 @@ public struct CreateComponentInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// Component data contains inline YAML document content for the component. Alternatively, you can specify the uri of a YAML document file stored in Amazon S3. However, you cannot specify both properties.
     public var data: Swift.String?
-    /// The description of the component. Describes the contents of the component.
+    /// Describes the contents of the component.
     public var description: Swift.String?
-    /// The ID of the KMS key that should be used to encrypt this component.
+    /// The ID of the KMS key that is used to encrypt this component.
     public var kmsKeyId: Swift.String?
     /// The name of the component.
     /// This member is required.
     public var name: Swift.String?
-    /// The platform of the component.
+    /// The operating system platform of the component.
     /// This member is required.
     public var platform: ImagebuilderClientTypes.Platform?
     /// The semantic version of the component. This version follows the semantic version syntax. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01.
@@ -2005,7 +2045,7 @@ public struct CreateComponentInput: Swift.Equatable {
     public var semanticVersion: Swift.String?
     /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the base image OS version during image recipe creation.
     public var supportedOsVersions: [Swift.String]?
-    /// The tags of the component.
+    /// The tags that apply to the component.
     public var tags: [Swift.String:Swift.String]?
     /// The uri of a YAML component document file. This must be an S3 URL (s3://bucket/key), and the requester must have permission to access the S3 bucket it points to. If you use Amazon S3, you can specify component content up to your service quota. Alternatively, you can specify the YAML document inline, using the component data property. You cannot specify both properties.
     public var uri: Swift.String?
@@ -2304,7 +2344,7 @@ public struct CreateContainerRecipeInput: Swift.Equatable {
     /// The client token used to make this request idempotent.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// Components for build and test that are included in the container recipe.
+    /// Components for build and test that are included in the container recipe. Recipes require a minimum of one build component, and can have a maximum of 20 build and test components in any combination.
     /// This member is required.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The type of container to create.
@@ -3412,7 +3452,7 @@ public struct CreateImageRecipeInput: Swift.Equatable {
     /// The idempotency token used to make this request idempotent.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// The components of the image recipe.
+    /// The components included in the image recipe.
     /// This member is required.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The description of the image recipe.
@@ -7182,6 +7222,7 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         case distributionConfiguration
         case enhancedImageMetadataEnabled
         case imageRecipe
+        case imageSource
         case imageTestsConfiguration
         case infrastructureConfiguration
         case name
@@ -7218,6 +7259,9 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         }
         if let imageRecipe = self.imageRecipe {
             try encodeContainer.encode(imageRecipe, forKey: .imageRecipe)
+        }
+        if let imageSource = self.imageSource {
+            try encodeContainer.encode(imageSource.rawValue, forKey: .imageSource)
         }
         if let imageTestsConfiguration = self.imageTestsConfiguration {
             try encodeContainer.encode(imageTestsConfiguration, forKey: .imageTestsConfiguration)
@@ -7309,6 +7353,8 @@ extension ImagebuilderClientTypes.Image: Swift.Codable {
         tags = tagsDecoded0
         let buildTypeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.BuildType.self, forKey: .buildType)
         buildType = buildTypeDecoded
+        let imageSourceDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageSource.self, forKey: .imageSource)
+        imageSource = imageSourceDecoded
     }
 }
 
@@ -7331,27 +7377,29 @@ extension ImagebuilderClientTypes {
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
         public var buildType: ImagebuilderClientTypes.BuildType?
-        /// The recipe that is used to create an Image Builder container image.
+        /// For container images, this is the container recipe that Image Builder used to create the image. For images that distribute an AMI, this is empty.
         public var containerRecipe: ImagebuilderClientTypes.ContainerRecipe?
-        /// The date on which this image was created.
+        /// The date on which Image Builder created this image.
         public var dateCreated: Swift.String?
-        /// The distribution configuration used when creating this image.
+        /// The distribution configuration that Image Builder used to create this image.
         public var distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration?
-        /// Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+        /// Indicates whether Image Builder collects additional information about the image, such as the operating system (OS) version and package list.
         public var enhancedImageMetadataEnabled: Swift.Bool?
-        /// The image recipe used when creating the image.
+        /// For images that distribute an AMI, this is the image recipe that Image Builder used to create the image. For container images, this is empty.
         public var imageRecipe: ImagebuilderClientTypes.ImageRecipe?
-        /// The image tests configuration used when creating this image.
+        /// The origin of the base image that Image Builder used to build this image.
+        public var imageSource: ImagebuilderClientTypes.ImageSource?
+        /// The image tests that ran when that Image Builder created this image.
         public var imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration?
-        /// The infrastructure used when creating this image.
+        /// The infrastructure that Image Builder used to create this image.
         public var infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration?
         /// The name of the image.
         public var name: Swift.String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
+        /// The operating system version for instances that launch from this image. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public var osVersion: Swift.String?
-        /// The output resources produced when creating this image.
+        /// The output resources that Image Builder produces for this image.
         public var outputResources: ImagebuilderClientTypes.OutputResources?
-        /// The platform of the image.
+        /// The image operating system platform, such as Linux or Windows.
         public var platform: ImagebuilderClientTypes.Platform?
         /// The Amazon Resource Name (ARN) of the image pipeline that created this image.
         public var sourcePipelineArn: Swift.String?
@@ -7359,9 +7407,9 @@ extension ImagebuilderClientTypes {
         public var sourcePipelineName: Swift.String?
         /// The state of the image.
         public var state: ImagebuilderClientTypes.ImageState?
-        /// The tags of the image.
+        /// The tags that apply to this image.
         public var tags: [Swift.String:Swift.String]?
-        /// Specifies whether this is an AMI or container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public var type: ImagebuilderClientTypes.ImageType?
         /// The semantic version of the image. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
         public var version: Swift.String?
@@ -7374,6 +7422,7 @@ extension ImagebuilderClientTypes {
             distributionConfiguration: ImagebuilderClientTypes.DistributionConfiguration? = nil,
             enhancedImageMetadataEnabled: Swift.Bool? = nil,
             imageRecipe: ImagebuilderClientTypes.ImageRecipe? = nil,
+            imageSource: ImagebuilderClientTypes.ImageSource? = nil,
             imageTestsConfiguration: ImagebuilderClientTypes.ImageTestsConfiguration? = nil,
             infrastructureConfiguration: ImagebuilderClientTypes.InfrastructureConfiguration? = nil,
             name: Swift.String? = nil,
@@ -7395,6 +7444,7 @@ extension ImagebuilderClientTypes {
             self.distributionConfiguration = distributionConfiguration
             self.enhancedImageMetadataEnabled = enhancedImageMetadataEnabled
             self.imageRecipe = imageRecipe
+            self.imageSource = imageSource
             self.imageTestsConfiguration = imageTestsConfiguration
             self.infrastructureConfiguration = infrastructureConfiguration
             self.name = name
@@ -7593,9 +7643,9 @@ extension ImagebuilderClientTypes {
         public var containerRecipeArn: Swift.String?
         /// The date on which this image pipeline was created.
         public var dateCreated: Swift.String?
-        /// The date on which this image pipeline was last run.
+        /// This is no longer supported, and does not return a value.
         public var dateLastRun: Swift.String?
-        /// The date on which this image pipeline will next be run.
+        /// This is no longer supported, and does not return a value.
         public var dateNextRun: Swift.String?
         /// The date on which this image pipeline was last updated.
         public var dateUpdated: Swift.String?
@@ -7806,7 +7856,7 @@ extension ImagebuilderClientTypes {
         public var arn: Swift.String?
         /// The block device mappings to apply when creating images from this recipe.
         public var blockDeviceMappings: [ImagebuilderClientTypes.InstanceBlockDeviceMapping]?
-        /// The components of the image recipe.
+        /// The components that are included in the image recipe. Recipes require a minimum of one build component, and can have a maximum of 20 build and test components in any combination.
         public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
         /// The date on which this image recipe was created.
         public var dateCreated: Swift.String?
@@ -7972,6 +8022,44 @@ extension ImagebuilderClientTypes {
 
 }
 
+extension ImagebuilderClientTypes {
+    public enum ImageSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case amazonManaged
+        case awsMarketplace
+        case custom
+        case imported
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageSource] {
+            return [
+                .amazonManaged,
+                .awsMarketplace,
+                .custom,
+                .imported,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .amazonManaged: return "AMAZON_MANAGED"
+            case .awsMarketplace: return "AWS_MARKETPLACE"
+            case .custom: return "CUSTOM"
+            case .imported: return "IMPORTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImageSource(rawValue: rawValue) ?? ImageSource.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ImagebuilderClientTypes.ImageState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case reason
@@ -8081,6 +8169,7 @@ extension ImagebuilderClientTypes.ImageSummary: Swift.Codable {
         case arn
         case buildType
         case dateCreated
+        case imageSource
         case name
         case osVersion
         case outputResources
@@ -8102,6 +8191,9 @@ extension ImagebuilderClientTypes.ImageSummary: Swift.Codable {
         }
         if let dateCreated = self.dateCreated {
             try encodeContainer.encode(dateCreated, forKey: .dateCreated)
+        }
+        if let imageSource = self.imageSource {
+            try encodeContainer.encode(imageSource.rawValue, forKey: .imageSource)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -8170,6 +8262,8 @@ extension ImagebuilderClientTypes.ImageSummary: Swift.Codable {
         tags = tagsDecoded0
         let buildTypeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.BuildType.self, forKey: .buildType)
         buildType = buildTypeDecoded
+        let imageSourceDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageSource.self, forKey: .imageSource)
+        imageSource = imageSourceDecoded
     }
 }
 
@@ -8186,23 +8280,25 @@ extension ImagebuilderClientTypes {
         ///
         /// * IMPORT – A VM import created the image to use as the base image for the recipe.
         public var buildType: ImagebuilderClientTypes.BuildType?
-        /// The date on which this image was created.
+        /// The date on which Image Builder created this image.
         public var dateCreated: Swift.String?
+        /// The origin of the base image that Image Builder used to build this image.
+        public var imageSource: ImagebuilderClientTypes.ImageSource?
         /// The name of the image.
         public var name: Swift.String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
+        /// The operating system version of the instances that launch from this image. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public var osVersion: Swift.String?
-        /// The output resources produced when creating this image.
+        /// The output resources that Image Builder produced when it created this image.
         public var outputResources: ImagebuilderClientTypes.OutputResources?
         /// The owner of the image.
         public var owner: Swift.String?
-        /// The platform of the image.
+        /// The image operating system platform, such as Linux or Windows.
         public var platform: ImagebuilderClientTypes.Platform?
         /// The state of the image.
         public var state: ImagebuilderClientTypes.ImageState?
-        /// The tags of the image.
+        /// The tags that apply to this image.
         public var tags: [Swift.String:Swift.String]?
-        /// Specifies whether this is an AMI or container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public var type: ImagebuilderClientTypes.ImageType?
         /// The version of the image.
         public var version: Swift.String?
@@ -8211,6 +8307,7 @@ extension ImagebuilderClientTypes {
             arn: Swift.String? = nil,
             buildType: ImagebuilderClientTypes.BuildType? = nil,
             dateCreated: Swift.String? = nil,
+            imageSource: ImagebuilderClientTypes.ImageSource? = nil,
             name: Swift.String? = nil,
             osVersion: Swift.String? = nil,
             outputResources: ImagebuilderClientTypes.OutputResources? = nil,
@@ -8225,6 +8322,7 @@ extension ImagebuilderClientTypes {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
+            self.imageSource = imageSource
             self.name = name
             self.osVersion = osVersion
             self.outputResources = outputResources
@@ -8269,7 +8367,7 @@ extension ImagebuilderClientTypes {
     public struct ImageTestsConfiguration: Swift.Equatable {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests to run following the image build, before image distribution.
         public var imageTestsEnabled: Swift.Bool?
-        /// The maximum time in minutes that tests are permitted to run.
+        /// The maximum time in minutes that tests are permitted to run. The timeoutMinutes attribute is not currently active. This value is ignored.
         public var timeoutMinutes: Swift.Int?
 
         public init (
@@ -8321,6 +8419,7 @@ extension ImagebuilderClientTypes.ImageVersion: Swift.Codable {
         case arn
         case buildType
         case dateCreated
+        case imageSource
         case name
         case osVersion
         case owner
@@ -8339,6 +8438,9 @@ extension ImagebuilderClientTypes.ImageVersion: Swift.Codable {
         }
         if let dateCreated = self.dateCreated {
             try encodeContainer.encode(dateCreated, forKey: .dateCreated)
+        }
+        if let imageSource = self.imageSource {
+            try encodeContainer.encode(imageSource.rawValue, forKey: .imageSource)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -8380,6 +8482,8 @@ extension ImagebuilderClientTypes.ImageVersion: Swift.Codable {
         dateCreated = dateCreatedDecoded
         let buildTypeDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.BuildType.self, forKey: .buildType)
         buildType = buildTypeDecoded
+        let imageSourceDecoded = try containerValues.decodeIfPresent(ImagebuilderClientTypes.ImageSource.self, forKey: .imageSource)
+        imageSource = imageSourceDecoded
     }
 }
 
@@ -8404,15 +8508,17 @@ extension ImagebuilderClientTypes {
         public var buildType: ImagebuilderClientTypes.BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public var dateCreated: Swift.String?
+        /// The origin of the base image that Image Builder used to build this image.
+        public var imageSource: ImagebuilderClientTypes.ImageSource?
         /// The name of this specific version of an Image Builder image.
         public var name: Swift.String?
         /// The operating system version of the Amazon EC2 build instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public var osVersion: Swift.String?
         /// The owner of the image version.
         public var owner: Swift.String?
-        /// The platform of the image version, for example "Windows" or "Linux".
+        /// The operating system platform of the image version, for example "Windows" or "Linux".
         public var platform: ImagebuilderClientTypes.Platform?
-        /// Specifies whether this image is an AMI or a container image.
+        /// Specifies whether this image produces an AMI or a container image.
         public var type: ImagebuilderClientTypes.ImageType?
         /// Details for a specific version of an Image Builder image. This version follows the semantic version syntax. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Assignment: For the first three nodes you can assign any positive integer value, including zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the build number to the fourth node. Patterns: You can use any numeric pattern that adheres to the assignment requirements for the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or a date, such as 2021.01.01. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
         public var version: Swift.String?
@@ -8421,6 +8527,7 @@ extension ImagebuilderClientTypes {
             arn: Swift.String? = nil,
             buildType: ImagebuilderClientTypes.BuildType? = nil,
             dateCreated: Swift.String? = nil,
+            imageSource: ImagebuilderClientTypes.ImageSource? = nil,
             name: Swift.String? = nil,
             osVersion: Swift.String? = nil,
             owner: Swift.String? = nil,
@@ -8432,6 +8539,7 @@ extension ImagebuilderClientTypes {
             self.arn = arn
             self.buildType = buildType
             self.dateCreated = dateCreated
+            self.imageSource = imageSource
             self.name = name
             self.osVersion = osVersion
             self.owner = owner
@@ -9510,7 +9618,7 @@ extension ImagebuilderClientTypes.InstanceMetadataOptions: Swift.Codable {
 extension ImagebuilderClientTypes {
     /// The instance metadata options that apply to the HTTP requests that pipeline builds use to launch EC2 build and test instances. For more information about instance metadata options, see [Configure the instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html) in the Amazon EC2 User Guide for Linux instances, or [Configure the instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/configuring-instance-metadata-options.html) in the Amazon EC2 Windows Guide for Windows instances.
     public struct InstanceMetadataOptions: Swift.Equatable {
-        /// Limit the number of hops that an instance metadata request can traverse to reach its destination.
+        /// Limit the number of hops that an instance metadata request can traverse to reach its destination. The default is one hop. However, if HTTP tokens are required, container image builds need a minimum of two hops.
         public var httpPutResponseHopLimit: Swift.Int?
         /// Indicates whether a signed token header is required for instance metadata retrieval requests. The values affect the response as follows:
         ///
@@ -10230,7 +10338,7 @@ extension ListComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListComponentsInput: Swift.Equatable {
-    /// Returns the list of component build versions for the specified name.
+    /// Returns the list of components for the specified name.
     public var byName: Swift.Bool
     /// Use the following filters to streamline results:
     ///
@@ -10250,7 +10358,7 @@ public struct ListComponentsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers.
+    /// Filters results based on the type of owner for the component. By default, this request returns a list of components that your account owns. To see results for other types of owners, you can specify components that Amazon manages, third party components, or components that other accounts have shared with you.
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init (
@@ -12442,6 +12550,7 @@ extension ImagebuilderClientTypes {
         case amazon
         case `self`
         case shared
+        case thirdparty
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Ownership] {
@@ -12449,6 +12558,7 @@ extension ImagebuilderClientTypes {
                 .amazon,
                 .self,
                 .shared,
+                .thirdparty,
                 .sdkUnknown("")
             ]
         }
@@ -12461,6 +12571,7 @@ extension ImagebuilderClientTypes {
             case .amazon: return "Amazon"
             case .self: return "Self"
             case .shared: return "Shared"
+            case .thirdparty: return "ThirdParty"
             case let .sdkUnknown(s): return s
             }
         }

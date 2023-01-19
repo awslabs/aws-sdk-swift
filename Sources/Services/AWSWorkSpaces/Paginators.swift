@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeWorkspaceBundlesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeWorkspaceBundlesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceBundlesOutputResponse`
 extension WorkSpacesClient {
+    /// Paginate over `[DescribeWorkspaceBundlesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeWorkspaceBundlesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceBundlesOutputResponse`
     public func describeWorkspaceBundlesPaginated(input: DescribeWorkspaceBundlesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutputResponse>(input: input, inputKey: \DescribeWorkspaceBundlesInput.nextToken, outputKey: \DescribeWorkspaceBundlesOutputResponse.nextToken, paginationFunction: self.describeWorkspaceBundles(input:))
     }
@@ -26,24 +25,23 @@ extension DescribeWorkspaceBundlesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceBundlesPaginated`
-/// to access the nested member `[WorkSpacesClientTypes.WorkspaceBundle]`
-/// - Returns: `[WorkSpacesClientTypes.WorkspaceBundle]`
 extension PaginatorSequence where Input == DescribeWorkspaceBundlesInput, Output == DescribeWorkspaceBundlesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceBundlesPaginated`
+    /// to access the nested member `[WorkSpacesClientTypes.WorkspaceBundle]`
+    /// - Returns: `[WorkSpacesClientTypes.WorkspaceBundle]`
     public func bundles() async throws -> [WorkSpacesClientTypes.WorkspaceBundle] {
         return try await self.asyncCompactMap { item in item.bundles }
     }
 }
-
-/// Paginate over `[DescribeWorkspaceDirectoriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeWorkspaceDirectoriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceDirectoriesOutputResponse`
 extension WorkSpacesClient {
+    /// Paginate over `[DescribeWorkspaceDirectoriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeWorkspaceDirectoriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspaceDirectoriesOutputResponse`
     public func describeWorkspaceDirectoriesPaginated(input: DescribeWorkspaceDirectoriesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutputResponse>(input: input, inputKey: \DescribeWorkspaceDirectoriesInput.nextToken, outputKey: \DescribeWorkspaceDirectoriesOutputResponse.nextToken, paginationFunction: self.describeWorkspaceDirectories(input:))
     }
@@ -58,24 +56,23 @@ extension DescribeWorkspaceDirectoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceDirectoriesPaginated`
-/// to access the nested member `[WorkSpacesClientTypes.WorkspaceDirectory]`
-/// - Returns: `[WorkSpacesClientTypes.WorkspaceDirectory]`
 extension PaginatorSequence where Input == DescribeWorkspaceDirectoriesInput, Output == DescribeWorkspaceDirectoriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeWorkspaceDirectoriesPaginated`
+    /// to access the nested member `[WorkSpacesClientTypes.WorkspaceDirectory]`
+    /// - Returns: `[WorkSpacesClientTypes.WorkspaceDirectory]`
     public func directories() async throws -> [WorkSpacesClientTypes.WorkspaceDirectory] {
         return try await self.asyncCompactMap { item in item.directories }
     }
 }
-
-/// Paginate over `[DescribeWorkspacesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeWorkspacesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspacesOutputResponse`
 extension WorkSpacesClient {
+    /// Paginate over `[DescribeWorkspacesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeWorkspacesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeWorkspacesOutputResponse`
     public func describeWorkspacesPaginated(input: DescribeWorkspacesInput) -> ClientRuntime.PaginatorSequence<DescribeWorkspacesInput, DescribeWorkspacesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeWorkspacesInput, DescribeWorkspacesOutputResponse>(input: input, inputKey: \DescribeWorkspacesInput.nextToken, outputKey: \DescribeWorkspacesOutputResponse.nextToken, paginationFunction: self.describeWorkspaces(input:))
     }
@@ -93,10 +90,10 @@ extension DescribeWorkspacesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeWorkspacesPaginated`
-/// to access the nested member `[WorkSpacesClientTypes.Workspace]`
-/// - Returns: `[WorkSpacesClientTypes.Workspace]`
 extension PaginatorSequence where Input == DescribeWorkspacesInput, Output == DescribeWorkspacesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeWorkspacesPaginated`
+    /// to access the nested member `[WorkSpacesClientTypes.Workspace]`
+    /// - Returns: `[WorkSpacesClientTypes.Workspace]`
     public func workspaces() async throws -> [WorkSpacesClientTypes.Workspace] {
         return try await self.asyncCompactMap { item in item.workspaces }
     }

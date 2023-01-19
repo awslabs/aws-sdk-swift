@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeCodeCoveragesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeCodeCoveragesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeCodeCoveragesOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[DescribeCodeCoveragesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCodeCoveragesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCodeCoveragesOutputResponse`
     public func describeCodeCoveragesPaginated(input: DescribeCodeCoveragesInput) -> ClientRuntime.PaginatorSequence<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeCodeCoveragesInput, DescribeCodeCoveragesOutputResponse>(input: input, inputKey: \DescribeCodeCoveragesInput.nextToken, outputKey: \DescribeCodeCoveragesOutputResponse.nextToken, paginationFunction: self.describeCodeCoverages(input:))
     }
@@ -30,24 +29,23 @@ extension DescribeCodeCoveragesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeCodeCoveragesPaginated`
-/// to access the nested member `[CodeBuildClientTypes.CodeCoverage]`
-/// - Returns: `[CodeBuildClientTypes.CodeCoverage]`
 extension PaginatorSequence where Input == DescribeCodeCoveragesInput, Output == DescribeCodeCoveragesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCodeCoveragesPaginated`
+    /// to access the nested member `[CodeBuildClientTypes.CodeCoverage]`
+    /// - Returns: `[CodeBuildClientTypes.CodeCoverage]`
     public func codeCoverages() async throws -> [CodeBuildClientTypes.CodeCoverage] {
         return try await self.asyncCompactMap { item in item.codeCoverages }
     }
 }
-
-/// Paginate over `[DescribeTestCasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeTestCasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeTestCasesOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[DescribeTestCasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTestCasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTestCasesOutputResponse`
     public func describeTestCasesPaginated(input: DescribeTestCasesInput) -> ClientRuntime.PaginatorSequence<DescribeTestCasesInput, DescribeTestCasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeTestCasesInput, DescribeTestCasesOutputResponse>(input: input, inputKey: \DescribeTestCasesInput.nextToken, outputKey: \DescribeTestCasesOutputResponse.nextToken, paginationFunction: self.describeTestCases(input:))
     }
@@ -63,24 +61,23 @@ extension DescribeTestCasesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeTestCasesPaginated`
-/// to access the nested member `[CodeBuildClientTypes.TestCase]`
-/// - Returns: `[CodeBuildClientTypes.TestCase]`
 extension PaginatorSequence where Input == DescribeTestCasesInput, Output == DescribeTestCasesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTestCasesPaginated`
+    /// to access the nested member `[CodeBuildClientTypes.TestCase]`
+    /// - Returns: `[CodeBuildClientTypes.TestCase]`
     public func testCases() async throws -> [CodeBuildClientTypes.TestCase] {
         return try await self.asyncCompactMap { item in item.testCases }
     }
 }
-
-/// Paginate over `[ListBuildBatchesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuildBatchesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListBuildBatchesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuildBatchesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesOutputResponse`
     public func listBuildBatchesPaginated(input: ListBuildBatchesInput) -> ClientRuntime.PaginatorSequence<ListBuildBatchesInput, ListBuildBatchesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuildBatchesInput, ListBuildBatchesOutputResponse>(input: input, inputKey: \ListBuildBatchesInput.nextToken, outputKey: \ListBuildBatchesOutputResponse.nextToken, paginationFunction: self.listBuildBatches(input:))
     }
@@ -96,24 +93,23 @@ extension ListBuildBatchesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListBuildBatchesInput, Output == ListBuildBatchesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func ids() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.ids }
     }
 }
-
-/// Paginate over `[ListBuildBatchesForProjectOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuildBatchesForProjectInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesForProjectOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListBuildBatchesForProjectOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuildBatchesForProjectInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildBatchesForProjectOutputResponse`
     public func listBuildBatchesForProjectPaginated(input: ListBuildBatchesForProjectInput) -> ClientRuntime.PaginatorSequence<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuildBatchesForProjectInput, ListBuildBatchesForProjectOutputResponse>(input: input, inputKey: \ListBuildBatchesForProjectInput.nextToken, outputKey: \ListBuildBatchesForProjectOutputResponse.nextToken, paginationFunction: self.listBuildBatchesForProject(input:))
     }
@@ -130,24 +126,23 @@ extension ListBuildBatchesForProjectInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesForProjectPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListBuildBatchesForProjectInput, Output == ListBuildBatchesForProjectOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listBuildBatchesForProjectPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func ids() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.ids }
     }
 }
-
-/// Paginate over `[ListBuildsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuildsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListBuildsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuildsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsOutputResponse`
     public func listBuildsPaginated(input: ListBuildsInput) -> ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuildsInput, ListBuildsOutputResponse>(input: input, inputKey: \ListBuildsInput.nextToken, outputKey: \ListBuildsOutputResponse.nextToken, paginationFunction: self.listBuilds(input:))
     }
@@ -161,24 +156,23 @@ extension ListBuildsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listBuildsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListBuildsInput, Output == ListBuildsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listBuildsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func ids() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.ids }
     }
 }
-
-/// Paginate over `[ListBuildsForProjectOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBuildsForProjectInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBuildsForProjectOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListBuildsForProjectOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBuildsForProjectInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBuildsForProjectOutputResponse`
     public func listBuildsForProjectPaginated(input: ListBuildsForProjectInput) -> ClientRuntime.PaginatorSequence<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBuildsForProjectInput, ListBuildsForProjectOutputResponse>(input: input, inputKey: \ListBuildsForProjectInput.nextToken, outputKey: \ListBuildsForProjectOutputResponse.nextToken, paginationFunction: self.listBuildsForProject(input:))
     }
@@ -193,24 +187,23 @@ extension ListBuildsForProjectInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listBuildsForProjectPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListBuildsForProjectInput, Output == ListBuildsForProjectOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listBuildsForProjectPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func ids() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.ids }
     }
 }
-
-/// Paginate over `[ListProjectsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProjectsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListProjectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutputResponse.nextToken, paginationFunction: self.listProjects(input:))
     }
@@ -225,24 +218,23 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func projects() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.projects }
     }
 }
-
-/// Paginate over `[ListReportGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListReportGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListReportGroupsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListReportGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReportGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReportGroupsOutputResponse`
     public func listReportGroupsPaginated(input: ListReportGroupsInput) -> ClientRuntime.PaginatorSequence<ListReportGroupsInput, ListReportGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListReportGroupsInput, ListReportGroupsOutputResponse>(input: input, inputKey: \ListReportGroupsInput.nextToken, outputKey: \ListReportGroupsOutputResponse.nextToken, paginationFunction: self.listReportGroups(input:))
     }
@@ -258,24 +250,23 @@ extension ListReportGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listReportGroupsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListReportGroupsInput, Output == ListReportGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReportGroupsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func reportGroups() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.reportGroups }
     }
 }
-
-/// Paginate over `[ListReportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListReportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListReportsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListReportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReportsOutputResponse`
     public func listReportsPaginated(input: ListReportsInput) -> ClientRuntime.PaginatorSequence<ListReportsInput, ListReportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListReportsInput, ListReportsOutputResponse>(input: input, inputKey: \ListReportsInput.nextToken, outputKey: \ListReportsOutputResponse.nextToken, paginationFunction: self.listReports(input:))
     }
@@ -291,24 +282,23 @@ extension ListReportsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listReportsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListReportsInput, Output == ListReportsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReportsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func reports() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.reports }
     }
 }
-
-/// Paginate over `[ListReportsForReportGroupOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListReportsForReportGroupInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListReportsForReportGroupOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListReportsForReportGroupOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReportsForReportGroupInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReportsForReportGroupOutputResponse`
     public func listReportsForReportGroupPaginated(input: ListReportsForReportGroupInput) -> ClientRuntime.PaginatorSequence<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListReportsForReportGroupInput, ListReportsForReportGroupOutputResponse>(input: input, inputKey: \ListReportsForReportGroupInput.nextToken, outputKey: \ListReportsForReportGroupOutputResponse.nextToken, paginationFunction: self.listReportsForReportGroup(input:))
     }
@@ -325,24 +315,23 @@ extension ListReportsForReportGroupInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listReportsForReportGroupPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListReportsForReportGroupInput, Output == ListReportsForReportGroupOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReportsForReportGroupPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func reports() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.reports }
     }
 }
-
-/// Paginate over `[ListSharedProjectsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSharedProjectsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSharedProjectsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListSharedProjectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSharedProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSharedProjectsOutputResponse`
     public func listSharedProjectsPaginated(input: ListSharedProjectsInput) -> ClientRuntime.PaginatorSequence<ListSharedProjectsInput, ListSharedProjectsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSharedProjectsInput, ListSharedProjectsOutputResponse>(input: input, inputKey: \ListSharedProjectsInput.nextToken, outputKey: \ListSharedProjectsOutputResponse.nextToken, paginationFunction: self.listSharedProjects(input:))
     }
@@ -358,24 +347,23 @@ extension ListSharedProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSharedProjectsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListSharedProjectsInput, Output == ListSharedProjectsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSharedProjectsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func projects() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.projects }
     }
 }
-
-/// Paginate over `[ListSharedReportGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSharedReportGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSharedReportGroupsOutputResponse`
 extension CodeBuildClient {
+    /// Paginate over `[ListSharedReportGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSharedReportGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSharedReportGroupsOutputResponse`
     public func listSharedReportGroupsPaginated(input: ListSharedReportGroupsInput) -> ClientRuntime.PaginatorSequence<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSharedReportGroupsInput, ListSharedReportGroupsOutputResponse>(input: input, inputKey: \ListSharedReportGroupsInput.nextToken, outputKey: \ListSharedReportGroupsOutputResponse.nextToken, paginationFunction: self.listSharedReportGroups(input:))
     }
@@ -391,10 +379,10 @@ extension ListSharedReportGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listSharedReportGroupsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListSharedReportGroupsInput, Output == ListSharedReportGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSharedReportGroupsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func reportGroups() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.reportGroups }
     }
