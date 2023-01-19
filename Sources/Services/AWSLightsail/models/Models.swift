@@ -8140,7 +8140,7 @@ extension CreateDomainInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDomainInput: Swift.Equatable {
-    /// The domain name to manage (e.g., example.com). You cannot register a new domain name using Lightsail. You must register a domain name using Amazon Route 53 or another domain name registrar. If you have already registered your domain, you can enter its name in this parameter to manage the DNS records for that domain using Lightsail.
+    /// The domain name to manage (e.g., example.com).
     /// This member is required.
     public var domainName: Swift.String?
     /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
@@ -11458,7 +11458,7 @@ public struct DeleteDiskInput: Swift.Equatable {
     /// The unique name of the disk you want to delete (e.g., my-disk).
     /// This member is required.
     public var diskName: Swift.String?
-    /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+    /// A Boolean value to indicate whether to delete all add-ons for the disk.
     public var forceDeleteAddOns: Swift.Bool?
 
     public init (
@@ -12110,7 +12110,7 @@ extension DeleteInstanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteInstanceInput: Swift.Equatable {
-    /// A Boolean value to indicate whether to delete the enabled add-ons for the disk.
+    /// A Boolean value to indicate whether to delete all add-ons for the instance.
     public var forceDeleteAddOns: Swift.Bool?
     /// The name of the instance to delete.
     /// This member is required.

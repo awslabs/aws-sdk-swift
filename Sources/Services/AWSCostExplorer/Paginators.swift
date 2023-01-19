@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetSavingsPlansCoverageOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetSavingsPlansCoverageInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansCoverageOutputResponse`
 extension CostExplorerClient {
+    /// Paginate over `[GetSavingsPlansCoverageOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSavingsPlansCoverageInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansCoverageOutputResponse`
     public func getSavingsPlansCoveragePaginated(input: GetSavingsPlansCoverageInput) -> ClientRuntime.PaginatorSequence<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetSavingsPlansCoverageInput, GetSavingsPlansCoverageOutputResponse>(input: input, inputKey: \GetSavingsPlansCoverageInput.nextToken, outputKey: \GetSavingsPlansCoverageOutputResponse.nextToken, paginationFunction: self.getSavingsPlansCoverage(input:))
     }
@@ -30,16 +29,15 @@ extension GetSavingsPlansCoverageInput: ClientRuntime.PaginateToken {
             timePeriod: self.timePeriod
         )}
 }
-
-/// Paginate over `[GetSavingsPlansUtilizationDetailsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetSavingsPlansUtilizationDetailsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansUtilizationDetailsOutputResponse`
 extension CostExplorerClient {
+    /// Paginate over `[GetSavingsPlansUtilizationDetailsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSavingsPlansUtilizationDetailsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSavingsPlansUtilizationDetailsOutputResponse`
     public func getSavingsPlansUtilizationDetailsPaginated(input: GetSavingsPlansUtilizationDetailsInput) -> ClientRuntime.PaginatorSequence<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetSavingsPlansUtilizationDetailsInput, GetSavingsPlansUtilizationDetailsOutputResponse>(input: input, inputKey: \GetSavingsPlansUtilizationDetailsInput.nextToken, outputKey: \GetSavingsPlansUtilizationDetailsOutputResponse.nextToken, paginationFunction: self.getSavingsPlansUtilizationDetails(input:))
     }
@@ -56,16 +54,15 @@ extension GetSavingsPlansUtilizationDetailsInput: ClientRuntime.PaginateToken {
             timePeriod: self.timePeriod
         )}
 }
-
-/// Paginate over `[ListCostAllocationTagsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCostAllocationTagsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCostAllocationTagsOutputResponse`
 extension CostExplorerClient {
+    /// Paginate over `[ListCostAllocationTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCostAllocationTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCostAllocationTagsOutputResponse`
     public func listCostAllocationTagsPaginated(input: ListCostAllocationTagsInput) -> ClientRuntime.PaginatorSequence<ListCostAllocationTagsInput, ListCostAllocationTagsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCostAllocationTagsInput, ListCostAllocationTagsOutputResponse>(input: input, inputKey: \ListCostAllocationTagsInput.nextToken, outputKey: \ListCostAllocationTagsOutputResponse.nextToken, paginationFunction: self.listCostAllocationTags(input:))
     }
@@ -81,16 +78,15 @@ extension ListCostAllocationTagsInput: ClientRuntime.PaginateToken {
             type: self.type
         )}
 }
-
-/// Paginate over `[ListCostCategoryDefinitionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCostCategoryDefinitionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCostCategoryDefinitionsOutputResponse`
 extension CostExplorerClient {
+    /// Paginate over `[ListCostCategoryDefinitionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCostCategoryDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCostCategoryDefinitionsOutputResponse`
     public func listCostCategoryDefinitionsPaginated(input: ListCostCategoryDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCostCategoryDefinitionsInput, ListCostCategoryDefinitionsOutputResponse>(input: input, inputKey: \ListCostCategoryDefinitionsInput.nextToken, outputKey: \ListCostCategoryDefinitionsOutputResponse.nextToken, paginationFunction: self.listCostCategoryDefinitions(input:))
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeModelVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeModelVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeModelVersionsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[DescribeModelVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeModelVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeModelVersionsOutputResponse`
     public func describeModelVersionsPaginated(input: DescribeModelVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeModelVersionsInput, DescribeModelVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeModelVersionsInput, DescribeModelVersionsOutputResponse>(input: input, inputKey: \DescribeModelVersionsInput.nextToken, outputKey: \DescribeModelVersionsOutputResponse.nextToken, paginationFunction: self.describeModelVersions(input:))
     }
@@ -27,16 +26,15 @@ extension DescribeModelVersionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetBatchImportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetBatchImportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetBatchImportJobsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetBatchImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetBatchImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBatchImportJobsOutputResponse`
     public func getBatchImportJobsPaginated(input: GetBatchImportJobsInput) -> ClientRuntime.PaginatorSequence<GetBatchImportJobsInput, GetBatchImportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetBatchImportJobsInput, GetBatchImportJobsOutputResponse>(input: input, inputKey: \GetBatchImportJobsInput.nextToken, outputKey: \GetBatchImportJobsOutputResponse.nextToken, paginationFunction: self.getBatchImportJobs(input:))
     }
@@ -50,16 +48,15 @@ extension GetBatchImportJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetBatchPredictionJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetBatchPredictionJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetBatchPredictionJobsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetBatchPredictionJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetBatchPredictionJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetBatchPredictionJobsOutputResponse`
     public func getBatchPredictionJobsPaginated(input: GetBatchPredictionJobsInput) -> ClientRuntime.PaginatorSequence<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutputResponse>(input: input, inputKey: \GetBatchPredictionJobsInput.nextToken, outputKey: \GetBatchPredictionJobsOutputResponse.nextToken, paginationFunction: self.getBatchPredictionJobs(input:))
     }
@@ -73,16 +70,15 @@ extension GetBatchPredictionJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetDetectorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetDetectorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetDetectorsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetDetectorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetDetectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDetectorsOutputResponse`
     public func getDetectorsPaginated(input: GetDetectorsInput) -> ClientRuntime.PaginatorSequence<GetDetectorsInput, GetDetectorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetDetectorsInput, GetDetectorsOutputResponse>(input: input, inputKey: \GetDetectorsInput.nextToken, outputKey: \GetDetectorsOutputResponse.nextToken, paginationFunction: self.getDetectors(input:))
     }
@@ -96,16 +92,15 @@ extension GetDetectorsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetEntityTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetEntityTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetEntityTypesOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetEntityTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetEntityTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEntityTypesOutputResponse`
     public func getEntityTypesPaginated(input: GetEntityTypesInput) -> ClientRuntime.PaginatorSequence<GetEntityTypesInput, GetEntityTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetEntityTypesInput, GetEntityTypesOutputResponse>(input: input, inputKey: \GetEntityTypesInput.nextToken, outputKey: \GetEntityTypesOutputResponse.nextToken, paginationFunction: self.getEntityTypes(input:))
     }
@@ -119,16 +114,15 @@ extension GetEntityTypesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetEventTypesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetEventTypesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetEventTypesOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetEventTypesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetEventTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetEventTypesOutputResponse`
     public func getEventTypesPaginated(input: GetEventTypesInput) -> ClientRuntime.PaginatorSequence<GetEventTypesInput, GetEventTypesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetEventTypesInput, GetEventTypesOutputResponse>(input: input, inputKey: \GetEventTypesInput.nextToken, outputKey: \GetEventTypesOutputResponse.nextToken, paginationFunction: self.getEventTypes(input:))
     }
@@ -142,16 +136,15 @@ extension GetEventTypesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetExternalModelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetExternalModelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetExternalModelsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetExternalModelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetExternalModelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetExternalModelsOutputResponse`
     public func getExternalModelsPaginated(input: GetExternalModelsInput) -> ClientRuntime.PaginatorSequence<GetExternalModelsInput, GetExternalModelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetExternalModelsInput, GetExternalModelsOutputResponse>(input: input, inputKey: \GetExternalModelsInput.nextToken, outputKey: \GetExternalModelsOutputResponse.nextToken, paginationFunction: self.getExternalModels(input:))
     }
@@ -165,16 +158,15 @@ extension GetExternalModelsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetLabelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetLabelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetLabelsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetLabelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetLabelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetLabelsOutputResponse`
     public func getLabelsPaginated(input: GetLabelsInput) -> ClientRuntime.PaginatorSequence<GetLabelsInput, GetLabelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetLabelsInput, GetLabelsOutputResponse>(input: input, inputKey: \GetLabelsInput.nextToken, outputKey: \GetLabelsOutputResponse.nextToken, paginationFunction: self.getLabels(input:))
     }
@@ -188,16 +180,15 @@ extension GetLabelsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetModelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetModelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetModelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetModelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetModelsOutputResponse`
     public func getModelsPaginated(input: GetModelsInput) -> ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetModelsInput, GetModelsOutputResponse>(input: input, inputKey: \GetModelsInput.nextToken, outputKey: \GetModelsOutputResponse.nextToken, paginationFunction: self.getModels(input:))
     }
@@ -212,16 +203,15 @@ extension GetModelsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetOutcomesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetOutcomesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetOutcomesOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetOutcomesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOutcomesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOutcomesOutputResponse`
     public func getOutcomesPaginated(input: GetOutcomesInput) -> ClientRuntime.PaginatorSequence<GetOutcomesInput, GetOutcomesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetOutcomesInput, GetOutcomesOutputResponse>(input: input, inputKey: \GetOutcomesInput.nextToken, outputKey: \GetOutcomesOutputResponse.nextToken, paginationFunction: self.getOutcomes(input:))
     }
@@ -235,16 +225,15 @@ extension GetOutcomesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetRulesOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetRulesOutputResponse`
     public func getRulesPaginated(input: GetRulesInput) -> ClientRuntime.PaginatorSequence<GetRulesInput, GetRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetRulesInput, GetRulesOutputResponse>(input: input, inputKey: \GetRulesInput.nextToken, outputKey: \GetRulesOutputResponse.nextToken, paginationFunction: self.getRules(input:))
     }
@@ -260,16 +249,15 @@ extension GetRulesInput: ClientRuntime.PaginateToken {
             ruleVersion: self.ruleVersion
         )}
 }
-
-/// Paginate over `[GetVariablesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetVariablesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetVariablesOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[GetVariablesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetVariablesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetVariablesOutputResponse`
     public func getVariablesPaginated(input: GetVariablesInput) -> ClientRuntime.PaginatorSequence<GetVariablesInput, GetVariablesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetVariablesInput, GetVariablesOutputResponse>(input: input, inputKey: \GetVariablesInput.nextToken, outputKey: \GetVariablesOutputResponse.nextToken, paginationFunction: self.getVariables(input:))
     }
@@ -283,16 +271,15 @@ extension GetVariablesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListEventPredictionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEventPredictionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEventPredictionsOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[ListEventPredictionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventPredictionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventPredictionsOutputResponse`
     public func listEventPredictionsPaginated(input: ListEventPredictionsInput) -> ClientRuntime.PaginatorSequence<ListEventPredictionsInput, ListEventPredictionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEventPredictionsInput, ListEventPredictionsOutputResponse>(input: input, inputKey: \ListEventPredictionsInput.nextToken, outputKey: \ListEventPredictionsOutputResponse.nextToken, paginationFunction: self.listEventPredictions(input:))
     }
@@ -310,16 +297,15 @@ extension ListEventPredictionsInput: ClientRuntime.PaginateToken {
             predictionTimeRange: self.predictionTimeRange
         )}
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension FraudDetectorClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }

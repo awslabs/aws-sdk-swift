@@ -35,9 +35,6 @@ import ClientRuntime
 ///
 ///
 ///
-///
-///
-///
 /// * ops.airflow.{region}.amazonaws.com - This endpoint is used to push environment metrics that track environment health.
 ///
 /// * [PublishMetrics](https://docs.aws.amazon.com/mwaa/latest/API/API_PublishMetrics.html)

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeClusterDbRevisionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterDbRevisionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterDbRevisionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterDbRevisionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterDbRevisionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterDbRevisionsOutputResponse`
     public func describeClusterDbRevisionsPaginated(input: DescribeClusterDbRevisionsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterDbRevisionsInput, DescribeClusterDbRevisionsOutputResponse>(input: input, inputKey: \DescribeClusterDbRevisionsInput.marker, outputKey: \DescribeClusterDbRevisionsOutputResponse.marker, paginationFunction: self.describeClusterDbRevisions(input:))
     }
@@ -26,24 +25,23 @@ extension DescribeClusterDbRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterDbRevisionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ClusterDbRevision]`
-/// - Returns: `[RedshiftClientTypes.ClusterDbRevision]`
 extension PaginatorSequence where Input == DescribeClusterDbRevisionsInput, Output == DescribeClusterDbRevisionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterDbRevisionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ClusterDbRevision]`
+    /// - Returns: `[RedshiftClientTypes.ClusterDbRevision]`
     public func clusterDbRevisions() async throws -> [RedshiftClientTypes.ClusterDbRevision] {
         return try await self.asyncCompactMap { item in item.clusterDbRevisions }
     }
 }
-
-/// Paginate over `[DescribeClusterParameterGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterParameterGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParameterGroupsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterParameterGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterParameterGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParameterGroupsOutputResponse`
     public func describeClusterParameterGroupsPaginated(input: DescribeClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterParameterGroupsInput, DescribeClusterParameterGroupsOutputResponse>(input: input, inputKey: \DescribeClusterParameterGroupsInput.marker, outputKey: \DescribeClusterParameterGroupsOutputResponse.marker, paginationFunction: self.describeClusterParameterGroups(input:))
     }
@@ -60,24 +58,23 @@ extension DescribeClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterParameterGroupsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ClusterParameterGroup]`
-/// - Returns: `[RedshiftClientTypes.ClusterParameterGroup]`
 extension PaginatorSequence where Input == DescribeClusterParameterGroupsInput, Output == DescribeClusterParameterGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterParameterGroupsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ClusterParameterGroup]`
+    /// - Returns: `[RedshiftClientTypes.ClusterParameterGroup]`
     public func parameterGroups() async throws -> [RedshiftClientTypes.ClusterParameterGroup] {
         return try await self.asyncCompactMap { item in item.parameterGroups }
     }
 }
-
-/// Paginate over `[DescribeClusterParametersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterParametersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParametersOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterParametersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterParametersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterParametersOutputResponse`
     public func describeClusterParametersPaginated(input: DescribeClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeClusterParametersInput, DescribeClusterParametersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterParametersInput, DescribeClusterParametersOutputResponse>(input: input, inputKey: \DescribeClusterParametersInput.marker, outputKey: \DescribeClusterParametersOutputResponse.marker, paginationFunction: self.describeClusterParameters(input:))
     }
@@ -93,24 +90,23 @@ extension DescribeClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterParametersPaginated`
-/// to access the nested member `[RedshiftClientTypes.Parameter]`
-/// - Returns: `[RedshiftClientTypes.Parameter]`
 extension PaginatorSequence where Input == DescribeClusterParametersInput, Output == DescribeClusterParametersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterParametersPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Parameter]`
+    /// - Returns: `[RedshiftClientTypes.Parameter]`
     public func parameters() async throws -> [RedshiftClientTypes.Parameter] {
         return try await self.asyncCompactMap { item in item.parameters }
     }
 }
-
-/// Paginate over `[DescribeClustersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClustersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClustersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClustersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClustersOutputResponse`
     public func describeClustersPaginated(input: DescribeClustersInput) -> ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClustersInput, DescribeClustersOutputResponse>(input: input, inputKey: \DescribeClustersInput.marker, outputKey: \DescribeClustersOutputResponse.marker, paginationFunction: self.describeClusters(input:))
     }
@@ -127,24 +123,23 @@ extension DescribeClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClustersPaginated`
-/// to access the nested member `[RedshiftClientTypes.Cluster]`
-/// - Returns: `[RedshiftClientTypes.Cluster]`
 extension PaginatorSequence where Input == DescribeClustersInput, Output == DescribeClustersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClustersPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Cluster]`
+    /// - Returns: `[RedshiftClientTypes.Cluster]`
     public func clusters() async throws -> [RedshiftClientTypes.Cluster] {
         return try await self.asyncCompactMap { item in item.clusters }
     }
 }
-
-/// Paginate over `[DescribeClusterSecurityGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterSecurityGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSecurityGroupsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterSecurityGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterSecurityGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSecurityGroupsOutputResponse`
     public func describeClusterSecurityGroupsPaginated(input: DescribeClusterSecurityGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterSecurityGroupsInput, DescribeClusterSecurityGroupsOutputResponse>(input: input, inputKey: \DescribeClusterSecurityGroupsInput.marker, outputKey: \DescribeClusterSecurityGroupsOutputResponse.marker, paginationFunction: self.describeClusterSecurityGroups(input:))
     }
@@ -161,24 +156,23 @@ extension DescribeClusterSecurityGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterSecurityGroupsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ClusterSecurityGroup]`
-/// - Returns: `[RedshiftClientTypes.ClusterSecurityGroup]`
 extension PaginatorSequence where Input == DescribeClusterSecurityGroupsInput, Output == DescribeClusterSecurityGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterSecurityGroupsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ClusterSecurityGroup]`
+    /// - Returns: `[RedshiftClientTypes.ClusterSecurityGroup]`
     public func clusterSecurityGroups() async throws -> [RedshiftClientTypes.ClusterSecurityGroup] {
         return try await self.asyncCompactMap { item in item.clusterSecurityGroups }
     }
 }
-
-/// Paginate over `[DescribeClusterSnapshotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterSnapshotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSnapshotsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterSnapshotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterSnapshotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSnapshotsOutputResponse`
     public func describeClusterSnapshotsPaginated(input: DescribeClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterSnapshotsInput, DescribeClusterSnapshotsOutputResponse>(input: input, inputKey: \DescribeClusterSnapshotsInput.marker, outputKey: \DescribeClusterSnapshotsOutputResponse.marker, paginationFunction: self.describeClusterSnapshots(input:))
     }
@@ -203,24 +197,23 @@ extension DescribeClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterSnapshotsPaginated`
-/// to access the nested member `[RedshiftClientTypes.Snapshot]`
-/// - Returns: `[RedshiftClientTypes.Snapshot]`
 extension PaginatorSequence where Input == DescribeClusterSnapshotsInput, Output == DescribeClusterSnapshotsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterSnapshotsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Snapshot]`
+    /// - Returns: `[RedshiftClientTypes.Snapshot]`
     public func snapshots() async throws -> [RedshiftClientTypes.Snapshot] {
         return try await self.asyncCompactMap { item in item.snapshots }
     }
 }
-
-/// Paginate over `[DescribeClusterSubnetGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterSubnetGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSubnetGroupsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterSubnetGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterSubnetGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterSubnetGroupsOutputResponse`
     public func describeClusterSubnetGroupsPaginated(input: DescribeClusterSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterSubnetGroupsInput, DescribeClusterSubnetGroupsOutputResponse>(input: input, inputKey: \DescribeClusterSubnetGroupsInput.marker, outputKey: \DescribeClusterSubnetGroupsOutputResponse.marker, paginationFunction: self.describeClusterSubnetGroups(input:))
     }
@@ -237,24 +230,23 @@ extension DescribeClusterSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterSubnetGroupsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ClusterSubnetGroup]`
-/// - Returns: `[RedshiftClientTypes.ClusterSubnetGroup]`
 extension PaginatorSequence where Input == DescribeClusterSubnetGroupsInput, Output == DescribeClusterSubnetGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterSubnetGroupsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ClusterSubnetGroup]`
+    /// - Returns: `[RedshiftClientTypes.ClusterSubnetGroup]`
     public func clusterSubnetGroups() async throws -> [RedshiftClientTypes.ClusterSubnetGroup] {
         return try await self.asyncCompactMap { item in item.clusterSubnetGroups }
     }
 }
-
-/// Paginate over `[DescribeClusterTracksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterTracksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterTracksOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterTracksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterTracksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterTracksOutputResponse`
     public func describeClusterTracksPaginated(input: DescribeClusterTracksInput) -> ClientRuntime.PaginatorSequence<DescribeClusterTracksInput, DescribeClusterTracksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterTracksInput, DescribeClusterTracksOutputResponse>(input: input, inputKey: \DescribeClusterTracksInput.marker, outputKey: \DescribeClusterTracksOutputResponse.marker, paginationFunction: self.describeClusterTracks(input:))
     }
@@ -269,24 +261,23 @@ extension DescribeClusterTracksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterTracksPaginated`
-/// to access the nested member `[RedshiftClientTypes.MaintenanceTrack]`
-/// - Returns: `[RedshiftClientTypes.MaintenanceTrack]`
 extension PaginatorSequence where Input == DescribeClusterTracksInput, Output == DescribeClusterTracksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterTracksPaginated`
+    /// to access the nested member `[RedshiftClientTypes.MaintenanceTrack]`
+    /// - Returns: `[RedshiftClientTypes.MaintenanceTrack]`
     public func maintenanceTracks() async throws -> [RedshiftClientTypes.MaintenanceTrack] {
         return try await self.asyncCompactMap { item in item.maintenanceTracks }
     }
 }
-
-/// Paginate over `[DescribeClusterVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeClusterVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterVersionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeClusterVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeClusterVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeClusterVersionsOutputResponse`
     public func describeClusterVersionsPaginated(input: DescribeClusterVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeClusterVersionsInput, DescribeClusterVersionsOutputResponse>(input: input, inputKey: \DescribeClusterVersionsInput.marker, outputKey: \DescribeClusterVersionsOutputResponse.marker, paginationFunction: self.describeClusterVersions(input:))
     }
@@ -302,24 +293,23 @@ extension DescribeClusterVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeClusterVersionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ClusterVersion]`
-/// - Returns: `[RedshiftClientTypes.ClusterVersion]`
 extension PaginatorSequence where Input == DescribeClusterVersionsInput, Output == DescribeClusterVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeClusterVersionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ClusterVersion]`
+    /// - Returns: `[RedshiftClientTypes.ClusterVersion]`
     public func clusterVersions() async throws -> [RedshiftClientTypes.ClusterVersion] {
         return try await self.asyncCompactMap { item in item.clusterVersions }
     }
 }
-
-/// Paginate over `[DescribeDataSharesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDataSharesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeDataSharesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataSharesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesOutputResponse`
     public func describeDataSharesPaginated(input: DescribeDataSharesInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesInput, DescribeDataSharesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDataSharesInput, DescribeDataSharesOutputResponse>(input: input, inputKey: \DescribeDataSharesInput.marker, outputKey: \DescribeDataSharesOutputResponse.marker, paginationFunction: self.describeDataShares(input:))
     }
@@ -334,24 +324,23 @@ extension DescribeDataSharesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDataSharesPaginated`
-/// to access the nested member `[RedshiftClientTypes.DataShare]`
-/// - Returns: `[RedshiftClientTypes.DataShare]`
 extension PaginatorSequence where Input == DescribeDataSharesInput, Output == DescribeDataSharesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesPaginated`
+    /// to access the nested member `[RedshiftClientTypes.DataShare]`
+    /// - Returns: `[RedshiftClientTypes.DataShare]`
     public func dataShares() async throws -> [RedshiftClientTypes.DataShare] {
         return try await self.asyncCompactMap { item in item.dataShares }
     }
 }
-
-/// Paginate over `[DescribeDataSharesForConsumerOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDataSharesForConsumerInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForConsumerOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeDataSharesForConsumerOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataSharesForConsumerInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForConsumerOutputResponse`
     public func describeDataSharesForConsumerPaginated(input: DescribeDataSharesForConsumerInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDataSharesForConsumerInput, DescribeDataSharesForConsumerOutputResponse>(input: input, inputKey: \DescribeDataSharesForConsumerInput.marker, outputKey: \DescribeDataSharesForConsumerOutputResponse.marker, paginationFunction: self.describeDataSharesForConsumer(input:))
     }
@@ -367,24 +356,23 @@ extension DescribeDataSharesForConsumerInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForConsumerPaginated`
-/// to access the nested member `[RedshiftClientTypes.DataShare]`
-/// - Returns: `[RedshiftClientTypes.DataShare]`
 extension PaginatorSequence where Input == DescribeDataSharesForConsumerInput, Output == DescribeDataSharesForConsumerOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForConsumerPaginated`
+    /// to access the nested member `[RedshiftClientTypes.DataShare]`
+    /// - Returns: `[RedshiftClientTypes.DataShare]`
     public func dataShares() async throws -> [RedshiftClientTypes.DataShare] {
         return try await self.asyncCompactMap { item in item.dataShares }
     }
 }
-
-/// Paginate over `[DescribeDataSharesForProducerOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDataSharesForProducerInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForProducerOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeDataSharesForProducerOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataSharesForProducerInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataSharesForProducerOutputResponse`
     public func describeDataSharesForProducerPaginated(input: DescribeDataSharesForProducerInput) -> ClientRuntime.PaginatorSequence<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDataSharesForProducerInput, DescribeDataSharesForProducerOutputResponse>(input: input, inputKey: \DescribeDataSharesForProducerInput.marker, outputKey: \DescribeDataSharesForProducerOutputResponse.marker, paginationFunction: self.describeDataSharesForProducer(input:))
     }
@@ -400,24 +388,23 @@ extension DescribeDataSharesForProducerInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForProducerPaginated`
-/// to access the nested member `[RedshiftClientTypes.DataShare]`
-/// - Returns: `[RedshiftClientTypes.DataShare]`
 extension PaginatorSequence where Input == DescribeDataSharesForProducerInput, Output == DescribeDataSharesForProducerOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDataSharesForProducerPaginated`
+    /// to access the nested member `[RedshiftClientTypes.DataShare]`
+    /// - Returns: `[RedshiftClientTypes.DataShare]`
     public func dataShares() async throws -> [RedshiftClientTypes.DataShare] {
         return try await self.asyncCompactMap { item in item.dataShares }
     }
 }
-
-/// Paginate over `[DescribeDefaultClusterParametersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDefaultClusterParametersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDefaultClusterParametersOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeDefaultClusterParametersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDefaultClusterParametersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDefaultClusterParametersOutputResponse`
     public func describeDefaultClusterParametersPaginated(input: DescribeDefaultClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDefaultClusterParametersInput, DescribeDefaultClusterParametersOutputResponse>(input: input, inputKey: \DescribeDefaultClusterParametersInput.marker, outputKey: \DescribeDefaultClusterParametersOutputResponse.defaultClusterParameters?.marker, paginationFunction: self.describeDefaultClusterParameters(input:))
     }
@@ -432,24 +419,23 @@ extension DescribeDefaultClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDefaultClusterParametersPaginated`
-/// to access the nested member `[RedshiftClientTypes.Parameter]`
-/// - Returns: `[RedshiftClientTypes.Parameter]`
 extension PaginatorSequence where Input == DescribeDefaultClusterParametersInput, Output == DescribeDefaultClusterParametersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDefaultClusterParametersPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Parameter]`
+    /// - Returns: `[RedshiftClientTypes.Parameter]`
     public func parameters() async throws -> [RedshiftClientTypes.Parameter] {
         return try await self.asyncCompactMap { item in item.defaultClusterParameters?.parameters }
     }
 }
-
-/// Paginate over `[DescribeEndpointAccessOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEndpointAccessInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAccessOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeEndpointAccessOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEndpointAccessInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAccessOutputResponse`
     public func describeEndpointAccessPaginated(input: DescribeEndpointAccessInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointAccessInput, DescribeEndpointAccessOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEndpointAccessInput, DescribeEndpointAccessOutputResponse>(input: input, inputKey: \DescribeEndpointAccessInput.marker, outputKey: \DescribeEndpointAccessOutputResponse.marker, paginationFunction: self.describeEndpointAccess(input:))
     }
@@ -467,24 +453,23 @@ extension DescribeEndpointAccessInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEndpointAccessPaginated`
-/// to access the nested member `[RedshiftClientTypes.EndpointAccess]`
-/// - Returns: `[RedshiftClientTypes.EndpointAccess]`
 extension PaginatorSequence where Input == DescribeEndpointAccessInput, Output == DescribeEndpointAccessOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEndpointAccessPaginated`
+    /// to access the nested member `[RedshiftClientTypes.EndpointAccess]`
+    /// - Returns: `[RedshiftClientTypes.EndpointAccess]`
     public func endpointAccessList() async throws -> [RedshiftClientTypes.EndpointAccess] {
         return try await self.asyncCompactMap { item in item.endpointAccessList }
     }
 }
-
-/// Paginate over `[DescribeEndpointAuthorizationOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEndpointAuthorizationInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAuthorizationOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeEndpointAuthorizationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEndpointAuthorizationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEndpointAuthorizationOutputResponse`
     public func describeEndpointAuthorizationPaginated(input: DescribeEndpointAuthorizationInput) -> ClientRuntime.PaginatorSequence<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEndpointAuthorizationInput, DescribeEndpointAuthorizationOutputResponse>(input: input, inputKey: \DescribeEndpointAuthorizationInput.marker, outputKey: \DescribeEndpointAuthorizationOutputResponse.marker, paginationFunction: self.describeEndpointAuthorization(input:))
     }
@@ -501,24 +486,23 @@ extension DescribeEndpointAuthorizationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEndpointAuthorizationPaginated`
-/// to access the nested member `[RedshiftClientTypes.EndpointAuthorization]`
-/// - Returns: `[RedshiftClientTypes.EndpointAuthorization]`
 extension PaginatorSequence where Input == DescribeEndpointAuthorizationInput, Output == DescribeEndpointAuthorizationOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEndpointAuthorizationPaginated`
+    /// to access the nested member `[RedshiftClientTypes.EndpointAuthorization]`
+    /// - Returns: `[RedshiftClientTypes.EndpointAuthorization]`
     public func endpointAuthorizationList() async throws -> [RedshiftClientTypes.EndpointAuthorization] {
         return try await self.asyncCompactMap { item in item.endpointAuthorizationList }
     }
 }
-
-/// Paginate over `[DescribeEventsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEventsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutputResponse.marker, paginationFunction: self.describeEvents(input:))
     }
@@ -537,24 +521,23 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
-/// to access the nested member `[RedshiftClientTypes.Event]`
-/// - Returns: `[RedshiftClientTypes.Event]`
 extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Event]`
+    /// - Returns: `[RedshiftClientTypes.Event]`
     public func events() async throws -> [RedshiftClientTypes.Event] {
         return try await self.asyncCompactMap { item in item.events }
     }
 }
-
-/// Paginate over `[DescribeEventSubscriptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeEventSubscriptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutputResponse`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutputResponse.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
@@ -571,24 +554,23 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.EventSubscription]`
-/// - Returns: `[RedshiftClientTypes.EventSubscription]`
 extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.EventSubscription]`
+    /// - Returns: `[RedshiftClientTypes.EventSubscription]`
     public func eventSubscriptionsList() async throws -> [RedshiftClientTypes.EventSubscription] {
         return try await self.asyncCompactMap { item in item.eventSubscriptionsList }
     }
 }
-
-/// Paginate over `[DescribeHsmClientCertificatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeHsmClientCertificatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmClientCertificatesOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeHsmClientCertificatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeHsmClientCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmClientCertificatesOutputResponse`
     public func describeHsmClientCertificatesPaginated(input: DescribeHsmClientCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeHsmClientCertificatesInput, DescribeHsmClientCertificatesOutputResponse>(input: input, inputKey: \DescribeHsmClientCertificatesInput.marker, outputKey: \DescribeHsmClientCertificatesOutputResponse.marker, paginationFunction: self.describeHsmClientCertificates(input:))
     }
@@ -605,24 +587,23 @@ extension DescribeHsmClientCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeHsmClientCertificatesPaginated`
-/// to access the nested member `[RedshiftClientTypes.HsmClientCertificate]`
-/// - Returns: `[RedshiftClientTypes.HsmClientCertificate]`
 extension PaginatorSequence where Input == DescribeHsmClientCertificatesInput, Output == DescribeHsmClientCertificatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeHsmClientCertificatesPaginated`
+    /// to access the nested member `[RedshiftClientTypes.HsmClientCertificate]`
+    /// - Returns: `[RedshiftClientTypes.HsmClientCertificate]`
     public func hsmClientCertificates() async throws -> [RedshiftClientTypes.HsmClientCertificate] {
         return try await self.asyncCompactMap { item in item.hsmClientCertificates }
     }
 }
-
-/// Paginate over `[DescribeHsmConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeHsmConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmConfigurationsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeHsmConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeHsmConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeHsmConfigurationsOutputResponse`
     public func describeHsmConfigurationsPaginated(input: DescribeHsmConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeHsmConfigurationsInput, DescribeHsmConfigurationsOutputResponse>(input: input, inputKey: \DescribeHsmConfigurationsInput.marker, outputKey: \DescribeHsmConfigurationsOutputResponse.marker, paginationFunction: self.describeHsmConfigurations(input:))
     }
@@ -639,24 +620,23 @@ extension DescribeHsmConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeHsmConfigurationsPaginated`
-/// to access the nested member `[RedshiftClientTypes.HsmConfiguration]`
-/// - Returns: `[RedshiftClientTypes.HsmConfiguration]`
 extension PaginatorSequence where Input == DescribeHsmConfigurationsInput, Output == DescribeHsmConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeHsmConfigurationsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.HsmConfiguration]`
+    /// - Returns: `[RedshiftClientTypes.HsmConfiguration]`
     public func hsmConfigurations() async throws -> [RedshiftClientTypes.HsmConfiguration] {
         return try await self.asyncCompactMap { item in item.hsmConfigurations }
     }
 }
-
-/// Paginate over `[DescribeNodeConfigurationOptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeNodeConfigurationOptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeNodeConfigurationOptionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeNodeConfigurationOptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNodeConfigurationOptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNodeConfigurationOptionsOutputResponse`
     public func describeNodeConfigurationOptionsPaginated(input: DescribeNodeConfigurationOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeNodeConfigurationOptionsInput, DescribeNodeConfigurationOptionsOutputResponse>(input: input, inputKey: \DescribeNodeConfigurationOptionsInput.marker, outputKey: \DescribeNodeConfigurationOptionsOutputResponse.marker, paginationFunction: self.describeNodeConfigurationOptions(input:))
     }
@@ -676,24 +656,23 @@ extension DescribeNodeConfigurationOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeNodeConfigurationOptionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.NodeConfigurationOption]`
-/// - Returns: `[RedshiftClientTypes.NodeConfigurationOption]`
 extension PaginatorSequence where Input == DescribeNodeConfigurationOptionsInput, Output == DescribeNodeConfigurationOptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNodeConfigurationOptionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.NodeConfigurationOption]`
+    /// - Returns: `[RedshiftClientTypes.NodeConfigurationOption]`
     public func nodeConfigurationOptionList() async throws -> [RedshiftClientTypes.NodeConfigurationOption] {
         return try await self.asyncCompactMap { item in item.nodeConfigurationOptionList }
     }
 }
-
-/// Paginate over `[DescribeOrderableClusterOptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrderableClusterOptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableClusterOptionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeOrderableClusterOptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrderableClusterOptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableClusterOptionsOutputResponse`
     public func describeOrderableClusterOptionsPaginated(input: DescribeOrderableClusterOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrderableClusterOptionsInput, DescribeOrderableClusterOptionsOutputResponse>(input: input, inputKey: \DescribeOrderableClusterOptionsInput.marker, outputKey: \DescribeOrderableClusterOptionsOutputResponse.marker, paginationFunction: self.describeOrderableClusterOptions(input:))
     }
@@ -709,24 +688,23 @@ extension DescribeOrderableClusterOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrderableClusterOptionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.OrderableClusterOption]`
-/// - Returns: `[RedshiftClientTypes.OrderableClusterOption]`
 extension PaginatorSequence where Input == DescribeOrderableClusterOptionsInput, Output == DescribeOrderableClusterOptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrderableClusterOptionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.OrderableClusterOption]`
+    /// - Returns: `[RedshiftClientTypes.OrderableClusterOption]`
     public func orderableClusterOptions() async throws -> [RedshiftClientTypes.OrderableClusterOption] {
         return try await self.asyncCompactMap { item in item.orderableClusterOptions }
     }
 }
-
-/// Paginate over `[DescribeReservedNodeExchangeStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeReservedNodeExchangeStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeExchangeStatusOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeReservedNodeExchangeStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReservedNodeExchangeStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeExchangeStatusOutputResponse`
     public func describeReservedNodeExchangeStatusPaginated(input: DescribeReservedNodeExchangeStatusInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeReservedNodeExchangeStatusInput, DescribeReservedNodeExchangeStatusOutputResponse>(input: input, inputKey: \DescribeReservedNodeExchangeStatusInput.marker, outputKey: \DescribeReservedNodeExchangeStatusOutputResponse.marker, paginationFunction: self.describeReservedNodeExchangeStatus(input:))
     }
@@ -742,24 +720,23 @@ extension DescribeReservedNodeExchangeStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeExchangeStatusPaginated`
-/// to access the nested member `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
-/// - Returns: `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
 extension PaginatorSequence where Input == DescribeReservedNodeExchangeStatusInput, Output == DescribeReservedNodeExchangeStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeExchangeStatusPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
+    /// - Returns: `[RedshiftClientTypes.ReservedNodeExchangeStatus]`
     public func reservedNodeExchangeStatusDetails() async throws -> [RedshiftClientTypes.ReservedNodeExchangeStatus] {
         return try await self.asyncCompactMap { item in item.reservedNodeExchangeStatusDetails }
     }
 }
-
-/// Paginate over `[DescribeReservedNodeOfferingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeReservedNodeOfferingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeOfferingsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeReservedNodeOfferingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReservedNodeOfferingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodeOfferingsOutputResponse`
     public func describeReservedNodeOfferingsPaginated(input: DescribeReservedNodeOfferingsInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeReservedNodeOfferingsInput, DescribeReservedNodeOfferingsOutputResponse>(input: input, inputKey: \DescribeReservedNodeOfferingsInput.marker, outputKey: \DescribeReservedNodeOfferingsOutputResponse.marker, paginationFunction: self.describeReservedNodeOfferings(input:))
     }
@@ -774,24 +751,23 @@ extension DescribeReservedNodeOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeOfferingsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
-/// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`
 extension PaginatorSequence where Input == DescribeReservedNodeOfferingsInput, Output == DescribeReservedNodeOfferingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodeOfferingsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
+    /// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`
     public func reservedNodeOfferings() async throws -> [RedshiftClientTypes.ReservedNodeOffering] {
         return try await self.asyncCompactMap { item in item.reservedNodeOfferings }
     }
 }
-
-/// Paginate over `[DescribeReservedNodesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeReservedNodesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeReservedNodesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeReservedNodesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeReservedNodesOutputResponse`
     public func describeReservedNodesPaginated(input: DescribeReservedNodesInput) -> ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeReservedNodesInput, DescribeReservedNodesOutputResponse>(input: input, inputKey: \DescribeReservedNodesInput.marker, outputKey: \DescribeReservedNodesOutputResponse.marker, paginationFunction: self.describeReservedNodes(input:))
     }
@@ -806,24 +782,23 @@ extension DescribeReservedNodesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesPaginated`
-/// to access the nested member `[RedshiftClientTypes.ReservedNode]`
-/// - Returns: `[RedshiftClientTypes.ReservedNode]`
 extension PaginatorSequence where Input == DescribeReservedNodesInput, Output == DescribeReservedNodesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeReservedNodesPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ReservedNode]`
+    /// - Returns: `[RedshiftClientTypes.ReservedNode]`
     public func reservedNodes() async throws -> [RedshiftClientTypes.ReservedNode] {
         return try await self.asyncCompactMap { item in item.reservedNodes }
     }
 }
-
-/// Paginate over `[DescribeScheduledActionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeScheduledActionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeScheduledActionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeScheduledActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutputResponse`
     public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse>(input: input, inputKey: \DescribeScheduledActionsInput.marker, outputKey: \DescribeScheduledActionsOutputResponse.marker, paginationFunction: self.describeScheduledActions(input:))
     }
@@ -843,24 +818,23 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ScheduledAction]`
-/// - Returns: `[RedshiftClientTypes.ScheduledAction]`
 extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ScheduledAction]`
+    /// - Returns: `[RedshiftClientTypes.ScheduledAction]`
     public func scheduledActions() async throws -> [RedshiftClientTypes.ScheduledAction] {
         return try await self.asyncCompactMap { item in item.scheduledActions }
     }
 }
-
-/// Paginate over `[DescribeSnapshotCopyGrantsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeSnapshotCopyGrantsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotCopyGrantsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeSnapshotCopyGrantsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapshotCopyGrantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotCopyGrantsOutputResponse`
     public func describeSnapshotCopyGrantsPaginated(input: DescribeSnapshotCopyGrantsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeSnapshotCopyGrantsInput, DescribeSnapshotCopyGrantsOutputResponse>(input: input, inputKey: \DescribeSnapshotCopyGrantsInput.marker, outputKey: \DescribeSnapshotCopyGrantsOutputResponse.marker, paginationFunction: self.describeSnapshotCopyGrants(input:))
     }
@@ -877,24 +851,23 @@ extension DescribeSnapshotCopyGrantsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeSnapshotCopyGrantsPaginated`
-/// to access the nested member `[RedshiftClientTypes.SnapshotCopyGrant]`
-/// - Returns: `[RedshiftClientTypes.SnapshotCopyGrant]`
 extension PaginatorSequence where Input == DescribeSnapshotCopyGrantsInput, Output == DescribeSnapshotCopyGrantsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotCopyGrantsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.SnapshotCopyGrant]`
+    /// - Returns: `[RedshiftClientTypes.SnapshotCopyGrant]`
     public func snapshotCopyGrants() async throws -> [RedshiftClientTypes.SnapshotCopyGrant] {
         return try await self.asyncCompactMap { item in item.snapshotCopyGrants }
     }
 }
-
-/// Paginate over `[DescribeSnapshotSchedulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeSnapshotSchedulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotSchedulesOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeSnapshotSchedulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapshotSchedulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotSchedulesOutputResponse`
     public func describeSnapshotSchedulesPaginated(input: DescribeSnapshotSchedulesInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeSnapshotSchedulesInput, DescribeSnapshotSchedulesOutputResponse>(input: input, inputKey: \DescribeSnapshotSchedulesInput.marker, outputKey: \DescribeSnapshotSchedulesOutputResponse.marker, paginationFunction: self.describeSnapshotSchedules(input:))
     }
@@ -912,24 +885,23 @@ extension DescribeSnapshotSchedulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeSnapshotSchedulesPaginated`
-/// to access the nested member `[RedshiftClientTypes.SnapshotSchedule]`
-/// - Returns: `[RedshiftClientTypes.SnapshotSchedule]`
 extension PaginatorSequence where Input == DescribeSnapshotSchedulesInput, Output == DescribeSnapshotSchedulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSnapshotSchedulesPaginated`
+    /// to access the nested member `[RedshiftClientTypes.SnapshotSchedule]`
+    /// - Returns: `[RedshiftClientTypes.SnapshotSchedule]`
     public func snapshotSchedules() async throws -> [RedshiftClientTypes.SnapshotSchedule] {
         return try await self.asyncCompactMap { item in item.snapshotSchedules }
     }
 }
-
-/// Paginate over `[DescribeTableRestoreStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeTableRestoreStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeTableRestoreStatusOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeTableRestoreStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTableRestoreStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTableRestoreStatusOutputResponse`
     public func describeTableRestoreStatusPaginated(input: DescribeTableRestoreStatusInput) -> ClientRuntime.PaginatorSequence<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeTableRestoreStatusInput, DescribeTableRestoreStatusOutputResponse>(input: input, inputKey: \DescribeTableRestoreStatusInput.marker, outputKey: \DescribeTableRestoreStatusOutputResponse.marker, paginationFunction: self.describeTableRestoreStatus(input:))
     }
@@ -945,24 +917,23 @@ extension DescribeTableRestoreStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeTableRestoreStatusPaginated`
-/// to access the nested member `[RedshiftClientTypes.TableRestoreStatus]`
-/// - Returns: `[RedshiftClientTypes.TableRestoreStatus]`
 extension PaginatorSequence where Input == DescribeTableRestoreStatusInput, Output == DescribeTableRestoreStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTableRestoreStatusPaginated`
+    /// to access the nested member `[RedshiftClientTypes.TableRestoreStatus]`
+    /// - Returns: `[RedshiftClientTypes.TableRestoreStatus]`
     public func tableRestoreStatusDetails() async throws -> [RedshiftClientTypes.TableRestoreStatus] {
         return try await self.asyncCompactMap { item in item.tableRestoreStatusDetails }
     }
 }
-
-/// Paginate over `[DescribeTagsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeTagsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutputResponse`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutputResponse>(input: input, inputKey: \DescribeTagsInput.marker, outputKey: \DescribeTagsOutputResponse.marker, paginationFunction: self.describeTags(input:))
     }
@@ -980,24 +951,23 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
-/// to access the nested member `[RedshiftClientTypes.TaggedResource]`
-/// - Returns: `[RedshiftClientTypes.TaggedResource]`
 extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.TaggedResource]`
+    /// - Returns: `[RedshiftClientTypes.TaggedResource]`
     public func taggedResources() async throws -> [RedshiftClientTypes.TaggedResource] {
         return try await self.asyncCompactMap { item in item.taggedResources }
     }
 }
-
-/// Paginate over `[DescribeUsageLimitsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeUsageLimitsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeUsageLimitsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[DescribeUsageLimitsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeUsageLimitsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeUsageLimitsOutputResponse`
     public func describeUsageLimitsPaginated(input: DescribeUsageLimitsInput) -> ClientRuntime.PaginatorSequence<DescribeUsageLimitsInput, DescribeUsageLimitsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeUsageLimitsInput, DescribeUsageLimitsOutputResponse>(input: input, inputKey: \DescribeUsageLimitsInput.marker, outputKey: \DescribeUsageLimitsOutputResponse.marker, paginationFunction: self.describeUsageLimits(input:))
     }
@@ -1016,24 +986,23 @@ extension DescribeUsageLimitsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeUsageLimitsPaginated`
-/// to access the nested member `[RedshiftClientTypes.UsageLimit]`
-/// - Returns: `[RedshiftClientTypes.UsageLimit]`
 extension PaginatorSequence where Input == DescribeUsageLimitsInput, Output == DescribeUsageLimitsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeUsageLimitsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.UsageLimit]`
+    /// - Returns: `[RedshiftClientTypes.UsageLimit]`
     public func usageLimits() async throws -> [RedshiftClientTypes.UsageLimit] {
         return try await self.asyncCompactMap { item in item.usageLimits }
     }
 }
-
-/// Paginate over `[GetReservedNodeExchangeConfigurationOptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetReservedNodeExchangeConfigurationOptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeConfigurationOptionsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[GetReservedNodeExchangeConfigurationOptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetReservedNodeExchangeConfigurationOptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeConfigurationOptionsOutputResponse`
     public func getReservedNodeExchangeConfigurationOptionsPaginated(input: GetReservedNodeExchangeConfigurationOptionsInput) -> ClientRuntime.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInput, GetReservedNodeExchangeConfigurationOptionsOutputResponse>(input: input, inputKey: \GetReservedNodeExchangeConfigurationOptionsInput.marker, outputKey: \GetReservedNodeExchangeConfigurationOptionsOutputResponse.marker, paginationFunction: self.getReservedNodeExchangeConfigurationOptions(input:))
     }
@@ -1050,24 +1019,23 @@ extension GetReservedNodeExchangeConfigurationOptionsInput: ClientRuntime.Pagina
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeConfigurationOptionsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
-/// - Returns: `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
 extension PaginatorSequence where Input == GetReservedNodeExchangeConfigurationOptionsInput, Output == GetReservedNodeExchangeConfigurationOptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeConfigurationOptionsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
+    /// - Returns: `[RedshiftClientTypes.ReservedNodeConfigurationOption]`
     public func reservedNodeConfigurationOptionList() async throws -> [RedshiftClientTypes.ReservedNodeConfigurationOption] {
         return try await self.asyncCompactMap { item in item.reservedNodeConfigurationOptionList }
     }
 }
-
-/// Paginate over `[GetReservedNodeExchangeOfferingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetReservedNodeExchangeOfferingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeOfferingsOutputResponse`
 extension RedshiftClient {
+    /// Paginate over `[GetReservedNodeExchangeOfferingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetReservedNodeExchangeOfferingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetReservedNodeExchangeOfferingsOutputResponse`
     public func getReservedNodeExchangeOfferingsPaginated(input: GetReservedNodeExchangeOfferingsInput) -> ClientRuntime.PaginatorSequence<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetReservedNodeExchangeOfferingsInput, GetReservedNodeExchangeOfferingsOutputResponse>(input: input, inputKey: \GetReservedNodeExchangeOfferingsInput.marker, outputKey: \GetReservedNodeExchangeOfferingsOutputResponse.marker, paginationFunction: self.getReservedNodeExchangeOfferings(input:))
     }
@@ -1082,10 +1050,10 @@ extension GetReservedNodeExchangeOfferingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeOfferingsPaginated`
-/// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
-/// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`
 extension PaginatorSequence where Input == GetReservedNodeExchangeOfferingsInput, Output == GetReservedNodeExchangeOfferingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getReservedNodeExchangeOfferingsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.ReservedNodeOffering]`
+    /// - Returns: `[RedshiftClientTypes.ReservedNodeOffering]`
     public func reservedNodeOfferings() async throws -> [RedshiftClientTypes.ReservedNodeOffering] {
         return try await self.asyncCompactMap { item in item.reservedNodeOfferings }
     }

@@ -108,7 +108,7 @@ public protocol KendraClientProtocol {
     /// * Relevant documents
     ///
     ///
-    /// You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results.
+    /// You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results.
     func query(input: QueryInput) async throws -> QueryOutputResponse
     /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
     func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutputResponse

@@ -634,9 +634,9 @@ extension AmplifyBackendClientTypes.BackendStoragePermissions: Swift.Codable {
         var authenticatedDecoded0:[AmplifyBackendClientTypes.AuthenticatedElement]? = nil
         if let authenticatedContainer = authenticatedContainer {
             authenticatedDecoded0 = [AmplifyBackendClientTypes.AuthenticatedElement]()
-            for string0 in authenticatedContainer {
-                if let string0 = string0 {
-                    authenticatedDecoded0?.append(string0)
+            for enum0 in authenticatedContainer {
+                if let enum0 = enum0 {
+                    authenticatedDecoded0?.append(enum0)
                 }
             }
         }
@@ -645,9 +645,9 @@ extension AmplifyBackendClientTypes.BackendStoragePermissions: Swift.Codable {
         var unAuthenticatedDecoded0:[AmplifyBackendClientTypes.UnAuthenticatedElement]? = nil
         if let unAuthenticatedContainer = unAuthenticatedContainer {
             unAuthenticatedDecoded0 = [AmplifyBackendClientTypes.UnAuthenticatedElement]()
-            for string0 in unAuthenticatedContainer {
-                if let string0 = string0 {
-                    unAuthenticatedDecoded0?.append(string0)
+            for enum0 in unAuthenticatedContainer {
+                if let enum0 = enum0 {
+                    unAuthenticatedDecoded0?.append(enum0)
                 }
             }
         }
@@ -1398,9 +1398,9 @@ extension AmplifyBackendClientTypes.CreateBackendAuthOAuthConfig: Swift.Codable 
         var oAuthScopesDecoded0:[AmplifyBackendClientTypes.OAuthScopesElement]? = nil
         if let oAuthScopesContainer = oAuthScopesContainer {
             oAuthScopesDecoded0 = [AmplifyBackendClientTypes.OAuthScopesElement]()
-            for string0 in oAuthScopesContainer {
-                if let string0 = string0 {
-                    oAuthScopesDecoded0?.append(string0)
+            for enum0 in oAuthScopesContainer {
+                if let enum0 = enum0 {
+                    oAuthScopesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1616,9 +1616,9 @@ extension AmplifyBackendClientTypes.CreateBackendAuthPasswordPolicyConfig: Swift
         var additionalConstraintsDecoded0:[AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil
         if let additionalConstraintsContainer = additionalConstraintsContainer {
             additionalConstraintsDecoded0 = [AmplifyBackendClientTypes.AdditionalConstraintsElement]()
-            for string0 in additionalConstraintsContainer {
-                if let string0 = string0 {
-                    additionalConstraintsDecoded0?.append(string0)
+            for enum0 in additionalConstraintsContainer {
+                if let enum0 = enum0 {
+                    additionalConstraintsDecoded0?.append(enum0)
                 }
             }
         }
@@ -1774,9 +1774,9 @@ extension AmplifyBackendClientTypes.CreateBackendAuthUserPoolConfig: Swift.Codab
         var requiredSignUpAttributesDecoded0:[AmplifyBackendClientTypes.RequiredSignUpAttributesElement]? = nil
         if let requiredSignUpAttributesContainer = requiredSignUpAttributesContainer {
             requiredSignUpAttributesDecoded0 = [AmplifyBackendClientTypes.RequiredSignUpAttributesElement]()
-            for string0 in requiredSignUpAttributesContainer {
-                if let string0 = string0 {
-                    requiredSignUpAttributesDecoded0?.append(string0)
+            for enum0 in requiredSignUpAttributesContainer {
+                if let enum0 = enum0 {
+                    requiredSignUpAttributesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3949,9 +3949,11 @@ extension GetBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: GetBackendAPIModelsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.modelIntrospectionSchema = output.modelIntrospectionSchema
             self.models = output.models
             self.status = output.status
         } else {
+            self.modelIntrospectionSchema = nil
             self.models = nil
             self.status = nil
         }
@@ -3959,16 +3961,20 @@ extension GetBackendAPIModelsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetBackendAPIModelsOutputResponse: Swift.Equatable {
+    /// Stringified JSON of the model introspection schema for an existing backend API resource.
+    public var modelIntrospectionSchema: Swift.String?
     /// Stringified JSON of the datastore model.
     public var models: Swift.String?
     /// The current status of the request.
     public var status: AmplifyBackendClientTypes.Status?
 
     public init (
+        modelIntrospectionSchema: Swift.String? = nil,
         models: Swift.String? = nil,
         status: AmplifyBackendClientTypes.Status? = nil
     )
     {
+        self.modelIntrospectionSchema = modelIntrospectionSchema
         self.models = models
         self.status = status
     }
@@ -3977,10 +3983,12 @@ public struct GetBackendAPIModelsOutputResponse: Swift.Equatable {
 struct GetBackendAPIModelsOutputResponseBody: Swift.Equatable {
     let models: Swift.String?
     let status: AmplifyBackendClientTypes.Status?
+    let modelIntrospectionSchema: Swift.String?
 }
 
 extension GetBackendAPIModelsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case modelIntrospectionSchema = "modelIntrospectionSchema"
         case models = "models"
         case status = "status"
     }
@@ -3991,6 +3999,8 @@ extension GetBackendAPIModelsOutputResponseBody: Swift.Decodable {
         models = modelsDecoded
         let statusDecoded = try containerValues.decodeIfPresent(AmplifyBackendClientTypes.Status.self, forKey: .status)
         status = statusDecoded
+        let modelIntrospectionSchemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelIntrospectionSchema)
+        modelIntrospectionSchema = modelIntrospectionSchemaDecoded
     }
 }
 
@@ -6594,9 +6604,9 @@ extension AmplifyBackendClientTypes.Settings: Swift.Codable {
         var mfaTypesDecoded0:[AmplifyBackendClientTypes.MfaTypesElement]? = nil
         if let mfaTypesContainer = mfaTypesContainer {
             mfaTypesDecoded0 = [AmplifyBackendClientTypes.MfaTypesElement]()
-            for string0 in mfaTypesContainer {
-                if let string0 = string0 {
-                    mfaTypesDecoded0?.append(string0)
+            for enum0 in mfaTypesContainer {
+                if let enum0 = enum0 {
+                    mfaTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7354,9 +7364,9 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthOAuthConfig: Swift.Codable 
         var oAuthScopesDecoded0:[AmplifyBackendClientTypes.OAuthScopesElement]? = nil
         if let oAuthScopesContainer = oAuthScopesContainer {
             oAuthScopesDecoded0 = [AmplifyBackendClientTypes.OAuthScopesElement]()
-            for string0 in oAuthScopesContainer {
-                if let string0 = string0 {
-                    oAuthScopesDecoded0?.append(string0)
+            for enum0 in oAuthScopesContainer {
+                if let enum0 = enum0 {
+                    oAuthScopesDecoded0?.append(enum0)
                 }
             }
         }
@@ -7568,9 +7578,9 @@ extension AmplifyBackendClientTypes.UpdateBackendAuthPasswordPolicyConfig: Swift
         var additionalConstraintsDecoded0:[AmplifyBackendClientTypes.AdditionalConstraintsElement]? = nil
         if let additionalConstraintsContainer = additionalConstraintsContainer {
             additionalConstraintsDecoded0 = [AmplifyBackendClientTypes.AdditionalConstraintsElement]()
-            for string0 in additionalConstraintsContainer {
-                if let string0 = string0 {
-                    additionalConstraintsDecoded0?.append(string0)
+            for enum0 in additionalConstraintsContainer {
+                if let enum0 = enum0 {
+                    additionalConstraintsDecoded0?.append(enum0)
                 }
             }
         }

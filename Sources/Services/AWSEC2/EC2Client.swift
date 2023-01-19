@@ -391,7 +391,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Accepts one or more interface VPC endpoint connection requests to your VPC endpoint service.
+    /// Accepts connection requests to your VPC endpoint service.
     public func acceptVpcEndpointConnections(input: AcceptVpcEndpointConnectionsInput) async throws -> AcceptVpcEndpointConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4193,7 +4193,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Creates a subnet in a specified VPC. You must specify an IPv4 CIDR block for the subnet. After you create a subnet, you can't change its CIDR block. The allowed block size is between a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses). The CIDR block must not overlap with the CIDR block of an existing subnet in the VPC. If you've associated an IPv6 CIDR block with your VPC, you can create a subnet with an IPv6 CIDR block that uses a /64 prefix length. Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for use. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information about subnets, see [Your VPC and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon Virtual Private Cloud User Guide.
+    /// Creates a subnet in the specified VPC. For an IPv4 only subnet, specify an IPv4 CIDR block. If the VPC has an IPv6 CIDR block, you can create an IPv6 only subnet or a dual stack subnet instead. For an IPv6 only subnet, specify an IPv6 CIDR block. For a dual stack subnet, specify both an IPv4 CIDR block and an IPv6 CIDR block. A subnet CIDR block must not overlap the CIDR block of an existing subnet in the VPC. After you create a subnet, you can't change its CIDR block. The allowed size for an IPv4 subnet is between a /28 netmask (16 IP addresses) and a /16 netmask (65,536 IP addresses). Amazon Web Services reserves both the first four and the last IPv4 address in each subnet's CIDR block. They're not available for your use. If you've associated an IPv6 CIDR block with your VPC, you can associate an IPv6 CIDR block with a subnet when you create it. The allowed block size for an IPv6 subnet is a /64 netmask. If you add more than one subnet to a VPC, they're set up in a star topology with a logical router in the middle. When you stop an instance in a subnet, it retains its private IPv4 address. It's therefore possible to have a subnet with no running instances (they're all stopped), but no remaining IP addresses available. For more information, see [Subnets](https://docs.aws.amazon.com/vpc/latest/userguide/configure-subnets.html) in the Amazon Virtual Private Cloud User Guide.
     public func createSubnet(input: CreateSubnetInput) async throws -> CreateSubnetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5139,7 +5139,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Creates a VPC with the specified IPv4 CIDR block. The smallest VPC you can create uses a /28 netmask (16 IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4 addresses). For more information about how large to make your VPC, see [Your VPC and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP options sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates a VPC with the specified CIDR blocks. For more information, see [VPC CIDR blocks](https://docs.aws.amazon.com/vpc/latest/userguide/configure-your-vpc.html#vpc-cidr-blocks) in the Amazon Virtual Private Cloud User Guide. You can optionally request an IPv6 CIDR block for the VPC. You can request an Amazon-provided IPv6 CIDR block from Amazon's pool of IPv6 addresses, or an IPv6 CIDR block from an IPv6 address pool that you provisioned through bring your own IP addresses ([BYOIP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)). By default, each instance that you launch in the VPC has the default DHCP options, which include only a default DNS server that we provide (AmazonProvidedDNS). For more information, see [DHCP option sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the Amazon Virtual Private Cloud User Guide. You can specify the instance tenancy value for the VPC when you create it. You can't change this value for the VPC after you create it. For more information, see [Dedicated Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html) in the Amazon Elastic Compute Cloud User Guide.
     public func createVpc(input: CreateVpcInput) async throws -> CreateVpcOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5253,7 +5253,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, IAM users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:
+    /// Creates a VPC endpoint service to which service consumers (Amazon Web Services accounts, users, and IAM roles) can connect. Before you create an endpoint service, you must create one of the following for your service:
     ///
     /// * A [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/). Service consumers connect to your service using an interface endpoint.
     ///
@@ -7959,7 +7959,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Deletes one or more VPC endpoint connection notifications.
+    /// Deletes the specified VPC endpoint connection notifications.
     public func deleteVpcEndpointConnectionNotifications(input: DeleteVpcEndpointConnectionNotificationsInput) async throws -> DeleteVpcEndpointConnectionNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7997,7 +7997,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Deletes one or more VPC endpoint service configurations in your account. Before you delete the endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
+    /// Deletes the specified VPC endpoint service configurations. Before you can delete an endpoint service configuration, you must reject any Available or PendingAcceptance interface endpoint connections that are attached to the service.
     public func deleteVpcEndpointServiceConfigurations(input: DeleteVpcEndpointServiceConfigurationsInput) async throws -> DeleteVpcEndpointServiceConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -8035,22 +8035,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Deletes one or more specified VPC endpoints. You can delete any of the following types of VPC endpoints.
-    ///
-    /// * Gateway endpoint,
-    ///
-    /// * Gateway Load Balancer endpoint,
-    ///
-    /// * Interface endpoint
-    ///
-    ///
-    /// The following rules apply when you delete a VPC endpoint:
-    ///
-    /// * When you delete a gateway endpoint, we delete the endpoint routes in the route tables that are associated with the endpoint.
-    ///
-    /// * When you delete a Gateway Load Balancer endpoint, we delete the endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted.
-    ///
-    /// * When you delete an interface endpoint, we delete the endpoint network interfaces.
+    /// Deletes the specified VPC endpoints. When you delete a gateway endpoint, we delete the endpoint routes in the route tables for the endpoint. When you delete a Gateway Load Balancer endpoint, we delete its endpoint network interfaces. You can only delete Gateway Load Balancer endpoints when the routes that are associated with the endpoint are deleted. When you delete an interface endpoint, we delete its endpoint network interfaces.
     public func deleteVpcEndpoints(input: DeleteVpcEndpointsInput) async throws -> DeleteVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -13742,7 +13727,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Describes one or more of your VPC endpoints.
+    /// Describes your VPC endpoints.
     public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -19826,7 +19811,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (IAM users, IAM roles, and Amazon Web Services accounts) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a public service can send a request to attach an endpoint. If the service does not require manual approval, attachments are automatically approved.
     public func modifyVpcEndpointServicePermissions(input: ModifyVpcEndpointServicePermissionsInput) async throws -> ModifyVpcEndpointServicePermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -20775,7 +20760,7 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
-    /// Rejects one or more VPC endpoint connection requests to your VPC endpoint service.
+    /// Rejects VPC endpoint connection requests to your VPC endpoint service.
     public func rejectVpcEndpointConnections(input: RejectVpcEndpointConnectionsInput) async throws -> RejectVpcEndpointConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

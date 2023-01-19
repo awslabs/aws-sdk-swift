@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeListenersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeListenersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeListenersOutputResponse`
 extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeListenersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeListenersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeListenersOutputResponse`
     public func describeListenersPaginated(input: DescribeListenersInput) -> ClientRuntime.PaginatorSequence<DescribeListenersInput, DescribeListenersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeListenersInput, DescribeListenersOutputResponse>(input: input, inputKey: \DescribeListenersInput.marker, outputKey: \DescribeListenersOutputResponse.nextMarker, paginationFunction: self.describeListeners(input:))
     }
@@ -27,24 +26,23 @@ extension DescribeListenersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeListenersPaginated`
-/// to access the nested member `[ElasticLoadBalancingv2ClientTypes.Listener]`
-/// - Returns: `[ElasticLoadBalancingv2ClientTypes.Listener]`
 extension PaginatorSequence where Input == DescribeListenersInput, Output == DescribeListenersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeListenersPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.Listener]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.Listener]`
     public func listeners() async throws -> [ElasticLoadBalancingv2ClientTypes.Listener] {
         return try await self.asyncCompactMap { item in item.listeners }
     }
 }
-
-/// Paginate over `[DescribeLoadBalancersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeLoadBalancersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutputResponse`
 extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeLoadBalancersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeLoadBalancersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLoadBalancersOutputResponse`
     public func describeLoadBalancersPaginated(input: DescribeLoadBalancersInput) -> ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeLoadBalancersInput, DescribeLoadBalancersOutputResponse>(input: input, inputKey: \DescribeLoadBalancersInput.marker, outputKey: \DescribeLoadBalancersOutputResponse.nextMarker, paginationFunction: self.describeLoadBalancers(input:))
     }
@@ -60,24 +58,23 @@ extension DescribeLoadBalancersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeLoadBalancersPaginated`
-/// to access the nested member `[ElasticLoadBalancingv2ClientTypes.LoadBalancer]`
-/// - Returns: `[ElasticLoadBalancingv2ClientTypes.LoadBalancer]`
 extension PaginatorSequence where Input == DescribeLoadBalancersInput, Output == DescribeLoadBalancersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeLoadBalancersPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.LoadBalancer]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.LoadBalancer]`
     public func loadBalancers() async throws -> [ElasticLoadBalancingv2ClientTypes.LoadBalancer] {
         return try await self.asyncCompactMap { item in item.loadBalancers }
     }
 }
-
-/// Paginate over `[DescribeTargetGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeTargetGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeTargetGroupsOutputResponse`
 extension ElasticLoadBalancingv2Client {
+    /// Paginate over `[DescribeTargetGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTargetGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTargetGroupsOutputResponse`
     public func describeTargetGroupsPaginated(input: DescribeTargetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeTargetGroupsInput, DescribeTargetGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeTargetGroupsInput, DescribeTargetGroupsOutputResponse>(input: input, inputKey: \DescribeTargetGroupsInput.marker, outputKey: \DescribeTargetGroupsOutputResponse.nextMarker, paginationFunction: self.describeTargetGroups(input:))
     }
@@ -94,10 +91,10 @@ extension DescribeTargetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeTargetGroupsPaginated`
-/// to access the nested member `[ElasticLoadBalancingv2ClientTypes.TargetGroup]`
-/// - Returns: `[ElasticLoadBalancingv2ClientTypes.TargetGroup]`
 extension PaginatorSequence where Input == DescribeTargetGroupsInput, Output == DescribeTargetGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTargetGroupsPaginated`
+    /// to access the nested member `[ElasticLoadBalancingv2ClientTypes.TargetGroup]`
+    /// - Returns: `[ElasticLoadBalancingv2ClientTypes.TargetGroup]`
     public func targetGroups() async throws -> [ElasticLoadBalancingv2ClientTypes.TargetGroup] {
         return try await self.asyncCompactMap { item in item.targetGroups }
     }

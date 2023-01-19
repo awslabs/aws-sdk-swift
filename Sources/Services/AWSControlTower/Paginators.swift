@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListEnabledControlsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEnabledControlsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEnabledControlsOutputResponse`
 extension ControlTowerClient {
+    /// Paginate over `[ListEnabledControlsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEnabledControlsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEnabledControlsOutputResponse`
     public func listEnabledControlsPaginated(input: ListEnabledControlsInput) -> ClientRuntime.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutputResponse>(input: input, inputKey: \ListEnabledControlsInput.nextToken, outputKey: \ListEnabledControlsOutputResponse.nextToken, paginationFunction: self.listEnabledControls(input:))
     }
@@ -26,10 +25,10 @@ extension ListEnabledControlsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listEnabledControlsPaginated`
-/// to access the nested member `[ControlTowerClientTypes.EnabledControlSummary]`
-/// - Returns: `[ControlTowerClientTypes.EnabledControlSummary]`
 extension PaginatorSequence where Input == ListEnabledControlsInput, Output == ListEnabledControlsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnabledControlsPaginated`
+    /// to access the nested member `[ControlTowerClientTypes.EnabledControlSummary]`
+    /// - Returns: `[ControlTowerClientTypes.EnabledControlSummary]`
     public func enabledControls() async throws -> [ControlTowerClientTypes.EnabledControlSummary] {
         return try await self.asyncCompactMap { item in item.enabledControls }
     }

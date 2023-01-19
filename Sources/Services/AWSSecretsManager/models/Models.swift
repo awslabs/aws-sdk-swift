@@ -939,6 +939,7 @@ public struct DescribeSecretOutputResponse: Swift.Equatable {
     public var lastRotatedDate: ClientRuntime.Date?
     /// The name of the secret.
     public var name: Swift.String?
+    /// The next date and time that Secrets Manager will rotate the secret, rounded to the nearest hour. If the secret isn't configured for rotation, Secrets Manager returns null.
     public var nextRotationDate: ClientRuntime.Date?
     /// The ID of the service that created this secret. For more information, see [Secrets managed by other Amazon Web Services services](https://docs.aws.amazon.com/secretsmanager/latest/userguide/service-linked-secrets.html).
     public var owningService: Swift.String?
@@ -1235,6 +1236,8 @@ extension SecretsManagerClientTypes {
         /// * tag-value: Prefix match, case-sensitive.
         ///
         /// * primary-region: Prefix match, case-sensitive.
+        ///
+        /// * owning-service: Prefix match, case-sensitive.
         ///
         /// * all: Breaks the filter value string into words and then searches all attributes for matches. Not case-sensitive.
         public var key: SecretsManagerClientTypes.FilterNameStringType?
@@ -2356,6 +2359,7 @@ extension ListSecretsInput: ClientRuntime.URLPathProvider {
 public struct ListSecretsInput: Swift.Equatable {
     /// The filters to apply to the list of secrets.
     public var filters: [SecretsManagerClientTypes.Filter]?
+    /// Specifies whether to include secrets scheduled for deletion.
     public var includePlannedDeletion: Swift.Bool?
     /// The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecrets again with the value from NextToken.
     public var maxResults: Swift.Int?
@@ -3780,9 +3784,9 @@ extension RotateSecretInput: ClientRuntime.URLPathProvider {
 public struct RotateSecretInput: Swift.Equatable {
     /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a [UUID-type](https://wikipedia.org/wiki/Universally_unique_identifier) value to ensure uniqueness within the specified secret.
     public var clientRequestToken: Swift.String?
-    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. If you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
+    /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window. The rotation schedule is defined in [RotateSecretRequest$RotationRules]. For secrets that use a Lambda rotation function to rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the [testSecret] step(https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html) of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
     public var rotateImmediately: Swift.Bool?
-    /// The ARN of the Lambda rotation function that can rotate the secret.
+    /// For secrets that use a Lambda rotation function to rotate, the ARN of the Lambda rotation function. For secrets that use managed rotation, omit this field. For more information, see [Managed rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_managed.html) in the Secrets Manager User Guide.
     public var rotationLambdaARN: Swift.String?
     /// A structure that defines the rotation configuration for this secret.
     public var rotationRules: SecretsManagerClientTypes.RotationRulesType?
@@ -3961,7 +3965,7 @@ extension SecretsManagerClientTypes.RotationRulesType: Swift.Codable {
 extension SecretsManagerClientTypes {
     /// A structure that defines the rotation configuration for the secret.
     public struct RotationRulesType: Swift.Equatable {
-        /// The number of days between automatic scheduled rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. In DescribeSecret and ListSecrets, this value is calculated from the rotation schedule after every successful rotation. In RotateSecret, you can set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use ScheduleExpression.
+        /// The number of days between rotations of the secret. You can use this value to check that your secret meets your compliance guidelines for how often secrets must be rotated. If you use this field to set the rotation schedule, Secrets Manager calculates the next rotation date based on the previous rotation. Manually updating the secret value by calling PutSecretValue or UpdateSecret is considered a valid rotation. In DescribeSecret and ListSecrets, this value is calculated from the rotation schedule after every successful rotation. In RotateSecret, you can set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both. To set a rotation schedule in hours, use ScheduleExpression.
         public var automaticallyAfterDays: Swift.Int?
         /// The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager rotates your secret at any time during this window. The window must not extend into the next rotation window or the next UTC day. The window starts according to the ScheduleExpression. If you don't specify a Duration, for a ScheduleExpression in hours, the window automatically closes after one hour. For a ScheduleExpression in days, the window automatically closes at the end of the UTC day. For more information, including examples, see [Schedule expressions in Secrets Manager rotation](https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_schedule.html) in the Secrets Manager Users Guide.
         public var duration: Swift.String?
@@ -4152,6 +4156,7 @@ extension SecretsManagerClientTypes {
         public var lastRotatedDate: ClientRuntime.Date?
         /// The friendly name of the secret. You can use forward slashes in the name to represent a path hierarchy. For example, /prod/databases/dbserver1 could represent the secret for a server named dbserver1 in the folder databases in the folder prod.
         public var name: Swift.String?
+        /// The next date and time that Secrets Manager will attempt to rotate the secret, rounded to the nearest hour. This value is null if the secret is not set up for rotation.
         public var nextRotationDate: ClientRuntime.Date?
         /// Returns the name of the service that created the secret.
         public var owningService: Swift.String?

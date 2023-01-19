@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
 extension GlacierClient {
+    /// Paginate over `[ListJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.marker, outputKey: \ListJobsOutputResponse.marker, paginationFunction: self.listJobs(input:))
     }
@@ -29,24 +28,23 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
-/// to access the nested member `[GlacierClientTypes.GlacierJobDescription]`
-/// - Returns: `[GlacierClientTypes.GlacierJobDescription]`
 extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
+    /// to access the nested member `[GlacierClientTypes.GlacierJobDescription]`
+    /// - Returns: `[GlacierClientTypes.GlacierJobDescription]`
     public func jobList() async throws -> [GlacierClientTypes.GlacierJobDescription] {
         return try await self.asyncCompactMap { item in item.jobList }
     }
 }
-
-/// Paginate over `[ListMultipartUploadsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMultipartUploadsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMultipartUploadsOutputResponse`
 extension GlacierClient {
+    /// Paginate over `[ListMultipartUploadsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMultipartUploadsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultipartUploadsOutputResponse`
     public func listMultipartUploadsPaginated(input: ListMultipartUploadsInput) -> ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMultipartUploadsInput, ListMultipartUploadsOutputResponse>(input: input, inputKey: \ListMultipartUploadsInput.marker, outputKey: \ListMultipartUploadsOutputResponse.marker, paginationFunction: self.listMultipartUploads(input:))
     }
@@ -62,24 +60,23 @@ extension ListMultipartUploadsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listMultipartUploadsPaginated`
-/// to access the nested member `[GlacierClientTypes.UploadListElement]`
-/// - Returns: `[GlacierClientTypes.UploadListElement]`
 extension PaginatorSequence where Input == ListMultipartUploadsInput, Output == ListMultipartUploadsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listMultipartUploadsPaginated`
+    /// to access the nested member `[GlacierClientTypes.UploadListElement]`
+    /// - Returns: `[GlacierClientTypes.UploadListElement]`
     public func uploadsList() async throws -> [GlacierClientTypes.UploadListElement] {
         return try await self.asyncCompactMap { item in item.uploadsList }
     }
 }
-
-/// Paginate over `[ListPartsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPartsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutputResponse`
 extension GlacierClient {
+    /// Paginate over `[ListPartsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPartsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPartsOutputResponse`
     public func listPartsPaginated(input: ListPartsInput) -> ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPartsInput, ListPartsOutputResponse>(input: input, inputKey: \ListPartsInput.marker, outputKey: \ListPartsOutputResponse.marker, paginationFunction: self.listParts(input:))
     }
@@ -96,24 +93,23 @@ extension ListPartsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
-/// to access the nested member `[GlacierClientTypes.PartListElement]`
-/// - Returns: `[GlacierClientTypes.PartListElement]`
 extension PaginatorSequence where Input == ListPartsInput, Output == ListPartsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPartsPaginated`
+    /// to access the nested member `[GlacierClientTypes.PartListElement]`
+    /// - Returns: `[GlacierClientTypes.PartListElement]`
     public func parts() async throws -> [GlacierClientTypes.PartListElement] {
         return try await self.asyncCompactMap { item in item.parts }
     }
 }
-
-/// Paginate over `[ListVaultsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListVaultsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListVaultsOutputResponse`
 extension GlacierClient {
+    /// Paginate over `[ListVaultsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVaultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVaultsOutputResponse`
     public func listVaultsPaginated(input: ListVaultsInput) -> ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListVaultsInput, ListVaultsOutputResponse>(input: input, inputKey: \ListVaultsInput.marker, outputKey: \ListVaultsOutputResponse.marker, paginationFunction: self.listVaults(input:))
     }
@@ -128,10 +124,10 @@ extension ListVaultsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listVaultsPaginated`
-/// to access the nested member `[GlacierClientTypes.DescribeVaultOutput]`
-/// - Returns: `[GlacierClientTypes.DescribeVaultOutput]`
 extension PaginatorSequence where Input == ListVaultsInput, Output == ListVaultsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listVaultsPaginated`
+    /// to access the nested member `[GlacierClientTypes.DescribeVaultOutput]`
+    /// - Returns: `[GlacierClientTypes.DescribeVaultOutput]`
     public func vaultList() async throws -> [GlacierClientTypes.DescribeVaultOutput] {
         return try await self.asyncCompactMap { item in item.vaultList }
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetFlowTemplateRevisionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetFlowTemplateRevisionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetFlowTemplateRevisionsOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[GetFlowTemplateRevisionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetFlowTemplateRevisionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetFlowTemplateRevisionsOutputResponse`
     public func getFlowTemplateRevisionsPaginated(input: GetFlowTemplateRevisionsInput) -> ClientRuntime.PaginatorSequence<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutputResponse>(input: input, inputKey: \GetFlowTemplateRevisionsInput.nextToken, outputKey: \GetFlowTemplateRevisionsOutputResponse.nextToken, paginationFunction: self.getFlowTemplateRevisions(input:))
     }
@@ -26,24 +25,23 @@ extension GetFlowTemplateRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getFlowTemplateRevisionsPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
 extension PaginatorSequence where Input == GetFlowTemplateRevisionsInput, Output == GetFlowTemplateRevisionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getFlowTemplateRevisionsPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.FlowTemplateSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[GetSystemTemplateRevisionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetSystemTemplateRevisionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetSystemTemplateRevisionsOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[GetSystemTemplateRevisionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetSystemTemplateRevisionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetSystemTemplateRevisionsOutputResponse`
     public func getSystemTemplateRevisionsPaginated(input: GetSystemTemplateRevisionsInput) -> ClientRuntime.PaginatorSequence<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutputResponse>(input: input, inputKey: \GetSystemTemplateRevisionsInput.nextToken, outputKey: \GetSystemTemplateRevisionsOutputResponse.nextToken, paginationFunction: self.getSystemTemplateRevisions(input:))
     }
@@ -58,24 +56,23 @@ extension GetSystemTemplateRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getSystemTemplateRevisionsPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
 extension PaginatorSequence where Input == GetSystemTemplateRevisionsInput, Output == GetSystemTemplateRevisionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getSystemTemplateRevisionsPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.SystemTemplateSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[ListFlowExecutionMessagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListFlowExecutionMessagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListFlowExecutionMessagesOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[ListFlowExecutionMessagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFlowExecutionMessagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFlowExecutionMessagesOutputResponse`
     public func listFlowExecutionMessagesPaginated(input: ListFlowExecutionMessagesInput) -> ClientRuntime.PaginatorSequence<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutputResponse>(input: input, inputKey: \ListFlowExecutionMessagesInput.nextToken, outputKey: \ListFlowExecutionMessagesOutputResponse.nextToken, paginationFunction: self.listFlowExecutionMessages(input:))
     }
@@ -90,24 +87,23 @@ extension ListFlowExecutionMessagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listFlowExecutionMessagesPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
-/// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
 extension PaginatorSequence where Input == ListFlowExecutionMessagesInput, Output == ListFlowExecutionMessagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFlowExecutionMessagesPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
+    /// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionMessage]`
     public func messages() async throws -> [IoTThingsGraphClientTypes.FlowExecutionMessage] {
         return try await self.asyncCompactMap { item in item.messages }
     }
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
@@ -122,24 +118,23 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.Tag]`
-/// - Returns: `[IoTThingsGraphClientTypes.Tag]`
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.Tag]`
+    /// - Returns: `[IoTThingsGraphClientTypes.Tag]`
     public func tags() async throws -> [IoTThingsGraphClientTypes.Tag] {
         return try await self.asyncCompactMap { item in item.tags }
     }
 }
-
-/// Paginate over `[SearchEntitiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchEntitiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchEntitiesOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchEntitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchEntitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchEntitiesOutputResponse`
     public func searchEntitiesPaginated(input: SearchEntitiesInput) -> ClientRuntime.PaginatorSequence<SearchEntitiesInput, SearchEntitiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchEntitiesInput, SearchEntitiesOutputResponse>(input: input, inputKey: \SearchEntitiesInput.nextToken, outputKey: \SearchEntitiesOutputResponse.nextToken, paginationFunction: self.searchEntities(input:))
     }
@@ -156,24 +151,23 @@ extension SearchEntitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchEntitiesPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.EntityDescription]`
-/// - Returns: `[IoTThingsGraphClientTypes.EntityDescription]`
 extension PaginatorSequence where Input == SearchEntitiesInput, Output == SearchEntitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchEntitiesPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.EntityDescription]`
+    /// - Returns: `[IoTThingsGraphClientTypes.EntityDescription]`
     public func descriptions() async throws -> [IoTThingsGraphClientTypes.EntityDescription] {
         return try await self.asyncCompactMap { item in item.descriptions }
     }
 }
-
-/// Paginate over `[SearchFlowExecutionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchFlowExecutionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchFlowExecutionsOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchFlowExecutionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchFlowExecutionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchFlowExecutionsOutputResponse`
     public func searchFlowExecutionsPaginated(input: SearchFlowExecutionsInput) -> ClientRuntime.PaginatorSequence<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchFlowExecutionsInput, SearchFlowExecutionsOutputResponse>(input: input, inputKey: \SearchFlowExecutionsInput.nextToken, outputKey: \SearchFlowExecutionsOutputResponse.nextToken, paginationFunction: self.searchFlowExecutions(input:))
     }
@@ -191,24 +185,23 @@ extension SearchFlowExecutionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchFlowExecutionsPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
 extension PaginatorSequence where Input == SearchFlowExecutionsInput, Output == SearchFlowExecutionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchFlowExecutionsPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.FlowExecutionSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.FlowExecutionSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[SearchFlowTemplatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchFlowTemplatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchFlowTemplatesOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchFlowTemplatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchFlowTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchFlowTemplatesOutputResponse`
     public func searchFlowTemplatesPaginated(input: SearchFlowTemplatesInput) -> ClientRuntime.PaginatorSequence<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchFlowTemplatesInput, SearchFlowTemplatesOutputResponse>(input: input, inputKey: \SearchFlowTemplatesInput.nextToken, outputKey: \SearchFlowTemplatesOutputResponse.nextToken, paginationFunction: self.searchFlowTemplates(input:))
     }
@@ -223,24 +216,23 @@ extension SearchFlowTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchFlowTemplatesPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
 extension PaginatorSequence where Input == SearchFlowTemplatesInput, Output == SearchFlowTemplatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchFlowTemplatesPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.FlowTemplateSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.FlowTemplateSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[SearchSystemInstancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchSystemInstancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchSystemInstancesOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchSystemInstancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchSystemInstancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchSystemInstancesOutputResponse`
     public func searchSystemInstancesPaginated(input: SearchSystemInstancesInput) -> ClientRuntime.PaginatorSequence<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchSystemInstancesInput, SearchSystemInstancesOutputResponse>(input: input, inputKey: \SearchSystemInstancesInput.nextToken, outputKey: \SearchSystemInstancesOutputResponse.nextToken, paginationFunction: self.searchSystemInstances(input:))
     }
@@ -255,24 +247,23 @@ extension SearchSystemInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchSystemInstancesPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
 extension PaginatorSequence where Input == SearchSystemInstancesInput, Output == SearchSystemInstancesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchSystemInstancesPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.SystemInstanceSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.SystemInstanceSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[SearchSystemTemplatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchSystemTemplatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchSystemTemplatesOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchSystemTemplatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchSystemTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchSystemTemplatesOutputResponse`
     public func searchSystemTemplatesPaginated(input: SearchSystemTemplatesInput) -> ClientRuntime.PaginatorSequence<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchSystemTemplatesInput, SearchSystemTemplatesOutputResponse>(input: input, inputKey: \SearchSystemTemplatesInput.nextToken, outputKey: \SearchSystemTemplatesOutputResponse.nextToken, paginationFunction: self.searchSystemTemplates(input:))
     }
@@ -287,24 +278,23 @@ extension SearchSystemTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchSystemTemplatesPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
-/// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
 extension PaginatorSequence where Input == SearchSystemTemplatesInput, Output == SearchSystemTemplatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchSystemTemplatesPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
+    /// - Returns: `[IoTThingsGraphClientTypes.SystemTemplateSummary]`
     public func summaries() async throws -> [IoTThingsGraphClientTypes.SystemTemplateSummary] {
         return try await self.asyncCompactMap { item in item.summaries }
     }
 }
-
-/// Paginate over `[SearchThingsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SearchThingsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SearchThingsOutputResponse`
 extension IoTThingsGraphClient {
+    /// Paginate over `[SearchThingsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchThingsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchThingsOutputResponse`
     public func searchThingsPaginated(input: SearchThingsInput) -> ClientRuntime.PaginatorSequence<SearchThingsInput, SearchThingsOutputResponse> {
         return ClientRuntime.PaginatorSequence<SearchThingsInput, SearchThingsOutputResponse>(input: input, inputKey: \SearchThingsInput.nextToken, outputKey: \SearchThingsOutputResponse.nextToken, paginationFunction: self.searchThings(input:))
     }
@@ -320,10 +310,10 @@ extension SearchThingsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `searchThingsPaginated`
-/// to access the nested member `[IoTThingsGraphClientTypes.Thing]`
-/// - Returns: `[IoTThingsGraphClientTypes.Thing]`
 extension PaginatorSequence where Input == SearchThingsInput, Output == SearchThingsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchThingsPaginated`
+    /// to access the nested member `[IoTThingsGraphClientTypes.Thing]`
+    /// - Returns: `[IoTThingsGraphClientTypes.Thing]`
     public func things() async throws -> [IoTThingsGraphClientTypes.Thing] {
         return try await self.asyncCompactMap { item in item.things }
     }

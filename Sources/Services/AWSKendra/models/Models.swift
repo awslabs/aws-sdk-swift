@@ -3154,7 +3154,7 @@ extension KendraClientTypes.ConfluencePageToIndexFieldMapping: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// >Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
+    /// Maps attributes or field names of Confluence pages to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
     public struct ConfluencePageToIndexFieldMapping: Swift.Equatable {
         /// The name of the field in the data source.
         public var dataSourceFieldName: KendraClientTypes.ConfluencePageFieldName?
@@ -3358,7 +3358,7 @@ extension KendraClientTypes.ConfluenceSpaceToIndexFieldMapping: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// >Maps attributes or field names of Confluence spaces to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
+    /// Maps attributes or field names of Confluence spaces to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see [Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Confluence data source field names must exist in your Confluence custom metadata.
     public struct ConfluenceSpaceToIndexFieldMapping: Swift.Equatable {
         /// The name of the field in the data source.
         public var dataSourceFieldName: KendraClientTypes.ConfluenceSpaceFieldName?
@@ -3574,20 +3574,34 @@ extension KendraClientTypes {
 
 extension KendraClientTypes {
     public enum ContentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
         case html
+        case json
+        case md
+        case msExcel
         case msWord
         case pdf
         case plainText
         case ppt
+        case rtf
+        case xml
+        case xslt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContentType] {
             return [
+                .csv,
                 .html,
+                .json,
+                .md,
+                .msExcel,
                 .msWord,
                 .pdf,
                 .plainText,
                 .ppt,
+                .rtf,
+                .xml,
+                .xslt,
                 .sdkUnknown("")
             ]
         }
@@ -3597,11 +3611,18 @@ extension KendraClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .csv: return "CSV"
             case .html: return "HTML"
+            case .json: return "JSON"
+            case .md: return "MD"
+            case .msExcel: return "MS_EXCEL"
             case .msWord: return "MS_WORD"
             case .pdf: return "PDF"
             case .plainText: return "PLAIN_TEXT"
             case .ppt: return "PPT"
+            case .rtf: return "RTF"
+            case .xml: return "XML"
+            case .xslt: return "XSLT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13662,7 +13683,7 @@ extension KendraClientTypes {
         public var issueSubEntityFilter: [KendraClientTypes.IssueSubEntity]?
         /// Specify which issue types to crawl in your Jira data source. You can specify one or more of these options to crawl.
         public var issueType: [Swift.String]?
-        /// The URL of the Jira account. For example, company.atlassian.net or https://jira.company.com. You can find your Jira account URL in the URL of your profile page for Jira desktop.
+        /// The URL of the Jira account. For example, company.atlassian.net.
         /// This member is required.
         public var jiraAccountUrl: Swift.String?
         /// Specify which projects to crawl in your Jira data source. You can specify one or more Jira project IDs.
@@ -13671,16 +13692,16 @@ extension KendraClientTypes {
         public var projectFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
         /// The Amazon Resource Name (ARN) of a secret in Secrets Manager contains the key-value pairs required to connect to your Jira data source. The secret must contain a JSON structure with the following keys:
         ///
-        /// * jiraId—The Jira username.
+        /// * jiraId—The Jira user name or email.
         ///
-        /// * jiraCredentials—The Jira API token. For more information on creating an API token in Jira, see [ Using a Jira data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html).
+        /// * jiraCredentials—The Jira API token. For more information, see [Using a Jira data source](https://docs.aws.amazon.com/kendra/latest/dg/data-source-jira.html).
         /// This member is required.
         public var secretArn: Swift.String?
         /// Specify which statuses to crawl in your Jira data source. You can specify one or more of these options to crawl.
         public var status: [Swift.String]?
         /// TRUE to use the Jira change log to determine which documents require updating in the index. Depending on the change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents in Jira.
         public var useChangeLog: Swift.Bool
-        /// Configuration information for an Amazon Virtual Private Cloud to connect to your Jira. Your Jira account must reside inside your VPC.
+        /// Configuration information for an Amazon Virtual Private Cloud to connect to your Jira. For more information, see [Configuring a VPC](https://docs.aws.amazon.com/kendra/latest/dg/vpc-configuration.html).
         public var vpcConfiguration: KendraClientTypes.DataSourceVpcConfiguration?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of Jira work logs to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Jira fields. For more information, see [ Mapping data source fields](https://docs.aws.amazon.com/kendra/latest/dg/field-mapping.html). The Jira data source field names must exist in your Jira custom metadata.
         public var workLogFieldMappings: [KendraClientTypes.DataSourceToIndexFieldMapping]?
@@ -16195,7 +16216,7 @@ extension KendraClientTypes {
         /// A list of user accounts whose documents should be indexed.
         /// This member is required.
         public var oneDriveUsers: KendraClientTypes.OneDriveUsers?
-        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the user name and password to connect to OneDrive. The user namd should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
+        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the user name and password to connect to OneDrive. The user name should be the application ID for the OneDrive application, and the password is the application key for the OneDrive application.
         /// This member is required.
         public var secretArn: Swift.String?
         /// The Azure Active Directory domain of the organization.

@@ -22,9 +22,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-northwest-1",
                         "name": "sigv4",
-                        "signingName": "route53"
+                        "signingName": "route53",
+                        "signingRegion": "cn-northwest-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -50,9 +50,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "route53"
+                        "signingName": "route53",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -78,9 +78,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-iso-east-1",
                         "name": "sigv4",
-                        "signingName": "route53"
+                        "signingName": "route53",
+                        "signingRegion": "us-iso-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -106,9 +106,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-isob-east-1",
                         "name": "sigv4",
-                        "signingName": "route53"
+                        "signingName": "route53",
+                        "signingRegion": "us-isob-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -134,9 +134,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "route53"
+                        "signingName": "route53",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

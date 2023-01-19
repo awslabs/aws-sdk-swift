@@ -3240,7 +3240,9 @@ extension ConnectClientTypes {
     public enum ContactInitiationMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case api
         case callback
+        case disconnect
         case inbound
+        case monitor
         case outbound
         case queueTransfer
         case transfer
@@ -3250,7 +3252,9 @@ extension ConnectClientTypes {
             return [
                 .api,
                 .callback,
+                .disconnect,
                 .inbound,
+                .monitor,
                 .outbound,
                 .queueTransfer,
                 .transfer,
@@ -3265,7 +3269,9 @@ extension ConnectClientTypes {
             switch self {
             case .api: return "API"
             case .callback: return "CALLBACK"
+            case .disconnect: return "DISCONNECT"
             case .inbound: return "INBOUND"
+            case .monitor: return "MONITOR"
             case .outbound: return "OUTBOUND"
             case .queueTransfer: return "QUEUE_TRANSFER"
             case .transfer: return "TRANSFER"

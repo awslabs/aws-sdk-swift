@@ -35,7 +35,7 @@ public protocol AmplifyBackendClientProtocol {
     func getBackend(input: GetBackendInput) async throws -> GetBackendOutputResponse
     /// Gets the details for a backend API.
     func getBackendAPI(input: GetBackendAPIInput) async throws -> GetBackendAPIOutputResponse
-    /// Generates a model schema for existing backend API resource.
+    /// Gets a model introspection schema for an existing backend API resource.
     func getBackendAPIModels(input: GetBackendAPIModelsInput) async throws -> GetBackendAPIModelsOutputResponse
     /// Gets a backend auth details.
     func getBackendAuth(input: GetBackendAuthInput) async throws -> GetBackendAuthOutputResponse

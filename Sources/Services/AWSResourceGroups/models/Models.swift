@@ -2,6 +2,61 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension ResourceGroupsClientTypes.AccountSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupLifecycleEventsDesiredStatus = "GroupLifecycleEventsDesiredStatus"
+        case groupLifecycleEventsStatus = "GroupLifecycleEventsStatus"
+        case groupLifecycleEventsStatusMessage = "GroupLifecycleEventsStatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupLifecycleEventsDesiredStatus = self.groupLifecycleEventsDesiredStatus {
+            try encodeContainer.encode(groupLifecycleEventsDesiredStatus.rawValue, forKey: .groupLifecycleEventsDesiredStatus)
+        }
+        if let groupLifecycleEventsStatus = self.groupLifecycleEventsStatus {
+            try encodeContainer.encode(groupLifecycleEventsStatus.rawValue, forKey: .groupLifecycleEventsStatus)
+        }
+        if let groupLifecycleEventsStatusMessage = self.groupLifecycleEventsStatusMessage {
+            try encodeContainer.encode(groupLifecycleEventsStatusMessage, forKey: .groupLifecycleEventsStatusMessage)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupLifecycleEventsDesiredStatusDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus.self, forKey: .groupLifecycleEventsDesiredStatus)
+        groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatusDecoded
+        let groupLifecycleEventsStatusDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupLifecycleEventsStatus.self, forKey: .groupLifecycleEventsStatus)
+        groupLifecycleEventsStatus = groupLifecycleEventsStatusDecoded
+        let groupLifecycleEventsStatusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupLifecycleEventsStatusMessage)
+        groupLifecycleEventsStatusMessage = groupLifecycleEventsStatusMessageDecoded
+    }
+}
+
+extension ResourceGroupsClientTypes {
+    /// The Resource Groups settings for this Amazon Web Services account.
+    public struct AccountSettings: Swift.Equatable {
+        /// The desired target status of the group lifecycle events feature. If
+        public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
+        /// The current status of the group lifecycle events feature.
+        public var groupLifecycleEventsStatus: ResourceGroupsClientTypes.GroupLifecycleEventsStatus?
+        /// The text of any error message occurs during an attempt to turn group lifecycle events on or off.
+        public var groupLifecycleEventsStatusMessage: Swift.String?
+
+        public init (
+            groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil,
+            groupLifecycleEventsStatus: ResourceGroupsClientTypes.GroupLifecycleEventsStatus? = nil,
+            groupLifecycleEventsStatusMessage: Swift.String? = nil
+        )
+        {
+            self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
+            self.groupLifecycleEventsStatus = groupLifecycleEventsStatus
+            self.groupLifecycleEventsStatusMessage = groupLifecycleEventsStatusMessage
+        }
+    }
+
+}
+
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -96,14 +151,14 @@ extension CreateGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateGroupInput: Swift.Equatable {
-    /// A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For details about the syntax of service configurations, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
+    /// A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For details about the syntax of service configurations, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
     public var description: Swift.String?
-    /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within each AWS Region in your AWS account.
+    /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within each Amazon Web Services Region in your Amazon Web Services account.
     /// This member is required.
     public var name: Swift.String?
-    /// The resource query that determines which AWS resources are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). A resource group can contain either a ResourceQuery or a Configuration, but not both.
+    /// The resource query that determines which Amazon Web Services resources are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). A resource group can contain either a ResourceQuery or a Configuration, but not both.
     public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
     /// The tags to add to the group. A tag is key-value pair string.
     public var tags: [Swift.String:Swift.String]?
@@ -226,7 +281,7 @@ extension CreateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateGroupOutputResponse: Swift.Equatable {
     /// The description of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
-    /// The service configuration associated with the resource group. For details about the syntax of a service configuration, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+    /// The service configuration associated with the resource group. For details about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public var groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
     /// The resource query associated with the group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag).
     public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
@@ -524,6 +579,97 @@ extension ForbiddenExceptionBody: Swift.Decodable {
     }
 }
 
+extension GetAccountSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/get-account-settings"
+    }
+}
+
+public struct GetAccountSettingsInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetAccountSettingsInputBody: Swift.Equatable {
+}
+
+extension GetAccountSettingsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetAccountSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetAccountSettingsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case methodNotAllowedException(MethodNotAllowedException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountSettings = output.accountSettings
+        } else {
+            self.accountSettings = nil
+        }
+    }
+}
+
+public struct GetAccountSettingsOutputResponse: Swift.Equatable {
+    /// The current settings for the optional features in Resource Groups.
+    public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
+
+    public init (
+        accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
+    )
+    {
+        self.accountSettings = accountSettings
+    }
+}
+
+struct GetAccountSettingsOutputResponseBody: Swift.Equatable {
+    let accountSettings: ResourceGroupsClientTypes.AccountSettings?
+}
+
+extension GetAccountSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountSettings = "AccountSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountSettingsDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.AccountSettings.self, forKey: .accountSettings)
+        accountSettings = accountSettingsDecoded
+    }
+}
+
 extension GetGroupConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case group = "Group"
@@ -544,7 +690,7 @@ extension GetGroupConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetGroupConfigurationInput: Swift.Equatable {
-    /// The name or the ARN of the resource group.
+    /// The name or the ARN of the resource group for which you want to retrive the service configuration.
     public var group: Swift.String?
 
     public init (
@@ -617,7 +763,7 @@ extension GetGroupConfigurationOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct GetGroupConfigurationOutputResponse: Swift.Equatable {
-    /// The service configuration associated with the specified group. For details about the service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+    /// A structure that describes the service configuration attached with the specified group. For details about the service configuration syntax, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public var groupConfiguration: ResourceGroupsClientTypes.GroupConfiguration?
 
     public init (
@@ -750,7 +896,7 @@ extension GetGroupOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetGroupOutputResponse: Swift.Equatable {
-    /// A full description of the resource group.
+    /// A structure that contains the metadata details for the specified resource group. Use [GetGroupQuery] and [GetGroupConfiguration] to get those additional details of the resource group.
     public var group: ResourceGroupsClientTypes.Group?
 
     public init (
@@ -1065,11 +1211,11 @@ extension ResourceGroupsClientTypes.Group: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// A resource group that contains AWS resources. You can assign resources to the group by associating either of the following elements with the group:
+    /// A resource group that contains Amazon Web Services resources. You can assign resources to the group by associating either of the following elements with the group:
     ///
-    /// * [ResourceQuery] - Use a resource query to specify a set of tag keys and values. All resources in the same AWS Region and AWS account that have those keys with the same values are included in the group. You can add a resource query when you create the group, or later by using the [PutGroupConfiguration] operation.
+    /// * [ResourceQuery] - Use a resource query to specify a set of tag keys and values. All resources in the same Amazon Web Services Region and Amazon Web Services account that have those keys with the same values are included in the group. You can add a resource query when you create the group, or later by using the [PutGroupConfiguration] operation.
     ///
-    /// * [GroupConfiguration] - Use a service configuration to associate the group with an AWS service. The configuration specifies which resource types can be included in the group.
+    /// * [GroupConfiguration] - Use a service configuration to associate the group with an Amazon Web Services service. The configuration specifies which resource types can be included in the group.
     public struct Group: Swift.Equatable {
         /// The description of the resource group.
         public var description: Swift.String?
@@ -1156,7 +1302,7 @@ extension ResourceGroupsClientTypes.GroupConfiguration: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// A service configuration associated with a resource group. The configuration options are determined by the AWS service that defines the Type, and specifies which resources can be included in the group. You can add a service configuration when you create the group by using [CreateGroup], or later by using the [PutGroupConfiguration] operation. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
+    /// A service configuration associated with a resource group. The configuration options are determined by the Amazon Web Services service that defines the Type, and specifies which resources can be included in the group. You can add a service configuration when you create the group by using [CreateGroup], or later by using the [PutGroupConfiguration] operation. For details about group service configuration syntax, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html).
     public struct GroupConfiguration: Swift.Equatable {
         /// The configuration currently associated with the group and in effect.
         public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
@@ -1470,6 +1616,76 @@ extension ResourceGroupsClientTypes {
 
 }
 
+extension ResourceGroupsClientTypes {
+    public enum GroupLifecycleEventsDesiredStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupLifecycleEventsDesiredStatus] {
+            return [
+                .active,
+                .inactive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GroupLifecycleEventsDesiredStatus(rawValue: rawValue) ?? GroupLifecycleEventsDesiredStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ResourceGroupsClientTypes {
+    public enum GroupLifecycleEventsStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case error
+        case inactive
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupLifecycleEventsStatus] {
+            return [
+                .active,
+                .error,
+                .inactive,
+                .inProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .error: return "ERROR"
+            case .inactive: return "INACTIVE"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GroupLifecycleEventsStatus(rawValue: rawValue) ?? GroupLifecycleEventsStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceGroupsClientTypes.GroupQuery: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupName = "GroupName"
@@ -1496,12 +1712,12 @@ extension ResourceGroupsClientTypes.GroupQuery: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// A mapping of a query attached to a resource group that determines the AWS resources that are members of the group.
+    /// A mapping of a query attached to a resource group that determines the Amazon Web Services resources that are members of the group.
     public struct GroupQuery: Swift.Equatable {
         /// The name of the resource group that is associated with the specified resource query.
         /// This member is required.
         public var groupName: Swift.String?
-        /// The resource query that determines which AWS resources are members of the associated resource group.
+        /// The resource query that determines which Amazon Web Services resources are members of the associated resource group.
         /// This member is required.
         public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
 
@@ -1547,7 +1763,7 @@ public struct GroupResourcesInput: Swift.Equatable {
     /// The name or the ARN of the resource group to add resources to.
     /// This member is required.
     public var group: Swift.String?
-    /// The list of ARNs for resources to be added to the group.
+    /// The list of ARNs of the resources to be added to the group.
     /// This member is required.
     public var resourceArns: [Swift.String]?
 
@@ -1640,11 +1856,11 @@ extension GroupResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GroupResourcesOutputResponse: Swift.Equatable {
-    /// A list of ARNs of any resources that failed to be added to the group by this operation.
+    /// A list of ARNs of any resources that this operation failed to add to the group.
     public var failed: [ResourceGroupsClientTypes.FailedResource]?
-    /// A list of ARNs of any resources that are still in the process of being added to the group by this operation. These pending additions continue asynchronously. You can check the status of pending additions by using the [ListGroupResources] operation, and checking the Resources array in the response and the Status field of each object in that array.
+    /// A list of ARNs of any resources that this operation is still in the process adding to the group. These pending additions continue asynchronously. You can check the status of pending additions by using the [ListGroupResources] operation, and checking the Resources array in the response and the Status field of each object in that array.
     public var pending: [ResourceGroupsClientTypes.PendingResource]?
-    /// A list of ARNs of resources that were successfully added to the group by this operation.
+    /// A list of ARNs of the resources that this operation successfully added to the group.
     public var succeeded: [Swift.String]?
 
     public init (
@@ -1806,7 +2022,7 @@ public struct ListGroupResourcesInput: Swift.Equatable {
     /// * resource-type - Filter resources by their type. Specify up to five resource types in the format AWS::ServiceCode::ResourceType. For example, AWS::EC2::Instance, or AWS::S3::Bucket.
     ///
     ///
-    /// When you specify a resource-type filter for ListGroupResources, AWS Resource Groups validates your filter resource types against the types that are defined in the query associated with the group. For example, if a group contains only S3 buckets because its query specifies only that resource type, but your resource-type filter includes EC2 instances, AWS Resource Groups does not filter for EC2 instances. In this case, a ListGroupResources request returns a BadRequestException error with a message similar to the following: The resource types specified as filters in the request are not valid. The error includes a list of resource types that failed the validation because they are not part of the query associated with the group. This validation doesn't occur when the group query specifies AWS::AllSupported, because a group based on such a query can contain any of the allowed resource types for the query type (tag-based or AWS CloudFormation stack-based queries).
+    /// When you specify a resource-type filter for ListGroupResources, Resource Groups validates your filter resource types against the types that are defined in the query associated with the group. For example, if a group contains only S3 buckets because its query specifies only that resource type, but your resource-type filter includes EC2 instances, AWS Resource Groups does not filter for EC2 instances. In this case, a ListGroupResources request returns a BadRequestException error with a message similar to the following: The resource types specified as filters in the request are not valid. The error includes a list of resource types that failed the validation because they are not part of the query associated with the group. This validation doesn't occur when the group query specifies AWS::AllSupported, because a group based on such a query can contain any of the allowed resource types for the query type (tag-based or Amazon CloudFront stack-based queries).
     public var filters: [ResourceGroupsClientTypes.ResourceFilter]?
     /// The name or the ARN of the resource group
     public var group: Swift.String?
@@ -2099,9 +2315,9 @@ public struct ListGroupsInput: Swift.Equatable {
     ///
     /// * configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:
     ///
-    /// * AWS:EC2::CapacityReservationPool
+    /// * AWS::EC2::CapacityReservationPool
     ///
-    /// * AWS:EC2::HostManagement
+    /// * AWS::EC2::HostManagement
     public var filters: [ResourceGroupsClientTypes.GroupFilter]?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -2421,7 +2637,7 @@ extension PutGroupConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutGroupConfigurationInput: Swift.Equatable {
-    /// The new configuration to associate with the specified group. A configuration associates the resource group with an AWS service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For information about the syntax of a service configuration, see [Service configurations for resource groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
+    /// The new configuration to associate with the specified group. A configuration associates the resource group with an Amazon Web Services service and specifies how the service can interact with the resources in the group. A configuration is an array of [GroupConfigurationItem] elements. For information about the syntax of a service configuration, see [Service configurations for Resource Groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html). A resource group can contain either a Configuration or a ResourceQuery, but not both.
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The name or ARN of the resource group with the configuration that you want to update.
     public var group: Swift.String?
@@ -2533,11 +2749,11 @@ extension ResourceGroupsClientTypes.QueryError: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// A two-part error structure that can occur in ListGroupResources or SearchResources operations on CloudFormation stack-based queries. The error occurs if the CloudFormation stack on which the query is based either does not exist, or has a status that renders the stack inactive. A QueryError occurrence does not necessarily mean that AWS Resource Groups could not complete the operation, but the resulting group might have no member resources.
+    /// A two-part error structure that can occur in ListGroupResources or SearchResources operations on CloudFront stack-based queries. The error occurs if the CloudFront stack on which the query is based either does not exist, or has a status that renders the stack inactive. A QueryError occurrence does not necessarily mean that Resource Groups could not complete the operation, but the resulting group might have no member resources.
     public struct QueryError: Swift.Equatable {
-        /// Possible values are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
+        /// Specifies the error code that was raised.
         public var errorCode: ResourceGroupsClientTypes.QueryErrorCode?
-        /// A message that explains the ErrorCode value. Messages might state that the specified CloudFormation stack does not exist (or no longer exists). For CLOUDFORMATION_STACK_INACTIVE, the message typically states that the CloudFormation stack has a status that is not (or no longer) active, such as CREATE_FAILED.
+        /// A message that explains the ErrorCode value. Messages might state that the specified CloudFront stack does not exist (or no longer exists). For CLOUDFORMATION_STACK_INACTIVE, the message typically states that the CloudFront stack has a status that is not (or no longer) active, such as CREATE_FAILED.
         public var message: Swift.String?
 
         public init (
@@ -2556,12 +2772,14 @@ extension ResourceGroupsClientTypes {
     public enum QueryErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudformationStackInactive
         case cloudformationStackNotExisting
+        case cloudformationStackUnassumableRole
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QueryErrorCode] {
             return [
                 .cloudformationStackInactive,
                 .cloudformationStackNotExisting,
+                .cloudformationStackUnassumableRole,
                 .sdkUnknown("")
             ]
         }
@@ -2573,6 +2791,7 @@ extension ResourceGroupsClientTypes {
             switch self {
             case .cloudformationStackInactive: return "CLOUDFORMATION_STACK_INACTIVE"
             case .cloudformationStackNotExisting: return "CLOUDFORMATION_STACK_NOT_EXISTING"
+            case .cloudformationStackUnassumableRole: return "CLOUDFORMATION_STACK_UNASSUMABLE_ROLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2775,36 +2994,43 @@ extension ResourceGroupsClientTypes.ResourceQuery: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// The query that is used to define a resource group or a search for resources. A query specifies both a query type and a query string as a JSON object. See the examples section for example JSON strings. The examples that follow are shown as standard JSON strings. If you include such a string as a parameter to the AWS CLI or an SDK API, you might need to 'escape' the string into a single line. For example, see the [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the AWS CLI User Guide. Example 1 The following generic example shows a resource query JSON string that includes only resources that meet the following criteria:
-    ///
-    /// * The resource type must be either resource_type1 or resource_type2.
-    ///
-    /// * The resource must have a tag Key1 with a value of either ValueA or ValueB.
-    ///
-    /// * The resource must have a tag Key2 with a value of either ValueC or ValueD.
-    ///
-    ///
-    /// { "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [ "resource_type1", "resource_type2"], "TagFilters": [ { "Key": "Key1", "Values": ["ValueA","ValueB"] }, { "Key":"Key2", "Values":["ValueC","ValueD"] } ] } } This has the equivalent "shortcut" syntax of the following: { "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": [ "resource_type1", "resource_type2"], "TagFilters": [ { "Key1": ["ValueA","ValueB"] }, { "Key2": ["ValueC","ValueD"] } ] } } Example 2 The following example shows a resource query JSON string that includes only Amazon EC2 instances that are tagged Stage with a value of Test. { "Type": "TAG_FILTERS_1_0", "Query": "{ "ResourceTypeFilters": "AWS::EC2::Instance", "TagFilters": { "Stage": "Test" } } } Example 3 The following example shows a resource query JSON string that includes resource of any supported type as long as it is tagged Stage with a value of Prod. { "Type": "TAG_FILTERS_1_0", "Query": { "ResourceTypeFilters": "AWS::AllSupported", "TagFilters": { "Stage": "Prod" } } } Example 4 The following example shows a resource query JSON string that includes only Amazon EC2 instances and Amazon S3 buckets that are part of the specified AWS CloudFormation stack. { "Type": "CLOUDFORMATION_STACK_1_0", "Query": { "ResourceTypeFilters": [ "AWS::EC2::Instance", "AWS::S3::Bucket" ], "StackIdentifier": "arn:aws:cloudformation:us-west-2:123456789012:stack/AWStestuseraccount/fb0d5000-aba8-00e8-aa9e-50d5cEXAMPLE" } }
+    /// The query you can use to define a resource group or a search for resources. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. See the examples section for example JSON strings. For more information about creating a resource group with a resource query, see [Build queries and groups in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html) in the Resource Groups User Guide When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example: --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}' In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see [Quoting strings](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-quoting-strings.html) in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide. For example: "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
     public struct ResourceQuery: Swift.Equatable {
-        /// The query that defines a group or a search.
-        /// This member is required.
-        public var query: Swift.String?
-        /// The type of the query. You can use the following values:
+        /// The query that defines a group or a search. The contents depends on the value of the Type element.
         ///
-        /// * CLOUDFORMATION_STACK_1_0: Specifies that the Query contains an ARN for a CloudFormation stack.
+        /// * ResourceTypeFilters – Applies to all ResourceQuery objects of either Type. This element contains one of the following two items:
         ///
-        /// * TAG_FILTERS_1_0: Specifies that the Query parameter contains a JSON string that represents a collection of simple tag filters for resource types and tags. The JSON string uses a syntax similar to the [GetResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html) operation, but uses only the [ ResourceTypeFilters](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-ResourceTypeFilters) and [TagFilters](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-TagFiltersTagFilters) fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For example, consider the following sample query for resources that have two tags, Stage and Version, with two values each: [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}] The results of this query could include the following.
+        /// * The value AWS::AllSupported. This causes the ResourceQuery to match resources of any resource type that also match the query.
         ///
-        /// * An EC2 instance that has the following two tags: {"Stage":"Deploy"}, and {"Version":"2"}
+        /// * A list (a JSON array) of resource type identifiers that limit the query to only resources of the specified types. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see [Resources you can use with Resource Groups and Tag Editor](https://docs.aws.amazon.com/ARG/latest/userguide/supported-resources.html) in the Resource Groups User Guide.
+        ///
+        ///
+        /// Example: "ResourceTypeFilters": ["AWS::AllSupported"] or "ResourceTypeFilters": ["AWS::EC2::Instance", "AWS::S3::Bucket"]
+        ///
+        /// * TagFilters – applicable only if Type = TAG_FILTERS_1_0. The Query contains a JSON string that represents a collection of simple tag filters. The JSON string uses a syntax similar to the [GetResources](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html) operation, but uses only the [ ResourceTypeFilters](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-ResourceTypeFilters) and [TagFilters](https://docs.aws.amazon.com/resourcegroupstagging/latest/APIReference/API_GetResources.html#resourcegrouptagging-GetResources-request-TagFiltersTagFilters) fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For example, consider the following sample query for resources that have two tags, Stage and Version, with two values each: [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}] The results of this resource query could include the following.
+        ///
+        /// * An Amazon EC2 instance that has the following two tags: {"Stage":"Deploy"}, and {"Version":"2"}
         ///
         /// * An S3 bucket that has the following two tags: {"Stage":"Test"}, and {"Version":"1"}
         ///
         ///
-        /// The query would not include the following items in the results, however.
+        /// The resource query results would not include the following items in the results, however.
         ///
-        /// * An EC2 instance that has only the following tag: {"Stage":"Deploy"}. The instance does not have all of the tag keys specified in the filter, so it is excluded from the results.
+        /// * An Amazon EC2 instance that has only the following tag: {"Stage":"Deploy"}. The instance does not have all of the tag keys specified in the filter, so it is excluded from the results.
         ///
         /// * An RDS database that has the following two tags: {"Stage":"Archived"} and {"Version":"4"} The database has all of the tag keys, but none of those keys has an associated value that matches at least one of the specified values in the filter.
+        ///
+        ///
+        /// Example: "TagFilters": [ { "Key": "Stage", "Values": [ "Gamma", "Beta" ] }
+        ///
+        /// * StackIdentifier – applicable only if Type = CLOUDFORMATION_STACK_1_0. The value of this parameter is the Amazon Resource Name (ARN) of the CloudFormation stack whose resources you want included in the group.
+        /// This member is required.
+        public var query: Swift.String?
+        /// The type of the query to perform. This can have one of two values:
+        ///
+        /// * CLOUDFORMATION_STACK_1_0: Specifies that you want the group to contain the members of an CloudFormation stack. The Query contains a StackIdentifier element with an ARN for a CloudFormation stack.
+        ///
+        /// * TAG_FILTERS_1_0: Specifies that you want the group to include resource that have tags that match the query.
         /// This member is required.
         public var type: ResourceGroupsClientTypes.QueryType?
 
@@ -3008,7 +3234,11 @@ extension SearchResourcesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct SearchResourcesOutputResponse: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
-    /// A list of QueryError objects. Each error is an object that contains ErrorCode and Message structures. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
+    /// A list of QueryError objects. Each error is an object that contains ErrorCode and Message structures. Possible values for ErrorCode:
+    ///
+    /// * CLOUDFORMATION_STACK_INACTIVE
+    ///
+    /// * CLOUDFORMATION_STACK_NOT_EXISTING
     public var queryErrors: [ResourceGroupsClientTypes.QueryError]?
     /// The ARNs and resource types of resources that are members of the group that you specified.
     public var resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]?
@@ -3684,6 +3914,124 @@ extension UntagOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateAccountSettingsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupLifecycleEventsDesiredStatus = "GroupLifecycleEventsDesiredStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupLifecycleEventsDesiredStatus = self.groupLifecycleEventsDesiredStatus {
+            try encodeContainer.encode(groupLifecycleEventsDesiredStatus.rawValue, forKey: .groupLifecycleEventsDesiredStatus)
+        }
+    }
+}
+
+extension UpdateAccountSettingsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/update-account-settings"
+    }
+}
+
+public struct UpdateAccountSettingsInput: Swift.Equatable {
+    /// Specifies whether you want to turn [group lifecycle events](https://docs.aws.amazon.com/ARG/latest/userguide/monitor-groups.html) on or off.
+    public var groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
+
+    public init (
+        groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus? = nil
+    )
+    {
+        self.groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatus
+    }
+}
+
+struct UpdateAccountSettingsInputBody: Swift.Equatable {
+    let groupLifecycleEventsDesiredStatus: ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus?
+}
+
+extension UpdateAccountSettingsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupLifecycleEventsDesiredStatus = "GroupLifecycleEventsDesiredStatus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupLifecycleEventsDesiredStatusDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.GroupLifecycleEventsDesiredStatus.self, forKey: .groupLifecycleEventsDesiredStatus)
+        groupLifecycleEventsDesiredStatus = groupLifecycleEventsDesiredStatusDecoded
+    }
+}
+
+extension UpdateAccountSettingsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateAccountSettingsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BadRequestException" : self = .badRequestException(try BadRequestException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ForbiddenException" : self = .forbiddenException(try ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerErrorException" : self = .internalServerErrorException(try InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "MethodNotAllowedException" : self = .methodNotAllowedException(try MethodNotAllowedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateAccountSettingsOutputError: Swift.Error, Swift.Equatable {
+    case badRequestException(BadRequestException)
+    case forbiddenException(ForbiddenException)
+    case internalServerErrorException(InternalServerErrorException)
+    case methodNotAllowedException(MethodNotAllowedException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAccountSettingsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateAccountSettingsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.accountSettings = output.accountSettings
+        } else {
+            self.accountSettings = nil
+        }
+    }
+}
+
+public struct UpdateAccountSettingsOutputResponse: Swift.Equatable {
+    /// A structure that displays the status of the optional features in the account.
+    public var accountSettings: ResourceGroupsClientTypes.AccountSettings?
+
+    public init (
+        accountSettings: ResourceGroupsClientTypes.AccountSettings? = nil
+    )
+    {
+        self.accountSettings = accountSettings
+    }
+}
+
+struct UpdateAccountSettingsOutputResponseBody: Swift.Equatable {
+    let accountSettings: ResourceGroupsClientTypes.AccountSettings?
+}
+
+extension UpdateAccountSettingsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountSettings = "AccountSettings"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountSettingsDecoded = try containerValues.decodeIfPresent(ResourceGroupsClientTypes.AccountSettings.self, forKey: .accountSettings)
+        accountSettings = accountSettingsDecoded
+    }
+}
+
 extension UpdateGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -3862,7 +4210,7 @@ public struct UpdateGroupQueryInput: Swift.Equatable {
     /// Don't use this parameter. Use Group instead.
     @available(*, deprecated, message: "This field is deprecated, use Group instead.")
     public var groupName: Swift.String?
-    /// The resource query to determine which AWS resources are members of this resource group. A resource group can contain either a Configuration or a ResourceQuery, but not both.
+    /// The resource query to determine which Amazon Web Services resources are members of this resource group. A resource group can contain either a Configuration or a ResourceQuery, but not both.
     /// This member is required.
     public var resourceQuery: ResourceGroupsClientTypes.ResourceQuery?
 

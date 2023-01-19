@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeBudgetActionHistoriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetActionHistoriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionHistoriesOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetActionHistoriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetActionHistoriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionHistoriesOutputResponse`
     public func describeBudgetActionHistoriesPaginated(input: DescribeBudgetActionHistoriesInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetActionHistoriesInput, DescribeBudgetActionHistoriesOutputResponse>(input: input, inputKey: \DescribeBudgetActionHistoriesInput.nextToken, outputKey: \DescribeBudgetActionHistoriesOutputResponse.nextToken, paginationFunction: self.describeBudgetActionHistories(input:))
     }
@@ -29,24 +28,23 @@ extension DescribeBudgetActionHistoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionHistoriesPaginated`
-/// to access the nested member `[BudgetsClientTypes.ActionHistory]`
-/// - Returns: `[BudgetsClientTypes.ActionHistory]`
 extension PaginatorSequence where Input == DescribeBudgetActionHistoriesInput, Output == DescribeBudgetActionHistoriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionHistoriesPaginated`
+    /// to access the nested member `[BudgetsClientTypes.ActionHistory]`
+    /// - Returns: `[BudgetsClientTypes.ActionHistory]`
     public func actionHistories() async throws -> [BudgetsClientTypes.ActionHistory] {
         return try await self.asyncCompactMap { item in item.actionHistories }
     }
 }
-
-/// Paginate over `[DescribeBudgetActionsForAccountOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetActionsForAccountInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForAccountOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetActionsForAccountOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetActionsForAccountInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForAccountOutputResponse`
     public func describeBudgetActionsForAccountPaginated(input: DescribeBudgetActionsForAccountInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForAccountInput, DescribeBudgetActionsForAccountOutputResponse>(input: input, inputKey: \DescribeBudgetActionsForAccountInput.nextToken, outputKey: \DescribeBudgetActionsForAccountOutputResponse.nextToken, paginationFunction: self.describeBudgetActionsForAccount(input:))
     }
@@ -61,24 +59,23 @@ extension DescribeBudgetActionsForAccountInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForAccountPaginated`
-/// to access the nested member `[BudgetsClientTypes.Action]`
-/// - Returns: `[BudgetsClientTypes.Action]`
 extension PaginatorSequence where Input == DescribeBudgetActionsForAccountInput, Output == DescribeBudgetActionsForAccountOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForAccountPaginated`
+    /// to access the nested member `[BudgetsClientTypes.Action]`
+    /// - Returns: `[BudgetsClientTypes.Action]`
     public func actions() async throws -> [BudgetsClientTypes.Action] {
         return try await self.asyncCompactMap { item in item.actions }
     }
 }
-
-/// Paginate over `[DescribeBudgetActionsForBudgetOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetActionsForBudgetInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForBudgetOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetActionsForBudgetOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetActionsForBudgetInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetActionsForBudgetOutputResponse`
     public func describeBudgetActionsForBudgetPaginated(input: DescribeBudgetActionsForBudgetInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetActionsForBudgetInput, DescribeBudgetActionsForBudgetOutputResponse>(input: input, inputKey: \DescribeBudgetActionsForBudgetInput.nextToken, outputKey: \DescribeBudgetActionsForBudgetOutputResponse.nextToken, paginationFunction: self.describeBudgetActionsForBudget(input:))
     }
@@ -94,24 +91,23 @@ extension DescribeBudgetActionsForBudgetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForBudgetPaginated`
-/// to access the nested member `[BudgetsClientTypes.Action]`
-/// - Returns: `[BudgetsClientTypes.Action]`
 extension PaginatorSequence where Input == DescribeBudgetActionsForBudgetInput, Output == DescribeBudgetActionsForBudgetOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBudgetActionsForBudgetPaginated`
+    /// to access the nested member `[BudgetsClientTypes.Action]`
+    /// - Returns: `[BudgetsClientTypes.Action]`
     public func actions() async throws -> [BudgetsClientTypes.Action] {
         return try await self.asyncCompactMap { item in item.actions }
     }
 }
-
-/// Paginate over `[DescribeBudgetNotificationsForAccountOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetNotificationsForAccountInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetNotificationsForAccountOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetNotificationsForAccountOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetNotificationsForAccountInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetNotificationsForAccountOutputResponse`
     public func describeBudgetNotificationsForAccountPaginated(input: DescribeBudgetNotificationsForAccountInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetNotificationsForAccountInput, DescribeBudgetNotificationsForAccountOutputResponse>(input: input, inputKey: \DescribeBudgetNotificationsForAccountInput.nextToken, outputKey: \DescribeBudgetNotificationsForAccountOutputResponse.nextToken, paginationFunction: self.describeBudgetNotificationsForAccount(input:))
     }
@@ -126,24 +122,23 @@ extension DescribeBudgetNotificationsForAccountInput: ClientRuntime.PaginateToke
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeBudgetNotificationsForAccountPaginated`
-/// to access the nested member `[BudgetsClientTypes.BudgetNotificationsForAccount]`
-/// - Returns: `[BudgetsClientTypes.BudgetNotificationsForAccount]`
 extension PaginatorSequence where Input == DescribeBudgetNotificationsForAccountInput, Output == DescribeBudgetNotificationsForAccountOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBudgetNotificationsForAccountPaginated`
+    /// to access the nested member `[BudgetsClientTypes.BudgetNotificationsForAccount]`
+    /// - Returns: `[BudgetsClientTypes.BudgetNotificationsForAccount]`
     public func budgetNotificationsForAccount() async throws -> [BudgetsClientTypes.BudgetNotificationsForAccount] {
         return try await self.asyncCompactMap { item in item.budgetNotificationsForAccount }
     }
 }
-
-/// Paginate over `[DescribeBudgetPerformanceHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetPerformanceHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetPerformanceHistoryOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetPerformanceHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetPerformanceHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetPerformanceHistoryOutputResponse`
     public func describeBudgetPerformanceHistoryPaginated(input: DescribeBudgetPerformanceHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetPerformanceHistoryInput, DescribeBudgetPerformanceHistoryOutputResponse>(input: input, inputKey: \DescribeBudgetPerformanceHistoryInput.nextToken, outputKey: \DescribeBudgetPerformanceHistoryOutputResponse.nextToken, paginationFunction: self.describeBudgetPerformanceHistory(input:))
     }
@@ -159,16 +154,15 @@ extension DescribeBudgetPerformanceHistoryInput: ClientRuntime.PaginateToken {
             timePeriod: self.timePeriod
         )}
 }
-
-/// Paginate over `[DescribeBudgetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBudgetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetsOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeBudgetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBudgetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBudgetsOutputResponse`
     public func describeBudgetsPaginated(input: DescribeBudgetsInput) -> ClientRuntime.PaginatorSequence<DescribeBudgetsInput, DescribeBudgetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBudgetsInput, DescribeBudgetsOutputResponse>(input: input, inputKey: \DescribeBudgetsInput.nextToken, outputKey: \DescribeBudgetsOutputResponse.nextToken, paginationFunction: self.describeBudgets(input:))
     }
@@ -183,24 +177,23 @@ extension DescribeBudgetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeBudgetsPaginated`
-/// to access the nested member `[BudgetsClientTypes.Budget]`
-/// - Returns: `[BudgetsClientTypes.Budget]`
 extension PaginatorSequence where Input == DescribeBudgetsInput, Output == DescribeBudgetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeBudgetsPaginated`
+    /// to access the nested member `[BudgetsClientTypes.Budget]`
+    /// - Returns: `[BudgetsClientTypes.Budget]`
     public func budgets() async throws -> [BudgetsClientTypes.Budget] {
         return try await self.asyncCompactMap { item in item.budgets }
     }
 }
-
-/// Paginate over `[DescribeNotificationsForBudgetOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeNotificationsForBudgetInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationsForBudgetOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeNotificationsForBudgetOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNotificationsForBudgetInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationsForBudgetOutputResponse`
     public func describeNotificationsForBudgetPaginated(input: DescribeNotificationsForBudgetInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeNotificationsForBudgetInput, DescribeNotificationsForBudgetOutputResponse>(input: input, inputKey: \DescribeNotificationsForBudgetInput.nextToken, outputKey: \DescribeNotificationsForBudgetOutputResponse.nextToken, paginationFunction: self.describeNotificationsForBudget(input:))
     }
@@ -216,24 +209,23 @@ extension DescribeNotificationsForBudgetInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeNotificationsForBudgetPaginated`
-/// to access the nested member `[BudgetsClientTypes.Notification]`
-/// - Returns: `[BudgetsClientTypes.Notification]`
 extension PaginatorSequence where Input == DescribeNotificationsForBudgetInput, Output == DescribeNotificationsForBudgetOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNotificationsForBudgetPaginated`
+    /// to access the nested member `[BudgetsClientTypes.Notification]`
+    /// - Returns: `[BudgetsClientTypes.Notification]`
     public func notifications() async throws -> [BudgetsClientTypes.Notification] {
         return try await self.asyncCompactMap { item in item.notifications }
     }
 }
-
-/// Paginate over `[DescribeSubscribersForNotificationOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeSubscribersForNotificationInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeSubscribersForNotificationOutputResponse`
 extension BudgetsClient {
+    /// Paginate over `[DescribeSubscribersForNotificationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSubscribersForNotificationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSubscribersForNotificationOutputResponse`
     public func describeSubscribersForNotificationPaginated(input: DescribeSubscribersForNotificationInput) -> ClientRuntime.PaginatorSequence<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeSubscribersForNotificationInput, DescribeSubscribersForNotificationOutputResponse>(input: input, inputKey: \DescribeSubscribersForNotificationInput.nextToken, outputKey: \DescribeSubscribersForNotificationOutputResponse.nextToken, paginationFunction: self.describeSubscribersForNotification(input:))
     }
@@ -250,10 +242,10 @@ extension DescribeSubscribersForNotificationInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeSubscribersForNotificationPaginated`
-/// to access the nested member `[BudgetsClientTypes.Subscriber]`
-/// - Returns: `[BudgetsClientTypes.Subscriber]`
 extension PaginatorSequence where Input == DescribeSubscribersForNotificationInput, Output == DescribeSubscribersForNotificationOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeSubscribersForNotificationPaginated`
+    /// to access the nested member `[BudgetsClientTypes.Subscriber]`
+    /// - Returns: `[BudgetsClientTypes.Subscriber]`
     public func subscribers() async throws -> [BudgetsClientTypes.Subscriber] {
         return try await self.asyncCompactMap { item in item.subscribers }
     }

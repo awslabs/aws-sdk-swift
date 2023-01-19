@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeCanariesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeCanariesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[DescribeCanariesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCanariesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesOutputResponse`
     public func describeCanariesPaginated(input: DescribeCanariesInput) -> ClientRuntime.PaginatorSequence<DescribeCanariesInput, DescribeCanariesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeCanariesInput, DescribeCanariesOutputResponse>(input: input, inputKey: \DescribeCanariesInput.nextToken, outputKey: \DescribeCanariesOutputResponse.nextToken, paginationFunction: self.describeCanaries(input:))
     }
@@ -25,16 +24,15 @@ extension DescribeCanariesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeCanariesLastRunOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeCanariesLastRunInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesLastRunOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[DescribeCanariesLastRunOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCanariesLastRunInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCanariesLastRunOutputResponse`
     public func describeCanariesLastRunPaginated(input: DescribeCanariesLastRunInput) -> ClientRuntime.PaginatorSequence<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeCanariesLastRunInput, DescribeCanariesLastRunOutputResponse>(input: input, inputKey: \DescribeCanariesLastRunInput.nextToken, outputKey: \DescribeCanariesLastRunOutputResponse.nextToken, paginationFunction: self.describeCanariesLastRun(input:))
     }
@@ -48,16 +46,15 @@ extension DescribeCanariesLastRunInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeRuntimeVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRuntimeVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRuntimeVersionsOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[DescribeRuntimeVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRuntimeVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRuntimeVersionsOutputResponse`
     public func describeRuntimeVersionsPaginated(input: DescribeRuntimeVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRuntimeVersionsInput, DescribeRuntimeVersionsOutputResponse>(input: input, inputKey: \DescribeRuntimeVersionsInput.nextToken, outputKey: \DescribeRuntimeVersionsOutputResponse.nextToken, paginationFunction: self.describeRuntimeVersions(input:))
     }
@@ -70,16 +67,15 @@ extension DescribeRuntimeVersionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetCanaryRunsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetCanaryRunsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetCanaryRunsOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[GetCanaryRunsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCanaryRunsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCanaryRunsOutputResponse`
     public func getCanaryRunsPaginated(input: GetCanaryRunsInput) -> ClientRuntime.PaginatorSequence<GetCanaryRunsInput, GetCanaryRunsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetCanaryRunsInput, GetCanaryRunsOutputResponse>(input: input, inputKey: \GetCanaryRunsInput.nextToken, outputKey: \GetCanaryRunsOutputResponse.nextToken, paginationFunction: self.getCanaryRuns(input:))
     }
@@ -93,16 +89,15 @@ extension GetCanaryRunsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListAssociatedGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociatedGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedGroupsOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[ListAssociatedGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociatedGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedGroupsOutputResponse`
     public func listAssociatedGroupsPaginated(input: ListAssociatedGroupsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedGroupsInput, ListAssociatedGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociatedGroupsInput, ListAssociatedGroupsOutputResponse>(input: input, inputKey: \ListAssociatedGroupsInput.nextToken, outputKey: \ListAssociatedGroupsOutputResponse.nextToken, paginationFunction: self.listAssociatedGroups(input:))
     }
@@ -116,16 +111,15 @@ extension ListAssociatedGroupsInput: ClientRuntime.PaginateToken {
             resourceArn: self.resourceArn
         )}
 }
-
-/// Paginate over `[ListGroupResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[ListGroupResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupResourcesOutputResponse`
     public func listGroupResourcesPaginated(input: ListGroupResourcesInput) -> ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupResourcesInput, ListGroupResourcesOutputResponse>(input: input, inputKey: \ListGroupResourcesInput.nextToken, outputKey: \ListGroupResourcesOutputResponse.nextToken, paginationFunction: self.listGroupResources(input:))
     }
@@ -139,16 +133,15 @@ extension ListGroupResourcesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
 extension SyntheticsClient {
+    /// Paginate over `[ListGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsOutputResponse`
     public func listGroupsPaginated(input: ListGroupsInput) -> ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupsInput, ListGroupsOutputResponse>(input: input, inputKey: \ListGroupsInput.nextToken, outputKey: \ListGroupsOutputResponse.nextToken, paginationFunction: self.listGroups(input:))
     }

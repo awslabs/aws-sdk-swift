@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetVehicleStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetVehicleStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetVehicleStatusOutputResponse`
 extension IoTFleetWiseClient {
+    /// Paginate over `[GetVehicleStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetVehicleStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetVehicleStatusOutputResponse`
     public func getVehicleStatusPaginated(input: GetVehicleStatusInput) -> ClientRuntime.PaginatorSequence<GetVehicleStatusInput, GetVehicleStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetVehicleStatusInput, GetVehicleStatusOutputResponse>(input: input, inputKey: \GetVehicleStatusInput.nextToken, outputKey: \GetVehicleStatusOutputResponse.nextToken, paginationFunction: self.getVehicleStatus(input:))
     }
@@ -26,10 +25,10 @@ extension GetVehicleStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getVehicleStatusPaginated`
-/// to access the nested member `[IoTFleetWiseClientTypes.VehicleStatus]`
-/// - Returns: `[IoTFleetWiseClientTypes.VehicleStatus]`
 extension PaginatorSequence where Input == GetVehicleStatusInput, Output == GetVehicleStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getVehicleStatusPaginated`
+    /// to access the nested member `[IoTFleetWiseClientTypes.VehicleStatus]`
+    /// - Returns: `[IoTFleetWiseClientTypes.VehicleStatus]`
     public func campaigns() async throws -> [IoTFleetWiseClientTypes.VehicleStatus] {
         return try await self.asyncCompactMap { item in item.campaigns }
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[GetDedicatedIpsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetDedicatedIpsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[GetDedicatedIpsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetDedicatedIpsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDedicatedIpsOutputResponse`
     public func getDedicatedIpsPaginated(input: GetDedicatedIpsInput) -> ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetDedicatedIpsInput, GetDedicatedIpsOutputResponse>(input: input, inputKey: \GetDedicatedIpsInput.nextToken, outputKey: \GetDedicatedIpsOutputResponse.nextToken, paginationFunction: self.getDedicatedIps(input:))
     }
@@ -25,16 +24,15 @@ extension GetDedicatedIpsInput: ClientRuntime.PaginateToken {
             poolName: self.poolName
         )}
 }
-
-/// Paginate over `[ListConfigurationSetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListConfigurationSetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListConfigurationSetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConfigurationSetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationSetsOutputResponse`
     public func listConfigurationSetsPaginated(input: ListConfigurationSetsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListConfigurationSetsInput, ListConfigurationSetsOutputResponse>(input: input, inputKey: \ListConfigurationSetsInput.nextToken, outputKey: \ListConfigurationSetsOutputResponse.nextToken, paginationFunction: self.listConfigurationSets(input:))
     }
@@ -47,16 +45,15 @@ extension ListConfigurationSetsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListContactListsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListContactListsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListContactListsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListContactListsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactListsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactListsOutputResponse`
     public func listContactListsPaginated(input: ListContactListsInput) -> ClientRuntime.PaginatorSequence<ListContactListsInput, ListContactListsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListContactListsInput, ListContactListsOutputResponse>(input: input, inputKey: \ListContactListsInput.nextToken, outputKey: \ListContactListsOutputResponse.nextToken, paginationFunction: self.listContactLists(input:))
     }
@@ -69,16 +66,15 @@ extension ListContactListsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListContactsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListContactsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListContactsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContactsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContactsOutputResponse`
     public func listContactsPaginated(input: ListContactsInput) -> ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListContactsInput, ListContactsOutputResponse>(input: input, inputKey: \ListContactsInput.nextToken, outputKey: \ListContactsOutputResponse.nextToken, paginationFunction: self.listContacts(input:))
     }
@@ -93,16 +89,15 @@ extension ListContactsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListCustomVerificationEmailTemplatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListCustomVerificationEmailTemplatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListCustomVerificationEmailTemplatesOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListCustomVerificationEmailTemplatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCustomVerificationEmailTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCustomVerificationEmailTemplatesOutputResponse`
     public func listCustomVerificationEmailTemplatesPaginated(input: ListCustomVerificationEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListCustomVerificationEmailTemplatesInput, ListCustomVerificationEmailTemplatesOutputResponse>(input: input, inputKey: \ListCustomVerificationEmailTemplatesInput.nextToken, outputKey: \ListCustomVerificationEmailTemplatesOutputResponse.nextToken, paginationFunction: self.listCustomVerificationEmailTemplates(input:))
     }
@@ -115,16 +110,15 @@ extension ListCustomVerificationEmailTemplatesInput: ClientRuntime.PaginateToken
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListDedicatedIpPoolsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDedicatedIpPoolsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListDedicatedIpPoolsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDedicatedIpPoolsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDedicatedIpPoolsOutputResponse`
     public func listDedicatedIpPoolsPaginated(input: ListDedicatedIpPoolsInput) -> ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDedicatedIpPoolsInput, ListDedicatedIpPoolsOutputResponse>(input: input, inputKey: \ListDedicatedIpPoolsInput.nextToken, outputKey: \ListDedicatedIpPoolsOutputResponse.nextToken, paginationFunction: self.listDedicatedIpPools(input:))
     }
@@ -137,16 +131,15 @@ extension ListDedicatedIpPoolsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListDeliverabilityTestReportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDeliverabilityTestReportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListDeliverabilityTestReportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDeliverabilityTestReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDeliverabilityTestReportsOutputResponse`
     public func listDeliverabilityTestReportsPaginated(input: ListDeliverabilityTestReportsInput) -> ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDeliverabilityTestReportsInput, ListDeliverabilityTestReportsOutputResponse>(input: input, inputKey: \ListDeliverabilityTestReportsInput.nextToken, outputKey: \ListDeliverabilityTestReportsOutputResponse.nextToken, paginationFunction: self.listDeliverabilityTestReports(input:))
     }
@@ -159,16 +152,15 @@ extension ListDeliverabilityTestReportsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListDomainDeliverabilityCampaignsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDomainDeliverabilityCampaignsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListDomainDeliverabilityCampaignsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainDeliverabilityCampaignsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainDeliverabilityCampaignsOutputResponse`
     public func listDomainDeliverabilityCampaignsPaginated(input: ListDomainDeliverabilityCampaignsInput) -> ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDomainDeliverabilityCampaignsInput, ListDomainDeliverabilityCampaignsOutputResponse>(input: input, inputKey: \ListDomainDeliverabilityCampaignsInput.nextToken, outputKey: \ListDomainDeliverabilityCampaignsOutputResponse.nextToken, paginationFunction: self.listDomainDeliverabilityCampaigns(input:))
     }
@@ -184,16 +176,15 @@ extension ListDomainDeliverabilityCampaignsInput: ClientRuntime.PaginateToken {
             subscribedDomain: self.subscribedDomain
         )}
 }
-
-/// Paginate over `[ListEmailIdentitiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEmailIdentitiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListEmailIdentitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEmailIdentitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEmailIdentitiesOutputResponse`
     public func listEmailIdentitiesPaginated(input: ListEmailIdentitiesInput) -> ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEmailIdentitiesInput, ListEmailIdentitiesOutputResponse>(input: input, inputKey: \ListEmailIdentitiesInput.nextToken, outputKey: \ListEmailIdentitiesOutputResponse.nextToken, paginationFunction: self.listEmailIdentities(input:))
     }
@@ -206,16 +197,15 @@ extension ListEmailIdentitiesInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListEmailTemplatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEmailTemplatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEmailTemplatesOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListEmailTemplatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEmailTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEmailTemplatesOutputResponse`
     public func listEmailTemplatesPaginated(input: ListEmailTemplatesInput) -> ClientRuntime.PaginatorSequence<ListEmailTemplatesInput, ListEmailTemplatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEmailTemplatesInput, ListEmailTemplatesOutputResponse>(input: input, inputKey: \ListEmailTemplatesInput.nextToken, outputKey: \ListEmailTemplatesOutputResponse.nextToken, paginationFunction: self.listEmailTemplates(input:))
     }
@@ -228,16 +218,15 @@ extension ListEmailTemplatesInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListImportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImportJobsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportJobsOutputResponse`
     public func listImportJobsPaginated(input: ListImportJobsInput) -> ClientRuntime.PaginatorSequence<ListImportJobsInput, ListImportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImportJobsInput, ListImportJobsOutputResponse>(input: input, inputKey: \ListImportJobsInput.nextToken, outputKey: \ListImportJobsOutputResponse.nextToken, paginationFunction: self.listImportJobs(input:))
     }
@@ -251,16 +240,15 @@ extension ListImportJobsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListRecommendationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRecommendationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListRecommendationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutputResponse`
     public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutputResponse>(input: input, inputKey: \ListRecommendationsInput.nextToken, outputKey: \ListRecommendationsOutputResponse.nextToken, paginationFunction: self.listRecommendations(input:))
     }
@@ -274,16 +262,15 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
             pageSize: self.pageSize
         )}
 }
-
-/// Paginate over `[ListSuppressedDestinationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSuppressedDestinationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSuppressedDestinationsOutputResponse`
 extension SESv2Client {
+    /// Paginate over `[ListSuppressedDestinationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSuppressedDestinationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSuppressedDestinationsOutputResponse`
     public func listSuppressedDestinationsPaginated(input: ListSuppressedDestinationsInput) -> ClientRuntime.PaginatorSequence<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSuppressedDestinationsInput, ListSuppressedDestinationsOutputResponse>(input: input, inputKey: \ListSuppressedDestinationsInput.nextToken, outputKey: \ListSuppressedDestinationsOutputResponse.nextToken, paginationFunction: self.listSuppressedDestinations(input:))
     }

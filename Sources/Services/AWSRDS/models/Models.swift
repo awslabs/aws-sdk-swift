@@ -2356,7 +2356,7 @@ extension RDSClientTypes.Certificate: Swift.Codable {
 }
 
 extension RDSClientTypes {
-    /// A CA certificate for an Amazon Web Services account.
+    /// A CA certificate for an Amazon Web Services account. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public struct Certificate: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the certificate.
         public var certificateArn: Swift.String?
@@ -2393,6 +2393,51 @@ extension RDSClientTypes {
             self.customerOverrideValidTill = customerOverrideValidTill
             self.thumbprint = thumbprint
             self.validFrom = validFrom
+            self.validTill = validTill
+        }
+    }
+
+}
+
+extension RDSClientTypes.CertificateDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case caIdentifier = "CAIdentifier"
+        case validTill = "ValidTill"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let caIdentifier = caIdentifier {
+            try container.encode(caIdentifier, forKey: ClientRuntime.Key("CAIdentifier"))
+        }
+        if let validTill = validTill {
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("validTill"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let caIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caIdentifier)
+        caIdentifier = caIdentifierDecoded
+        let validTillDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .validTill)
+        validTill = validTillDecoded
+    }
+}
+
+extension RDSClientTypes {
+    /// Returns the details of the DB instance’s server certificate. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public struct CertificateDetails: Swift.Equatable {
+        /// The CA identifier of the CA certificate used for the DB instance's server certificate.
+        public var caIdentifier: Swift.String?
+        /// The expiration date of the DB instance’s server certificate.
+        public var validTill: ClientRuntime.Date?
+
+        public init (
+            caIdentifier: Swift.String? = nil,
+            validTill: ClientRuntime.Date? = nil
+        )
+        {
+            self.caIdentifier = caIdentifier
             self.validTill = validTill
         }
     }
@@ -4413,12 +4458,14 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
+            self.supportedCACertificateIdentifiers = output.supportedCACertificateIdentifiers
             self.supportedCharacterSets = output.supportedCharacterSets
             self.supportedEngineModes = output.supportedEngineModes
             self.supportedFeatureNames = output.supportedFeatureNames
             self.supportedNcharCharacterSets = output.supportedNcharCharacterSets
             self.supportedTimezones = output.supportedTimezones
             self.supportsBabelfish = output.supportsBabelfish
+            self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -4443,12 +4490,14 @@ extension CreateCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
+            self.supportedCACertificateIdentifiers = nil
             self.supportedCharacterSets = nil
             self.supportedEngineModes = nil
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
             self.supportsBabelfish = false
+            self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = false
             self.supportsLogExportsToCloudwatchLogs = false
             self.supportsParallelQuery = false
@@ -4495,6 +4544,8 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var majorEngineVersion: Swift.String?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
+    /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var supportedCACertificateIdentifiers: [Swift.String]?
     /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
@@ -4507,6 +4558,8 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// A value that indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
     public var supportsBabelfish: Swift.Bool
+    /// A value that indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+    public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool
     /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -4538,12 +4591,14 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
+        supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedEngineModes: [Swift.String]? = nil,
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
         supportsBabelfish: Swift.Bool = false,
+        supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool = false,
         supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
         supportsParallelQuery: Swift.Bool = false,
@@ -4569,12 +4624,14 @@ public struct CreateCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
+        self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
         self.supportedEngineModes = supportedEngineModes
         self.supportedFeatureNames = supportedFeatureNames
         self.supportedNcharCharacterSets = supportedNcharCharacterSets
         self.supportedTimezones = supportedTimezones
         self.supportsBabelfish = supportsBabelfish
+        self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -4614,6 +4671,8 @@ struct CreateCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
     let customDBEngineVersionManifest: Swift.String?
+    let supportsCertificateRotationWithoutRestart: Swift.Bool?
+    let supportedCACertificateIdentifiers: [Swift.String]?
 }
 
 extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
@@ -4635,12 +4694,14 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
         case supportedCharacterSets = "SupportedCharacterSets"
         case supportedEngineModes = "SupportedEngineModes"
         case supportedFeatureNames = "SupportedFeatureNames"
         case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
         case supportedTimezones = "SupportedTimezones"
         case supportsBabelfish = "SupportsBabelfish"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -4846,6 +4907,27 @@ extension CreateCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
     }
 }
 
@@ -6542,6 +6624,9 @@ extension CreateDBInstanceInput: Swift.Encodable {
         if let backupTarget = backupTarget {
             try container.encode(backupTarget, forKey: ClientRuntime.Key("BackupTarget"))
         }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
         }
@@ -6830,6 +6915,8 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var backupRetentionPeriod: Swift.Int?
     /// Specifies where automated backups and manual snapshots are stored. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
+    /// Specifies the CA certificate identifier to use for the DB instance’s server certificate. This setting doesn't apply to RDS Custom. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// For supported engines, this value indicates that the DB instance should be associated with the specified CharacterSet. This setting doesn't apply to RDS Custom. However, if you need to change the character set, you can change it on the database itself. Amazon Aurora Not applicable. The character set is managed by the DB cluster. For more information, see CreateDBCluster.
     public var characterSetName: Swift.String?
     /// A value that indicates whether to copy tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. Amazon Aurora Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting.
@@ -7108,6 +7195,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         availabilityZone: Swift.String? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         backupTarget: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         characterSetName: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
@@ -7164,6 +7252,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
         self.availabilityZone = availabilityZone
         self.backupRetentionPeriod = backupRetentionPeriod
         self.backupTarget = backupTarget
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.characterSetName = characterSetName
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
@@ -7271,6 +7360,7 @@ struct CreateDBInstanceInputBody: Swift.Equatable {
     let storageThroughput: Swift.Int?
     let manageMasterUserPassword: Swift.Bool?
     let masterUserSecretKmsKeyId: Swift.String?
+    let caCertificateIdentifier: Swift.String?
 }
 
 extension CreateDBInstanceInputBody: Swift.Decodable {
@@ -7280,6 +7370,7 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         case availabilityZone = "AvailabilityZone"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case backupTarget = "BackupTarget"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case characterSetName = "CharacterSetName"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
@@ -7526,6 +7617,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
         manageMasterUserPassword = manageMasterUserPasswordDecoded
         let masterUserSecretKmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .masterUserSecretKmsKeyId)
         masterUserSecretKmsKeyId = masterUserSecretKmsKeyIdDecoded
+        let caCertificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificateIdentifier)
+        caCertificateIdentifier = caCertificateIdentifierDecoded
     }
 }
 
@@ -7541,6 +7634,7 @@ extension CreateDBInstanceOutputError {
         switch errorType {
         case "AuthorizationNotFound" : self = .authorizationNotFoundFault(try AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "BackupPolicyNotFoundFault" : self = .backupPolicyNotFoundFault(try BackupPolicyNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "CertificateNotFound" : self = .certificateNotFoundFault(try CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBClusterNotFoundFault" : self = .dBClusterNotFoundFault(try DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBInstanceAlreadyExists" : self = .dBInstanceAlreadyExistsFault(try DBInstanceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DBParameterGroupNotFound" : self = .dBParameterGroupNotFoundFault(try DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -7567,6 +7661,7 @@ extension CreateDBInstanceOutputError {
 public enum CreateDBInstanceOutputError: Swift.Error, Swift.Equatable {
     case authorizationNotFoundFault(AuthorizationNotFoundFault)
     case backupPolicyNotFoundFault(BackupPolicyNotFoundFault)
+    case certificateNotFoundFault(CertificateNotFoundFault)
     case dBClusterNotFoundFault(DBClusterNotFoundFault)
     case dBInstanceAlreadyExistsFault(DBInstanceAlreadyExistsFault)
     case dBParameterGroupNotFoundFault(DBParameterGroupNotFoundFault)
@@ -7633,6 +7728,9 @@ extension CreateDBInstanceOutputResponseBody: Swift.Decodable {
 extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allocatedStorage = allocatedStorage {
+            try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
+        }
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
@@ -7789,6 +7887,8 @@ extension CreateDBInstanceReadReplicaInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
+    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your read replica so that the create operation can succeed. You can also allocate additional memory for future growth.
+    public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the read replica during the maintenance window. This setting doesn't apply to RDS Custom. Default: Inherits from the source DB instance
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
@@ -7950,6 +8050,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init (
+        allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -7988,6 +8089,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
+        self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -8064,10 +8166,12 @@ struct CreateDBInstanceReadReplicaInputBody: Swift.Equatable {
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
     let enableCustomerOwnedIp: Swift.Bool?
+    let allocatedStorage: Swift.Int?
 }
 
 extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedStorage = "AllocatedStorage"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
@@ -8248,6 +8352,8 @@ extension CreateDBInstanceReadReplicaInputBody: Swift.Decodable {
         storageThroughput = storageThroughputDecoded
         let enableCustomerOwnedIpDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableCustomerOwnedIp)
         enableCustomerOwnedIp = enableCustomerOwnedIpDecoded
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
+        allocatedStorage = allocatedStorageDecoded
     }
 }
 
@@ -13339,12 +13445,14 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
         case supportedCharacterSets = "SupportedCharacterSets"
         case supportedEngineModes = "SupportedEngineModes"
         case supportedFeatureNames = "SupportedFeatureNames"
         case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
         case supportedTimezones = "SupportedTimezones"
         case supportsBabelfish = "SupportsBabelfish"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -13415,6 +13523,18 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
+        if let supportedCACertificateIdentifiers = supportedCACertificateIdentifiers {
+            if !supportedCACertificateIdentifiers.isEmpty {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                for (index0, string0) in supportedCACertificateIdentifiers.enumerated() {
+                    try supportedCACertificateIdentifiersContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var supportedCACertificateIdentifiersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCACertificateIdentifiers"))
+                try supportedCACertificateIdentifiersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
         if let supportedCharacterSets = supportedCharacterSets {
             if !supportedCharacterSets.isEmpty {
                 var supportedCharacterSetsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("SupportedCharacterSets"))
@@ -13477,6 +13597,9 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         }
         if supportsBabelfish != false {
             try container.encode(supportsBabelfish, forKey: ClientRuntime.Key("SupportsBabelfish"))
+        }
+        if let supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart {
+            try container.encode(supportsCertificateRotationWithoutRestart, forKey: ClientRuntime.Key("SupportsCertificateRotationWithoutRestart"))
         }
         if supportsGlobalDatabases != false {
             try container.encode(supportsGlobalDatabases, forKey: ClientRuntime.Key("SupportsGlobalDatabases"))
@@ -13712,6 +13835,27 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
     }
 }
 
@@ -13752,6 +13896,8 @@ extension RDSClientTypes {
         public var majorEngineVersion: Swift.String?
         /// The status of the DB engine version, either available or deprecated.
         public var status: Swift.String?
+        /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+        public var supportedCACertificateIdentifiers: [Swift.String]?
         /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
         public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
         /// A list of the supported DB engine modes.
@@ -13764,6 +13910,8 @@ extension RDSClientTypes {
         public var supportedTimezones: [RDSClientTypes.Timezone]?
         /// A value that indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
         public var supportsBabelfish: Swift.Bool
+        /// A value that indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+        public var supportsCertificateRotationWithoutRestart: Swift.Bool?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
         public var supportsGlobalDatabases: Swift.Bool
         /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -13795,12 +13943,14 @@ extension RDSClientTypes {
             kmsKeyId: Swift.String? = nil,
             majorEngineVersion: Swift.String? = nil,
             status: Swift.String? = nil,
+            supportedCACertificateIdentifiers: [Swift.String]? = nil,
             supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
             supportedEngineModes: [Swift.String]? = nil,
             supportedFeatureNames: [Swift.String]? = nil,
             supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
             supportedTimezones: [RDSClientTypes.Timezone]? = nil,
             supportsBabelfish: Swift.Bool = false,
+            supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool = false,
             supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
             supportsParallelQuery: Swift.Bool = false,
@@ -13826,12 +13976,14 @@ extension RDSClientTypes {
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
             self.status = status
+            self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
             self.supportedCharacterSets = supportedCharacterSets
             self.supportedEngineModes = supportedEngineModes
             self.supportedFeatureNames = supportedFeatureNames
             self.supportedNcharCharacterSets = supportedNcharCharacterSets
             self.supportedTimezones = supportedTimezones
             self.supportsBabelfish = supportsBabelfish
+            self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = supportsParallelQuery
@@ -13861,6 +14013,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case backupTarget = "BackupTarget"
         case caCertificateIdentifier = "CACertificateIdentifier"
+        case certificateDetails = "CertificateDetails"
         case characterSetName = "CharacterSetName"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
@@ -13984,6 +14137,9 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         }
         if let caCertificateIdentifier = caCertificateIdentifier {
             try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
@@ -14665,6 +14821,8 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
         dbSystemId = dbSystemIdDecoded
         let masterUserSecretDecoded = try containerValues.decodeIfPresent(RDSClientTypes.MasterUserSecret.self, forKey: .masterUserSecret)
         masterUserSecret = masterUserSecretDecoded
+        let certificateDetailsDecoded = try containerValues.decodeIfPresent(RDSClientTypes.CertificateDetails.self, forKey: .certificateDetails)
+        certificateDetails = certificateDetailsDecoded
     }
 }
 
@@ -14701,8 +14859,10 @@ extension RDSClientTypes {
         public var backupRetentionPeriod: Swift.Int
         /// Specifies where automated backups and manual snapshots are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
         public var backupTarget: Swift.String?
-        /// The identifier of the CA certificate for this DB instance.
+        /// The identifier of the CA certificate for this DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
         public var caCertificateIdentifier: Swift.String?
+        /// The details of the DB instance's server certificate.
+        public var certificateDetails: RDSClientTypes.CertificateDetails?
         /// If present, specifies the name of the character set that this instance is associated with.
         public var characterSetName: Swift.String?
         /// Specifies whether tags are copied from the DB instance to snapshots of the DB instance. Amazon Aurora Not applicable. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see DBCluster.
@@ -14886,6 +15046,7 @@ extension RDSClientTypes {
             backupRetentionPeriod: Swift.Int = 0,
             backupTarget: Swift.String? = nil,
             caCertificateIdentifier: Swift.String? = nil,
+            certificateDetails: RDSClientTypes.CertificateDetails? = nil,
             characterSetName: Swift.String? = nil,
             copyTagsToSnapshot: Swift.Bool = false,
             customIamInstanceProfile: Swift.String? = nil,
@@ -14967,6 +15128,7 @@ extension RDSClientTypes {
             self.backupRetentionPeriod = backupRetentionPeriod
             self.backupTarget = backupTarget
             self.caCertificateIdentifier = caCertificateIdentifier
+            self.certificateDetails = certificateDetails
             self.characterSetName = characterSetName
             self.copyTagsToSnapshot = copyTagsToSnapshot
             self.customIamInstanceProfile = customIamInstanceProfile
@@ -19248,12 +19410,14 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
+            self.supportedCACertificateIdentifiers = output.supportedCACertificateIdentifiers
             self.supportedCharacterSets = output.supportedCharacterSets
             self.supportedEngineModes = output.supportedEngineModes
             self.supportedFeatureNames = output.supportedFeatureNames
             self.supportedNcharCharacterSets = output.supportedNcharCharacterSets
             self.supportedTimezones = output.supportedTimezones
             self.supportsBabelfish = output.supportsBabelfish
+            self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -19278,12 +19442,14 @@ extension DeleteCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
+            self.supportedCACertificateIdentifiers = nil
             self.supportedCharacterSets = nil
             self.supportedEngineModes = nil
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
             self.supportsBabelfish = false
+            self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = false
             self.supportsLogExportsToCloudwatchLogs = false
             self.supportsParallelQuery = false
@@ -19330,6 +19496,8 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var majorEngineVersion: Swift.String?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
+    /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var supportedCACertificateIdentifiers: [Swift.String]?
     /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
@@ -19342,6 +19510,8 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// A value that indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
     public var supportsBabelfish: Swift.Bool
+    /// A value that indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+    public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool
     /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -19373,12 +19543,14 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
+        supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedEngineModes: [Swift.String]? = nil,
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
         supportsBabelfish: Swift.Bool = false,
+        supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool = false,
         supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
         supportsParallelQuery: Swift.Bool = false,
@@ -19404,12 +19576,14 @@ public struct DeleteCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
+        self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
         self.supportedEngineModes = supportedEngineModes
         self.supportedFeatureNames = supportedFeatureNames
         self.supportedNcharCharacterSets = supportedNcharCharacterSets
         self.supportedTimezones = supportedTimezones
         self.supportsBabelfish = supportsBabelfish
+        self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -19449,6 +19623,8 @@ struct DeleteCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
     let customDBEngineVersionManifest: Swift.String?
+    let supportsCertificateRotationWithoutRestart: Swift.Bool?
+    let supportedCACertificateIdentifiers: [Swift.String]?
 }
 
 extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
@@ -19470,12 +19646,14 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
         case supportedCharacterSets = "SupportedCharacterSets"
         case supportedEngineModes = "SupportedEngineModes"
         case supportedFeatureNames = "SupportedFeatureNames"
         case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
         case supportedTimezones = "SupportedTimezones"
         case supportsBabelfish = "SupportsBabelfish"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -19681,6 +19859,27 @@ extension DeleteCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
     }
 }
 
@@ -34570,7 +34769,7 @@ extension ModifyCertificatesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ModifyCertificatesOutputResponse: Swift.Equatable {
-    /// A CA certificate for an Amazon Web Services account.
+    /// A CA certificate for an Amazon Web Services account. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var certificate: RDSClientTypes.Certificate?
 
     public init (
@@ -34916,12 +35115,14 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = output.kmsKeyId
             self.majorEngineVersion = output.majorEngineVersion
             self.status = output.status
+            self.supportedCACertificateIdentifiers = output.supportedCACertificateIdentifiers
             self.supportedCharacterSets = output.supportedCharacterSets
             self.supportedEngineModes = output.supportedEngineModes
             self.supportedFeatureNames = output.supportedFeatureNames
             self.supportedNcharCharacterSets = output.supportedNcharCharacterSets
             self.supportedTimezones = output.supportedTimezones
             self.supportsBabelfish = output.supportsBabelfish
+            self.supportsCertificateRotationWithoutRestart = output.supportsCertificateRotationWithoutRestart
             self.supportsGlobalDatabases = output.supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = output.supportsLogExportsToCloudwatchLogs
             self.supportsParallelQuery = output.supportsParallelQuery
@@ -34946,12 +35147,14 @@ extension ModifyCustomDBEngineVersionOutputResponse: ClientRuntime.HttpResponseB
             self.kmsKeyId = nil
             self.majorEngineVersion = nil
             self.status = nil
+            self.supportedCACertificateIdentifiers = nil
             self.supportedCharacterSets = nil
             self.supportedEngineModes = nil
             self.supportedFeatureNames = nil
             self.supportedNcharCharacterSets = nil
             self.supportedTimezones = nil
             self.supportsBabelfish = false
+            self.supportsCertificateRotationWithoutRestart = nil
             self.supportsGlobalDatabases = false
             self.supportsLogExportsToCloudwatchLogs = false
             self.supportsParallelQuery = false
@@ -34998,6 +35201,8 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var majorEngineVersion: Swift.String?
     /// The status of the DB engine version, either available or deprecated.
     public var status: Swift.String?
+    /// A list of the supported CA certificate identifiers. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var supportedCACertificateIdentifiers: [Swift.String]?
     /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
     public var supportedCharacterSets: [RDSClientTypes.CharacterSet]?
     /// A list of the supported DB engine modes.
@@ -35010,6 +35215,8 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
     public var supportedTimezones: [RDSClientTypes.Timezone]?
     /// A value that indicates whether the engine version supports Babelfish for Aurora PostgreSQL.
     public var supportsBabelfish: Swift.Bool
+    /// A value that indicates whether the engine version supports rotating the server certificate without rebooting the DB instance.
+    public var supportsCertificateRotationWithoutRestart: Swift.Bool?
     /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
     public var supportsGlobalDatabases: Swift.Bool
     /// A value that indicates whether the engine version supports exporting the log types specified by ExportableLogTypes to CloudWatch Logs.
@@ -35041,12 +35248,14 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         kmsKeyId: Swift.String? = nil,
         majorEngineVersion: Swift.String? = nil,
         status: Swift.String? = nil,
+        supportedCACertificateIdentifiers: [Swift.String]? = nil,
         supportedCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedEngineModes: [Swift.String]? = nil,
         supportedFeatureNames: [Swift.String]? = nil,
         supportedNcharCharacterSets: [RDSClientTypes.CharacterSet]? = nil,
         supportedTimezones: [RDSClientTypes.Timezone]? = nil,
         supportsBabelfish: Swift.Bool = false,
+        supportsCertificateRotationWithoutRestart: Swift.Bool? = nil,
         supportsGlobalDatabases: Swift.Bool = false,
         supportsLogExportsToCloudwatchLogs: Swift.Bool = false,
         supportsParallelQuery: Swift.Bool = false,
@@ -35072,12 +35281,14 @@ public struct ModifyCustomDBEngineVersionOutputResponse: Swift.Equatable {
         self.kmsKeyId = kmsKeyId
         self.majorEngineVersion = majorEngineVersion
         self.status = status
+        self.supportedCACertificateIdentifiers = supportedCACertificateIdentifiers
         self.supportedCharacterSets = supportedCharacterSets
         self.supportedEngineModes = supportedEngineModes
         self.supportedFeatureNames = supportedFeatureNames
         self.supportedNcharCharacterSets = supportedNcharCharacterSets
         self.supportedTimezones = supportedTimezones
         self.supportsBabelfish = supportsBabelfish
+        self.supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestart
         self.supportsGlobalDatabases = supportsGlobalDatabases
         self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
         self.supportsParallelQuery = supportsParallelQuery
@@ -35117,6 +35328,8 @@ struct ModifyCustomDBEngineVersionOutputResponseBody: Swift.Equatable {
     let tagList: [RDSClientTypes.Tag]?
     let supportsBabelfish: Swift.Bool
     let customDBEngineVersionManifest: Swift.String?
+    let supportsCertificateRotationWithoutRestart: Swift.Bool?
+    let supportedCACertificateIdentifiers: [Swift.String]?
 }
 
 extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
@@ -35138,12 +35351,14 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         case kmsKeyId = "KMSKeyId"
         case majorEngineVersion = "MajorEngineVersion"
         case status = "Status"
+        case supportedCACertificateIdentifiers = "SupportedCACertificateIdentifiers"
         case supportedCharacterSets = "SupportedCharacterSets"
         case supportedEngineModes = "SupportedEngineModes"
         case supportedFeatureNames = "SupportedFeatureNames"
         case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
         case supportedTimezones = "SupportedTimezones"
         case supportsBabelfish = "SupportsBabelfish"
+        case supportsCertificateRotationWithoutRestart = "SupportsCertificateRotationWithoutRestart"
         case supportsGlobalDatabases = "SupportsGlobalDatabases"
         case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
         case supportsParallelQuery = "SupportsParallelQuery"
@@ -35349,6 +35564,27 @@ extension ModifyCustomDBEngineVersionOutputResponseBody: Swift.Decodable {
         supportsBabelfish = supportsBabelfishDecoded
         let customDBEngineVersionManifestDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customDBEngineVersionManifest)
         customDBEngineVersionManifest = customDBEngineVersionManifestDecoded
+        let supportsCertificateRotationWithoutRestartDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .supportsCertificateRotationWithoutRestart)
+        supportsCertificateRotationWithoutRestart = supportsCertificateRotationWithoutRestartDecoded
+        if containerValues.contains(.supportedCACertificateIdentifiers) {
+            struct KeyVal0{struct member{}}
+            let supportedCACertificateIdentifiersWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .supportedCACertificateIdentifiers)
+            if let supportedCACertificateIdentifiersWrappedContainer = supportedCACertificateIdentifiersWrappedContainer {
+                let supportedCACertificateIdentifiersContainer = try supportedCACertificateIdentifiersWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var supportedCACertificateIdentifiersBuffer:[Swift.String]? = nil
+                if let supportedCACertificateIdentifiersContainer = supportedCACertificateIdentifiersContainer {
+                    supportedCACertificateIdentifiersBuffer = [Swift.String]()
+                    for stringContainer0 in supportedCACertificateIdentifiersContainer {
+                        supportedCACertificateIdentifiersBuffer?.append(stringContainer0)
+                    }
+                }
+                supportedCACertificateIdentifiers = supportedCACertificateIdentifiersBuffer
+            } else {
+                supportedCACertificateIdentifiers = []
+            }
+        } else {
+            supportedCACertificateIdentifiers = nil
+        }
     }
 }
 
@@ -35934,7 +36170,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     /// * Can't end with a hyphen or contain two consecutive hyphens
     ///
     ///
-    /// Example: my-cluster2 Valid for: Aurora DB clusters only
+    /// Example: my-cluster2 Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var newDBClusterIdentifier: Swift.String?
     /// A value that indicates that the DB cluster should be associated with the specified option group. DB clusters are associated with a default option group that can't be modified.
     public var optionGroupName: Swift.String?
@@ -36937,7 +37173,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     ///
     /// * It can be specified for a PostgreSQL read replica only if the source is running PostgreSQL 9.3.5.
     public var backupRetentionPeriod: Swift.Int?
-    /// Specifies the certificate to associate with the DB instance. This setting doesn't apply to RDS Custom.
+    /// Specifies the CA certificate identifier to use for the DB instance’s server certificate. This setting doesn't apply to RDS Custom. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
     public var caCertificateIdentifier: Swift.String?
     /// A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted. Set this parameter only if you are not using SSL/TLS to connect to the DB instance. If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your DB engine to rotate your SSL/TLS certificate:
     ///
@@ -41754,7 +41990,7 @@ extension RDSClientTypes {
         public var automationMode: RDSClientTypes.AutomationMode?
         /// The number of days for which automated backups are retained.
         public var backupRetentionPeriod: Swift.Int?
-        /// The identifier of the CA certificate for the DB instance.
+        /// The identifier of the CA certificate for the DB instance. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
         public var caCertificateIdentifier: Swift.String?
         /// The name of the compute and memory capacity class for the DB instance.
         public var dbInstanceClass: Swift.String?
@@ -46508,6 +46744,9 @@ extension RestoreDBClusterToPointInTimeOutputResponseBody: Swift.Decodable {
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allocatedStorage = allocatedStorage {
+            try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
+        }
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
@@ -46659,6 +46898,8 @@ extension RestoreDBInstanceFromDBSnapshotInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
@@ -46805,6 +47046,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init (
+        allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         backupTarget: Swift.String? = nil,
@@ -46841,6 +47083,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
+        self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupTarget = backupTarget
@@ -46913,10 +47156,12 @@ struct RestoreDBInstanceFromDBSnapshotInputBody: Swift.Equatable {
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
     let dbClusterSnapshotIdentifier: Swift.String?
+    let allocatedStorage: Swift.Int?
 }
 
 extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedStorage = "AllocatedStorage"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case backupTarget = "BackupTarget"
@@ -47091,6 +47336,8 @@ extension RestoreDBInstanceFromDBSnapshotInputBody: Swift.Decodable {
         storageThroughput = storageThroughputDecoded
         let dbClusterSnapshotIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dbClusterSnapshotIdentifier)
         dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifierDecoded
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
+        allocatedStorage = allocatedStorageDecoded
     }
 }
 
@@ -47403,7 +47650,7 @@ extension RestoreDBInstanceFromS3Input: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
-    /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -48060,6 +48307,9 @@ extension RestoreDBInstanceFromS3OutputResponseBody: Swift.Decodable {
 extension RestoreDBInstanceToPointInTimeInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allocatedStorage = allocatedStorage {
+            try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
+        }
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
@@ -48223,6 +48473,8 @@ extension RestoreDBInstanceToPointInTimeInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
@@ -48363,6 +48615,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init (
+        allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         backupTarget: Swift.String? = nil,
@@ -48403,6 +48656,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
+        self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupTarget = backupTarget
@@ -48483,10 +48737,12 @@ struct RestoreDBInstanceToPointInTimeInputBody: Swift.Equatable {
     let backupTarget: Swift.String?
     let networkType: Swift.String?
     let storageThroughput: Swift.Int?
+    let allocatedStorage: Swift.Int?
 }
 
 extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allocatedStorage = "AllocatedStorage"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case backupTarget = "BackupTarget"
@@ -48673,6 +48929,8 @@ extension RestoreDBInstanceToPointInTimeInputBody: Swift.Decodable {
         networkType = networkTypeDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
+        allocatedStorage = allocatedStorageDecoded
     }
 }
 
@@ -50440,25 +50698,25 @@ public struct StartExportTaskInput: Swift.Equatable {
     /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot.
     /// This member is required.
     public var iamRoleArn: Swift.String?
-    /// The ID of the Amazon Web Services KMS key to use to encrypt the snapshot exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to execute the following operations. These can be set in the Amazon Web Services KMS key policy:
+    /// The ID of the Amazon Web Services KMS key to use to encrypt the snapshot exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
     ///
-    /// * GrantOperation.Encrypt
+    /// * kms:Encrypt
     ///
-    /// * GrantOperation.Decrypt
+    /// * kms:Decrypt
     ///
-    /// * GrantOperation.GenerateDataKey
+    /// * kms:GenerateDataKey
     ///
-    /// * GrantOperation.GenerateDataKeyWithoutPlaintext
+    /// * kms:GenerateDataKeyWithoutPlaintext
     ///
-    /// * GrantOperation.ReEncryptFrom
+    /// * kms:ReEncryptFrom
     ///
-    /// * GrantOperation.ReEncryptTo
+    /// * kms:ReEncryptTo
     ///
-    /// * GrantOperation.CreateGrant
+    /// * kms:CreateGrant
     ///
-    /// * GrantOperation.DescribeKey
+    /// * kms:DescribeKey
     ///
-    /// * GrantOperation.RetireGrant
+    /// * kms:RetireGrant
     /// This member is required.
     public var kmsKeyId: Swift.String?
     /// The name of the Amazon S3 bucket to export the snapshot to.

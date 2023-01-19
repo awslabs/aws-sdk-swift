@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
 extension RbinClient {
+    /// Paginate over `[ListRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRulesOutputResponse`
     public func listRulesPaginated(input: ListRulesInput) -> ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRulesInput, ListRulesOutputResponse>(input: input, inputKey: \ListRulesInput.nextToken, outputKey: \ListRulesOutputResponse.nextToken, paginationFunction: self.listRules(input:))
     }
@@ -28,10 +27,10 @@ extension ListRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
-/// to access the nested member `[RbinClientTypes.RuleSummary]`
-/// - Returns: `[RbinClientTypes.RuleSummary]`
 extension PaginatorSequence where Input == ListRulesInput, Output == ListRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRulesPaginated`
+    /// to access the nested member `[RbinClientTypes.RuleSummary]`
+    /// - Returns: `[RbinClientTypes.RuleSummary]`
     public func rules() async throws -> [RbinClientTypes.RuleSummary] {
         return try await self.asyncCompactMap { item in item.rules }
     }

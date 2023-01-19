@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListGroupMembershipsForMemberOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGroupMembershipsForMemberInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsForMemberOutputResponse`
 extension IdentitystoreClient {
+    /// Paginate over `[ListGroupMembershipsForMemberOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupMembershipsForMemberInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupMembershipsForMemberOutputResponse`
     public func listGroupMembershipsForMemberPaginated(input: ListGroupMembershipsForMemberInput) -> ClientRuntime.PaginatorSequence<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGroupMembershipsForMemberInput, ListGroupMembershipsForMemberOutputResponse>(input: input, inputKey: \ListGroupMembershipsForMemberInput.nextToken, outputKey: \ListGroupMembershipsForMemberOutputResponse.nextToken, paginationFunction: self.listGroupMembershipsForMember(input:))
     }
@@ -27,10 +26,10 @@ extension ListGroupMembershipsForMemberInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsForMemberPaginated`
-/// to access the nested member `[IdentitystoreClientTypes.GroupMembership]`
-/// - Returns: `[IdentitystoreClientTypes.GroupMembership]`
 extension PaginatorSequence where Input == ListGroupMembershipsForMemberInput, Output == ListGroupMembershipsForMemberOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGroupMembershipsForMemberPaginated`
+    /// to access the nested member `[IdentitystoreClientTypes.GroupMembership]`
+    /// - Returns: `[IdentitystoreClientTypes.GroupMembership]`
     public func groupMemberships() async throws -> [IdentitystoreClientTypes.GroupMembership] {
         return try await self.asyncCompactMap { item in item.groupMemberships }
     }

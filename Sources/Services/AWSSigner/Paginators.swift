@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListSigningJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSigningJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSigningJobsOutputResponse`
 extension SignerClient {
+    /// Paginate over `[ListSigningJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSigningJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSigningJobsOutputResponse`
     public func listSigningJobsPaginated(input: ListSigningJobsInput) -> ClientRuntime.PaginatorSequence<ListSigningJobsInput, ListSigningJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSigningJobsInput, ListSigningJobsOutputResponse>(input: input, inputKey: \ListSigningJobsInput.nextToken, outputKey: \ListSigningJobsOutputResponse.nextToken, paginationFunction: self.listSigningJobs(input:))
     }
@@ -31,16 +30,15 @@ extension ListSigningJobsInput: ClientRuntime.PaginateToken {
             status: self.status
         )}
 }
-
-/// Paginate over `[ListSigningPlatformsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSigningPlatformsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSigningPlatformsOutputResponse`
 extension SignerClient {
+    /// Paginate over `[ListSigningPlatformsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSigningPlatformsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSigningPlatformsOutputResponse`
     public func listSigningPlatformsPaginated(input: ListSigningPlatformsInput) -> ClientRuntime.PaginatorSequence<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSigningPlatformsInput, ListSigningPlatformsOutputResponse>(input: input, inputKey: \ListSigningPlatformsInput.nextToken, outputKey: \ListSigningPlatformsOutputResponse.nextToken, paginationFunction: self.listSigningPlatforms(input:))
     }
@@ -56,16 +54,15 @@ extension ListSigningPlatformsInput: ClientRuntime.PaginateToken {
             target: self.target
         )}
 }
-
-/// Paginate over `[ListSigningProfilesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSigningProfilesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSigningProfilesOutputResponse`
 extension SignerClient {
+    /// Paginate over `[ListSigningProfilesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSigningProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSigningProfilesOutputResponse`
     public func listSigningProfilesPaginated(input: ListSigningProfilesInput) -> ClientRuntime.PaginatorSequence<ListSigningProfilesInput, ListSigningProfilesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSigningProfilesInput, ListSigningProfilesOutputResponse>(input: input, inputKey: \ListSigningProfilesInput.nextToken, outputKey: \ListSigningProfilesOutputResponse.nextToken, paginationFunction: self.listSigningProfiles(input:))
     }

@@ -1751,7 +1751,7 @@ public struct CalculateRouteInput: Swift.Equatable {
     public var distanceUnit: LocationClientTypes.DistanceUnit?
     /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false Valid Values: false | true
     public var includeLegGeometry: Swift.Bool?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, or Walking as options for the TravelMode. The TravelMode you specify also determines how you specify route preferences:
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode. Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. The TravelMode you specify also determines how you specify route preferences:
     ///
     /// * If traveling by Car use the CarModeOptions parameter.
     ///
@@ -1975,7 +1975,7 @@ public struct CalculateRouteMatrixInput: Swift.Equatable {
     /// * If traveling by Truck use the TruckModeOptions parameter.
     ///
     ///
-    /// Default Value: Car
+    /// Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more information about using Grab as a data provider, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. Default Value: Car
     public var travelMode: LocationClientTypes.TravelMode?
     /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
     public var truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions?
@@ -2286,6 +2286,8 @@ extension LocationClientTypes {
         ///
         /// * Esri
         ///
+        /// * Grab
+        ///
         /// * Here
         ///
         ///
@@ -2488,6 +2490,8 @@ extension LocationClientTypes {
         /// The data provider of traffic and road network data used to calculate the route. Indicates one of the available providers:
         ///
         /// * Esri
+        ///
+        /// * Grab
         ///
         /// * Here
         ///
@@ -2874,6 +2878,7 @@ extension CreateGeofenceCollectionOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -2885,6 +2890,7 @@ public enum CreateGeofenceCollectionOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -3098,6 +3104,7 @@ extension CreateMapOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -3109,6 +3116,7 @@ public enum CreateMapOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -3227,6 +3235,8 @@ public struct CreatePlaceIndexInput: Swift.Equatable {
     ///
     /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on geocoding coverage](https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm).
     ///
+    /// * Grab – Grab provides place index functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
+    ///
     /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html). If you specify HERE Technologies (Here) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html) for locations in Japan. For more information, see the [AWS Service Terms](https://aws.amazon.com/service-terms/) for Amazon Location Service.
     ///
     ///
@@ -3341,6 +3351,7 @@ extension CreatePlaceIndexOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -3352,6 +3363,7 @@ public enum CreatePlaceIndexOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -3471,9 +3483,11 @@ public struct CreateRouteCalculatorInput: Swift.Equatable {
     /// * No spaces allowed. For example, ExampleRouteCalculator.
     /// This member is required.
     public var calculatorName: Swift.String?
-    /// Specifies the data provider of traffic and road network data. This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km. Valid values include:
+    /// Specifies the data provider of traffic and road network data. This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include:
     ///
-    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on street networks and traffic coverage](https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm).
+    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on street networks and traffic coverage](https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm). Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.
+    ///
+    /// * Grab – Grab provides routing functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
     ///
     /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE car routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html) and [HERE truck routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html).
     ///
@@ -3577,6 +3591,7 @@ extension CreateRouteCalculatorOutputError {
         case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
@@ -3588,6 +3603,7 @@ public enum CreateRouteCalculatorOutputError: Swift.Error, Swift.Equatable {
     case accessDeniedException(AccessDeniedException)
     case conflictException(ConflictException)
     case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
     case throttlingException(ThrottlingException)
     case validationException(ValidationException)
     case unknown(UnknownAWSHttpServiceError)
@@ -4823,6 +4839,8 @@ public struct DescribePlaceIndexOutputResponse: Swift.Equatable {
     ///
     /// * Esri
     ///
+    /// * Grab
+    ///
     /// * Here
     ///
     ///
@@ -5038,6 +5056,8 @@ public struct DescribeRouteCalculatorOutputResponse: Swift.Equatable {
     /// The data provider of traffic and road network data. Indicates one of the available providers:
     ///
     /// * Esri
+    ///
+    /// * Grab
     ///
     /// * Here
     ///
@@ -6378,6 +6398,11 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     /// * VectorHereContrast – Fira GO Regular | Fira GO Bold
     ///
     /// * VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular
+    ///
+    ///
+    /// Valid font stacks for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) styles:
+    ///
+    /// * VectorGrabStandardLight, VectorGrabStandardDark – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold
     ///
     ///
     /// Valid font stacks for [Open Data (Preview)](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html) styles:
@@ -8476,6 +8501,8 @@ extension LocationClientTypes {
         ///
         /// * Esri
         ///
+        /// * Grab
+        ///
         /// * Here
         ///
         ///
@@ -8726,6 +8753,8 @@ extension LocationClientTypes {
         /// The data provider of traffic and road network data. Indicates one of the available providers:
         ///
         /// * Esri
+        ///
+        /// * Grab
         ///
         /// * Here
         ///
@@ -9327,7 +9356,14 @@ extension LocationClientTypes {
         /// * HybridHereExploreSatellite – A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles retrieved. Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are retrieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved.
         ///
         ///
-        /// Valid [Open Data (Preview) map styles](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html):
+        /// Valid [GrabMaps map styles](https://docs.aws.amazon.com/location/latest/developerguide/grab.html):
+        ///
+        /// * VectorGrabStandardLight – The Grab Standard Light map style provides a basemap with detailed land use coloring, area names, roads, landmarks, and points of interest covering Southeast Asia.
+        ///
+        /// * VectorGrabStandardDark – The Grab Standard Dark map style provides a dark variation of the standard basemap covering Southeast Asia.
+        ///
+        ///
+        /// Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see [GrabMaps countries and area covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area). Valid [Open Data (Preview) map styles](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html):
         ///
         /// * VectorOpenDataStandardLight – The Open Data Standard Light (preview) map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries. Open Data maps is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Open Data is in preview release](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html#open-data-preview).
         /// This member is required.
@@ -9464,7 +9500,7 @@ extension LocationClientTypes {
         public var region: Swift.String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public var street: Swift.String?
-        /// A country, or an area that's part of a larger region. For example, Metro Vancouver.
+        /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public var subRegion: Swift.String?
         /// The time zone in which the Place is located. Returned only when using HERE as the selected partner.
         public var timeZone: LocationClientTypes.TimeZone?
@@ -10102,7 +10138,7 @@ extension LocationClientTypes {
         /// Details about the search result, such as its address and position.
         /// This member is required.
         public var place: LocationClientTypes.Place?
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForPosition operations, the PlaceId is returned only by place indexes that use HERE or Grab as a data provider.
         public var placeId: Swift.String?
 
         public init (
@@ -10147,7 +10183,7 @@ extension LocationClientTypes.SearchForSuggestionsResult: Swift.Codable {
 extension LocationClientTypes {
     /// Contains a place suggestion resulting from a place suggestion query that is run on a place index resource.
     public struct SearchForSuggestionsResult: Swift.Equatable {
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use HERE or Esri as data providers.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public var placeId: Swift.String?
         /// The text of the place suggestion, typically formatted as an address string.
         /// This member is required.
@@ -10210,9 +10246,9 @@ extension LocationClientTypes {
         /// Details about the search result, such as its address and position.
         /// This member is required.
         public var place: LocationClientTypes.Place?
-        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForText operations, the PlaceId is returned only by place indexes that use HERE as a data provider.
+        /// The unique identifier of the place. You can use this with the GetPlace operation to find the place again later. For SearchPlaceIndexForText operations, the PlaceId is returned only by place indexes that use HERE or Grab as a data provider.
         public var placeId: Swift.String?
-        /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri.
+        /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri or Grab.
         public var relevance: Swift.Double?
 
         public init (
@@ -10480,6 +10516,8 @@ extension LocationClientTypes {
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:
         ///
         /// * Esri
+        ///
+        /// * Grab
         ///
         /// * Here
         ///
@@ -10866,6 +10904,8 @@ extension LocationClientTypes {
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:
         ///
         /// * Esri
+        ///
+        /// * Grab
         ///
         /// * Here
         ///
@@ -11280,6 +11320,8 @@ extension LocationClientTypes {
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:
         ///
         /// * Esri
+        ///
+        /// * Grab
         ///
         /// * Here
         ///
@@ -11710,14 +11752,18 @@ extension LocationClientTypes {
 
 extension LocationClientTypes {
     public enum TravelMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bicycle
         case car
+        case motorcycle
         case truck
         case walking
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TravelMode] {
             return [
+                .bicycle,
                 .car,
+                .motorcycle,
                 .truck,
                 .walking,
                 .sdkUnknown("")
@@ -11729,7 +11775,9 @@ extension LocationClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .bicycle: return "Bicycle"
             case .car: return "Car"
+            case .motorcycle: return "Motorcycle"
             case .truck: return "Truck"
             case .walking: return "Walking"
             case let .sdkUnknown(s): return s

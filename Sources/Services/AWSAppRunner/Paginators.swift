@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeCustomDomainsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeCustomDomainsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomDomainsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[DescribeCustomDomainsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCustomDomainsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCustomDomainsOutputResponse`
     public func describeCustomDomainsPaginated(input: DescribeCustomDomainsInput) -> ClientRuntime.PaginatorSequence<DescribeCustomDomainsInput, DescribeCustomDomainsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeCustomDomainsInput, DescribeCustomDomainsOutputResponse>(input: input, inputKey: \DescribeCustomDomainsInput.nextToken, outputKey: \DescribeCustomDomainsOutputResponse.nextToken, paginationFunction: self.describeCustomDomains(input:))
     }
@@ -25,16 +24,15 @@ extension DescribeCustomDomainsInput: ClientRuntime.PaginateToken {
             serviceArn: self.serviceArn
         )}
 }
-
-/// Paginate over `[ListAutoScalingConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAutoScalingConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAutoScalingConfigurationsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListAutoScalingConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAutoScalingConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAutoScalingConfigurationsOutputResponse`
     public func listAutoScalingConfigurationsPaginated(input: ListAutoScalingConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAutoScalingConfigurationsInput, ListAutoScalingConfigurationsOutputResponse>(input: input, inputKey: \ListAutoScalingConfigurationsInput.nextToken, outputKey: \ListAutoScalingConfigurationsOutputResponse.nextToken, paginationFunction: self.listAutoScalingConfigurations(input:))
     }
@@ -49,16 +47,15 @@ extension ListAutoScalingConfigurationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListConnectionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListConnectionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConnectionsOutputResponse`
     public func listConnectionsPaginated(input: ListConnectionsInput) -> ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListConnectionsInput, ListConnectionsOutputResponse>(input: input, inputKey: \ListConnectionsInput.nextToken, outputKey: \ListConnectionsOutputResponse.nextToken, paginationFunction: self.listConnections(input:))
     }
@@ -72,16 +69,15 @@ extension ListConnectionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListObservabilityConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListObservabilityConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListObservabilityConfigurationsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListObservabilityConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListObservabilityConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListObservabilityConfigurationsOutputResponse`
     public func listObservabilityConfigurationsPaginated(input: ListObservabilityConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListObservabilityConfigurationsInput, ListObservabilityConfigurationsOutputResponse>(input: input, inputKey: \ListObservabilityConfigurationsInput.nextToken, outputKey: \ListObservabilityConfigurationsOutputResponse.nextToken, paginationFunction: self.listObservabilityConfigurations(input:))
     }
@@ -96,16 +92,15 @@ extension ListObservabilityConfigurationsInput: ClientRuntime.PaginateToken {
             observabilityConfigurationName: self.observabilityConfigurationName
         )}
 }
-
-/// Paginate over `[ListOperationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListOperationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListOperationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutputResponse`
     public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutputResponse.nextToken, paginationFunction: self.listOperations(input:))
     }
@@ -119,16 +114,15 @@ extension ListOperationsInput: ClientRuntime.PaginateToken {
             serviceArn: self.serviceArn
         )}
 }
-
-/// Paginate over `[ListServicesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListServicesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListServicesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServicesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesOutputResponse`
     public func listServicesPaginated(input: ListServicesInput) -> ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListServicesInput, ListServicesOutputResponse>(input: input, inputKey: \ListServicesInput.nextToken, outputKey: \ListServicesOutputResponse.nextToken, paginationFunction: self.listServices(input:))
     }
@@ -141,16 +135,15 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListVpcConnectorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListVpcConnectorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectorsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListVpcConnectorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVpcConnectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcConnectorsOutputResponse`
     public func listVpcConnectorsPaginated(input: ListVpcConnectorsInput) -> ClientRuntime.PaginatorSequence<ListVpcConnectorsInput, ListVpcConnectorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListVpcConnectorsInput, ListVpcConnectorsOutputResponse>(input: input, inputKey: \ListVpcConnectorsInput.nextToken, outputKey: \ListVpcConnectorsOutputResponse.nextToken, paginationFunction: self.listVpcConnectors(input:))
     }
@@ -163,16 +156,15 @@ extension ListVpcConnectorsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListVpcIngressConnectionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListVpcIngressConnectionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListVpcIngressConnectionsOutputResponse`
 extension AppRunnerClient {
+    /// Paginate over `[ListVpcIngressConnectionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListVpcIngressConnectionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListVpcIngressConnectionsOutputResponse`
     public func listVpcIngressConnectionsPaginated(input: ListVpcIngressConnectionsInput) -> ClientRuntime.PaginatorSequence<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListVpcIngressConnectionsInput, ListVpcIngressConnectionsOutputResponse>(input: input, inputKey: \ListVpcIngressConnectionsInput.nextToken, outputKey: \ListVpcIngressConnectionsOutputResponse.nextToken, paginationFunction: self.listVpcIngressConnections(input:))
     }

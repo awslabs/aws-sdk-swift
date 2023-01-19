@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeBackupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeBackupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeBackupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeBackupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeBackupsOutputResponse`
     public func describeBackupsPaginated(input: DescribeBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeBackupsInput, DescribeBackupsOutputResponse>(input: input, inputKey: \DescribeBackupsInput.nextToken, outputKey: \DescribeBackupsOutputResponse.nextToken, paginationFunction: self.describeBackups(input:))
     }
@@ -26,16 +25,15 @@ extension DescribeBackupsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeDataRepositoryAssociationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDataRepositoryAssociationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryAssociationsOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeDataRepositoryAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataRepositoryAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryAssociationsOutputResponse`
     public func describeDataRepositoryAssociationsPaginated(input: DescribeDataRepositoryAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDataRepositoryAssociationsInput, DescribeDataRepositoryAssociationsOutputResponse>(input: input, inputKey: \DescribeDataRepositoryAssociationsInput.nextToken, outputKey: \DescribeDataRepositoryAssociationsOutputResponse.nextToken, paginationFunction: self.describeDataRepositoryAssociations(input:))
     }
@@ -50,16 +48,15 @@ extension DescribeDataRepositoryAssociationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeDataRepositoryTasksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDataRepositoryTasksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryTasksOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeDataRepositoryTasksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataRepositoryTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataRepositoryTasksOutputResponse`
     public func describeDataRepositoryTasksPaginated(input: DescribeDataRepositoryTasksInput) -> ClientRuntime.PaginatorSequence<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDataRepositoryTasksInput, DescribeDataRepositoryTasksOutputResponse>(input: input, inputKey: \DescribeDataRepositoryTasksInput.nextToken, outputKey: \DescribeDataRepositoryTasksOutputResponse.nextToken, paginationFunction: self.describeDataRepositoryTasks(input:))
     }
@@ -74,16 +71,15 @@ extension DescribeDataRepositoryTasksInput: ClientRuntime.PaginateToken {
             taskIds: self.taskIds
         )}
 }
-
-/// Paginate over `[DescribeFileCachesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeFileCachesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeFileCachesOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeFileCachesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeFileCachesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileCachesOutputResponse`
     public func describeFileCachesPaginated(input: DescribeFileCachesInput) -> ClientRuntime.PaginatorSequence<DescribeFileCachesInput, DescribeFileCachesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeFileCachesInput, DescribeFileCachesOutputResponse>(input: input, inputKey: \DescribeFileCachesInput.nextToken, outputKey: \DescribeFileCachesOutputResponse.nextToken, paginationFunction: self.describeFileCaches(input:))
     }
@@ -97,16 +93,15 @@ extension DescribeFileCachesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeFileSystemAliasesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeFileSystemAliasesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemAliasesOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeFileSystemAliasesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeFileSystemAliasesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemAliasesOutputResponse`
     public func describeFileSystemAliasesPaginated(input: DescribeFileSystemAliasesInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeFileSystemAliasesInput, DescribeFileSystemAliasesOutputResponse>(input: input, inputKey: \DescribeFileSystemAliasesInput.nextToken, outputKey: \DescribeFileSystemAliasesOutputResponse.nextToken, paginationFunction: self.describeFileSystemAliases(input:))
     }
@@ -121,16 +116,15 @@ extension DescribeFileSystemAliasesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeFileSystemsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeFileSystemsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeFileSystemsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeFileSystemsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFileSystemsOutputResponse`
     public func describeFileSystemsPaginated(input: DescribeFileSystemsInput) -> ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeFileSystemsInput, DescribeFileSystemsOutputResponse>(input: input, inputKey: \DescribeFileSystemsInput.nextToken, outputKey: \DescribeFileSystemsOutputResponse.nextToken, paginationFunction: self.describeFileSystems(input:))
     }
@@ -144,16 +138,15 @@ extension DescribeFileSystemsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeSnapshotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeSnapshotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeSnapshotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeSnapshotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeSnapshotsOutputResponse`
     public func describeSnapshotsPaginated(input: DescribeSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeSnapshotsInput, DescribeSnapshotsOutputResponse>(input: input, inputKey: \DescribeSnapshotsInput.nextToken, outputKey: \DescribeSnapshotsOutputResponse.nextToken, paginationFunction: self.describeSnapshots(input:))
     }
@@ -168,16 +161,15 @@ extension DescribeSnapshotsInput: ClientRuntime.PaginateToken {
             snapshotIds: self.snapshotIds
         )}
 }
-
-/// Paginate over `[DescribeStorageVirtualMachinesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeStorageVirtualMachinesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageVirtualMachinesOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeStorageVirtualMachinesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeStorageVirtualMachinesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeStorageVirtualMachinesOutputResponse`
     public func describeStorageVirtualMachinesPaginated(input: DescribeStorageVirtualMachinesInput) -> ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeStorageVirtualMachinesInput, DescribeStorageVirtualMachinesOutputResponse>(input: input, inputKey: \DescribeStorageVirtualMachinesInput.nextToken, outputKey: \DescribeStorageVirtualMachinesOutputResponse.nextToken, paginationFunction: self.describeStorageVirtualMachines(input:))
     }
@@ -193,24 +185,23 @@ extension DescribeStorageVirtualMachinesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeStorageVirtualMachinesPaginated`
-/// to access the nested member `[FSxClientTypes.StorageVirtualMachine]`
-/// - Returns: `[FSxClientTypes.StorageVirtualMachine]`
 extension PaginatorSequence where Input == DescribeStorageVirtualMachinesInput, Output == DescribeStorageVirtualMachinesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeStorageVirtualMachinesPaginated`
+    /// to access the nested member `[FSxClientTypes.StorageVirtualMachine]`
+    /// - Returns: `[FSxClientTypes.StorageVirtualMachine]`
     public func storageVirtualMachines() async throws -> [FSxClientTypes.StorageVirtualMachine] {
         return try await self.asyncCompactMap { item in item.storageVirtualMachines }
     }
 }
-
-/// Paginate over `[DescribeVolumesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeVolumesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumesOutputResponse`
 extension FSxClient {
+    /// Paginate over `[DescribeVolumesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeVolumesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVolumesOutputResponse`
     public func describeVolumesPaginated(input: DescribeVolumesInput) -> ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeVolumesInput, DescribeVolumesOutputResponse>(input: input, inputKey: \DescribeVolumesInput.nextToken, outputKey: \DescribeVolumesOutputResponse.nextToken, paginationFunction: self.describeVolumes(input:))
     }
@@ -226,24 +217,23 @@ extension DescribeVolumesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeVolumesPaginated`
-/// to access the nested member `[FSxClientTypes.Volume]`
-/// - Returns: `[FSxClientTypes.Volume]`
 extension PaginatorSequence where Input == DescribeVolumesInput, Output == DescribeVolumesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeVolumesPaginated`
+    /// to access the nested member `[FSxClientTypes.Volume]`
+    /// - Returns: `[FSxClientTypes.Volume]`
     public func volumes() async throws -> [FSxClientTypes.Volume] {
         return try await self.asyncCompactMap { item in item.volumes }
     }
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension FSxClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
