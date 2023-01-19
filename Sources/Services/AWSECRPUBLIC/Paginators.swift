@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeImagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeImagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
 extension ECRPUBLICClient {
+    /// Paginate over `[DescribeImagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutputResponse.nextToken, paginationFunction: self.describeImages(input:))
     }
@@ -28,24 +27,23 @@ extension DescribeImagesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
-/// to access the nested member `[ECRPUBLICClientTypes.ImageDetail]`
-/// - Returns: `[ECRPUBLICClientTypes.ImageDetail]`
 extension PaginatorSequence where Input == DescribeImagesInput, Output == DescribeImagesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImagesPaginated`
+    /// to access the nested member `[ECRPUBLICClientTypes.ImageDetail]`
+    /// - Returns: `[ECRPUBLICClientTypes.ImageDetail]`
     public func imageDetails() async throws -> [ECRPUBLICClientTypes.ImageDetail] {
         return try await self.asyncCompactMap { item in item.imageDetails }
     }
 }
-
-/// Paginate over `[DescribeImageTagsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeImageTagsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeImageTagsOutputResponse`
 extension ECRPUBLICClient {
+    /// Paginate over `[DescribeImageTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageTagsOutputResponse`
     public func describeImageTagsPaginated(input: DescribeImageTagsInput) -> ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeImageTagsInput, DescribeImageTagsOutputResponse>(input: input, inputKey: \DescribeImageTagsInput.nextToken, outputKey: \DescribeImageTagsOutputResponse.nextToken, paginationFunction: self.describeImageTags(input:))
     }
@@ -61,24 +59,23 @@ extension DescribeImageTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeImageTagsPaginated`
-/// to access the nested member `[ECRPUBLICClientTypes.ImageTagDetail]`
-/// - Returns: `[ECRPUBLICClientTypes.ImageTagDetail]`
 extension PaginatorSequence where Input == DescribeImageTagsInput, Output == DescribeImageTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageTagsPaginated`
+    /// to access the nested member `[ECRPUBLICClientTypes.ImageTagDetail]`
+    /// - Returns: `[ECRPUBLICClientTypes.ImageTagDetail]`
     public func imageTagDetails() async throws -> [ECRPUBLICClientTypes.ImageTagDetail] {
         return try await self.asyncCompactMap { item in item.imageTagDetails }
     }
 }
-
-/// Paginate over `[DescribeRegistriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRegistriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistriesOutputResponse`
 extension ECRPUBLICClient {
+    /// Paginate over `[DescribeRegistriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRegistriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRegistriesOutputResponse`
     public func describeRegistriesPaginated(input: DescribeRegistriesInput) -> ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRegistriesInput, DescribeRegistriesOutputResponse>(input: input, inputKey: \DescribeRegistriesInput.nextToken, outputKey: \DescribeRegistriesOutputResponse.nextToken, paginationFunction: self.describeRegistries(input:))
     }
@@ -92,24 +89,23 @@ extension DescribeRegistriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeRegistriesPaginated`
-/// to access the nested member `[ECRPUBLICClientTypes.Registry]`
-/// - Returns: `[ECRPUBLICClientTypes.Registry]`
 extension PaginatorSequence where Input == DescribeRegistriesInput, Output == DescribeRegistriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRegistriesPaginated`
+    /// to access the nested member `[ECRPUBLICClientTypes.Registry]`
+    /// - Returns: `[ECRPUBLICClientTypes.Registry]`
     public func registries() async throws -> [ECRPUBLICClientTypes.Registry] {
         return try await self.asyncCompactMap { item in item.registries }
     }
 }
-
-/// Paginate over `[DescribeRepositoriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRepositoriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutputResponse`
 extension ECRPUBLICClient {
+    /// Paginate over `[DescribeRepositoriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRepositoriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRepositoriesOutputResponse`
     public func describeRepositoriesPaginated(input: DescribeRepositoriesInput) -> ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRepositoriesInput, DescribeRepositoriesOutputResponse>(input: input, inputKey: \DescribeRepositoriesInput.nextToken, outputKey: \DescribeRepositoriesOutputResponse.nextToken, paginationFunction: self.describeRepositories(input:))
     }
@@ -125,10 +121,10 @@ extension DescribeRepositoriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeRepositoriesPaginated`
-/// to access the nested member `[ECRPUBLICClientTypes.Repository]`
-/// - Returns: `[ECRPUBLICClientTypes.Repository]`
 extension PaginatorSequence where Input == DescribeRepositoriesInput, Output == DescribeRepositoriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRepositoriesPaginated`
+    /// to access the nested member `[ECRPUBLICClientTypes.Repository]`
+    /// - Returns: `[ECRPUBLICClientTypes.Repository]`
     public func repositories() async throws -> [ECRPUBLICClientTypes.Repository] {
         return try await self.asyncCompactMap { item in item.repositories }
     }

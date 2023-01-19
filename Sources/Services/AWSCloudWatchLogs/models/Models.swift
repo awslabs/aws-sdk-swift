@@ -625,7 +625,7 @@ extension DataAlreadyAcceptedException {
     }
 }
 
-/// The event was already logged.
+/// The event was already logged. PutLogEvents actions are now always accepted and never return DataAlreadyAcceptedException regardless of whether a given batch of log events has already been accepted.
 public struct DataAlreadyAcceptedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2120,7 +2120,6 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
     /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-    /// This member is required.
     public var logGroupName: Swift.String?
     /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
     public var logStreamNamePrefix: Swift.String?
@@ -3633,7 +3632,6 @@ public struct FilterLogEventsInput: Swift.Equatable {
     /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-    /// This member is required.
     public var logGroupName: Swift.String?
     /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
     public var logStreamNamePrefix: Swift.String?
@@ -4115,7 +4113,6 @@ public struct GetLogEventsInput: Swift.Equatable {
     /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-    /// This member is required.
     public var logGroupName: Swift.String?
     /// The name of the log stream.
     /// This member is required.
@@ -4328,7 +4325,6 @@ public struct GetLogGroupFieldsInput: Swift.Equatable {
     /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
     public var logGroupIdentifier: Swift.String?
     /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
-    /// This member is required.
     public var logGroupName: Swift.String?
     /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
     public var time: Swift.Int?
@@ -4908,7 +4904,7 @@ extension InvalidSequenceTokenException {
     }
 }
 
-/// The sequence token is not valid. You can get the correct sequence token in the expectedSequenceToken field in the InvalidSequenceTokenException message.
+/// The sequence token is not valid. You can get the correct sequence token in the expectedSequenceToken field in the InvalidSequenceTokenException message. PutLogEvents actions are now always accepted and never return InvalidSequenceTokenException regardless of receiving an invalid sequence token.
 public struct InvalidSequenceTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5472,14 +5468,14 @@ extension CloudWatchLogsClientTypes {
         public var firstEventTimestamp: Swift.Int?
         /// The time of the most recent log event in the log stream in CloudWatch Logs. This number is expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. The lastEventTime value updates on an eventual consistency basis. It typically updates in less than an hour from ingestion, but in rare situations might take longer.
         public var lastEventTimestamp: Swift.Int?
-        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        /// The ingestion time, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC The lastIngestionTime value updates on an eventual consistency basis. It typically updates in less than an hour after ingestion, but in rare situations might take longer.
         public var lastIngestionTime: Swift.Int?
         /// The name of the log stream.
         public var logStreamName: Swift.String?
         /// The number of bytes stored. Important: As of June 17, 2019, this parameter is no longer supported for log streams, and is always reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.
         @available(*, deprecated, message: "Starting on June 17, 2019, this parameter will be deprecated for log streams, and will be reported as zero. This change applies only to log streams. The storedBytes parameter for log groups is not affected.")
         public var storedBytes: Swift.Int?
-        /// The sequence token.
+        /// The sequence token. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted regardless of receiving an invalid sequence token. You don't need to obtain uploadSequenceToken to use a PutLogEvents action.
         public var uploadSequenceToken: Swift.String?
 
         public init (
@@ -6438,7 +6434,7 @@ public struct PutLogEventsInput: Swift.Equatable {
     /// The name of the log stream.
     /// This member is required.
     public var logStreamName: Swift.String?
-    /// The sequence token obtained from the response of the previous PutLogEvents call. An upload in a newly created log stream does not require a sequence token. You can also get the sequence token using [DescribeLogStreams](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogStreams.html). If you call PutLogEvents twice within a narrow time period using the same value for sequenceToken, both calls might be successful or one might be rejected.
+    /// The sequence token obtained from the response of the previous PutLogEvents call. The sequenceToken parameter is now ignored in PutLogEvents actions. PutLogEvents actions are now accepted and never return InvalidSequenceTokenException or DataAlreadyAcceptedException even if the sequence token is not valid.
     public var sequenceToken: Swift.String?
 
     public init (
@@ -6540,7 +6536,7 @@ extension PutLogEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutLogEventsOutputResponse: Swift.Equatable {
-    /// The next sequence token.
+    /// The next sequence token. This field has been deprecated. The sequence token is now ignored in PutLogEvents actions. PutLogEvents actions are always accepted even if the sequence token is not valid. You can use parallel PutLogEvents actions on the same log stream and you do not need to wait for the response of a previous PutLogEvents action to obtain the nextSequenceToken value.
     public var nextSequenceToken: Swift.String?
     /// The rejected events.
     public var rejectedLogEventsInfo: CloudWatchLogsClientTypes.RejectedLogEventsInfo?

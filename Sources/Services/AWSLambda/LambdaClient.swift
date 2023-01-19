@@ -376,15 +376,15 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
-    /// * BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.
+    /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
     ///
-    /// * DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
-    /// * MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
+    /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
-    /// * MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
-    /// * ParallelizationFactor - Process multiple batches from each shard concurrently.
+    /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.
@@ -2379,15 +2379,15 @@ extension LambdaClient: LambdaClientProtocol {
     ///
     /// The following error handling options are available only for stream sources (DynamoDB and Kinesis):
     ///
-    /// * BisectBatchOnFunctionError - If the function returns an error, split the batch in two and retry.
+    /// * BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.
     ///
-    /// * DestinationConfig - Send discarded records to an Amazon SQS queue or Amazon SNS topic.
+    /// * DestinationConfig – Send discarded records to an Amazon SQS queue or Amazon SNS topic.
     ///
-    /// * MaximumRecordAgeInSeconds - Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
+    /// * MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires
     ///
-    /// * MaximumRetryAttempts - Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    /// * MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///
-    /// * ParallelizationFactor - Process multiple batches from each shard concurrently.
+    /// * ParallelizationFactor – Process multiple batches from each shard concurrently.
     ///
     ///
     /// For information about which configuration parameters apply to each event source, see the following topics.

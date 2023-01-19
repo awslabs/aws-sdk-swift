@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListDataSetRevisionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataSetRevisionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataSetRevisionsOutputResponse`
 extension DataExchangeClient {
+    /// Paginate over `[ListDataSetRevisionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataSetRevisionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetRevisionsOutputResponse`
     public func listDataSetRevisionsPaginated(input: ListDataSetRevisionsInput) -> ClientRuntime.PaginatorSequence<ListDataSetRevisionsInput, ListDataSetRevisionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataSetRevisionsInput, ListDataSetRevisionsOutputResponse>(input: input, inputKey: \ListDataSetRevisionsInput.nextToken, outputKey: \ListDataSetRevisionsOutputResponse.nextToken, paginationFunction: self.listDataSetRevisions(input:))
     }
@@ -26,24 +25,23 @@ extension ListDataSetRevisionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDataSetRevisionsPaginated`
-/// to access the nested member `[DataExchangeClientTypes.RevisionEntry]`
-/// - Returns: `[DataExchangeClientTypes.RevisionEntry]`
 extension PaginatorSequence where Input == ListDataSetRevisionsInput, Output == ListDataSetRevisionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataSetRevisionsPaginated`
+    /// to access the nested member `[DataExchangeClientTypes.RevisionEntry]`
+    /// - Returns: `[DataExchangeClientTypes.RevisionEntry]`
     public func revisions() async throws -> [DataExchangeClientTypes.RevisionEntry] {
         return try await self.asyncCompactMap { item in item.revisions }
     }
 }
-
-/// Paginate over `[ListDataSetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataSetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutputResponse`
 extension DataExchangeClient {
+    /// Paginate over `[ListDataSetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataSetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataSetsOutputResponse`
     public func listDataSetsPaginated(input: ListDataSetsInput) -> ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataSetsInput, ListDataSetsOutputResponse>(input: input, inputKey: \ListDataSetsInput.nextToken, outputKey: \ListDataSetsOutputResponse.nextToken, paginationFunction: self.listDataSets(input:))
     }
@@ -58,24 +56,23 @@ extension ListDataSetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDataSetsPaginated`
-/// to access the nested member `[DataExchangeClientTypes.DataSetEntry]`
-/// - Returns: `[DataExchangeClientTypes.DataSetEntry]`
 extension PaginatorSequence where Input == ListDataSetsInput, Output == ListDataSetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataSetsPaginated`
+    /// to access the nested member `[DataExchangeClientTypes.DataSetEntry]`
+    /// - Returns: `[DataExchangeClientTypes.DataSetEntry]`
     public func dataSets() async throws -> [DataExchangeClientTypes.DataSetEntry] {
         return try await self.asyncCompactMap { item in item.dataSets }
     }
 }
-
-/// Paginate over `[ListEventActionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListEventActionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListEventActionsOutputResponse`
 extension DataExchangeClient {
+    /// Paginate over `[ListEventActionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventActionsOutputResponse`
     public func listEventActionsPaginated(input: ListEventActionsInput) -> ClientRuntime.PaginatorSequence<ListEventActionsInput, ListEventActionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListEventActionsInput, ListEventActionsOutputResponse>(input: input, inputKey: \ListEventActionsInput.nextToken, outputKey: \ListEventActionsOutputResponse.nextToken, paginationFunction: self.listEventActions(input:))
     }
@@ -90,24 +87,23 @@ extension ListEventActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listEventActionsPaginated`
-/// to access the nested member `[DataExchangeClientTypes.EventActionEntry]`
-/// - Returns: `[DataExchangeClientTypes.EventActionEntry]`
 extension PaginatorSequence where Input == ListEventActionsInput, Output == ListEventActionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventActionsPaginated`
+    /// to access the nested member `[DataExchangeClientTypes.EventActionEntry]`
+    /// - Returns: `[DataExchangeClientTypes.EventActionEntry]`
     public func eventActions() async throws -> [DataExchangeClientTypes.EventActionEntry] {
         return try await self.asyncCompactMap { item in item.eventActions }
     }
 }
-
-/// Paginate over `[ListJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
 extension DataExchangeClient {
+    /// Paginate over `[ListJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListJobsOutputResponse`
     public func listJobsPaginated(input: ListJobsInput) -> ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListJobsInput, ListJobsOutputResponse>(input: input, inputKey: \ListJobsInput.nextToken, outputKey: \ListJobsOutputResponse.nextToken, paginationFunction: self.listJobs(input:))
     }
@@ -123,24 +119,23 @@ extension ListJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
-/// to access the nested member `[DataExchangeClientTypes.JobEntry]`
-/// - Returns: `[DataExchangeClientTypes.JobEntry]`
 extension PaginatorSequence where Input == ListJobsInput, Output == ListJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listJobsPaginated`
+    /// to access the nested member `[DataExchangeClientTypes.JobEntry]`
+    /// - Returns: `[DataExchangeClientTypes.JobEntry]`
     public func jobs() async throws -> [DataExchangeClientTypes.JobEntry] {
         return try await self.asyncCompactMap { item in item.jobs }
     }
 }
-
-/// Paginate over `[ListRevisionAssetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListRevisionAssetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListRevisionAssetsOutputResponse`
 extension DataExchangeClient {
+    /// Paginate over `[ListRevisionAssetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRevisionAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRevisionAssetsOutputResponse`
     public func listRevisionAssetsPaginated(input: ListRevisionAssetsInput) -> ClientRuntime.PaginatorSequence<ListRevisionAssetsInput, ListRevisionAssetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListRevisionAssetsInput, ListRevisionAssetsOutputResponse>(input: input, inputKey: \ListRevisionAssetsInput.nextToken, outputKey: \ListRevisionAssetsOutputResponse.nextToken, paginationFunction: self.listRevisionAssets(input:))
     }
@@ -156,10 +151,10 @@ extension ListRevisionAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listRevisionAssetsPaginated`
-/// to access the nested member `[DataExchangeClientTypes.AssetEntry]`
-/// - Returns: `[DataExchangeClientTypes.AssetEntry]`
 extension PaginatorSequence where Input == ListRevisionAssetsInput, Output == ListRevisionAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRevisionAssetsPaginated`
+    /// to access the nested member `[DataExchangeClientTypes.AssetEntry]`
+    /// - Returns: `[DataExchangeClientTypes.AssetEntry]`
     public func assets() async throws -> [DataExchangeClientTypes.AssetEntry] {
         return try await self.asyncCompactMap { item in item.assets }
     }

@@ -22,9 +22,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-north-1",
                         "name": "sigv4",
-                        "signingName": "support"
+                        "signingName": "support",
+                        "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -50,9 +50,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "support"
+                        "signingName": "support",
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -78,9 +78,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-iso-east-1",
                         "name": "sigv4",
-                        "signingName": "support"
+                        "signingName": "support",
+                        "signingRegion": "us-iso-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -186,9 +186,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-isob-east-1",
                         "name": "sigv4",
-                        "signingName": "support"
+                        "signingName": "support",
+                        "signingRegion": "us-isob-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -214,9 +214,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
                         "name": "sigv4",
-                        "signingName": "support"
+                        "signingName": "support",
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

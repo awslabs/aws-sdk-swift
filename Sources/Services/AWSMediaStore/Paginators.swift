@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListContainersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListContainersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListContainersOutputResponse`
 extension MediaStoreClient {
+    /// Paginate over `[ListContainersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContainersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContainersOutputResponse`
     public func listContainersPaginated(input: ListContainersInput) -> ClientRuntime.PaginatorSequence<ListContainersInput, ListContainersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListContainersInput, ListContainersOutputResponse>(input: input, inputKey: \ListContainersInput.nextToken, outputKey: \ListContainersOutputResponse.nextToken, paginationFunction: self.listContainers(input:))
     }

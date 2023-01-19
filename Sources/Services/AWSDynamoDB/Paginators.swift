@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListContributorInsightsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListContributorInsightsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListContributorInsightsOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[ListContributorInsightsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListContributorInsightsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListContributorInsightsOutputResponse`
     public func listContributorInsightsPaginated(input: ListContributorInsightsInput) -> ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListContributorInsightsInput, ListContributorInsightsOutputResponse>(input: input, inputKey: \ListContributorInsightsInput.nextToken, outputKey: \ListContributorInsightsOutputResponse.nextToken, paginationFunction: self.listContributorInsights(input:))
     }
@@ -25,16 +24,15 @@ extension ListContributorInsightsInput: ClientRuntime.PaginateToken {
             tableName: self.tableName
         )}
 }
-
-/// Paginate over `[ListExportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[ListExportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportsOutputResponse`
     public func listExportsPaginated(input: ListExportsInput) -> ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExportsInput, ListExportsOutputResponse>(input: input, inputKey: \ListExportsInput.nextToken, outputKey: \ListExportsOutputResponse.nextToken, paginationFunction: self.listExports(input:))
     }
@@ -48,16 +46,15 @@ extension ListExportsInput: ClientRuntime.PaginateToken {
             tableArn: self.tableArn
         )}
 }
-
-/// Paginate over `[ListImportsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListImportsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[ListImportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListImportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListImportsOutputResponse`
     public func listImportsPaginated(input: ListImportsInput) -> ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListImportsInput, ListImportsOutputResponse>(input: input, inputKey: \ListImportsInput.nextToken, outputKey: \ListImportsOutputResponse.nextToken, paginationFunction: self.listImports(input:))
     }
@@ -71,16 +68,15 @@ extension ListImportsInput: ClientRuntime.PaginateToken {
             tableArn: self.tableArn
         )}
 }
-
-/// Paginate over `[ListTablesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTablesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[ListTablesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTablesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTablesOutputResponse`
     public func listTablesPaginated(input: ListTablesInput) -> ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTablesInput, ListTablesOutputResponse>(input: input, inputKey: \ListTablesInput.exclusiveStartTableName, outputKey: \ListTablesOutputResponse.lastEvaluatedTableName, paginationFunction: self.listTables(input:))
     }
@@ -94,24 +90,23 @@ extension ListTablesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListTablesInput, Output == ListTablesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTablesPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func tableNames() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.tableNames }
     }
 }
-
-/// Paginate over `[QueryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[QueryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `QueryOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[QueryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[QueryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `QueryOutputResponse`
     public func queryPaginated(input: QueryInput) -> ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse> {
         return ClientRuntime.PaginatorSequence<QueryInput, QueryOutputResponse>(input: input, inputKey: \QueryInput.exclusiveStartKey, outputKey: \QueryOutputResponse.lastEvaluatedKey, paginationFunction: self.query(input:))
     }
@@ -140,24 +135,23 @@ extension QueryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
-/// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
-/// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
 extension PaginatorSequence where Input == QueryInput, Output == QueryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `queryPaginated`
+    /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
+    /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     public func items() async throws -> [[Swift.String:DynamoDBClientTypes.AttributeValue]] {
         return try await self.asyncCompactMap { item in item.items }
     }
 }
-
-/// Paginate over `[ScanOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ScanInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ScanOutputResponse`
 extension DynamoDBClient {
+    /// Paginate over `[ScanOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ScanInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ScanOutputResponse`
     public func scanPaginated(input: ScanInput) -> ClientRuntime.PaginatorSequence<ScanInput, ScanOutputResponse> {
         return ClientRuntime.PaginatorSequence<ScanInput, ScanOutputResponse>(input: input, inputKey: \ScanInput.exclusiveStartKey, outputKey: \ScanOutputResponse.lastEvaluatedKey, paginationFunction: self.scan(input:))
     }
@@ -185,10 +179,10 @@ extension ScanInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `scanPaginated`
-/// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
-/// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
 extension PaginatorSequence where Input == ScanInput, Output == ScanOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `scanPaginated`
+    /// to access the nested member `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
+    /// - Returns: `[[Swift.String:DynamoDBClientTypes.AttributeValue]]`
     public func items() async throws -> [[Swift.String:DynamoDBClientTypes.AttributeValue]] {
         return try await self.asyncCompactMap { item in item.items }
     }

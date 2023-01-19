@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[BatchGetAssetPropertyAggregatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[BatchGetAssetPropertyAggregatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyAggregatesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[BatchGetAssetPropertyAggregatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[BatchGetAssetPropertyAggregatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyAggregatesOutputResponse`
     public func batchGetAssetPropertyAggregatesPaginated(input: BatchGetAssetPropertyAggregatesInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutputResponse>(input: input, inputKey: \BatchGetAssetPropertyAggregatesInput.nextToken, outputKey: \BatchGetAssetPropertyAggregatesOutputResponse.nextToken, paginationFunction: self.batchGetAssetPropertyAggregates(input:))
     }
@@ -25,16 +24,15 @@ extension BatchGetAssetPropertyAggregatesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[BatchGetAssetPropertyValueOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[BatchGetAssetPropertyValueInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[BatchGetAssetPropertyValueOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[BatchGetAssetPropertyValueInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueOutputResponse`
     public func batchGetAssetPropertyValuePaginated(input: BatchGetAssetPropertyValueInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutputResponse> {
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutputResponse>(input: input, inputKey: \BatchGetAssetPropertyValueInput.nextToken, outputKey: \BatchGetAssetPropertyValueOutputResponse.nextToken, paginationFunction: self.batchGetAssetPropertyValue(input:))
     }
@@ -47,16 +45,15 @@ extension BatchGetAssetPropertyValueInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[BatchGetAssetPropertyValueHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[BatchGetAssetPropertyValueHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueHistoryOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[BatchGetAssetPropertyValueHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[BatchGetAssetPropertyValueHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `BatchGetAssetPropertyValueHistoryOutputResponse`
     public func batchGetAssetPropertyValueHistoryPaginated(input: BatchGetAssetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutputResponse>(input: input, inputKey: \BatchGetAssetPropertyValueHistoryInput.nextToken, outputKey: \BatchGetAssetPropertyValueHistoryOutputResponse.nextToken, paginationFunction: self.batchGetAssetPropertyValueHistory(input:))
     }
@@ -70,16 +67,15 @@ extension BatchGetAssetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetAssetPropertyAggregatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAssetPropertyAggregatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyAggregatesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[GetAssetPropertyAggregatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAssetPropertyAggregatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyAggregatesOutputResponse`
     public func getAssetPropertyAggregatesPaginated(input: GetAssetPropertyAggregatesInput) -> ClientRuntime.PaginatorSequence<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutputResponse>(input: input, inputKey: \GetAssetPropertyAggregatesInput.nextToken, outputKey: \GetAssetPropertyAggregatesOutputResponse.nextToken, paginationFunction: self.getAssetPropertyAggregates(input:))
     }
@@ -102,24 +98,23 @@ extension GetAssetPropertyAggregatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyAggregatesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AggregatedValue]`
-/// - Returns: `[IoTSiteWiseClientTypes.AggregatedValue]`
 extension PaginatorSequence where Input == GetAssetPropertyAggregatesInput, Output == GetAssetPropertyAggregatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyAggregatesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AggregatedValue]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AggregatedValue]`
     public func aggregatedValues() async throws -> [IoTSiteWiseClientTypes.AggregatedValue] {
         return try await self.asyncCompactMap { item in item.aggregatedValues }
     }
 }
-
-/// Paginate over `[GetAssetPropertyValueHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAssetPropertyValueHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyValueHistoryOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[GetAssetPropertyValueHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAssetPropertyValueHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAssetPropertyValueHistoryOutputResponse`
     public func getAssetPropertyValueHistoryPaginated(input: GetAssetPropertyValueHistoryInput) -> ClientRuntime.PaginatorSequence<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutputResponse>(input: input, inputKey: \GetAssetPropertyValueHistoryInput.nextToken, outputKey: \GetAssetPropertyValueHistoryOutputResponse.nextToken, paginationFunction: self.getAssetPropertyValueHistory(input:))
     }
@@ -140,24 +135,23 @@ extension GetAssetPropertyValueHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyValueHistoryPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertyValue]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetPropertyValue]`
 extension PaginatorSequence where Input == GetAssetPropertyValueHistoryInput, Output == GetAssetPropertyValueHistoryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getAssetPropertyValueHistoryPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertyValue]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetPropertyValue]`
     public func assetPropertyValueHistory() async throws -> [IoTSiteWiseClientTypes.AssetPropertyValue] {
         return try await self.asyncCompactMap { item in item.assetPropertyValueHistory }
     }
 }
-
-/// Paginate over `[GetInterpolatedAssetPropertyValuesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetInterpolatedAssetPropertyValuesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetInterpolatedAssetPropertyValuesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[GetInterpolatedAssetPropertyValuesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetInterpolatedAssetPropertyValuesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetInterpolatedAssetPropertyValuesOutputResponse`
     public func getInterpolatedAssetPropertyValuesPaginated(input: GetInterpolatedAssetPropertyValuesInput) -> ClientRuntime.PaginatorSequence<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutputResponse>(input: input, inputKey: \GetInterpolatedAssetPropertyValuesInput.nextToken, outputKey: \GetInterpolatedAssetPropertyValuesOutputResponse.nextToken, paginationFunction: self.getInterpolatedAssetPropertyValues(input:))
     }
@@ -182,24 +176,23 @@ extension GetInterpolatedAssetPropertyValuesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getInterpolatedAssetPropertyValuesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
-/// - Returns: `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
 extension PaginatorSequence where Input == GetInterpolatedAssetPropertyValuesInput, Output == GetInterpolatedAssetPropertyValuesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getInterpolatedAssetPropertyValuesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
+    /// - Returns: `[IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue]`
     public func interpolatedAssetPropertyValues() async throws -> [IoTSiteWiseClientTypes.InterpolatedAssetPropertyValue] {
         return try await self.asyncCompactMap { item in item.interpolatedAssetPropertyValues }
     }
 }
-
-/// Paginate over `[ListAccessPoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAccessPoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAccessPoliciesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAccessPoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPoliciesOutputResponse`
     public func listAccessPoliciesPaginated(input: ListAccessPoliciesInput) -> ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAccessPoliciesInput, ListAccessPoliciesOutputResponse>(input: input, inputKey: \ListAccessPoliciesInput.nextToken, outputKey: \ListAccessPoliciesOutputResponse.nextToken, paginationFunction: self.listAccessPolicies(input:))
     }
@@ -218,24 +211,23 @@ extension ListAccessPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAccessPoliciesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AccessPolicySummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AccessPolicySummary]`
 extension PaginatorSequence where Input == ListAccessPoliciesInput, Output == ListAccessPoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccessPoliciesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AccessPolicySummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AccessPolicySummary]`
     public func accessPolicySummaries() async throws -> [IoTSiteWiseClientTypes.AccessPolicySummary] {
         return try await self.asyncCompactMap { item in item.accessPolicySummaries }
     }
 }
-
-/// Paginate over `[ListAssetModelPropertiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetModelPropertiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelPropertiesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssetModelPropertiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetModelPropertiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelPropertiesOutputResponse`
     public func listAssetModelPropertiesPaginated(input: ListAssetModelPropertiesInput) -> ClientRuntime.PaginatorSequence<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutputResponse>(input: input, inputKey: \ListAssetModelPropertiesInput.nextToken, outputKey: \ListAssetModelPropertiesOutputResponse.nextToken, paginationFunction: self.listAssetModelProperties(input:))
     }
@@ -251,24 +243,23 @@ extension ListAssetModelPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetModelPropertiesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
 extension PaginatorSequence where Input == ListAssetModelPropertiesInput, Output == ListAssetModelPropertiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetModelPropertiesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetModelPropertySummary]`
     public func assetModelPropertySummaries() async throws -> [IoTSiteWiseClientTypes.AssetModelPropertySummary] {
         return try await self.asyncCompactMap { item in item.assetModelPropertySummaries }
     }
 }
-
-/// Paginate over `[ListAssetModelsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetModelsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssetModelsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetModelsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetModelsOutputResponse`
     public func listAssetModelsPaginated(input: ListAssetModelsInput) -> ClientRuntime.PaginatorSequence<ListAssetModelsInput, ListAssetModelsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetModelsInput, ListAssetModelsOutputResponse>(input: input, inputKey: \ListAssetModelsInput.nextToken, outputKey: \ListAssetModelsOutputResponse.nextToken, paginationFunction: self.listAssetModels(input:))
     }
@@ -282,24 +273,23 @@ extension ListAssetModelsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetModelsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetModelSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetModelSummary]`
 extension PaginatorSequence where Input == ListAssetModelsInput, Output == ListAssetModelsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetModelsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetModelSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetModelSummary]`
     public func assetModelSummaries() async throws -> [IoTSiteWiseClientTypes.AssetModelSummary] {
         return try await self.asyncCompactMap { item in item.assetModelSummaries }
     }
 }
-
-/// Paginate over `[ListAssetPropertiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetPropertiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetPropertiesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssetPropertiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetPropertiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetPropertiesOutputResponse`
     public func listAssetPropertiesPaginated(input: ListAssetPropertiesInput) -> ClientRuntime.PaginatorSequence<ListAssetPropertiesInput, ListAssetPropertiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetPropertiesInput, ListAssetPropertiesOutputResponse>(input: input, inputKey: \ListAssetPropertiesInput.nextToken, outputKey: \ListAssetPropertiesOutputResponse.nextToken, paginationFunction: self.listAssetProperties(input:))
     }
@@ -315,24 +305,23 @@ extension ListAssetPropertiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetPropertiesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertySummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetPropertySummary]`
 extension PaginatorSequence where Input == ListAssetPropertiesInput, Output == ListAssetPropertiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetPropertiesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetPropertySummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetPropertySummary]`
     public func assetPropertySummaries() async throws -> [IoTSiteWiseClientTypes.AssetPropertySummary] {
         return try await self.asyncCompactMap { item in item.assetPropertySummaries }
     }
 }
-
-/// Paginate over `[ListAssetRelationshipsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetRelationshipsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetRelationshipsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssetRelationshipsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetRelationshipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetRelationshipsOutputResponse`
     public func listAssetRelationshipsPaginated(input: ListAssetRelationshipsInput) -> ClientRuntime.PaginatorSequence<ListAssetRelationshipsInput, ListAssetRelationshipsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetRelationshipsInput, ListAssetRelationshipsOutputResponse>(input: input, inputKey: \ListAssetRelationshipsInput.nextToken, outputKey: \ListAssetRelationshipsOutputResponse.nextToken, paginationFunction: self.listAssetRelationships(input:))
     }
@@ -348,24 +337,23 @@ extension ListAssetRelationshipsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetRelationshipsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
 extension PaginatorSequence where Input == ListAssetRelationshipsInput, Output == ListAssetRelationshipsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetRelationshipsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetRelationshipSummary]`
     public func assetRelationshipSummaries() async throws -> [IoTSiteWiseClientTypes.AssetRelationshipSummary] {
         return try await self.asyncCompactMap { item in item.assetRelationshipSummaries }
     }
 }
-
-/// Paginate over `[ListAssetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssetsOutputResponse`
     public func listAssetsPaginated(input: ListAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssetsInput, ListAssetsOutputResponse>(input: input, inputKey: \ListAssetsInput.nextToken, outputKey: \ListAssetsOutputResponse.nextToken, paginationFunction: self.listAssets(input:))
     }
@@ -381,24 +369,23 @@ extension ListAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssetSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssetSummary]`
 extension PaginatorSequence where Input == ListAssetsInput, Output == ListAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssetsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssetSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssetSummary]`
     public func assetSummaries() async throws -> [IoTSiteWiseClientTypes.AssetSummary] {
         return try await self.asyncCompactMap { item in item.assetSummaries }
     }
 }
-
-/// Paginate over `[ListAssociatedAssetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAssociatedAssetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAssetsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListAssociatedAssetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAssociatedAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAssociatedAssetsOutputResponse`
     public func listAssociatedAssetsPaginated(input: ListAssociatedAssetsInput) -> ClientRuntime.PaginatorSequence<ListAssociatedAssetsInput, ListAssociatedAssetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAssociatedAssetsInput, ListAssociatedAssetsOutputResponse>(input: input, inputKey: \ListAssociatedAssetsInput.nextToken, outputKey: \ListAssociatedAssetsOutputResponse.nextToken, paginationFunction: self.listAssociatedAssets(input:))
     }
@@ -415,24 +402,23 @@ extension ListAssociatedAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAssociatedAssetsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
 extension PaginatorSequence where Input == ListAssociatedAssetsInput, Output == ListAssociatedAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAssociatedAssetsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.AssociatedAssetsSummary]`
     public func assetSummaries() async throws -> [IoTSiteWiseClientTypes.AssociatedAssetsSummary] {
         return try await self.asyncCompactMap { item in item.assetSummaries }
     }
 }
-
-/// Paginate over `[ListBulkImportJobsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListBulkImportJobsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListBulkImportJobsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListBulkImportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBulkImportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBulkImportJobsOutputResponse`
     public func listBulkImportJobsPaginated(input: ListBulkImportJobsInput) -> ClientRuntime.PaginatorSequence<ListBulkImportJobsInput, ListBulkImportJobsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListBulkImportJobsInput, ListBulkImportJobsOutputResponse>(input: input, inputKey: \ListBulkImportJobsInput.nextToken, outputKey: \ListBulkImportJobsOutputResponse.nextToken, paginationFunction: self.listBulkImportJobs(input:))
     }
@@ -447,24 +433,23 @@ extension ListBulkImportJobsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listBulkImportJobsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.JobSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.JobSummary]`
 extension PaginatorSequence where Input == ListBulkImportJobsInput, Output == ListBulkImportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listBulkImportJobsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.JobSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.JobSummary]`
     public func jobSummaries() async throws -> [IoTSiteWiseClientTypes.JobSummary] {
         return try await self.asyncCompactMap { item in item.jobSummaries }
     }
 }
-
-/// Paginate over `[ListDashboardsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDashboardsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListDashboardsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDashboardsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutputResponse`
     public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutputResponse.nextToken, paginationFunction: self.listDashboards(input:))
     }
@@ -479,24 +464,23 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.DashboardSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.DashboardSummary]`
 extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.DashboardSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.DashboardSummary]`
     public func dashboardSummaries() async throws -> [IoTSiteWiseClientTypes.DashboardSummary] {
         return try await self.asyncCompactMap { item in item.dashboardSummaries }
     }
 }
-
-/// Paginate over `[ListGatewaysOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListGatewaysInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListGatewaysOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGatewaysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGatewaysOutputResponse`
     public func listGatewaysPaginated(input: ListGatewaysInput) -> ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListGatewaysInput, ListGatewaysOutputResponse>(input: input, inputKey: \ListGatewaysInput.nextToken, outputKey: \ListGatewaysOutputResponse.nextToken, paginationFunction: self.listGateways(input:))
     }
@@ -510,24 +494,23 @@ extension ListGatewaysInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.GatewaySummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.GatewaySummary]`
 extension PaginatorSequence where Input == ListGatewaysInput, Output == ListGatewaysOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listGatewaysPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.GatewaySummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.GatewaySummary]`
     public func gatewaySummaries() async throws -> [IoTSiteWiseClientTypes.GatewaySummary] {
         return try await self.asyncCompactMap { item in item.gatewaySummaries }
     }
 }
-
-/// Paginate over `[ListPortalsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPortalsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPortalsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListPortalsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPortalsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPortalsOutputResponse`
     public func listPortalsPaginated(input: ListPortalsInput) -> ClientRuntime.PaginatorSequence<ListPortalsInput, ListPortalsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPortalsInput, ListPortalsOutputResponse>(input: input, inputKey: \ListPortalsInput.nextToken, outputKey: \ListPortalsOutputResponse.nextToken, paginationFunction: self.listPortals(input:))
     }
@@ -541,24 +524,23 @@ extension ListPortalsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPortalsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.PortalSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.PortalSummary]`
 extension PaginatorSequence where Input == ListPortalsInput, Output == ListPortalsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPortalsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.PortalSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.PortalSummary]`
     public func portalSummaries() async throws -> [IoTSiteWiseClientTypes.PortalSummary] {
         return try await self.asyncCompactMap { item in item.portalSummaries }
     }
 }
-
-/// Paginate over `[ListProjectAssetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProjectAssetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProjectAssetsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListProjectAssetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProjectAssetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectAssetsOutputResponse`
     public func listProjectAssetsPaginated(input: ListProjectAssetsInput) -> ClientRuntime.PaginatorSequence<ListProjectAssetsInput, ListProjectAssetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProjectAssetsInput, ListProjectAssetsOutputResponse>(input: input, inputKey: \ListProjectAssetsInput.nextToken, outputKey: \ListProjectAssetsOutputResponse.nextToken, paginationFunction: self.listProjectAssets(input:))
     }
@@ -573,24 +555,23 @@ extension ListProjectAssetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProjectAssetsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListProjectAssetsInput, Output == ListProjectAssetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectAssetsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func assetIds() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.assetIds }
     }
 }
-
-/// Paginate over `[ListProjectsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProjectsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListProjectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProjectsOutputResponse`
     public func listProjectsPaginated(input: ListProjectsInput) -> ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProjectsInput, ListProjectsOutputResponse>(input: input, inputKey: \ListProjectsInput.nextToken, outputKey: \ListProjectsOutputResponse.nextToken, paginationFunction: self.listProjects(input:))
     }
@@ -605,24 +586,23 @@ extension ListProjectsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.ProjectSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.ProjectSummary]`
 extension PaginatorSequence where Input == ListProjectsInput, Output == ListProjectsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProjectsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.ProjectSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.ProjectSummary]`
     public func projectSummaries() async throws -> [IoTSiteWiseClientTypes.ProjectSummary] {
         return try await self.asyncCompactMap { item in item.projectSummaries }
     }
 }
-
-/// Paginate over `[ListTimeSeriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTimeSeriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTimeSeriesOutputResponse`
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListTimeSeriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTimeSeriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTimeSeriesOutputResponse`
     public func listTimeSeriesPaginated(input: ListTimeSeriesInput) -> ClientRuntime.PaginatorSequence<ListTimeSeriesInput, ListTimeSeriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTimeSeriesInput, ListTimeSeriesOutputResponse>(input: input, inputKey: \ListTimeSeriesInput.nextToken, outputKey: \ListTimeSeriesOutputResponse.nextToken, paginationFunction: self.listTimeSeries(input:))
     }
@@ -639,10 +619,10 @@ extension ListTimeSeriesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTimeSeriesPaginated`
-/// to access the nested member `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
-/// - Returns: `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
 extension PaginatorSequence where Input == ListTimeSeriesInput, Output == ListTimeSeriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTimeSeriesPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.TimeSeriesSummary]`
     public func timeSeriesSummaries() async throws -> [IoTSiteWiseClientTypes.TimeSeriesSummary] {
         return try await self.asyncCompactMap { item in item.timeSeriesSummaries }
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListAppsListsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAppsListsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAppsListsOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListAppsListsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAppsListsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAppsListsOutputResponse`
     public func listAppsListsPaginated(input: ListAppsListsInput) -> ClientRuntime.PaginatorSequence<ListAppsListsInput, ListAppsListsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAppsListsInput, ListAppsListsOutputResponse>(input: input, inputKey: \ListAppsListsInput.nextToken, outputKey: \ListAppsListsOutputResponse.nextToken, paginationFunction: self.listAppsLists(input:))
     }
@@ -26,24 +25,23 @@ extension ListAppsListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAppsListsPaginated`
-/// to access the nested member `[FMSClientTypes.AppsListDataSummary]`
-/// - Returns: `[FMSClientTypes.AppsListDataSummary]`
 extension PaginatorSequence where Input == ListAppsListsInput, Output == ListAppsListsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAppsListsPaginated`
+    /// to access the nested member `[FMSClientTypes.AppsListDataSummary]`
+    /// - Returns: `[FMSClientTypes.AppsListDataSummary]`
     public func appsLists() async throws -> [FMSClientTypes.AppsListDataSummary] {
         return try await self.asyncCompactMap { item in item.appsLists }
     }
 }
-
-/// Paginate over `[ListComplianceStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListComplianceStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListComplianceStatusOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListComplianceStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListComplianceStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListComplianceStatusOutputResponse`
     public func listComplianceStatusPaginated(input: ListComplianceStatusInput) -> ClientRuntime.PaginatorSequence<ListComplianceStatusInput, ListComplianceStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListComplianceStatusInput, ListComplianceStatusOutputResponse>(input: input, inputKey: \ListComplianceStatusInput.nextToken, outputKey: \ListComplianceStatusOutputResponse.nextToken, paginationFunction: self.listComplianceStatus(input:))
     }
@@ -58,24 +56,23 @@ extension ListComplianceStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listComplianceStatusPaginated`
-/// to access the nested member `[FMSClientTypes.PolicyComplianceStatus]`
-/// - Returns: `[FMSClientTypes.PolicyComplianceStatus]`
 extension PaginatorSequence where Input == ListComplianceStatusInput, Output == ListComplianceStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listComplianceStatusPaginated`
+    /// to access the nested member `[FMSClientTypes.PolicyComplianceStatus]`
+    /// - Returns: `[FMSClientTypes.PolicyComplianceStatus]`
     public func policyComplianceStatusList() async throws -> [FMSClientTypes.PolicyComplianceStatus] {
         return try await self.asyncCompactMap { item in item.policyComplianceStatusList }
     }
 }
-
-/// Paginate over `[ListMemberAccountsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMemberAccountsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListMemberAccountsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMemberAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutputResponse`
     public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutputResponse>(input: input, inputKey: \ListMemberAccountsInput.nextToken, outputKey: \ListMemberAccountsOutputResponse.nextToken, paginationFunction: self.listMemberAccounts(input:))
     }
@@ -89,24 +86,23 @@ extension ListMemberAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listMemberAccountsPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == ListMemberAccountsInput, Output == ListMemberAccountsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listMemberAccountsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func memberAccounts() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.memberAccounts }
     }
 }
-
-/// Paginate over `[ListPoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListPoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPoliciesOutputResponse`
     public func listPoliciesPaginated(input: ListPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPoliciesInput, ListPoliciesOutputResponse>(input: input, inputKey: \ListPoliciesInput.nextToken, outputKey: \ListPoliciesOutputResponse.nextToken, paginationFunction: self.listPolicies(input:))
     }
@@ -120,24 +116,23 @@ extension ListPoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPoliciesPaginated`
-/// to access the nested member `[FMSClientTypes.PolicySummary]`
-/// - Returns: `[FMSClientTypes.PolicySummary]`
 extension PaginatorSequence where Input == ListPoliciesInput, Output == ListPoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPoliciesPaginated`
+    /// to access the nested member `[FMSClientTypes.PolicySummary]`
+    /// - Returns: `[FMSClientTypes.PolicySummary]`
     public func policyList() async throws -> [FMSClientTypes.PolicySummary] {
         return try await self.asyncCompactMap { item in item.policyList }
     }
 }
-
-/// Paginate over `[ListProtocolsListsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListProtocolsListsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListProtocolsListsOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListProtocolsListsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProtocolsListsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtocolsListsOutputResponse`
     public func listProtocolsListsPaginated(input: ListProtocolsListsInput) -> ClientRuntime.PaginatorSequence<ListProtocolsListsInput, ListProtocolsListsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListProtocolsListsInput, ListProtocolsListsOutputResponse>(input: input, inputKey: \ListProtocolsListsInput.nextToken, outputKey: \ListProtocolsListsOutputResponse.nextToken, paginationFunction: self.listProtocolsLists(input:))
     }
@@ -152,24 +147,23 @@ extension ListProtocolsListsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listProtocolsListsPaginated`
-/// to access the nested member `[FMSClientTypes.ProtocolsListDataSummary]`
-/// - Returns: `[FMSClientTypes.ProtocolsListDataSummary]`
 extension PaginatorSequence where Input == ListProtocolsListsInput, Output == ListProtocolsListsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProtocolsListsPaginated`
+    /// to access the nested member `[FMSClientTypes.ProtocolsListDataSummary]`
+    /// - Returns: `[FMSClientTypes.ProtocolsListDataSummary]`
     public func protocolsLists() async throws -> [FMSClientTypes.ProtocolsListDataSummary] {
         return try await self.asyncCompactMap { item in item.protocolsLists }
     }
 }
-
-/// Paginate over `[ListThirdPartyFirewallFirewallPoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListThirdPartyFirewallFirewallPoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListThirdPartyFirewallFirewallPoliciesOutputResponse`
 extension FMSClient {
+    /// Paginate over `[ListThirdPartyFirewallFirewallPoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThirdPartyFirewallFirewallPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThirdPartyFirewallFirewallPoliciesOutputResponse`
     public func listThirdPartyFirewallFirewallPoliciesPaginated(input: ListThirdPartyFirewallFirewallPoliciesInput) -> ClientRuntime.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesInput, ListThirdPartyFirewallFirewallPoliciesOutputResponse>(input: input, inputKey: \ListThirdPartyFirewallFirewallPoliciesInput.nextToken, outputKey: \ListThirdPartyFirewallFirewallPoliciesOutputResponse.nextToken, paginationFunction: self.listThirdPartyFirewallFirewallPolicies(input:))
     }
@@ -184,10 +178,10 @@ extension ListThirdPartyFirewallFirewallPoliciesInput: ClientRuntime.PaginateTok
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listThirdPartyFirewallFirewallPoliciesPaginated`
-/// to access the nested member `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`
-/// - Returns: `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`
 extension PaginatorSequence where Input == ListThirdPartyFirewallFirewallPoliciesInput, Output == ListThirdPartyFirewallFirewallPoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listThirdPartyFirewallFirewallPoliciesPaginated`
+    /// to access the nested member `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`
+    /// - Returns: `[FMSClientTypes.ThirdPartyFirewallFirewallPolicy]`
     public func thirdPartyFirewallFirewallPolicies() async throws -> [FMSClientTypes.ThirdPartyFirewallFirewallPolicy] {
         return try await self.asyncCompactMap { item in item.thirdPartyFirewallFirewallPolicies }
     }

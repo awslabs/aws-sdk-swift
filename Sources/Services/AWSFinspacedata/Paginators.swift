@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListChangesetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListChangesetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListChangesetsOutputResponse`
 extension FinspacedataClient {
+    /// Paginate over `[ListChangesetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChangesetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChangesetsOutputResponse`
     public func listChangesetsPaginated(input: ListChangesetsInput) -> ClientRuntime.PaginatorSequence<ListChangesetsInput, ListChangesetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListChangesetsInput, ListChangesetsOutputResponse>(input: input, inputKey: \ListChangesetsInput.nextToken, outputKey: \ListChangesetsOutputResponse.nextToken, paginationFunction: self.listChangesets(input:))
     }
@@ -26,24 +25,23 @@ extension ListChangesetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listChangesetsPaginated`
-/// to access the nested member `[FinspacedataClientTypes.ChangesetSummary]`
-/// - Returns: `[FinspacedataClientTypes.ChangesetSummary]`
 extension PaginatorSequence where Input == ListChangesetsInput, Output == ListChangesetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listChangesetsPaginated`
+    /// to access the nested member `[FinspacedataClientTypes.ChangesetSummary]`
+    /// - Returns: `[FinspacedataClientTypes.ChangesetSummary]`
     public func changesets() async throws -> [FinspacedataClientTypes.ChangesetSummary] {
         return try await self.asyncCompactMap { item in item.changesets }
     }
 }
-
-/// Paginate over `[ListDatasetsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDatasetsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
 extension FinspacedataClient {
+    /// Paginate over `[ListDatasetsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDatasetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDatasetsOutputResponse`
     public func listDatasetsPaginated(input: ListDatasetsInput) -> ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDatasetsInput, ListDatasetsOutputResponse>(input: input, inputKey: \ListDatasetsInput.nextToken, outputKey: \ListDatasetsOutputResponse.nextToken, paginationFunction: self.listDatasets(input:))
     }
@@ -57,24 +55,23 @@ extension ListDatasetsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
-/// to access the nested member `[FinspacedataClientTypes.Dataset]`
-/// - Returns: `[FinspacedataClientTypes.Dataset]`
 extension PaginatorSequence where Input == ListDatasetsInput, Output == ListDatasetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDatasetsPaginated`
+    /// to access the nested member `[FinspacedataClientTypes.Dataset]`
+    /// - Returns: `[FinspacedataClientTypes.Dataset]`
     public func datasets() async throws -> [FinspacedataClientTypes.Dataset] {
         return try await self.asyncCompactMap { item in item.datasets }
     }
 }
-
-/// Paginate over `[ListDataViewsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDataViewsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDataViewsOutputResponse`
 extension FinspacedataClient {
+    /// Paginate over `[ListDataViewsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDataViewsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDataViewsOutputResponse`
     public func listDataViewsPaginated(input: ListDataViewsInput) -> ClientRuntime.PaginatorSequence<ListDataViewsInput, ListDataViewsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDataViewsInput, ListDataViewsOutputResponse>(input: input, inputKey: \ListDataViewsInput.nextToken, outputKey: \ListDataViewsOutputResponse.nextToken, paginationFunction: self.listDataViews(input:))
     }
@@ -89,24 +86,23 @@ extension ListDataViewsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDataViewsPaginated`
-/// to access the nested member `[FinspacedataClientTypes.DataViewSummary]`
-/// - Returns: `[FinspacedataClientTypes.DataViewSummary]`
 extension PaginatorSequence where Input == ListDataViewsInput, Output == ListDataViewsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDataViewsPaginated`
+    /// to access the nested member `[FinspacedataClientTypes.DataViewSummary]`
+    /// - Returns: `[FinspacedataClientTypes.DataViewSummary]`
     public func dataViews() async throws -> [FinspacedataClientTypes.DataViewSummary] {
         return try await self.asyncCompactMap { item in item.dataViews }
     }
 }
-
-/// Paginate over `[ListPermissionGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListPermissionGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListPermissionGroupsOutputResponse`
 extension FinspacedataClient {
+    /// Paginate over `[ListPermissionGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPermissionGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPermissionGroupsOutputResponse`
     public func listPermissionGroupsPaginated(input: ListPermissionGroupsInput) -> ClientRuntime.PaginatorSequence<ListPermissionGroupsInput, ListPermissionGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListPermissionGroupsInput, ListPermissionGroupsOutputResponse>(input: input, inputKey: \ListPermissionGroupsInput.nextToken, outputKey: \ListPermissionGroupsOutputResponse.nextToken, paginationFunction: self.listPermissionGroups(input:))
     }
@@ -120,24 +116,23 @@ extension ListPermissionGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listPermissionGroupsPaginated`
-/// to access the nested member `[FinspacedataClientTypes.PermissionGroup]`
-/// - Returns: `[FinspacedataClientTypes.PermissionGroup]`
 extension PaginatorSequence where Input == ListPermissionGroupsInput, Output == ListPermissionGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listPermissionGroupsPaginated`
+    /// to access the nested member `[FinspacedataClientTypes.PermissionGroup]`
+    /// - Returns: `[FinspacedataClientTypes.PermissionGroup]`
     public func permissionGroups() async throws -> [FinspacedataClientTypes.PermissionGroup] {
         return try await self.asyncCompactMap { item in item.permissionGroups }
     }
 }
-
-/// Paginate over `[ListUsersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListUsersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
 extension FinspacedataClient {
+    /// Paginate over `[ListUsersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUsersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUsersOutputResponse`
     public func listUsersPaginated(input: ListUsersInput) -> ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListUsersInput, ListUsersOutputResponse>(input: input, inputKey: \ListUsersInput.nextToken, outputKey: \ListUsersOutputResponse.nextToken, paginationFunction: self.listUsers(input:))
     }
@@ -151,10 +146,10 @@ extension ListUsersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
-/// to access the nested member `[FinspacedataClientTypes.User]`
-/// - Returns: `[FinspacedataClientTypes.User]`
 extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listUsersPaginated`
+    /// to access the nested member `[FinspacedataClientTypes.User]`
+    /// - Returns: `[FinspacedataClientTypes.User]`
     public func users() async throws -> [FinspacedataClientTypes.User] {
         return try await self.asyncCompactMap { item in item.users }
     }

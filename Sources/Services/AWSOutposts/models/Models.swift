@@ -4532,6 +4532,7 @@ extension OutpostsClientTypes {
     public enum PowerDrawKva: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case power10Kva
         case power15Kva
+        case power30Kva
         case power5Kva
         case sdkUnknown(Swift.String)
 
@@ -4539,6 +4540,7 @@ extension OutpostsClientTypes {
             return [
                 .power10Kva,
                 .power15Kva,
+                .power30Kva,
                 .power5Kva,
                 .sdkUnknown("")
             ]
@@ -4551,6 +4553,7 @@ extension OutpostsClientTypes {
             switch self {
             case .power10Kva: return "POWER_10_KVA"
             case .power15Kva: return "POWER_15_KVA"
+            case .power30Kva: return "POWER_30_KVA"
             case .power5Kva: return "POWER_5_KVA"
             case let .sdkUnknown(s): return s
             }

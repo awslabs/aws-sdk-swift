@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListChangedBlocksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListChangedBlocksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListChangedBlocksOutputResponse`
 extension EBSClient {
+    /// Paginate over `[ListChangedBlocksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChangedBlocksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChangedBlocksOutputResponse`
     public func listChangedBlocksPaginated(input: ListChangedBlocksInput) -> ClientRuntime.PaginatorSequence<ListChangedBlocksInput, ListChangedBlocksOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListChangedBlocksInput, ListChangedBlocksOutputResponse>(input: input, inputKey: \ListChangedBlocksInput.nextToken, outputKey: \ListChangedBlocksOutputResponse.nextToken, paginationFunction: self.listChangedBlocks(input:))
     }
@@ -27,16 +26,15 @@ extension ListChangedBlocksInput: ClientRuntime.PaginateToken {
             startingBlockIndex: self.startingBlockIndex
         )}
 }
-
-/// Paginate over `[ListSnapshotBlocksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListSnapshotBlocksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotBlocksOutputResponse`
 extension EBSClient {
+    /// Paginate over `[ListSnapshotBlocksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSnapshotBlocksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSnapshotBlocksOutputResponse`
     public func listSnapshotBlocksPaginated(input: ListSnapshotBlocksInput) -> ClientRuntime.PaginatorSequence<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListSnapshotBlocksInput, ListSnapshotBlocksOutputResponse>(input: input, inputKey: \ListSnapshotBlocksInput.nextToken, outputKey: \ListSnapshotBlocksOutputResponse.nextToken, paginationFunction: self.listSnapshotBlocks(input:))
     }

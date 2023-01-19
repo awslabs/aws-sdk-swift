@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeAutoScalingGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAutoScalingGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingGroupsOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeAutoScalingGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAutoScalingGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingGroupsOutputResponse`
     public func describeAutoScalingGroupsPaginated(input: DescribeAutoScalingGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAutoScalingGroupsInput, DescribeAutoScalingGroupsOutputResponse>(input: input, inputKey: \DescribeAutoScalingGroupsInput.nextToken, outputKey: \DescribeAutoScalingGroupsOutputResponse.nextToken, paginationFunction: self.describeAutoScalingGroups(input:))
     }
@@ -27,24 +26,23 @@ extension DescribeAutoScalingGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingGroupsPaginated`
-/// to access the nested member `[AutoScalingClientTypes.AutoScalingGroup]`
-/// - Returns: `[AutoScalingClientTypes.AutoScalingGroup]`
 extension PaginatorSequence where Input == DescribeAutoScalingGroupsInput, Output == DescribeAutoScalingGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingGroupsPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.AutoScalingGroup]`
+    /// - Returns: `[AutoScalingClientTypes.AutoScalingGroup]`
     public func autoScalingGroups() async throws -> [AutoScalingClientTypes.AutoScalingGroup] {
         return try await self.asyncCompactMap { item in item.autoScalingGroups }
     }
 }
-
-/// Paginate over `[DescribeAutoScalingInstancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAutoScalingInstancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingInstancesOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeAutoScalingInstancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAutoScalingInstancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAutoScalingInstancesOutputResponse`
     public func describeAutoScalingInstancesPaginated(input: DescribeAutoScalingInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAutoScalingInstancesInput, DescribeAutoScalingInstancesOutputResponse>(input: input, inputKey: \DescribeAutoScalingInstancesInput.nextToken, outputKey: \DescribeAutoScalingInstancesOutputResponse.nextToken, paginationFunction: self.describeAutoScalingInstances(input:))
     }
@@ -59,24 +57,23 @@ extension DescribeAutoScalingInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingInstancesPaginated`
-/// to access the nested member `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
-/// - Returns: `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
 extension PaginatorSequence where Input == DescribeAutoScalingInstancesInput, Output == DescribeAutoScalingInstancesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAutoScalingInstancesPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
+    /// - Returns: `[AutoScalingClientTypes.AutoScalingInstanceDetails]`
     public func autoScalingInstances() async throws -> [AutoScalingClientTypes.AutoScalingInstanceDetails] {
         return try await self.asyncCompactMap { item in item.autoScalingInstances }
     }
 }
-
-/// Paginate over `[DescribeLaunchConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeLaunchConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeLaunchConfigurationsOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeLaunchConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeLaunchConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeLaunchConfigurationsOutputResponse`
     public func describeLaunchConfigurationsPaginated(input: DescribeLaunchConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeLaunchConfigurationsInput, DescribeLaunchConfigurationsOutputResponse>(input: input, inputKey: \DescribeLaunchConfigurationsInput.nextToken, outputKey: \DescribeLaunchConfigurationsOutputResponse.nextToken, paginationFunction: self.describeLaunchConfigurations(input:))
     }
@@ -91,24 +88,23 @@ extension DescribeLaunchConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeLaunchConfigurationsPaginated`
-/// to access the nested member `[AutoScalingClientTypes.LaunchConfiguration]`
-/// - Returns: `[AutoScalingClientTypes.LaunchConfiguration]`
 extension PaginatorSequence where Input == DescribeLaunchConfigurationsInput, Output == DescribeLaunchConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeLaunchConfigurationsPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.LaunchConfiguration]`
+    /// - Returns: `[AutoScalingClientTypes.LaunchConfiguration]`
     public func launchConfigurations() async throws -> [AutoScalingClientTypes.LaunchConfiguration] {
         return try await self.asyncCompactMap { item in item.launchConfigurations }
     }
 }
-
-/// Paginate over `[DescribeNotificationConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeNotificationConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationConfigurationsOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeNotificationConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeNotificationConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeNotificationConfigurationsOutputResponse`
     public func describeNotificationConfigurationsPaginated(input: DescribeNotificationConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeNotificationConfigurationsInput, DescribeNotificationConfigurationsOutputResponse>(input: input, inputKey: \DescribeNotificationConfigurationsInput.nextToken, outputKey: \DescribeNotificationConfigurationsOutputResponse.nextToken, paginationFunction: self.describeNotificationConfigurations(input:))
     }
@@ -123,24 +119,23 @@ extension DescribeNotificationConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeNotificationConfigurationsPaginated`
-/// to access the nested member `[AutoScalingClientTypes.NotificationConfiguration]`
-/// - Returns: `[AutoScalingClientTypes.NotificationConfiguration]`
 extension PaginatorSequence where Input == DescribeNotificationConfigurationsInput, Output == DescribeNotificationConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeNotificationConfigurationsPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.NotificationConfiguration]`
+    /// - Returns: `[AutoScalingClientTypes.NotificationConfiguration]`
     public func notificationConfigurations() async throws -> [AutoScalingClientTypes.NotificationConfiguration] {
         return try await self.asyncCompactMap { item in item.notificationConfigurations }
     }
 }
-
-/// Paginate over `[DescribePoliciesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePoliciesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePoliciesOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribePoliciesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePoliciesOutputResponse`
     public func describePoliciesPaginated(input: DescribePoliciesInput) -> ClientRuntime.PaginatorSequence<DescribePoliciesInput, DescribePoliciesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePoliciesInput, DescribePoliciesOutputResponse>(input: input, inputKey: \DescribePoliciesInput.nextToken, outputKey: \DescribePoliciesOutputResponse.nextToken, paginationFunction: self.describePolicies(input:))
     }
@@ -157,24 +152,23 @@ extension DescribePoliciesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePoliciesPaginated`
-/// to access the nested member `[AutoScalingClientTypes.ScalingPolicy]`
-/// - Returns: `[AutoScalingClientTypes.ScalingPolicy]`
 extension PaginatorSequence where Input == DescribePoliciesInput, Output == DescribePoliciesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePoliciesPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.ScalingPolicy]`
+    /// - Returns: `[AutoScalingClientTypes.ScalingPolicy]`
     public func scalingPolicies() async throws -> [AutoScalingClientTypes.ScalingPolicy] {
         return try await self.asyncCompactMap { item in item.scalingPolicies }
     }
 }
-
-/// Paginate over `[DescribeScalingActivitiesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeScalingActivitiesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingActivitiesOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeScalingActivitiesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeScalingActivitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScalingActivitiesOutputResponse`
     public func describeScalingActivitiesPaginated(input: DescribeScalingActivitiesInput) -> ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeScalingActivitiesInput, DescribeScalingActivitiesOutputResponse>(input: input, inputKey: \DescribeScalingActivitiesInput.nextToken, outputKey: \DescribeScalingActivitiesOutputResponse.nextToken, paginationFunction: self.describeScalingActivities(input:))
     }
@@ -191,24 +185,23 @@ extension DescribeScalingActivitiesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeScalingActivitiesPaginated`
-/// to access the nested member `[AutoScalingClientTypes.Activity]`
-/// - Returns: `[AutoScalingClientTypes.Activity]`
 extension PaginatorSequence where Input == DescribeScalingActivitiesInput, Output == DescribeScalingActivitiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeScalingActivitiesPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.Activity]`
+    /// - Returns: `[AutoScalingClientTypes.Activity]`
     public func activities() async throws -> [AutoScalingClientTypes.Activity] {
         return try await self.asyncCompactMap { item in item.activities }
     }
 }
-
-/// Paginate over `[DescribeScheduledActionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeScheduledActionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeScheduledActionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeScheduledActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeScheduledActionsOutputResponse`
     public func describeScheduledActionsPaginated(input: DescribeScheduledActionsInput) -> ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeScheduledActionsInput, DescribeScheduledActionsOutputResponse>(input: input, inputKey: \DescribeScheduledActionsInput.nextToken, outputKey: \DescribeScheduledActionsOutputResponse.nextToken, paginationFunction: self.describeScheduledActions(input:))
     }
@@ -226,24 +219,23 @@ extension DescribeScheduledActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
-/// to access the nested member `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
-/// - Returns: `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
 extension PaginatorSequence where Input == DescribeScheduledActionsInput, Output == DescribeScheduledActionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeScheduledActionsPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
+    /// - Returns: `[AutoScalingClientTypes.ScheduledUpdateGroupAction]`
     public func scheduledUpdateGroupActions() async throws -> [AutoScalingClientTypes.ScheduledUpdateGroupAction] {
         return try await self.asyncCompactMap { item in item.scheduledUpdateGroupActions }
     }
 }
-
-/// Paginate over `[DescribeTagsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeTagsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutputResponse`
 extension AutoScalingClient {
+    /// Paginate over `[DescribeTagsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeTagsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeTagsOutputResponse`
     public func describeTagsPaginated(input: DescribeTagsInput) -> ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeTagsInput, DescribeTagsOutputResponse>(input: input, inputKey: \DescribeTagsInput.nextToken, outputKey: \DescribeTagsOutputResponse.nextToken, paginationFunction: self.describeTags(input:))
     }
@@ -258,10 +250,10 @@ extension DescribeTagsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
-/// to access the nested member `[AutoScalingClientTypes.TagDescription]`
-/// - Returns: `[AutoScalingClientTypes.TagDescription]`
 extension PaginatorSequence where Input == DescribeTagsInput, Output == DescribeTagsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeTagsPaginated`
+    /// to access the nested member `[AutoScalingClientTypes.TagDescription]`
+    /// - Returns: `[AutoScalingClientTypes.TagDescription]`
     public func tags() async throws -> [AutoScalingClientTypes.TagDescription] {
         return try await self.asyncCompactMap { item in item.tags }
     }

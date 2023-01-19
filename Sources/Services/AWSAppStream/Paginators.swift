@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeImagePermissionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeImagePermissionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeImagePermissionsOutputResponse`
 extension AppStreamClient {
+    /// Paginate over `[DescribeImagePermissionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImagePermissionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagePermissionsOutputResponse`
     public func describeImagePermissionsPaginated(input: DescribeImagePermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeImagePermissionsInput, DescribeImagePermissionsOutputResponse>(input: input, inputKey: \DescribeImagePermissionsInput.nextToken, outputKey: \DescribeImagePermissionsOutputResponse.nextToken, paginationFunction: self.describeImagePermissions(input:))
     }
@@ -26,16 +25,15 @@ extension DescribeImagePermissionsInput: ClientRuntime.PaginateToken {
             sharedAwsAccountIds: self.sharedAwsAccountIds
         )}
 }
-
-/// Paginate over `[DescribeImagesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeImagesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
 extension AppStreamClient {
+    /// Paginate over `[DescribeImagesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImagesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImagesOutputResponse`
     public func describeImagesPaginated(input: DescribeImagesInput) -> ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeImagesInput, DescribeImagesOutputResponse>(input: input, inputKey: \DescribeImagesInput.nextToken, outputKey: \DescribeImagesOutputResponse.nextToken, paginationFunction: self.describeImages(input:))
     }

@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListExtensibleSourceServersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListExtensibleSourceServersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListExtensibleSourceServersOutputResponse`
 extension DrsClient {
+    /// Paginate over `[ListExtensibleSourceServersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExtensibleSourceServersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExtensibleSourceServersOutputResponse`
     public func listExtensibleSourceServersPaginated(input: ListExtensibleSourceServersInput) -> ClientRuntime.PaginatorSequence<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListExtensibleSourceServersInput, ListExtensibleSourceServersOutputResponse>(input: input, inputKey: \ListExtensibleSourceServersInput.nextToken, outputKey: \ListExtensibleSourceServersOutputResponse.nextToken, paginationFunction: self.listExtensibleSourceServers(input:))
     }
@@ -26,24 +25,23 @@ extension ListExtensibleSourceServersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listExtensibleSourceServersPaginated`
-/// to access the nested member `[DrsClientTypes.StagingSourceServer]`
-/// - Returns: `[DrsClientTypes.StagingSourceServer]`
 extension PaginatorSequence where Input == ListExtensibleSourceServersInput, Output == ListExtensibleSourceServersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExtensibleSourceServersPaginated`
+    /// to access the nested member `[DrsClientTypes.StagingSourceServer]`
+    /// - Returns: `[DrsClientTypes.StagingSourceServer]`
     public func items() async throws -> [DrsClientTypes.StagingSourceServer] {
         return try await self.asyncCompactMap { item in item.items }
     }
 }
-
-/// Paginate over `[ListStagingAccountsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStagingAccountsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStagingAccountsOutputResponse`
 extension DrsClient {
+    /// Paginate over `[ListStagingAccountsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStagingAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStagingAccountsOutputResponse`
     public func listStagingAccountsPaginated(input: ListStagingAccountsInput) -> ClientRuntime.PaginatorSequence<ListStagingAccountsInput, ListStagingAccountsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStagingAccountsInput, ListStagingAccountsOutputResponse>(input: input, inputKey: \ListStagingAccountsInput.nextToken, outputKey: \ListStagingAccountsOutputResponse.nextToken, paginationFunction: self.listStagingAccounts(input:))
     }
@@ -57,10 +55,10 @@ extension ListStagingAccountsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listStagingAccountsPaginated`
-/// to access the nested member `[DrsClientTypes.Account]`
-/// - Returns: `[DrsClientTypes.Account]`
 extension PaginatorSequence where Input == ListStagingAccountsInput, Output == ListStagingAccountsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listStagingAccountsPaginated`
+    /// to access the nested member `[DrsClientTypes.Account]`
+    /// - Returns: `[DrsClientTypes.Account]`
     public func accounts() async throws -> [DrsClientTypes.Account] {
         return try await self.asyncCompactMap { item in item.accounts }
     }

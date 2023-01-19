@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[ListLinuxSubscriptionInstancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListLinuxSubscriptionInstancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionInstancesOutputResponse`
 extension LicenseManagerLinuxSubscriptionsClient {
+    /// Paginate over `[ListLinuxSubscriptionInstancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLinuxSubscriptionInstancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionInstancesOutputResponse`
     public func listLinuxSubscriptionInstancesPaginated(input: ListLinuxSubscriptionInstancesInput) -> ClientRuntime.PaginatorSequence<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionInstancesInput, ListLinuxSubscriptionInstancesOutputResponse>(input: input, inputKey: \ListLinuxSubscriptionInstancesInput.nextToken, outputKey: \ListLinuxSubscriptionInstancesOutputResponse.nextToken, paginationFunction: self.listLinuxSubscriptionInstances(input:))
     }
@@ -26,24 +25,23 @@ extension ListLinuxSubscriptionInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionInstancesPaginated`
-/// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
-/// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
 extension PaginatorSequence where Input == ListLinuxSubscriptionInstancesInput, Output == ListLinuxSubscriptionInstancesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionInstancesPaginated`
+    /// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
+    /// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Instance]`
     public func instances() async throws -> [LicenseManagerLinuxSubscriptionsClientTypes.Instance] {
         return try await self.asyncCompactMap { item in item.instances }
     }
 }
-
-/// Paginate over `[ListLinuxSubscriptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListLinuxSubscriptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionsOutputResponse`
 extension LicenseManagerLinuxSubscriptionsClient {
+    /// Paginate over `[ListLinuxSubscriptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListLinuxSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListLinuxSubscriptionsOutputResponse`
     public func listLinuxSubscriptionsPaginated(input: ListLinuxSubscriptionsInput) -> ClientRuntime.PaginatorSequence<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListLinuxSubscriptionsInput, ListLinuxSubscriptionsOutputResponse>(input: input, inputKey: \ListLinuxSubscriptionsInput.nextToken, outputKey: \ListLinuxSubscriptionsOutputResponse.nextToken, paginationFunction: self.listLinuxSubscriptions(input:))
     }
@@ -58,10 +56,10 @@ extension ListLinuxSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionsPaginated`
-/// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`
-/// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`
 extension PaginatorSequence where Input == ListLinuxSubscriptionsInput, Output == ListLinuxSubscriptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listLinuxSubscriptionsPaginated`
+    /// to access the nested member `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`
+    /// - Returns: `[LicenseManagerLinuxSubscriptionsClientTypes.Subscription]`
     public func subscriptions() async throws -> [LicenseManagerLinuxSubscriptionsClientTypes.Subscription] {
         return try await self.asyncCompactMap { item in item.subscriptions }
     }

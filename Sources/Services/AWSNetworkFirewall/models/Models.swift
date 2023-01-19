@@ -59,11 +59,15 @@ extension NetworkFirewallClientTypes.Address: Swift.Codable {
 extension NetworkFirewallClientTypes {
     /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
     public struct Address: Swift.Equatable {
-        /// Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4. Examples:
+        /// Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples:
         ///
         /// * To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.
         ///
         /// * To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.
+        ///
+        /// * To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.
+        ///
+        /// * To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.
         ///
         ///
         /// For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
@@ -4038,11 +4042,15 @@ extension NetworkFirewallClientTypes.Header: Swift.Codable {
 extension NetworkFirewallClientTypes {
     /// The basic rule criteria for Network Firewall to use to inspect packet headers in stateful traffic flow inspection. Traffic flows that match the criteria are a match for the corresponding [StatefulRule].
     public struct Header: Swift.Equatable {
-        /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY. Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4. Examples:
+        /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY. Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples:
         ///
         /// * To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.
         ///
         /// * To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.
+        ///
+        /// * To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.
+        ///
+        /// * To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.
         ///
         ///
         /// For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
@@ -4057,11 +4065,15 @@ extension NetworkFirewallClientTypes {
         /// The protocol to inspect for. To specify all, you can use IP, because all traffic on Amazon Web Services and on the internet is IP.
         /// This member is required.
         public var `protocol`: NetworkFirewallClientTypes.StatefulRuleProtocol?
-        /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY. Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4. Examples:
+        /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY. Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6. Examples:
         ///
         /// * To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.
         ///
         /// * To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.
+        ///
+        /// * To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.
+        ///
+        /// * To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.
         ///
         ///
         /// For more information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
@@ -4089,6 +4101,38 @@ extension NetworkFirewallClientTypes {
         }
     }
 
+}
+
+extension NetworkFirewallClientTypes {
+    public enum IPAddressType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IPAddressType(rawValue: rawValue) ?? IPAddressType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension NetworkFirewallClientTypes.IPSet: Swift.Codable {
@@ -7016,6 +7060,7 @@ extension NetworkFirewallClientTypes {
         case alert
         case drop
         case pass
+        case reject
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StatefulAction] {
@@ -7023,6 +7068,7 @@ extension NetworkFirewallClientTypes {
                 .alert,
                 .drop,
                 .pass,
+                .reject,
                 .sdkUnknown("")
             ]
         }
@@ -7035,6 +7081,7 @@ extension NetworkFirewallClientTypes {
             case .alert: return "ALERT"
             case .drop: return "DROP"
             case .pass: return "PASS"
+            case .reject: return "REJECT"
             case let .sdkUnknown(s): return s
             }
         }
@@ -7148,6 +7195,8 @@ extension NetworkFirewallClientTypes {
         /// * DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration].
         ///
         /// * ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration]. You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
+        ///
+        /// * REJECT - Drops TCP traffic that matches the conditions of the stateful rule, and sends a TCP reset packet back to sender of the packet. A TCP reset packet is a packet with no payload and a RST bit contained in the TCP header flags. Also sends an alert log mesage if alert logging is configured in the [Firewall][LoggingConfiguration]. REJECT isn't currently available for use with IMAP and FTP protocols.
         /// This member is required.
         public var action: NetworkFirewallClientTypes.StatefulAction?
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
@@ -7610,11 +7659,15 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes.SubnetMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case ipAddressType = "IPAddressType"
         case subnetId = "SubnetId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let ipAddressType = self.ipAddressType {
+            try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
+        }
         if let subnetId = self.subnetId {
             try encodeContainer.encode(subnetId, forKey: .subnetId)
         }
@@ -7624,20 +7677,26 @@ extension NetworkFirewallClientTypes.SubnetMapping: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let subnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetId)
         subnetId = subnetIdDecoded
+        let ipAddressTypeDecoded = try containerValues.decodeIfPresent(NetworkFirewallClientTypes.IPAddressType.self, forKey: .ipAddressType)
+        ipAddressType = ipAddressTypeDecoded
     }
 }
 
 extension NetworkFirewallClientTypes {
     /// The ID for a subnet that you want to associate with the firewall. This is used with [CreateFirewall] and [AssociateSubnets]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
     public struct SubnetMapping: Swift.Equatable {
+        /// The subnet's IP address type. You can't change the IP address type after you create the subnet.
+        public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
         /// The unique identifier for the subnet.
         /// This member is required.
         public var subnetId: Swift.String?
 
         public init (
+            ipAddressType: NetworkFirewallClientTypes.IPAddressType? = nil,
             subnetId: Swift.String? = nil
         )
         {
+            self.ipAddressType = ipAddressType
             self.subnetId = subnetId
         }
     }

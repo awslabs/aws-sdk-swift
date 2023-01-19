@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeAggregateComplianceByConfigRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAggregateComplianceByConfigRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConfigRulesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeAggregateComplianceByConfigRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAggregateComplianceByConfigRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConfigRulesOutputResponse`
     public func describeAggregateComplianceByConfigRulesPaginated(input: DescribeAggregateComplianceByConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConfigRulesInput, DescribeAggregateComplianceByConfigRulesOutputResponse>(input: input, inputKey: \DescribeAggregateComplianceByConfigRulesInput.nextToken, outputKey: \DescribeAggregateComplianceByConfigRulesOutputResponse.nextToken, paginationFunction: self.describeAggregateComplianceByConfigRules(input:))
     }
@@ -26,16 +25,15 @@ extension DescribeAggregateComplianceByConfigRulesInput: ClientRuntime.PaginateT
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeAggregateComplianceByConformancePacksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAggregateComplianceByConformancePacksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConformancePacksOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeAggregateComplianceByConformancePacksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAggregateComplianceByConformancePacksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregateComplianceByConformancePacksOutputResponse`
     public func describeAggregateComplianceByConformancePacksPaginated(input: DescribeAggregateComplianceByConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAggregateComplianceByConformancePacksInput, DescribeAggregateComplianceByConformancePacksOutputResponse>(input: input, inputKey: \DescribeAggregateComplianceByConformancePacksInput.nextToken, outputKey: \DescribeAggregateComplianceByConformancePacksOutputResponse.nextToken, paginationFunction: self.describeAggregateComplianceByConformancePacks(input:))
     }
@@ -51,24 +49,23 @@ extension DescribeAggregateComplianceByConformancePacksInput: ClientRuntime.Pagi
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAggregateComplianceByConformancePacksPaginated`
-/// to access the nested member `[ConfigClientTypes.AggregateComplianceByConformancePack]`
-/// - Returns: `[ConfigClientTypes.AggregateComplianceByConformancePack]`
 extension PaginatorSequence where Input == DescribeAggregateComplianceByConformancePacksInput, Output == DescribeAggregateComplianceByConformancePacksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAggregateComplianceByConformancePacksPaginated`
+    /// to access the nested member `[ConfigClientTypes.AggregateComplianceByConformancePack]`
+    /// - Returns: `[ConfigClientTypes.AggregateComplianceByConformancePack]`
     public func aggregateComplianceByConformancePacks() async throws -> [ConfigClientTypes.AggregateComplianceByConformancePack] {
         return try await self.asyncCompactMap { item in item.aggregateComplianceByConformancePacks }
     }
 }
-
-/// Paginate over `[DescribeAggregationAuthorizationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAggregationAuthorizationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregationAuthorizationsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeAggregationAuthorizationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAggregationAuthorizationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAggregationAuthorizationsOutputResponse`
     public func describeAggregationAuthorizationsPaginated(input: DescribeAggregationAuthorizationsInput) -> ClientRuntime.PaginatorSequence<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAggregationAuthorizationsInput, DescribeAggregationAuthorizationsOutputResponse>(input: input, inputKey: \DescribeAggregationAuthorizationsInput.nextToken, outputKey: \DescribeAggregationAuthorizationsOutputResponse.nextToken, paginationFunction: self.describeAggregationAuthorizations(input:))
     }
@@ -82,24 +79,23 @@ extension DescribeAggregationAuthorizationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAggregationAuthorizationsPaginated`
-/// to access the nested member `[ConfigClientTypes.AggregationAuthorization]`
-/// - Returns: `[ConfigClientTypes.AggregationAuthorization]`
 extension PaginatorSequence where Input == DescribeAggregationAuthorizationsInput, Output == DescribeAggregationAuthorizationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAggregationAuthorizationsPaginated`
+    /// to access the nested member `[ConfigClientTypes.AggregationAuthorization]`
+    /// - Returns: `[ConfigClientTypes.AggregationAuthorization]`
     public func aggregationAuthorizations() async throws -> [ConfigClientTypes.AggregationAuthorization] {
         return try await self.asyncCompactMap { item in item.aggregationAuthorizations }
     }
 }
-
-/// Paginate over `[DescribeComplianceByConfigRuleOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeComplianceByConfigRuleInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByConfigRuleOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeComplianceByConfigRuleOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeComplianceByConfigRuleInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByConfigRuleOutputResponse`
     public func describeComplianceByConfigRulePaginated(input: DescribeComplianceByConfigRuleInput) -> ClientRuntime.PaginatorSequence<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeComplianceByConfigRuleInput, DescribeComplianceByConfigRuleOutputResponse>(input: input, inputKey: \DescribeComplianceByConfigRuleInput.nextToken, outputKey: \DescribeComplianceByConfigRuleOutputResponse.nextToken, paginationFunction: self.describeComplianceByConfigRule(input:))
     }
@@ -114,24 +110,23 @@ extension DescribeComplianceByConfigRuleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeComplianceByConfigRulePaginated`
-/// to access the nested member `[ConfigClientTypes.ComplianceByConfigRule]`
-/// - Returns: `[ConfigClientTypes.ComplianceByConfigRule]`
 extension PaginatorSequence where Input == DescribeComplianceByConfigRuleInput, Output == DescribeComplianceByConfigRuleOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeComplianceByConfigRulePaginated`
+    /// to access the nested member `[ConfigClientTypes.ComplianceByConfigRule]`
+    /// - Returns: `[ConfigClientTypes.ComplianceByConfigRule]`
     public func complianceByConfigRules() async throws -> [ConfigClientTypes.ComplianceByConfigRule] {
         return try await self.asyncCompactMap { item in item.complianceByConfigRules }
     }
 }
-
-/// Paginate over `[DescribeComplianceByResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeComplianceByResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByResourceOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeComplianceByResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeComplianceByResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeComplianceByResourceOutputResponse`
     public func describeComplianceByResourcePaginated(input: DescribeComplianceByResourceInput) -> ClientRuntime.PaginatorSequence<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeComplianceByResourceInput, DescribeComplianceByResourceOutputResponse>(input: input, inputKey: \DescribeComplianceByResourceInput.nextToken, outputKey: \DescribeComplianceByResourceOutputResponse.nextToken, paginationFunction: self.describeComplianceByResource(input:))
     }
@@ -148,24 +143,23 @@ extension DescribeComplianceByResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeComplianceByResourcePaginated`
-/// to access the nested member `[ConfigClientTypes.ComplianceByResource]`
-/// - Returns: `[ConfigClientTypes.ComplianceByResource]`
 extension PaginatorSequence where Input == DescribeComplianceByResourceInput, Output == DescribeComplianceByResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeComplianceByResourcePaginated`
+    /// to access the nested member `[ConfigClientTypes.ComplianceByResource]`
+    /// - Returns: `[ConfigClientTypes.ComplianceByResource]`
     public func complianceByResources() async throws -> [ConfigClientTypes.ComplianceByResource] {
         return try await self.asyncCompactMap { item in item.complianceByResources }
     }
 }
-
-/// Paginate over `[DescribeConfigRuleEvaluationStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConfigRuleEvaluationStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRuleEvaluationStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConfigRuleEvaluationStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConfigRuleEvaluationStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRuleEvaluationStatusOutputResponse`
     public func describeConfigRuleEvaluationStatusPaginated(input: DescribeConfigRuleEvaluationStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConfigRuleEvaluationStatusInput, DescribeConfigRuleEvaluationStatusOutputResponse>(input: input, inputKey: \DescribeConfigRuleEvaluationStatusInput.nextToken, outputKey: \DescribeConfigRuleEvaluationStatusOutputResponse.nextToken, paginationFunction: self.describeConfigRuleEvaluationStatus(input:))
     }
@@ -180,24 +174,23 @@ extension DescribeConfigRuleEvaluationStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConfigRuleEvaluationStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
-/// - Returns: `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
 extension PaginatorSequence where Input == DescribeConfigRuleEvaluationStatusInput, Output == DescribeConfigRuleEvaluationStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConfigRuleEvaluationStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
+    /// - Returns: `[ConfigClientTypes.ConfigRuleEvaluationStatus]`
     public func configRulesEvaluationStatus() async throws -> [ConfigClientTypes.ConfigRuleEvaluationStatus] {
         return try await self.asyncCompactMap { item in item.configRulesEvaluationStatus }
     }
 }
-
-/// Paginate over `[DescribeConfigRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConfigRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRulesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConfigRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConfigRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigRulesOutputResponse`
     public func describeConfigRulesPaginated(input: DescribeConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConfigRulesInput, DescribeConfigRulesOutputResponse>(input: input, inputKey: \DescribeConfigRulesInput.nextToken, outputKey: \DescribeConfigRulesOutputResponse.nextToken, paginationFunction: self.describeConfigRules(input:))
     }
@@ -212,24 +205,23 @@ extension DescribeConfigRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConfigRulesPaginated`
-/// to access the nested member `[ConfigClientTypes.ConfigRule]`
-/// - Returns: `[ConfigClientTypes.ConfigRule]`
 extension PaginatorSequence where Input == DescribeConfigRulesInput, Output == DescribeConfigRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConfigRulesPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConfigRule]`
+    /// - Returns: `[ConfigClientTypes.ConfigRule]`
     public func configRules() async throws -> [ConfigClientTypes.ConfigRule] {
         return try await self.asyncCompactMap { item in item.configRules }
     }
 }
-
-/// Paginate over `[DescribeConfigurationAggregatorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConfigurationAggregatorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConfigurationAggregatorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConfigurationAggregatorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorsOutputResponse`
     public func describeConfigurationAggregatorsPaginated(input: DescribeConfigurationAggregatorsInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorsInput, DescribeConfigurationAggregatorsOutputResponse>(input: input, inputKey: \DescribeConfigurationAggregatorsInput.nextToken, outputKey: \DescribeConfigurationAggregatorsOutputResponse.nextToken, paginationFunction: self.describeConfigurationAggregators(input:))
     }
@@ -244,24 +236,23 @@ extension DescribeConfigurationAggregatorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorsPaginated`
-/// to access the nested member `[ConfigClientTypes.ConfigurationAggregator]`
-/// - Returns: `[ConfigClientTypes.ConfigurationAggregator]`
 extension PaginatorSequence where Input == DescribeConfigurationAggregatorsInput, Output == DescribeConfigurationAggregatorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorsPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConfigurationAggregator]`
+    /// - Returns: `[ConfigClientTypes.ConfigurationAggregator]`
     public func configurationAggregators() async throws -> [ConfigClientTypes.ConfigurationAggregator] {
         return try await self.asyncCompactMap { item in item.configurationAggregators }
     }
 }
-
-/// Paginate over `[DescribeConfigurationAggregatorSourcesStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConfigurationAggregatorSourcesStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorSourcesStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConfigurationAggregatorSourcesStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConfigurationAggregatorSourcesStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConfigurationAggregatorSourcesStatusOutputResponse`
     public func describeConfigurationAggregatorSourcesStatusPaginated(input: DescribeConfigurationAggregatorSourcesStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConfigurationAggregatorSourcesStatusInput, DescribeConfigurationAggregatorSourcesStatusOutputResponse>(input: input, inputKey: \DescribeConfigurationAggregatorSourcesStatusInput.nextToken, outputKey: \DescribeConfigurationAggregatorSourcesStatusOutputResponse.nextToken, paginationFunction: self.describeConfigurationAggregatorSourcesStatus(input:))
     }
@@ -277,24 +268,23 @@ extension DescribeConfigurationAggregatorSourcesStatusInput: ClientRuntime.Pagin
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorSourcesStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.AggregatedSourceStatus]`
-/// - Returns: `[ConfigClientTypes.AggregatedSourceStatus]`
 extension PaginatorSequence where Input == DescribeConfigurationAggregatorSourcesStatusInput, Output == DescribeConfigurationAggregatorSourcesStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConfigurationAggregatorSourcesStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.AggregatedSourceStatus]`
+    /// - Returns: `[ConfigClientTypes.AggregatedSourceStatus]`
     public func aggregatedSourceStatusList() async throws -> [ConfigClientTypes.AggregatedSourceStatus] {
         return try await self.asyncCompactMap { item in item.aggregatedSourceStatusList }
     }
 }
-
-/// Paginate over `[DescribeConformancePackComplianceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConformancePackComplianceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackComplianceOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConformancePackComplianceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConformancePackComplianceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackComplianceOutputResponse`
     public func describeConformancePackCompliancePaginated(input: DescribeConformancePackComplianceInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConformancePackComplianceInput, DescribeConformancePackComplianceOutputResponse>(input: input, inputKey: \DescribeConformancePackComplianceInput.nextToken, outputKey: \DescribeConformancePackComplianceOutputResponse.nextToken, paginationFunction: self.describeConformancePackCompliance(input:))
     }
@@ -309,16 +299,15 @@ extension DescribeConformancePackComplianceInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[DescribeConformancePacksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConformancePacksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePacksOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConformancePacksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConformancePacksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePacksOutputResponse`
     public func describeConformancePacksPaginated(input: DescribeConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConformancePacksInput, DescribeConformancePacksOutputResponse>(input: input, inputKey: \DescribeConformancePacksInput.nextToken, outputKey: \DescribeConformancePacksOutputResponse.nextToken, paginationFunction: self.describeConformancePacks(input:))
     }
@@ -333,24 +322,23 @@ extension DescribeConformancePacksInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConformancePacksPaginated`
-/// to access the nested member `[ConfigClientTypes.ConformancePackDetail]`
-/// - Returns: `[ConfigClientTypes.ConformancePackDetail]`
 extension PaginatorSequence where Input == DescribeConformancePacksInput, Output == DescribeConformancePacksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConformancePacksPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConformancePackDetail]`
+    /// - Returns: `[ConfigClientTypes.ConformancePackDetail]`
     public func conformancePackDetails() async throws -> [ConfigClientTypes.ConformancePackDetail] {
         return try await self.asyncCompactMap { item in item.conformancePackDetails }
     }
 }
-
-/// Paginate over `[DescribeConformancePackStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeConformancePackStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeConformancePackStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeConformancePackStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeConformancePackStatusOutputResponse`
     public func describeConformancePackStatusPaginated(input: DescribeConformancePackStatusInput) -> ClientRuntime.PaginatorSequence<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeConformancePackStatusInput, DescribeConformancePackStatusOutputResponse>(input: input, inputKey: \DescribeConformancePackStatusInput.nextToken, outputKey: \DescribeConformancePackStatusOutputResponse.nextToken, paginationFunction: self.describeConformancePackStatus(input:))
     }
@@ -365,24 +353,23 @@ extension DescribeConformancePackStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeConformancePackStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.ConformancePackStatusDetail]`
-/// - Returns: `[ConfigClientTypes.ConformancePackStatusDetail]`
 extension PaginatorSequence where Input == DescribeConformancePackStatusInput, Output == DescribeConformancePackStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeConformancePackStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConformancePackStatusDetail]`
+    /// - Returns: `[ConfigClientTypes.ConformancePackStatusDetail]`
     public func conformancePackStatusDetails() async throws -> [ConfigClientTypes.ConformancePackStatusDetail] {
         return try await self.asyncCompactMap { item in item.conformancePackStatusDetails }
     }
 }
-
-/// Paginate over `[DescribeOrganizationConfigRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrganizationConfigRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRulesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeOrganizationConfigRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationConfigRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRulesOutputResponse`
     public func describeOrganizationConfigRulesPaginated(input: DescribeOrganizationConfigRulesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRulesInput, DescribeOrganizationConfigRulesOutputResponse>(input: input, inputKey: \DescribeOrganizationConfigRulesInput.nextToken, outputKey: \DescribeOrganizationConfigRulesOutputResponse.nextToken, paginationFunction: self.describeOrganizationConfigRules(input:))
     }
@@ -397,24 +384,23 @@ extension DescribeOrganizationConfigRulesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRulesPaginated`
-/// to access the nested member `[ConfigClientTypes.OrganizationConfigRule]`
-/// - Returns: `[ConfigClientTypes.OrganizationConfigRule]`
 extension PaginatorSequence where Input == DescribeOrganizationConfigRulesInput, Output == DescribeOrganizationConfigRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRulesPaginated`
+    /// to access the nested member `[ConfigClientTypes.OrganizationConfigRule]`
+    /// - Returns: `[ConfigClientTypes.OrganizationConfigRule]`
     public func organizationConfigRules() async throws -> [ConfigClientTypes.OrganizationConfigRule] {
         return try await self.asyncCompactMap { item in item.organizationConfigRules }
     }
 }
-
-/// Paginate over `[DescribeOrganizationConfigRuleStatusesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrganizationConfigRuleStatusesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRuleStatusesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeOrganizationConfigRuleStatusesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationConfigRuleStatusesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConfigRuleStatusesOutputResponse`
     public func describeOrganizationConfigRuleStatusesPaginated(input: DescribeOrganizationConfigRuleStatusesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConfigRuleStatusesInput, DescribeOrganizationConfigRuleStatusesOutputResponse>(input: input, inputKey: \DescribeOrganizationConfigRuleStatusesInput.nextToken, outputKey: \DescribeOrganizationConfigRuleStatusesOutputResponse.nextToken, paginationFunction: self.describeOrganizationConfigRuleStatuses(input:))
     }
@@ -429,24 +415,23 @@ extension DescribeOrganizationConfigRuleStatusesInput: ClientRuntime.PaginateTok
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRuleStatusesPaginated`
-/// to access the nested member `[ConfigClientTypes.OrganizationConfigRuleStatus]`
-/// - Returns: `[ConfigClientTypes.OrganizationConfigRuleStatus]`
 extension PaginatorSequence where Input == DescribeOrganizationConfigRuleStatusesInput, Output == DescribeOrganizationConfigRuleStatusesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConfigRuleStatusesPaginated`
+    /// to access the nested member `[ConfigClientTypes.OrganizationConfigRuleStatus]`
+    /// - Returns: `[ConfigClientTypes.OrganizationConfigRuleStatus]`
     public func organizationConfigRuleStatuses() async throws -> [ConfigClientTypes.OrganizationConfigRuleStatus] {
         return try await self.asyncCompactMap { item in item.organizationConfigRuleStatuses }
     }
 }
-
-/// Paginate over `[DescribeOrganizationConformancePacksOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrganizationConformancePacksInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePacksOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeOrganizationConformancePacksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationConformancePacksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePacksOutputResponse`
     public func describeOrganizationConformancePacksPaginated(input: DescribeOrganizationConformancePacksInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePacksInput, DescribeOrganizationConformancePacksOutputResponse>(input: input, inputKey: \DescribeOrganizationConformancePacksInput.nextToken, outputKey: \DescribeOrganizationConformancePacksOutputResponse.nextToken, paginationFunction: self.describeOrganizationConformancePacks(input:))
     }
@@ -461,24 +446,23 @@ extension DescribeOrganizationConformancePacksInput: ClientRuntime.PaginateToken
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePacksPaginated`
-/// to access the nested member `[ConfigClientTypes.OrganizationConformancePack]`
-/// - Returns: `[ConfigClientTypes.OrganizationConformancePack]`
 extension PaginatorSequence where Input == DescribeOrganizationConformancePacksInput, Output == DescribeOrganizationConformancePacksOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePacksPaginated`
+    /// to access the nested member `[ConfigClientTypes.OrganizationConformancePack]`
+    /// - Returns: `[ConfigClientTypes.OrganizationConformancePack]`
     public func organizationConformancePacks() async throws -> [ConfigClientTypes.OrganizationConformancePack] {
         return try await self.asyncCompactMap { item in item.organizationConformancePacks }
     }
 }
-
-/// Paginate over `[DescribeOrganizationConformancePackStatusesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrganizationConformancePackStatusesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePackStatusesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeOrganizationConformancePackStatusesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrganizationConformancePackStatusesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrganizationConformancePackStatusesOutputResponse`
     public func describeOrganizationConformancePackStatusesPaginated(input: DescribeOrganizationConformancePackStatusesInput) -> ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrganizationConformancePackStatusesInput, DescribeOrganizationConformancePackStatusesOutputResponse>(input: input, inputKey: \DescribeOrganizationConformancePackStatusesInput.nextToken, outputKey: \DescribeOrganizationConformancePackStatusesOutputResponse.nextToken, paginationFunction: self.describeOrganizationConformancePackStatuses(input:))
     }
@@ -493,24 +477,23 @@ extension DescribeOrganizationConformancePackStatusesInput: ClientRuntime.Pagina
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePackStatusesPaginated`
-/// to access the nested member `[ConfigClientTypes.OrganizationConformancePackStatus]`
-/// - Returns: `[ConfigClientTypes.OrganizationConformancePackStatus]`
 extension PaginatorSequence where Input == DescribeOrganizationConformancePackStatusesInput, Output == DescribeOrganizationConformancePackStatusesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrganizationConformancePackStatusesPaginated`
+    /// to access the nested member `[ConfigClientTypes.OrganizationConformancePackStatus]`
+    /// - Returns: `[ConfigClientTypes.OrganizationConformancePackStatus]`
     public func organizationConformancePackStatuses() async throws -> [ConfigClientTypes.OrganizationConformancePackStatus] {
         return try await self.asyncCompactMap { item in item.organizationConformancePackStatuses }
     }
 }
-
-/// Paginate over `[DescribePendingAggregationRequestsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePendingAggregationRequestsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePendingAggregationRequestsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribePendingAggregationRequestsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePendingAggregationRequestsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingAggregationRequestsOutputResponse`
     public func describePendingAggregationRequestsPaginated(input: DescribePendingAggregationRequestsInput) -> ClientRuntime.PaginatorSequence<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePendingAggregationRequestsInput, DescribePendingAggregationRequestsOutputResponse>(input: input, inputKey: \DescribePendingAggregationRequestsInput.nextToken, outputKey: \DescribePendingAggregationRequestsOutputResponse.nextToken, paginationFunction: self.describePendingAggregationRequests(input:))
     }
@@ -524,24 +507,23 @@ extension DescribePendingAggregationRequestsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePendingAggregationRequestsPaginated`
-/// to access the nested member `[ConfigClientTypes.PendingAggregationRequest]`
-/// - Returns: `[ConfigClientTypes.PendingAggregationRequest]`
 extension PaginatorSequence where Input == DescribePendingAggregationRequestsInput, Output == DescribePendingAggregationRequestsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePendingAggregationRequestsPaginated`
+    /// to access the nested member `[ConfigClientTypes.PendingAggregationRequest]`
+    /// - Returns: `[ConfigClientTypes.PendingAggregationRequest]`
     public func pendingAggregationRequests() async throws -> [ConfigClientTypes.PendingAggregationRequest] {
         return try await self.asyncCompactMap { item in item.pendingAggregationRequests }
     }
 }
-
-/// Paginate over `[DescribeRemediationExceptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRemediationExceptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExceptionsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeRemediationExceptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRemediationExceptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExceptionsOutputResponse`
     public func describeRemediationExceptionsPaginated(input: DescribeRemediationExceptionsInput) -> ClientRuntime.PaginatorSequence<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRemediationExceptionsInput, DescribeRemediationExceptionsOutputResponse>(input: input, inputKey: \DescribeRemediationExceptionsInput.nextToken, outputKey: \DescribeRemediationExceptionsOutputResponse.nextToken, paginationFunction: self.describeRemediationExceptions(input:))
     }
@@ -556,16 +538,15 @@ extension DescribeRemediationExceptionsInput: ClientRuntime.PaginateToken {
             resourceKeys: self.resourceKeys
         )}
 }
-
-/// Paginate over `[DescribeRemediationExecutionStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRemediationExecutionStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExecutionStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeRemediationExecutionStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRemediationExecutionStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRemediationExecutionStatusOutputResponse`
     public func describeRemediationExecutionStatusPaginated(input: DescribeRemediationExecutionStatusInput) -> ClientRuntime.PaginatorSequence<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRemediationExecutionStatusInput, DescribeRemediationExecutionStatusOutputResponse>(input: input, inputKey: \DescribeRemediationExecutionStatusInput.nextToken, outputKey: \DescribeRemediationExecutionStatusOutputResponse.nextToken, paginationFunction: self.describeRemediationExecutionStatus(input:))
     }
@@ -581,24 +562,23 @@ extension DescribeRemediationExecutionStatusInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeRemediationExecutionStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.RemediationExecutionStatus]`
-/// - Returns: `[ConfigClientTypes.RemediationExecutionStatus]`
 extension PaginatorSequence where Input == DescribeRemediationExecutionStatusInput, Output == DescribeRemediationExecutionStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRemediationExecutionStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.RemediationExecutionStatus]`
+    /// - Returns: `[ConfigClientTypes.RemediationExecutionStatus]`
     public func remediationExecutionStatuses() async throws -> [ConfigClientTypes.RemediationExecutionStatus] {
         return try await self.asyncCompactMap { item in item.remediationExecutionStatuses }
     }
 }
-
-/// Paginate over `[DescribeRetentionConfigurationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeRetentionConfigurationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeRetentionConfigurationsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[DescribeRetentionConfigurationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeRetentionConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeRetentionConfigurationsOutputResponse`
     public func describeRetentionConfigurationsPaginated(input: DescribeRetentionConfigurationsInput) -> ClientRuntime.PaginatorSequence<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeRetentionConfigurationsInput, DescribeRetentionConfigurationsOutputResponse>(input: input, inputKey: \DescribeRetentionConfigurationsInput.nextToken, outputKey: \DescribeRetentionConfigurationsOutputResponse.nextToken, paginationFunction: self.describeRetentionConfigurations(input:))
     }
@@ -612,24 +592,23 @@ extension DescribeRetentionConfigurationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeRetentionConfigurationsPaginated`
-/// to access the nested member `[ConfigClientTypes.RetentionConfiguration]`
-/// - Returns: `[ConfigClientTypes.RetentionConfiguration]`
 extension PaginatorSequence where Input == DescribeRetentionConfigurationsInput, Output == DescribeRetentionConfigurationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeRetentionConfigurationsPaginated`
+    /// to access the nested member `[ConfigClientTypes.RetentionConfiguration]`
+    /// - Returns: `[ConfigClientTypes.RetentionConfiguration]`
     public func retentionConfigurations() async throws -> [ConfigClientTypes.RetentionConfiguration] {
         return try await self.asyncCompactMap { item in item.retentionConfigurations }
     }
 }
-
-/// Paginate over `[GetAggregateComplianceDetailsByConfigRuleOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAggregateComplianceDetailsByConfigRuleInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAggregateComplianceDetailsByConfigRuleOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetAggregateComplianceDetailsByConfigRuleOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAggregateComplianceDetailsByConfigRuleInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateComplianceDetailsByConfigRuleOutputResponse`
     public func getAggregateComplianceDetailsByConfigRulePaginated(input: GetAggregateComplianceDetailsByConfigRuleInput) -> ClientRuntime.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAggregateComplianceDetailsByConfigRuleInput, GetAggregateComplianceDetailsByConfigRuleOutputResponse>(input: input, inputKey: \GetAggregateComplianceDetailsByConfigRuleInput.nextToken, outputKey: \GetAggregateComplianceDetailsByConfigRuleOutputResponse.nextToken, paginationFunction: self.getAggregateComplianceDetailsByConfigRule(input:))
     }
@@ -648,24 +627,23 @@ extension GetAggregateComplianceDetailsByConfigRuleInput: ClientRuntime.Paginate
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getAggregateComplianceDetailsByConfigRulePaginated`
-/// to access the nested member `[ConfigClientTypes.AggregateEvaluationResult]`
-/// - Returns: `[ConfigClientTypes.AggregateEvaluationResult]`
 extension PaginatorSequence where Input == GetAggregateComplianceDetailsByConfigRuleInput, Output == GetAggregateComplianceDetailsByConfigRuleOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getAggregateComplianceDetailsByConfigRulePaginated`
+    /// to access the nested member `[ConfigClientTypes.AggregateEvaluationResult]`
+    /// - Returns: `[ConfigClientTypes.AggregateEvaluationResult]`
     public func aggregateEvaluationResults() async throws -> [ConfigClientTypes.AggregateEvaluationResult] {
         return try await self.asyncCompactMap { item in item.aggregateEvaluationResults }
     }
 }
-
-/// Paginate over `[GetAggregateConfigRuleComplianceSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAggregateConfigRuleComplianceSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConfigRuleComplianceSummaryOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetAggregateConfigRuleComplianceSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAggregateConfigRuleComplianceSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConfigRuleComplianceSummaryOutputResponse`
     public func getAggregateConfigRuleComplianceSummaryPaginated(input: GetAggregateConfigRuleComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAggregateConfigRuleComplianceSummaryInput, GetAggregateConfigRuleComplianceSummaryOutputResponse>(input: input, inputKey: \GetAggregateConfigRuleComplianceSummaryInput.nextToken, outputKey: \GetAggregateConfigRuleComplianceSummaryOutputResponse.nextToken, paginationFunction: self.getAggregateConfigRuleComplianceSummary(input:))
     }
@@ -681,16 +659,15 @@ extension GetAggregateConfigRuleComplianceSummaryInput: ClientRuntime.PaginateTo
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetAggregateConformancePackComplianceSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAggregateConformancePackComplianceSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConformancePackComplianceSummaryOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetAggregateConformancePackComplianceSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAggregateConformancePackComplianceSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateConformancePackComplianceSummaryOutputResponse`
     public func getAggregateConformancePackComplianceSummaryPaginated(input: GetAggregateConformancePackComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAggregateConformancePackComplianceSummaryInput, GetAggregateConformancePackComplianceSummaryOutputResponse>(input: input, inputKey: \GetAggregateConformancePackComplianceSummaryInput.nextToken, outputKey: \GetAggregateConformancePackComplianceSummaryOutputResponse.nextToken, paginationFunction: self.getAggregateConformancePackComplianceSummary(input:))
     }
@@ -706,16 +683,15 @@ extension GetAggregateConformancePackComplianceSummaryInput: ClientRuntime.Pagin
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetAggregateDiscoveredResourceCountsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetAggregateDiscoveredResourceCountsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetAggregateDiscoveredResourceCountsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetAggregateDiscoveredResourceCountsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetAggregateDiscoveredResourceCountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetAggregateDiscoveredResourceCountsOutputResponse`
     public func getAggregateDiscoveredResourceCountsPaginated(input: GetAggregateDiscoveredResourceCountsInput) -> ClientRuntime.PaginatorSequence<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetAggregateDiscoveredResourceCountsInput, GetAggregateDiscoveredResourceCountsOutputResponse>(input: input, inputKey: \GetAggregateDiscoveredResourceCountsInput.nextToken, outputKey: \GetAggregateDiscoveredResourceCountsOutputResponse.nextToken, paginationFunction: self.getAggregateDiscoveredResourceCounts(input:))
     }
@@ -731,16 +707,15 @@ extension GetAggregateDiscoveredResourceCountsInput: ClientRuntime.PaginateToken
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetComplianceDetailsByConfigRuleOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetComplianceDetailsByConfigRuleInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByConfigRuleOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetComplianceDetailsByConfigRuleOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetComplianceDetailsByConfigRuleInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByConfigRuleOutputResponse`
     public func getComplianceDetailsByConfigRulePaginated(input: GetComplianceDetailsByConfigRuleInput) -> ClientRuntime.PaginatorSequence<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetComplianceDetailsByConfigRuleInput, GetComplianceDetailsByConfigRuleOutputResponse>(input: input, inputKey: \GetComplianceDetailsByConfigRuleInput.nextToken, outputKey: \GetComplianceDetailsByConfigRuleOutputResponse.nextToken, paginationFunction: self.getComplianceDetailsByConfigRule(input:))
     }
@@ -756,24 +731,23 @@ extension GetComplianceDetailsByConfigRuleInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByConfigRulePaginated`
-/// to access the nested member `[ConfigClientTypes.EvaluationResult]`
-/// - Returns: `[ConfigClientTypes.EvaluationResult]`
 extension PaginatorSequence where Input == GetComplianceDetailsByConfigRuleInput, Output == GetComplianceDetailsByConfigRuleOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByConfigRulePaginated`
+    /// to access the nested member `[ConfigClientTypes.EvaluationResult]`
+    /// - Returns: `[ConfigClientTypes.EvaluationResult]`
     public func evaluationResults() async throws -> [ConfigClientTypes.EvaluationResult] {
         return try await self.asyncCompactMap { item in item.evaluationResults }
     }
 }
-
-/// Paginate over `[GetComplianceDetailsByResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetComplianceDetailsByResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByResourceOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetComplianceDetailsByResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetComplianceDetailsByResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetComplianceDetailsByResourceOutputResponse`
     public func getComplianceDetailsByResourcePaginated(input: GetComplianceDetailsByResourceInput) -> ClientRuntime.PaginatorSequence<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetComplianceDetailsByResourceInput, GetComplianceDetailsByResourceOutputResponse>(input: input, inputKey: \GetComplianceDetailsByResourceInput.nextToken, outputKey: \GetComplianceDetailsByResourceOutputResponse.nextToken, paginationFunction: self.getComplianceDetailsByResource(input:))
     }
@@ -790,24 +764,23 @@ extension GetComplianceDetailsByResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByResourcePaginated`
-/// to access the nested member `[ConfigClientTypes.EvaluationResult]`
-/// - Returns: `[ConfigClientTypes.EvaluationResult]`
 extension PaginatorSequence where Input == GetComplianceDetailsByResourceInput, Output == GetComplianceDetailsByResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getComplianceDetailsByResourcePaginated`
+    /// to access the nested member `[ConfigClientTypes.EvaluationResult]`
+    /// - Returns: `[ConfigClientTypes.EvaluationResult]`
     public func evaluationResults() async throws -> [ConfigClientTypes.EvaluationResult] {
         return try await self.asyncCompactMap { item in item.evaluationResults }
     }
 }
-
-/// Paginate over `[GetConformancePackComplianceDetailsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetConformancePackComplianceDetailsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceDetailsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetConformancePackComplianceDetailsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetConformancePackComplianceDetailsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceDetailsOutputResponse`
     public func getConformancePackComplianceDetailsPaginated(input: GetConformancePackComplianceDetailsInput) -> ClientRuntime.PaginatorSequence<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetConformancePackComplianceDetailsInput, GetConformancePackComplianceDetailsOutputResponse>(input: input, inputKey: \GetConformancePackComplianceDetailsInput.nextToken, outputKey: \GetConformancePackComplianceDetailsOutputResponse.nextToken, paginationFunction: self.getConformancePackComplianceDetails(input:))
     }
@@ -822,16 +795,15 @@ extension GetConformancePackComplianceDetailsInput: ClientRuntime.PaginateToken 
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetConformancePackComplianceSummaryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetConformancePackComplianceSummaryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceSummaryOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetConformancePackComplianceSummaryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetConformancePackComplianceSummaryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetConformancePackComplianceSummaryOutputResponse`
     public func getConformancePackComplianceSummaryPaginated(input: GetConformancePackComplianceSummaryInput) -> ClientRuntime.PaginatorSequence<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetConformancePackComplianceSummaryInput, GetConformancePackComplianceSummaryOutputResponse>(input: input, inputKey: \GetConformancePackComplianceSummaryInput.nextToken, outputKey: \GetConformancePackComplianceSummaryOutputResponse.nextToken, paginationFunction: self.getConformancePackComplianceSummary(input:))
     }
@@ -846,24 +818,23 @@ extension GetConformancePackComplianceSummaryInput: ClientRuntime.PaginateToken 
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getConformancePackComplianceSummaryPaginated`
-/// to access the nested member `[ConfigClientTypes.ConformancePackComplianceSummary]`
-/// - Returns: `[ConfigClientTypes.ConformancePackComplianceSummary]`
 extension PaginatorSequence where Input == GetConformancePackComplianceSummaryInput, Output == GetConformancePackComplianceSummaryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getConformancePackComplianceSummaryPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConformancePackComplianceSummary]`
+    /// - Returns: `[ConfigClientTypes.ConformancePackComplianceSummary]`
     public func conformancePackComplianceSummaryList() async throws -> [ConfigClientTypes.ConformancePackComplianceSummary] {
         return try await self.asyncCompactMap { item in item.conformancePackComplianceSummaryList }
     }
 }
-
-/// Paginate over `[GetDiscoveredResourceCountsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetDiscoveredResourceCountsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetDiscoveredResourceCountsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetDiscoveredResourceCountsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetDiscoveredResourceCountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetDiscoveredResourceCountsOutputResponse`
     public func getDiscoveredResourceCountsPaginated(input: GetDiscoveredResourceCountsInput) -> ClientRuntime.PaginatorSequence<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetDiscoveredResourceCountsInput, GetDiscoveredResourceCountsOutputResponse>(input: input, inputKey: \GetDiscoveredResourceCountsInput.nextToken, outputKey: \GetDiscoveredResourceCountsOutputResponse.nextToken, paginationFunction: self.getDiscoveredResourceCounts(input:))
     }
@@ -877,16 +848,15 @@ extension GetDiscoveredResourceCountsInput: ClientRuntime.PaginateToken {
             resourceTypes: self.resourceTypes
         )}
 }
-
-/// Paginate over `[GetOrganizationConfigRuleDetailedStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetOrganizationConfigRuleDetailedStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConfigRuleDetailedStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetOrganizationConfigRuleDetailedStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOrganizationConfigRuleDetailedStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConfigRuleDetailedStatusOutputResponse`
     public func getOrganizationConfigRuleDetailedStatusPaginated(input: GetOrganizationConfigRuleDetailedStatusInput) -> ClientRuntime.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetOrganizationConfigRuleDetailedStatusInput, GetOrganizationConfigRuleDetailedStatusOutputResponse>(input: input, inputKey: \GetOrganizationConfigRuleDetailedStatusInput.nextToken, outputKey: \GetOrganizationConfigRuleDetailedStatusOutputResponse.nextToken, paginationFunction: self.getOrganizationConfigRuleDetailedStatus(input:))
     }
@@ -902,24 +872,23 @@ extension GetOrganizationConfigRuleDetailedStatusInput: ClientRuntime.PaginateTo
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getOrganizationConfigRuleDetailedStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.MemberAccountStatus]`
-/// - Returns: `[ConfigClientTypes.MemberAccountStatus]`
 extension PaginatorSequence where Input == GetOrganizationConfigRuleDetailedStatusInput, Output == GetOrganizationConfigRuleDetailedStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getOrganizationConfigRuleDetailedStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.MemberAccountStatus]`
+    /// - Returns: `[ConfigClientTypes.MemberAccountStatus]`
     public func organizationConfigRuleDetailedStatus() async throws -> [ConfigClientTypes.MemberAccountStatus] {
         return try await self.asyncCompactMap { item in item.organizationConfigRuleDetailedStatus }
     }
 }
-
-/// Paginate over `[GetOrganizationConformancePackDetailedStatusOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetOrganizationConformancePackDetailedStatusInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConformancePackDetailedStatusOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetOrganizationConformancePackDetailedStatusOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOrganizationConformancePackDetailedStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOrganizationConformancePackDetailedStatusOutputResponse`
     public func getOrganizationConformancePackDetailedStatusPaginated(input: GetOrganizationConformancePackDetailedStatusInput) -> ClientRuntime.PaginatorSequence<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetOrganizationConformancePackDetailedStatusInput, GetOrganizationConformancePackDetailedStatusOutputResponse>(input: input, inputKey: \GetOrganizationConformancePackDetailedStatusInput.nextToken, outputKey: \GetOrganizationConformancePackDetailedStatusOutputResponse.nextToken, paginationFunction: self.getOrganizationConformancePackDetailedStatus(input:))
     }
@@ -935,24 +904,23 @@ extension GetOrganizationConformancePackDetailedStatusInput: ClientRuntime.Pagin
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getOrganizationConformancePackDetailedStatusPaginated`
-/// to access the nested member `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
-/// - Returns: `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
 extension PaginatorSequence where Input == GetOrganizationConformancePackDetailedStatusInput, Output == GetOrganizationConformancePackDetailedStatusOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getOrganizationConformancePackDetailedStatusPaginated`
+    /// to access the nested member `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
+    /// - Returns: `[ConfigClientTypes.OrganizationConformancePackDetailedStatus]`
     public func organizationConformancePackDetailedStatuses() async throws -> [ConfigClientTypes.OrganizationConformancePackDetailedStatus] {
         return try await self.asyncCompactMap { item in item.organizationConformancePackDetailedStatuses }
     }
 }
-
-/// Paginate over `[GetResourceConfigHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourceConfigHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourceConfigHistoryOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[GetResourceConfigHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourceConfigHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceConfigHistoryOutputResponse`
     public func getResourceConfigHistoryPaginated(input: GetResourceConfigHistoryInput) -> ClientRuntime.PaginatorSequence<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourceConfigHistoryInput, GetResourceConfigHistoryOutputResponse>(input: input, inputKey: \GetResourceConfigHistoryInput.nextToken, outputKey: \GetResourceConfigHistoryOutputResponse.nextToken, paginationFunction: self.getResourceConfigHistory(input:))
     }
@@ -971,24 +939,23 @@ extension GetResourceConfigHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `getResourceConfigHistoryPaginated`
-/// to access the nested member `[ConfigClientTypes.ConfigurationItem]`
-/// - Returns: `[ConfigClientTypes.ConfigurationItem]`
 extension PaginatorSequence where Input == GetResourceConfigHistoryInput, Output == GetResourceConfigHistoryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getResourceConfigHistoryPaginated`
+    /// to access the nested member `[ConfigClientTypes.ConfigurationItem]`
+    /// - Returns: `[ConfigClientTypes.ConfigurationItem]`
     public func configurationItems() async throws -> [ConfigClientTypes.ConfigurationItem] {
         return try await self.asyncCompactMap { item in item.configurationItems }
     }
 }
-
-/// Paginate over `[ListAggregateDiscoveredResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAggregateDiscoveredResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAggregateDiscoveredResourcesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListAggregateDiscoveredResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAggregateDiscoveredResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAggregateDiscoveredResourcesOutputResponse`
     public func listAggregateDiscoveredResourcesPaginated(input: ListAggregateDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAggregateDiscoveredResourcesInput, ListAggregateDiscoveredResourcesOutputResponse>(input: input, inputKey: \ListAggregateDiscoveredResourcesInput.nextToken, outputKey: \ListAggregateDiscoveredResourcesOutputResponse.nextToken, paginationFunction: self.listAggregateDiscoveredResources(input:))
     }
@@ -1005,24 +972,23 @@ extension ListAggregateDiscoveredResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listAggregateDiscoveredResourcesPaginated`
-/// to access the nested member `[ConfigClientTypes.AggregateResourceIdentifier]`
-/// - Returns: `[ConfigClientTypes.AggregateResourceIdentifier]`
 extension PaginatorSequence where Input == ListAggregateDiscoveredResourcesInput, Output == ListAggregateDiscoveredResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listAggregateDiscoveredResourcesPaginated`
+    /// to access the nested member `[ConfigClientTypes.AggregateResourceIdentifier]`
+    /// - Returns: `[ConfigClientTypes.AggregateResourceIdentifier]`
     public func resourceIdentifiers() async throws -> [ConfigClientTypes.AggregateResourceIdentifier] {
         return try await self.asyncCompactMap { item in item.resourceIdentifiers }
     }
 }
-
-/// Paginate over `[ListConformancePackComplianceScoresOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListConformancePackComplianceScoresInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListConformancePackComplianceScoresOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListConformancePackComplianceScoresOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConformancePackComplianceScoresInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConformancePackComplianceScoresOutputResponse`
     public func listConformancePackComplianceScoresPaginated(input: ListConformancePackComplianceScoresInput) -> ClientRuntime.PaginatorSequence<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListConformancePackComplianceScoresInput, ListConformancePackComplianceScoresOutputResponse>(input: input, inputKey: \ListConformancePackComplianceScoresInput.nextToken, outputKey: \ListConformancePackComplianceScoresOutputResponse.nextToken, paginationFunction: self.listConformancePackComplianceScores(input:))
     }
@@ -1038,16 +1004,15 @@ extension ListConformancePackComplianceScoresInput: ClientRuntime.PaginateToken 
             sortOrder: self.sortOrder
         )}
 }
-
-/// Paginate over `[ListDiscoveredResourcesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDiscoveredResourcesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveredResourcesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListDiscoveredResourcesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDiscoveredResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDiscoveredResourcesOutputResponse`
     public func listDiscoveredResourcesPaginated(input: ListDiscoveredResourcesInput) -> ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>(input: input, inputKey: \ListDiscoveredResourcesInput.nextToken, outputKey: \ListDiscoveredResourcesOutputResponse.nextToken, paginationFunction: self.listDiscoveredResources(input:))
     }
@@ -1065,24 +1030,23 @@ extension ListDiscoveredResourcesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDiscoveredResourcesPaginated`
-/// to access the nested member `[ConfigClientTypes.ResourceIdentifier]`
-/// - Returns: `[ConfigClientTypes.ResourceIdentifier]`
 extension PaginatorSequence where Input == ListDiscoveredResourcesInput, Output == ListDiscoveredResourcesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDiscoveredResourcesPaginated`
+    /// to access the nested member `[ConfigClientTypes.ResourceIdentifier]`
+    /// - Returns: `[ConfigClientTypes.ResourceIdentifier]`
     public func resourceIdentifiers() async throws -> [ConfigClientTypes.ResourceIdentifier] {
         return try await self.asyncCompactMap { item in item.resourceIdentifiers }
     }
 }
-
-/// Paginate over `[ListResourceEvaluationsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListResourceEvaluationsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListResourceEvaluationsOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListResourceEvaluationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceEvaluationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceEvaluationsOutputResponse`
     public func listResourceEvaluationsPaginated(input: ListResourceEvaluationsInput) -> ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListResourceEvaluationsInput, ListResourceEvaluationsOutputResponse>(input: input, inputKey: \ListResourceEvaluationsInput.nextToken, outputKey: \ListResourceEvaluationsOutputResponse.nextToken, paginationFunction: self.listResourceEvaluations(input:))
     }
@@ -1097,24 +1061,23 @@ extension ListResourceEvaluationsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listResourceEvaluationsPaginated`
-/// to access the nested member `[ConfigClientTypes.ResourceEvaluation]`
-/// - Returns: `[ConfigClientTypes.ResourceEvaluation]`
 extension PaginatorSequence where Input == ListResourceEvaluationsInput, Output == ListResourceEvaluationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceEvaluationsPaginated`
+    /// to access the nested member `[ConfigClientTypes.ResourceEvaluation]`
+    /// - Returns: `[ConfigClientTypes.ResourceEvaluation]`
     public func resourceEvaluations() async throws -> [ConfigClientTypes.ResourceEvaluation] {
         return try await self.asyncCompactMap { item in item.resourceEvaluations }
     }
 }
-
-/// Paginate over `[ListStoredQueriesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListStoredQueriesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListStoredQueriesOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListStoredQueriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStoredQueriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStoredQueriesOutputResponse`
     public func listStoredQueriesPaginated(input: ListStoredQueriesInput) -> ClientRuntime.PaginatorSequence<ListStoredQueriesInput, ListStoredQueriesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListStoredQueriesInput, ListStoredQueriesOutputResponse>(input: input, inputKey: \ListStoredQueriesInput.nextToken, outputKey: \ListStoredQueriesOutputResponse.nextToken, paginationFunction: self.listStoredQueries(input:))
     }
@@ -1127,16 +1090,15 @@ extension ListStoredQueriesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[ListTagsForResourceOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListTagsForResourceInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[ListTagsForResourceOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTagsForResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTagsForResourceOutputResponse`
     public func listTagsForResourcePaginated(input: ListTagsForResourceInput) -> ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(input: input, inputKey: \ListTagsForResourceInput.nextToken, outputKey: \ListTagsForResourceOutputResponse.nextToken, paginationFunction: self.listTagsForResource(input:))
     }
@@ -1151,24 +1113,23 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
-/// to access the nested member `[ConfigClientTypes.Tag]`
-/// - Returns: `[ConfigClientTypes.Tag]`
 extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[ConfigClientTypes.Tag]`
+    /// - Returns: `[ConfigClientTypes.Tag]`
     public func tags() async throws -> [ConfigClientTypes.Tag] {
         return try await self.asyncCompactMap { item in item.tags }
     }
 }
-
-/// Paginate over `[SelectAggregateResourceConfigOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SelectAggregateResourceConfigInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SelectAggregateResourceConfigOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[SelectAggregateResourceConfigOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SelectAggregateResourceConfigInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SelectAggregateResourceConfigOutputResponse`
     public func selectAggregateResourceConfigPaginated(input: SelectAggregateResourceConfigInput) -> ClientRuntime.PaginatorSequence<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse> {
         return ClientRuntime.PaginatorSequence<SelectAggregateResourceConfigInput, SelectAggregateResourceConfigOutputResponse>(input: input, inputKey: \SelectAggregateResourceConfigInput.nextToken, outputKey: \SelectAggregateResourceConfigOutputResponse.nextToken, paginationFunction: self.selectAggregateResourceConfig(input:))
     }
@@ -1185,24 +1146,23 @@ extension SelectAggregateResourceConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `selectAggregateResourceConfigPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == SelectAggregateResourceConfigInput, Output == SelectAggregateResourceConfigOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `selectAggregateResourceConfigPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func results() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.results }
     }
 }
-
-/// Paginate over `[SelectResourceConfigOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[SelectResourceConfigInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `SelectResourceConfigOutputResponse`
 extension ConfigClient {
+    /// Paginate over `[SelectResourceConfigOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SelectResourceConfigInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SelectResourceConfigOutputResponse`
     public func selectResourceConfigPaginated(input: SelectResourceConfigInput) -> ClientRuntime.PaginatorSequence<SelectResourceConfigInput, SelectResourceConfigOutputResponse> {
         return ClientRuntime.PaginatorSequence<SelectResourceConfigInput, SelectResourceConfigOutputResponse>(input: input, inputKey: \SelectResourceConfigInput.nextToken, outputKey: \SelectResourceConfigOutputResponse.nextToken, paginationFunction: self.selectResourceConfig(input:))
     }
@@ -1217,10 +1177,10 @@ extension SelectResourceConfigInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `selectResourceConfigPaginated`
-/// to access the nested member `[Swift.String]`
-/// - Returns: `[Swift.String]`
 extension PaginatorSequence where Input == SelectResourceConfigInput, Output == SelectResourceConfigOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `selectResourceConfigPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
     public func results() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.results }
     }

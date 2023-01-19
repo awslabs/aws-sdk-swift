@@ -2103,7 +2103,7 @@ extension KendraClient: KendraClientProtocol {
     /// * Relevant documents
     ///
     ///
-    /// You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results.
+    /// You can specify that the query return only one type of result using the QueryResultTypeFilter parameter. Each query returns the 100 most relevant results.
     public func query(input: QueryInput) async throws -> QueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

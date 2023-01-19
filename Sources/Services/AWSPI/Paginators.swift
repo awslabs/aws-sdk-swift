@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeDimensionKeysOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDimensionKeysInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDimensionKeysOutputResponse`
 extension PIClient {
+    /// Paginate over `[DescribeDimensionKeysOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDimensionKeysInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDimensionKeysOutputResponse`
     public func describeDimensionKeysPaginated(input: DescribeDimensionKeysInput) -> ClientRuntime.PaginatorSequence<DescribeDimensionKeysInput, DescribeDimensionKeysOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDimensionKeysInput, DescribeDimensionKeysOutputResponse>(input: input, inputKey: \DescribeDimensionKeysInput.nextToken, outputKey: \DescribeDimensionKeysOutputResponse.nextToken, paginationFunction: self.describeDimensionKeys(input:))
     }
@@ -34,16 +33,15 @@ extension DescribeDimensionKeysInput: ClientRuntime.PaginateToken {
             startTime: self.startTime
         )}
 }
-
-/// Paginate over `[GetResourceMetricsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetResourceMetricsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetResourceMetricsOutputResponse`
 extension PIClient {
+    /// Paginate over `[GetResourceMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetResourceMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetResourceMetricsOutputResponse`
     public func getResourceMetricsPaginated(input: GetResourceMetricsInput) -> ClientRuntime.PaginatorSequence<GetResourceMetricsInput, GetResourceMetricsOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetResourceMetricsInput, GetResourceMetricsOutputResponse>(input: input, inputKey: \GetResourceMetricsInput.nextToken, outputKey: \GetResourceMetricsOutputResponse.nextToken, paginationFunction: self.getResourceMetrics(input:))
     }
@@ -62,16 +60,15 @@ extension GetResourceMetricsInput: ClientRuntime.PaginateToken {
             startTime: self.startTime
         )}
 }
-
-/// Paginate over `[ListAvailableResourceDimensionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAvailableResourceDimensionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceDimensionsOutputResponse`
 extension PIClient {
+    /// Paginate over `[ListAvailableResourceDimensionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAvailableResourceDimensionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceDimensionsOutputResponse`
     public func listAvailableResourceDimensionsPaginated(input: ListAvailableResourceDimensionsInput) -> ClientRuntime.PaginatorSequence<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAvailableResourceDimensionsInput, ListAvailableResourceDimensionsOutputResponse>(input: input, inputKey: \ListAvailableResourceDimensionsInput.nextToken, outputKey: \ListAvailableResourceDimensionsOutputResponse.nextToken, paginationFunction: self.listAvailableResourceDimensions(input:))
     }
@@ -87,16 +84,15 @@ extension ListAvailableResourceDimensionsInput: ClientRuntime.PaginateToken {
             serviceType: self.serviceType
         )}
 }
-
-/// Paginate over `[ListAvailableResourceMetricsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListAvailableResourceMetricsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceMetricsOutputResponse`
 extension PIClient {
+    /// Paginate over `[ListAvailableResourceMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAvailableResourceMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAvailableResourceMetricsOutputResponse`
     public func listAvailableResourceMetricsPaginated(input: ListAvailableResourceMetricsInput) -> ClientRuntime.PaginatorSequence<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListAvailableResourceMetricsInput, ListAvailableResourceMetricsOutputResponse>(input: input, inputKey: \ListAvailableResourceMetricsInput.nextToken, outputKey: \ListAvailableResourceMetricsOutputResponse.nextToken, paginationFunction: self.listAvailableResourceMetrics(input:))
     }

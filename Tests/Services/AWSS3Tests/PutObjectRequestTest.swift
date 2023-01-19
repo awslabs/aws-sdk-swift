@@ -35,7 +35,6 @@ class PutObjectRequestTest: HttpRequestTestBase {
             bucket: "mybucket",
             key: "mykey"
         )
-        let endpointParams = EndpointParams(bucket: "mybucket", forcePathStyle: true, region: "us-west-2")
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
@@ -46,7 +45,13 @@ class PutObjectRequestTest: HttpRequestTestBase {
         var operationStack = OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "PutObjectDefaultContentType")
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(urlPrefix: urlPrefix))
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>(host: hostOnly))
-        operationStack.buildStep.intercept(position: .after, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: try DefaultEndpointResolver(), endpointParams: endpointParams))
+        operationStack.buildStep.intercept(position: .after, id: "RequestTestEndpointResolver") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectOutputResponse> in
+            input.withMethod(context.getMethod())
+            input.withPath(context.getPath())
+            let host = "\(context.getHostPrefix() ?? "")\(context.getHost() ?? "")"
+            input.withHost(host)
+            return try await next.handle(context: context, input: input)
+        }
         operationStack.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutputResponse>())
         operationStack.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutputResponse>())
         operationStack.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutputResponse>(contentType: "application/octet-stream"))
@@ -103,7 +108,6 @@ class PutObjectRequestTest: HttpRequestTestBase {
             contentType: "application/json",
             key: "mykey"
         )
-        let endpointParams = EndpointParams(bucket: "mybucket", forcePathStyle: true, region: "us-west-2")
         let encoder = ClientRuntime.XMLEncoder()
         encoder.dateEncodingStrategy = .secondsSince1970
         encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity: "Infinity", negativeInfinity: "-Infinity", nan: "NaN")
@@ -114,7 +118,13 @@ class PutObjectRequestTest: HttpRequestTestBase {
         var operationStack = OperationStack<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(id: "PutOtTbjectExplicitContenype")
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutObjectInput, PutObjectOutputResponse, PutObjectOutputError>(urlPrefix: urlPrefix))
         operationStack.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutObjectInput, PutObjectOutputResponse>(host: hostOnly))
-        operationStack.buildStep.intercept(position: .after, middleware: EndpointResolverMiddleware<PutObjectOutputResponse, PutObjectOutputError>(endpointResolver: try DefaultEndpointResolver(), endpointParams: endpointParams))
+        operationStack.buildStep.intercept(position: .after, id: "RequestTestEndpointResolver") { (context, input, next) -> ClientRuntime.OperationOutput<PutObjectOutputResponse> in
+            input.withMethod(context.getMethod())
+            input.withPath(context.getPath())
+            let host = "\(context.getHostPrefix() ?? "")\(context.getHost() ?? "")"
+            input.withHost(host)
+            return try await next.handle(context: context, input: input)
+        }
         operationStack.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<PutObjectInput, PutObjectOutputResponse>())
         operationStack.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<PutObjectInput, PutObjectOutputResponse>())
         operationStack.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutObjectInput, PutObjectOutputResponse>(contentType: "application/octet-stream"))

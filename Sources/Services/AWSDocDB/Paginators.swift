@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeCertificatesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeCertificatesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeCertificatesOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeCertificatesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCertificatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCertificatesOutputResponse`
     public func describeCertificatesPaginated(input: DescribeCertificatesInput) -> ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeCertificatesInput, DescribeCertificatesOutputResponse>(input: input, inputKey: \DescribeCertificatesInput.marker, outputKey: \DescribeCertificatesOutputResponse.marker, paginationFunction: self.describeCertificates(input:))
     }
@@ -27,24 +26,23 @@ extension DescribeCertificatesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeCertificatesPaginated`
-/// to access the nested member `[DocDBClientTypes.Certificate]`
-/// - Returns: `[DocDBClientTypes.Certificate]`
 extension PaginatorSequence where Input == DescribeCertificatesInput, Output == DescribeCertificatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCertificatesPaginated`
+    /// to access the nested member `[DocDBClientTypes.Certificate]`
+    /// - Returns: `[DocDBClientTypes.Certificate]`
     public func certificates() async throws -> [DocDBClientTypes.Certificate] {
         return try await self.asyncCompactMap { item in item.certificates }
     }
 }
-
-/// Paginate over `[DescribeDBClusterParameterGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBClusterParameterGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBClusterParameterGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParameterGroupsOutputResponse`
     public func describeDBClusterParameterGroupsPaginated(input: DescribeDBClusterParameterGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutputResponse>(input: input, inputKey: \DescribeDBClusterParameterGroupsInput.marker, outputKey: \DescribeDBClusterParameterGroupsOutputResponse.marker, paginationFunction: self.describeDBClusterParameterGroups(input:))
     }
@@ -60,24 +58,23 @@ extension DescribeDBClusterParameterGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
-/// to access the nested member `[DocDBClientTypes.DBClusterParameterGroup]`
-/// - Returns: `[DocDBClientTypes.DBClusterParameterGroup]`
 extension PaginatorSequence where Input == DescribeDBClusterParameterGroupsInput, Output == DescribeDBClusterParameterGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParameterGroupsPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBClusterParameterGroup]`
+    /// - Returns: `[DocDBClientTypes.DBClusterParameterGroup]`
     public func dbClusterParameterGroups() async throws -> [DocDBClientTypes.DBClusterParameterGroup] {
         return try await self.asyncCompactMap { item in item.dbClusterParameterGroups }
     }
 }
-
-/// Paginate over `[DescribeDBClusterParametersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBClusterParametersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBClusterParametersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterParametersOutputResponse`
     public func describeDBClusterParametersPaginated(input: DescribeDBClusterParametersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutputResponse>(input: input, inputKey: \DescribeDBClusterParametersInput.marker, outputKey: \DescribeDBClusterParametersOutputResponse.marker, paginationFunction: self.describeDBClusterParameters(input:))
     }
@@ -94,24 +91,23 @@ extension DescribeDBClusterParametersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
-/// to access the nested member `[DocDBClientTypes.Parameter]`
-/// - Returns: `[DocDBClientTypes.Parameter]`
 extension PaginatorSequence where Input == DescribeDBClusterParametersInput, Output == DescribeDBClusterParametersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterParametersPaginated`
+    /// to access the nested member `[DocDBClientTypes.Parameter]`
+    /// - Returns: `[DocDBClientTypes.Parameter]`
     public func parameters() async throws -> [DocDBClientTypes.Parameter] {
         return try await self.asyncCompactMap { item in item.parameters }
     }
 }
-
-/// Paginate over `[DescribeDBClustersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBClustersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBClustersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBClustersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClustersOutputResponse`
     public func describeDBClustersPaginated(input: DescribeDBClustersInput) -> ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBClustersInput, DescribeDBClustersOutputResponse>(input: input, inputKey: \DescribeDBClustersInput.marker, outputKey: \DescribeDBClustersOutputResponse.marker, paginationFunction: self.describeDBClusters(input:))
     }
@@ -127,24 +123,23 @@ extension DescribeDBClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
-/// to access the nested member `[DocDBClientTypes.DBCluster]`
-/// - Returns: `[DocDBClientTypes.DBCluster]`
 extension PaginatorSequence where Input == DescribeDBClustersInput, Output == DescribeDBClustersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBClustersPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBCluster]`
+    /// - Returns: `[DocDBClientTypes.DBCluster]`
     public func dbClusters() async throws -> [DocDBClientTypes.DBCluster] {
         return try await self.asyncCompactMap { item in item.dbClusters }
     }
 }
-
-/// Paginate over `[DescribeDBClusterSnapshotsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBClusterSnapshotsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBClusterSnapshotsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterSnapshotsOutputResponse`
     public func describeDBClusterSnapshotsPaginated(input: DescribeDBClusterSnapshotsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutputResponse>(input: input, inputKey: \DescribeDBClusterSnapshotsInput.marker, outputKey: \DescribeDBClusterSnapshotsOutputResponse.marker, paginationFunction: self.describeDBClusterSnapshots(input:))
     }
@@ -164,24 +159,23 @@ extension DescribeDBClusterSnapshotsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
-/// to access the nested member `[DocDBClientTypes.DBClusterSnapshot]`
-/// - Returns: `[DocDBClientTypes.DBClusterSnapshot]`
 extension PaginatorSequence where Input == DescribeDBClusterSnapshotsInput, Output == DescribeDBClusterSnapshotsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterSnapshotsPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBClusterSnapshot]`
+    /// - Returns: `[DocDBClientTypes.DBClusterSnapshot]`
     public func dbClusterSnapshots() async throws -> [DocDBClientTypes.DBClusterSnapshot] {
         return try await self.asyncCompactMap { item in item.dbClusterSnapshots }
     }
 }
-
-/// Paginate over `[DescribeDBEngineVersionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBEngineVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBEngineVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBEngineVersionsOutputResponse`
     public func describeDBEngineVersionsPaginated(input: DescribeDBEngineVersionsInput) -> ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutputResponse>(input: input, inputKey: \DescribeDBEngineVersionsInput.marker, outputKey: \DescribeDBEngineVersionsOutputResponse.marker, paginationFunction: self.describeDBEngineVersions(input:))
     }
@@ -202,24 +196,23 @@ extension DescribeDBEngineVersionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
-/// to access the nested member `[DocDBClientTypes.DBEngineVersion]`
-/// - Returns: `[DocDBClientTypes.DBEngineVersion]`
 extension PaginatorSequence where Input == DescribeDBEngineVersionsInput, Output == DescribeDBEngineVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBEngineVersionsPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBEngineVersion]`
+    /// - Returns: `[DocDBClientTypes.DBEngineVersion]`
     public func dbEngineVersions() async throws -> [DocDBClientTypes.DBEngineVersion] {
         return try await self.asyncCompactMap { item in item.dbEngineVersions }
     }
 }
-
-/// Paginate over `[DescribeDBInstancesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBInstancesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBInstancesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBInstancesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBInstancesOutputResponse`
     public func describeDBInstancesPaginated(input: DescribeDBInstancesInput) -> ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBInstancesInput, DescribeDBInstancesOutputResponse>(input: input, inputKey: \DescribeDBInstancesInput.marker, outputKey: \DescribeDBInstancesOutputResponse.marker, paginationFunction: self.describeDBInstances(input:))
     }
@@ -235,24 +228,23 @@ extension DescribeDBInstancesInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
-/// to access the nested member `[DocDBClientTypes.DBInstance]`
-/// - Returns: `[DocDBClientTypes.DBInstance]`
 extension PaginatorSequence where Input == DescribeDBInstancesInput, Output == DescribeDBInstancesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBInstancesPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBInstance]`
+    /// - Returns: `[DocDBClientTypes.DBInstance]`
     public func dbInstances() async throws -> [DocDBClientTypes.DBInstance] {
         return try await self.asyncCompactMap { item in item.dbInstances }
     }
 }
-
-/// Paginate over `[DescribeDBSubnetGroupsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeDBSubnetGroupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBSubnetGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBSubnetGroupsOutputResponse`
     public func describeDBSubnetGroupsPaginated(input: DescribeDBSubnetGroupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutputResponse>(input: input, inputKey: \DescribeDBSubnetGroupsInput.marker, outputKey: \DescribeDBSubnetGroupsOutputResponse.marker, paginationFunction: self.describeDBSubnetGroups(input:))
     }
@@ -268,24 +260,23 @@ extension DescribeDBSubnetGroupsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
-/// to access the nested member `[DocDBClientTypes.DBSubnetGroup]`
-/// - Returns: `[DocDBClientTypes.DBSubnetGroup]`
 extension PaginatorSequence where Input == DescribeDBSubnetGroupsInput, Output == DescribeDBSubnetGroupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBSubnetGroupsPaginated`
+    /// to access the nested member `[DocDBClientTypes.DBSubnetGroup]`
+    /// - Returns: `[DocDBClientTypes.DBSubnetGroup]`
     public func dbSubnetGroups() async throws -> [DocDBClientTypes.DBSubnetGroup] {
         return try await self.asyncCompactMap { item in item.dbSubnetGroups }
     }
 }
-
-/// Paginate over `[DescribeEventsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEventsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeEventsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEventsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventsOutputResponse`
     public func describeEventsPaginated(input: DescribeEventsInput) -> ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEventsInput, DescribeEventsOutputResponse>(input: input, inputKey: \DescribeEventsInput.marker, outputKey: \DescribeEventsOutputResponse.marker, paginationFunction: self.describeEvents(input:))
     }
@@ -306,24 +297,23 @@ extension DescribeEventsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
-/// to access the nested member `[DocDBClientTypes.Event]`
-/// - Returns: `[DocDBClientTypes.Event]`
 extension PaginatorSequence where Input == DescribeEventsInput, Output == DescribeEventsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEventsPaginated`
+    /// to access the nested member `[DocDBClientTypes.Event]`
+    /// - Returns: `[DocDBClientTypes.Event]`
     public func events() async throws -> [DocDBClientTypes.Event] {
         return try await self.asyncCompactMap { item in item.events }
     }
 }
-
-/// Paginate over `[DescribeEventSubscriptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeEventSubscriptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeEventSubscriptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeEventSubscriptionsOutputResponse`
     public func describeEventSubscriptionsPaginated(input: DescribeEventSubscriptionsInput) -> ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutputResponse>(input: input, inputKey: \DescribeEventSubscriptionsInput.marker, outputKey: \DescribeEventSubscriptionsOutputResponse.marker, paginationFunction: self.describeEventSubscriptions(input:))
     }
@@ -339,24 +329,23 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
-/// to access the nested member `[DocDBClientTypes.EventSubscription]`
-/// - Returns: `[DocDBClientTypes.EventSubscription]`
 extension PaginatorSequence where Input == DescribeEventSubscriptionsInput, Output == DescribeEventSubscriptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeEventSubscriptionsPaginated`
+    /// to access the nested member `[DocDBClientTypes.EventSubscription]`
+    /// - Returns: `[DocDBClientTypes.EventSubscription]`
     public func eventSubscriptionsList() async throws -> [DocDBClientTypes.EventSubscription] {
         return try await self.asyncCompactMap { item in item.eventSubscriptionsList }
     }
 }
-
-/// Paginate over `[DescribeGlobalClustersOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeGlobalClustersInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeGlobalClustersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeGlobalClustersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeGlobalClustersOutputResponse`
     public func describeGlobalClustersPaginated(input: DescribeGlobalClustersInput) -> ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeGlobalClustersInput, DescribeGlobalClustersOutputResponse>(input: input, inputKey: \DescribeGlobalClustersInput.marker, outputKey: \DescribeGlobalClustersOutputResponse.marker, paginationFunction: self.describeGlobalClusters(input:))
     }
@@ -372,24 +361,23 @@ extension DescribeGlobalClustersInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
-/// to access the nested member `[DocDBClientTypes.GlobalCluster]`
-/// - Returns: `[DocDBClientTypes.GlobalCluster]`
 extension PaginatorSequence where Input == DescribeGlobalClustersInput, Output == DescribeGlobalClustersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeGlobalClustersPaginated`
+    /// to access the nested member `[DocDBClientTypes.GlobalCluster]`
+    /// - Returns: `[DocDBClientTypes.GlobalCluster]`
     public func globalClusters() async throws -> [DocDBClientTypes.GlobalCluster] {
         return try await self.asyncCompactMap { item in item.globalClusters }
     }
 }
-
-/// Paginate over `[DescribeOrderableDBInstanceOptionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribeOrderableDBInstanceOptionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeOrderableDBInstanceOptionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeOrderableDBInstanceOptionsOutputResponse`
     public func describeOrderableDBInstanceOptionsPaginated(input: DescribeOrderableDBInstanceOptionsInput) -> ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutputResponse>(input: input, inputKey: \DescribeOrderableDBInstanceOptionsInput.marker, outputKey: \DescribeOrderableDBInstanceOptionsOutputResponse.marker, paginationFunction: self.describeOrderableDBInstanceOptions(input:))
     }
@@ -409,24 +397,23 @@ extension DescribeOrderableDBInstanceOptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
-/// to access the nested member `[DocDBClientTypes.OrderableDBInstanceOption]`
-/// - Returns: `[DocDBClientTypes.OrderableDBInstanceOption]`
 extension PaginatorSequence where Input == DescribeOrderableDBInstanceOptionsInput, Output == DescribeOrderableDBInstanceOptionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeOrderableDBInstanceOptionsPaginated`
+    /// to access the nested member `[DocDBClientTypes.OrderableDBInstanceOption]`
+    /// - Returns: `[DocDBClientTypes.OrderableDBInstanceOption]`
     public func orderableDBInstanceOptions() async throws -> [DocDBClientTypes.OrderableDBInstanceOption] {
         return try await self.asyncCompactMap { item in item.orderableDBInstanceOptions }
     }
 }
-
-/// Paginate over `[DescribePendingMaintenanceActionsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutputResponse`
 extension DocDBClient {
+    /// Paginate over `[DescribePendingMaintenanceActionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribePendingMaintenanceActionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribePendingMaintenanceActionsOutputResponse`
     public func describePendingMaintenanceActionsPaginated(input: DescribePendingMaintenanceActionsInput) -> ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutputResponse>(input: input, inputKey: \DescribePendingMaintenanceActionsInput.marker, outputKey: \DescribePendingMaintenanceActionsOutputResponse.marker, paginationFunction: self.describePendingMaintenanceActions(input:))
     }
@@ -442,10 +429,10 @@ extension DescribePendingMaintenanceActionsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
-/// to access the nested member `[DocDBClientTypes.ResourcePendingMaintenanceActions]`
-/// - Returns: `[DocDBClientTypes.ResourcePendingMaintenanceActions]`
 extension PaginatorSequence where Input == DescribePendingMaintenanceActionsInput, Output == DescribePendingMaintenanceActionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePendingMaintenanceActionsPaginated`
+    /// to access the nested member `[DocDBClientTypes.ResourcePendingMaintenanceActions]`
+    /// - Returns: `[DocDBClientTypes.ResourcePendingMaintenanceActions]`
     public func pendingMaintenanceActions() async throws -> [DocDBClientTypes.ResourcePendingMaintenanceActions] {
         return try await self.asyncCompactMap { item in item.pendingMaintenanceActions }
     }

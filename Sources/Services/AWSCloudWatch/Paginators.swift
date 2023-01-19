@@ -2,16 +2,15 @@
 
 import ClientRuntime
 
-
-/// Paginate over `[DescribeAlarmHistoryOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAlarmHistoryInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmHistoryOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[DescribeAlarmHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAlarmHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmHistoryOutputResponse`
     public func describeAlarmHistoryPaginated(input: DescribeAlarmHistoryInput) -> ClientRuntime.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutputResponse>(input: input, inputKey: \DescribeAlarmHistoryInput.nextToken, outputKey: \DescribeAlarmHistoryOutputResponse.nextToken, paginationFunction: self.describeAlarmHistory(input:))
     }
@@ -31,24 +30,23 @@ extension DescribeAlarmHistoryInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAlarmHistoryPaginated`
-/// to access the nested member `[CloudWatchClientTypes.AlarmHistoryItem]`
-/// - Returns: `[CloudWatchClientTypes.AlarmHistoryItem]`
 extension PaginatorSequence where Input == DescribeAlarmHistoryInput, Output == DescribeAlarmHistoryOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAlarmHistoryPaginated`
+    /// to access the nested member `[CloudWatchClientTypes.AlarmHistoryItem]`
+    /// - Returns: `[CloudWatchClientTypes.AlarmHistoryItem]`
     public func alarmHistoryItems() async throws -> [CloudWatchClientTypes.AlarmHistoryItem] {
         return try await self.asyncCompactMap { item in item.alarmHistoryItems }
     }
 }
-
-/// Paginate over `[DescribeAlarmsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAlarmsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmsOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[DescribeAlarmsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAlarmsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAlarmsOutputResponse`
     public func describeAlarmsPaginated(input: DescribeAlarmsInput) -> ClientRuntime.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAlarmsInput, DescribeAlarmsOutputResponse>(input: input, inputKey: \DescribeAlarmsInput.nextToken, outputKey: \DescribeAlarmsOutputResponse.nextToken, paginationFunction: self.describeAlarms(input:))
     }
@@ -68,16 +66,15 @@ extension DescribeAlarmsInput: ClientRuntime.PaginateToken {
             stateValue: self.stateValue
         )}
 }
-
-/// Paginate over `[DescribeAnomalyDetectorsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeAnomalyDetectorsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeAnomalyDetectorsOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[DescribeAnomalyDetectorsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeAnomalyDetectorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeAnomalyDetectorsOutputResponse`
     public func describeAnomalyDetectorsPaginated(input: DescribeAnomalyDetectorsInput) -> ClientRuntime.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutputResponse>(input: input, inputKey: \DescribeAnomalyDetectorsInput.nextToken, outputKey: \DescribeAnomalyDetectorsOutputResponse.nextToken, paginationFunction: self.describeAnomalyDetectors(input:))
     }
@@ -95,24 +92,23 @@ extension DescribeAnomalyDetectorsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `describeAnomalyDetectorsPaginated`
-/// to access the nested member `[CloudWatchClientTypes.AnomalyDetector]`
-/// - Returns: `[CloudWatchClientTypes.AnomalyDetector]`
 extension PaginatorSequence where Input == DescribeAnomalyDetectorsInput, Output == DescribeAnomalyDetectorsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeAnomalyDetectorsPaginated`
+    /// to access the nested member `[CloudWatchClientTypes.AnomalyDetector]`
+    /// - Returns: `[CloudWatchClientTypes.AnomalyDetector]`
     public func anomalyDetectors() async throws -> [CloudWatchClientTypes.AnomalyDetector] {
         return try await self.asyncCompactMap { item in item.anomalyDetectors }
     }
 }
-
-/// Paginate over `[DescribeInsightRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[DescribeInsightRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `DescribeInsightRulesOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[DescribeInsightRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInsightRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInsightRulesOutputResponse`
     public func describeInsightRulesPaginated(input: DescribeInsightRulesInput) -> ClientRuntime.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<DescribeInsightRulesInput, DescribeInsightRulesOutputResponse>(input: input, inputKey: \DescribeInsightRulesInput.nextToken, outputKey: \DescribeInsightRulesOutputResponse.nextToken, paginationFunction: self.describeInsightRules(input:))
     }
@@ -125,16 +121,15 @@ extension DescribeInsightRulesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
-
-/// Paginate over `[GetMetricDataOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[GetMetricDataInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[GetMetricDataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetMetricDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetMetricDataOutputResponse`
     public func getMetricDataPaginated(input: GetMetricDataInput) -> ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutputResponse> {
         return ClientRuntime.PaginatorSequence<GetMetricDataInput, GetMetricDataOutputResponse>(input: input, inputKey: \GetMetricDataInput.nextToken, outputKey: \GetMetricDataOutputResponse.nextToken, paginationFunction: self.getMetricData(input:))
     }
@@ -152,16 +147,15 @@ extension GetMetricDataInput: ClientRuntime.PaginateToken {
             startTime: self.startTime
         )}
 }
-
-/// Paginate over `[ListDashboardsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListDashboardsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[ListDashboardsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDashboardsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDashboardsOutputResponse`
     public func listDashboardsPaginated(input: ListDashboardsInput) -> ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListDashboardsInput, ListDashboardsOutputResponse>(input: input, inputKey: \ListDashboardsInput.nextToken, outputKey: \ListDashboardsOutputResponse.nextToken, paginationFunction: self.listDashboards(input:))
     }
@@ -175,24 +169,23 @@ extension ListDashboardsInput: ClientRuntime.PaginateToken {
         )}
 }
 
-/// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
-/// to access the nested member `[CloudWatchClientTypes.DashboardEntry]`
-/// - Returns: `[CloudWatchClientTypes.DashboardEntry]`
 extension PaginatorSequence where Input == ListDashboardsInput, Output == ListDashboardsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDashboardsPaginated`
+    /// to access the nested member `[CloudWatchClientTypes.DashboardEntry]`
+    /// - Returns: `[CloudWatchClientTypes.DashboardEntry]`
     public func dashboardEntries() async throws -> [CloudWatchClientTypes.DashboardEntry] {
         return try await self.asyncCompactMap { item in item.dashboardEntries }
     }
 }
-
-/// Paginate over `[ListManagedInsightRulesOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListManagedInsightRulesInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListManagedInsightRulesOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[ListManagedInsightRulesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListManagedInsightRulesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListManagedInsightRulesOutputResponse`
     public func listManagedInsightRulesPaginated(input: ListManagedInsightRulesInput) -> ClientRuntime.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListManagedInsightRulesInput, ListManagedInsightRulesOutputResponse>(input: input, inputKey: \ListManagedInsightRulesInput.nextToken, outputKey: \ListManagedInsightRulesOutputResponse.nextToken, paginationFunction: self.listManagedInsightRules(input:))
     }
@@ -206,16 +199,15 @@ extension ListManagedInsightRulesInput: ClientRuntime.PaginateToken {
             resourceARN: self.resourceARN
         )}
 }
-
-/// Paginate over `[ListMetricsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMetricsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMetricsOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[ListMetricsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetricsOutputResponse`
     public func listMetricsPaginated(input: ListMetricsInput) -> ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMetricsInput, ListMetricsOutputResponse>(input: input, inputKey: \ListMetricsInput.nextToken, outputKey: \ListMetricsOutputResponse.nextToken, paginationFunction: self.listMetrics(input:))
     }
@@ -233,16 +225,15 @@ extension ListMetricsInput: ClientRuntime.PaginateToken {
             recentlyActive: self.recentlyActive
         )}
 }
-
-/// Paginate over `[ListMetricStreamsOutputResponse]` results.
-///
-/// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
-/// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
-/// until then. If there are errors in your request, you will see the failures only after you start iterating.
-/// - Parameters:
-///     - input: A `[ListMetricStreamsInput]` to start pagination
-/// - Returns: An `AsyncSequence` that can iterate over `ListMetricStreamsOutputResponse`
 extension CloudWatchClient {
+    /// Paginate over `[ListMetricStreamsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMetricStreamsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMetricStreamsOutputResponse`
     public func listMetricStreamsPaginated(input: ListMetricStreamsInput) -> ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutputResponse> {
         return ClientRuntime.PaginatorSequence<ListMetricStreamsInput, ListMetricStreamsOutputResponse>(input: input, inputKey: \ListMetricStreamsInput.nextToken, outputKey: \ListMetricStreamsOutputResponse.nextToken, paginationFunction: self.listMetricStreams(input:))
     }

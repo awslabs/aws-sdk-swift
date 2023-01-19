@@ -192,18 +192,18 @@ extension ApplicationAutoScalingClientTypes.CustomizedMetricSpecification: Swift
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Represents a CloudWatch metric of your choosing for a target tracking scaling policy to use with Application Auto Scaling. For information about the available metrics for a service, see [Amazon Web Services Services That Publish CloudWatch Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide. To create your customized metric specification:
+    /// Represents a CloudWatch metric of your choosing for a target tracking scaling policy to use with Application Auto Scaling. For information about the available metrics for a service, see [Amazon Web Services services that publish CloudWatch metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html) in the Amazon CloudWatch User Guide. To create your customized metric specification:
     ///
-    /// * Add values for each required parameter from CloudWatch. You can use an existing metric, or a new metric that you create. To use your own metric, you must first publish the metric to CloudWatch. For more information, see [Publish Custom Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html) in the Amazon CloudWatch User Guide.
+    /// * Add values for each required parameter from CloudWatch. You can use an existing metric, or a new metric that you create. To use your own metric, you must first publish the metric to CloudWatch. For more information, see [Publish custom metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html) in the Amazon CloudWatch User Guide.
     ///
     /// * Choose a metric that changes proportionally with capacity. The value of the metric should increase or decrease in inverse proportion to the number of capacity units. That is, the value of the metric should decrease when capacity increases, and increase when capacity decreases.
     ///
     ///
-    /// For more information about CloudWatch, see [Amazon CloudWatch Concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html).
+    /// For an example of how creating new metrics can be useful, see [Scaling based on Amazon SQS](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-using-sqs-queue.html) in the Amazon EC2 Auto Scaling User Guide. This topic mentions Auto Scaling groups, but the same scenario for Amazon SQS can apply to the target tracking scaling policies that you create for a Spot Fleet by using the Application Auto Scaling API. For more information about the CloudWatch terminology below, see [Amazon CloudWatch concepts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html) in the Amazon CloudWatch User Guide.
     public struct CustomizedMetricSpecification: Swift.Equatable {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         public var dimensions: [ApplicationAutoScalingClientTypes.MetricDimension]?
-        /// The name of the metric.
+        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the [Metric](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_Metric.html) object that is returned by a call to [ListMetrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_ListMetrics.html).
         /// This member is required.
         public var metricName: Swift.String?
         /// The namespace of the metric.
@@ -212,7 +212,7 @@ extension ApplicationAutoScalingClientTypes {
         /// The statistic of the metric.
         /// This member is required.
         public var statistic: ApplicationAutoScalingClientTypes.MetricStatistic?
-        /// The unit of the metric.
+        /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the [MetricDatum](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html) data type in the Amazon CloudWatch API Reference.
         public var unit: Swift.String?
 
         public init (
@@ -323,7 +323,7 @@ public struct DeleteScalingPolicyInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -517,7 +517,7 @@ public struct DeleteScheduledActionInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -710,7 +710,7 @@ public struct DeregisterScalableTargetInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -908,7 +908,7 @@ public struct DescribeScalableTargetsInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -1081,6 +1081,7 @@ extension DescribeScalableTargetsOutputResponseBody: Swift.Decodable {
 
 extension DescribeScalingActivitiesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case includeNotScaledActivities = "IncludeNotScaledActivities"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceId = "ResourceId"
@@ -1090,6 +1091,9 @@ extension DescribeScalingActivitiesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let includeNotScaledActivities = self.includeNotScaledActivities {
+            try encodeContainer.encode(includeNotScaledActivities, forKey: .includeNotScaledActivities)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -1115,6 +1119,8 @@ extension DescribeScalingActivitiesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeScalingActivitiesInput: Swift.Equatable {
+    /// Specifies whether to include activities that aren't scaled (not scaled activities) in the response. Not scaled activities are activities that aren't completed or started for various reasons, such as preventing infinite scaling loops. For help interpreting the not scaled reason details in the response, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
+    public var includeNotScaledActivities: Swift.Bool?
     /// The maximum number of scalable targets. This value can be between 1 and 50. The default value is 50. If this parameter is used, the operation returns up to MaxResults results at a time, along with a NextToken value. To get the next set of results, include the NextToken value in a subsequent call. If this parameter is not used, the operation returns up to 50 results and a NextToken value, if applicable.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -1173,7 +1179,7 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -1200,6 +1206,7 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
     public var serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace?
 
     public init (
+        includeNotScaledActivities: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceId: Swift.String? = nil,
@@ -1207,6 +1214,7 @@ public struct DescribeScalingActivitiesInput: Swift.Equatable {
         serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil
     )
     {
+        self.includeNotScaledActivities = includeNotScaledActivities
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceId = resourceId
@@ -1221,10 +1229,12 @@ struct DescribeScalingActivitiesInputBody: Swift.Equatable {
     let scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let includeNotScaledActivities: Swift.Bool?
 }
 
 extension DescribeScalingActivitiesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case includeNotScaledActivities = "IncludeNotScaledActivities"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case resourceId = "ResourceId"
@@ -1244,6 +1254,8 @@ extension DescribeScalingActivitiesInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let includeNotScaledActivitiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeNotScaledActivities)
+        includeNotScaledActivities = includeNotScaledActivitiesDecoded
     }
 }
 
@@ -1438,7 +1450,7 @@ public struct DescribeScalingPoliciesInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -1718,7 +1730,7 @@ public struct DescribeScheduledActionsInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -2317,6 +2329,82 @@ extension ApplicationAutoScalingClientTypes {
     }
 }
 
+extension ApplicationAutoScalingClientTypes.NotScaledReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case currentCapacity = "CurrentCapacity"
+        case maxCapacity = "MaxCapacity"
+        case minCapacity = "MinCapacity"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let currentCapacity = self.currentCapacity {
+            try encodeContainer.encode(currentCapacity, forKey: .currentCapacity)
+        }
+        if let maxCapacity = self.maxCapacity {
+            try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
+        }
+        if let minCapacity = self.minCapacity {
+            try encodeContainer.encode(minCapacity, forKey: .minCapacity)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
+        maxCapacity = maxCapacityDecoded
+        let minCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minCapacity)
+        minCapacity = minCapacityDecoded
+        let currentCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentCapacity)
+        currentCapacity = currentCapacityDecoded
+    }
+}
+
+extension ApplicationAutoScalingClientTypes {
+    /// Describes the reason for an activity that isn't scaled (not scaled activity), in machine-readable format. For help interpreting the not scaled reason details, see [Scaling activities for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-scaling-activities.html).
+    public struct NotScaledReason: Swift.Equatable {
+        /// A code that represents the reason for not scaling. Valid values:
+        ///
+        /// * AutoScalingAnticipatedFlapping
+        ///
+        /// * TargetServicePutResourceAsUnscalable
+        ///
+        /// * AlreadyAtMaxCapacity
+        ///
+        /// * AlreadyAtMinCapacity
+        ///
+        /// * AlreadyAtDesiredCapacity
+        /// This member is required.
+        public var code: Swift.String?
+        /// The current capacity.
+        public var currentCapacity: Swift.Int?
+        /// The maximum capacity.
+        public var maxCapacity: Swift.Int?
+        /// The minimum capacity.
+        public var minCapacity: Swift.Int?
+
+        public init (
+            code: Swift.String? = nil,
+            currentCapacity: Swift.Int? = nil,
+            maxCapacity: Swift.Int? = nil,
+            minCapacity: Swift.Int? = nil
+        )
+        {
+            self.code = code
+            self.currentCapacity = currentCapacity
+            self.maxCapacity = maxCapacity
+            self.minCapacity = minCapacity
+        }
+    }
+
+}
+
 extension ObjectNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2429,10 +2517,10 @@ extension ApplicationAutoScalingClientTypes.PredefinedMetricSpecification: Swift
 extension ApplicationAutoScalingClientTypes {
     /// Represents a predefined metric for a target tracking scaling policy to use with Application Auto Scaling. Only the Amazon Web Services that you're using send metrics to Amazon CloudWatch. To determine whether a desired metric already exists by looking up its namespace and dimension using the CloudWatch metrics dashboard in the console, follow the procedure in [Building dashboards with CloudWatch](https://docs.aws.amazon.com/autoscaling/application/userguide/monitoring-cloudwatch.html) in the Application Auto Scaling User Guide.
     public struct PredefinedMetricSpecification: Swift.Equatable {
-        /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleet requests and ECS services.
+        /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
         /// This member is required.
         public var predefinedMetricType: ApplicationAutoScalingClientTypes.MetricType?
-        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot Fleet request or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is: app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:
+        /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot Fleet or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is: app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:
         ///
         /// * app// is the final portion of the load balancer ARN
         ///
@@ -2498,10 +2586,10 @@ extension PutScalingPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutScalingPolicyInput: Swift.Equatable {
-    /// The name of the scaling policy.
+    /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
     /// This member is required.
     public var policyName: Swift.String?
-    /// The policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
+    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
     /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
     ///
@@ -2558,7 +2646,7 @@ public struct PutScalingPolicyInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -2851,7 +2939,7 @@ public struct PutScheduledActionInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -3054,9 +3142,28 @@ extension RegisterScalableTargetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterScalableTargetInput: Swift.Equatable {
-    /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
+    /// The maximum value that you plan to scale out to. When a scaling policy is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum capacity limit in response to changing demand. This property is required when registering a new scalable target. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
     public var maxCapacity: Swift.Int?
-    /// The minimum value that you plan to scale in to. When a scaling policy is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum capacity limit in response to changing demand. This property is required when registering a new scalable target. For certain resources, the minimum value allowed is 0. This includes Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR clusters, and custom resources. For all other resources, the minimum value allowed is 1.
+    /// The minimum value that you plan to scale in to. When a scaling policy is in effect, Application Auto Scaling can scale in (contract) as needed to the minimum capacity limit in response to changing demand. This property is required when registering a new scalable target. For the following resources, the minimum value allowed is 0.
+    ///
+    /// * AppStream 2.0 fleets
+    ///
+    /// * Aurora DB clusters
+    ///
+    /// * ECS services
+    ///
+    /// * EMR clusters
+    ///
+    /// * Lambda provisioned concurrency
+    ///
+    /// * SageMaker endpoint variants
+    ///
+    /// * Spot Fleets
+    ///
+    /// * custom resources
+    ///
+    ///
+    /// It's strongly recommended that you specify a value greater than 0. A value greater than 0 means that data points are continuously reported to CloudWatch that scaling policies can use to scale on a metric like average CPU utilization. For all other resources, the minimum allowed value depends on the type of resource that you are using. If you provide a value that is lower than what a resource can accept, an error occurs. In which case, the error message will provide the minimum value that the resource can accept.
     public var minCapacity: Swift.Int?
     /// The identifier of the resource that is associated with the scalable target. This string consists of the resource type and unique identifier.
     ///
@@ -3115,7 +3222,7 @@ public struct RegisterScalableTargetInput: Swift.Equatable {
     ///
     /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
     ///
-    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+    /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
     ///
     /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
     ///
@@ -3468,7 +3575,7 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
         ///
-        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
         ///
         /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
         ///
@@ -3549,9 +3656,9 @@ extension ApplicationAutoScalingClientTypes.ScalableTargetAction: Swift.Codable 
 extension ApplicationAutoScalingClientTypes {
     /// Represents the minimum and maximum capacity for a scheduled action.
     public struct ScalableTargetAction: Swift.Equatable {
-        /// The maximum capacity. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service Endpoints and Quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
+        /// The maximum capacity. Although you can specify a large maximum capacity, note that service quotas may impose lower limits. Each service has its own default quotas for the maximum capacity of the resource. If you want to specify a higher limit, you can request an increase. For more information, consult the documentation for that service. For information about the default quotas for each service, see [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) in the Amazon Web Services General Reference.
         public var maxCapacity: Swift.Int?
-        /// The minimum capacity. For certain resources, the minimum value allowed is 0. This includes Lambda provisioned concurrency, Spot Fleet, ECS services, Aurora DB clusters, EMR clusters, and custom resources. For all other resources, the minimum value allowed is 1.
+        /// The minimum capacity. When the scheduled action runs, the resource will have at least this much capacity, but it might have more depending on other settings, such as the target utilization level of a target tracking scaling policy.
         public var minCapacity: Swift.Int?
 
         public init (
@@ -3573,6 +3680,7 @@ extension ApplicationAutoScalingClientTypes.ScalingActivity: Swift.Codable {
         case description = "Description"
         case details = "Details"
         case endTime = "EndTime"
+        case notScaledReasons = "NotScaledReasons"
         case resourceId = "ResourceId"
         case scalableDimension = "ScalableDimension"
         case serviceNamespace = "ServiceNamespace"
@@ -3597,6 +3705,12 @@ extension ApplicationAutoScalingClientTypes.ScalingActivity: Swift.Codable {
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let notScaledReasons = notScaledReasons {
+            var notScaledReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notScaledReasons)
+            for notscaledreason0 in notScaledReasons {
+                try notScaledReasonsContainer.encode(notscaledreason0)
+            }
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
@@ -3642,6 +3756,17 @@ extension ApplicationAutoScalingClientTypes.ScalingActivity: Swift.Codable {
         statusMessage = statusMessageDecoded
         let detailsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .details)
         details = detailsDecoded
+        let notScaledReasonsContainer = try containerValues.decodeIfPresent([ApplicationAutoScalingClientTypes.NotScaledReason?].self, forKey: .notScaledReasons)
+        var notScaledReasonsDecoded0:[ApplicationAutoScalingClientTypes.NotScaledReason]? = nil
+        if let notScaledReasonsContainer = notScaledReasonsContainer {
+            notScaledReasonsDecoded0 = [ApplicationAutoScalingClientTypes.NotScaledReason]()
+            for structure0 in notScaledReasonsContainer {
+                if let structure0 = structure0 {
+                    notScaledReasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        notScaledReasons = notScaledReasonsDecoded0
     }
 }
 
@@ -3661,6 +3786,8 @@ extension ApplicationAutoScalingClientTypes {
         public var details: Swift.String?
         /// The Unix timestamp for when the scaling activity ended.
         public var endTime: ClientRuntime.Date?
+        /// Machine-readable data that describes the reason for a not scaled activity. Only available when [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/application/APIReference/API_DescribeScalingActivities.html) includes not scaled activities.
+        public var notScaledReasons: [ApplicationAutoScalingClientTypes.NotScaledReason]?
         /// The identifier of the resource associated with the scaling activity. This string consists of the resource type and unique identifier.
         ///
         /// * ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.
@@ -3716,7 +3843,7 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
         ///
-        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
         ///
         /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
         ///
@@ -3757,6 +3884,7 @@ extension ApplicationAutoScalingClientTypes {
             description: Swift.String? = nil,
             details: Swift.String? = nil,
             endTime: ClientRuntime.Date? = nil,
+            notScaledReasons: [ApplicationAutoScalingClientTypes.NotScaledReason]? = nil,
             resourceId: Swift.String? = nil,
             scalableDimension: ApplicationAutoScalingClientTypes.ScalableDimension? = nil,
             serviceNamespace: ApplicationAutoScalingClientTypes.ServiceNamespace? = nil,
@@ -3770,6 +3898,7 @@ extension ApplicationAutoScalingClientTypes {
             self.description = description
             self.details = details
             self.endTime = endTime
+            self.notScaledReasons = notScaledReasons
             self.resourceId = resourceId
             self.scalableDimension = scalableDimension
             self.serviceNamespace = serviceNamespace
@@ -3911,7 +4040,7 @@ extension ApplicationAutoScalingClientTypes.ScalingPolicy: Swift.Codable {
 }
 
 extension ApplicationAutoScalingClientTypes {
-    /// Represents a scaling policy to use with Application Auto Scaling. For more information about configuring scaling policies for a specific service, see [Getting started with Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/getting-started.html) in the Application Auto Scaling User Guide.
+    /// Represents a scaling policy to use with Application Auto Scaling. For more information about configuring scaling policies for a specific service, see [Amazon Web Services services that you can use with Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/integrated-services-list.html) in the Application Auto Scaling User Guide.
     public struct ScalingPolicy: Swift.Equatable {
         /// The CloudWatch alarms associated with the scaling policy.
         public var alarms: [ApplicationAutoScalingClientTypes.Alarm]?
@@ -3924,7 +4053,7 @@ extension ApplicationAutoScalingClientTypes {
         /// The name of the scaling policy.
         /// This member is required.
         public var policyName: Swift.String?
-        /// The scaling policy type.
+        /// The scaling policy type. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
         /// This member is required.
         public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
         /// The identifier of the resource associated with the scaling policy. This string consists of the resource type and unique identifier.
@@ -3982,7 +4111,7 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
         ///
-        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
         ///
         /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
         ///
@@ -4183,7 +4312,7 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * rds:cluster:ReadReplicaCount - The count of Aurora Replicas in an Aurora DB cluster. Available for Aurora MySQL-compatible edition and Aurora PostgreSQL-compatible edition.
         ///
-        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for an SageMaker model endpoint variant.
+        /// * sagemaker:variant:DesiredInstanceCount - The number of EC2 instances for a SageMaker model endpoint variant.
         ///
         /// * custom-resource:ResourceType:Property - The scalable dimension for a custom resource provided by your own application or service.
         ///
@@ -4693,7 +4822,7 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Amazon MSK broker storage
         public var scaleOutCooldown: Swift.Int?
-        /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360. The value must be a valid number based on the choice of metric. For example, if the metric is CPU utilization, then the target value is a percent value that represents how much of the CPU can be used before scaling out.
+        /// The target value for the metric. Although this property accepts numbers of type Double, it won't accept values that are either too small or too large. Values must be in the range of -2^360 to 2^360. The value must be a valid number based on the choice of metric. For example, if the metric is CPU utilization, then the target value is a percent value that represents how much of the CPU can be used before scaling out. If the scaling policy specifies the ALBRequestCountPerTarget predefined metric, specify the target utilization as the optimal average request count per target during any one-minute interval.
         /// This member is required.
         public var targetValue: Swift.Double?
 
