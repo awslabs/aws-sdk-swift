@@ -44,11 +44,12 @@ class Sigv4SigningTests: XCTestCase {
             .withQueryItem(URLQueryItem(name: "%E1%88%B4", value: "bar"))
 
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
-                                                credentialsProvider: MyCustomCredentialsProvider(),
-                                                signingName: "service",
-                                                signingRegion: "us-east-1",
-                                                date: date,
-                                                expiration: 86400) else {
+                                                            credentialsProvider: MyCustomCredentialsProvider(),
+                                                            signingName: "service",
+                                                            signingRegion: "us-east-1",
+                                                            date: date,
+                                                            expiration: 86400,
+                                                            signingAlgorithm: .sigv4) else {
             XCTFail("Unable to generate URL")
             return
         }

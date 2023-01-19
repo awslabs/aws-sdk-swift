@@ -12,6 +12,7 @@ extension HttpContext {
     static let region = AttributeKey<String>(name: "Region")
     public static let signingName = AttributeKey<String>(name: "SigningName")
     public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
+    public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
 
     func getCredentialsProvider() -> CredentialsProvider? {
         return attributes.get(key: HttpContext.credentialsProvider)
@@ -27,6 +28,13 @@ extension HttpContext {
 
     func getSigningRegion() -> String? {
         return attributes.get(key: HttpContext.signingRegion)
+    }
+    
+    func getSigningAlgorithm() -> AWSSigningAlgorithm? {
+        guard let algorithmRawValue = attributes.get(key: HttpContext.signingAlgorithm) else {
+            return nil
+        }
+        return AWSSigningAlgorithm(rawValue: algorithmRawValue)
     }
 }
 
@@ -53,6 +61,12 @@ extension HttpContextBuilder {
     @discardableResult
     public func withSigningRegion(value: String?) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<String>(name: "SigningRegion"), value: value)
+        return self
+    }
+    
+    @discardableResult
+    public func withSigningAlgorithm(value: AWSSigningAlgorithm?) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<String>(name: "SigningAlgorithm"), value: value?.rawValue)
         return self
     }
 }

@@ -6,14 +6,23 @@
 //
 import AwsCommonRuntimeKit
 
-public enum AWSSigningAlgorithm {
+/// Type of signing algorithm
+/// String raw value used for serialization and deserialization
+public enum AWSSigningAlgorithm: String {
+    ///  Signature Version 4
     case sigv4
+    ///  Signature Version 4 Asymmetric
+    case sigv4a
 }
 
 extension AWSSigningAlgorithm {
+
+    /// Convert self to CRT SigningAlgorithmType
+    /// - Returns: SigningAlgorithmType
     func toCRTType() -> SigningAlgorithmType {
         switch self {
         case .sigv4: return .signingV4
+        case .sigv4a: return .signingV4Asymmetric
         }
     }
 }
