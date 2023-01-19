@@ -63,7 +63,4 @@ jobs:
           author_name: AWS CI
           author_email: nobody@amazonaws.com
           message: 'aws-sdk-swift release build artifacts'
-          add:
-            - Sources/Services/*
-            - Tests/Services/*
-            - Package.swift
+          add: '["Sources/Services/*", "Tests/Services/*", "Package.swift"]'
