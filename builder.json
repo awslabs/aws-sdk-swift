@@ -6,6 +6,7 @@
     "gradlew": "{source_dir}/gradlew"
   },
   "pre_build_steps": [
+    "echo 'Deleting all services and their test suites.  Only runtime SDK components will be tested.'",
     "cd {source_dir} && rm -rf Sources/Services/* && rm -rf Tests/Services/*",
     "cd {source_dir} && ./scripts/setup_for_crt_builder.sh"
   ],
