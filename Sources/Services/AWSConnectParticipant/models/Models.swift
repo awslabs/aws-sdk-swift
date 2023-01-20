@@ -1161,6 +1161,7 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case absoluteTime = "AbsoluteTime"
         case attachments = "Attachments"
+        case contactId = "ContactId"
         case content = "Content"
         case contentType = "ContentType"
         case displayName = "DisplayName"
@@ -1168,6 +1169,7 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         case messageMetadata = "MessageMetadata"
         case participantId = "ParticipantId"
         case participantRole = "ParticipantRole"
+        case relatedContactId = "RelatedContactId"
         case type = "Type"
     }
 
@@ -1181,6 +1183,9 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
             for attachmentitem0 in attachments {
                 try attachmentsContainer.encode(attachmentitem0)
             }
+        }
+        if let contactId = self.contactId {
+            try encodeContainer.encode(contactId, forKey: .contactId)
         }
         if let content = self.content {
             try encodeContainer.encode(content, forKey: .content)
@@ -1202,6 +1207,9 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         }
         if let participantRole = self.participantRole {
             try encodeContainer.encode(participantRole.rawValue, forKey: .participantRole)
+        }
+        if let relatedContactId = self.relatedContactId {
+            try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
         }
         if let type = self.type {
             try encodeContainer.encode(type.rawValue, forKey: .type)
@@ -1239,6 +1247,10 @@ extension ConnectParticipantClientTypes.Item: Swift.Codable {
         attachments = attachmentsDecoded0
         let messageMetadataDecoded = try containerValues.decodeIfPresent(ConnectParticipantClientTypes.MessageMetadata.self, forKey: .messageMetadata)
         messageMetadata = messageMetadataDecoded
+        let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
+        relatedContactId = relatedContactIdDecoded
+        let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
+        contactId = contactIdDecoded
     }
 }
 
@@ -1249,6 +1261,8 @@ extension ConnectParticipantClientTypes {
         public var absoluteTime: Swift.String?
         /// Provides information about the attachments.
         public var attachments: [ConnectParticipantClientTypes.AttachmentItem]?
+        /// The contactId on which the transcript item was originally sent. This field is populated only when the transcript item is from the current chat session.
+        public var contactId: Swift.String?
         /// The content of the message or event.
         public var content: Swift.String?
         /// The type of content of the item.
@@ -1263,12 +1277,15 @@ extension ConnectParticipantClientTypes {
         public var participantId: Swift.String?
         /// The role of the sender. For example, is it a customer, agent, or system.
         public var participantRole: ConnectParticipantClientTypes.ParticipantRole?
+        /// The contactId on which the transcript item was originally sent. This field is only populated for persistent chats when the transcript item is from the past chat session. For more information, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+        public var relatedContactId: Swift.String?
         /// Type of the item: message or event.
         public var type: ConnectParticipantClientTypes.ChatItemType?
 
         public init (
             absoluteTime: Swift.String? = nil,
             attachments: [ConnectParticipantClientTypes.AttachmentItem]? = nil,
+            contactId: Swift.String? = nil,
             content: Swift.String? = nil,
             contentType: Swift.String? = nil,
             displayName: Swift.String? = nil,
@@ -1276,11 +1293,13 @@ extension ConnectParticipantClientTypes {
             messageMetadata: ConnectParticipantClientTypes.MessageMetadata? = nil,
             participantId: Swift.String? = nil,
             participantRole: ConnectParticipantClientTypes.ParticipantRole? = nil,
+            relatedContactId: Swift.String? = nil,
             type: ConnectParticipantClientTypes.ChatItemType? = nil
         )
         {
             self.absoluteTime = absoluteTime
             self.attachments = attachments
+            self.contactId = contactId
             self.content = content
             self.contentType = contentType
             self.displayName = displayName
@@ -1288,6 +1307,7 @@ extension ConnectParticipantClientTypes {
             self.messageMetadata = messageMetadata
             self.participantId = participantId
             self.participantRole = participantRole
+            self.relatedContactId = relatedContactId
             self.type = type
         }
     }

@@ -1380,6 +1380,7 @@ extension DescribeLaunchTemplateVersionsInput: ClientRuntime.PaginateToken {
             maxVersion: self.maxVersion,
             minVersion: self.minVersion,
             nextToken: token,
+            resolveAlias: self.resolveAlias,
             versions: self.versions
         )}
 }

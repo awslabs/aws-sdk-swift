@@ -6493,7 +6493,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     /// The number of requests that you want WAF to return from among the first 5,000 requests that your Amazon Web Services resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them.
     /// This member is required.
     public var maxItems: Swift.Int
-    /// The metric name assigned to the Rule or RuleGroup for which you want a sample of requests.
+    /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
     /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, or an Amazon Cognito user pool. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
@@ -15527,7 +15527,7 @@ extension WAFV2ClientTypes {
         /// A boolean indicating whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics).
         /// This member is required.
         public var cloudWatchMetricsEnabled: Swift.Bool
-        /// A name of the Amazon CloudWatch metric. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names reserved for WAF, for example All and Default_Action.
+        /// A name of the Amazon CloudWatch metric dimension. The name can contain only the characters: A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to 128 characters long. It can't contain whitespace or metric names that are reserved for WAF, for example All and Default_Action.
         /// This member is required.
         public var metricName: Swift.String?
         /// A boolean indicating whether WAF should store a sampling of the web requests that match the rules. You can view the sampled requests through the WAF console.

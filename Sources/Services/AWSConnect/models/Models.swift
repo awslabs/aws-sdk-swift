@@ -2464,6 +2464,7 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         case name = "Name"
         case previousContactId = "PreviousContactId"
         case queueInfo = "QueueInfo"
+        case relatedContactId = "RelatedContactId"
         case scheduledTimestamp = "ScheduledTimestamp"
     }
 
@@ -2508,6 +2509,9 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         if let queueInfo = self.queueInfo {
             try encodeContainer.encode(queueInfo, forKey: .queueInfo)
         }
+        if let relatedContactId = self.relatedContactId {
+            try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
+        }
         if let scheduledTimestamp = self.scheduledTimestamp {
             try encodeContainer.encodeTimestamp(scheduledTimestamp, format: .epochSeconds, forKey: .scheduledTimestamp)
         }
@@ -2543,6 +2547,8 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         lastUpdateTimestamp = lastUpdateTimestampDecoded
         let scheduledTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scheduledTimestamp)
         scheduledTimestamp = scheduledTimestampDecoded
+        let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
+        relatedContactId = relatedContactIdDecoded
     }
 }
 
@@ -2575,6 +2581,8 @@ extension ConnectClientTypes {
         public var previousContactId: Swift.String?
         /// If this contact was queued, this contains information about the queue.
         public var queueInfo: ConnectClientTypes.QueueInfo?
+        /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html#relatedcontactid) to this contact.
+        public var relatedContactId: Swift.String?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: ClientRuntime.Date?
 
@@ -2592,6 +2600,7 @@ extension ConnectClientTypes {
             name: Swift.String? = nil,
             previousContactId: Swift.String? = nil,
             queueInfo: ConnectClientTypes.QueueInfo? = nil,
+            relatedContactId: Swift.String? = nil,
             scheduledTimestamp: ClientRuntime.Date? = nil
         )
         {
@@ -2608,6 +2617,7 @@ extension ConnectClientTypes {
             self.name = name
             self.previousContactId = previousContactId
             self.queueInfo = queueInfo
+            self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
         }
     }
@@ -22078,6 +22088,58 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.PersistentChat: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case rehydrationType = "RehydrationType"
+        case sourceContactId = "SourceContactId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let rehydrationType = self.rehydrationType {
+            try encodeContainer.encode(rehydrationType.rawValue, forKey: .rehydrationType)
+        }
+        if let sourceContactId = self.sourceContactId {
+            try encodeContainer.encode(sourceContactId, forKey: .sourceContactId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rehydrationTypeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.RehydrationType.self, forKey: .rehydrationType)
+        rehydrationType = rehydrationTypeDecoded
+        let sourceContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceContactId)
+        sourceContactId = sourceContactIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public struct PersistentChat: Swift.Equatable {
+        /// The contactId that is used for rehydration depends on the rehydration type. RehydrationType is required for persistent chat.
+        ///
+        /// * ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines the most recent chat contact on the specified chat session that has ended, and uses it to start a persistent chat.
+        ///
+        /// * FROM_SEGMENT: Rehydrates a chat from the past chat contact that is specified in the sourceContactId field.
+        ///
+        ///
+        /// The actual contactId used for rehydration is provided in the response of this API.
+        public var rehydrationType: ConnectClientTypes.RehydrationType?
+        /// The contactId from which a persistent chat session must be started.
+        public var sourceContactId: Swift.String?
+
+        public init (
+            rehydrationType: ConnectClientTypes.RehydrationType? = nil,
+            sourceContactId: Swift.String? = nil
+        )
+        {
+            self.rehydrationType = rehydrationType
+            self.sourceContactId = sourceContactId
+        }
+    }
+
+}
+
 extension ConnectClientTypes {
     public enum PhoneNumberCountryCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ad
@@ -24470,6 +24532,38 @@ extension ConnectClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ReferenceType(rawValue: rawValue) ?? ReferenceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes {
+    public enum RehydrationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case entirePastSession
+        case fromSegment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RehydrationType] {
+            return [
+                .entirePastSession,
+                .fromSegment,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .entirePastSession: return "ENTIRE_PAST_SESSION"
+            case .fromSegment: return "FROM_SEGMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RehydrationType(rawValue: rawValue) ?? RehydrationType.sdkUnknown(rawValue)
         }
     }
 }
@@ -28099,6 +28193,7 @@ extension StartChatContactInput: Swift.Encodable {
         case initialMessage = "InitialMessage"
         case instanceId = "InstanceId"
         case participantDetails = "ParticipantDetails"
+        case persistentChat = "PersistentChat"
         case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
     }
 
@@ -28127,6 +28222,9 @@ extension StartChatContactInput: Swift.Encodable {
         }
         if let participantDetails = self.participantDetails {
             try encodeContainer.encode(participantDetails, forKey: .participantDetails)
+        }
+        if let persistentChat = self.persistentChat {
+            try encodeContainer.encode(persistentChat, forKey: .persistentChat)
         }
         if let supportedMessagingContentTypes = supportedMessagingContentTypes {
             var supportedMessagingContentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .supportedMessagingContentTypes)
@@ -28161,6 +28259,8 @@ public struct StartChatContactInput: Swift.Equatable {
     /// Information identifying the participant.
     /// This member is required.
     public var participantDetails: ConnectClientTypes.ParticipantDetails?
+    /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see [Enable persistent chat](https://docs.aws.amazon.com/connect/latest/adminguide/chat-persistence.html).
+    public var persistentChat: ConnectClientTypes.PersistentChat?
     /// The supported chat message content types. Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json].
     public var supportedMessagingContentTypes: [Swift.String]?
 
@@ -28172,6 +28272,7 @@ public struct StartChatContactInput: Swift.Equatable {
         initialMessage: ConnectClientTypes.ChatMessage? = nil,
         instanceId: Swift.String? = nil,
         participantDetails: ConnectClientTypes.ParticipantDetails? = nil,
+        persistentChat: ConnectClientTypes.PersistentChat? = nil,
         supportedMessagingContentTypes: [Swift.String]? = nil
     )
     {
@@ -28182,6 +28283,7 @@ public struct StartChatContactInput: Swift.Equatable {
         self.initialMessage = initialMessage
         self.instanceId = instanceId
         self.participantDetails = participantDetails
+        self.persistentChat = persistentChat
         self.supportedMessagingContentTypes = supportedMessagingContentTypes
     }
 }
@@ -28195,6 +28297,7 @@ struct StartChatContactInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let chatDurationInMinutes: Swift.Int?
     let supportedMessagingContentTypes: [Swift.String]?
+    let persistentChat: ConnectClientTypes.PersistentChat?
 }
 
 extension StartChatContactInputBody: Swift.Decodable {
@@ -28206,6 +28309,7 @@ extension StartChatContactInputBody: Swift.Decodable {
         case initialMessage = "InitialMessage"
         case instanceId = "InstanceId"
         case participantDetails = "ParticipantDetails"
+        case persistentChat = "PersistentChat"
         case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
     }
 
@@ -28245,6 +28349,8 @@ extension StartChatContactInputBody: Swift.Decodable {
             }
         }
         supportedMessagingContentTypes = supportedMessagingContentTypesDecoded0
+        let persistentChatDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.PersistentChat.self, forKey: .persistentChat)
+        persistentChat = persistentChatDecoded
     }
 }
 
@@ -28285,10 +28391,12 @@ extension StartChatContactOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: StartChatContactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contactId = output.contactId
+            self.continuedFromContactId = output.continuedFromContactId
             self.participantId = output.participantId
             self.participantToken = output.participantToken
         } else {
             self.contactId = nil
+            self.continuedFromContactId = nil
             self.participantId = nil
             self.participantToken = nil
         }
@@ -28298,6 +28406,8 @@ extension StartChatContactOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct StartChatContactOutputResponse: Swift.Equatable {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
+    /// The contactId from which a persistent chat session is started. This field is populated only for persistent chats.
+    public var continuedFromContactId: Swift.String?
     /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
     public var participantId: Swift.String?
     /// The token used by the chat participant to call [CreateParticipantConnection](https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html). The participant token is valid for the lifetime of a chat participant.
@@ -28305,11 +28415,13 @@ public struct StartChatContactOutputResponse: Swift.Equatable {
 
     public init (
         contactId: Swift.String? = nil,
+        continuedFromContactId: Swift.String? = nil,
         participantId: Swift.String? = nil,
         participantToken: Swift.String? = nil
     )
     {
         self.contactId = contactId
+        self.continuedFromContactId = continuedFromContactId
         self.participantId = participantId
         self.participantToken = participantToken
     }
@@ -28319,11 +28431,13 @@ struct StartChatContactOutputResponseBody: Swift.Equatable {
     let contactId: Swift.String?
     let participantId: Swift.String?
     let participantToken: Swift.String?
+    let continuedFromContactId: Swift.String?
 }
 
 extension StartChatContactOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
+        case continuedFromContactId = "ContinuedFromContactId"
         case participantId = "ParticipantId"
         case participantToken = "ParticipantToken"
     }
@@ -28336,6 +28450,8 @@ extension StartChatContactOutputResponseBody: Swift.Decodable {
         participantId = participantIdDecoded
         let participantTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .participantToken)
         participantToken = participantTokenDecoded
+        let continuedFromContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuedFromContactId)
+        continuedFromContactId = continuedFromContactIdDecoded
     }
 }
 

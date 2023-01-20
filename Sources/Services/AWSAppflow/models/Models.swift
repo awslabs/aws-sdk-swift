@@ -1531,6 +1531,7 @@ extension AppflowClientTypes.ConnectorMetadata: Swift.Codable {
         case honeycode = "Honeycode"
         case inforNexus = "InforNexus"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case redshift = "Redshift"
         case s3 = "S3"
         case sapoData = "SAPOData"
@@ -1573,6 +1574,9 @@ extension AppflowClientTypes.ConnectorMetadata: Swift.Codable {
         }
         if let marketo = self.marketo {
             try encodeContainer.encode(marketo, forKey: .marketo)
+        }
+        if let pardot = self.pardot {
+            try encodeContainer.encode(pardot, forKey: .pardot)
         }
         if let redshift = self.redshift {
             try encodeContainer.encode(redshift, forKey: .redshift)
@@ -1656,6 +1660,8 @@ extension AppflowClientTypes.ConnectorMetadata: Swift.Codable {
         honeycode = honeycodeDecoded
         let sapoDataDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.SAPODataMetadata.self, forKey: .sapoData)
         sapoData = sapoDataDecoded
+        let pardotDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PardotMetadata.self, forKey: .pardot)
+        pardot = pardotDecoded
     }
 }
 
@@ -1680,6 +1686,8 @@ extension AppflowClientTypes {
         public var inforNexus: AppflowClientTypes.InforNexusMetadata?
         /// The connector metadata specific to Marketo.
         public var marketo: AppflowClientTypes.MarketoMetadata?
+        /// The connector metadata specific to Salesforce Pardot.
+        public var pardot: AppflowClientTypes.PardotMetadata?
         /// The connector metadata specific to Amazon Redshift.
         public var redshift: AppflowClientTypes.RedshiftMetadata?
         /// The connector metadata specific to Amazon S3.
@@ -1715,6 +1723,7 @@ extension AppflowClientTypes {
             honeycode: AppflowClientTypes.HoneycodeMetadata? = nil,
             inforNexus: AppflowClientTypes.InforNexusMetadata? = nil,
             marketo: AppflowClientTypes.MarketoMetadata? = nil,
+            pardot: AppflowClientTypes.PardotMetadata? = nil,
             redshift: AppflowClientTypes.RedshiftMetadata? = nil,
             s3: AppflowClientTypes.S3Metadata? = nil,
             salesforce: AppflowClientTypes.SalesforceMetadata? = nil,
@@ -1738,6 +1747,7 @@ extension AppflowClientTypes {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
@@ -1809,6 +1819,7 @@ extension AppflowClientTypes.ConnectorOperator: Swift.Codable {
         case googleAnalytics = "GoogleAnalytics"
         case inforNexus = "InforNexus"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case s3 = "S3"
         case sapoData = "SAPOData"
         case salesforce = "Salesforce"
@@ -1842,6 +1853,9 @@ extension AppflowClientTypes.ConnectorOperator: Swift.Codable {
         }
         if let marketo = self.marketo {
             try encodeContainer.encode(marketo.rawValue, forKey: .marketo)
+        }
+        if let pardot = self.pardot {
+            try encodeContainer.encode(pardot.rawValue, forKey: .pardot)
         }
         if let s3 = self.s3 {
             try encodeContainer.encode(s3.rawValue, forKey: .s3)
@@ -1906,6 +1920,8 @@ extension AppflowClientTypes.ConnectorOperator: Swift.Codable {
         sapoData = sapoDataDecoded
         let customConnectorDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.Operator.self, forKey: .customConnector)
         customConnector = customConnectorDecoded
+        let pardotDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PardotConnectorOperator.self, forKey: .pardot)
+        pardot = pardotDecoded
     }
 }
 
@@ -1926,6 +1942,8 @@ extension AppflowClientTypes {
         public var inforNexus: AppflowClientTypes.InforNexusConnectorOperator?
         /// The operation to be performed on the provided Marketo source fields.
         public var marketo: AppflowClientTypes.MarketoConnectorOperator?
+        /// The operation to be performed on the provided Salesforce Pardot source fields.
+        public var pardot: AppflowClientTypes.PardotConnectorOperator?
         /// The operation to be performed on the provided Amazon S3 source fields.
         public var s3: AppflowClientTypes.S3ConnectorOperator?
         /// The operation to be performed on the provided Salesforce source fields.
@@ -1953,6 +1971,7 @@ extension AppflowClientTypes {
             googleAnalytics: AppflowClientTypes.GoogleAnalyticsConnectorOperator? = nil,
             inforNexus: AppflowClientTypes.InforNexusConnectorOperator? = nil,
             marketo: AppflowClientTypes.MarketoConnectorOperator? = nil,
+            pardot: AppflowClientTypes.PardotConnectorOperator? = nil,
             s3: AppflowClientTypes.S3ConnectorOperator? = nil,
             salesforce: AppflowClientTypes.SalesforceConnectorOperator? = nil,
             sapoData: AppflowClientTypes.SAPODataConnectorOperator? = nil,
@@ -1971,6 +1990,7 @@ extension AppflowClientTypes {
             self.googleAnalytics = googleAnalytics
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.s3 = s3
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -2166,6 +2186,7 @@ extension AppflowClientTypes.ConnectorProfileCredentials: Swift.Codable {
         case honeycode = "Honeycode"
         case inforNexus = "InforNexus"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case redshift = "Redshift"
         case sapoData = "SAPOData"
         case salesforce = "Salesforce"
@@ -2203,6 +2224,9 @@ extension AppflowClientTypes.ConnectorProfileCredentials: Swift.Codable {
         }
         if let marketo = self.marketo {
             try encodeContainer.encode(marketo, forKey: .marketo)
+        }
+        if let pardot = self.pardot {
+            try encodeContainer.encode(pardot, forKey: .pardot)
         }
         if let redshift = self.redshift {
             try encodeContainer.encode(redshift, forKey: .redshift)
@@ -2274,6 +2298,8 @@ extension AppflowClientTypes.ConnectorProfileCredentials: Swift.Codable {
         sapoData = sapoDataDecoded
         let customConnectorDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.CustomConnectorProfileCredentials.self, forKey: .customConnector)
         customConnector = customConnectorDecoded
+        let pardotDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PardotConnectorProfileCredentials.self, forKey: .pardot)
+        pardot = pardotDecoded
     }
 }
 
@@ -2296,6 +2322,8 @@ extension AppflowClientTypes {
         public var inforNexus: AppflowClientTypes.InforNexusConnectorProfileCredentials?
         /// The connector-specific credentials required when using Marketo.
         public var marketo: AppflowClientTypes.MarketoConnectorProfileCredentials?
+        /// The connector-specific credentials required when using Salesforce Pardot.
+        public var pardot: AppflowClientTypes.PardotConnectorProfileCredentials?
         /// The connector-specific credentials required when using Amazon Redshift.
         public var redshift: AppflowClientTypes.RedshiftConnectorProfileCredentials?
         /// The connector-specific credentials required when using Salesforce.
@@ -2326,6 +2354,7 @@ extension AppflowClientTypes {
             honeycode: AppflowClientTypes.HoneycodeConnectorProfileCredentials? = nil,
             inforNexus: AppflowClientTypes.InforNexusConnectorProfileCredentials? = nil,
             marketo: AppflowClientTypes.MarketoConnectorProfileCredentials? = nil,
+            pardot: AppflowClientTypes.PardotConnectorProfileCredentials? = nil,
             redshift: AppflowClientTypes.RedshiftConnectorProfileCredentials? = nil,
             salesforce: AppflowClientTypes.SalesforceConnectorProfileCredentials? = nil,
             sapoData: AppflowClientTypes.SAPODataConnectorProfileCredentials? = nil,
@@ -2346,6 +2375,7 @@ extension AppflowClientTypes {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -2371,6 +2401,7 @@ extension AppflowClientTypes.ConnectorProfileProperties: Swift.Codable {
         case honeycode = "Honeycode"
         case inforNexus = "InforNexus"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case redshift = "Redshift"
         case sapoData = "SAPOData"
         case salesforce = "Salesforce"
@@ -2408,6 +2439,9 @@ extension AppflowClientTypes.ConnectorProfileProperties: Swift.Codable {
         }
         if let marketo = self.marketo {
             try encodeContainer.encode(marketo, forKey: .marketo)
+        }
+        if let pardot = self.pardot {
+            try encodeContainer.encode(pardot, forKey: .pardot)
         }
         if let redshift = self.redshift {
             try encodeContainer.encode(redshift, forKey: .redshift)
@@ -2479,6 +2513,8 @@ extension AppflowClientTypes.ConnectorProfileProperties: Swift.Codable {
         sapoData = sapoDataDecoded
         let customConnectorDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.CustomConnectorProfileProperties.self, forKey: .customConnector)
         customConnector = customConnectorDecoded
+        let pardotDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PardotConnectorProfileProperties.self, forKey: .pardot)
+        pardot = pardotDecoded
     }
 }
 
@@ -2501,6 +2537,8 @@ extension AppflowClientTypes {
         public var inforNexus: AppflowClientTypes.InforNexusConnectorProfileProperties?
         /// The connector-specific properties required by Marketo.
         public var marketo: AppflowClientTypes.MarketoConnectorProfileProperties?
+        /// The connector-specific properties required by Salesforce Pardot.
+        public var pardot: AppflowClientTypes.PardotConnectorProfileProperties?
         /// The connector-specific properties required by Amazon Redshift.
         public var redshift: AppflowClientTypes.RedshiftConnectorProfileProperties?
         /// The connector-specific properties required by Salesforce.
@@ -2531,6 +2569,7 @@ extension AppflowClientTypes {
             honeycode: AppflowClientTypes.HoneycodeConnectorProfileProperties? = nil,
             inforNexus: AppflowClientTypes.InforNexusConnectorProfileProperties? = nil,
             marketo: AppflowClientTypes.MarketoConnectorProfileProperties? = nil,
+            pardot: AppflowClientTypes.PardotConnectorProfileProperties? = nil,
             redshift: AppflowClientTypes.RedshiftConnectorProfileProperties? = nil,
             salesforce: AppflowClientTypes.SalesforceConnectorProfileProperties? = nil,
             sapoData: AppflowClientTypes.SAPODataConnectorProfileProperties? = nil,
@@ -2551,6 +2590,7 @@ extension AppflowClientTypes {
             self.honeycode = honeycode
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.redshift = redshift
             self.salesforce = salesforce
             self.sapoData = sapoData
@@ -2803,6 +2843,7 @@ extension AppflowClientTypes {
         case infornexus
         case lookoutmetrics
         case marketo
+        case pardot
         case redshift
         case s3
         case salesforce
@@ -2830,6 +2871,7 @@ extension AppflowClientTypes {
                 .infornexus,
                 .lookoutmetrics,
                 .marketo,
+                .pardot,
                 .redshift,
                 .s3,
                 .salesforce,
@@ -2862,6 +2904,7 @@ extension AppflowClientTypes {
             case .infornexus: return "Infornexus"
             case .lookoutmetrics: return "LookoutMetrics"
             case .marketo: return "Marketo"
+            case .pardot: return "Pardot"
             case .redshift: return "Redshift"
             case .s3: return "S3"
             case .salesforce: return "Salesforce"
@@ -9425,6 +9468,255 @@ extension AppflowClientTypes {
 }
 
 extension AppflowClientTypes {
+    public enum PardotConnectorOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case addition
+        case division
+        case equalTo
+        case maskAll
+        case maskFirstN
+        case maskLastN
+        case multiplication
+        case noOp
+        case projection
+        case subtraction
+        case validateNonNegative
+        case validateNonNull
+        case validateNonZero
+        case validateNumeric
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PardotConnectorOperator] {
+            return [
+                .addition,
+                .division,
+                .equalTo,
+                .maskAll,
+                .maskFirstN,
+                .maskLastN,
+                .multiplication,
+                .noOp,
+                .projection,
+                .subtraction,
+                .validateNonNegative,
+                .validateNonNull,
+                .validateNonZero,
+                .validateNumeric,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .addition: return "ADDITION"
+            case .division: return "DIVISION"
+            case .equalTo: return "EQUAL_TO"
+            case .maskAll: return "MASK_ALL"
+            case .maskFirstN: return "MASK_FIRST_N"
+            case .maskLastN: return "MASK_LAST_N"
+            case .multiplication: return "MULTIPLICATION"
+            case .noOp: return "NO_OP"
+            case .projection: return "PROJECTION"
+            case .subtraction: return "SUBTRACTION"
+            case .validateNonNegative: return "VALIDATE_NON_NEGATIVE"
+            case .validateNonNull: return "VALIDATE_NON_NULL"
+            case .validateNonZero: return "VALIDATE_NON_ZERO"
+            case .validateNumeric: return "VALIDATE_NUMERIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PardotConnectorOperator(rawValue: rawValue) ?? PardotConnectorOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppflowClientTypes.PardotConnectorProfileCredentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessToken
+        case clientCredentialsArn
+        case oAuthRequest
+        case refreshToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessToken = self.accessToken {
+            try encodeContainer.encode(accessToken, forKey: .accessToken)
+        }
+        if let clientCredentialsArn = self.clientCredentialsArn {
+            try encodeContainer.encode(clientCredentialsArn, forKey: .clientCredentialsArn)
+        }
+        if let oAuthRequest = self.oAuthRequest {
+            try encodeContainer.encode(oAuthRequest, forKey: .oAuthRequest)
+        }
+        if let refreshToken = self.refreshToken {
+            try encodeContainer.encode(refreshToken, forKey: .refreshToken)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
+        accessToken = accessTokenDecoded
+        let refreshTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .refreshToken)
+        refreshToken = refreshTokenDecoded
+        let oAuthRequestDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.ConnectorOAuthRequest.self, forKey: .oAuthRequest)
+        oAuthRequest = oAuthRequestDecoded
+        let clientCredentialsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientCredentialsArn)
+        clientCredentialsArn = clientCredentialsArnDecoded
+    }
+}
+
+extension AppflowClientTypes.PardotConnectorProfileCredentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PardotConnectorProfileCredentials(oAuthRequest: \(Swift.String(describing: oAuthRequest)), refreshToken: \(Swift.String(describing: refreshToken)), accessToken: \"CONTENT_REDACTED\", clientCredentialsArn: \"CONTENT_REDACTED\")"}
+}
+
+extension AppflowClientTypes {
+    /// The connector-specific profile credentials required when using Salesforce Pardot.
+    public struct PardotConnectorProfileCredentials: Swift.Equatable {
+        /// The credentials used to access protected Salesforce Pardot resources.
+        public var accessToken: Swift.String?
+        /// The secret manager ARN, which contains the client ID and client secret of the connected app.
+        public var clientCredentialsArn: Swift.String?
+        /// Used by select connectors for which the OAuth workflow is supported, such as Salesforce, Google Analytics, Marketo, Zendesk, and Slack.
+        public var oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest?
+        /// The credentials used to acquire new access tokens.
+        public var refreshToken: Swift.String?
+
+        public init (
+            accessToken: Swift.String? = nil,
+            clientCredentialsArn: Swift.String? = nil,
+            oAuthRequest: AppflowClientTypes.ConnectorOAuthRequest? = nil,
+            refreshToken: Swift.String? = nil
+        )
+        {
+            self.accessToken = accessToken
+            self.clientCredentialsArn = clientCredentialsArn
+            self.oAuthRequest = oAuthRequest
+            self.refreshToken = refreshToken
+        }
+    }
+
+}
+
+extension AppflowClientTypes.PardotConnectorProfileProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case businessUnitId
+        case instanceUrl
+        case isSandboxEnvironment
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let businessUnitId = self.businessUnitId {
+            try encodeContainer.encode(businessUnitId, forKey: .businessUnitId)
+        }
+        if let instanceUrl = self.instanceUrl {
+            try encodeContainer.encode(instanceUrl, forKey: .instanceUrl)
+        }
+        if isSandboxEnvironment != false {
+            try encodeContainer.encode(isSandboxEnvironment, forKey: .isSandboxEnvironment)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceUrl)
+        instanceUrl = instanceUrlDecoded
+        let isSandboxEnvironmentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSandboxEnvironment) ?? false
+        isSandboxEnvironment = isSandboxEnvironmentDecoded
+        let businessUnitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .businessUnitId)
+        businessUnitId = businessUnitIdDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// The connector-specific profile properties required when using Salesforce Pardot.
+    public struct PardotConnectorProfileProperties: Swift.Equatable {
+        /// The business unit id of Salesforce Pardot instance.
+        public var businessUnitId: Swift.String?
+        /// The location of the Salesforce Pardot resource.
+        public var instanceUrl: Swift.String?
+        /// Indicates whether the connector profile applies to a sandbox or production environment.
+        public var isSandboxEnvironment: Swift.Bool
+
+        public init (
+            businessUnitId: Swift.String? = nil,
+            instanceUrl: Swift.String? = nil,
+            isSandboxEnvironment: Swift.Bool = false
+        )
+        {
+            self.businessUnitId = businessUnitId
+            self.instanceUrl = instanceUrl
+            self.isSandboxEnvironment = isSandboxEnvironment
+        }
+    }
+
+}
+
+extension AppflowClientTypes.PardotMetadata: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension AppflowClientTypes {
+    /// The connector metadata specific to Salesforce Pardot.
+    public struct PardotMetadata: Swift.Equatable {
+
+        public init () { }
+    }
+
+}
+
+extension AppflowClientTypes.PardotSourceProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case object
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let object = self.object {
+            try encodeContainer.encode(object, forKey: .object)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
+        object = objectDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// The properties that are applied when Salesforce Pardot is being used as a source.
+    public struct PardotSourceProperties: Swift.Equatable {
+        /// The object specified in the Salesforce Pardot flow source.
+        /// This member is required.
+        public var object: Swift.String?
+
+        public init (
+            object: Swift.String? = nil
+        )
+        {
+            self.object = object
+        }
+    }
+
+}
+
+extension AppflowClientTypes {
     public enum PathPrefix: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case executionId
         case schemaVersion
@@ -12663,6 +12955,7 @@ extension AppflowClientTypes.SourceConnectorProperties: Swift.Codable {
         case googleAnalytics = "GoogleAnalytics"
         case inforNexus = "InforNexus"
         case marketo = "Marketo"
+        case pardot = "Pardot"
         case s3 = "S3"
         case sapoData = "SAPOData"
         case salesforce = "Salesforce"
@@ -12696,6 +12989,9 @@ extension AppflowClientTypes.SourceConnectorProperties: Swift.Codable {
         }
         if let marketo = self.marketo {
             try encodeContainer.encode(marketo, forKey: .marketo)
+        }
+        if let pardot = self.pardot {
+            try encodeContainer.encode(pardot, forKey: .pardot)
         }
         if let s3 = self.s3 {
             try encodeContainer.encode(s3, forKey: .s3)
@@ -12760,6 +13056,8 @@ extension AppflowClientTypes.SourceConnectorProperties: Swift.Codable {
         sapoData = sapoDataDecoded
         let customConnectorDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.CustomConnectorSourceProperties.self, forKey: .customConnector)
         customConnector = customConnectorDecoded
+        let pardotDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.PardotSourceProperties.self, forKey: .pardot)
+        pardot = pardotDecoded
     }
 }
 
@@ -12780,6 +13078,8 @@ extension AppflowClientTypes {
         public var inforNexus: AppflowClientTypes.InforNexusSourceProperties?
         /// Specifies the information that is required for querying Marketo.
         public var marketo: AppflowClientTypes.MarketoSourceProperties?
+        /// Specifies the information that is required for querying Salesforce Pardot.
+        public var pardot: AppflowClientTypes.PardotSourceProperties?
         /// Specifies the information that is required for querying Amazon S3.
         public var s3: AppflowClientTypes.S3SourceProperties?
         /// Specifies the information that is required for querying Salesforce.
@@ -12807,6 +13107,7 @@ extension AppflowClientTypes {
             googleAnalytics: AppflowClientTypes.GoogleAnalyticsSourceProperties? = nil,
             inforNexus: AppflowClientTypes.InforNexusSourceProperties? = nil,
             marketo: AppflowClientTypes.MarketoSourceProperties? = nil,
+            pardot: AppflowClientTypes.PardotSourceProperties? = nil,
             s3: AppflowClientTypes.S3SourceProperties? = nil,
             salesforce: AppflowClientTypes.SalesforceSourceProperties? = nil,
             sapoData: AppflowClientTypes.SAPODataSourceProperties? = nil,
@@ -12825,6 +13126,7 @@ extension AppflowClientTypes {
             self.googleAnalytics = googleAnalytics
             self.inforNexus = inforNexus
             self.marketo = marketo
+            self.pardot = pardot
             self.s3 = s3
             self.salesforce = salesforce
             self.sapoData = sapoData

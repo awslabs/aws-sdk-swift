@@ -234,6 +234,8 @@ public struct AssociateExternalConnectionInput: Swift.Equatable {
     ///
     /// * public:npmjs - for the npm public repository.
     ///
+    /// * public:nuget-org - for the NuGet Gallery.
+    ///
     /// * public:pypi - for the Python Package Index.
     ///
     /// * public:maven-central - for Maven Central.
@@ -3787,7 +3789,7 @@ public struct GetPackageVersionReadmeInput: Swift.Equatable {
     public var domain: Swift.String?
     /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
     public var domainOwner: Swift.String?
-    /// A format that specifies the type of the package version with the requested readme file.
+    /// A format that specifies the type of the package version with the requested readme file. Although maven is listed as a valid value, CodeArtifact does not support displaying readme files for Maven packages.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
@@ -5405,7 +5407,7 @@ public struct ListPackagesInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The namespace used to filter requested packages. Only packages with the provided namespace will be returned. The package component that specifies its namespace depends on its type. For example:
+    /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:
     ///
     /// * The namespace of a Maven package is its groupId.
     ///
@@ -6028,7 +6030,15 @@ extension CodeartifactClientTypes.PackageDependency: Swift.Codable {
 extension CodeartifactClientTypes {
     /// Details about a package dependency.
     public struct PackageDependency: Swift.Equatable {
-        /// The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
+        /// The type of a package dependency. The possible values depend on the package type.
+        ///
+        /// * npm: regular, dev, peer, optional
+        ///
+        /// * maven: optional, parent, compile, runtime, test, system, provided. Note that parent is not a regular Maven dependency type; instead this is extracted from the  element if one is defined in the package version's POM file.
+        ///
+        /// * nuget: The dependencyType field is never set for NuGet packages.
+        ///
+        /// * pypi: Requires-Dist
         public var dependencyType: Swift.String?
         /// The namespace of the package that this package depends on. The package component that specifies its namespace depends on its type. For example:
         ///

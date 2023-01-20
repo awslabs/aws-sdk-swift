@@ -3121,7 +3121,7 @@ extension CreateVpcEndpointInput: ClientRuntime.URLPathProvider {
 public struct CreateVpcEndpointInput: Swift.Equatable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the domain to grant access to.
+    /// The Amazon Resource Name (ARN) of the domain to create the endpoint for.
     /// This member is required.
     public var domainArn: Swift.String?
     /// Options to specify the subnets and security groups for the endpoint.
@@ -4402,6 +4402,153 @@ extension DescribeDomainsOutputResponseBody: Swift.Decodable {
             }
         }
         domainStatusList = domainStatusListDecoded0
+    }
+}
+
+extension DescribeDryRunProgressInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let dryRunId = dryRunId {
+                let dryRunIdQueryItem = ClientRuntime.URLQueryItem(name: "dryRunId".urlPercentEncoding(), value: Swift.String(dryRunId).urlPercentEncoding())
+                items.append(dryRunIdQueryItem)
+            }
+            if let loadDryRunConfig = loadDryRunConfig {
+                let loadDryRunConfigQueryItem = ClientRuntime.URLQueryItem(name: "loadDryRunConfig".urlPercentEncoding(), value: Swift.String(loadDryRunConfig).urlPercentEncoding())
+                items.append(loadDryRunConfigQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DescribeDryRunProgressInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/dryRun"
+    }
+}
+
+public struct DescribeDryRunProgressInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of the dry run.
+    public var dryRunId: Swift.String?
+    /// Whether to include the configuration of the dry run in the response. The configuration specifies the updates that you're planning to make on the domain.
+    public var loadDryRunConfig: Swift.Bool?
+
+    public init (
+        domainName: Swift.String? = nil,
+        dryRunId: Swift.String? = nil,
+        loadDryRunConfig: Swift.Bool? = nil
+    )
+    {
+        self.domainName = domainName
+        self.dryRunId = dryRunId
+        self.loadDryRunConfig = loadDryRunConfig
+    }
+}
+
+struct DescribeDryRunProgressInputBody: Swift.Equatable {
+}
+
+extension DescribeDryRunProgressInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeDryRunProgressOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeDryRunProgressOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "DisabledOperationException" : self = .disabledOperationException(try DisabledOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeDryRunProgressOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case disabledOperationException(DisabledOperationException)
+    case internalException(InternalException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeDryRunProgressOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeDryRunProgressOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dryRunConfig = output.dryRunConfig
+            self.dryRunProgressStatus = output.dryRunProgressStatus
+            self.dryRunResults = output.dryRunResults
+        } else {
+            self.dryRunConfig = nil
+            self.dryRunProgressStatus = nil
+            self.dryRunResults = nil
+        }
+    }
+}
+
+public struct DescribeDryRunProgressOutputResponse: Swift.Equatable {
+    /// Details about the changes you're planning to make on the domain.
+    public var dryRunConfig: OpenSearchClientTypes.DomainStatus?
+    /// The current status of the dry run, including any validation errors.
+    public var dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
+    /// The results of the dry run.
+    public var dryRunResults: OpenSearchClientTypes.DryRunResults?
+
+    public init (
+        dryRunConfig: OpenSearchClientTypes.DomainStatus? = nil,
+        dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus? = nil,
+        dryRunResults: OpenSearchClientTypes.DryRunResults? = nil
+    )
+    {
+        self.dryRunConfig = dryRunConfig
+        self.dryRunProgressStatus = dryRunProgressStatus
+        self.dryRunResults = dryRunResults
+    }
+}
+
+struct DescribeDryRunProgressOutputResponseBody: Swift.Equatable {
+    let dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
+    let dryRunConfig: OpenSearchClientTypes.DomainStatus?
+    let dryRunResults: OpenSearchClientTypes.DryRunResults?
+}
+
+extension DescribeDryRunProgressOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRunConfig = "DryRunConfig"
+        case dryRunProgressStatus = "DryRunProgressStatus"
+        case dryRunResults = "DryRunResults"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dryRunProgressStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunProgressStatus.self, forKey: .dryRunProgressStatus)
+        dryRunProgressStatus = dryRunProgressStatusDecoded
+        let dryRunConfigDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DomainStatus.self, forKey: .dryRunConfig)
+        dryRunConfig = dryRunConfigDecoded
+        let dryRunResultsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunResults.self, forKey: .dryRunResults)
+        dryRunResults = dryRunResultsDecoded
     }
 }
 
@@ -6615,6 +6762,129 @@ extension OpenSearchClientTypes {
             self.snapshotOptions = snapshotOptions
             self.upgradeProcessing = upgradeProcessing
             self.vpcOptions = vpcOptions
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
+    public enum DryRunMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case basic
+        case verbose
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DryRunMode] {
+            return [
+                .basic,
+                .verbose,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "Basic"
+            case .verbose: return "Verbose"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DryRunMode(rawValue: rawValue) ?? DryRunMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes.DryRunProgressStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationDate = "CreationDate"
+        case dryRunId = "DryRunId"
+        case dryRunStatus = "DryRunStatus"
+        case updateDate = "UpdateDate"
+        case validationFailures = "ValidationFailures"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationDate = self.creationDate {
+            try encodeContainer.encode(creationDate, forKey: .creationDate)
+        }
+        if let dryRunId = self.dryRunId {
+            try encodeContainer.encode(dryRunId, forKey: .dryRunId)
+        }
+        if let dryRunStatus = self.dryRunStatus {
+            try encodeContainer.encode(dryRunStatus, forKey: .dryRunStatus)
+        }
+        if let updateDate = self.updateDate {
+            try encodeContainer.encode(updateDate, forKey: .updateDate)
+        }
+        if let validationFailures = validationFailures {
+            var validationFailuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validationFailures)
+            for validationfailure0 in validationFailures {
+                try validationFailuresContainer.encode(validationfailure0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dryRunIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dryRunId)
+        dryRunId = dryRunIdDecoded
+        let dryRunStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dryRunStatus)
+        dryRunStatus = dryRunStatusDecoded
+        let creationDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let updateDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updateDate)
+        updateDate = updateDateDecoded
+        let validationFailuresContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.ValidationFailure?].self, forKey: .validationFailures)
+        var validationFailuresDecoded0:[OpenSearchClientTypes.ValidationFailure]? = nil
+        if let validationFailuresContainer = validationFailuresContainer {
+            validationFailuresDecoded0 = [OpenSearchClientTypes.ValidationFailure]()
+            for structure0 in validationFailuresContainer {
+                if let structure0 = structure0 {
+                    validationFailuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        validationFailures = validationFailuresDecoded0
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about the progress of a pre-upgrade dry run analysis.
+    public struct DryRunProgressStatus: Swift.Equatable {
+        /// The timestamp when the dry run was initiated.
+        /// This member is required.
+        public var creationDate: Swift.String?
+        /// The unique identifier of the dry run.
+        /// This member is required.
+        public var dryRunId: Swift.String?
+        /// The current status of the dry run.
+        /// This member is required.
+        public var dryRunStatus: Swift.String?
+        /// The timestamp when the dry run was last updated.
+        /// This member is required.
+        public var updateDate: Swift.String?
+        /// Any validation failures that occurred as a result of the dry run.
+        public var validationFailures: [OpenSearchClientTypes.ValidationFailure]?
+
+        public init (
+            creationDate: Swift.String? = nil,
+            dryRunId: Swift.String? = nil,
+            dryRunStatus: Swift.String? = nil,
+            updateDate: Swift.String? = nil,
+            validationFailures: [OpenSearchClientTypes.ValidationFailure]? = nil
+        )
+        {
+            self.creationDate = creationDate
+            self.dryRunId = dryRunId
+            self.dryRunStatus = dryRunStatus
+            self.updateDate = updateDate
+            self.validationFailures = validationFailures
         }
     }
 
@@ -12709,6 +12979,7 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         case cognitoOptions = "CognitoOptions"
         case domainEndpointOptions = "DomainEndpointOptions"
         case dryRun = "DryRun"
+        case dryRunMode = "DryRunMode"
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
@@ -12745,6 +13016,9 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         }
         if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
+        if let dryRunMode = self.dryRunMode {
+            try encodeContainer.encode(dryRunMode.rawValue, forKey: .dryRunMode)
         }
         if let ebsOptions = self.ebsOptions {
             try encodeContainer.encode(ebsOptions, forKey: .ebsOptions)
@@ -12809,8 +13083,14 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     /// The name of the domain that you're updating.
     /// This member is required.
     public var domainName: Swift.String?
-    /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of validation check without actually applying the change.
+    /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of a dry run analysis without actually applying the change. A dry run determines what type of deployment the update will cause.
     public var dryRun: Swift.Bool?
+    /// The type of dry run to perform.
+    ///
+    /// * Basic only returns the type of deployment (blue/green or dynamic) that the update will cause.
+    ///
+    /// * Verbose runs an additional check to validate the changes you're making. For more information, see [Validating a domain update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check).
+    public var dryRunMode: OpenSearchClientTypes.DryRunMode?
     /// The type and size of the EBS volume to attach to instances in the domain.
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
@@ -12834,6 +13114,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptions? = nil,
         domainName: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
+        dryRunMode: OpenSearchClientTypes.DryRunMode? = nil,
         ebsOptions: OpenSearchClientTypes.EBSOptions? = nil,
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
@@ -12851,6 +13132,7 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         self.domainEndpointOptions = domainEndpointOptions
         self.domainName = domainName
         self.dryRun = dryRun
+        self.dryRunMode = dryRunMode
         self.ebsOptions = ebsOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
@@ -12875,6 +13157,7 @@ struct UpdateDomainConfigInputBody: Swift.Equatable {
     let advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput?
     let autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
     let dryRun: Swift.Bool?
+    let dryRunMode: OpenSearchClientTypes.DryRunMode?
 }
 
 extension UpdateDomainConfigInputBody: Swift.Decodable {
@@ -12887,6 +13170,7 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         case cognitoOptions = "CognitoOptions"
         case domainEndpointOptions = "DomainEndpointOptions"
         case dryRun = "DryRun"
+        case dryRunMode = "DryRunMode"
         case ebsOptions = "EBSOptions"
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
@@ -12943,6 +13227,8 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         autoTuneOptions = autoTuneOptionsDecoded
         let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
+        let dryRunModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunMode.self, forKey: .dryRunMode)
+        dryRunMode = dryRunModeDecoded
     }
 }
 
@@ -12985,9 +13271,11 @@ extension UpdateDomainConfigOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: UpdateDomainConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.domainConfig = output.domainConfig
+            self.dryRunProgressStatus = output.dryRunProgressStatus
             self.dryRunResults = output.dryRunResults
         } else {
             self.domainConfig = nil
+            self.dryRunProgressStatus = nil
             self.dryRunResults = nil
         }
     }
@@ -12998,15 +13286,19 @@ public struct UpdateDomainConfigOutputResponse: Swift.Equatable {
     /// The status of the updated domain.
     /// This member is required.
     public var domainConfig: OpenSearchClientTypes.DomainConfig?
-    /// Results of a dry run performed in an update domain request.
+    /// The status of the dry run being performed on the domain, if any.
+    public var dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
+    /// Results of the dry run performed in the update domain request.
     public var dryRunResults: OpenSearchClientTypes.DryRunResults?
 
     public init (
         domainConfig: OpenSearchClientTypes.DomainConfig? = nil,
+        dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus? = nil,
         dryRunResults: OpenSearchClientTypes.DryRunResults? = nil
     )
     {
         self.domainConfig = domainConfig
+        self.dryRunProgressStatus = dryRunProgressStatus
         self.dryRunResults = dryRunResults
     }
 }
@@ -13014,11 +13306,13 @@ public struct UpdateDomainConfigOutputResponse: Swift.Equatable {
 struct UpdateDomainConfigOutputResponseBody: Swift.Equatable {
     let domainConfig: OpenSearchClientTypes.DomainConfig?
     let dryRunResults: OpenSearchClientTypes.DryRunResults?
+    let dryRunProgressStatus: OpenSearchClientTypes.DryRunProgressStatus?
 }
 
 extension UpdateDomainConfigOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainConfig = "DomainConfig"
+        case dryRunProgressStatus = "DryRunProgressStatus"
         case dryRunResults = "DryRunResults"
     }
 
@@ -13028,6 +13322,8 @@ extension UpdateDomainConfigOutputResponseBody: Swift.Decodable {
         domainConfig = domainConfigDecoded
         let dryRunResultsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunResults.self, forKey: .dryRunResults)
         dryRunResults = dryRunResultsDecoded
+        let dryRunProgressStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunProgressStatus.self, forKey: .dryRunProgressStatus)
+        dryRunProgressStatus = dryRunProgressStatusDecoded
     }
 }
 
@@ -14074,6 +14370,51 @@ extension ValidationExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension OpenSearchClientTypes.ValidationFailure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code = "Code"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// A validation failure that occurred as the result of a pre-update validation check (verbose dry run) on a domain.
+    public struct ValidationFailure: Swift.Equatable {
+        /// The error code of the failure.
+        public var code: Swift.String?
+        /// A message corresponding to the failure.
+        public var message: Swift.String?
+
+        public init (
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
 }
 
 extension OpenSearchClientTypes.VersionStatus: Swift.Codable {

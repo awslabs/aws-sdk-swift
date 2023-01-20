@@ -782,7 +782,7 @@ extension CreateJobForDevicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateJobForDevicesInput: Swift.Equatable {
-    /// IDs of target devices.
+    /// ID of target device.
     /// This member is required.
     public var deviceIds: [Swift.String]?
     /// Configuration settings for a software update job.
@@ -7338,11 +7338,15 @@ extension PanoramaClientTypes {
 
 extension PanoramaClientTypes.OTAJobConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowMajorVersionUpdate = "AllowMajorVersionUpdate"
         case imageVersion = "ImageVersion"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if allowMajorVersionUpdate != false {
+            try encodeContainer.encode(allowMajorVersionUpdate, forKey: .allowMajorVersionUpdate)
+        }
         if let imageVersion = self.imageVersion {
             try encodeContainer.encode(imageVersion, forKey: .imageVersion)
         }
@@ -7352,20 +7356,26 @@ extension PanoramaClientTypes.OTAJobConfig: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let imageVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageVersion)
         imageVersion = imageVersionDecoded
+        let allowMajorVersionUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpdate) ?? false
+        allowMajorVersionUpdate = allowMajorVersionUpdateDecoded
     }
 }
 
 extension PanoramaClientTypes {
     /// An over-the-air update (OTA) job configuration.
     public struct OTAJobConfig: Swift.Equatable {
+        /// Whether to apply the update if it is a major version change.
+        public var allowMajorVersionUpdate: Swift.Bool
         /// The target version of the device software.
         /// This member is required.
         public var imageVersion: Swift.String?
 
         public init (
+            allowMajorVersionUpdate: Swift.Bool = false,
             imageVersion: Swift.String? = nil
         )
         {
+            self.allowMajorVersionUpdate = allowMajorVersionUpdate
             self.imageVersion = imageVersion
         }
     }

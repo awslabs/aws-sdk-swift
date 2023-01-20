@@ -1031,12 +1031,20 @@ extension CreateConfigOutputResponseBody: Swift.Decodable {
 
 extension CreateDataflowEndpointGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactPostPassDurationSeconds
+        case contactPrePassDurationSeconds
         case endpointDetails
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactPostPassDurationSeconds = self.contactPostPassDurationSeconds {
+            try encodeContainer.encode(contactPostPassDurationSeconds, forKey: .contactPostPassDurationSeconds)
+        }
+        if let contactPrePassDurationSeconds = self.contactPrePassDurationSeconds {
+            try encodeContainer.encode(contactPrePassDurationSeconds, forKey: .contactPrePassDurationSeconds)
+        }
         if let endpointDetails = endpointDetails {
             var endpointDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .endpointDetails)
             for endpointdetails0 in endpointDetails {
@@ -1060,6 +1068,10 @@ extension CreateDataflowEndpointGroupInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
+    /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+    public var contactPostPassDurationSeconds: Swift.Int?
+    /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+    public var contactPrePassDurationSeconds: Swift.Int?
     /// Endpoint details of each endpoint in the dataflow endpoint group.
     /// This member is required.
     public var endpointDetails: [GroundStationClientTypes.EndpointDetails]?
@@ -1067,10 +1079,14 @@ public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        contactPostPassDurationSeconds: Swift.Int? = nil,
+        contactPrePassDurationSeconds: Swift.Int? = nil,
         endpointDetails: [GroundStationClientTypes.EndpointDetails]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+        self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.endpointDetails = endpointDetails
         self.tags = tags
     }
@@ -1079,10 +1095,14 @@ public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
 struct CreateDataflowEndpointGroupInputBody: Swift.Equatable {
     let endpointDetails: [GroundStationClientTypes.EndpointDetails]?
     let tags: [Swift.String:Swift.String]?
+    let contactPrePassDurationSeconds: Swift.Int?
+    let contactPostPassDurationSeconds: Swift.Int?
 }
 
 extension CreateDataflowEndpointGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactPostPassDurationSeconds
+        case contactPrePassDurationSeconds
         case endpointDetails
         case tags
     }
@@ -1111,6 +1131,10 @@ extension CreateDataflowEndpointGroupInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let contactPrePassDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contactPrePassDurationSeconds)
+        contactPrePassDurationSeconds = contactPrePassDurationSecondsDecoded
+        let contactPostPassDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contactPostPassDurationSeconds)
+        contactPostPassDurationSeconds = contactPostPassDurationSecondsDecoded
     }
 }
 
@@ -3939,11 +3963,15 @@ extension GetDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseBind
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: GetDataflowEndpointGroupOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.contactPostPassDurationSeconds = output.contactPostPassDurationSeconds
+            self.contactPrePassDurationSeconds = output.contactPrePassDurationSeconds
             self.dataflowEndpointGroupArn = output.dataflowEndpointGroupArn
             self.dataflowEndpointGroupId = output.dataflowEndpointGroupId
             self.endpointsDetails = output.endpointsDetails
             self.tags = output.tags
         } else {
+            self.contactPostPassDurationSeconds = nil
+            self.contactPrePassDurationSeconds = nil
             self.dataflowEndpointGroupArn = nil
             self.dataflowEndpointGroupId = nil
             self.endpointsDetails = nil
@@ -3954,6 +3982,10 @@ extension GetDataflowEndpointGroupOutputResponse: ClientRuntime.HttpResponseBind
 
 ///
 public struct GetDataflowEndpointGroupOutputResponse: Swift.Equatable {
+    /// Amount of time, in seconds, after a contact ends for the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact enters and exits the POSTPASS state.
+    public var contactPostPassDurationSeconds: Swift.Int?
+    /// Amount of time, in seconds, prior to contact start for the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact enters and exits the PREPASS state.
+    public var contactPrePassDurationSeconds: Swift.Int?
     /// ARN of a dataflow endpoint group.
     public var dataflowEndpointGroupArn: Swift.String?
     /// UUID of a dataflow endpoint group.
@@ -3964,12 +3996,16 @@ public struct GetDataflowEndpointGroupOutputResponse: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        contactPostPassDurationSeconds: Swift.Int? = nil,
+        contactPrePassDurationSeconds: Swift.Int? = nil,
         dataflowEndpointGroupArn: Swift.String? = nil,
         dataflowEndpointGroupId: Swift.String? = nil,
         endpointsDetails: [GroundStationClientTypes.EndpointDetails]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+        self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
         self.dataflowEndpointGroupArn = dataflowEndpointGroupArn
         self.dataflowEndpointGroupId = dataflowEndpointGroupId
         self.endpointsDetails = endpointsDetails
@@ -3982,10 +4018,14 @@ struct GetDataflowEndpointGroupOutputResponseBody: Swift.Equatable {
     let dataflowEndpointGroupArn: Swift.String?
     let endpointsDetails: [GroundStationClientTypes.EndpointDetails]?
     let tags: [Swift.String:Swift.String]?
+    let contactPrePassDurationSeconds: Swift.Int?
+    let contactPostPassDurationSeconds: Swift.Int?
 }
 
 extension GetDataflowEndpointGroupOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactPostPassDurationSeconds
+        case contactPrePassDurationSeconds
         case dataflowEndpointGroupArn
         case dataflowEndpointGroupId
         case endpointsDetails
@@ -4020,6 +4060,10 @@ extension GetDataflowEndpointGroupOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let contactPrePassDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contactPrePassDurationSeconds)
+        contactPrePassDurationSeconds = contactPrePassDurationSecondsDecoded
+        let contactPostPassDurationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contactPostPassDurationSeconds)
+        contactPostPassDurationSeconds = contactPostPassDurationSecondsDecoded
     }
 }
 

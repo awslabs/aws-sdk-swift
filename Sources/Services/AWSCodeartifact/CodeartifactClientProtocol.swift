@@ -9,10 +9,7 @@ import ClientRuntime
 ///
 /// * Domain: Repositories are aggregated into a higher-level entity known as a domain. All package assets and metadata are stored in the domain, but are consumed through repositories. A given package asset, such as a Maven JAR file, is stored once per domain, no matter how many repositories it's present in. All of the assets and metadata in a domain are encrypted with the same customer master key (CMK) stored in Key Management Service (KMS). Each repository is a member of a single domain and can't be moved to a different domain. The domain allows organizational policy to be applied across multiple repositories, such as which accounts can access repositories in the domain, and which public repositories can be used as sources of packages. Although an organization can have multiple domains, we recommend a single production domain that contains all published artifacts so that teams can find and share packages across their organization.
 ///
-/// * Package: A package is a bundle of software and the metadata required to resolve dependencies and install the software. CodeArtifact supports [npm](https://docs.aws.amazon.com/codeartifact/latest/ug/using-npm.html), [PyPI](https://docs.aws.amazon.com/codeartifact/latest/ug/using-python.html), [Maven](https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven), and [NuGet](https://docs.aws.amazon.com/codeartifact/latest/ug/using-nuget) package formats.
-///
-///
-/// In CodeArtifact, a package consists of:
+/// * Package: A package is a bundle of software and the metadata required to resolve dependencies and install the software. CodeArtifact supports [npm](https://docs.aws.amazon.com/codeartifact/latest/ug/using-npm.html), [PyPI](https://docs.aws.amazon.com/codeartifact/latest/ug/using-python.html), [Maven](https://docs.aws.amazon.com/codeartifact/latest/ug/using-maven), and [NuGet](https://docs.aws.amazon.com/codeartifact/latest/ug/using-nuget) package formats. In CodeArtifact, a package consists of:
 ///
 /// * A name (for example, webpack is the name of a popular npm package)
 ///
@@ -50,9 +47,6 @@ import ClientRuntime
 ///
 /// * DeleteRepository: Deletes a repository.
 ///
-///
-///
-///
 /// * DeleteRepositoryPermissionsPolicy: Deletes the resource policy that is set on a repository.
 ///
 /// * DescribeDomain: Returns a DomainDescription object that contains information about the requested domain.
@@ -66,9 +60,6 @@ import ClientRuntime
 /// * DisposePackageVersions: Disposes versions of a package. A package version with the status Disposed cannot be restored because they have been permanently removed from storage.
 ///
 /// * DisassociateExternalConnection: Removes an existing external connection from a repository.
-///
-///
-///
 ///
 /// * GetAuthorizationToken: Generates a temporary authorization token for accessing repositories in the domain. The token expires the authorization period has passed. The default authorization period is 12 hours and can be customized to any length with a maximum of 12 hours.
 ///
@@ -92,9 +83,6 @@ import ClientRuntime
 ///
 ///
 /// * GetRepositoryPermissionsPolicy: Returns the resource policy that is set on a repository.
-///
-///
-///
 ///
 /// * ListDomains: Returns a list of DomainSummary objects. Each returned DomainSummary object contains information about a domain.
 ///
@@ -132,7 +120,7 @@ public protocol CodeartifactClientProtocol {
     func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     /// Deletes the resource policy set on a domain.
     func deleteDomainPermissionsPolicy(input: DeleteDomainPermissionsPolicyInput) async throws -> DeleteDomainPermissionsPolicyOutputResponse
-    /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
+    /// Deletes one or more versions of a package. A deleted package version cannot be restored in your repository. If you want to remove a package version from your repository and be able to restore it later, set its status to Archived. Archived packages cannot be downloaded from a repository and don't show up with list package APIs (for example, [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html)), but you can restore them using [UpdatePackageVersionsStatus](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdatePackageVersionsStatus.html).
     func deletePackageVersions(input: DeletePackageVersionsInput) async throws -> DeletePackageVersionsOutputResponse
     /// Deletes a repository.
     func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
@@ -156,7 +144,7 @@ public protocol CodeartifactClientProtocol {
     func getDomainPermissionsPolicy(input: GetDomainPermissionsPolicyInput) async throws -> GetDomainPermissionsPolicyOutputResponse
     /// Returns an asset (or file) that is in a package. For example, for a Maven package version, use GetPackageVersionAsset to download a JAR file, a POM file, or any other assets in the package version.
     func getPackageVersionAsset(input: GetPackageVersionAssetInput) async throws -> GetPackageVersionAssetOutputResponse
-    /// Gets the readme file or descriptive text for a package version. For packages that do not contain a readme file, CodeArtifact extracts a description from a metadata file. For example, from the  element in the pom.xml file of a Maven package. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
+    /// Gets the readme file or descriptive text for a package version. The returned text might contain formatting. For example, it might contain formatting for Markdown or reStructuredText.
     func getPackageVersionReadme(input: GetPackageVersionReadmeInput) async throws -> GetPackageVersionReadmeOutputResponse
     /// Returns the endpoint of a repository for a specific package format. A repository has one endpoint for each package format:
     ///
