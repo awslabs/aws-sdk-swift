@@ -4837,6 +4837,108 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes.CatalogHudiSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalHudiOptions = "AdditionalHudiOptions"
+        case database = "Database"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalHudiOptions = additionalHudiOptions {
+            var additionalHudiOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalHudiOptions)
+            for (dictKey0, additionalOptions0) in additionalHudiOptions {
+                try additionalHudiOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let additionalHudiOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalHudiOptions)
+        var additionalHudiOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalHudiOptionsContainer = additionalHudiOptionsContainer {
+            additionalHudiOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalHudiOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalHudiOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalHudiOptions = additionalHudiOptionsDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
+    public struct CatalogHudiSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalHudiOptions: [Swift.String:Swift.String]?
+        /// The name of the database to read from.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The name of the Hudi data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Hudi source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// The name of the table in the database to read from.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalHudiOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+    }
+
+}
+
 extension GlueClientTypes.CatalogImportStatus: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importCompleted = "ImportCompleted"
@@ -5565,6 +5667,7 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case aggregate = "Aggregate"
         case applyMapping = "ApplyMapping"
         case athenaConnectorSource = "AthenaConnectorSource"
+        case catalogHudiSource = "CatalogHudiSource"
         case catalogKafkaSource = "CatalogKafkaSource"
         case catalogKinesisSource = "CatalogKinesisSource"
         case catalogSource = "CatalogSource"
@@ -5599,11 +5702,15 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case redshiftTarget = "RedshiftTarget"
         case relationalCatalogSource = "RelationalCatalogSource"
         case renameField = "RenameField"
+        case s3CatalogHudiSource = "S3CatalogHudiSource"
         case s3CatalogSource = "S3CatalogSource"
         case s3CatalogTarget = "S3CatalogTarget"
         case s3CsvSource = "S3CsvSource"
         case s3DirectTarget = "S3DirectTarget"
         case s3GlueParquetTarget = "S3GlueParquetTarget"
+        case s3HudiCatalogTarget = "S3HudiCatalogTarget"
+        case s3HudiDirectTarget = "S3HudiDirectTarget"
+        case s3HudiSource = "S3HudiSource"
         case s3JsonSource = "S3JsonSource"
         case s3ParquetSource = "S3ParquetSource"
         case selectFields = "SelectFields"
@@ -5626,6 +5733,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let athenaConnectorSource = self.athenaConnectorSource {
             try encodeContainer.encode(athenaConnectorSource, forKey: .athenaConnectorSource)
+        }
+        if let catalogHudiSource = self.catalogHudiSource {
+            try encodeContainer.encode(catalogHudiSource, forKey: .catalogHudiSource)
         }
         if let catalogKafkaSource = self.catalogKafkaSource {
             try encodeContainer.encode(catalogKafkaSource, forKey: .catalogKafkaSource)
@@ -5729,6 +5839,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         if let renameField = self.renameField {
             try encodeContainer.encode(renameField, forKey: .renameField)
         }
+        if let s3CatalogHudiSource = self.s3CatalogHudiSource {
+            try encodeContainer.encode(s3CatalogHudiSource, forKey: .s3CatalogHudiSource)
+        }
         if let s3CatalogSource = self.s3CatalogSource {
             try encodeContainer.encode(s3CatalogSource, forKey: .s3CatalogSource)
         }
@@ -5743,6 +5856,15 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let s3GlueParquetTarget = self.s3GlueParquetTarget {
             try encodeContainer.encode(s3GlueParquetTarget, forKey: .s3GlueParquetTarget)
+        }
+        if let s3HudiCatalogTarget = self.s3HudiCatalogTarget {
+            try encodeContainer.encode(s3HudiCatalogTarget, forKey: .s3HudiCatalogTarget)
+        }
+        if let s3HudiDirectTarget = self.s3HudiDirectTarget {
+            try encodeContainer.encode(s3HudiDirectTarget, forKey: .s3HudiDirectTarget)
+        }
+        if let s3HudiSource = self.s3HudiSource {
+            try encodeContainer.encode(s3HudiSource, forKey: .s3HudiSource)
         }
         if let s3JsonSource = self.s3JsonSource {
             try encodeContainer.encode(s3JsonSource, forKey: .s3JsonSource)
@@ -5882,6 +6004,16 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         dynamicTransform = dynamicTransformDecoded
         let evaluateDataQualityDecoded = try containerValues.decodeIfPresent(GlueClientTypes.EvaluateDataQuality.self, forKey: .evaluateDataQuality)
         evaluateDataQuality = evaluateDataQualityDecoded
+        let s3CatalogHudiSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3CatalogHudiSource.self, forKey: .s3CatalogHudiSource)
+        s3CatalogHudiSource = s3CatalogHudiSourceDecoded
+        let catalogHudiSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CatalogHudiSource.self, forKey: .catalogHudiSource)
+        catalogHudiSource = catalogHudiSourceDecoded
+        let s3HudiSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3HudiSource.self, forKey: .s3HudiSource)
+        s3HudiSource = s3HudiSourceDecoded
+        let s3HudiCatalogTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3HudiCatalogTarget.self, forKey: .s3HudiCatalogTarget)
+        s3HudiCatalogTarget = s3HudiCatalogTargetDecoded
+        let s3HudiDirectTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3HudiDirectTarget.self, forKey: .s3HudiDirectTarget)
+        s3HudiDirectTarget = s3HudiDirectTargetDecoded
     }
 }
 
@@ -5894,6 +6026,8 @@ extension GlueClientTypes {
         public var applyMapping: GlueClientTypes.ApplyMapping?
         /// Specifies a connector to an Amazon Athena data source.
         public var athenaConnectorSource: GlueClientTypes.AthenaConnectorSource?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
+        public var catalogHudiSource: GlueClientTypes.CatalogHudiSource?
         /// Specifies an Apache Kafka data store in the Data Catalog.
         public var catalogKafkaSource: GlueClientTypes.CatalogKafkaSource?
         /// Specifies a Kinesis data source in the Glue Data Catalog.
@@ -5962,6 +6096,8 @@ extension GlueClientTypes {
         public var relationalCatalogSource: GlueClientTypes.RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public var renameField: GlueClientTypes.RenameField?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
+        public var s3CatalogHudiSource: GlueClientTypes.S3CatalogHudiSource?
         /// Specifies an Amazon S3 data store in the Glue Data Catalog.
         public var s3CatalogSource: GlueClientTypes.S3CatalogSource?
         /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
@@ -5972,6 +6108,12 @@ extension GlueClientTypes {
         public var s3DirectTarget: GlueClientTypes.S3DirectTarget?
         /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
         public var s3GlueParquetTarget: GlueClientTypes.S3GlueParquetTarget?
+        /// Specifies a target that writes to a Hudi data source in the Glue Data Catalog.
+        public var s3HudiCatalogTarget: GlueClientTypes.S3HudiCatalogTarget?
+        /// Specifies a target that writes to a Hudi data source in Amazon S3.
+        public var s3HudiDirectTarget: GlueClientTypes.S3HudiDirectTarget?
+        /// Specifies a Hudi data source stored in Amazon S3.
+        public var s3HudiSource: GlueClientTypes.S3HudiSource?
         /// Specifies a JSON data store stored in Amazon S3.
         public var s3JsonSource: GlueClientTypes.S3JsonSource?
         /// Specifies an Apache Parquet data store stored in Amazon S3.
@@ -5997,6 +6139,7 @@ extension GlueClientTypes {
             aggregate: GlueClientTypes.Aggregate? = nil,
             applyMapping: GlueClientTypes.ApplyMapping? = nil,
             athenaConnectorSource: GlueClientTypes.AthenaConnectorSource? = nil,
+            catalogHudiSource: GlueClientTypes.CatalogHudiSource? = nil,
             catalogKafkaSource: GlueClientTypes.CatalogKafkaSource? = nil,
             catalogKinesisSource: GlueClientTypes.CatalogKinesisSource? = nil,
             catalogSource: GlueClientTypes.CatalogSource? = nil,
@@ -6031,11 +6174,15 @@ extension GlueClientTypes {
             redshiftTarget: GlueClientTypes.RedshiftTarget? = nil,
             relationalCatalogSource: GlueClientTypes.RelationalCatalogSource? = nil,
             renameField: GlueClientTypes.RenameField? = nil,
+            s3CatalogHudiSource: GlueClientTypes.S3CatalogHudiSource? = nil,
             s3CatalogSource: GlueClientTypes.S3CatalogSource? = nil,
             s3CatalogTarget: GlueClientTypes.S3CatalogTarget? = nil,
             s3CsvSource: GlueClientTypes.S3CsvSource? = nil,
             s3DirectTarget: GlueClientTypes.S3DirectTarget? = nil,
             s3GlueParquetTarget: GlueClientTypes.S3GlueParquetTarget? = nil,
+            s3HudiCatalogTarget: GlueClientTypes.S3HudiCatalogTarget? = nil,
+            s3HudiDirectTarget: GlueClientTypes.S3HudiDirectTarget? = nil,
+            s3HudiSource: GlueClientTypes.S3HudiSource? = nil,
             s3JsonSource: GlueClientTypes.S3JsonSource? = nil,
             s3ParquetSource: GlueClientTypes.S3ParquetSource? = nil,
             selectFields: GlueClientTypes.SelectFields? = nil,
@@ -6051,6 +6198,7 @@ extension GlueClientTypes {
             self.aggregate = aggregate
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
+            self.catalogHudiSource = catalogHudiSource
             self.catalogKafkaSource = catalogKafkaSource
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
@@ -6085,11 +6233,15 @@ extension GlueClientTypes {
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
             self.renameField = renameField
+            self.s3CatalogHudiSource = s3CatalogHudiSource
             self.s3CatalogSource = s3CatalogSource
             self.s3CatalogTarget = s3CatalogTarget
             self.s3CsvSource = s3CsvSource
             self.s3DirectTarget = s3DirectTarget
             self.s3GlueParquetTarget = s3GlueParquetTarget
+            self.s3HudiCatalogTarget = s3HudiCatalogTarget
+            self.s3HudiDirectTarget = s3HudiDirectTarget
+            self.s3HudiSource = s3HudiSource
             self.s3JsonSource = s3JsonSource
             self.s3ParquetSource = s3ParquetSource
             self.selectFields = selectFields
@@ -33306,6 +33458,44 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+    public enum HudiTargetCompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case gzip
+        case lzo
+        case snappy
+        case uncompressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HudiTargetCompressionType] {
+            return [
+                .gzip,
+                .lzo,
+                .snappy,
+                .uncompressed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .gzip: return "gzip"
+            case .lzo: return "lzo"
+            case .snappy: return "snappy"
+            case .uncompressed: return "uncompressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HudiTargetCompressionType(rawValue: rawValue) ?? HudiTargetCompressionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -45630,6 +45820,108 @@ extension RunStatementOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GlueClientTypes.S3CatalogHudiSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalHudiOptions = "AdditionalHudiOptions"
+        case database = "Database"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalHudiOptions = additionalHudiOptions {
+            var additionalHudiOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalHudiOptions)
+            for (dictKey0, additionalOptions0) in additionalHudiOptions {
+                try additionalHudiOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let additionalHudiOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalHudiOptions)
+        var additionalHudiOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalHudiOptionsContainer = additionalHudiOptionsContainer {
+            additionalHudiOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalHudiOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalHudiOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalHudiOptions = additionalHudiOptionsDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
+    public struct S3CatalogHudiSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalHudiOptions: [Swift.String:Swift.String]?
+        /// The name of the database to read from.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The name of the Hudi data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Hudi source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// The name of the table in the database to read from.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalHudiOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+    }
+
+}
+
 extension GlueClientTypes.S3CatalogSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalOptions = "AdditionalOptions"
@@ -46487,6 +46779,425 @@ extension GlueClientTypes {
             self.partitionKeys = partitionKeys
             self.path = path
             self.schemaChangePolicy = schemaChangePolicy
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3HudiCatalogTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalOptions = "AdditionalOptions"
+        case database = "Database"
+        case inputs = "Inputs"
+        case name = "Name"
+        case partitionKeys = "PartitionKeys"
+        case schemaChangePolicy = "SchemaChangePolicy"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let partitionKeys = partitionKeys {
+            var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
+                }
+            }
+        }
+        if let schemaChangePolicy = self.schemaChangePolicy {
+            try encodeContainer.encode(schemaChangePolicy, forKey: .schemaChangePolicy)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let partitionKeysContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .partitionKeys)
+        var partitionKeysDecoded0:[[Swift.String]]? = nil
+        if let partitionKeysContainer = partitionKeysContainer {
+            partitionKeysDecoded0 = [[Swift.String]]()
+            for list0 in partitionKeysContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    partitionKeysDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        partitionKeys = partitionKeysDecoded0
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let schemaChangePolicyDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CatalogSchemaChangePolicy.self, forKey: .schemaChangePolicy)
+        schemaChangePolicy = schemaChangePolicyDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target that writes to a Hudi data source in the Glue Data Catalog.
+    public struct S3HudiCatalogTarget: Swift.Equatable {
+        /// Specifies additional connection options for the connector.
+        /// This member is required.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// The name of the database to write to.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The nodes that are inputs to the data target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data target.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies native partitioning using a sequence of keys.
+        public var partitionKeys: [[Swift.String]]?
+        /// A policy that specifies update behavior for the crawler.
+        public var schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3HudiDirectTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalOptions = "AdditionalOptions"
+        case compression = "Compression"
+        case format = "Format"
+        case inputs = "Inputs"
+        case name = "Name"
+        case partitionKeys = "PartitionKeys"
+        case path = "Path"
+        case schemaChangePolicy = "SchemaChangePolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let compression = self.compression {
+            try encodeContainer.encode(compression.rawValue, forKey: .compression)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let partitionKeys = partitionKeys {
+            var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
+                }
+            }
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+        if let schemaChangePolicy = self.schemaChangePolicy {
+            try encodeContainer.encode(schemaChangePolicy, forKey: .schemaChangePolicy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+        let compressionDecoded = try containerValues.decodeIfPresent(GlueClientTypes.HudiTargetCompressionType.self, forKey: .compression)
+        compression = compressionDecoded
+        let partitionKeysContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .partitionKeys)
+        var partitionKeysDecoded0:[[Swift.String]]? = nil
+        if let partitionKeysContainer = partitionKeysContainer {
+            partitionKeysDecoded0 = [[Swift.String]]()
+            for list0 in partitionKeysContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    partitionKeysDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        partitionKeys = partitionKeysDecoded0
+        let formatDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TargetFormat.self, forKey: .format)
+        format = formatDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let schemaChangePolicyDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DirectSchemaChangePolicy.self, forKey: .schemaChangePolicy)
+        schemaChangePolicy = schemaChangePolicyDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target that writes to a Hudi data source in Amazon S3.
+    public struct S3HudiDirectTarget: Swift.Equatable {
+        /// This member is required.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        /// This member is required.
+        public var compression: GlueClientTypes.HudiTargetCompressionType?
+        /// Specifies the data output format for the target.
+        /// This member is required.
+        public var format: GlueClientTypes.TargetFormat?
+        /// The nodes that are inputs to the data target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data target.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies native partitioning using a sequence of keys.
+        public var partitionKeys: [[Swift.String]]?
+        /// The Amazon S3 path of your Hudi data source to write to.
+        /// This member is required.
+        public var path: Swift.String?
+        /// A policy that specifies update behavior for the crawler.
+        public var schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy?
+
+        public init (
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            compression: GlueClientTypes.HudiTargetCompressionType? = nil,
+            format: GlueClientTypes.TargetFormat? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            path: Swift.String? = nil,
+            schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
+        )
+        {
+            self.additionalOptions = additionalOptions
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3HudiSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalHudiOptions = "AdditionalHudiOptions"
+        case additionalOptions = "AdditionalOptions"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case paths = "Paths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalHudiOptions = additionalHudiOptions {
+            var additionalHudiOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalHudiOptions)
+            for (dictKey0, additionalOptions0) in additionalHudiOptions {
+                try additionalHudiOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let additionalOptions = self.additionalOptions {
+            try encodeContainer.encode(additionalOptions, forKey: .additionalOptions)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let paths = paths {
+            var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
+            for enclosedinstringproperty0 in paths {
+                try pathsContainer.encode(enclosedinstringproperty0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let pathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .paths)
+        var pathsDecoded0:[Swift.String]? = nil
+        if let pathsContainer = pathsContainer {
+            pathsDecoded0 = [Swift.String]()
+            for string0 in pathsContainer {
+                if let string0 = string0 {
+                    pathsDecoded0?.append(string0)
+                }
+            }
+        }
+        paths = pathsDecoded0
+        let additionalHudiOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalHudiOptions)
+        var additionalHudiOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalHudiOptionsContainer = additionalHudiOptionsContainer {
+            additionalHudiOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalHudiOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalHudiOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalHudiOptions = additionalHudiOptionsDecoded0
+        let additionalOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DirectSourceAdditionalOptions.self, forKey: .additionalOptions)
+        additionalOptions = additionalOptionsDecoded
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Hudi data source stored in Amazon S3.
+    public struct S3HudiSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalHudiOptions: [Swift.String:Swift.String]?
+        /// Specifies additional connection options for the Amazon S3 data store.
+        public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
+        /// The name of the Hudi source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Hudi source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        /// This member is required.
+        public var paths: [Swift.String]?
+
+        public init (
+            additionalHudiOptions: [Swift.String:Swift.String]? = nil,
+            additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            paths: [Swift.String]? = nil
+        )
+        {
+            self.additionalHudiOptions = additionalHudiOptions
+            self.additionalOptions = additionalOptions
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
         }
     }
 
@@ -53348,6 +54059,7 @@ extension GlueClientTypes {
     public enum TargetFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case avro
         case csv
+        case hudi
         case json
         case orc
         case parquet
@@ -53357,6 +54069,7 @@ extension GlueClientTypes {
             return [
                 .avro,
                 .csv,
+                .hudi,
                 .json,
                 .orc,
                 .parquet,
@@ -53371,6 +54084,7 @@ extension GlueClientTypes {
             switch self {
             case .avro: return "avro"
             case .csv: return "csv"
+            case .hudi: return "hudi"
             case .json: return "json"
             case .orc: return "orc"
             case .parquet: return "parquet"

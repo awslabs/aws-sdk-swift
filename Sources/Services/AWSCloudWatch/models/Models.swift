@@ -4747,6 +4747,7 @@ extension GetMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
             self.excludeFilters = output.excludeFilters
             self.firehoseArn = output.firehoseArn
             self.includeFilters = output.includeFilters
+            self.includeLinkedAccountsMetrics = output.includeLinkedAccountsMetrics
             self.lastUpdateDate = output.lastUpdateDate
             self.name = output.name
             self.outputFormat = output.outputFormat
@@ -4759,6 +4760,7 @@ extension GetMetricStreamOutputResponse: ClientRuntime.HttpResponseBinding {
             self.excludeFilters = nil
             self.firehoseArn = nil
             self.includeFilters = nil
+            self.includeLinkedAccountsMetrics = nil
             self.lastUpdateDate = nil
             self.name = nil
             self.outputFormat = nil
@@ -4780,6 +4782,8 @@ public struct GetMetricStreamOutputResponse: Swift.Equatable {
     public var firehoseArn: Swift.String?
     /// If this array of metric namespaces is present, then these namespaces are the only metric namespaces that are streamed by this metric stream.
     public var includeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
+    /// If this is true and this metric stream is in a monitoring account, then the stream includes metrics from source accounts that the monitoring account is linked to.
+    public var includeLinkedAccountsMetrics: Swift.Bool?
     /// The date of the most recent update to the metric stream's configuration.
     public var lastUpdateDate: ClientRuntime.Date?
     /// The name of the metric stream.
@@ -4799,6 +4803,7 @@ public struct GetMetricStreamOutputResponse: Swift.Equatable {
         excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
         firehoseArn: Swift.String? = nil,
         includeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
+        includeLinkedAccountsMetrics: Swift.Bool? = nil,
         lastUpdateDate: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
         outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat? = nil,
@@ -4812,6 +4817,7 @@ public struct GetMetricStreamOutputResponse: Swift.Equatable {
         self.excludeFilters = excludeFilters
         self.firehoseArn = firehoseArn
         self.includeFilters = includeFilters
+        self.includeLinkedAccountsMetrics = includeLinkedAccountsMetrics
         self.lastUpdateDate = lastUpdateDate
         self.name = name
         self.outputFormat = outputFormat
@@ -4833,6 +4839,7 @@ struct GetMetricStreamOutputResponseBody: Swift.Equatable {
     let lastUpdateDate: ClientRuntime.Date?
     let outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
     let statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
+    let includeLinkedAccountsMetrics: Swift.Bool?
 }
 
 extension GetMetricStreamOutputResponseBody: Swift.Decodable {
@@ -4842,6 +4849,7 @@ extension GetMetricStreamOutputResponseBody: Swift.Decodable {
         case excludeFilters = "ExcludeFilters"
         case firehoseArn = "FirehoseArn"
         case includeFilters = "IncludeFilters"
+        case includeLinkedAccountsMetrics = "IncludeLinkedAccountsMetrics"
         case lastUpdateDate = "LastUpdateDate"
         case name = "Name"
         case outputFormat = "OutputFormat"
@@ -4926,6 +4934,8 @@ extension GetMetricStreamOutputResponseBody: Swift.Decodable {
         } else {
             statisticsConfigurations = nil
         }
+        let includeLinkedAccountsMetricsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccountsMetrics)
+        includeLinkedAccountsMetrics = includeLinkedAccountsMetricsDecoded
     }
 }
 
@@ -10043,6 +10053,9 @@ extension PutMetricStreamInput: Swift.Encodable {
                 try includeFiltersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let includeLinkedAccountsMetrics = includeLinkedAccountsMetrics {
+            try container.encode(includeLinkedAccountsMetrics, forKey: ClientRuntime.Key("IncludeLinkedAccountsMetrics"))
+        }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
         }
@@ -10095,6 +10108,8 @@ public struct PutMetricStreamInput: Swift.Equatable {
     public var firehoseArn: Swift.String?
     /// If you specify this parameter, the stream sends only the metrics from the metric namespaces that you specify here. You cannot include IncludeFilters and ExcludeFilters in the same operation.
     public var includeFilters: [CloudWatchClientTypes.MetricStreamFilter]?
+    /// If you are creating a metric stream in a monitoring account, specify true to include metrics from source accounts in the metric stream.
+    public var includeLinkedAccountsMetrics: Swift.Bool?
     /// If you are creating a new metric stream, this is the name for the new stream. The name must be different than the names of other metric streams in this account and Region. If you are updating a metric stream, specify the name of that stream here. Valid characters are A-Z, a-z, 0-9, "-" and "_".
     /// This member is required.
     public var name: Swift.String?
@@ -10117,6 +10132,7 @@ public struct PutMetricStreamInput: Swift.Equatable {
         excludeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
         firehoseArn: Swift.String? = nil,
         includeFilters: [CloudWatchClientTypes.MetricStreamFilter]? = nil,
+        includeLinkedAccountsMetrics: Swift.Bool? = nil,
         name: Swift.String? = nil,
         outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat? = nil,
         roleArn: Swift.String? = nil,
@@ -10127,6 +10143,7 @@ public struct PutMetricStreamInput: Swift.Equatable {
         self.excludeFilters = excludeFilters
         self.firehoseArn = firehoseArn
         self.includeFilters = includeFilters
+        self.includeLinkedAccountsMetrics = includeLinkedAccountsMetrics
         self.name = name
         self.outputFormat = outputFormat
         self.roleArn = roleArn
@@ -10144,6 +10161,7 @@ struct PutMetricStreamInputBody: Swift.Equatable {
     let outputFormat: CloudWatchClientTypes.MetricStreamOutputFormat?
     let tags: [CloudWatchClientTypes.Tag]?
     let statisticsConfigurations: [CloudWatchClientTypes.MetricStreamStatisticsConfiguration]?
+    let includeLinkedAccountsMetrics: Swift.Bool?
 }
 
 extension PutMetricStreamInputBody: Swift.Decodable {
@@ -10151,6 +10169,7 @@ extension PutMetricStreamInputBody: Swift.Decodable {
         case excludeFilters = "ExcludeFilters"
         case firehoseArn = "FirehoseArn"
         case includeFilters = "IncludeFilters"
+        case includeLinkedAccountsMetrics = "IncludeLinkedAccountsMetrics"
         case name = "Name"
         case outputFormat = "OutputFormat"
         case roleArn = "RoleArn"
@@ -10244,6 +10263,8 @@ extension PutMetricStreamInputBody: Swift.Decodable {
         } else {
             statisticsConfigurations = nil
         }
+        let includeLinkedAccountsMetricsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeLinkedAccountsMetrics)
+        includeLinkedAccountsMetrics = includeLinkedAccountsMetricsDecoded
     }
 }
 

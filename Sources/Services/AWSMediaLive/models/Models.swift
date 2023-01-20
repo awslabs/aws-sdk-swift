@@ -24256,6 +24256,7 @@ extension MediaLiveClientTypes.M2tsSettings: Swift.Codable {
         case scte27Pids = "scte27Pids"
         case scte35Control = "scte35Control"
         case scte35Pid = "scte35Pid"
+        case scte35PrerollPullupMilliseconds = "scte35PrerollPullupMilliseconds"
         case segmentationMarkers = "segmentationMarkers"
         case segmentationStyle = "segmentationStyle"
         case segmentationTime = "segmentationTime"
@@ -24387,6 +24388,9 @@ extension MediaLiveClientTypes.M2tsSettings: Swift.Codable {
         if let scte35Pid = self.scte35Pid {
             try encodeContainer.encode(scte35Pid, forKey: .scte35Pid)
         }
+        if let scte35PrerollPullupMilliseconds = self.scte35PrerollPullupMilliseconds {
+            try encodeContainer.encode(scte35PrerollPullupMilliseconds, forKey: .scte35PrerollPullupMilliseconds)
+        }
         if let segmentationMarkers = self.segmentationMarkers {
             try encodeContainer.encode(segmentationMarkers.rawValue, forKey: .segmentationMarkers)
         }
@@ -24506,6 +24510,8 @@ extension MediaLiveClientTypes.M2tsSettings: Swift.Codable {
         transportStreamId = transportStreamIdDecoded
         let videoPidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .videoPid)
         videoPid = videoPidDecoded
+        let scte35PrerollPullupMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .scte35PrerollPullupMilliseconds)
+        scte35PrerollPullupMilliseconds = scte35PrerollPullupMillisecondsDecoded
     }
 }
 
@@ -24592,6 +24598,8 @@ extension MediaLiveClientTypes {
         public var scte35Control: MediaLiveClientTypes.M2tsScte35Control?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value. Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public var scte35Pid: Swift.String?
+        /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
+        public var scte35PrerollPullupMilliseconds: Swift.Double?
         /// Inserts segmentation markers at each segmentationTime period. raiSegstart sets the Random Access Indicator bit in the adaptation field. raiAdapt sets the RAI bit and adds the current timecode in the private data bytes. psiSegstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebpLegacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
         public var segmentationMarkers: MediaLiveClientTypes.M2tsSegmentationMarkers?
         /// The segmentation style parameter controls how segmentation markers are inserted into the transport stream. With avails, it is possible that segments may be truncated, which can influence where future segmentation markers are inserted. When a segmentation style of "resetCadence" is selected and a segment is truncated due to an avail, we will reset the segmentation cadence. This means the subsequent segment will have a duration of $segmentationTime seconds. When a segmentation style of "maintainCadence" is selected and a segment is truncated due to an avail, we will not reset the segmentation cadence. This means the subsequent segment will likely be truncated as well. However, all segments after that will have a duration of $segmentationTime seconds. Note that EBP lookahead is a slight exception to this rule.
@@ -24648,6 +24656,7 @@ extension MediaLiveClientTypes {
             scte27Pids: Swift.String? = nil,
             scte35Control: MediaLiveClientTypes.M2tsScte35Control? = nil,
             scte35Pid: Swift.String? = nil,
+            scte35PrerollPullupMilliseconds: Swift.Double? = nil,
             segmentationMarkers: MediaLiveClientTypes.M2tsSegmentationMarkers? = nil,
             segmentationStyle: MediaLiveClientTypes.M2tsSegmentationStyle? = nil,
             segmentationTime: Swift.Double? = nil,
@@ -24697,6 +24706,7 @@ extension MediaLiveClientTypes {
             self.scte27Pids = scte27Pids
             self.scte35Control = scte35Control
             self.scte35Pid = scte35Pid
+            self.scte35PrerollPullupMilliseconds = scte35PrerollPullupMilliseconds
             self.segmentationMarkers = segmentationMarkers
             self.segmentationStyle = segmentationStyle
             self.segmentationTime = segmentationTime

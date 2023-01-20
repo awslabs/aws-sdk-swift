@@ -7,7 +7,7 @@ import ClientRuntime
 public protocol PanoramaClientProtocol {
     /// Creates an application instance and deploys it to a device.
     func createApplicationInstance(input: CreateApplicationInstanceInput) async throws -> CreateApplicationInstanceOutputResponse
-    /// Creates a job to run on one or more devices. A job can update a device's software or reboot it.
+    /// Creates a job to run on a device. A job can update a device's software or reboot it.
     func createJobForDevices(input: CreateJobForDevicesInput) async throws -> CreateJobForDevicesOutputResponse
     /// Creates a camera stream node.
     func createNodeFromTemplateJob(input: CreateNodeFromTemplateJobInput) async throws -> CreateNodeFromTemplateJobOutputResponse

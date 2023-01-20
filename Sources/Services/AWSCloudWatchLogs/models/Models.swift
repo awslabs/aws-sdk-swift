@@ -2117,9 +2117,9 @@ public struct DescribeLogStreamsInput: Swift.Equatable {
     public var descending: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupIdentifier: Swift.String?
-    /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// The name of the log group. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
     /// The prefix to match. If orderBy is LastEventTime, you cannot specify this parameter.
     public var logStreamNamePrefix: Swift.String?
@@ -3629,9 +3629,9 @@ public struct FilterLogEventsInput: Swift.Equatable {
     public var interleaved: Swift.Bool?
     /// The maximum number of events to return. The default is 10,000 events.
     public var limit: Swift.Int?
-    /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// Specify either the name or ARN of the log group to view log events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupIdentifier: Swift.String?
-    /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// The name of the log group to search. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
     /// Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, but the value for logStreamNamePrefix does not match any log stream names specified in logStreamNames, the action returns an InvalidParameterException error.
     public var logStreamNamePrefix: Swift.String?
@@ -4110,9 +4110,9 @@ public struct GetLogEventsInput: Swift.Equatable {
     public var endTime: Swift.Int?
     /// The maximum number of log events returned. If you don't specify a limit, the default is as many log events as can fit in a response size of 1 MB (up to 10,000 log events).
     public var limit: Swift.Int?
-    /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// Specify either the name or ARN of the log group to view events from. If the log group is in a source account and you are using a monitoring account, you must use the log group ARN. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupIdentifier: Swift.String?
-    /// The name of the log group. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// The name of the log group. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
     /// The name of the log stream.
     /// This member is required.
@@ -4322,9 +4322,9 @@ extension GetLogGroupFieldsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLogGroupFieldsInput: Swift.Equatable {
-    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupIdentifier: Swift.String?
-    /// The name of the log group to search. If you specify values for both logGroupName and logGroupIdentifier, the action returns an InvalidParameterException error.
+    /// The name of the log group to search. You must include either logGroupIdentifier or logGroupName, but not both.
     public var logGroupName: Swift.String?
     /// The time to set as the center of the query. If you specify time, the 15 minutes before this time are queries. If you omit time, the 8 minutes before and 8 minutes after this time are searched. The time value is specified as epoch time, which is the number of seconds since January 1, 1970, 00:00:00 UTC.
     public var time: Swift.Int?
