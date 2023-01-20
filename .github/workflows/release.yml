@@ -12,9 +12,6 @@ env:
   PACKAGE_NAME: aws-sdk-swift
   LINUX_BASE_IMAGE: ubuntu-16-x64
   RUN: ${{ github.run_id }}-${{ github.run_number }}
-  AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
-  AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
-  SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
 
 # This release script is work in progress.  We will need to update the script to
 # * Ensure that unit tests pass for all targets prior to generating a release
@@ -42,17 +39,22 @@ jobs:
         with:
           java-version: '11'
       - name: Build and Test ${{ env.PACKAGE_NAME }}
+        env:
+          AWS_SDK_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift
+          AWS_CRT_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/aws-crt-swift
+          SMITHY_SWIFT_CI_DIR: /Users/runner/work/aws-sdk-swift/aws-sdk-swift/target/build/deps/smithy-swift
         run: |
           python3 -c "from urllib.request import urlretrieve; urlretrieve('${{ env.BUILDER_HOST }}/${{ env.BUILDER_SOURCE }}/${{ env.BUILDER_VERSION }}/builder.pyz?run=${{ env.RUN }}', 'builder.pyz')"
           chmod a+x builder.pyz
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
           ./gradlew -p codegen/sdk-codegen build
-          rm -rf release/
           ./gradlew -p codegen/sdk-codegen stageSdks
-          ./scripts/mergeModels.sh release
-          AWS_SDK_RELEASE_IN_PROGRESS=1 ./scripts/generatePackageSwift.swift > Package.swift
-          cat Package.swift
           ./gradlew --stop
+          ./scripts/mergeModels.sh Sources/Services
+      - name: Generate SDK and Swift package manifest
+        run: |
+          ./scripts/generatePackageSwift.swift > Package.swift
+          cat Package.swift
           swift build --build-tests
           swift test --skip-build
       - name: Commit Changes
@@ -61,4 +63,4 @@ jobs:
           author_name: AWS CI
           author_email: nobody@amazonaws.com
           message: 'aws-sdk-swift release build artifacts'
-          add: 'release Package.swift'
+          add: '["Sources/Services/*", "Tests/Services/*", "Package.swift"]'

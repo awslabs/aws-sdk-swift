@@ -1,12 +1,11 @@
 included:
-  - AWSClientRuntime/Sources
+  - Sources/Core/AWSClientRuntime
 
 analyzer_rules:
   - unused_import
   - unused_declaration
 
 disabled_rules:
-  - trailing_whitespace
   - todo
   - identifier_name
   - compiler_protocol_init

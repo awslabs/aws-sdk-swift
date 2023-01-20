@@ -6,8 +6,9 @@ set -x
 # with the CRT builder script (see https://github.com/awslabs/aws-crt-builder).
 # For use only as a pre-build step when using the CRT builder script on CI.
 
-# Ensure that the release/ directory is present.
-mkdir -p release
+# Enables the use of local dependencies, which are required when building with
+# the CRT builder script.
+export AWS_SWIFT_SDK_USE_LOCAL_DEPS=1
 
 # Regenerate the Package.swift file.
 # The env vars AWS_CRT_SWIFT_CI_DIR and SMITHY_SWIFT_CI_DIR must be defined by

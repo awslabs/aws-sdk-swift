@@ -23,6 +23,12 @@ apply NotFound @httpResponseTests([
     }
 ])
 
+structure EndpointParams {
+    region: String,
+    bucket: String,
+    forcePathStyle: Boolean
+}
+
 // FIXME - when we implement virtual host addressing as the default will need to change the host and uri
 //         see: https://github.com/awslabs/aws-sdk-kotlin/issues/220
 apply PutObject @httpRequestTests([
@@ -42,6 +48,12 @@ apply PutObject @httpRequestTests([
             Bucket: "mybucket",
             Key: "mykey",
             Body: "foobar"
+        },
+        vendorParamsShape: "com.amazonaws.s3#EndpointParams",
+        vendorParams: {
+            region: "us-west-2",
+            bucket: "mybucket",
+            forcePathStyle: true
         }
     },
     {
@@ -60,6 +72,12 @@ apply PutObject @httpRequestTests([
             Key: "mykey",
             ContentType: "application/json",
             Body: "{\"foo\":\"bar\"}"
+        },
+        vendorParamsShape: "com.amazonaws.s3#EndpointParams",
+        vendorParams: {
+            region: "us-west-2",
+            bucket: "mybucket",
+            forcePathStyle: true
         }
     }
 ])
