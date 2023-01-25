@@ -49,10 +49,8 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
                 ClientError.authError("AwsSigv4Signer requires a signing region"))
         }
 
-        guard let signingAlgorithm = context.getSigningAlgorithm() else {
-            throw SdkError<OperationStackError>.client(
-                ClientError.authError("AwsSigv4Signer requires a signing algorithm"))
-        }
+        // If the context has a signing algorithm, use that. Otherwise, use the operation config's signing algorithm
+        let signingAlgorithm = context.getSigningAlgorithm() ?? config.signingAlgorithm
 
         let flags = SigningFlags(useDoubleURIEncode: config.useDoubleURIEncode,
                                  shouldNormalizeURIPath: config.shouldNormalizeURIPath,

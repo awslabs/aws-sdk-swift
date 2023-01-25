@@ -4,6 +4,7 @@ import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSServiceConfig
 import software.amazon.smithy.aws.swift.codegen.AWSSigningParams
 import software.amazon.smithy.aws.swift.codegen.PresignableOperation
+import software.amazon.smithy.aws.swift.codegen.SigningAlgorithm
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
@@ -146,16 +147,19 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "ContentLengthMiddleware")
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         val opID = op.id.toString()
-        val params = AWSSigningParams(
-            context.service,
-            op,
-            true,
-            // The S3 presigned URLs require an unsigned body setting of true while Polly requires the opposite.
-            // If more presigned URL types are added, this logic should be refactored to scale with more presigned URLs.
-            listOf("com.amazonaws.s3#PutObject", "com.amazonaws.s3#GetObject").contains(opID),
-            true
-        )
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
+        if (AWSSigningMiddleware.hasSigV4AuthScheme(context.model, context.service, op)) {
+            val params = AWSSigningParams(
+                context.service,
+                op,
+                true,
+                // The S3 presigned URLs require an unsigned body setting of true while Polly requires the opposite.
+                // If more presigned URL types are added, this logic should be refactored to scale with more presigned URLs.
+                listOf("com.amazonaws.s3#PutObject", "com.amazonaws.s3#GetObject").contains(opID),
+                true,
+                signingAlgorithm = SigningAlgorithm.SigV4
+            )
+            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
+        }
 
         if (op.id.toString() != "com.amazonaws.s3#PutObject") {
             operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")

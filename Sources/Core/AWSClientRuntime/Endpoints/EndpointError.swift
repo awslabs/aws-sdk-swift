@@ -9,4 +9,5 @@ public enum EndpointError: Error {
     case hostnameIsNil(String)
     case partitionsEmpty(String)
     case unresolved(String?)
+    case authScheme(String?)
 }

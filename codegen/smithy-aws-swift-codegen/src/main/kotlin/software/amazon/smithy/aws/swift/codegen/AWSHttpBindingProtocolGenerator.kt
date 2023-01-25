@@ -112,7 +112,8 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
                 operation,
                 useSignatureTypeQueryString = false,
                 forceUnsignedBody = false,
-                useExpiration = false
+                useExpiration = false,
+                signingAlgorithm = SigningAlgorithm.SigV4
             )
             operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
         }

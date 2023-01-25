@@ -17,6 +17,7 @@ public struct SigV4Config {
     let expiration: TimeInterval
     let signedBodyHeader: AWSSignedBodyHeader
     let unsignedBody: Bool
+    let signingAlgorithm: AWSSigningAlgorithm
 
     public init(
         credentialsProvider: AWSCredentialsProvider? = nil,
@@ -27,7 +28,8 @@ public struct SigV4Config {
         omitSessionToken: Bool = false,
         expiration: TimeInterval = 0,
         signedBodyHeader: AWSSignedBodyHeader = .none,
-        unsignedBody: Bool
+        unsignedBody: Bool,
+        signingAlgorithm: AWSSigningAlgorithm
     ) {
         self.credentialsProvider = credentialsProvider
         self.signingService = signingService
@@ -38,5 +40,6 @@ public struct SigV4Config {
         self.expiration = expiration
         self.signedBodyHeader = signedBodyHeader
         self.unsignedBody = unsignedBody
+        self.signingAlgorithm = signingAlgorithm
     }
 }

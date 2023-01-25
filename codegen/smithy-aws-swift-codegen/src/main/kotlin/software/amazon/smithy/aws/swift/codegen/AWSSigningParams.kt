@@ -22,8 +22,20 @@ data class AWSSigningParams(
     val forceUnsignedBody: Boolean,
     // When set to true, the expiration is included in the params string so it may be set to a custom
     // value named `expiration`.
-    val useExpiration: Boolean
+    val useExpiration: Boolean,
+    // The signing algorithm to use which is determined by the service's SigV4Trait.
+    val signingAlgorithm: SigningAlgorithm
 )
+
+enum class SigningAlgorithm {
+    SigV4
+}
+
+private fun SigningAlgorithm.toSwiftLiteral(): String {
+    return when (this) {
+        SigningAlgorithm.SigV4 -> ".sigv4"
+    }
+}
 
 class SigV4Configurator(
     val useSignatureTypeQueryString: Boolean,
@@ -31,7 +43,8 @@ class SigV4Configurator(
     val useDoubleURIEncode: Boolean,
     val useURLPathNormalization: Boolean,
     val useUnsignedPayload: Boolean,
-    val useSignedBodyHeader: Boolean
+    val useSignedBodyHeader: Boolean,
+    val signingAlgorithm: SigningAlgorithm
 ) {
     constructor(params: AWSSigningParams) : this(
         useSignatureTypeQueryString = params.useSignatureTypeQueryString,
@@ -40,7 +53,8 @@ class SigV4Configurator(
         useURLPathNormalization = params.service.sdkId.lowercase(Locale.US) != "s3",
         useUnsignedPayload = params.operation.hasTrait<UnsignedPayloadTrait>() || params.forceUnsignedBody,
         useSignedBodyHeader = listOf("s3", "glacier").contains(params.service.sdkId.lowercase(Locale.US)) &&
-            !params.operation.hasTrait<UnsignedPayloadTrait>() && !params.forceUnsignedBody
+            !params.operation.hasTrait<UnsignedPayloadTrait>() && !params.forceUnsignedBody,
+        signingAlgorithm = params.signingAlgorithm
     )
 
     val swiftParamsString: String
@@ -52,7 +66,8 @@ class SigV4Configurator(
                 "shouldNormalizeURIPath: false".takeIf { !useURLPathNormalization },
                 "expiration: expiration".takeIf { useExpiration },
                 "signedBodyHeader: .contentSha256".takeIf { useSignedBodyHeader },
-                "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false")
+                "unsignedBody: " + ("true".takeIf { useUnsignedPayload } ?: "false"),
+                "signingAlgorithm: ${signingAlgorithm.toSwiftLiteral()}"
             )
             // Join the strings for use in initializing the Swift SigV4Config
             return params.mapNotNull { it }.joinToString(", ")

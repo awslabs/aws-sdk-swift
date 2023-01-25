@@ -32,9 +32,12 @@ class EndpointResolverMiddlewareTests {
             
                 let endpointParams: EndpointParams
             
-                public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams) {
+                let authSchemeResolver: AWSClientRuntime.AuthSchemeResolver
+            
+                public init(endpointResolver: EndpointResolver, endpointParams: EndpointParams, authSchemeResolver: AWSClientRuntime.AuthSchemeResolver = AWSClientRuntime.DefaultAuthSchemeResolver()) {
                     self.endpointResolver = endpointResolver
                     self.endpointParams = endpointParams
+                    self.authSchemeResolver = authSchemeResolver
                 }
             
                 public func handle<H>(context: Context,
@@ -47,10 +50,25 @@ class EndpointResolverMiddlewareTests {
                 {
                     let endpoint = try endpointResolver.resolve(params: endpointParams)
             
-                    let authScheme = endpoint.authSchemes()?.first
-                    let signingName = Endpoint.signingName(from: authScheme)
-                    let signingRegion = Endpoint.signingRegion(from: authScheme)
-                    let signingAlgorithm = Endpoint.signingAlgorithm(from: authScheme)
+                    var signingName: String? = nil
+                    var signingRegion: String? = nil
+                    var signingAlgorithm: String? = nil
+                    if let authSchemes = endpoint.authSchemes() {
+                        let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}0) }
+                        let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
+                        switch authScheme {
+                        case .sigV4(let data):
+                            signingName = data.signingName
+                            signingRegion = data.signingRegion
+                            signingAlgorithm = data.name
+                        case .sigV4A(let data):
+                            signingName = data.signingName
+                            signingRegion = data.signingRegionSet?.first
+                            signingAlgorithm = data.name
+                        case .none:
+                            break
+                        }
+                    }
             
                     let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
             
