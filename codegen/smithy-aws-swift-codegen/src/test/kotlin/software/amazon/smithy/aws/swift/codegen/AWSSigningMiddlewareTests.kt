@@ -77,7 +77,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render unsignedBody true`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: true, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -89,7 +89,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)
@@ -101,7 +102,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render unsignedBody false`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -113,7 +114,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)
@@ -125,7 +127,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render unsignedBody true, presigner`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -137,7 +139,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = true,
-            useExpiration = true
+            useExpiration = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)
@@ -149,7 +152,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render unsignedBody false, presigner`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -161,7 +164,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = true
+            useExpiration = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val sut = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         sut.render(writer, operation, stack)
@@ -173,7 +177,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render s3 with query string sig`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true)
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -185,7 +189,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = true,
             forceUnsignedBody = true,
-            useExpiration = true
+            useExpiration = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)
@@ -197,7 +202,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render s3 with signed body & normal sig`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -209,7 +214,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = true
+            useExpiration = true,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)
@@ -221,7 +227,7 @@ class AWSSigningMiddlewareTests {
     @Test
     fun `render glacier with signed body & normal sig`() {
         val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(signedBodyHeader: .contentSha256, unsignedBody: false, signingAlgorithm: .sigv4)
         stack.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ExampleOutput, ExampleOperationOutputError>(config: sigv4Config))
         """.trimIndent()
         val writer = SwiftWriter("testName")
@@ -233,7 +239,8 @@ class AWSSigningMiddlewareTests {
             operation,
             useSignatureTypeQueryString = false,
             forceUnsignedBody = false,
-            useExpiration = false
+            useExpiration = false,
+            signingAlgorithm = SigningAlgorithm.SigV4
         )
         val subject = AWSSigningMiddleware(context.model, context.symbolProvider, params)
         subject.render(writer, operation, stack)

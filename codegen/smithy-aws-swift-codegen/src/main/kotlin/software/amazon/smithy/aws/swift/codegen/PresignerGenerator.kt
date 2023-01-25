@@ -109,14 +109,18 @@ class PresignerGenerator : SwiftIntegration {
         val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
         operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
-        val params = AWSSigningParams(
-            service,
-            op,
-            useSignatureTypeQueryString = false,
-            forceUnsignedBody = false,
-            useExpiration = true
-        )
-        operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
+        val operation = ctx.model.expectShape<OperationShape>(op.id)
+        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operation)) {
+            val params = AWSSigningParams(
+                service,
+                op,
+                useSignatureTypeQueryString = false,
+                forceUnsignedBody = false,
+                useExpiration = true,
+                signingAlgorithm = SigningAlgorithm.SigV4
+            )
+            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
+        }
         return operationMiddlewareCopy
     }
 }

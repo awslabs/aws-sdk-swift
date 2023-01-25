@@ -20,6 +20,7 @@ import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 const val CREDENTIALS_PROVIDER_CONFIG_NAME = "credentialsProvider"
 const val ENDPOINT_RESOLVER = "endpointResolver"
+const val AUTH_SCHEME_RESOLVER = "authSchemeResolver"
 const val ENDPOINT_PARAMS = "endpointParams"
 const val FRAMEWORK_METADATA = "frameworkMetadata"
 const val REGION_CONFIG_NAME = "region"

@@ -9,6 +9,7 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.model.buildSymbol
 
 object AWSClientRuntimeTypes {
+
     object EC2Query {
         val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse")
     }
@@ -51,6 +52,8 @@ object AWSClientRuntimeTypes {
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
         val AWSEndpointsRuleEngine = runtimeSymbol("AWSEndpointsRuleEngine")
         val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
+        val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
+        val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
     }
 }
 
