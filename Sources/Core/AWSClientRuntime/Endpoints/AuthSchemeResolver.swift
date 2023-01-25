@@ -7,18 +7,16 @@
 
 /// Supported authentication schemes
 public enum AuthScheme: Equatable {
-    case sigV4(SigV4AuthScheme)
-    case sigV4A(SigV4AAuthScheme)
-    case none(NoneAuthScheme)
+    case sigV4(SigV4Parameters)
+    case sigV4A(SigV4AParameters)
+    case none
 
-    var name: String {
+    /// The name of the auth scheme
+    public var name: String {
         switch self {
-        case .sigV4(let scheme):
-            return scheme.name
-        case .sigV4A(let scheme):
-            return scheme.name
-        case .none(let scheme):
-            return scheme.name
+        case .sigV4: return "sigv4"
+        case .sigV4A: return "sigv4a"
+        case .none: return "none"
         }
     }
 }
@@ -32,104 +30,65 @@ extension AuthScheme {
         }
         switch name {
         case "sigv4":
-            self = .sigV4(try SigV4AuthScheme(from: dictionary))
+            self = .sigV4(try SigV4Parameters(from: dictionary))
         case "sigv4a":
-            self = .sigV4A(try SigV4AAuthScheme(from: dictionary))
+            self = .sigV4A(try SigV4AParameters(from: dictionary))
         case "none":
-            self = .none(try NoneAuthScheme(from: dictionary))
+            self = .none
         default:
             throw EndpointError.authScheme("Unknown auth scheme \(name)")
         }
     }
 }
 
-/// Every auth scheme data must conform to this protocol
-public protocol IdentifiableAuthScheme {
+extension AuthScheme {
+    /// SigV4 auth scheme
+    public struct SigV4Parameters: Equatable {
 
-    /// Name of the auth scheme
-    var name: String { get }
+        /// Service name to use for signing
+        public let signingName: String?
+
+        /// Region to use for signing
+        public let signingRegion: String?
+
+        /// When true, do not double-escape path during signing
+        public let disableDoubleEncoding: Bool?
+    }
 }
 
-/// SigV4 auth scheme
-public struct SigV4AuthScheme: Equatable, IdentifiableAuthScheme {
-
-    /// Name of the auth scheme
-    public let name: String
-
-    /// Service name to use for signing
-    public let signingName: String?
-
-    /// Region to use for signing
-    public let signingRegion: String?
-
-    /// When true, do not double-escape path during signing
-    public let disableDoubleEncoding: Bool?
-}
-
-extension SigV4AuthScheme {
-
+extension AuthScheme.SigV4Parameters {
     /// Initialize a SigV4AuthScheme from a dictionary
     /// - Parameter dictionary: Dictionary containing the auth scheme
     init(from dictionary: [String: Any]) throws {
-        guard let name = dictionary["name"] as? String else {
-            throw EndpointError.authScheme("Invalid auth scheme")
-        }
-        self.name = name
         self.signingName = dictionary["signingName"] as? String
         self.signingRegion = dictionary["signingRegion"] as? String
         self.disableDoubleEncoding = dictionary["disableDoubleEncoding"] as? Bool
     }
 }
 
-/// SigV4a auth scheme
-public struct SigV4AAuthScheme: Equatable, IdentifiableAuthScheme {
+extension AuthScheme {
+    /// SigV4a auth scheme
+    public struct SigV4AParameters: Equatable {
 
-    /// Name of the auth scheme
-    public let name: String
+        /// Service name to use for signing
+        public let signingName: String?
 
-    /// Service name to use for signing
-    public let signingName: String?
+        /// The set of signing regions to use for this endpoint. Currently,
+        /// this will always be ["*"].
+        public let signingRegionSet: [String]?
 
-    /// The set of signing regions to use for this endpoint. Currently,
-    /// this will always be ["*"].
-    public let signingRegionSet: [String]?
-
-    /// When true, do not double-escape path during signing
-    public let disableDoubleEncoding: Bool?
+        /// When true, do not double-escape path during signing
+        public let disableDoubleEncoding: Bool?
+    }
 }
 
-extension SigV4AAuthScheme {
-
+extension AuthScheme.SigV4AParameters {
     /// Initialize a SigV4AAuthScheme from a dictionary
     /// - Parameter dictionary: Dictionary containing the auth scheme
     init(from dictionary: [String: Any]) throws {
-        guard let name = dictionary["name"] as? String else {
-            throw EndpointError.authScheme("Invalid auth scheme")
-        }
-        self.name = name
         self.signingName = dictionary["signingName"] as? String
         self.signingRegionSet = dictionary["signingRegionSet"] as? [String]
         self.disableDoubleEncoding = dictionary["disableDoubleEncoding"] as? Bool
-    }
-}
-
-/// None auth scheme
-public struct NoneAuthScheme: Equatable, IdentifiableAuthScheme {
-
-    /// Name of the auth scheme
-    public let name: String
-
-    init(name: String) {
-        self.name = name
-    }
-
-    /// Initialize a NoneAuthScheme from a dictionary
-    /// - Parameter dictionary: Dictionary containing the auth scheme
-    init(from dictionary: [String: Any]) throws {
-        guard let name = dictionary["name"] as? String else {
-            throw EndpointError.authScheme("Invalid auth scheme")
-        }
-        self.name = name
     }
 }
 

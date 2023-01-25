@@ -56,15 +56,14 @@ class EndpointResolverMiddlewareTests {
                     if let authSchemes = endpoint.authSchemes() {
                         let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}0) }
                         let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
+                        signingAlgorithm = authScheme.name
                         switch authScheme {
-                        case .sigV4(let data):
-                            signingName = data.signingName
-                            signingRegion = data.signingRegion
-                            signingAlgorithm = data.name
-                        case .sigV4A(let data):
-                            signingName = data.signingName
-                            signingRegion = data.signingRegionSet?.first
-                            signingAlgorithm = data.name
+                        case .sigV4(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegion
+                        case .sigV4A(let param):
+                            signingName = param.signingName
+                            signingRegion = param.signingRegionSet?.first
                         case .none:
                             break
                         }

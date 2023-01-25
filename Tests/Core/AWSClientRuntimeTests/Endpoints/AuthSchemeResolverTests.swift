@@ -47,9 +47,9 @@ final class AuthSchemeResolverTests: XCTestCase {
 
     func testResolve_givenSupportedScheme_returnsScheme() throws {
         let resolver = DefaultAuthSchemeResolver(supportedAuthSchemes: ["sigv4"])
-        let sigV4 = AuthScheme.sigV4(.init(name: "sigv4", signingName: nil, signingRegion: nil, disableDoubleEncoding: nil))
-        let sigV4A = AuthScheme.sigV4A(.init(name: "sigv4a", signingName: nil, signingRegionSet: nil, disableDoubleEncoding: nil))
-        let none = AuthScheme.none(.init(name: "none"))
+        let sigV4 = AuthScheme.sigV4(AuthScheme.SigV4Parameters(signingName: nil, signingRegion: nil, disableDoubleEncoding: nil))
+        let sigV4A = AuthScheme.sigV4A(.init(signingName: nil, signingRegionSet: nil, disableDoubleEncoding: nil))
+        let none = AuthScheme.none
 
         let actualSigV4 = try resolver.resolve(authSchemes: [sigV4, sigV4A, none])
         XCTAssertEqual(actualSigV4, sigV4)
@@ -63,8 +63,8 @@ final class AuthSchemeResolverTests: XCTestCase {
 
     func testResolve_givenUnsupportedScheme_returnsNil() throws {
         let resolver = DefaultAuthSchemeResolver(supportedAuthSchemes: ["sigv4"])
-        let sigV4A = AuthScheme.sigV4A(.init(name: "sigv4a", signingName: nil, signingRegionSet: nil, disableDoubleEncoding: nil))
-        let none = AuthScheme.none(.init(name: "none"))
+        let sigV4A = AuthScheme.sigV4A(.init(signingName: nil, signingRegionSet: nil, disableDoubleEncoding: nil))
+        let none = AuthScheme.none
 
         XCTAssertThrowsError(try resolver.resolve(authSchemes: [sigV4A, none]))
         
