@@ -81,7 +81,6 @@ extension SigV4AuthScheme {
     }
 }
 
-
 /// SigV4a auth scheme
 public struct SigV4AAuthScheme: Equatable, IdentifiableAuthScheme {
 
@@ -144,7 +143,6 @@ public protocol AuthSchemeResolver {
     func resolve(authSchemes: [AuthScheme]) throws -> AuthScheme
 }
 
-
 /// Default implementation of AuthSchemeResolver
 public struct DefaultAuthSchemeResolver: AuthSchemeResolver {
 
@@ -156,8 +154,9 @@ public struct DefaultAuthSchemeResolver: AuthSchemeResolver {
     }
 
     public func resolve(authSchemes: [AuthScheme]) throws -> AuthScheme {
-        guard let authScheme = authSchemes.first (where: { supportedAuthSchemes.contains($0.name) }) else {
-            throw EndpointError.authScheme("Failed to resolve auth scheme. Supported schemes: \(supportedAuthSchemes), available schemes: \(authSchemes.map { $0.name })")
+        guard let authScheme = authSchemes.first(where: { supportedAuthSchemes.contains($0.name) }) else {
+            throw EndpointError.authScheme("Failed to resolve auth scheme. Supported schemes: \(supportedAuthSchemes),"
+                                           + "available schemes: \(authSchemes.map { $0.name })")
         }
 
         return authScheme
