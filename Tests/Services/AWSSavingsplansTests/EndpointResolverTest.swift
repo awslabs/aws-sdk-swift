@@ -23,8 +23,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingName": "savingsplans",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "savingsplans"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -111,8 +111,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingName": "savingsplans",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "savingsplans"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
