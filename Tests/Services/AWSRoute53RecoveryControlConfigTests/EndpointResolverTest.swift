@@ -22,8 +22,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "route53-recovery-control-config",
+                        "name": "sigv4",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]

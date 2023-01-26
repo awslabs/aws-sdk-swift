@@ -91,7 +91,7 @@ extension RedshiftServerlessClientTypes.ConfigParameter: Swift.Codable {
 extension RedshiftServerlessClientTypes {
     /// An array of key-value pairs to set for advanced control over Amazon Redshift Serverless.
     public struct ConfigParameter: Swift.Equatable {
-        /// The key of the parameter. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var parameterKey: Swift.String?
         /// The value of the parameter to set.
         public var parameterValue: Swift.String?
@@ -1177,7 +1177,7 @@ extension CreateWorkgroupInput: ClientRuntime.URLPathProvider {
 public struct CreateWorkgroupInput: Swift.Equatable {
     /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for more control over a serverless database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     public var enhancedVpcRouting: Swift.Bool?
@@ -7100,19 +7100,19 @@ extension UpdateNamespaceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateNamespaceInput: Swift.Equatable {
-    /// The password of the administrator for the first database created in the namespace.
+    /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername.
     public var adminUserPassword: Swift.String?
-    /// The username of the administrator for the first database created in the namespace.
+    /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
     public var adminUsername: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace.
+    /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace. This parameter must be updated together with iamRoles.
     public var defaultIamRoleArn: Swift.String?
-    /// A list of IAM roles to associate with the namespace.
+    /// A list of IAM roles to associate with the namespace. This parameter must be updated together with defaultIamRoleArn.
     public var iamRoles: [Swift.String]?
     /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
     public var kmsKeyId: Swift.String?
     /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
     public var logExports: [RedshiftServerlessClientTypes.LogExport]?
-    /// The name of the namespace.
+    /// The name of the namespace to update. You can't update the name of a namespace once it is created.
     /// This member is required.
     public var namespaceName: Swift.String?
 
@@ -7593,7 +7593,7 @@ extension UpdateWorkgroupInput: ClientRuntime.URLPathProvider {
 public struct UpdateWorkgroupInput: Swift.Equatable {
     /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
     public var baseCapacity: Swift.Int?
-    /// An array of parameters to set for advanced control over a database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+    /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
     public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
     /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     public var enhancedVpcRouting: Swift.Bool?
@@ -7605,7 +7605,7 @@ public struct UpdateWorkgroupInput: Swift.Equatable {
     public var securityGroupIds: [Swift.String]?
     /// An array of VPC subnet IDs to associate with the workgroup.
     public var subnetIds: [Swift.String]?
-    /// The name of the workgroup to update.
+    /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
     /// This member is required.
     public var workgroupName: Swift.String?
 
@@ -8274,7 +8274,7 @@ extension RedshiftServerlessClientTypes {
     public struct Workgroup: Swift.Equatable {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public var baseCapacity: Swift.Int?
-        /// An array of parameters to set for finer control over a database. The options are datestyle, enable_user_activity_logging, query_group, search_path, and max_query_execution_time.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitivity_identifier, enable_user_activity_logging, query_group, , search_path, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see [ Query monitoring metrics for Amazon Redshift Serverless](https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless).
         public var configParameters: [RedshiftServerlessClientTypes.ConfigParameter]?
         /// The creation date of the workgroup.
         public var creationDate: ClientRuntime.Date?

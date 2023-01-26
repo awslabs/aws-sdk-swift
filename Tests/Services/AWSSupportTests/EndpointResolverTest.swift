@@ -22,8 +22,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "support",
+                        "name": "sigv4",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -130,8 +130,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "support",
+                        "name": "sigv4",
                         "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -238,8 +238,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "support",
+                        "name": "sigv4",
                         "signingRegion": "us-isob-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -306,8 +306,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "support",
+                        "name": "sigv4",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -414,8 +414,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4",
                         "signingName": "support",
+                        "name": "sigv4",
                         "signingRegion": "us-iso-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]

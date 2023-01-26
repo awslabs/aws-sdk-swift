@@ -76,23 +76,23 @@ extension SsmSapClientTypes.Application: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// An SAP application registered with AWS Systems Manager for SAP.
     public struct Application: Swift.Equatable {
-        ///
+        /// The Amazon Resource Name (ARN) of the Application Registry.
         public var appRegistryArn: Swift.String?
-        ///
+        /// The Amazon Resource Name (ARN) of the application.
         public var arn: Swift.String?
-        ///
+        /// The components of the application.
         public var components: [Swift.String]?
-        ///
+        /// The ID of the application.
         public var id: Swift.String?
-        ///
+        /// The time at which the application was last updated.
         public var lastUpdated: ClientRuntime.Date?
-        ///
+        /// The status of the application.
         public var status: SsmSapClientTypes.ApplicationStatus?
-        ///
+        /// The status message.
         public var statusMessage: Swift.String?
-        ///
+        /// The type of the application.
         public var type: SsmSapClientTypes.ApplicationType?
 
         public init (
@@ -156,15 +156,15 @@ extension SsmSapClientTypes.ApplicationCredential: Swift.CustomDebugStringConver
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The credentials of your SAP application.
     public struct ApplicationCredential: Swift.Equatable {
-        ///
+        /// The type of the application credentials.
         /// This member is required.
         public var credentialType: SsmSapClientTypes.CredentialType?
-        ///
+        /// The name of the SAP HANA database.
         /// This member is required.
         public var databaseName: Swift.String?
-        ///
+        /// The secret ID created in AWS Secrets Manager to store the credentials of the SAP application.
         /// This member is required.
         public var secretId: Swift.String?
 
@@ -282,15 +282,15 @@ extension SsmSapClientTypes.ApplicationSummary: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The summary of the SAP application registered with AWS Systems Manager for SAP.
     public struct ApplicationSummary: Swift.Equatable {
-        ///
+        /// The Amazon Resource Name (ARN) of the application.
         public var arn: Swift.String?
-        ///
+        /// The ID of the application.
         public var id: Swift.String?
-        ///
+        /// The tags on the application.
         public var tags: [Swift.String:Swift.String]?
-        ///
+        /// The type of the application.
         public var type: SsmSapClientTypes.ApplicationType?
 
         public init (
@@ -424,23 +424,23 @@ extension SsmSapClientTypes.Component: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The SAP component of your application.
     public struct Component: Swift.Equatable {
-        ///
+        /// The ID of the application.
         public var applicationId: Swift.String?
-        ///
+        /// The ID of the component.
         public var componentId: Swift.String?
-        ///
+        /// The type of the component.
         public var componentType: SsmSapClientTypes.ComponentType?
-        ///
+        /// The SAP HANA databases of the component.
         public var databases: [Swift.String]?
-        ///
+        /// The hosts of the component.
         public var hosts: [SsmSapClientTypes.Host]?
-        ///
+        /// The time at which the component was last updated.
         public var lastUpdated: ClientRuntime.Date?
-        ///
+        /// The primary host of the component.
         public var primaryHost: Swift.String?
-        ///
+        /// The status of the component.
         public var status: SsmSapClientTypes.ComponentStatus?
 
         public init (
@@ -546,15 +546,15 @@ extension SsmSapClientTypes.ComponentSummary: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The summary of the component.
     public struct ComponentSummary: Swift.Equatable {
-        ///
+        /// The ID of the application.
         public var applicationId: Swift.String?
-        ///
+        /// The ID of the component.
         public var componentId: Swift.String?
-        ///
+        /// The type of the component.
         public var componentType: SsmSapClientTypes.ComponentType?
-        ///
+        /// The tags of the component.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -619,7 +619,7 @@ extension ConflictException {
     }
 }
 
-///
+/// A conflict has occurred.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -775,29 +775,29 @@ extension SsmSapClientTypes.Database: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The SAP HANA database of the application registered with AWS Systems Manager for SAP.
     public struct Database: Swift.Equatable {
-        ///
+        /// The ID of the application.
         public var applicationId: Swift.String?
-        ///
+        /// The Amazon Resource Name (ARN) of the database.
         public var arn: Swift.String?
-        ///
+        /// The ID of the component.
         public var componentId: Swift.String?
-        ///
+        /// The credentials of the database.
         public var credentials: [SsmSapClientTypes.ApplicationCredential]?
-        ///
+        /// The ID of the SAP HANA database.
         public var databaseId: Swift.String?
-        ///
+        /// The name of the database.
         public var databaseName: Swift.String?
-        ///
+        /// The type of the database.
         public var databaseType: SsmSapClientTypes.DatabaseType?
-        ///
+        /// The time at which the database was last updated.
         public var lastUpdated: ClientRuntime.Date?
-        ///
+        /// The primary host of the database.
         public var primaryHost: Swift.String?
-        ///
+        /// The SQL port of the database.
         public var sqlPort: Swift.Int?
-        ///
+        /// The status of the database.
         public var status: SsmSapClientTypes.DatabaseStatus?
 
         public init (
@@ -933,19 +933,19 @@ extension SsmSapClientTypes.DatabaseSummary: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The summary of the database.
     public struct DatabaseSummary: Swift.Equatable {
-        ///
+        /// The ID of the application.
         public var applicationId: Swift.String?
-        ///
+        /// The Amazon Resource Name (ARN) of the database.
         public var arn: Swift.String?
-        ///
+        /// The ID of the component.
         public var componentId: Swift.String?
-        ///
+        /// The ID of the database.
         public var databaseId: Swift.String?
-        ///
+        /// The type of the database.
         public var databaseType: SsmSapClientTypes.DatabaseType?
-        ///
+        /// The tags of the database.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -1028,12 +1028,12 @@ extension DeleteResourcePermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteResourcePermissionInput: Swift.Equatable {
-    ///
+    /// Delete or restore the permissions on the target database.
     public var actionType: SsmSapClientTypes.PermissionActionType?
-    ///
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    ///
+    /// The Amazon Resource Name (ARN) of the source resource.
     public var sourceResourceArn: Swift.String?
 
     public init (
@@ -1112,7 +1112,7 @@ extension DeleteResourcePermissionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct DeleteResourcePermissionOutputResponse: Swift.Equatable {
-    ///
+    /// The policy that removes permissions on the target database.
     public var policy: Swift.String?
 
     public init (
@@ -1159,7 +1159,7 @@ extension DeregisterApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeregisterApplicationInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
 
@@ -1221,14 +1221,111 @@ public struct DeregisterApplicationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension SsmSapClientTypes.Filter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case `operator` = "Operator"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let `operator` = self.`operator` {
+            try encodeContainer.encode(`operator`.rawValue, forKey: .`operator`)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let operatorDecoded = try containerValues.decodeIfPresent(SsmSapClientTypes.FilterOperator.self, forKey: .operator)
+        `operator` = operatorDecoded
+    }
+}
+
+extension SsmSapClientTypes {
+    /// A specific result obtained by specifying the name, value, and operator.
+    public struct Filter: Swift.Equatable {
+        /// The name of the filter. Filter names are case-sensitive.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The operator for the filter.
+        /// This member is required.
+        public var `operator`: SsmSapClientTypes.FilterOperator?
+        /// The filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init (
+            name: Swift.String? = nil,
+            `operator`: SsmSapClientTypes.FilterOperator? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+    }
+
+}
+
+extension SsmSapClientTypes {
+    public enum FilterOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case equals
+        case greaterThanOrEquals
+        case lessThanOrEquals
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .equals,
+                .greaterThanOrEquals,
+                .lessThanOrEquals,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .equals: return "Equals"
+            case .greaterThanOrEquals: return "GreaterThanOrEquals"
+            case .lessThanOrEquals: return "LessThanOrEquals"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FilterOperator(rawValue: rawValue) ?? FilterOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GetApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appRegistryArn = "AppRegistryArn"
         case applicationArn = "ApplicationArn"
         case applicationId = "ApplicationId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let appRegistryArn = self.appRegistryArn {
+            try encodeContainer.encode(appRegistryArn, forKey: .appRegistryArn)
+        }
         if let applicationArn = self.applicationArn {
             try encodeContainer.encode(applicationArn, forKey: .applicationArn)
         }
@@ -1245,16 +1342,20 @@ extension GetApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetApplicationInput: Swift.Equatable {
-    ///
+    /// The Amazon Resource Name (ARN) of the application registry.
+    public var appRegistryArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the application.
     public var applicationArn: Swift.String?
-    ///
+    /// The ID of the application.
     public var applicationId: Swift.String?
 
     public init (
+        appRegistryArn: Swift.String? = nil,
         applicationArn: Swift.String? = nil,
         applicationId: Swift.String? = nil
     )
     {
+        self.appRegistryArn = appRegistryArn
         self.applicationArn = applicationArn
         self.applicationId = applicationId
     }
@@ -1263,10 +1364,12 @@ public struct GetApplicationInput: Swift.Equatable {
 struct GetApplicationInputBody: Swift.Equatable {
     let applicationId: Swift.String?
     let applicationArn: Swift.String?
+    let appRegistryArn: Swift.String?
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case appRegistryArn = "AppRegistryArn"
         case applicationArn = "ApplicationArn"
         case applicationId = "ApplicationId"
     }
@@ -1277,6 +1380,8 @@ extension GetApplicationInputBody: Swift.Decodable {
         applicationId = applicationIdDecoded
         let applicationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationArn)
         applicationArn = applicationArnDecoded
+        let appRegistryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .appRegistryArn)
+        appRegistryArn = appRegistryArnDecoded
     }
 }
 
@@ -1320,9 +1425,9 @@ extension GetApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetApplicationOutputResponse: Swift.Equatable {
-    ///
+    /// Returns all of the metadata of an application registered with AWS Systems Manager for SAP.
     public var application: SsmSapClientTypes.Application?
-    ///
+    /// The tags of a registered application.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1388,10 +1493,10 @@ extension GetComponentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetComponentInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
-    ///
+    /// The ID of the component.
     /// This member is required.
     public var componentId: Swift.String?
 
@@ -1463,7 +1568,7 @@ extension GetComponentOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComponentOutputResponse: Swift.Equatable {
-    ///
+    /// The component of an application registered with AWS Systems Manager for SAP.
     public var component: SsmSapClientTypes.Component?
 
     public init (
@@ -1522,13 +1627,13 @@ extension GetDatabaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDatabaseInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     public var applicationId: Swift.String?
-    ///
+    /// The ID of the component.
     public var componentId: Swift.String?
-    ///
+    /// The Amazon Resource Name (ARN) of the database.
     public var databaseArn: Swift.String?
-    ///
+    /// The ID of the database.
     public var databaseId: Swift.String?
 
     public init (
@@ -1613,9 +1718,9 @@ extension GetDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetDatabaseOutputResponse: Swift.Equatable {
-    ///
+    /// The SAP HANA database of an application registered with AWS Systems Manager for SAP.
     public var database: SsmSapClientTypes.Database?
-    ///
+    /// The tags of a database.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -1677,7 +1782,7 @@ extension GetOperationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetOperationInput: Swift.Equatable {
-    ///
+    /// The ID of the operation.
     /// This member is required.
     public var operationId: Swift.String?
 
@@ -1743,7 +1848,7 @@ extension GetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetOperationOutputResponse: Swift.Equatable {
-    ///
+    /// Returns the details of an operation.
     public var operation: SsmSapClientTypes.Operation?
 
     public init (
@@ -1796,7 +1901,7 @@ extension GetResourcePermissionInput: ClientRuntime.URLPathProvider {
 public struct GetResourcePermissionInput: Swift.Equatable {
     ///
     public var actionType: SsmSapClientTypes.PermissionActionType?
-    ///
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1935,15 +2040,15 @@ extension SsmSapClientTypes.Host: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// Describes the properties of the Dedicated Host.
     public struct Host: Swift.Equatable {
-        ///
+        /// The IP address of the Dedicated Host.
         public var hostIp: Swift.String?
-        ///
+        /// The name of the Dedicated Host.
         public var hostName: Swift.String?
-        ///
+        /// The role of the Dedicated Host.
         public var hostRole: SsmSapClientTypes.HostRole?
-        ///
+        /// The instance ID of the instance on the Dedicated Host.
         public var instanceId: Swift.String?
 
         public init (
@@ -2017,7 +2122,7 @@ extension InternalServerException {
     }
 }
 
-///
+/// An internal error has occurred.
 public struct InternalServerException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2076,9 +2181,9 @@ extension ListApplicationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListApplicationsInput: Swift.Equatable {
-    ///
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
-    ///
+    /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -2153,9 +2258,9 @@ extension ListApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListApplicationsOutputResponse: Swift.Equatable {
-    ///
+    /// The applications registered with AWS Systems Manager for SAP.
     public var applications: [SsmSapClientTypes.ApplicationSummary]?
-    ///
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init (
@@ -2225,11 +2330,11 @@ extension ListComponentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListComponentsInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     public var applicationId: Swift.String?
-    ///
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
     public var maxResults: Swift.Int?
-    ///
+    /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -2310,9 +2415,9 @@ extension ListComponentsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListComponentsOutputResponse: Swift.Equatable {
-    ///
+    /// List of components registered with AWS System Manager for SAP.
     public var components: [SsmSapClientTypes.ComponentSummary]?
-    ///
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init (
@@ -2386,13 +2491,13 @@ extension ListDatabasesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDatabasesInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     public var applicationId: Swift.String?
-    ///
+    /// The ID of the component.
     public var componentId: Swift.String?
-    ///
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
     public var maxResults: Swift.Int?
-    ///
+    /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init (
@@ -2479,9 +2584,9 @@ extension ListDatabasesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListDatabasesOutputResponse: Swift.Equatable {
-    ///
+    /// The SAP HANA databases of an application.
     public var databases: [SsmSapClientTypes.DatabaseSummary]?
-    ///
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init (
@@ -2523,6 +2628,186 @@ extension ListDatabasesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListOperationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationId = "ApplicationId"
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let applicationId = self.applicationId {
+            try encodeContainer.encode(applicationId, forKey: .applicationId)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListOperationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/list-operations"
+    }
+}
+
+public struct ListOperationsInput: Swift.Equatable {
+    /// The ID of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The filters of an operation.
+    public var filters: [SsmSapClientTypes.Filter]?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you do not specify a value for MaxResults, the request returns 50 items per page by default.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        applicationId: Swift.String? = nil,
+        filters: [SsmSapClientTypes.Filter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListOperationsInputBody: Swift.Equatable {
+    let applicationId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let filters: [SsmSapClientTypes.Filter]?
+}
+
+extension ListOperationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case applicationId = "ApplicationId"
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let applicationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .applicationId)
+        applicationId = applicationIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([SsmSapClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[SsmSapClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [SsmSapClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+    }
+}
+
+extension ListOperationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListOperationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.operations = output.operations
+        } else {
+            self.nextToken = nil
+            self.operations = nil
+        }
+    }
+}
+
+public struct ListOperationsOutputResponse: Swift.Equatable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// List of operations performed by AWS Systems Manager for SAP.
+    public var operations: [SsmSapClientTypes.Operation]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        operations: [SsmSapClientTypes.Operation]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.operations = operations
+    }
+}
+
+struct ListOperationsOutputResponseBody: Swift.Equatable {
+    let operations: [SsmSapClientTypes.Operation]?
+    let nextToken: Swift.String?
+}
+
+extension ListOperationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case operations = "Operations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationsContainer = try containerValues.decodeIfPresent([SsmSapClientTypes.Operation?].self, forKey: .operations)
+        var operationsDecoded0:[SsmSapClientTypes.Operation]? = nil
+        if let operationsContainer = operationsContainer {
+            operationsDecoded0 = [SsmSapClientTypes.Operation]()
+            for structure0 in operationsContainer {
+                if let structure0 = structure0 {
+                    operationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        operations = operationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -2533,7 +2818,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    ///
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -2724,29 +3009,29 @@ extension SsmSapClientTypes.Operation: Swift.Codable {
 }
 
 extension SsmSapClientTypes {
-    ///
+    /// The operations performed by AWS Systems Manager for SAP.
     public struct Operation: Swift.Equatable {
-        ///
+        /// The end time of the operation.
         public var endTime: ClientRuntime.Date?
-        ///
+        /// The ID of the operation.
         public var id: Swift.String?
-        ///
+        /// The time at which the operation was last updated.
         public var lastUpdatedTime: ClientRuntime.Date?
-        ///
+        /// The properties of the operation.
         public var properties: [Swift.String:Swift.String?]?
-        ///
+        /// The Amazon Resource Name (ARN) of the operation.
         public var resourceArn: Swift.String?
-        ///
+        /// The resource ID of the operation.
         public var resourceId: Swift.String?
-        ///
+        /// The resource type of the operation.
         public var resourceType: Swift.String?
-        ///
+        /// The start time of the operation.
         public var startTime: ClientRuntime.Date?
-        ///
+        /// The status of the operation.
         public var status: SsmSapClientTypes.OperationStatus?
-        ///
+        /// The status message of the operation.
         public var statusMessage: Swift.String?
-        ///
+        /// The type of the operation.
         public var type: Swift.String?
 
         public init (
@@ -3037,23 +3322,23 @@ extension RegisterApplicationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterApplicationInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
-    ///
+    /// The type of the application.
     /// This member is required.
     public var applicationType: SsmSapClientTypes.ApplicationType?
-    ///
+    /// The credentials of the SAP application.
     /// This member is required.
     public var credentials: [SsmSapClientTypes.ApplicationCredential]?
-    ///
+    /// The Amazon EC2 instances on which your SAP application is running.
     /// This member is required.
     public var instances: [Swift.String]?
-    ///
+    /// The SAP instance number of the application.
     public var sapInstanceNumber: Swift.String?
-    ///
+    /// The System ID of the application.
     public var sid: Swift.String?
-    ///
+    /// The tags to be attached to the SAP application.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
@@ -3185,9 +3470,9 @@ extension RegisterApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RegisterApplicationOutputResponse: Swift.Equatable {
-    ///
+    /// The application registered with AWS Systems Manager for SAP.
     public var application: SsmSapClientTypes.Application?
-    ///
+    /// The ID of the operation.
     public var operationId: Swift.String?
 
     public init (
@@ -3237,7 +3522,7 @@ extension ResourceNotFoundException {
     }
 }
 
-///
+/// The resource is not available.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3298,10 +3583,10 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    ///
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    ///
+    /// The tags on a resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3403,7 +3688,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    ///
+    /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// Adds/updates or removes credentials for applications registered with AWS Systems Manager for SAP.
@@ -3499,12 +3784,12 @@ extension UpdateApplicationSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateApplicationSettingsInput: Swift.Equatable {
-    ///
+    /// The ID of the application.
     /// This member is required.
     public var applicationId: Swift.String?
-    ///
+    /// The credentials to be added or updated.
     public var credentialsToAddOrUpdate: [SsmSapClientTypes.ApplicationCredential]?
-    ///
+    /// The credentials to be removed.
     public var credentialsToRemove: [SsmSapClientTypes.ApplicationCredential]?
 
     public init (
@@ -3603,9 +3888,9 @@ extension UpdateApplicationSettingsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct UpdateApplicationSettingsOutputResponse: Swift.Equatable {
-    ///
+    /// The update message.
     public var message: Swift.String?
-    ///
+    /// The IDs of the operations.
     public var operationIds: [Swift.String]?
 
     public init (
@@ -3664,7 +3949,7 @@ extension ValidationException {
     }
 }
 
-///
+/// The input fails to satisfy the constraints specified by an AWS service.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

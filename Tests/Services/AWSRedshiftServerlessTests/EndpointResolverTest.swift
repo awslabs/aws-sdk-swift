@@ -7,12 +7,12 @@ import SmithyTestUtil
 import XCTest
 
 class EndpointResolverTest: CrtXCBaseTestCase {
-    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
+    /// For region cn-north-1 with FIPS enabled and DualStack enabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
-            region: "ap-southeast-2",
-            useDualStack: false,
-            useFIPS: false
+            region: "cn-north-1",
+            useDualStack: true,
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -22,17 +22,17 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-north-1 with FIPS disabled and DualStack disabled
+    /// For region cn-north-1 with FIPS enabled and DualStack disabled
     func testResolve2() throws {
         let endpointParams = EndpointParams(
-            region: "eu-north-1",
+            region: "cn-north-1",
             useDualStack: false,
-            useFIPS: false
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -42,16 +42,16 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-2 with FIPS disabled and DualStack disabled
+    /// For region cn-north-1 with FIPS disabled and DualStack enabled
     func testResolve3() throws {
         let endpointParams = EndpointParams(
-            region: "us-east-2",
-            useDualStack: false,
+            region: "cn-north-1",
+            useDualStack: true,
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
@@ -62,15 +62,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    /// For region cn-north-1 with FIPS disabled and DualStack disabled
     func testResolve4() throws {
         let endpointParams = EndpointParams(
-            region: "us-west-2",
+            region: "cn-north-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -82,17 +82,17 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
+    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
     func testResolve5() throws {
         let endpointParams = EndpointParams(
-            region: "ap-northeast-1",
+            region: "us-iso-east-1",
             useDualStack: false,
-            useFIPS: false
+            useFIPS: true
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -102,15 +102,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region ap-northeast-2 with FIPS disabled and DualStack disabled
+    /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
     func testResolve6() throws {
         let endpointParams = EndpointParams(
-            region: "ap-northeast-2",
+            region: "us-iso-east-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -122,7 +122,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-northeast-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -227,8 +227,128 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS enabled and DualStack enabled
+    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
     func testResolve12() throws {
+        let endpointParams = EndpointParams(
+            region: "ap-southeast-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-north-1 with FIPS disabled and DualStack disabled
+    func testResolve13() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-2 with FIPS disabled and DualStack disabled
+    func testResolve14() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-east-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    func testResolve15() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
+    func testResolve16() throws {
+        let endpointParams = EndpointParams(
+            region: "ap-northeast-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region ap-northeast-2 with FIPS disabled and DualStack disabled
+    func testResolve17() throws {
+        let endpointParams = EndpointParams(
+            region: "ap-northeast-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.ap-northeast-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS enabled and DualStack enabled
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: true,
@@ -248,7 +368,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-1 with FIPS enabled and DualStack disabled
-    func testResolve13() throws {
+    func testResolve19() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: false,
@@ -268,7 +388,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-1 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
+    func testResolve20() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: true,
@@ -288,7 +408,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve15() throws {
+    func testResolve21() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: true,
@@ -308,7 +428,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve16() throws {
+    func testResolve22() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: false,
@@ -328,7 +448,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve17() throws {
+    func testResolve23() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: true,
@@ -348,7 +468,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve18() throws {
+    func testResolve24() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useDualStack: false,
@@ -368,7 +488,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve19() throws {
+    func testResolve25() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -388,7 +508,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
+    func testResolve26() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -403,126 +523,6 @@ class EndpointResolverTest: CrtXCBaseTestCase {
 
         let headers = Headers()
         let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with FIPS enabled and DualStack enabled
-    func testResolve21() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with FIPS enabled and DualStack disabled
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with FIPS disabled and DualStack enabled
-    func testResolve23() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-north-1 with FIPS disabled and DualStack disabled
-    func testResolve24() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-north-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve25() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve26() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://redshift-serverless.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

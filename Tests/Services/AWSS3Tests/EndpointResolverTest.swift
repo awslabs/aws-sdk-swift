@@ -150,9 +150,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -292,9 +292,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -324,9 +324,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -356,12 +356,12 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4a",
                         "disableDoubleEncoding": true,
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable],
-                        "signingName": "s3"
+                        ] as [AnyHashable]
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -478,9 +478,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -554,9 +554,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -607,9 +607,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -638,9 +638,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -670,9 +670,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -702,9 +702,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -734,9 +734,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -788,9 +788,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -843,9 +843,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -876,9 +876,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -904,9 +904,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -932,9 +932,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -960,9 +960,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -988,9 +988,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1017,9 +1017,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1065,9 +1065,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1096,9 +1096,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1127,9 +1127,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1158,9 +1158,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1189,9 +1189,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1220,9 +1220,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1252,9 +1252,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1284,9 +1284,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1315,9 +1315,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1345,9 +1345,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1375,9 +1375,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1405,9 +1405,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1435,9 +1435,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1465,9 +1465,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1497,9 +1497,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1528,9 +1528,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1559,9 +1559,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1590,9 +1590,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1621,9 +1621,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1652,9 +1652,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1684,9 +1684,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1716,9 +1716,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1748,9 +1748,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1780,9 +1780,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1812,9 +1812,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1844,9 +1844,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1877,9 +1877,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1909,9 +1909,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1941,9 +1941,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -1973,9 +1973,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2006,9 +2006,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2039,9 +2039,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2072,9 +2072,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2105,9 +2105,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2139,9 +2139,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2171,9 +2171,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2218,9 +2218,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2250,9 +2250,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2282,9 +2282,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2314,9 +2314,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2346,9 +2346,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2378,9 +2378,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2410,9 +2410,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2442,9 +2442,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2496,9 +2496,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2528,9 +2528,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2604,9 +2604,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2636,9 +2636,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2668,9 +2668,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2700,9 +2700,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2732,9 +2732,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2764,9 +2764,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2818,9 +2818,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2849,9 +2849,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2903,9 +2903,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2957,9 +2957,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -2988,9 +2988,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3020,9 +3020,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3052,9 +3052,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3106,9 +3106,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3160,9 +3160,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3191,9 +3191,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3223,9 +3223,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3255,9 +3255,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3309,9 +3309,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3363,9 +3363,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3394,9 +3394,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3427,9 +3427,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3460,9 +3460,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3562,9 +3562,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3595,9 +3595,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3628,9 +3628,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3730,9 +3730,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3763,9 +3763,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3796,9 +3796,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3898,9 +3898,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3930,9 +3930,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -3962,9 +3962,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4016,9 +4016,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4048,9 +4048,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "cn-north-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4146,9 +4146,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4178,9 +4178,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4232,9 +4232,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3",
                         "signingRegion": "af-south-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4263,9 +4263,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4295,9 +4295,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4375,9 +4375,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4407,9 +4407,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4462,9 +4462,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-outposts",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-outposts",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4578,9 +4578,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4610,9 +4610,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4642,9 +4642,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4674,9 +4674,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4706,9 +4706,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4760,9 +4760,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4858,9 +4858,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-gov-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -4890,9 +4890,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-gov-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5165,9 +5165,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5219,9 +5219,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5251,9 +5251,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5282,9 +5282,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5313,9 +5313,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
@@ -5428,9 +5428,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingName": "s3-object-lambda",
                         "name": "sigv4",
                         "disableDoubleEncoding": true,
-                        "signingName": "s3-object-lambda",
                         "signingRegion": "us-east.special"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
