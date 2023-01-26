@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Clone aws-models repo
         uses: actions/checkout@v2
-        # if : ${{ github.event.inputs.copy_models == 'true' }}
+        if : ${{ github.event.inputs.copy_models == 'true' }} || ${{ github.event.inputs.copy_models == '' }}
         with:
           repository: aws/aws-models
           ref: master
@@ -39,7 +39,7 @@ jobs:
         with:
           path: aws-sdk-swift
       - name: Copy models
-        # if : ${{ github.event.inputs.copy_models == 'true' }}
+        if : ${{ github.event.inputs.copy_models == 'true' }} || ${{ github.event.inputs.copy_models == '' }}
         run: |
           echo "Current directory: $(pwd)"
           ls -la
