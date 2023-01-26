@@ -1,0 +1,77 @@
+name: Codegen Pull Request
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      copy_models:
+        description: 'Copy models from aws-models repo'
+        type: boolean
+        required: true
+        default: "true"
+
+env:
+  working-directory: ./aws-sdk-swift
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.working-directory }}
+    steps:
+      - name: Clone aws-models repo
+        uses: actions/checkout@v2
+        # if : ${{ github.event.inputs.copy_models == 'true' }}
+        with:
+          repository: aws/aws-models
+          ref: master
+          token: ${{ secrets.GH_PAT_AWS_MODELS }}
+          path: aws-models
+      - name: Clone smithy-swift
+        uses: actions/checkout@v2
+        with:
+          repository: awslabs/smithy-swift
+          path: smithy-swift
+      - name: Checkout aws-sdk-swift repo
+        uses: actions/checkout@v2
+        with:
+          path: aws-sdk-swift
+      - name: Copy models
+        # if : ${{ github.event.inputs.copy_models == 'true' }}
+        run: |
+          echo "Current directory: $(pwd)"
+          ls -la
+          chmod +x ./codegen/sdk-codegen/scripts/updatemodels.sh
+          ./codegen/sdk-codegen/scripts/updatemodels.sh --aws_models ../aws-models
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Build and Stage
+        run: |
+          ./gradlew -p codegen/sdk-codegen build
+          ./gradlew -p codegen/sdk-codegen stageSdks
+          ./scripts/mergeModels.sh Sources/Services
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          path: ${{ env.working-directory }}
+          add-paths: |
+            codegen/sdk-codegen/aws-models/*
+            Sources/Services/*
+            Tests/Services/*
+            Package.swift
+          commit-message: 'ci: regenerate service packages and Package.swift'
+          committer: AWS CI <nobody@amazonaws.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          base: main
+          branch: chore/codegen-auto-pr
+          delete-branch: true
+          title: 'ci: regenerate service packages and Package.swift'
+          body: |
+            - service models if included in the trigger
+            - regenerate service packages and Package.swift
+          labels: |
+            automated pr
