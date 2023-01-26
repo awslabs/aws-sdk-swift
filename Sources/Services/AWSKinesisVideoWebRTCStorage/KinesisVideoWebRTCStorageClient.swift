@@ -235,7 +235,7 @@ extension KinesisVideoWebRTCStorageClient: KinesisVideoWebRTCStorageClientProtoc
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<JoinStorageSessionInput, JoinStorageSessionOutputResponse>(xmlName: "JoinStorageSessionInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<JoinStorageSessionOutputResponse, JoinStorageSessionOutputError>())

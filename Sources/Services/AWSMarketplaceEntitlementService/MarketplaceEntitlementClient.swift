@@ -236,7 +236,7 @@ extension MarketplaceEntitlementClient: MarketplaceEntitlementClientProtocol {
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEntitlementsInput, GetEntitlementsOutputResponse>(contentType: "application/x-amz-json-1.1"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEntitlementsOutputResponse, GetEntitlementsOutputError>())

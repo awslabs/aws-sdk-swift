@@ -13891,6 +13891,62 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DataBarsOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldId = "FieldId"
+        case negativeColor = "NegativeColor"
+        case positiveColor = "PositiveColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldId = self.fieldId {
+            try encodeContainer.encode(fieldId, forKey: .fieldId)
+        }
+        if let negativeColor = self.negativeColor {
+            try encodeContainer.encode(negativeColor, forKey: .negativeColor)
+        }
+        if let positiveColor = self.positiveColor {
+            try encodeContainer.encode(positiveColor, forKey: .positiveColor)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldId)
+        fieldId = fieldIdDecoded
+        let positiveColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .positiveColor)
+        positiveColor = positiveColorDecoded
+        let negativeColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .negativeColor)
+        negativeColor = negativeColorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options for data bars.
+    public struct DataBarsOptions: Swift.Equatable {
+        /// The field ID for the data bars options.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// The color of the negative data bar.
+        public var negativeColor: Swift.String?
+        /// The color of the positive data bar.
+        public var positiveColor: Swift.String?
+
+        public init (
+            fieldId: Swift.String? = nil,
+            negativeColor: Swift.String? = nil,
+            positiveColor: Swift.String? = nil
+        )
+        {
+            self.fieldId = fieldId
+            self.negativeColor = negativeColor
+            self.positiveColor = positiveColor
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DataColor: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case color = "Color"
@@ -41431,7 +41487,7 @@ extension QuickSightClientTypes {
         /// A display name for the logical table.
         /// This member is required.
         public var alias: Swift.String?
-        /// Transform operations that act on this logical table.
+        /// Transform operations that act on this logical table. For this structure to be valid, only one of the attributes can be non-null.
         public var dataTransforms: [QuickSightClientTypes.TransformOperation]?
         /// Source of this logical table.
         /// This member is required.
@@ -55436,6 +55492,7 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         case fieldWells = "FieldWells"
         case paginatedReportOptions = "PaginatedReportOptions"
         case sortConfiguration = "SortConfiguration"
+        case tableInlineVisualizations = "TableInlineVisualizations"
         case tableOptions = "TableOptions"
         case totalOptions = "TotalOptions"
     }
@@ -55453,6 +55510,12 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
+        }
+        if let tableInlineVisualizations = tableInlineVisualizations {
+            var tableInlineVisualizationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tableInlineVisualizations)
+            for tableinlinevisualization0 in tableInlineVisualizations {
+                try tableInlineVisualizationsContainer.encode(tableinlinevisualization0)
+            }
         }
         if let tableOptions = self.tableOptions {
             try encodeContainer.encode(tableOptions, forKey: .tableOptions)
@@ -55476,6 +55539,17 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         fieldOptions = fieldOptionsDecoded
         let paginatedReportOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TablePaginatedReportOptions.self, forKey: .paginatedReportOptions)
         paginatedReportOptions = paginatedReportOptionsDecoded
+        let tableInlineVisualizationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TableInlineVisualization?].self, forKey: .tableInlineVisualizations)
+        var tableInlineVisualizationsDecoded0:[QuickSightClientTypes.TableInlineVisualization]? = nil
+        if let tableInlineVisualizationsContainer = tableInlineVisualizationsContainer {
+            tableInlineVisualizationsDecoded0 = [QuickSightClientTypes.TableInlineVisualization]()
+            for structure0 in tableInlineVisualizationsContainer {
+                if let structure0 = structure0 {
+                    tableInlineVisualizationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableInlineVisualizations = tableInlineVisualizationsDecoded0
     }
 }
 
@@ -55490,6 +55564,8 @@ extension QuickSightClientTypes {
         public var paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions?
         /// The sort configuration for a TableVisual.
         public var sortConfiguration: QuickSightClientTypes.TableSortConfiguration?
+        /// A collection of inline visualizations to display within a chart.
+        public var tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]?
         /// The table options for a table visual.
         public var tableOptions: QuickSightClientTypes.TableOptions?
         /// The total options for a table visual.
@@ -55500,6 +55576,7 @@ extension QuickSightClientTypes {
             fieldWells: QuickSightClientTypes.TableFieldWells? = nil,
             paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions? = nil,
             sortConfiguration: QuickSightClientTypes.TableSortConfiguration? = nil,
+            tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]? = nil,
             tableOptions: QuickSightClientTypes.TableOptions? = nil,
             totalOptions: QuickSightClientTypes.TotalOptions? = nil
         )
@@ -55508,6 +55585,7 @@ extension QuickSightClientTypes {
             self.fieldWells = fieldWells
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
+            self.tableInlineVisualizations = tableInlineVisualizations
             self.tableOptions = tableOptions
             self.totalOptions = totalOptions
         }
@@ -55982,6 +56060,41 @@ extension QuickSightClientTypes {
         {
             self.tableAggregatedFieldWells = tableAggregatedFieldWells
             self.tableUnaggregatedFieldWells = tableUnaggregatedFieldWells
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TableInlineVisualization: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataBars = "DataBars"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataBars = self.dataBars {
+            try encodeContainer.encode(dataBars, forKey: .dataBars)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataBarsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataBarsOptions.self, forKey: .dataBars)
+        dataBars = dataBarsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The inline visualization of a specific type to display within a chart.
+    public struct TableInlineVisualization: Swift.Equatable {
+        /// The configuration of the inline visualization of the data bars within a chart.
+        public var dataBars: QuickSightClientTypes.DataBarsOptions?
+
+        public init (
+            dataBars: QuickSightClientTypes.DataBarsOptions? = nil
+        )
+        {
+            self.dataBars = dataBars
         }
     }
 
@@ -57000,7 +57113,7 @@ extension QuickSightClientTypes {
         public var message: Swift.String?
         /// Type of error.
         public var type: QuickSightClientTypes.TemplateErrorType?
-        ///
+        /// An error path that shows which entities caused the template error.
         public var violatedEntities: [QuickSightClientTypes.Entity]?
 
         public init (
@@ -57398,7 +57511,21 @@ extension QuickSightClientTypes {
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public var sourceEntityArn: Swift.String?
-        /// The HTTP status of the request.
+        /// The status that is associated with the template.
+        ///
+        /// * CREATION_IN_PROGRESS
+        ///
+        /// * CREATION_SUCCESSFUL
+        ///
+        /// * CREATION_FAILED
+        ///
+        /// * UPDATE_IN_PROGRESS
+        ///
+        /// * UPDATE_SUCCESSFUL
+        ///
+        /// * UPDATE_FAILED
+        ///
+        /// * DELETED
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The ARN of the theme associated with this version of the template.
         public var themeArn: Swift.String?

@@ -628,7 +628,7 @@ extension LambdaClientTypes.AliasConfiguration: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html).
+    /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     public struct AliasConfiguration: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the alias.
         public var aliasArn: Swift.String?
@@ -1488,7 +1488,7 @@ extension CreateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html).
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
 public struct CreateAliasOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
@@ -2873,6 +2873,7 @@ extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = output.revisionId
             self.role = output.role
             self.runtime = output.runtime
+            self.runtimeVersionConfig = output.runtimeVersionConfig
             self.signingJobArn = output.signingJobArn
             self.signingProfileVersionArn = output.signingProfileVersionArn
             self.snapStart = output.snapStart
@@ -2908,6 +2909,7 @@ extension CreateFunctionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = nil
             self.role = nil
             self.runtime = nil
+            self.runtimeVersionConfig = nil
             self.signingJobArn = nil
             self.signingProfileVersionArn = nil
             self.snapStart = nil
@@ -2972,6 +2974,8 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
     public var role: Swift.String?
     /// The runtime environment for the Lambda function.
     public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
@@ -3018,6 +3022,7 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
         snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -3054,6 +3059,7 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
         self.snapStart = snapStart
@@ -3102,6 +3108,7 @@ struct CreateFunctionOutputResponseBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
+    let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
 }
 
 extension CreateFunctionOutputResponseBody: Swift.Decodable {
@@ -3130,6 +3137,7 @@ extension CreateFunctionOutputResponseBody: Swift.Decodable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -3239,6 +3247,8 @@ extension CreateFunctionOutputResponseBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -6090,6 +6100,7 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -6184,6 +6195,9 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         }
         if let runtime = self.runtime {
             try encodeContainer.encode(runtime.rawValue, forKey: .runtime)
+        }
+        if let runtimeVersionConfig = self.runtimeVersionConfig {
+            try encodeContainer.encode(runtimeVersionConfig, forKey: .runtimeVersionConfig)
         }
         if let signingJobArn = self.signingJobArn {
             try encodeContainer.encode(signingJobArn, forKey: .signingJobArn)
@@ -6314,6 +6328,8 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -6368,6 +6384,8 @@ extension LambdaClientTypes {
         public var role: Swift.String?
         /// The runtime environment for the Lambda function.
         public var runtime: LambdaClientTypes.Runtime?
+        /// The ARN of the runtime and any errors that occured.
+        public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
         /// The ARN of the signing job.
         public var signingJobArn: Swift.String?
         /// The ARN of the signing profile version.
@@ -6414,6 +6432,7 @@ extension LambdaClientTypes {
             revisionId: Swift.String? = nil,
             role: Swift.String? = nil,
             runtime: LambdaClientTypes.Runtime? = nil,
+            runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
             signingJobArn: Swift.String? = nil,
             signingProfileVersionArn: Swift.String? = nil,
             snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -6450,6 +6469,7 @@ extension LambdaClientTypes {
             self.revisionId = revisionId
             self.role = role
             self.runtime = runtime
+            self.runtimeVersionConfig = runtimeVersionConfig
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
             self.snapStart = snapStart
@@ -6921,7 +6941,7 @@ extension GetAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html).
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
 public struct GetAliasOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
@@ -7830,6 +7850,7 @@ extension GetFunctionConfigurationOutputResponse: ClientRuntime.HttpResponseBind
             self.revisionId = output.revisionId
             self.role = output.role
             self.runtime = output.runtime
+            self.runtimeVersionConfig = output.runtimeVersionConfig
             self.signingJobArn = output.signingJobArn
             self.signingProfileVersionArn = output.signingProfileVersionArn
             self.snapStart = output.snapStart
@@ -7865,6 +7886,7 @@ extension GetFunctionConfigurationOutputResponse: ClientRuntime.HttpResponseBind
             self.revisionId = nil
             self.role = nil
             self.runtime = nil
+            self.runtimeVersionConfig = nil
             self.signingJobArn = nil
             self.signingProfileVersionArn = nil
             self.snapStart = nil
@@ -7929,6 +7951,8 @@ public struct GetFunctionConfigurationOutputResponse: Swift.Equatable {
     public var role: Swift.String?
     /// The runtime environment for the Lambda function.
     public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
@@ -7975,6 +7999,7 @@ public struct GetFunctionConfigurationOutputResponse: Swift.Equatable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
         snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -8011,6 +8036,7 @@ public struct GetFunctionConfigurationOutputResponse: Swift.Equatable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
         self.snapStart = snapStart
@@ -8059,6 +8085,7 @@ struct GetFunctionConfigurationOutputResponseBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
+    let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
 }
 
 extension GetFunctionConfigurationOutputResponseBody: Swift.Decodable {
@@ -8087,6 +8114,7 @@ extension GetFunctionConfigurationOutputResponseBody: Swift.Decodable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -8196,6 +8224,8 @@ extension GetFunctionConfigurationOutputResponseBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -9577,6 +9607,142 @@ extension GetProvisionedConcurrencyConfigOutputResponseBody: Swift.Decodable {
         statusReason = statusReasonDecoded
         let lastModifiedDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModified)
         lastModified = lastModifiedDecoded
+    }
+}
+
+extension GetRuntimeManagementConfigInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let qualifier = qualifier {
+                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+                items.append(qualifierQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension GetRuntimeManagementConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let functionName = functionName else {
+            return nil
+        }
+        return "/2021-07-20/functions/\(functionName.urlPercentEncoding())/runtime-management-config"
+    }
+}
+
+public struct GetRuntimeManagementConfigInput: Swift.Equatable {
+    /// The name of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
+    public var qualifier: Swift.String?
+
+    public init (
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    )
+    {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+struct GetRuntimeManagementConfigInputBody: Swift.Equatable {
+}
+
+extension GetRuntimeManagementConfigInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetRuntimeManagementConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetRuntimeManagementConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetRuntimeManagementConfigOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceException(ServiceException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRuntimeManagementConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetRuntimeManagementConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.runtimeVersionArn = output.runtimeVersionArn
+            self.updateRuntimeOn = output.updateRuntimeOn
+        } else {
+            self.runtimeVersionArn = nil
+            self.updateRuntimeOn = nil
+        }
+    }
+}
+
+public struct GetRuntimeManagementConfigOutputResponse: Swift.Equatable {
+    /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null is returned.
+    public var runtimeVersionArn: Swift.String?
+    /// The current runtime update mode of the function.
+    public var updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+
+    public init (
+        runtimeVersionArn: Swift.String? = nil,
+        updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
+    )
+    {
+        self.runtimeVersionArn = runtimeVersionArn
+        self.updateRuntimeOn = updateRuntimeOn
+    }
+}
+
+struct GetRuntimeManagementConfigOutputResponseBody: Swift.Equatable {
+    let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+    let runtimeVersionArn: Swift.String?
+}
+
+extension GetRuntimeManagementConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runtimeVersionArn = "RuntimeVersionArn"
+        case updateRuntimeOn = "UpdateRuntimeOn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateRuntimeOnDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.UpdateRuntimeOn.self, forKey: .updateRuntimeOn)
+        updateRuntimeOn = updateRuntimeOnDecoded
+        let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
+        runtimeVersionArn = runtimeVersionArnDecoded
     }
 }
 
@@ -14129,6 +14295,7 @@ extension PublishVersionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = output.revisionId
             self.role = output.role
             self.runtime = output.runtime
+            self.runtimeVersionConfig = output.runtimeVersionConfig
             self.signingJobArn = output.signingJobArn
             self.signingProfileVersionArn = output.signingProfileVersionArn
             self.snapStart = output.snapStart
@@ -14164,6 +14331,7 @@ extension PublishVersionOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = nil
             self.role = nil
             self.runtime = nil
+            self.runtimeVersionConfig = nil
             self.signingJobArn = nil
             self.signingProfileVersionArn = nil
             self.snapStart = nil
@@ -14228,6 +14396,8 @@ public struct PublishVersionOutputResponse: Swift.Equatable {
     public var role: Swift.String?
     /// The runtime environment for the Lambda function.
     public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
@@ -14274,6 +14444,7 @@ public struct PublishVersionOutputResponse: Swift.Equatable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
         snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -14310,6 +14481,7 @@ public struct PublishVersionOutputResponse: Swift.Equatable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
         self.snapStart = snapStart
@@ -14358,6 +14530,7 @@ struct PublishVersionOutputResponseBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
+    let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
 }
 
 extension PublishVersionOutputResponseBody: Swift.Decodable {
@@ -14386,6 +14559,7 @@ extension PublishVersionOutputResponseBody: Swift.Decodable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -14495,6 +14669,8 @@ extension PublishVersionOutputResponseBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -15231,6 +15407,199 @@ extension PutProvisionedConcurrencyConfigOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutRuntimeManagementConfigInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runtimeVersionArn = "RuntimeVersionArn"
+        case updateRuntimeOn = "UpdateRuntimeOn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runtimeVersionArn = self.runtimeVersionArn {
+            try encodeContainer.encode(runtimeVersionArn, forKey: .runtimeVersionArn)
+        }
+        if let updateRuntimeOn = self.updateRuntimeOn {
+            try encodeContainer.encode(updateRuntimeOn.rawValue, forKey: .updateRuntimeOn)
+        }
+    }
+}
+
+extension PutRuntimeManagementConfigInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let qualifier = qualifier {
+                let qualifierQueryItem = ClientRuntime.URLQueryItem(name: "Qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
+                items.append(qualifierQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension PutRuntimeManagementConfigInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let functionName = functionName else {
+            return nil
+        }
+        return "/2021-07-20/functions/\(functionName.urlPercentEncoding())/runtime-management-config"
+    }
+}
+
+public struct PutRuntimeManagementConfigInput: Swift.Equatable {
+    /// The name of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version of the function. This can be $LATEST or a published version number. If no value is specified, the configuration for the $LATEST version is returned.
+    public var qualifier: Swift.String?
+    /// The ARN of the runtime version you want the function to use. This is only required if you're using the Manual runtime update mode.
+    public var runtimeVersionArn: Swift.String?
+    /// Specify the runtime update mode.
+    ///
+    /// * Auto (default) - Automatically update to the most recent and secure runtime version using a [Two-phase runtime version rollout](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html#runtime-management-two-phase). This is the best choice for most customers to ensure they always benefit from runtime updates.
+    ///
+    /// * Function update - Lambda updates the runtime of your function to the most recent and secure runtime version when you update your function. This approach synchronizes runtime updates with function deployments, giving you control over when runtime updates are applied and allowing you to detect and mitigate rare runtime update incompatibilities early. When using this setting, you need to regularly update your functions to keep their runtime up-to-date.
+    ///
+    /// * Manual - You specify a runtime version in your function configuration. The function will use this runtime version indefinitely. In the rare case where a new runtime version is incompatible with an existing function, this allows you to roll back your function to an earlier runtime version. For more information, see [Roll back a runtime version](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html#runtime-management-rollback).
+    /// This member is required.
+    public var updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+
+    public init (
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil,
+        runtimeVersionArn: Swift.String? = nil,
+        updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
+    )
+    {
+        self.functionName = functionName
+        self.qualifier = qualifier
+        self.runtimeVersionArn = runtimeVersionArn
+        self.updateRuntimeOn = updateRuntimeOn
+    }
+}
+
+struct PutRuntimeManagementConfigInputBody: Swift.Equatable {
+    let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+    let runtimeVersionArn: Swift.String?
+}
+
+extension PutRuntimeManagementConfigInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runtimeVersionArn = "RuntimeVersionArn"
+        case updateRuntimeOn = "UpdateRuntimeOn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateRuntimeOnDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.UpdateRuntimeOn.self, forKey: .updateRuntimeOn)
+        updateRuntimeOn = updateRuntimeOnDecoded
+        let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
+        runtimeVersionArn = runtimeVersionArnDecoded
+    }
+}
+
+extension PutRuntimeManagementConfigOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutRuntimeManagementConfigOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidParameterValueException" : self = .invalidParameterValueException(try InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceConflictException" : self = .resourceConflictException(try ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceException" : self = .serviceException(try ServiceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutRuntimeManagementConfigOutputError: Swift.Error, Swift.Equatable {
+    case invalidParameterValueException(InvalidParameterValueException)
+    case resourceConflictException(ResourceConflictException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceException(ServiceException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutRuntimeManagementConfigOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutRuntimeManagementConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.functionArn = output.functionArn
+            self.runtimeVersionArn = output.runtimeVersionArn
+            self.updateRuntimeOn = output.updateRuntimeOn
+        } else {
+            self.functionArn = nil
+            self.runtimeVersionArn = nil
+            self.updateRuntimeOn = nil
+        }
+    }
+}
+
+public struct PutRuntimeManagementConfigOutputResponse: Swift.Equatable {
+    /// The ARN of the function
+    /// This member is required.
+    public var functionArn: Swift.String?
+    /// The ARN of the runtime the function is configured to use. If the runtime update mode is manual, the ARN is returned, otherwise null is returned.
+    public var runtimeVersionArn: Swift.String?
+    /// The runtime update mode.
+    /// This member is required.
+    public var updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+
+    public init (
+        functionArn: Swift.String? = nil,
+        runtimeVersionArn: Swift.String? = nil,
+        updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
+    )
+    {
+        self.functionArn = functionArn
+        self.runtimeVersionArn = runtimeVersionArn
+        self.updateRuntimeOn = updateRuntimeOn
+    }
+}
+
+struct PutRuntimeManagementConfigOutputResponseBody: Swift.Equatable {
+    let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
+    let functionArn: Swift.String?
+    let runtimeVersionArn: Swift.String?
+}
+
+extension PutRuntimeManagementConfigOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionArn = "FunctionArn"
+        case runtimeVersionArn = "RuntimeVersionArn"
+        case updateRuntimeOn = "UpdateRuntimeOn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let updateRuntimeOnDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.UpdateRuntimeOn.self, forKey: .updateRuntimeOn)
+        updateRuntimeOn = updateRuntimeOnDecoded
+        let functionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionArn)
+        functionArn = functionArnDecoded
+        let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
+        runtimeVersionArn = runtimeVersionArnDecoded
+    }
+}
+
 extension RemoveLayerVersionPermissionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -15864,6 +16233,101 @@ extension LambdaClientTypes {
     }
 }
 
+extension LambdaClientTypes.RuntimeVersionConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case error = "Error"
+        case runtimeVersionArn = "RuntimeVersionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let runtimeVersionArn = self.runtimeVersionArn {
+            try encodeContainer.encode(runtimeVersionArn, forKey: .runtimeVersionArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
+        runtimeVersionArn = runtimeVersionArnDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionError.self, forKey: .error)
+        error = errorDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    /// The ARN of the runtime and any errors that occured.
+    public struct RuntimeVersionConfig: Swift.Equatable {
+        /// Error response when Lambda is unable to retrieve the runtime version for a function.
+        public var error: LambdaClientTypes.RuntimeVersionError?
+        /// The ARN of the runtime version you want the function to use.
+        public var runtimeVersionArn: Swift.String?
+
+        public init (
+            error: LambdaClientTypes.RuntimeVersionError? = nil,
+            runtimeVersionArn: Swift.String? = nil
+        )
+        {
+            self.error = error
+            self.runtimeVersionArn = runtimeVersionArn
+        }
+    }
+
+}
+
+extension LambdaClientTypes.RuntimeVersionError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension LambdaClientTypes.RuntimeVersionError: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RuntimeVersionError(errorCode: \(Swift.String(describing: errorCode)), message: \"CONTENT_REDACTED\")"}
+}
+
+extension LambdaClientTypes {
+    /// Any error returned when the runtime version information for the function could not be retrieved.
+    public struct RuntimeVersionError: Swift.Equatable {
+        /// The error code.
+        public var errorCode: Swift.String?
+        /// The error message.
+        public var message: Swift.String?
+
+        public init (
+            errorCode: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.message = message
+        }
+    }
+
+}
+
 extension LambdaClientTypes.ScalingConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maximumConcurrency = "MaximumConcurrency"
@@ -16138,7 +16602,7 @@ extension SnapStartException {
     }
 }
 
-/// The runtime restore hook encountered an error. For more information, check the Amazon CloudWatch logs.
+/// The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
 public struct SnapStartException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -16337,7 +16801,7 @@ extension SnapStartTimeoutException {
     }
 }
 
-/// The runtime restore hook failed to complete within the timeout limit (2 seconds).
+/// Lambda couldn't restore the snapshot within the timeout limit.
 public struct SnapStartTimeoutException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -17339,7 +17803,7 @@ extension UpdateAliasOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html).
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
 public struct UpdateAliasOutputResponse: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
@@ -18420,6 +18884,7 @@ extension UpdateFunctionCodeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = output.revisionId
             self.role = output.role
             self.runtime = output.runtime
+            self.runtimeVersionConfig = output.runtimeVersionConfig
             self.signingJobArn = output.signingJobArn
             self.signingProfileVersionArn = output.signingProfileVersionArn
             self.snapStart = output.snapStart
@@ -18455,6 +18920,7 @@ extension UpdateFunctionCodeOutputResponse: ClientRuntime.HttpResponseBinding {
             self.revisionId = nil
             self.role = nil
             self.runtime = nil
+            self.runtimeVersionConfig = nil
             self.signingJobArn = nil
             self.signingProfileVersionArn = nil
             self.snapStart = nil
@@ -18519,6 +18985,8 @@ public struct UpdateFunctionCodeOutputResponse: Swift.Equatable {
     public var role: Swift.String?
     /// The runtime environment for the Lambda function.
     public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
@@ -18565,6 +19033,7 @@ public struct UpdateFunctionCodeOutputResponse: Swift.Equatable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
         snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -18601,6 +19070,7 @@ public struct UpdateFunctionCodeOutputResponse: Swift.Equatable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
         self.snapStart = snapStart
@@ -18649,6 +19119,7 @@ struct UpdateFunctionCodeOutputResponseBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
+    let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
 }
 
 extension UpdateFunctionCodeOutputResponseBody: Swift.Decodable {
@@ -18677,6 +19148,7 @@ extension UpdateFunctionCodeOutputResponseBody: Swift.Decodable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -18786,6 +19258,8 @@ extension UpdateFunctionCodeOutputResponseBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -19137,6 +19611,7 @@ extension UpdateFunctionConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.revisionId = output.revisionId
             self.role = output.role
             self.runtime = output.runtime
+            self.runtimeVersionConfig = output.runtimeVersionConfig
             self.signingJobArn = output.signingJobArn
             self.signingProfileVersionArn = output.signingProfileVersionArn
             self.snapStart = output.snapStart
@@ -19172,6 +19647,7 @@ extension UpdateFunctionConfigurationOutputResponse: ClientRuntime.HttpResponseB
             self.revisionId = nil
             self.role = nil
             self.runtime = nil
+            self.runtimeVersionConfig = nil
             self.signingJobArn = nil
             self.signingProfileVersionArn = nil
             self.snapStart = nil
@@ -19236,6 +19712,8 @@ public struct UpdateFunctionConfigurationOutputResponse: Swift.Equatable {
     public var role: Swift.String?
     /// The runtime environment for the Lambda function.
     public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
     /// The ARN of the signing job.
     public var signingJobArn: Swift.String?
     /// The ARN of the signing profile version.
@@ -19282,6 +19760,7 @@ public struct UpdateFunctionConfigurationOutputResponse: Swift.Equatable {
         revisionId: Swift.String? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
         signingJobArn: Swift.String? = nil,
         signingProfileVersionArn: Swift.String? = nil,
         snapStart: LambdaClientTypes.SnapStartResponse? = nil,
@@ -19318,6 +19797,7 @@ public struct UpdateFunctionConfigurationOutputResponse: Swift.Equatable {
         self.revisionId = revisionId
         self.role = role
         self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
         self.signingJobArn = signingJobArn
         self.signingProfileVersionArn = signingProfileVersionArn
         self.snapStart = snapStart
@@ -19366,6 +19846,7 @@ struct UpdateFunctionConfigurationOutputResponseBody: Swift.Equatable {
     let architectures: [LambdaClientTypes.Architecture]?
     let ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     let snapStart: LambdaClientTypes.SnapStartResponse?
+    let runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
 }
 
 extension UpdateFunctionConfigurationOutputResponseBody: Swift.Decodable {
@@ -19394,6 +19875,7 @@ extension UpdateFunctionConfigurationOutputResponseBody: Swift.Decodable {
         case revisionId = "RevisionId"
         case role = "Role"
         case runtime = "Runtime"
+        case runtimeVersionConfig = "RuntimeVersionConfig"
         case signingJobArn = "SigningJobArn"
         case signingProfileVersionArn = "SigningProfileVersionArn"
         case snapStart = "SnapStart"
@@ -19503,6 +19985,8 @@ extension UpdateFunctionConfigurationOutputResponseBody: Swift.Decodable {
         ephemeralStorage = ephemeralStorageDecoded
         let snapStartDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.SnapStartResponse.self, forKey: .snapStart)
         snapStart = snapStartDecoded
+        let runtimeVersionConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.RuntimeVersionConfig.self, forKey: .runtimeVersionConfig)
+        runtimeVersionConfig = runtimeVersionConfigDecoded
     }
 }
 
@@ -19954,6 +20438,41 @@ extension UpdateFunctionUrlConfigOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let lastModifiedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedTime)
         lastModifiedTime = lastModifiedTimeDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    public enum UpdateRuntimeOn: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case functionupdate
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateRuntimeOn] {
+            return [
+                .auto,
+                .functionupdate,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "Auto"
+            case .functionupdate: return "FunctionUpdate"
+            case .manual: return "Manual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateRuntimeOn(rawValue: rawValue) ?? UpdateRuntimeOn.sdkUnknown(rawValue)
+        }
     }
 }
 

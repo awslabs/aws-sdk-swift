@@ -347,7 +347,7 @@ extension BatchGetStreamKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchGetStreamKeyInput: Swift.Equatable {
-    /// Array of ARNs, one per channel.
+    /// Array of ARNs, one per stream key.
     /// This member is required.
     public var arns: [Swift.String]?
 
@@ -569,7 +569,7 @@ extension IvsClientTypes {
         public var playbackUrl: Swift.String?
         /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. Valid values:
         ///
@@ -763,7 +763,7 @@ extension IvsClientTypes {
         public var name: Swift.String?
         /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -3746,7 +3746,7 @@ extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutputResponse: Swift.Equatable {
-    ///
+    /// Tags attached to the resource. Array of maps, each of the form string:string (key:value).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3894,7 +3894,7 @@ extension IvsClientTypes {
         public var fingerprint: Swift.String?
         /// Playback-key-pair name. The value does not need to be unique.
         public var name: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -3963,7 +3963,7 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Playback-key-pair name. The value does not need to be unique.
         public var name: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -4169,7 +4169,7 @@ extension IvsClientTypes {
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         /// This member is required.
         public var state: IvsClientTypes.RecordingConfigurationState?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
         /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
         public var thumbnailConfiguration: IvsClientTypes.ThumbnailConfiguration?
@@ -4300,7 +4300,7 @@ extension IvsClientTypes {
         /// Indicates the current state of the recording configuration. When the state is ACTIVE, the configuration is ready for recording a channel stream.
         /// This member is required.
         public var state: IvsClientTypes.RecordingConfigurationState?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -4864,7 +4864,7 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Channel ARN for the stream.
         public var channelArn: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
         /// Stream-key value.
         public var value: Swift.String?
@@ -4935,7 +4935,7 @@ extension IvsClientTypes {
         public var arn: Swift.String?
         /// Channel ARN for the stream.
         public var channelArn: Swift.String?
-        /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
 
         public init (
@@ -5323,7 +5323,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// ARN of the resource for which tags are to be added or updated. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be added or updated. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    /// Array of tags to be added or updated. Array of maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -5526,7 +5526,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// ARN of the resource for which tags are to be removed. The ARN must be URL-encoded.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Array of tags to be removed. See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 

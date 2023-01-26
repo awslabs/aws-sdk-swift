@@ -964,11 +964,11 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
-                        "signingName": "events",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable]
+                        ] as [AnyHashable],
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1075,11 +1075,11 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
-                        "signingName": "events",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable]
+                        ] as [AnyHashable],
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1107,11 +1107,11 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "name": "sigv4a",
-                        "signingName": "events",
                         "signingRegionSet": [
                             "*"
-                        ] as [AnyHashable]
+                        ] as [AnyHashable],
+                        "name": "sigv4a",
+                        "signingName": "events"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

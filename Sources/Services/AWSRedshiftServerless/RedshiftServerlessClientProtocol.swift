@@ -69,7 +69,7 @@ public protocol RedshiftServerlessClientProtocol {
     func restoreFromRecoveryPoint(input: RestoreFromRecoveryPointInput) async throws -> RestoreFromRecoveryPointOutputResponse
     /// Restores a namespace from a snapshot.
     func restoreFromSnapshot(input: RestoreFromSnapshotInput) async throws -> RestoreFromSnapshotOutputResponse
-    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+    /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with [interleaved sort keys](https://docs.aws.amazon.com/redshift/latest/dg/t_Sorting_data.html#t_Sorting_data-interleaved).
     func restoreTableFromSnapshot(input: RestoreTableFromSnapshotInput) async throws -> RestoreTableFromSnapshotOutputResponse
     /// Assigns one or more tags to a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
@@ -77,13 +77,13 @@ public protocol RedshiftServerlessClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an Amazon Redshift Serverless managed endpoint.
     func updateEndpointAccess(input: UpdateEndpointAccessInput) async throws -> UpdateEndpointAccessOutputResponse
-    /// Updates a namespace with the specified settings.
+    /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     func updateNamespace(input: UpdateNamespaceInput) async throws -> UpdateNamespaceOutputResponse
     /// Updates a snapshot.
     func updateSnapshot(input: UpdateSnapshotInput) async throws -> UpdateSnapshotOutputResponse
     /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
     func updateUsageLimit(input: UpdateUsageLimitInput) async throws -> UpdateUsageLimitOutputResponse
-    /// Updates a workgroup with the specified configuration settings.
+    /// Updates a workgroup with the specified configuration settings. You can't update multiple parameters in one request. For example, you can update baseCapacity or port in a single request, but you can't update both in the same request.
     func updateWorkgroup(input: UpdateWorkgroupInput) async throws -> UpdateWorkgroupOutputResponse
 }
 

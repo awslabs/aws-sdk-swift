@@ -2754,7 +2754,7 @@ extension SynthesizeSpeechInput {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
@@ -2803,7 +2803,7 @@ extension SynthesizeSpeechInput {
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>(xmlName: "SynthesizeSpeechInput"))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
-        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false)
+        let sigv4Config = AWSClientRuntime.SigV4Config(expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
@@ -3445,7 +3445,9 @@ extension PollyClientTypes {
 extension PollyClientTypes {
     public enum VoiceId: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aditi
+        case adriano
         case amy
+        case andres
         case aria
         case arlet
         case arthur
@@ -3511,14 +3513,17 @@ extension PollyClientTypes {
         case pedro
         case penelope
         case raveena
+        case remi
         case ricardo
         case ruben
         case russell
         case salli
         case seoyeon
+        case sergio
         case suvi
         case takumi
         case tatyana
+        case thiago
         case vicki
         case vitoria
         case zeina
@@ -3528,7 +3533,9 @@ extension PollyClientTypes {
         public static var allCases: [VoiceId] {
             return [
                 .aditi,
+                .adriano,
                 .amy,
+                .andres,
                 .aria,
                 .arlet,
                 .arthur,
@@ -3594,14 +3601,17 @@ extension PollyClientTypes {
                 .pedro,
                 .penelope,
                 .raveena,
+                .remi,
                 .ricardo,
                 .ruben,
                 .russell,
                 .salli,
                 .seoyeon,
+                .sergio,
                 .suvi,
                 .takumi,
                 .tatyana,
+                .thiago,
                 .vicki,
                 .vitoria,
                 .zeina,
@@ -3616,7 +3626,9 @@ extension PollyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aditi: return "Aditi"
+            case .adriano: return "Adriano"
             case .amy: return "Amy"
+            case .andres: return "Andres"
             case .aria: return "Aria"
             case .arlet: return "Arlet"
             case .arthur: return "Arthur"
@@ -3682,14 +3694,17 @@ extension PollyClientTypes {
             case .pedro: return "Pedro"
             case .penelope: return "Penelope"
             case .raveena: return "Raveena"
+            case .remi: return "Remi"
             case .ricardo: return "Ricardo"
             case .ruben: return "Ruben"
             case .russell: return "Russell"
             case .salli: return "Salli"
             case .seoyeon: return "Seoyeon"
+            case .sergio: return "Sergio"
             case .suvi: return "Suvi"
             case .takumi: return "Takumi"
             case .tatyana: return "Tatyana"
+            case .thiago: return "Thiago"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
             case .zeina: return "Zeina"

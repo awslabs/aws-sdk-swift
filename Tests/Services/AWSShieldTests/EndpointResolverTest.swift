@@ -22,9 +22,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "shield",
-                        "signingRegion": "us-east-1"
+                        "signingName": "shield"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -50,9 +50,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "shield",
-                        "signingRegion": "us-east-1"
+                        "signingName": "shield"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -98,9 +98,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "shield",
-                        "signingRegion": "us-east-1"
+                        "signingName": "shield"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -146,9 +146,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
+                        "signingRegion": "us-east-1",
                         "name": "sigv4",
-                        "signingName": "shield",
-                        "signingRegion": "us-east-1"
+                        "signingName": "shield"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
