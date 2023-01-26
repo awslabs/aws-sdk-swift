@@ -12,6 +12,7 @@ on:
 
 env:
   working-directory: ./aws-sdk-swift
+  pr-branch: aws-ci/codegen-pr
 
 jobs:
   main:
@@ -53,6 +54,10 @@ jobs:
           ./gradlew -p codegen/sdk-codegen build
           ./gradlew -p codegen/sdk-codegen stageSdks
           ./scripts/mergeModels.sh Sources/Services
+      - name: Prepare remote branch
+        run: |
+          git checkout -b ${{ env.pr-branch }}
+          git push --set-upstream origin ${{ env.pr-branch }}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
@@ -67,7 +72,7 @@ jobs:
           committer: AWS CI <nobody@amazonaws.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           base: main
-          branch: chore/codegen-auto-pr
+          branch: ${{ env.pr-branch }}
           delete-branch: true
           title: 'ci: regenerate service packages and Package.swift'
           body: |
