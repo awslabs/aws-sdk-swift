@@ -20835,7 +20835,7 @@
                 "ShadowProductionVariants": {
                     "target": "com.amazonaws.sagemaker#ProductionVariantSummaryList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of the shadow variants hosted on the endpoint. Each shadow variant is a model\n            in shadow mode with production traffic replicated from the proudction variant.</p>"
+                        "smithy.api#documentation": "<p>A list of the shadow variants hosted on the endpoint. Each shadow variant is a model\n            in shadow mode with production traffic replicated from the production variant.</p>"
                     }
                 }
             },
@@ -25785,6 +25785,12 @@
                         "smithy.api#documentation": "<p>Defines the model configuration.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "RecommendationId": {
+                    "target": "com.amazonaws.sagemaker#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The recommendation ID which uniquely identifies each recommendation.</p>"
+                    }
                 }
             },
             "traits": {
@@ -30562,6 +30568,11 @@
             "output": {
                 "target": "com.amazonaws.sagemaker#ListInferenceRecommendationsJobStepsResponse"
             },
+            "errors": [
+                {
+                    "target": "com.amazonaws.sagemaker#ResourceNotFound"
+                }
+            ],
             "traits": {
                 "smithy.api#documentation": "<p>Returns a list of the subtasks for an Inference Recommender job.</p>\n         <p>The supported subtasks are benchmarks, which evaluate the performance of your model on different instance types.</p>",
                 "smithy.api#paginated": {
@@ -35347,6 +35358,12 @@
                     "target": "com.amazonaws.sagemaker#EnvironmentParameters",
                     "traits": {
                         "smithy.api#documentation": "<p>Defines the environment parameters that includes key, value types, and values.</p>"
+                    }
+                },
+                "CompilationJobName": {
+                    "target": "com.amazonaws.sagemaker#RecommendationJobCompilationJobName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the compilation job used to create the recommended model artifacts.</p>"
                     }
                 }
             },
@@ -41443,7 +41460,7 @@
                 "VolumeSizeInGB": {
                     "target": "com.amazonaws.sagemaker#ProductionVariantVolumeSizeInGB",
                     "traits": {
-                        "smithy.api#documentation": "<p>The size, in GB, of the ML storage volume attached to individual inference instance\n            associated with the production variant. Currenly only Amazon EBS gp2 storage volumes are\n            supported.</p>"
+                        "smithy.api#documentation": "<p>The size, in GB, of the ML storage volume attached to individual inference instance\n            associated with the production variant. Currently only Amazon EBS gp2 storage volumes are\n            supported.</p>"
                     }
                 },
                 "ModelDataDownloadTimeoutInSeconds": {
@@ -42375,6 +42392,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ml.r6gd.16xlarge"
+                    }
+                },
+                "ML_P4DE_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.p4de.24xlarge"
                     }
                 }
             }
@@ -43639,6 +43662,16 @@
                 "smithy.api#pattern": "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:inference-recommendations-job/"
             }
         },
+        "com.amazonaws.sagemaker#RecommendationJobCompilationJobName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 63
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$"
+            }
+        },
         "com.amazonaws.sagemaker#RecommendationJobCompiledOutputConfig": {
             "type": "structure",
             "members": {
@@ -43697,10 +43730,26 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A list of the instance types that are used to generate inferences in real-time.</p>"
                     }
+                },
+                "DataInputConfig": {
+                    "target": "com.amazonaws.sagemaker#RecommendationJobDataInputConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form.\n         This field is used for optimizing your model using SageMaker Neo. For more information, see\n         <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_InputConfig.html#sagemaker-Type-InputConfig-DataInputConfig\">DataInputConfig</a>.</p>"
+                    }
                 }
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies mandatory fields for running an Inference Recommender job directly in the\n         <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateInferenceRecommendationsJob.html\">CreateInferenceRecommendationsJob</a>\n         API. The fields specified in <code>ContainerConfig</code> override the corresponding fields in the model package. Use\n      <code>ContainerConfig</code> if you want to specify these fields for the recommendation job but don't want to edit them in your model package.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#RecommendationJobDataInputConfig": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^[\\S\\s]+$"
             }
         },
         "com.amazonaws.sagemaker#RecommendationJobDescription": {
@@ -43744,8 +43793,7 @@
                 "ModelPackageVersionArn": {
                     "target": "com.amazonaws.sagemaker#ModelPackageArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a versioned model package.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of a versioned model package.</p>"
                     }
                 },
                 "JobDurationInSeconds": {
@@ -43794,6 +43842,12 @@
                     "target": "com.amazonaws.sagemaker#RecommendationJobVpcConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>Inference Recommender provisions SageMaker endpoints with access to VPC in the inference recommendation job.</p>"
+                    }
+                },
+                "ModelName": {
+                    "target": "com.amazonaws.sagemaker#ModelName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the created model.</p>"
                     }
                 }
             },
@@ -44061,6 +44115,18 @@
                         "smithy.api#default": 0,
                         "smithy.api#documentation": "<p>The expected model latency at maximum invocation per minute for the instance.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "CpuUtilization": {
+                    "target": "com.amazonaws.sagemaker#UtilizationMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The expected CPU utilization at maximum invocations per minute for the instance.</p>\n         <p>\n            <code>NaN</code> indicates that the value is not available.</p>"
+                    }
+                },
+                "MemoryUtilization": {
+                    "target": "com.amazonaws.sagemaker#UtilizationMetric",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The expected memory utilization at maximum invocations per minute for the instance.</p>\n         <p>\n            <code>NaN</code> indicates that the value is not available.</p>"
                     }
                 }
             },
@@ -46233,18 +46299,12 @@
                                             "rules": [
                                                 {
                                                     "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://api.sagemaker-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
+                                                    "endpoint": {
+                                                        "url": "https://api.sagemaker-fips.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                        "properties": {},
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
                                                 }
                                             ]
                                         },
@@ -46312,7 +46372,26 @@
                                                                 }
                                                             ],
                                                             "endpoint": {
-                                                                "url": "https://api-fips.sagemaker.{Region}.amazonaws.com",
+                                                                "url": "https://api-fips.sagemaker.{Region}.{PartitionResult#dnsSuffix}",
+                                                                "properties": {},
+                                                                "headers": {}
+                                                            },
+                                                            "type": "endpoint"
+                                                        },
+                                                        {
+                                                            "conditions": [
+                                                                {
+                                                                    "fn": "stringEquals",
+                                                                    "argv": [
+                                                                        {
+                                                                            "ref": "Region"
+                                                                        },
+                                                                        "us-gov-west-1-secondary"
+                                                                    ]
+                                                                }
+                                                            ],
+                                                            "endpoint": {
+                                                                "url": "https://api.sagemaker.us-gov-west-1.amazonaws.com",
                                                                 "properties": {},
                                                                 "headers": {}
                                                             },
@@ -46337,7 +46416,7 @@
                                                                 }
                                                             ],
                                                             "endpoint": {
-                                                                "url": "https://api-fips.sagemaker.{Region}.amazonaws.com",
+                                                                "url": "https://api-fips.sagemaker.{Region}.{PartitionResult#dnsSuffix}",
                                                                 "properties": {},
                                                                 "headers": {}
                                                             },
@@ -46399,18 +46478,12 @@
                                             "rules": [
                                                 {
                                                     "conditions": [],
-                                                    "type": "tree",
-                                                    "rules": [
-                                                        {
-                                                            "conditions": [],
-                                                            "endpoint": {
-                                                                "url": "https://api.sagemaker.{Region}.{PartitionResult#dualStackDnsSuffix}",
-                                                                "properties": {},
-                                                                "headers": {}
-                                                            },
-                                                            "type": "endpoint"
-                                                        }
-                                                    ]
+                                                    "endpoint": {
+                                                        "url": "https://api.sagemaker.{Region}.{PartitionResult#dualStackDnsSuffix}",
+                                                        "properties": {},
+                                                        "headers": {}
+                                                    },
+                                                    "type": "endpoint"
                                                 }
                                             ]
                                         },
@@ -46423,18 +46496,12 @@
                                 },
                                 {
                                     "conditions": [],
-                                    "type": "tree",
-                                    "rules": [
-                                        {
-                                            "conditions": [],
-                                            "endpoint": {
-                                                "url": "https://api.sagemaker.{Region}.{PartitionResult#dnsSuffix}",
-                                                "properties": {},
-                                                "headers": {}
-                                            },
-                                            "type": "endpoint"
-                                        }
-                                    ]
+                                    "endpoint": {
+                                        "url": "https://api.sagemaker.{Region}.{PartitionResult#dnsSuffix}",
+                                        "properties": {},
+                                        "headers": {}
+                                    },
+                                    "type": "endpoint"
                                 }
                             ]
                         }
@@ -46443,29 +46510,42 @@
                 "smithy.rules#endpointTests": {
                     "testCases": [
                         {
-                            "documentation": "For region eu-south-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region ap-south-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.eu-south-1.amazonaws.com"
+                                    "url": "https://api.sagemaker-fips.ap-south-1.api.aws"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-south-1"
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-south-1"
                             }
                         },
                         {
-                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region ap-south-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.ap-northeast-1.amazonaws.com"
+                                    "url": "https://api-fips.sagemaker.ap-south-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
-                                "Region": "ap-northeast-1"
+                                "UseFIPS": true,
+                                "Region": "ap-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-south-1"
                             }
                         },
                         {
@@ -46476,347 +46556,61 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
+                                "UseFIPS": false,
                                 "Region": "ap-south-1"
                             }
                         },
                         {
-                            "documentation": "For region ap-northeast-3 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region eu-south-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.ap-northeast-3.amazonaws.com"
+                                    "url": "https://api.sagemaker-fips.eu-south-1.api.aws"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ap-northeast-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.ap-northeast-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ap-northeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api-fips.sagemaker.us-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Region": "us-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-west-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api-fips.sagemaker.us-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Region": "us-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.eu-north-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-north-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.ap-southeast-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ap-southeast-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.ap-southeast-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ap-southeast-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.eu-central-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region af-south-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.af-south-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "af-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.sa-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "sa-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api-fips.sagemaker.us-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-east-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "us-east-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-2 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api-fips.sagemaker.us-east-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Region": "us-east-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region me-south-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.me-south-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "me-south-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ca-central-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.ca-central-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ca-central-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region ap-east-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.ap-east-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "ap-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.eu-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.eu-west-2.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-west-2"
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.eu-west-3.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "eu-west-3"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker-fips.us-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": true,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-east-1.api.aws"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": true,
-                                "Region": "us-east-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api.sagemaker.us-gov-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
-                                "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "us-gov-west-1"
-                            }
-                        },
-                        {
-                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://api-fips.sagemaker.us-gov-west-1.amazonaws.com"
-                                }
-                            },
-                            "params": {
                                 "UseFIPS": true,
+                                "Region": "eu-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-south-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
                                 "UseDualStack": false,
-                                "Region": "us-gov-west-1"
+                                "UseFIPS": true,
+                                "Region": "eu-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-south-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-south-1"
                             }
                         },
                         {
@@ -46827,8 +46621,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": true,
+                                "UseFIPS": true,
                                 "Region": "us-gov-east-1"
                             }
                         },
@@ -46840,8 +46634,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": false,
+                                "UseFIPS": true,
                                 "Region": "us-gov-east-1"
                             }
                         },
@@ -46853,8 +46647,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": true,
+                                "UseFIPS": false,
                                 "Region": "us-gov-east-1"
                             }
                         },
@@ -46866,61 +46660,841 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
+                                "UseFIPS": false,
                                 "Region": "us-gov-east-1"
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                            "documentation": "For region me-central-1 with FIPS enabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker-fips.us-isob-east-1.sc2s.sgov.gov"
+                                    "url": "https://api.sagemaker-fips.me-central-1.api.aws"
                                 }
                             },
                             "params": {
+                                "UseDualStack": true,
                                 "UseFIPS": true,
-                                "UseDualStack": false,
-                                "Region": "us-isob-east-1"
+                                "Region": "me-central-1"
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region me-central-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.us-isob-east-1.sc2s.sgov.gov"
+                                    "url": "https://api-fips.sagemaker.me-central-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
-                                "Region": "us-isob-east-1"
+                                "UseFIPS": true,
+                                "Region": "me-central-1"
                             }
                         },
                         {
-                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region me-central-1 with FIPS disabled and DualStack enabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.cn-northwest-1.amazonaws.com.cn"
+                                    "url": "https://api.sagemaker.me-central-1.api.aws"
                                 }
                             },
                             "params": {
+                                "UseDualStack": true,
                                 "UseFIPS": false,
-                                "UseDualStack": false,
-                                "Region": "cn-northwest-1"
+                                "Region": "me-central-1"
                             }
                         },
                         {
-                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region me-central-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.cn-north-1.amazonaws.com.cn"
+                                    "url": "https://api.sagemaker.me-central-1.amazonaws.com"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
-                                "Region": "cn-north-1"
+                                "UseFIPS": false,
+                                "Region": "me-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-central-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ca-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ca-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-central-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ca-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ca-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ca-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ca-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ca-central-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ca-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ca-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.eu-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "eu-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "eu-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-central-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-central-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-central-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-central-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.us-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-west-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-2 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.us-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-west-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-west-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region af-south-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.af-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "af-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region af-south-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.af-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "af-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region af-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.af-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "af-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region af-south-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.af-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "af-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-north-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.eu-north-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "eu-north-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-north-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-north-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "eu-north-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-north-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-north-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-north-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-north-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-north-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.eu-west-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "eu-west-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-west-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "eu-west-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-west-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-3 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-west-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.eu-west-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "eu-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-2 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "eu-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-west-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.eu-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "eu-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.eu-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "eu-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "eu-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region eu-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.eu-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "eu-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-3 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-northeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-3 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-northeast-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-3 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-northeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-2 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-northeast-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-northeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-northeast-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-northeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-northeast-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-northeast-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-northeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region me-south-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.me-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "me-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region me-south-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.me-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "me-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region me-south-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.me-south-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "me-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region me-south-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.me-south-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "me-south-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.sa-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "sa-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.sa-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "sa-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.sa-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "sa-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region sa-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.sa-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "sa-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-east-1"
                             }
                         },
                         {
@@ -46931,8 +47505,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": true,
+                                "UseFIPS": true,
                                 "Region": "cn-north-1"
                             }
                         },
@@ -46944,8 +47518,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": false,
+                                "UseFIPS": true,
                                 "Region": "cn-north-1"
                             }
                         },
@@ -46957,21 +47531,188 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": true,
+                                "UseFIPS": false,
                                 "Region": "cn-north-1"
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                            "documentation": "For region cn-north-1 with FIPS disabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.us-iso-east-1.c2s.ic.gov"
+                                    "url": "https://api.sagemaker.cn-north-1.amazonaws.com.cn"
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "cn-north-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-gov-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-gov-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.us-gov-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-gov-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-gov-west-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-gov-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-gov-west-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-gov-west-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-gov-west-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-southeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-southeast-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-southeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-2 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-southeast-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
                                 "Region": "us-iso-east-1"
                             }
                         },
@@ -46983,9 +47724,289 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": false,
+                                "UseFIPS": true,
                                 "Region": "us-iso-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-iso-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-iso-east-1.c2s.ic.gov"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-iso-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-3 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.ap-southeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-3 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.ap-southeast-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "ap-southeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-3 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-3.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region ap-southeast-3 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.ap-southeast-3.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "ap-southeast-3"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.us-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-east-1.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-east-1.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-east-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-east-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api-fips.sagemaker.us-east-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-east-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-east-2.api.aws"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-east-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-east-2 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-east-2.amazonaws.com"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-east-2"
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.cn-northwest-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "cn-northwest-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.cn-northwest-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "cn-northwest-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.cn-northwest-1.api.amazonwebservices.com.cn"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "cn-northwest-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region cn-northwest-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.cn-northwest-1.amazonaws.com.cn"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "cn-northwest-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
+                            "expect": {
+                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": true,
+                                "Region": "us-isob-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker-fips.us-isob-east-1.sc2s.sgov.gov"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": true,
+                                "Region": "us-isob-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
+                            "expect": {
+                                "error": "DualStack is enabled but this partition does not support DualStack"
+                            },
+                            "params": {
+                                "UseDualStack": true,
+                                "UseFIPS": false,
+                                "Region": "us-isob-east-1"
+                            }
+                        },
+                        {
+                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack disabled",
+                            "expect": {
+                                "endpoint": {
+                                    "url": "https://api.sagemaker.us-isob-east-1.sc2s.sgov.gov"
+                                }
+                            },
+                            "params": {
+                                "UseDualStack": false,
+                                "UseFIPS": false,
+                                "Region": "us-isob-east-1"
                             }
                         },
                         {
@@ -46996,8 +48017,8 @@
                                 }
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": false,
+                                "UseFIPS": false,
                                 "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
                             }
@@ -47008,8 +48029,8 @@
                                 "error": "Invalid Configuration: FIPS and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": true,
                                 "UseDualStack": false,
+                                "UseFIPS": true,
                                 "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
                             }
@@ -47020,8 +48041,8 @@
                                 "error": "Invalid Configuration: Dualstack and custom endpoint are not supported"
                             },
                             "params": {
-                                "UseFIPS": false,
                                 "UseDualStack": true,
+                                "UseFIPS": false,
                                 "Region": "us-east-1",
                                 "Endpoint": "https://example.com"
                             }
@@ -53099,7 +54120,7 @@
                 "AppSecurityGroupManagement": {
                     "target": "com.amazonaws.sagemaker#AppSecurityGroupManagement",
                     "traits": {
-                        "smithy.api#documentation": "<p>The entity that creates and manages the required security groups for inter-app\n            communication in <code>VPCOnly</code> mode. Required when\n            <code>CreateDomain.AppNetworkAccessType</code> is <code>VPCOnly</code> and\n            <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code> is\n            provided.</p>"
+                        "smithy.api#documentation": "<p>The entity that creates and manages the required security groups for inter-app\n            communication in <code>VPCOnly</code> mode. Required when\n                <code>CreateDomain.AppNetworkAccessType</code> is <code>VPCOnly</code> and\n                <code>DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn</code> is\n            provided.</p>"
                     }
                 }
             }
@@ -54969,6 +55990,14 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A collection of settings that apply to users of Amazon SageMaker Studio. These settings are\n      specified when the <code>CreateUserProfile</code> API is called, and as <code>DefaultUserSettings</code>\n      when the <code>CreateDomain</code> API is called.</p>\n         <p>\n            <code>SecurityGroups</code> is aggregated when specified in both calls. For all other\n     settings in <code>UserSettings</code>, the values specified in <code>CreateUserProfile</code>\n     take precedence over those specified in <code>CreateDomain</code>.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#UtilizationMetric": {
+            "type": "float",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 0.0
+                }
             }
         },
         "com.amazonaws.sagemaker#ValidationFraction": {
