@@ -243,8 +243,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
                 "authSchemes": [
                     [
                         "name": "sigv4",
-                        "signingName": "dynamodb",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
