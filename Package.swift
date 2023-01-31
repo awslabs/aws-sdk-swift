@@ -364,7 +364,7 @@ let package = Package(
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.5.4"))
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.5.6"))
     ],
     targets: [
         // MARK: - Core Targets
