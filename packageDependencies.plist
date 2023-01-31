@@ -5,7 +5,7 @@
 	<key>clientRuntimeVersion</key>
 	<string>0.10.3</string>
 	<key>awsCRTSwiftVersion</key>
-	<string>0.5.6</string>
+	<string>0.5.7</string>
 	<key>clientRuntimeBranch</key>
 	<string>main</string>
 	<key>awsCRTSwiftBranch</key>
