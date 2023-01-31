@@ -21,6 +21,7 @@ public class AWSCredentialsProvider: CredentialsProvider {
         _ options: AWSCredentialsProviderProfileOptions = AWSCredentialsProviderProfileOptions()
     ) throws -> AWSCredentialsProvider {
         let credsProvider = try AwsCommonRuntimeKit.CredentialsProvider(source: .profile(
+            bootstrap: SDKDefaultIO.shared.clientBootstrap,
             configFileNameOverride: options.configFileNameOverride,
             profileFileNameOverride: options.profileFileNameOverride,
             credentialsFileNameOverride: options.credentialsFileNameOverride,
