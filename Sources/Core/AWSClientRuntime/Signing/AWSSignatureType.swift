@@ -11,16 +11,16 @@ public enum AWSSignatureType {
     case requestHeaders
     case requestQueryParams
     case requestChunk
-    case requestEvent
+    case requestTrailingHeaders
 }
 
 extension AWSSignatureType {
     func toCRTType() -> SignatureType {
         switch self {
         case .requestChunk: return .requestChunk
-        case .requestEvent: return .requestEvent
         case .requestHeaders: return .requestHeaders
         case .requestQueryParams: return .requestQueryParams
+        case .requestTrailingHeaders: return .requestTrailingHeaders
         }
     }
 }
