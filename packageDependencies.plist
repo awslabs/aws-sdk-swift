@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>clientRuntimeVersion</key>
-	<string>0.10.3</string>
+	<string>0.10.4</string>
 	<key>awsCRTSwiftVersion</key>
-	<string>0.5.7</string>
+	<string>0.5.8</string>
 	<key>clientRuntimeBranch</key>
 	<string>main</string>
 	<key>awsCRTSwiftBranch</key>
