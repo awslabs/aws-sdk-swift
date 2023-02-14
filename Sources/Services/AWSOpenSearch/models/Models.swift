@@ -175,7 +175,7 @@ extension AccessDeniedException {
     }
 }
 
-/// An error occurred because user does not have permissions to access the resource. Returns HTTP status code 403.
+/// An error occurred because you don't have permissions to access the resource.
 public struct AccessDeniedException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2356,7 +2356,7 @@ extension ConflictException {
     }
 }
 
-/// An error occurred because the client attempts to remove a resource that is currently in use. Returns HTTP status code 409.
+/// An error occurred because the client attempts to remove a resource that's currently in use.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2390,6 +2390,78 @@ extension ConflictExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension OpenSearchClientTypes {
+    /// The connection mode for the cross-cluster connection.
+    ///
+    /// * DIRECT - Used for cross-cluster search or cross-cluster replication.
+    ///
+    /// * VPC_ENDPOINT - Used for remote reindex between Amazon OpenSearch Service VPC domains.
+    public enum ConnectionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case direct
+        case vpcEndpoint
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionMode] {
+            return [
+                .direct,
+                .vpcEndpoint,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "DIRECT"
+            case .vpcEndpoint: return "VPC_ENDPOINT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ConnectionMode(rawValue: rawValue) ?? ConnectionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes.ConnectionProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpoint = "Endpoint"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endpoint = self.endpoint {
+            try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The connection properties of an outbound connection.
+    public struct ConnectionProperties: Swift.Equatable {
+        /// The endpoint of the remote domain.
+        public var endpoint: Swift.String?
+
+        public init (
+            endpoint: Swift.String? = nil
+        )
+        {
+            self.endpoint = endpoint
+        }
+    }
+
 }
 
 extension CreateDomainInput: Swift.Encodable {
@@ -2746,6 +2818,7 @@ extension CreateDomainOutputResponseBody: Swift.Decodable {
 extension CreateOutboundConnectionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
+        case connectionMode = "ConnectionMode"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
     }
@@ -2754,6 +2827,9 @@ extension CreateOutboundConnectionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectionAlias = self.connectionAlias {
             try encodeContainer.encode(connectionAlias, forKey: .connectionAlias)
+        }
+        if let connectionMode = self.connectionMode {
+            try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
         }
         if let localDomainInfo = self.localDomainInfo {
             try encodeContainer.encode(localDomainInfo, forKey: .localDomainInfo)
@@ -2775,6 +2851,8 @@ public struct CreateOutboundConnectionInput: Swift.Equatable {
     /// Name of the connection.
     /// This member is required.
     public var connectionAlias: Swift.String?
+    /// The connection mode.
+    public var connectionMode: OpenSearchClientTypes.ConnectionMode?
     /// Name and Region of the source (local) domain.
     /// This member is required.
     public var localDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
@@ -2784,11 +2862,13 @@ public struct CreateOutboundConnectionInput: Swift.Equatable {
 
     public init (
         connectionAlias: Swift.String? = nil,
+        connectionMode: OpenSearchClientTypes.ConnectionMode? = nil,
         localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
         remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
     )
     {
         self.connectionAlias = connectionAlias
+        self.connectionMode = connectionMode
         self.localDomainInfo = localDomainInfo
         self.remoteDomainInfo = remoteDomainInfo
     }
@@ -2798,11 +2878,13 @@ struct CreateOutboundConnectionInputBody: Swift.Equatable {
     let localDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer?
     let connectionAlias: Swift.String?
+    let connectionMode: OpenSearchClientTypes.ConnectionMode?
 }
 
 extension CreateOutboundConnectionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
+        case connectionMode = "ConnectionMode"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
     }
@@ -2815,6 +2897,8 @@ extension CreateOutboundConnectionInputBody: Swift.Decodable {
         remoteDomainInfo = remoteDomainInfoDecoded
         let connectionAliasDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionAlias)
         connectionAlias = connectionAliasDecoded
+        let connectionModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionMode.self, forKey: .connectionMode)
+        connectionMode = connectionModeDecoded
     }
 }
 
@@ -2854,12 +2938,16 @@ extension CreateOutboundConnectionOutputResponse: ClientRuntime.HttpResponseBind
             let output: CreateOutboundConnectionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.connectionAlias = output.connectionAlias
             self.connectionId = output.connectionId
+            self.connectionMode = output.connectionMode
+            self.connectionProperties = output.connectionProperties
             self.connectionStatus = output.connectionStatus
             self.localDomainInfo = output.localDomainInfo
             self.remoteDomainInfo = output.remoteDomainInfo
         } else {
             self.connectionAlias = nil
             self.connectionId = nil
+            self.connectionMode = nil
+            self.connectionProperties = nil
             self.connectionStatus = nil
             self.localDomainInfo = nil
             self.remoteDomainInfo = nil
@@ -2873,6 +2961,10 @@ public struct CreateOutboundConnectionOutputResponse: Swift.Equatable {
     public var connectionAlias: Swift.String?
     /// The unique identifier for the created outbound connection, which is used for subsequent operations on the connection.
     public var connectionId: Swift.String?
+    /// The connection mode.
+    public var connectionMode: OpenSearchClientTypes.ConnectionMode?
+    /// The ConnectionProperties for the newly created connection.
+    public var connectionProperties: OpenSearchClientTypes.ConnectionProperties?
     /// The status of the connection.
     public var connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus?
     /// Information about the source (local) domain.
@@ -2883,6 +2975,8 @@ public struct CreateOutboundConnectionOutputResponse: Swift.Equatable {
     public init (
         connectionAlias: Swift.String? = nil,
         connectionId: Swift.String? = nil,
+        connectionMode: OpenSearchClientTypes.ConnectionMode? = nil,
+        connectionProperties: OpenSearchClientTypes.ConnectionProperties? = nil,
         connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus? = nil,
         localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
         remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
@@ -2890,6 +2984,8 @@ public struct CreateOutboundConnectionOutputResponse: Swift.Equatable {
     {
         self.connectionAlias = connectionAlias
         self.connectionId = connectionId
+        self.connectionMode = connectionMode
+        self.connectionProperties = connectionProperties
         self.connectionStatus = connectionStatus
         self.localDomainInfo = localDomainInfo
         self.remoteDomainInfo = remoteDomainInfo
@@ -2902,12 +2998,16 @@ struct CreateOutboundConnectionOutputResponseBody: Swift.Equatable {
     let connectionAlias: Swift.String?
     let connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus?
     let connectionId: Swift.String?
+    let connectionMode: OpenSearchClientTypes.ConnectionMode?
+    let connectionProperties: OpenSearchClientTypes.ConnectionProperties?
 }
 
 extension CreateOutboundConnectionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
         case connectionId = "ConnectionId"
+        case connectionMode = "ConnectionMode"
+        case connectionProperties = "ConnectionProperties"
         case connectionStatus = "ConnectionStatus"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
@@ -2925,6 +3025,10 @@ extension CreateOutboundConnectionOutputResponseBody: Swift.Decodable {
         connectionStatus = connectionStatusDecoded
         let connectionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionId)
         connectionId = connectionIdDecoded
+        let connectionModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionMode.self, forKey: .connectionMode)
+        connectionMode = connectionModeDecoded
+        let connectionPropertiesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionProperties.self, forKey: .connectionProperties)
+        connectionProperties = connectionPropertiesDecoded
     }
 }
 
@@ -3792,7 +3896,7 @@ extension DescribeDomainAutoTunesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3816,13 +3920,13 @@ public struct DescribeDomainAutoTunesInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribeDomainAutoTunes operation returns a nextToken, you can include the returned nextToken in subsequent DescribeDomainAutoTunes operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3833,7 +3937,7 @@ public struct DescribeDomainAutoTunesInput: Swift.Equatable {
 }
 
 struct DescribeDomainAutoTunesInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3845,7 +3949,7 @@ extension DescribeDomainAutoTunesInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4567,7 +4671,7 @@ extension DescribeInboundConnectionsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4587,13 +4691,13 @@ public struct DescribeInboundConnectionsInput: Swift.Equatable {
     /// A list of filters used to match properties for inbound cross-cluster connections.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribeInboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeInboundConnections operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         filters: [OpenSearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4605,7 +4709,7 @@ public struct DescribeInboundConnectionsInput: Swift.Equatable {
 
 struct DescribeInboundConnectionsInputBody: Swift.Equatable {
     let filters: [OpenSearchClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4629,7 +4733,7 @@ extension DescribeInboundConnectionsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4876,7 +4980,7 @@ extension DescribeOutboundConnectionsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4896,13 +5000,13 @@ public struct DescribeOutboundConnectionsInput: Swift.Equatable {
     /// List of filter names and values that you can use for requests.
     public var filters: [OpenSearchClientTypes.Filter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribeOutboundConnections operation returns a nextToken, you can include the returned nextToken in subsequent DescribeOutboundConnections operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         filters: [OpenSearchClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4914,7 +5018,7 @@ public struct DescribeOutboundConnectionsInput: Swift.Equatable {
 
 struct DescribeOutboundConnectionsInputBody: Swift.Equatable {
     let filters: [OpenSearchClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4938,7 +5042,7 @@ extension DescribeOutboundConnectionsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5137,7 +5241,7 @@ extension DescribePackagesInput: Swift.Encodable {
                 try filtersContainer.encode(describepackagesfilter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -5157,13 +5261,13 @@ public struct DescribePackagesInput: Swift.Equatable {
     /// Only returns packages that match the DescribePackagesFilterList values.
     public var filters: [OpenSearchClientTypes.DescribePackagesFilter]?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribePackageFilters operation returns a nextToken, you can include the returned nextToken in subsequent DescribePackageFilters operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         filters: [OpenSearchClientTypes.DescribePackagesFilter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5175,7 +5279,7 @@ public struct DescribePackagesInput: Swift.Equatable {
 
 struct DescribePackagesInputBody: Swift.Equatable {
     let filters: [OpenSearchClientTypes.DescribePackagesFilter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -5199,7 +5303,7 @@ extension DescribePackagesInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5305,7 +5409,7 @@ extension DescribeReservedInstanceOfferingsInput: ClientRuntime.QueryItemProvide
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5327,14 +5431,14 @@ extension DescribeReservedInstanceOfferingsInput: ClientRuntime.URLPathProvider 
 /// Container for the request parameters to a DescribeReservedInstanceOfferings operation.
 public struct DescribeReservedInstanceOfferingsInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstanceOfferings operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstanceOfferings operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The Reserved Instance identifier filter value. Use this parameter to show only the available instance types that match the specified reservation identifier.
     public var reservedInstanceOfferingId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reservedInstanceOfferingId: Swift.String? = nil
     )
@@ -5451,7 +5555,7 @@ extension DescribeReservedInstancesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5473,14 +5577,14 @@ extension DescribeReservedInstancesInput: ClientRuntime.URLPathProvider {
 /// Container for the request parameters to the DescribeReservedInstances operation.
 public struct DescribeReservedInstancesInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial DescribeReservedInstances operation returns a nextToken, you can include the returned nextToken in subsequent DescribeReservedInstances operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The reserved instance identifier filter value. Use this parameter to show only the reservation that matches the specified reserved OpenSearch instance ID.
     public var reservedInstanceId: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         reservedInstanceId: Swift.String? = nil
     )
@@ -5765,7 +5869,7 @@ extension DisabledOperationException {
     }
 }
 
-/// An error occured because the client wanted to access a not supported operation. Gives http status code of 409.
+/// An error occured because the client wanted to access an unsupported operation.
 public struct DisabledOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -7466,7 +7570,7 @@ extension GetPackageVersionHistoryInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7487,7 +7591,7 @@ extension GetPackageVersionHistoryInput: ClientRuntime.URLPathProvider {
 /// Container for the request parameters to the GetPackageVersionHistory operation.
 public struct GetPackageVersionHistoryInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial GetPackageVersionHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetPackageVersionHistory operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the package.
@@ -7495,7 +7599,7 @@ public struct GetPackageVersionHistoryInput: Swift.Equatable {
     public var packageID: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -7624,7 +7728,7 @@ extension GetUpgradeHistoryInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -7648,13 +7752,13 @@ public struct GetUpgradeHistoryInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial GetUpgradeHistory operation returns a nextToken, you can include the returned nextToken in subsequent GetUpgradeHistory operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7891,6 +7995,7 @@ extension GetUpgradeStatusOutputResponseBody: Swift.Decodable {
 extension OpenSearchClientTypes.InboundConnection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionId = "ConnectionId"
+        case connectionMode = "ConnectionMode"
         case connectionStatus = "ConnectionStatus"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
@@ -7900,6 +8005,9 @@ extension OpenSearchClientTypes.InboundConnection: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let connectionId = self.connectionId {
             try encodeContainer.encode(connectionId, forKey: .connectionId)
+        }
+        if let connectionMode = self.connectionMode {
+            try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
         }
         if let connectionStatus = self.connectionStatus {
             try encodeContainer.encode(connectionStatus, forKey: .connectionStatus)
@@ -7922,6 +8030,8 @@ extension OpenSearchClientTypes.InboundConnection: Swift.Codable {
         connectionId = connectionIdDecoded
         let connectionStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.InboundConnectionStatus.self, forKey: .connectionStatus)
         connectionStatus = connectionStatusDecoded
+        let connectionModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionMode.self, forKey: .connectionMode)
+        connectionMode = connectionModeDecoded
     }
 }
 
@@ -7930,6 +8040,8 @@ extension OpenSearchClientTypes {
     public struct InboundConnection: Swift.Equatable {
         /// The unique identifier of the connection.
         public var connectionId: Swift.String?
+        /// The connection mode.
+        public var connectionMode: OpenSearchClientTypes.ConnectionMode?
         /// The current status of the connection.
         public var connectionStatus: OpenSearchClientTypes.InboundConnectionStatus?
         /// Information about the source (local) domain.
@@ -7939,12 +8051,14 @@ extension OpenSearchClientTypes {
 
         public init (
             connectionId: Swift.String? = nil,
+            connectionMode: OpenSearchClientTypes.ConnectionMode? = nil,
             connectionStatus: OpenSearchClientTypes.InboundConnectionStatus? = nil,
             localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
             remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
         )
         {
             self.connectionId = connectionId
+            self.connectionMode = connectionMode
             self.connectionStatus = connectionStatus
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
@@ -8268,7 +8382,7 @@ extension InternalException {
     }
 }
 
-/// The request processing has failed because of an unknown error, exception or failure (the failure is internal to the service) . Gives http status code of 500.
+/// Request processing failed because of an unknown error, exception, or internal failure.
 public struct InternalException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8321,7 +8435,7 @@ extension InvalidPaginationTokenException {
     }
 }
 
-/// The request processing has failed because of invalid pagination token provided by customer. Returns an HTTP status code of 400.
+/// The request processing has failed because you provided an invalid pagination token.
 public struct InvalidPaginationTokenException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8374,7 +8488,7 @@ extension InvalidTypeException {
     }
 }
 
-/// An exception for trying to create or access sub-resource that is either invalid or not supported. Gives http status code of 409.
+/// An exception for trying to create or access a sub-resource that's either invalid or not supported.
 public struct InvalidTypeException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8427,7 +8541,7 @@ extension LimitExceededException {
     }
 }
 
-/// An exception for trying to create more than allowed resources or sub-resources. Gives http status code of 409.
+/// An exception for trying to create more than the allowed number of resources or sub-resources.
 public struct LimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -8666,7 +8780,7 @@ extension ListDomainsForPackageInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8687,7 +8801,7 @@ extension ListDomainsForPackageInput: ClientRuntime.URLPathProvider {
 /// Container for the request parameters to the ListDomainsForPackage operation.
 public struct ListDomainsForPackageInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial ListDomainsForPackage operation returns a nextToken, you can include the returned nextToken in subsequent ListDomainsForPackage operations, which returns results in the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the package for which to list associated domains.
@@ -8695,7 +8809,7 @@ public struct ListDomainsForPackageInput: Swift.Equatable {
     public var packageID: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         packageID: Swift.String? = nil
     )
@@ -8818,7 +8932,7 @@ extension ListInstanceTypeDetailsInput: ClientRuntime.QueryItemProvider {
                 let domainNameQueryItem = ClientRuntime.URLQueryItem(name: "domainName".urlPercentEncoding(), value: Swift.String(domainName).urlPercentEncoding())
                 items.append(domainNameQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8843,14 +8957,14 @@ public struct ListInstanceTypeDetailsInput: Swift.Equatable {
     /// This member is required.
     public var engineVersion: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial ListInstanceTypeDetails operation returns a nextToken, you can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8966,7 +9080,7 @@ extension ListPackagesForDomainInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -8990,13 +9104,13 @@ public struct ListPackagesForDomainInput: Swift.Equatable {
     /// This member is required.
     public var domainName: Swift.String?
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial ListPackagesForDomain operation returns a nextToken, you can include the returned nextToken in subsequent ListPackagesForDomain operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
         domainName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9237,7 +9351,7 @@ extension ListVersionsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9255,12 +9369,12 @@ extension ListVersionsInput: ClientRuntime.URLPathProvider {
 /// Container for the request parameters to the ListVersions operation.
 public struct ListVersionsInput: Swift.Equatable {
     /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// If your initial ListVersions operation returns a nextToken, you can include the returned nextToken in subsequent ListVersions operations, which returns results in the next page.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10530,6 +10644,8 @@ extension OpenSearchClientTypes.OutboundConnection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionAlias = "ConnectionAlias"
         case connectionId = "ConnectionId"
+        case connectionMode = "ConnectionMode"
+        case connectionProperties = "ConnectionProperties"
         case connectionStatus = "ConnectionStatus"
         case localDomainInfo = "LocalDomainInfo"
         case remoteDomainInfo = "RemoteDomainInfo"
@@ -10542,6 +10658,12 @@ extension OpenSearchClientTypes.OutboundConnection: Swift.Codable {
         }
         if let connectionId = self.connectionId {
             try encodeContainer.encode(connectionId, forKey: .connectionId)
+        }
+        if let connectionMode = self.connectionMode {
+            try encodeContainer.encode(connectionMode.rawValue, forKey: .connectionMode)
+        }
+        if let connectionProperties = self.connectionProperties {
+            try encodeContainer.encode(connectionProperties, forKey: .connectionProperties)
         }
         if let connectionStatus = self.connectionStatus {
             try encodeContainer.encode(connectionStatus, forKey: .connectionStatus)
@@ -10566,6 +10688,10 @@ extension OpenSearchClientTypes.OutboundConnection: Swift.Codable {
         connectionAlias = connectionAliasDecoded
         let connectionStatusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OutboundConnectionStatus.self, forKey: .connectionStatus)
         connectionStatus = connectionStatusDecoded
+        let connectionModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionMode.self, forKey: .connectionMode)
+        connectionMode = connectionModeDecoded
+        let connectionPropertiesDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ConnectionProperties.self, forKey: .connectionProperties)
+        connectionProperties = connectionPropertiesDecoded
     }
 }
 
@@ -10576,6 +10702,10 @@ extension OpenSearchClientTypes {
         public var connectionAlias: Swift.String?
         /// Unique identifier of the connection.
         public var connectionId: Swift.String?
+        /// The connection mode.
+        public var connectionMode: OpenSearchClientTypes.ConnectionMode?
+        /// Properties for the outbound connection.
+        public var connectionProperties: OpenSearchClientTypes.ConnectionProperties?
         /// Status of the connection.
         public var connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus?
         /// Information about the source (local) domain.
@@ -10586,6 +10716,8 @@ extension OpenSearchClientTypes {
         public init (
             connectionAlias: Swift.String? = nil,
             connectionId: Swift.String? = nil,
+            connectionMode: OpenSearchClientTypes.ConnectionMode? = nil,
+            connectionProperties: OpenSearchClientTypes.ConnectionProperties? = nil,
             connectionStatus: OpenSearchClientTypes.OutboundConnectionStatus? = nil,
             localDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil,
             remoteDomainInfo: OpenSearchClientTypes.DomainInformationContainer? = nil
@@ -10593,6 +10725,8 @@ extension OpenSearchClientTypes {
         {
             self.connectionAlias = connectionAlias
             self.connectionId = connectionId
+            self.connectionMode = connectionMode
+            self.connectionProperties = connectionProperties
             self.connectionStatus = connectionStatus
             self.localDomainInfo = localDomainInfo
             self.remoteDomainInfo = remoteDomainInfo
@@ -11096,7 +11230,7 @@ extension PurchaseReservedInstanceOfferingInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if instanceCount != 0 {
+        if let instanceCount = self.instanceCount {
             try encodeContainer.encode(instanceCount, forKey: .instanceCount)
         }
         if let reservationName = self.reservationName {
@@ -11117,7 +11251,7 @@ extension PurchaseReservedInstanceOfferingInput: ClientRuntime.URLPathProvider {
 /// Container for request parameters to the PurchaseReservedInstanceOffering operation.
 public struct PurchaseReservedInstanceOfferingInput: Swift.Equatable {
     /// The number of OpenSearch instances to reserve.
-    public var instanceCount: Swift.Int
+    public var instanceCount: Swift.Int?
     /// A customer-specified identifier to track this reservation.
     /// This member is required.
     public var reservationName: Swift.String?
@@ -11126,7 +11260,7 @@ public struct PurchaseReservedInstanceOfferingInput: Swift.Equatable {
     public var reservedInstanceOfferingId: Swift.String?
 
     public init (
-        instanceCount: Swift.Int = 0,
+        instanceCount: Swift.Int? = nil,
         reservationName: Swift.String? = nil,
         reservedInstanceOfferingId: Swift.String? = nil
     )
@@ -11140,7 +11274,7 @@ public struct PurchaseReservedInstanceOfferingInput: Swift.Equatable {
 struct PurchaseReservedInstanceOfferingInputBody: Swift.Equatable {
     let reservedInstanceOfferingId: Swift.String?
     let reservationName: Swift.String?
-    let instanceCount: Swift.Int
+    let instanceCount: Swift.Int?
 }
 
 extension PurchaseReservedInstanceOfferingInputBody: Swift.Decodable {
@@ -11156,7 +11290,7 @@ extension PurchaseReservedInstanceOfferingInputBody: Swift.Decodable {
         reservedInstanceOfferingId = reservedInstanceOfferingIdDecoded
         let reservationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reservationName)
         reservationName = reservationNameDecoded
-        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount) ?? 0
+        let instanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instanceCount)
         instanceCount = instanceCountDecoded
     }
 }
@@ -11844,7 +11978,7 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-/// An exception for creating a resource that already exists. Gives http status code of 400.
+/// An exception for creating a resource that already exists.
 public struct ResourceAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -11897,7 +12031,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// An exception for accessing or deleting a resource that does not exist. Gives http status code of 400.
+/// An exception for accessing or deleting a resource that doesn't exist.
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14336,7 +14470,7 @@ extension ValidationException {
     }
 }
 
-/// An exception for missing / invalid input fields. Gives http status code of 400.
+/// An exception for missing or invalid input fields.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?

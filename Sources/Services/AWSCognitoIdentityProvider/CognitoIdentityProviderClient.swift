@@ -224,10 +224,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AddCustomAttributesInput, AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>(id: "addCustomAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AddCustomAttributesInput, AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddCustomAttributesInput, AddCustomAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AddCustomAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddCustomAttributesOutputResponse, AddCustomAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -263,10 +260,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>(id: "adminAddUserToGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminAddUserToGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminAddUserToGroupOutputResponse, AdminAddUserToGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -302,10 +296,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>(id: "adminConfirmSignUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminConfirmSignUpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminConfirmSignUpOutputResponse, AdminConfirmSignUpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -341,10 +332,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminCreateUserInput, AdminCreateUserOutputResponse, AdminCreateUserOutputError>(id: "adminCreateUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminCreateUserInput, AdminCreateUserOutputResponse, AdminCreateUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminCreateUserInput, AdminCreateUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminCreateUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminCreateUserOutputResponse, AdminCreateUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -380,10 +368,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminDeleteUserInput, AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>(id: "adminDeleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDeleteUserInput, AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDeleteUserInput, AdminDeleteUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminDeleteUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminDeleteUserOutputResponse, AdminDeleteUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -419,10 +404,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>(id: "adminDeleteUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminDeleteUserAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminDeleteUserAttributesOutputResponse, AdminDeleteUserAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -458,10 +440,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>(id: "adminDisableProviderForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminDisableProviderForUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminDisableProviderForUserOutputResponse, AdminDisableProviderForUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -497,10 +476,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminDisableUserInput, AdminDisableUserOutputResponse, AdminDisableUserOutputError>(id: "adminDisableUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminDisableUserInput, AdminDisableUserOutputResponse, AdminDisableUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminDisableUserInput, AdminDisableUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminDisableUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminDisableUserOutputResponse, AdminDisableUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -536,10 +512,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminEnableUserInput, AdminEnableUserOutputResponse, AdminEnableUserOutputError>(id: "adminEnableUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminEnableUserInput, AdminEnableUserOutputResponse, AdminEnableUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminEnableUserInput, AdminEnableUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminEnableUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminEnableUserOutputResponse, AdminEnableUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -575,10 +548,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>(id: "adminForgetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminForgetDeviceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminForgetDeviceOutputResponse, AdminForgetDeviceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -614,10 +584,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminGetDeviceInput, AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>(id: "adminGetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminGetDeviceInput, AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminGetDeviceInput, AdminGetDeviceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminGetDeviceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminGetDeviceOutputResponse, AdminGetDeviceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -653,10 +620,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminGetUserInput, AdminGetUserOutputResponse, AdminGetUserOutputError>(id: "adminGetUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminGetUserInput, AdminGetUserOutputResponse, AdminGetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminGetUserInput, AdminGetUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminGetUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminGetUserOutputResponse, AdminGetUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -692,10 +656,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>(id: "adminInitiateAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminInitiateAuthOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminInitiateAuthOutputResponse, AdminInitiateAuthOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -731,10 +692,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>(id: "adminLinkProviderForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminLinkProviderForUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminLinkProviderForUserOutputResponse, AdminLinkProviderForUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -770,10 +728,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminListDevicesInput, AdminListDevicesOutputResponse, AdminListDevicesOutputError>(id: "adminListDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListDevicesInput, AdminListDevicesOutputResponse, AdminListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListDevicesInput, AdminListDevicesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminListDevicesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminListDevicesOutputResponse, AdminListDevicesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -809,10 +764,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>(id: "adminListGroupsForUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminListGroupsForUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminListGroupsForUserOutputResponse, AdminListGroupsForUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -848,10 +800,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>(id: "adminListUserAuthEvents")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminListUserAuthEventsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminListUserAuthEventsOutputResponse, AdminListUserAuthEventsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -887,10 +836,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>(id: "adminRemoveUserFromGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminRemoveUserFromGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminRemoveUserFromGroupOutputResponse, AdminRemoveUserFromGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -926,10 +872,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>(id: "adminResetUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminResetUserPasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminResetUserPasswordOutputResponse, AdminResetUserPasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -965,10 +908,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>(id: "adminRespondToAuthChallenge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminRespondToAuthChallengeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminRespondToAuthChallengeOutputResponse, AdminRespondToAuthChallengeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1004,10 +944,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>(id: "adminSetUserMFAPreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminSetUserMFAPreferenceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminSetUserMFAPreferenceOutputResponse, AdminSetUserMFAPreferenceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1043,10 +980,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>(id: "adminSetUserPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminSetUserPasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminSetUserPasswordOutputResponse, AdminSetUserPasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1082,10 +1016,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>(id: "adminSetUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminSetUserSettingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminSetUserSettingsOutputResponse, AdminSetUserSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1121,10 +1052,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>(id: "adminUpdateAuthEventFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminUpdateAuthEventFeedbackOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminUpdateAuthEventFeedbackOutputResponse, AdminUpdateAuthEventFeedbackOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1160,10 +1088,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>(id: "adminUpdateDeviceStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminUpdateDeviceStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminUpdateDeviceStatusOutputResponse, AdminUpdateDeviceStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1199,10 +1124,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>(id: "adminUpdateUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminUpdateUserAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminUpdateUserAttributesOutputResponse, AdminUpdateUserAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1238,10 +1160,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>(id: "adminUserGlobalSignOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AdminUserGlobalSignOutOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AdminUserGlobalSignOutOutputResponse, AdminUserGlobalSignOutOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1277,10 +1196,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>(id: "associateSoftwareToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateSoftwareTokenOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateSoftwareTokenOutputResponse, AssociateSoftwareTokenOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1314,10 +1230,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>(id: "changePassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ChangePasswordInput, ChangePasswordOutputResponse, ChangePasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ChangePasswordInput, ChangePasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ChangePasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ChangePasswordOutputResponse, ChangePasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1349,10 +1262,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ConfirmDeviceInput, ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>(id: "confirmDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmDeviceInput, ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmDeviceInput, ConfirmDeviceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ConfirmDeviceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfirmDeviceOutputResponse, ConfirmDeviceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1384,10 +1294,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>(id: "confirmForgotPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ConfirmForgotPasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfirmForgotPasswordOutputResponse, ConfirmForgotPasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1419,10 +1326,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ConfirmSignUpInput, ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>(id: "confirmSignUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ConfirmSignUpInput, ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ConfirmSignUpInput, ConfirmSignUpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ConfirmSignUpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ConfirmSignUpOutputResponse, ConfirmSignUpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1456,10 +1360,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>(id: "createGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateGroupInput, CreateGroupOutputResponse, CreateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateGroupInput, CreateGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateGroupOutputResponse, CreateGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1495,10 +1396,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(id: "createIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateIdentityProviderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateIdentityProviderOutputResponse, CreateIdentityProviderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1534,10 +1432,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateResourceServerInput, CreateResourceServerOutputResponse, CreateResourceServerOutputError>(id: "createResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateResourceServerInput, CreateResourceServerOutputResponse, CreateResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateResourceServerInput, CreateResourceServerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateResourceServerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateResourceServerOutputResponse, CreateResourceServerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1573,10 +1468,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUserImportJobInput, CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>(id: "createUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserImportJobInput, CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserImportJobInput, CreateUserImportJobOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateUserImportJobOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserImportJobOutputResponse, CreateUserImportJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1612,10 +1504,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUserPoolInput, CreateUserPoolOutputResponse, CreateUserPoolOutputError>(id: "createUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolInput, CreateUserPoolOutputResponse, CreateUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolInput, CreateUserPoolOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateUserPoolOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserPoolOutputResponse, CreateUserPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1651,10 +1540,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>(id: "createUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateUserPoolClientOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserPoolClientOutputResponse, CreateUserPoolClientOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1690,10 +1576,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>(id: "createUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateUserPoolDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUserPoolDomainOutputResponse, CreateUserPoolDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1729,10 +1612,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>(id: "deleteGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteGroupInput, DeleteGroupOutputResponse, DeleteGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteGroupInput, DeleteGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteGroupOutputResponse, DeleteGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1768,10 +1648,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(id: "deleteIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteIdentityProviderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteIdentityProviderOutputResponse, DeleteIdentityProviderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1807,10 +1684,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteResourceServerInput, DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>(id: "deleteResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteResourceServerInput, DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourceServerInput, DeleteResourceServerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteResourceServerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourceServerOutputResponse, DeleteResourceServerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1844,10 +1718,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>(id: "deleteUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserInput, DeleteUserOutputResponse, DeleteUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserOutputResponse, DeleteUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1879,10 +1750,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>(id: "deleteUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteUserAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserAttributesOutputResponse, DeleteUserAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1916,10 +1784,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserPoolInput, DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>(id: "deleteUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolInput, DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolInput, DeleteUserPoolOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteUserPoolOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPoolOutputResponse, DeleteUserPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1955,10 +1820,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>(id: "deleteUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteUserPoolClientOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPoolClientOutputResponse, DeleteUserPoolClientOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1994,10 +1856,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>(id: "deleteUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteUserPoolDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteUserPoolDomainOutputResponse, DeleteUserPoolDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2033,10 +1892,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>(id: "describeIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeIdentityProviderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeIdentityProviderOutputResponse, DescribeIdentityProviderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2072,10 +1928,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeResourceServerInput, DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>(id: "describeResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeResourceServerInput, DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeResourceServerInput, DescribeResourceServerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeResourceServerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeResourceServerOutputResponse, DescribeResourceServerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2111,10 +1964,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>(id: "describeRiskConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeRiskConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRiskConfigurationOutputResponse, DescribeRiskConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2150,10 +2000,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>(id: "describeUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeUserImportJobOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserImportJobOutputResponse, DescribeUserImportJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2189,10 +2036,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeUserPoolInput, DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>(id: "describeUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolInput, DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolInput, DescribeUserPoolOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeUserPoolOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserPoolOutputResponse, DescribeUserPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2228,10 +2072,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>(id: "describeUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeUserPoolClientOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserPoolClientOutputResponse, DescribeUserPoolClientOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2267,10 +2108,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>(id: "describeUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeUserPoolDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeUserPoolDomainOutputResponse, DescribeUserPoolDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2304,10 +2142,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ForgetDeviceInput, ForgetDeviceOutputResponse, ForgetDeviceOutputError>(id: "forgetDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgetDeviceInput, ForgetDeviceOutputResponse, ForgetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgetDeviceInput, ForgetDeviceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ForgetDeviceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ForgetDeviceOutputResponse, ForgetDeviceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2339,10 +2174,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ForgotPasswordInput, ForgotPasswordOutputResponse, ForgotPasswordOutputError>(id: "forgotPassword")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ForgotPasswordInput, ForgotPasswordOutputResponse, ForgotPasswordOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ForgotPasswordInput, ForgotPasswordOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ForgotPasswordOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ForgotPasswordOutputResponse, ForgotPasswordOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2376,10 +2208,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetCSVHeaderInput, GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>(id: "getCSVHeader")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCSVHeaderInput, GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCSVHeaderInput, GetCSVHeaderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetCSVHeaderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCSVHeaderOutputResponse, GetCSVHeaderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2413,10 +2242,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>(id: "getDevice")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDeviceInput, GetDeviceOutputResponse, GetDeviceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDeviceInput, GetDeviceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDeviceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDeviceOutputResponse, GetDeviceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2450,10 +2276,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>(id: "getGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGroupInput, GetGroupOutputResponse, GetGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGroupInput, GetGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGroupOutputResponse, GetGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2489,10 +2312,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>(id: "getIdentityProviderByIdentifier")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetIdentityProviderByIdentifierOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetIdentityProviderByIdentifierOutputResponse, GetIdentityProviderByIdentifierOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2528,10 +2348,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSigningCertificateInput, GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>(id: "getSigningCertificate")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSigningCertificateInput, GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSigningCertificateInput, GetSigningCertificateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetSigningCertificateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSigningCertificateOutputResponse, GetSigningCertificateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2567,10 +2384,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetUICustomizationInput, GetUICustomizationOutputResponse, GetUICustomizationOutputError>(id: "getUICustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUICustomizationInput, GetUICustomizationOutputResponse, GetUICustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUICustomizationInput, GetUICustomizationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetUICustomizationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUICustomizationOutputResponse, GetUICustomizationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2604,10 +2418,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetUserInput, GetUserOutputResponse, GetUserOutputError>(id: "getUser")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserInput, GetUserOutputResponse, GetUserOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetUserOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserOutputResponse, GetUserOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2639,10 +2450,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>(id: "getUserAttributeVerificationCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetUserAttributeVerificationCodeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserAttributeVerificationCodeOutputResponse, GetUserAttributeVerificationCodeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2676,10 +2484,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>(id: "getUserPoolMfaConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetUserPoolMfaConfigOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetUserPoolMfaConfigOutputResponse, GetUserPoolMfaConfigOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2713,10 +2518,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<GlobalSignOutInput, GlobalSignOutOutputResponse, GlobalSignOutOutputError>(id: "globalSignOut")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GlobalSignOutInput, GlobalSignOutOutputResponse, GlobalSignOutOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GlobalSignOutInput, GlobalSignOutOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GlobalSignOutOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GlobalSignOutOutputResponse, GlobalSignOutOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2748,10 +2550,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<InitiateAuthInput, InitiateAuthOutputResponse, InitiateAuthOutputError>(id: "initiateAuth")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<InitiateAuthInput, InitiateAuthOutputResponse, InitiateAuthOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<InitiateAuthInput, InitiateAuthOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<InitiateAuthOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<InitiateAuthOutputResponse, InitiateAuthOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2783,10 +2582,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>(id: "listDevices")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDevicesInput, ListDevicesOutputResponse, ListDevicesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDevicesInput, ListDevicesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListDevicesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDevicesOutputResponse, ListDevicesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2820,10 +2616,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>(id: "listGroups")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListGroupsInput, ListGroupsOutputResponse, ListGroupsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListGroupsInput, ListGroupsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListGroupsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListGroupsOutputResponse, ListGroupsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2859,10 +2652,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(id: "listIdentityProviders")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListIdentityProvidersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListIdentityProvidersOutputResponse, ListIdentityProvidersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2898,10 +2688,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListResourceServersInput, ListResourceServersOutputResponse, ListResourceServersOutputError>(id: "listResourceServers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListResourceServersInput, ListResourceServersOutputResponse, ListResourceServersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListResourceServersInput, ListResourceServersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListResourceServersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListResourceServersOutputResponse, ListResourceServersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2937,10 +2724,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2976,10 +2760,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListUserImportJobsInput, ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>(id: "listUserImportJobs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserImportJobsInput, ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserImportJobsInput, ListUserImportJobsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListUserImportJobsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserImportJobsOutputResponse, ListUserImportJobsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3015,10 +2796,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>(id: "listUserPoolClients")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListUserPoolClientsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserPoolClientsOutputResponse, ListUserPoolClientsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3054,10 +2832,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListUserPoolsInput, ListUserPoolsOutputResponse, ListUserPoolsOutputError>(id: "listUserPools")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUserPoolsInput, ListUserPoolsOutputResponse, ListUserPoolsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUserPoolsInput, ListUserPoolsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListUserPoolsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUserPoolsOutputResponse, ListUserPoolsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3093,10 +2868,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>(id: "listUsers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInput, ListUsersOutputResponse, ListUsersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInput, ListUsersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListUsersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersOutputResponse, ListUsersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3132,10 +2904,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ListUsersInGroupInput, ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>(id: "listUsersInGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListUsersInGroupInput, ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListUsersInGroupInput, ListUsersInGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListUsersInGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListUsersInGroupOutputResponse, ListUsersInGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3169,10 +2938,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>(id: "resendConfirmationCode")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ResendConfirmationCodeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ResendConfirmationCodeOutputResponse, ResendConfirmationCodeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3204,10 +2970,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>(id: "respondToAuthChallenge")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RespondToAuthChallengeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RespondToAuthChallengeOutputResponse, RespondToAuthChallengeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3239,10 +3002,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<RevokeTokenInput, RevokeTokenOutputResponse, RevokeTokenOutputError>(id: "revokeToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RevokeTokenInput, RevokeTokenOutputResponse, RevokeTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RevokeTokenInput, RevokeTokenOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RevokeTokenOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RevokeTokenOutputResponse, RevokeTokenOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3276,10 +3036,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>(id: "setRiskConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetRiskConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetRiskConfigurationOutputResponse, SetRiskConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3315,10 +3072,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SetUICustomizationInput, SetUICustomizationOutputResponse, SetUICustomizationOutputError>(id: "setUICustomization")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUICustomizationInput, SetUICustomizationOutputResponse, SetUICustomizationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUICustomizationInput, SetUICustomizationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetUICustomizationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetUICustomizationOutputResponse, SetUICustomizationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3354,10 +3108,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>(id: "setUserMFAPreference")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetUserMFAPreferenceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetUserMFAPreferenceOutputResponse, SetUserMFAPreferenceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3393,10 +3144,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>(id: "setUserPoolMfaConfig")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetUserPoolMfaConfigOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetUserPoolMfaConfigOutputResponse, SetUserPoolMfaConfigOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3430,10 +3178,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SetUserSettingsInput, SetUserSettingsOutputResponse, SetUserSettingsOutputError>(id: "setUserSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SetUserSettingsInput, SetUserSettingsOutputResponse, SetUserSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SetUserSettingsInput, SetUserSettingsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SetUserSettingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SetUserSettingsOutputResponse, SetUserSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3465,10 +3210,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<SignUpInput, SignUpOutputResponse, SignUpOutputError>(id: "signUp")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SignUpInput, SignUpOutputResponse, SignUpOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SignUpInput, SignUpOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SignUpOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SignUpOutputResponse, SignUpOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3502,10 +3244,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<StartUserImportJobInput, StartUserImportJobOutputResponse, StartUserImportJobOutputError>(id: "startUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartUserImportJobInput, StartUserImportJobOutputResponse, StartUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartUserImportJobInput, StartUserImportJobOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartUserImportJobOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartUserImportJobOutputResponse, StartUserImportJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3541,10 +3280,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<StopUserImportJobInput, StopUserImportJobOutputResponse, StopUserImportJobOutputError>(id: "stopUserImportJob")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopUserImportJobInput, StopUserImportJobOutputResponse, StopUserImportJobOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopUserImportJobInput, StopUserImportJobOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StopUserImportJobOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopUserImportJobOutputResponse, StopUserImportJobOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3580,10 +3316,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3619,10 +3352,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3658,10 +3388,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>(id: "updateAuthEventFeedback")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAuthEventFeedbackOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAuthEventFeedbackOutputResponse, UpdateAuthEventFeedbackOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3695,10 +3422,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>(id: "updateDeviceStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDeviceStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDeviceStatusOutputResponse, UpdateDeviceStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3732,10 +3456,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>(id: "updateGroup")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateGroupInput, UpdateGroupOutputResponse, UpdateGroupOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateGroupInput, UpdateGroupOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateGroupOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateGroupOutputResponse, UpdateGroupOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3771,10 +3492,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(id: "updateIdentityProvider")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateIdentityProviderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIdentityProviderOutputResponse, UpdateIdentityProviderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3810,10 +3528,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateResourceServerInput, UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>(id: "updateResourceServer")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateResourceServerInput, UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateResourceServerInput, UpdateResourceServerOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateResourceServerOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateResourceServerOutputResponse, UpdateResourceServerOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3847,10 +3562,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>(id: "updateUserAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateUserAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserAttributesOutputResponse, UpdateUserAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3884,10 +3596,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateUserPoolInput, UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>(id: "updateUserPool")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolInput, UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolInput, UpdateUserPoolOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateUserPoolOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserPoolOutputResponse, UpdateUserPoolOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3923,10 +3632,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>(id: "updateUserPoolClient")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateUserPoolClientOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserPoolClientOutputResponse, UpdateUserPoolClientOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3962,10 +3668,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>(id: "updateUserPoolDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateUserPoolDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateUserPoolDomainOutputResponse, UpdateUserPoolDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4001,10 +3704,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>(id: "verifySoftwareToken")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<VerifySoftwareTokenOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifySoftwareTokenOutputResponse, VerifySoftwareTokenOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -4038,10 +3738,7 @@ extension CognitoIdentityProviderClient: CognitoIdentityProviderClientProtocol {
         var operation = ClientRuntime.OperationStack<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>(id: "verifyUserAttribute")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<VerifyUserAttributeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<VerifyUserAttributeOutputResponse, VerifyUserAttributeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

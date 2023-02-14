@@ -1359,6 +1359,177 @@ extension DeleteDomainPermissionsPolicyOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeletePackageInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let package = package else {
+                let message = "Creating a URL Query Item failed. package is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let packageQueryItem = ClientRuntime.URLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+            items.append(packageQueryItem)
+            guard let domain = domain else {
+                let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let domainQueryItem = ClientRuntime.URLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+            items.append(domainQueryItem)
+            if let domainOwner = domainOwner {
+                let domainOwnerQueryItem = ClientRuntime.URLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+                items.append(domainOwnerQueryItem)
+            }
+            guard let format = format else {
+                let message = "Creating a URL Query Item failed. format is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let formatQueryItem = ClientRuntime.URLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+            items.append(formatQueryItem)
+            if let namespace = namespace {
+                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+                items.append(namespaceQueryItem)
+            }
+            guard let repository = repository else {
+                let message = "Creating a URL Query Item failed. repository is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let repositoryQueryItem = ClientRuntime.URLQueryItem(name: "repository".urlPercentEncoding(), value: Swift.String(repository).urlPercentEncoding())
+            items.append(repositoryQueryItem)
+            return items
+        }
+    }
+}
+
+extension DeletePackageInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/package"
+    }
+}
+
+public struct DeletePackageInput: Swift.Equatable {
+    /// The name of the domain that contains the package to delete.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The format of the requested package to delete.
+    /// This member is required.
+    public var format: CodeartifactClientTypes.PackageFormat?
+    /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example:
+    ///
+    /// * The namespace of a Maven package is its groupId. The namespace is required when deleting Maven package versions.
+    ///
+    /// * The namespace of an npm package is its scope.
+    ///
+    /// * Python and NuGet packages do not contain corresponding components, packages of those formats do not have a namespace.
+    public var namespace: Swift.String?
+    /// The name of the package to delete.
+    /// This member is required.
+    public var package: Swift.String?
+    /// The name of the repository that contains the package to delete.
+    /// This member is required.
+    public var repository: Swift.String?
+
+    public init (
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        format: CodeartifactClientTypes.PackageFormat? = nil,
+        namespace: Swift.String? = nil,
+        package: Swift.String? = nil,
+        repository: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.format = format
+        self.namespace = namespace
+        self.package = package
+        self.repository = repository
+    }
+}
+
+struct DeletePackageInputBody: Swift.Equatable {
+}
+
+extension DeletePackageInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePackageOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeletePackageOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeletePackageOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeletePackageOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DeletePackageOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.deletedPackage = output.deletedPackage
+        } else {
+            self.deletedPackage = nil
+        }
+    }
+}
+
+public struct DeletePackageOutputResponse: Swift.Equatable {
+    /// Details about a package, including its format, namespace, and name.
+    public var deletedPackage: CodeartifactClientTypes.PackageSummary?
+
+    public init (
+        deletedPackage: CodeartifactClientTypes.PackageSummary? = nil
+    )
+    {
+        self.deletedPackage = deletedPackage
+    }
+}
+
+struct DeletePackageOutputResponseBody: Swift.Equatable {
+    let deletedPackage: CodeartifactClientTypes.PackageSummary?
+}
+
+extension DeletePackageOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletedPackage
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deletedPackageDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageSummary.self, forKey: .deletedPackage)
+        deletedPackage = deletedPackageDecoded
+    }
+}
+
 extension DeletePackageVersionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expectedStatus
@@ -5407,7 +5578,7 @@ public struct ListPackagesInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:
+    /// The namespace used to filter requested packages. Only packages with the provided namespace will be returned. The package component that specifies its namespace depends on its type. For example:
     ///
     /// * The namespace of a Maven package is its groupId.
     ///
@@ -6030,15 +6201,7 @@ extension CodeartifactClientTypes.PackageDependency: Swift.Codable {
 extension CodeartifactClientTypes {
     /// Details about a package dependency.
     public struct PackageDependency: Swift.Equatable {
-        /// The type of a package dependency. The possible values depend on the package type.
-        ///
-        /// * npm: regular, dev, peer, optional
-        ///
-        /// * maven: optional, parent, compile, runtime, test, system, provided. Note that parent is not a regular Maven dependency type; instead this is extracted from the  element if one is defined in the package version's POM file.
-        ///
-        /// * nuget: The dependencyType field is never set for NuGet packages.
-        ///
-        /// * pypi: Requires-Dist
+        /// The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
         public var dependencyType: Swift.String?
         /// The namespace of the package that this package depends on. The package component that specifies its namespace depends on its type. For example:
         ///
@@ -6298,7 +6461,7 @@ extension CodeartifactClientTypes.PackageSummary: Swift.Codable {
 }
 
 extension CodeartifactClientTypes {
-    /// Details about a package, including its format, namespace, and name. The [ListPackages](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackages.html) operation returns a list of PackageSummary objects.
+    /// Details about a package, including its format, namespace, and name.
     public struct PackageSummary: Swift.Equatable {
         /// The format of the package.
         public var format: CodeartifactClientTypes.PackageFormat?

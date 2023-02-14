@@ -9,38 +9,38 @@ extension AppStreamClientProtocol {
             .init(state: .success, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "allStringEquals"
-                // JMESPath expected value: "ACTIVE"
+                // JMESPath expected value: "RUNNING"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "ACTIVE") } ?? false)
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "anyStringEquals"
-                // JMESPath expected value: "PENDING_DEACTIVATE"
+                // JMESPath expected value: "STOPPING"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return projection?.contains(where: { JMESUtils.compare($0, ==, "PENDING_DEACTIVATE") }) ?? false
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "STOPPING") }) ?? false
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "anyStringEquals"
-                // JMESPath expected value: "INACTIVE"
+                // JMESPath expected value: "STOPPED"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return projection?.contains(where: { JMESUtils.compare($0, ==, "INACTIVE") }) ?? false
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "STOPPED") }) ?? false
             }),
         ]
         return try WaiterConfiguration<DescribeFleetsInput, DescribeFleetsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)
@@ -67,38 +67,38 @@ extension AppStreamClientProtocol {
             .init(state: .success, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "allStringEquals"
-                // JMESPath expected value: "INACTIVE"
+                // JMESPath expected value: "STOPPED"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "INACTIVE") } ?? false)
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "STOPPED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "anyStringEquals"
-                // JMESPath expected value: "PENDING_ACTIVATE"
+                // JMESPath expected value: "STARTING"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return projection?.contains(where: { JMESUtils.compare($0, ==, "PENDING_ACTIVATE") }) ?? false
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "STARTING") }) ?? false
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Result<DescribeFleetsOutputResponse, Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
                 // JMESPath comparator: "anyStringEquals"
-                // JMESPath expected value: "ACTIVE"
+                // JMESPath expected value: "RUNNING"
                 guard case .success(let output) = result else { return false }
                 let fleets = output.fleets
                 let projection: [AppStreamClientTypes.FleetState]? = fleets?.compactMap { original in
                     let state = original.state
                     return state
                 }
-                return projection?.contains(where: { JMESUtils.compare($0, ==, "ACTIVE") }) ?? false
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "RUNNING") }) ?? false
             }),
         ]
         return try WaiterConfiguration<DescribeFleetsInput, DescribeFleetsOutputResponse>(acceptors: acceptors, minDelay: 30.0, maxDelay: 120.0)

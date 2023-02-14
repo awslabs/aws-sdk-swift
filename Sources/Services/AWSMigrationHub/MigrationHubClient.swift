@@ -230,10 +230,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutputResponse, AssociateCreatedArtifactOutputError>(id: "associateCreatedArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutputResponse, AssociateCreatedArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateCreatedArtifactOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateCreatedArtifactOutputResponse, AssociateCreatedArtifactOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -269,10 +266,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutputResponse, AssociateDiscoveredResourceOutputError>(id: "associateDiscoveredResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutputResponse, AssociateDiscoveredResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateDiscoveredResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateDiscoveredResourceOutputResponse, AssociateDiscoveredResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -308,10 +302,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutputResponse, CreateProgressUpdateStreamOutputError>(id: "createProgressUpdateStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutputResponse, CreateProgressUpdateStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateProgressUpdateStreamOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateProgressUpdateStreamOutputResponse, CreateProgressUpdateStreamOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -357,10 +348,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutputResponse, DeleteProgressUpdateStreamOutputError>(id: "deleteProgressUpdateStream")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutputResponse, DeleteProgressUpdateStreamOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteProgressUpdateStreamOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteProgressUpdateStreamOutputResponse, DeleteProgressUpdateStreamOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -396,10 +384,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeApplicationStateInput, DescribeApplicationStateOutputResponse, DescribeApplicationStateOutputError>(id: "describeApplicationState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutputResponse, DescribeApplicationStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeApplicationStateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeApplicationStateOutputResponse, DescribeApplicationStateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -435,10 +420,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeMigrationTaskInput, DescribeMigrationTaskOutputResponse, DescribeMigrationTaskOutputError>(id: "describeMigrationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutputResponse, DescribeMigrationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeMigrationTaskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMigrationTaskOutputResponse, DescribeMigrationTaskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -480,10 +462,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutputResponse, DisassociateCreatedArtifactOutputError>(id: "disassociateCreatedArtifact")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutputResponse, DisassociateCreatedArtifactOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisassociateCreatedArtifactOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateCreatedArtifactOutputResponse, DisassociateCreatedArtifactOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -519,10 +498,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutputResponse, DisassociateDiscoveredResourceOutputError>(id: "disassociateDiscoveredResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutputResponse, DisassociateDiscoveredResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisassociateDiscoveredResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateDiscoveredResourceOutputResponse, DisassociateDiscoveredResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -558,10 +534,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ImportMigrationTaskInput, ImportMigrationTaskOutputResponse, ImportMigrationTaskOutputError>(id: "importMigrationTask")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutputResponse, ImportMigrationTaskOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ImportMigrationTaskOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ImportMigrationTaskOutputResponse, ImportMigrationTaskOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -597,10 +570,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ListApplicationStatesInput, ListApplicationStatesOutputResponse, ListApplicationStatesOutputError>(id: "listApplicationStates")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListApplicationStatesInput, ListApplicationStatesOutputResponse, ListApplicationStatesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApplicationStatesInput, ListApplicationStatesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListApplicationStatesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApplicationStatesOutputResponse, ListApplicationStatesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -642,10 +612,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ListCreatedArtifactsInput, ListCreatedArtifactsOutputResponse, ListCreatedArtifactsOutputError>(id: "listCreatedArtifacts")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutputResponse, ListCreatedArtifactsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListCreatedArtifactsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCreatedArtifactsOutputResponse, ListCreatedArtifactsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -681,10 +648,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(id: "listDiscoveredResources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListDiscoveredResourcesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDiscoveredResourcesOutputResponse, ListDiscoveredResourcesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -726,10 +690,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ListMigrationTasksInput, ListMigrationTasksOutputResponse, ListMigrationTasksOutputError>(id: "listMigrationTasks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMigrationTasksInput, ListMigrationTasksOutputResponse, ListMigrationTasksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMigrationTasksInput, ListMigrationTasksOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListMigrationTasksOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMigrationTasksOutputResponse, ListMigrationTasksOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -765,10 +726,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutputResponse, ListProgressUpdateStreamsOutputError>(id: "listProgressUpdateStreams")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutputResponse, ListProgressUpdateStreamsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListProgressUpdateStreamsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProgressUpdateStreamsOutputResponse, ListProgressUpdateStreamsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -804,10 +762,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<NotifyApplicationStateInput, NotifyApplicationStateOutputResponse, NotifyApplicationStateOutputError>(id: "notifyApplicationState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutputResponse, NotifyApplicationStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<NotifyApplicationStateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyApplicationStateOutputResponse, NotifyApplicationStateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -849,10 +804,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutputResponse, NotifyMigrationTaskStateOutputError>(id: "notifyMigrationTaskState")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutputResponse, NotifyMigrationTaskStateOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<NotifyMigrationTaskStateOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<NotifyMigrationTaskStateOutputResponse, NotifyMigrationTaskStateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -895,10 +847,7 @@ extension MigrationHubClient: MigrationHubClientProtocol {
         var operation = ClientRuntime.OperationStack<PutResourceAttributesInput, PutResourceAttributesOutputResponse, PutResourceAttributesOutputError>(id: "putResourceAttributes")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutResourceAttributesInput, PutResourceAttributesOutputResponse, PutResourceAttributesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourceAttributesInput, PutResourceAttributesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutResourceAttributesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourceAttributesOutputResponse, PutResourceAttributesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

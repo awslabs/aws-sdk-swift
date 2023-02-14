@@ -1955,7 +1955,7 @@ public struct CreateStandbyWorkspacesInput: Swift.Equatable {
     /// The Region of the primary WorkSpace.
     /// This member is required.
     public var primaryRegion: Swift.String?
-    /// Information about the Standby WorkSpace to be created.
+    /// Information about the standby WorkSpace to be created.
     /// This member is required.
     public var standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]?
 
@@ -2044,9 +2044,9 @@ extension CreateStandbyWorkspacesOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct CreateStandbyWorkspacesOutputResponse: Swift.Equatable {
-    /// Information about the Standby WorkSpace that could not be created.
+    /// Information about the standby WorkSpace that could not be created.
     public var failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]?
-    /// Information about the Standby WorkSpace that was created.
+    /// Information about the standby WorkSpace that was created.
     public var pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]?
 
     public init (
@@ -6894,13 +6894,13 @@ extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Coda
 }
 
 extension WorkSpacesClientTypes {
-    /// Describes the Standby WorkSpace that could not be created.
+    /// Describes the standby WorkSpace that could not be created.
     public struct FailedCreateStandbyWorkspacesRequest: Swift.Equatable {
-        /// The error code that is returned if the Standby WorkSpace could not be created.
+        /// The error code that is returned if the standby WorkSpace could not be created.
         public var errorCode: Swift.String?
-        /// The text of the error message that is returned if the Standby WorkSpace could not be created.
+        /// The text of the error message that is returned if the standby WorkSpace could not be created.
         public var errorMessage: Swift.String?
-        /// Information about the Standby WorkSpace that could not be created.
+        /// Information about the standby WorkSpace that could not be created.
         public var standbyWorkspaceRequest: WorkSpacesClientTypes.StandbyWorkspace?
 
         public init (
@@ -9524,15 +9524,15 @@ extension WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest: Swift.Cod
 }
 
 extension WorkSpacesClientTypes {
-    /// Information about the Standby WorkSpace.
+    /// Information about the standby WorkSpace.
     public struct PendingCreateStandbyWorkspacesRequest: Swift.Equatable {
-        /// The identifier of the directory for the Standby WorkSpace.
+        /// The identifier of the directory for the standby WorkSpace.
         public var directoryId: Swift.String?
-        /// The operational state of the Standby WorkSpace.
+        /// The operational state of the standby WorkSpace.
         public var state: WorkSpacesClientTypes.WorkspaceState?
-        /// Describes the Standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call [ DescribeWorkspaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html) before the WorkSpace is created, the information returned can be incomplete.
+        /// Describes the standby WorkSpace that was created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call [ DescribeWorkspaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html) before the WorkSpace is created, the information returned can be incomplete.
         public var userName: Swift.String?
-        /// The identifier of the Standby WorkSpace.
+        /// The identifier of the standby WorkSpace.
         public var workspaceId: Swift.String?
 
         public init (
@@ -10168,7 +10168,7 @@ extension WorkSpacesClientTypes.RelatedWorkspaceProperties: Swift.Codable {
 }
 
 extension WorkSpacesClientTypes {
-    /// Describes the related WorkSpace. The related WorkSpace could be a Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+    /// Describes the related WorkSpace. The related WorkSpace could be a standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
     public struct RelatedWorkspaceProperties: Swift.Equatable {
         /// The Region of the related WorkSpace.
         public var region: Swift.String?
@@ -11053,17 +11053,17 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
 }
 
 extension WorkSpacesClientTypes {
-    /// Describes a Standby WorkSpace.
+    /// Describes a standby WorkSpace.
     public struct StandbyWorkspace: Swift.Equatable {
-        /// The identifier of the directory for the Standby WorkSpace.
+        /// The identifier of the directory for the standby WorkSpace.
         /// This member is required.
         public var directoryId: Swift.String?
-        /// The identifier of the Standby WorkSpace.
+        /// The identifier of the standby WorkSpace.
         /// This member is required.
         public var primaryWorkspaceId: Swift.String?
-        /// The tags associated with the Standby WorkSpace.
+        /// The tags associated with the standby WorkSpace.
         public var tags: [WorkSpacesClientTypes.Tag]?
-        /// The volume encryption key of the Standby WorkSpace.
+        /// The volume encryption key of the standby WorkSpace.
         public var volumeEncryptionKey: Swift.String?
 
         public init (
@@ -12606,7 +12606,7 @@ extension WorkSpacesClientTypes {
         public var ipAddress: Swift.String?
         /// The modification states of the WorkSpace.
         public var modificationStates: [WorkSpacesClientTypes.ModificationState]?
-        /// The Standby WorkSpace or Primary WorkSpace related to the specified WorkSpace.
+        /// The standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
         public var relatedWorkspaces: [WorkSpacesClientTypes.RelatedWorkspaceProperties]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public var rootVolumeEncryptionEnabled: Swift.Bool?

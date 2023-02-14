@@ -69,15 +69,6 @@ public protocol SnowballClientProtocol {
     ///
     ///
     ///
-    /// * Device type: V3_5C
-    ///
-    /// * Capacity: T32
-    ///
-    /// * Description: Snowball Edge Compute Optimized without GPU
-    ///
-    ///
-    ///
-    ///
     /// * Device type: STANDARD
     ///
     /// * Capacity: T50
@@ -125,6 +116,8 @@ public protocol SnowballClientProtocol {
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     /// Lists all long-term pricing types.
     func listLongTermPricing(input: ListLongTermPricingInput) async throws -> ListLongTermPricingOutputResponse
+    /// Lists all supported versions for Snow on-device services. Returns an array of ServiceVersion object containing the supported versions for a particular service.
+    func listServiceVersions(input: ListServiceVersionsInput) async throws -> ListServiceVersionsOutputResponse
     /// While a cluster's ClusterState value is in the AwaitingQuorum state, you can update some of the information associated with a cluster. Once the cluster changes to a different job state, usually 60 minutes after the cluster being created, this action is no longer available.
     func updateCluster(input: UpdateClusterInput) async throws -> UpdateClusterOutputResponse
     /// While a job's JobState value is New, you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.

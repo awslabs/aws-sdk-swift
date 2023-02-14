@@ -205,7 +205,7 @@ public struct LexModelsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 }
 
 extension LexModelsV2Client: LexModelsV2ClientProtocol {
-    /// Batch create custom vocabulary item for the specified locale in the specified bot.
+    /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     public func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -243,7 +243,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Batch delete custom vocabulary item for the specified locale in the specified bot.
+    /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     public func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -281,7 +281,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Batch update custom vocabulary item for the specified locale in the specified bot.
+    /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     public func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -889,7 +889,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Deletes a specific version of a bot. To delete all version of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_DeleteBot.html) operation.
+    /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
     public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1208,7 +1208,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
+    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1898,7 +1898,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateIntent.html).
+    /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
     public func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1974,7 +1974,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// List custom vocabulary items for the specified locale in the specified bot.
+    /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
     public func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2650,7 +2650,7 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
         return result
     }
 
-    /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeExport.html) operation.
+    /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
     public func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -7,10 +7,10 @@ import SmithyTestUtil
 import XCTest
 
 class EndpointResolverTest: CrtXCBaseTestCase {
-    /// For region sa-east-1 with FIPS disabled and DualStack disabled
+    /// For region af-south-1 with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
-            region: "sa-east-1",
+            region: "af-south-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -22,15 +22,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.sa-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region sa-east-1 with FIPS disabled and DualStack enabled
+    /// For region af-south-1 with FIPS disabled and DualStack enabled
     func testResolve2() throws {
         let endpointParams = EndpointParams(
-            region: "sa-east-1",
+            region: "af-south-1",
             useDualStack: true,
             useFIPS: false
         )
@@ -42,7 +42,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.sa-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.af-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -87,448 +87,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-south-1 with FIPS disabled and DualStack disabled
-    func testResolve5() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-south-1 with FIPS disabled and DualStack enabled
-    func testResolve6() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-south-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-south-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-central-1 with FIPS disabled and DualStack disabled
-    func testResolve7() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-central-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-central-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-central-1 with FIPS disabled and DualStack enabled
-    func testResolve8() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-central-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-central-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-1 with FIPS disabled and DualStack enabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-2",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-2 with FIPS disabled and DualStack enabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-2",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-2.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-3 with FIPS disabled and DualStack disabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-3",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-3.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-3 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-3",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-3.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ca-central-1 with FIPS disabled and DualStack disabled
-    func testResolve15() throws {
-        let endpointParams = EndpointParams(
-            region: "ca-central-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ca-central-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ca-central-1 with FIPS disabled and DualStack enabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "ca-central-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ca-central-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-1 with FIPS disabled and DualStack disabled
-    func testResolve17() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-1 with FIPS enabled and DualStack disabled
-    func testResolve18() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-1 with FIPS disabled and DualStack enabled
-    func testResolve19() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-2 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-2",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-2 with FIPS enabled and DualStack disabled
-    func testResolve21() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-2",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-2 with FIPS disabled and DualStack enabled
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-2",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-2.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region af-south-1 with FIPS disabled and DualStack disabled
-    func testResolve23() throws {
-        let endpointParams = EndpointParams(
-            region: "af-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.af-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region af-south-1 with FIPS disabled and DualStack enabled
-    func testResolve24() throws {
-        let endpointParams = EndpointParams(
-            region: "af-south-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.af-south-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-south-1 with FIPS disabled and DualStack disabled
-    func testResolve25() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-south-1 with FIPS disabled and DualStack enabled
-    func testResolve26() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-south-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-south-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
-    func testResolve27() throws {
+    func testResolve5() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-1",
             useDualStack: false,
@@ -548,7 +108,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-1 with FIPS disabled and DualStack enabled
-    func testResolve28() throws {
+    func testResolve6() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-1",
             useDualStack: true,
@@ -568,7 +128,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-2 with FIPS disabled and DualStack disabled
-    func testResolve29() throws {
+    func testResolve7() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-2",
             useDualStack: false,
@@ -588,7 +148,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-2 with FIPS disabled and DualStack enabled
-    func testResolve30() throws {
+    func testResolve8() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-2",
             useDualStack: true,
@@ -608,7 +168,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-3 with FIPS disabled and DualStack disabled
-    func testResolve31() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-3",
             useDualStack: false,
@@ -628,7 +188,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-3 with FIPS disabled and DualStack enabled
-    func testResolve32() throws {
+    func testResolve10() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-3",
             useDualStack: true,
@@ -647,10 +207,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS disabled and DualStack disabled
-    func testResolve33() throws {
+    /// For region ap-south-1 with FIPS disabled and DualStack disabled
+    func testResolve11() throws {
         let endpointParams = EndpointParams(
-            region: "us-east-1",
+            region: "ap-south-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -662,35 +222,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS enabled and DualStack disabled
-    func testResolve34() throws {
+    /// For region ap-south-1 with FIPS disabled and DualStack enabled
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
-            region: "us-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-east-1 with FIPS disabled and DualStack enabled
-    func testResolve35() throws {
-        let endpointParams = EndpointParams(
-            region: "us-east-1",
+            region: "ap-south-1",
             useDualStack: true,
             useFIPS: false
         )
@@ -702,15 +242,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-south-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-1 with FIPS disabled and DualStack disabled
-    func testResolve36() throws {
+    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
+    func testResolve13() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-1",
+            region: "ap-southeast-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -722,15 +262,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-1 with FIPS disabled and DualStack enabled
-    func testResolve37() throws {
+    /// For region ap-southeast-1 with FIPS disabled and DualStack enabled
+    func testResolve14() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-1",
+            region: "ap-southeast-1",
             useDualStack: true,
             useFIPS: false
         )
@@ -742,15 +282,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-2 with FIPS disabled and DualStack disabled
-    func testResolve38() throws {
+    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
+    func testResolve15() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-2",
+            region: "ap-southeast-2",
             useDualStack: false,
             useFIPS: false
         )
@@ -762,15 +302,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-2 with FIPS disabled and DualStack enabled
-    func testResolve39() throws {
+    /// For region ap-southeast-2 with FIPS disabled and DualStack enabled
+    func testResolve16() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-2",
+            region: "ap-southeast-2",
             useDualStack: true,
             useFIPS: false
         )
@@ -782,15 +322,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-2.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-3 with FIPS disabled and DualStack disabled
-    func testResolve40() throws {
+    /// For region ap-southeast-3 with FIPS disabled and DualStack disabled
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-3",
+            region: "ap-southeast-3",
             useDualStack: false,
             useFIPS: false
         )
@@ -802,15 +342,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-3.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-3.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-west-3 with FIPS disabled and DualStack enabled
-    func testResolve41() throws {
+    /// For region ap-southeast-3 with FIPS disabled and DualStack enabled
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
-            region: "eu-west-3",
+            region: "ap-southeast-3",
             useDualStack: true,
             useFIPS: false
         )
@@ -822,15 +362,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-3.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ap-southeast-3.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region me-south-1 with FIPS disabled and DualStack disabled
-    func testResolve42() throws {
+    /// For region ca-central-1 with FIPS disabled and DualStack disabled
+    func testResolve19() throws {
         let endpointParams = EndpointParams(
-            region: "me-south-1",
+            region: "ca-central-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -842,15 +382,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.me-south-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ca-central-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region me-south-1 with FIPS disabled and DualStack enabled
-    func testResolve43() throws {
+    /// For region ca-central-1 with FIPS disabled and DualStack enabled
+    func testResolve20() throws {
         let endpointParams = EndpointParams(
-            region: "me-south-1",
+            region: "ca-central-1",
             useDualStack: true,
             useFIPS: false
         )
@@ -862,13 +402,53 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.me-south-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.ca-central-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-central-1 with FIPS disabled and DualStack disabled
+    func testResolve21() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-central-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-central-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-central-1 with FIPS disabled and DualStack enabled
+    func testResolve22() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-central-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-central-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region eu-north-1 with FIPS disabled and DualStack disabled
-    func testResolve44() throws {
+    func testResolve23() throws {
         let endpointParams = EndpointParams(
             region: "eu-north-1",
             useDualStack: false,
@@ -888,7 +468,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region eu-north-1 with FIPS disabled and DualStack enabled
-    func testResolve45() throws {
+    func testResolve24() throws {
         let endpointParams = EndpointParams(
             region: "eu-north-1",
             useDualStack: true,
@@ -907,8 +487,308 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region eu-south-1 with FIPS disabled and DualStack disabled
+    func testResolve25() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-south-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-south-1 with FIPS disabled and DualStack enabled
+    func testResolve26() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-south-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-south-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-1 with FIPS disabled and DualStack disabled
+    func testResolve27() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-1 with FIPS disabled and DualStack enabled
+    func testResolve28() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-2 with FIPS disabled and DualStack disabled
+    func testResolve29() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-2 with FIPS disabled and DualStack enabled
+    func testResolve30() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-2",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-3 with FIPS disabled and DualStack disabled
+    func testResolve31() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-3.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-west-3 with FIPS disabled and DualStack enabled
+    func testResolve32() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-west-3",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.eu-west-3.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region me-south-1 with FIPS disabled and DualStack disabled
+    func testResolve33() throws {
+        let endpointParams = EndpointParams(
+            region: "me-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.me-south-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region me-south-1 with FIPS disabled and DualStack enabled
+    func testResolve34() throws {
+        let endpointParams = EndpointParams(
+            region: "me-south-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.me-south-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region sa-east-1 with FIPS disabled and DualStack disabled
+    func testResolve35() throws {
+        let endpointParams = EndpointParams(
+            region: "sa-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.sa-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region sa-east-1 with FIPS disabled and DualStack enabled
+    func testResolve36() throws {
+        let endpointParams = EndpointParams(
+            region: "sa-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.sa-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS disabled and DualStack disabled
+    func testResolve37() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS enabled and DualStack disabled
+    func testResolve38() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS disabled and DualStack enabled
+    func testResolve39() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region us-east-2 with FIPS disabled and DualStack disabled
-    func testResolve46() throws {
+    func testResolve40() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -928,7 +808,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-2 with FIPS enabled and DualStack disabled
-    func testResolve47() throws {
+    func testResolve41() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -948,7 +828,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-2 with FIPS disabled and DualStack enabled
-    func testResolve48() throws {
+    func testResolve42() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: true,
@@ -963,6 +843,126 @@ class EndpointResolverTest: CrtXCBaseTestCase {
 
         let headers = Headers()
         let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-east-2.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-1 with FIPS disabled and DualStack disabled
+    func testResolve43() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-1 with FIPS enabled and DualStack disabled
+    func testResolve44() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-1 with FIPS disabled and DualStack enabled
+    func testResolve45() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    func testResolve46() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS enabled and DualStack disabled
+    func testResolve47() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS disabled and DualStack enabled
+    func testResolve48() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-west-2.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -987,208 +987,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
-    func testResolve50() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
-    func testResolve51() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve52() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve53() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve54() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve55() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve56() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve57() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-northwest-1 with FIPS disabled and DualStack disabled
-    func testResolve58() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-northwest-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-northwest-1 with FIPS disabled and DualStack enabled
-    func testResolve59() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-northwest-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region cn-north-1 with FIPS disabled and DualStack disabled
-    func testResolve60() throws {
+    func testResolve50() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -1208,7 +1008,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack enabled
-    func testResolve61() throws {
+    func testResolve51() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -1227,8 +1027,48 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region cn-northwest-1 with FIPS disabled and DualStack disabled
+    func testResolve52() throws {
+        let endpointParams = EndpointParams(
+            region: "cn-northwest-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region cn-northwest-1 with FIPS disabled and DualStack enabled
+    func testResolve53() throws {
+        let endpointParams = EndpointParams(
+            region: "cn-northwest-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region cn-north-1 with FIPS enabled and DualStack enabled
-    func testResolve62() throws {
+    func testResolve54() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -1248,7 +1088,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS enabled and DualStack disabled
-    func testResolve63() throws {
+    func testResolve55() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -1267,10 +1107,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-west-1 with FIPS disabled and DualStack disabled
-    func testResolve64() throws {
+    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
+    func testResolve56() throws {
         let endpointParams = EndpointParams(
-            region: "us-iso-west-1",
+            region: "us-gov-east-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -1282,13 +1122,113 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
+    func testResolve57() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
+    func testResolve58() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
+    func testResolve59() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
+    func testResolve60() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
+    func testResolve61() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-gov-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve65() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -1307,8 +1247,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-iso-west-1 with FIPS disabled and DualStack disabled
+    func testResolve63() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve66() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -1327,7 +1287,47 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips disabled and dualstack disabled
+    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
+    func testResolve65() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
+    func testResolve66() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://lambda-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with region set and fips disabled and dualstack disabled
     func testResolve67() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
@@ -1348,8 +1348,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips enabled and dualstack disabled
+    /// For custom endpoint with region not set and fips disabled and dualstack disabled
     func testResolve68() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with fips enabled and dualstack disabled
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1369,7 +1389,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve69() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",

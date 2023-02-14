@@ -4842,6 +4842,7 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
         /// The configuration for a CategoryFilter.
+        /// This member is required.
         public var configuration: QuickSightClientTypes.CategoryFilterConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
@@ -8059,7 +8060,7 @@ public struct CreateAnalysisInput: Swift.Equatable {
     /// The ID of the Amazon Web Services account where you are creating an analysis.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    /// The definition of an analysis. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.AnalysisDefinition?
     /// A descriptive name for the analysis that you're creating. This name displays for the analysis in the Amazon QuickSight console.
     /// This member is required.
@@ -8068,7 +8069,7 @@ public struct CreateAnalysisInput: Swift.Equatable {
     public var parameters: QuickSightClientTypes.Parameters?
     /// A structure that describes the principals and the resource-level permissions on an analysis. You can use the Permissions structure to grant permissions by providing a list of Identity and Access Management (IAM) action information for each principal listed by Amazon Resource Name (ARN). To specify no permissions, omit Permissions.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets.
+    /// A source entity to use for the analysis that you're creating. This metadata structure contains details that describe a source template and one or more datasets. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.AnalysisSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the analysis.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -8399,7 +8400,7 @@ public struct CreateDashboardInput: Swift.Equatable {
     ///
     /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
     public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
-    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
     /// The display name of the dashboard.
     /// This member is required.
@@ -8408,7 +8409,7 @@ public struct CreateDashboardInput: Swift.Equatable {
     public var parameters: QuickSightClientTypes.Parameters?
     /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN. To specify no permissions, omit the permissions list.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the [CreateTemplate](https://docs.aws.amazon.com/quicksight/latest/APIReference/API_CreateTemplate.html) API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.DashboardSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -10995,13 +10996,13 @@ public struct CreateTemplateInput: Swift.Equatable {
     /// The ID for the Amazon Web Services account that the group is in. You use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
     /// This member is required.
     public var awsAccountId: Swift.String?
-    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis.
+    /// The definition of a template. A definition is the data model of all features in a Dashboard, Template, or Analysis. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var definition: QuickSightClientTypes.TemplateVersionDefinition?
     /// A display name for the template.
     public var name: Swift.String?
     /// A list of resource permissions to be set on the template.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+    /// The entity that you are using as a source when you create the template. In SourceEntity, you specify the type of object you're using as source: SourceTemplate for a template or SourceAnalysis for an analysis. Both of these require an Amazon Resource Name (ARN). For SourceTemplate, specify the ARN of the source template. For SourceAnalysis, specify the ARN of the source analysis. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region. Use the DataSetReferences entity within SourceTemplate or SourceAnalysis to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder. Either a SourceEntity or a Definition must be provided in order for the request to be valid.
     public var sourceEntity: QuickSightClientTypes.TemplateSourceEntity?
     /// Contains a map of the key-value pairs for the resource tag or tags assigned to the resource.
     public var tags: [QuickSightClientTypes.Tag]?
@@ -12901,7 +12902,7 @@ extension QuickSightClientTypes {
         public var message: Swift.String?
         /// Type.
         public var type: QuickSightClientTypes.DashboardErrorType?
-        ///
+        /// Lists the violated entities that caused the dashboard error.
         public var violatedEntities: [QuickSightClientTypes.Entity]?
 
         public init (
@@ -13024,8 +13025,15 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.DashboardPublishOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adHocFilteringOption = "AdHocFilteringOption"
+        case dataPointDrillUpDownOption = "DataPointDrillUpDownOption"
+        case dataPointMenuLabelOption = "DataPointMenuLabelOption"
+        case dataPointTooltipOption = "DataPointTooltipOption"
         case exportToCSVOption = "ExportToCSVOption"
+        case exportWithHiddenFieldsOption = "ExportWithHiddenFieldsOption"
         case sheetControlsOption = "SheetControlsOption"
+        case sheetLayoutElementMaximizationOption = "SheetLayoutElementMaximizationOption"
+        case visualAxisSortOption = "VisualAxisSortOption"
+        case visualMenuOption = "VisualMenuOption"
         case visualPublishOptions = "VisualPublishOptions"
     }
 
@@ -13034,11 +13042,32 @@ extension QuickSightClientTypes.DashboardPublishOptions: Swift.Codable {
         if let adHocFilteringOption = self.adHocFilteringOption {
             try encodeContainer.encode(adHocFilteringOption, forKey: .adHocFilteringOption)
         }
+        if let dataPointDrillUpDownOption = self.dataPointDrillUpDownOption {
+            try encodeContainer.encode(dataPointDrillUpDownOption, forKey: .dataPointDrillUpDownOption)
+        }
+        if let dataPointMenuLabelOption = self.dataPointMenuLabelOption {
+            try encodeContainer.encode(dataPointMenuLabelOption, forKey: .dataPointMenuLabelOption)
+        }
+        if let dataPointTooltipOption = self.dataPointTooltipOption {
+            try encodeContainer.encode(dataPointTooltipOption, forKey: .dataPointTooltipOption)
+        }
         if let exportToCSVOption = self.exportToCSVOption {
             try encodeContainer.encode(exportToCSVOption, forKey: .exportToCSVOption)
         }
+        if let exportWithHiddenFieldsOption = self.exportWithHiddenFieldsOption {
+            try encodeContainer.encode(exportWithHiddenFieldsOption, forKey: .exportWithHiddenFieldsOption)
+        }
         if let sheetControlsOption = self.sheetControlsOption {
             try encodeContainer.encode(sheetControlsOption, forKey: .sheetControlsOption)
+        }
+        if let sheetLayoutElementMaximizationOption = self.sheetLayoutElementMaximizationOption {
+            try encodeContainer.encode(sheetLayoutElementMaximizationOption, forKey: .sheetLayoutElementMaximizationOption)
+        }
+        if let visualAxisSortOption = self.visualAxisSortOption {
+            try encodeContainer.encode(visualAxisSortOption, forKey: .visualAxisSortOption)
+        }
+        if let visualMenuOption = self.visualMenuOption {
+            try encodeContainer.encode(visualMenuOption, forKey: .visualMenuOption)
         }
         if let visualPublishOptions = self.visualPublishOptions {
             try encodeContainer.encode(visualPublishOptions, forKey: .visualPublishOptions)
@@ -13055,6 +13084,20 @@ extension QuickSightClientTypes.DashboardPublishOptions: Swift.Codable {
         sheetControlsOption = sheetControlsOptionDecoded
         let visualPublishOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardVisualPublishOptions.self, forKey: .visualPublishOptions)
         visualPublishOptions = visualPublishOptionsDecoded
+        let sheetLayoutElementMaximizationOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetLayoutElementMaximizationOption.self, forKey: .sheetLayoutElementMaximizationOption)
+        sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOptionDecoded
+        let visualMenuOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualMenuOption.self, forKey: .visualMenuOption)
+        visualMenuOption = visualMenuOptionDecoded
+        let visualAxisSortOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualAxisSortOption.self, forKey: .visualAxisSortOption)
+        visualAxisSortOption = visualAxisSortOptionDecoded
+        let exportWithHiddenFieldsOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ExportWithHiddenFieldsOption.self, forKey: .exportWithHiddenFieldsOption)
+        exportWithHiddenFieldsOption = exportWithHiddenFieldsOptionDecoded
+        let dataPointDrillUpDownOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataPointDrillUpDownOption.self, forKey: .dataPointDrillUpDownOption)
+        dataPointDrillUpDownOption = dataPointDrillUpDownOptionDecoded
+        let dataPointMenuLabelOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataPointMenuLabelOption.self, forKey: .dataPointMenuLabelOption)
+        dataPointMenuLabelOption = dataPointMenuLabelOptionDecoded
+        let dataPointTooltipOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataPointTooltipOption.self, forKey: .dataPointTooltipOption)
+        dataPointTooltipOption = dataPointTooltipOptionDecoded
     }
 }
 
@@ -13063,23 +13106,52 @@ extension QuickSightClientTypes {
     public struct DashboardPublishOptions: Swift.Equatable {
         /// Ad hoc (one-time) filtering option.
         public var adHocFilteringOption: QuickSightClientTypes.AdHocFilteringOption?
+        /// The drill-down options of data points in a dashboard.
+        public var dataPointDrillUpDownOption: QuickSightClientTypes.DataPointDrillUpDownOption?
+        /// The data point menu label options of a dashboard.
+        public var dataPointMenuLabelOption: QuickSightClientTypes.DataPointMenuLabelOption?
+        /// The data point tool tip options of a dashboard.
+        public var dataPointTooltipOption: QuickSightClientTypes.DataPointTooltipOption?
         /// Export to .csv option.
         public var exportToCSVOption: QuickSightClientTypes.ExportToCSVOption?
+        /// Determines if hidden fields are exported with a dashboard.
+        public var exportWithHiddenFieldsOption: QuickSightClientTypes.ExportWithHiddenFieldsOption?
         /// Sheet controls option.
         public var sheetControlsOption: QuickSightClientTypes.SheetControlsOption?
-        ///
+        /// The sheet layout maximization options of a dashbaord.
+        public var sheetLayoutElementMaximizationOption: QuickSightClientTypes.SheetLayoutElementMaximizationOption?
+        /// The axis sort options of a dashboard.
+        public var visualAxisSortOption: QuickSightClientTypes.VisualAxisSortOption?
+        /// The menu options of a visual in a dashboard.
+        public var visualMenuOption: QuickSightClientTypes.VisualMenuOption?
+        /// The visual publish options of a visual in a dashboard.
+        @available(*, deprecated, message: "VisualPublishOptions property will reach its end of standard support in a future release. To perform this action, use ExportWithHiddenFields.")
         public var visualPublishOptions: QuickSightClientTypes.DashboardVisualPublishOptions?
 
         public init (
             adHocFilteringOption: QuickSightClientTypes.AdHocFilteringOption? = nil,
+            dataPointDrillUpDownOption: QuickSightClientTypes.DataPointDrillUpDownOption? = nil,
+            dataPointMenuLabelOption: QuickSightClientTypes.DataPointMenuLabelOption? = nil,
+            dataPointTooltipOption: QuickSightClientTypes.DataPointTooltipOption? = nil,
             exportToCSVOption: QuickSightClientTypes.ExportToCSVOption? = nil,
+            exportWithHiddenFieldsOption: QuickSightClientTypes.ExportWithHiddenFieldsOption? = nil,
             sheetControlsOption: QuickSightClientTypes.SheetControlsOption? = nil,
+            sheetLayoutElementMaximizationOption: QuickSightClientTypes.SheetLayoutElementMaximizationOption? = nil,
+            visualAxisSortOption: QuickSightClientTypes.VisualAxisSortOption? = nil,
+            visualMenuOption: QuickSightClientTypes.VisualMenuOption? = nil,
             visualPublishOptions: QuickSightClientTypes.DashboardVisualPublishOptions? = nil
         )
         {
             self.adHocFilteringOption = adHocFilteringOption
+            self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
+            self.dataPointMenuLabelOption = dataPointMenuLabelOption
+            self.dataPointTooltipOption = dataPointTooltipOption
             self.exportToCSVOption = exportToCSVOption
+            self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
             self.sheetControlsOption = sheetControlsOption
+            self.sheetLayoutElementMaximizationOption = sheetLayoutElementMaximizationOption
+            self.visualAxisSortOption = visualAxisSortOption
+            self.visualMenuOption = visualMenuOption
             self.visualPublishOptions = visualPublishOptions
         }
     }
@@ -13876,9 +13948,9 @@ extension QuickSightClientTypes.DashboardVisualPublishOptions: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    ///
+    /// The visual publish options of a visual in a dashboard
     public struct DashboardVisualPublishOptions: Swift.Equatable {
-        ///
+        /// Determines if hidden fields are included in an exported dashboard.
         public var exportHiddenFieldsOption: QuickSightClientTypes.ExportHiddenFieldsOption?
 
         public init (
@@ -13886,6 +13958,62 @@ extension QuickSightClientTypes {
         )
         {
             self.exportHiddenFieldsOption = exportHiddenFieldsOption
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DataBarsOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldId = "FieldId"
+        case negativeColor = "NegativeColor"
+        case positiveColor = "PositiveColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fieldId = self.fieldId {
+            try encodeContainer.encode(fieldId, forKey: .fieldId)
+        }
+        if let negativeColor = self.negativeColor {
+            try encodeContainer.encode(negativeColor, forKey: .negativeColor)
+        }
+        if let positiveColor = self.positiveColor {
+            try encodeContainer.encode(positiveColor, forKey: .positiveColor)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fieldId)
+        fieldId = fieldIdDecoded
+        let positiveColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .positiveColor)
+        positiveColor = positiveColorDecoded
+        let negativeColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .negativeColor)
+        negativeColor = negativeColorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options for data bars.
+    public struct DataBarsOptions: Swift.Equatable {
+        /// The field ID for the data bars options.
+        /// This member is required.
+        public var fieldId: Swift.String?
+        /// The color of the negative data bar.
+        public var negativeColor: Swift.String?
+        /// The color of the positive data bar.
+        public var positiveColor: Swift.String?
+
+        public init (
+            fieldId: Swift.String? = nil,
+            negativeColor: Swift.String? = nil,
+            positiveColor: Swift.String? = nil
+        )
+        {
+            self.fieldId = fieldId
+            self.negativeColor = negativeColor
+            self.positiveColor = positiveColor
         }
     }
 
@@ -14623,6 +14751,111 @@ extension QuickSightClientTypes {
         {
             self.fieldId = fieldId
             self.fieldValue = fieldValue
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DataPointDrillUpDownOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The drill down options for data points in a dashbaord.
+    public struct DataPointDrillUpDownOption: Swift.Equatable {
+        /// The status of the drill down options of data points.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DataPointMenuLabelOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The data point menu options of a dashboard.
+    public struct DataPointMenuLabelOption: Swift.Equatable {
+        /// The status of the data point menu options.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DataPointTooltipOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The data point tooltip options.
+    public struct DataPointTooltipOption: Swift.Equatable {
+        /// The status of the data point tool tip options.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
         }
     }
 
@@ -17740,7 +17973,7 @@ extension DeleteAnalysisInput: ClientRuntime.QueryItemProvider {
                 let recoveryWindowInDaysQueryItem = ClientRuntime.URLQueryItem(name: "recovery-window-in-days".urlPercentEncoding(), value: Swift.String(recoveryWindowInDays).urlPercentEncoding())
                 items.append(recoveryWindowInDaysQueryItem)
             }
-            if forceDeleteWithoutRecovery != false {
+            if let forceDeleteWithoutRecovery = forceDeleteWithoutRecovery {
                 let forceDeleteWithoutRecoveryQueryItem = ClientRuntime.URLQueryItem(name: "force-delete-without-recovery".urlPercentEncoding(), value: Swift.String(forceDeleteWithoutRecovery).urlPercentEncoding())
                 items.append(forceDeleteWithoutRecoveryQueryItem)
             }
@@ -17769,14 +18002,14 @@ public struct DeleteAnalysisInput: Swift.Equatable {
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// This option defaults to the value NoForceDeleteWithoutRecovery. To immediately delete the analysis, add the ForceDeleteWithoutRecovery option. You can't restore an analysis after it's deleted.
-    public var forceDeleteWithoutRecovery: Swift.Bool
+    public var forceDeleteWithoutRecovery: Swift.Bool?
     /// A value that specifies the number of days that Amazon QuickSight waits before it deletes the analysis. You can't use this parameter with the ForceDeleteWithoutRecovery option in the same API call. The default value is 30.
     public var recoveryWindowInDays: Swift.Int?
 
     public init (
         analysisId: Swift.String? = nil,
         awsAccountId: Swift.String? = nil,
-        forceDeleteWithoutRecovery: Swift.Bool = false,
+        forceDeleteWithoutRecovery: Swift.Bool? = nil,
         recoveryWindowInDays: Swift.Int? = nil
     )
     {
@@ -20064,7 +20297,7 @@ extension DescribeAccountCustomizationInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if resolved != false {
+            if let resolved = resolved {
                 let resolvedQueryItem = ClientRuntime.URLQueryItem(name: "resolved".urlPercentEncoding(), value: Swift.String(resolved).urlPercentEncoding())
                 items.append(resolvedQueryItem)
             }
@@ -20093,12 +20326,12 @@ public struct DescribeAccountCustomizationInput: Swift.Equatable {
     /// The Amazon QuickSight namespace that you want to describe Amazon QuickSight customizations for.
     public var namespace: Swift.String?
     /// The Resolved flag works with the other parameters to determine which view of Amazon QuickSight customizations is returned. You can add this flag to your command to use the same view that Amazon QuickSight uses to identify which customizations to apply to the console. Omit this flag, or set it to no-resolved, to reveal customizations that are configured at different levels.
-    public var resolved: Swift.Bool
+    public var resolved: Swift.Bool?
 
     public init (
         awsAccountId: Swift.String? = nil,
         namespace: Swift.String? = nil,
-        resolved: Swift.Bool = false
+        resolved: Swift.Bool? = nil
     )
     {
         self.awsAccountId = awsAccountId
@@ -21098,6 +21331,7 @@ extension DescribeDashboardDefinitionOutputResponse: ClientRuntime.HttpResponseB
             let data = reader.toBytes().getData()
             let output: DescribeDashboardDefinitionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.dashboardId = output.dashboardId
+            self.dashboardPublishOptions = output.dashboardPublishOptions
             self.definition = output.definition
             self.errors = output.errors
             self.name = output.name
@@ -21106,6 +21340,7 @@ extension DescribeDashboardDefinitionOutputResponse: ClientRuntime.HttpResponseB
             self.themeArn = output.themeArn
         } else {
             self.dashboardId = nil
+            self.dashboardPublishOptions = nil
             self.definition = nil
             self.errors = nil
             self.name = nil
@@ -21120,6 +21355,14 @@ extension DescribeDashboardDefinitionOutputResponse: ClientRuntime.HttpResponseB
 public struct DescribeDashboardDefinitionOutputResponse: Swift.Equatable {
     /// The ID of the dashboard described.
     public var dashboardId: Swift.String?
+    /// Options for publishing the dashboard:
+    ///
+    /// * AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.
+    ///
+    /// * AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.
+    ///
+    /// * VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
+    public var dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
     /// The definition of a dashboard. A definition is the data model of all features in a Dashboard, Template, or Analysis.
     public var definition: QuickSightClientTypes.DashboardVersionDefinition?
     /// Errors associated with this dashboard version.
@@ -21151,6 +21394,7 @@ public struct DescribeDashboardDefinitionOutputResponse: Swift.Equatable {
 
     public init (
         dashboardId: Swift.String? = nil,
+        dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions? = nil,
         definition: QuickSightClientTypes.DashboardVersionDefinition? = nil,
         errors: [QuickSightClientTypes.DashboardError]? = nil,
         name: Swift.String? = nil,
@@ -21161,6 +21405,7 @@ public struct DescribeDashboardDefinitionOutputResponse: Swift.Equatable {
     )
     {
         self.dashboardId = dashboardId
+        self.dashboardPublishOptions = dashboardPublishOptions
         self.definition = definition
         self.errors = errors
         self.name = name
@@ -21180,11 +21425,13 @@ struct DescribeDashboardDefinitionOutputResponseBody: Swift.Equatable {
     let definition: QuickSightClientTypes.DashboardVersionDefinition?
     let status: Swift.Int
     let requestId: Swift.String?
+    let dashboardPublishOptions: QuickSightClientTypes.DashboardPublishOptions?
 }
 
 extension DescribeDashboardDefinitionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dashboardId = "DashboardId"
+        case dashboardPublishOptions = "DashboardPublishOptions"
         case definition = "Definition"
         case errors = "Errors"
         case name = "Name"
@@ -21221,6 +21468,8 @@ extension DescribeDashboardDefinitionOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let dashboardPublishOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardPublishOptions.self, forKey: .dashboardPublishOptions)
+        dashboardPublishOptions = dashboardPublishOptionsDecoded
     }
 }
 
@@ -25615,9 +25864,9 @@ extension QuickSightClientTypes.ExportHiddenFieldsOption: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    ///
+    /// Determines if hidden fields are included in an exported dashboard.
     public struct ExportHiddenFieldsOption: Swift.Equatable {
-        ///
+        /// The status of the export hidden fields options of a dashbaord.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
         public init (
@@ -25653,6 +25902,41 @@ extension QuickSightClientTypes {
     /// Export to .csv option.
     public struct ExportToCSVOption: Swift.Equatable {
         /// Availability status.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.ExportWithHiddenFieldsOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Determines whether or not hidden fields are visible on exported dashbaords.
+    public struct ExportWithHiddenFieldsOption: Swift.Equatable {
+        /// The status of the export with hidden fields options.
         public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
 
         public init (
@@ -31452,7 +31736,7 @@ extension GetDashboardEmbedUrlInput: ClientRuntime.QueryItemProvider {
             }
             let identityTypeQueryItem = ClientRuntime.URLQueryItem(name: "creds-type".urlPercentEncoding(), value: Swift.String(identityType.rawValue).urlPercentEncoding())
             items.append(identityTypeQueryItem)
-            if statePersistenceEnabled != false {
+            if let statePersistenceEnabled = statePersistenceEnabled {
                 let statePersistenceEnabledQueryItem = ClientRuntime.URLQueryItem(name: "state-persistence-enabled".urlPercentEncoding(), value: Swift.String(statePersistenceEnabled).urlPercentEncoding())
                 items.append(statePersistenceEnabledQueryItem)
             }
@@ -31460,7 +31744,7 @@ extension GetDashboardEmbedUrlInput: ClientRuntime.QueryItemProvider {
                 let userArnQueryItem = ClientRuntime.URLQueryItem(name: "user-arn".urlPercentEncoding(), value: Swift.String(userArn).urlPercentEncoding())
                 items.append(userArnQueryItem)
             }
-            if undoRedoDisabled != false {
+            if let undoRedoDisabled = undoRedoDisabled {
                 let undoRedoDisabledQueryItem = ClientRuntime.URLQueryItem(name: "undo-redo-disabled".urlPercentEncoding(), value: Swift.String(undoRedoDisabled).urlPercentEncoding())
                 items.append(undoRedoDisabledQueryItem)
             }
@@ -31474,7 +31758,7 @@ extension GetDashboardEmbedUrlInput: ClientRuntime.QueryItemProvider {
                 let sessionLifetimeInMinutesQueryItem = ClientRuntime.URLQueryItem(name: "session-lifetime".urlPercentEncoding(), value: Swift.String(sessionLifetimeInMinutes).urlPercentEncoding())
                 items.append(sessionLifetimeInMinutesQueryItem)
             }
-            if resetDisabled != false {
+            if let resetDisabled = resetDisabled {
                 let resetDisabledQueryItem = ClientRuntime.URLQueryItem(name: "reset-disabled".urlPercentEncoding(), value: Swift.String(resetDisabled).urlPercentEncoding())
                 items.append(resetDisabledQueryItem)
             }
@@ -31514,13 +31798,13 @@ public struct GetDashboardEmbedUrlInput: Swift.Equatable {
     /// The Amazon QuickSight namespace that contains the dashboard IDs in this request. If you're not using a custom namespace, set Namespace = default.
     public var namespace: Swift.String?
     /// Remove the reset button on the embedded dashboard. The default is FALSE, which enables the reset button.
-    public var resetDisabled: Swift.Bool
+    public var resetDisabled: Swift.Bool?
     /// How many minutes the session is valid. The session lifetime must be 15-600 minutes.
     public var sessionLifetimeInMinutes: Swift.Int?
     /// Adds persistence of state for the user session in an embedded dashboard. Persistence applies to the sheet and the parameter settings. These are control settings that the dashboard subscriber (Amazon QuickSight reader) chooses while viewing the dashboard. If this is set to TRUE, the settings are the same when the subscriber reopens the same dashboard URL. The state is stored in Amazon QuickSight, not in a browser cookie. If this is set to FALSE, the state of the user session is not persisted. The default is FALSE.
-    public var statePersistenceEnabled: Swift.Bool
+    public var statePersistenceEnabled: Swift.Bool?
     /// Remove the undo/redo button on the embedded dashboard. The default is FALSE, which enables the undo/redo button.
-    public var undoRedoDisabled: Swift.Bool
+    public var undoRedoDisabled: Swift.Bool?
     /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:
     ///
     /// * Active Directory (AD) users or group members
@@ -31539,10 +31823,10 @@ public struct GetDashboardEmbedUrlInput: Swift.Equatable {
         dashboardId: Swift.String? = nil,
         identityType: QuickSightClientTypes.EmbeddingIdentityType? = nil,
         namespace: Swift.String? = nil,
-        resetDisabled: Swift.Bool = false,
+        resetDisabled: Swift.Bool? = nil,
         sessionLifetimeInMinutes: Swift.Int? = nil,
-        statePersistenceEnabled: Swift.Bool = false,
-        undoRedoDisabled: Swift.Bool = false,
+        statePersistenceEnabled: Swift.Bool? = nil,
+        undoRedoDisabled: Swift.Bool? = nil,
         userArn: Swift.String? = nil
     )
     {
@@ -41431,7 +41715,7 @@ extension QuickSightClientTypes {
         /// A display name for the logical table.
         /// This member is required.
         public var alias: Swift.String?
-        /// Transform operations that act on this logical table.
+        /// Transform operations that act on this logical table. For this structure to be valid, only one of the attributes can be non-null.
         public var dataTransforms: [QuickSightClientTypes.TransformOperation]?
         /// Source of this logical table.
         /// This member is required.
@@ -47493,6 +47777,598 @@ extension QuickSightUserNotFoundExceptionBody: Swift.Decodable {
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
     }
+}
+
+extension QuickSightClientTypes.RadarChartAggregatedFieldWells: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case category = "Category"
+        case color = "Color"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let category = category {
+            var categoryContainer = encodeContainer.nestedUnkeyedContainer(forKey: .category)
+            for dimensionfield0 in category {
+                try categoryContainer.encode(dimensionfield0)
+            }
+        }
+        if let color = color {
+            var colorContainer = encodeContainer.nestedUnkeyedContainer(forKey: .color)
+            for dimensionfield0 in color {
+                try colorContainer.encode(dimensionfield0)
+            }
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for measurefield0 in values {
+                try valuesContainer.encode(measurefield0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let categoryContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DimensionField?].self, forKey: .category)
+        var categoryDecoded0:[QuickSightClientTypes.DimensionField]? = nil
+        if let categoryContainer = categoryContainer {
+            categoryDecoded0 = [QuickSightClientTypes.DimensionField]()
+            for structure0 in categoryContainer {
+                if let structure0 = structure0 {
+                    categoryDecoded0?.append(structure0)
+                }
+            }
+        }
+        category = categoryDecoded0
+        let colorContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.DimensionField?].self, forKey: .color)
+        var colorDecoded0:[QuickSightClientTypes.DimensionField]? = nil
+        if let colorContainer = colorContainer {
+            colorDecoded0 = [QuickSightClientTypes.DimensionField]()
+            for structure0 in colorContainer {
+                if let structure0 = structure0 {
+                    colorDecoded0?.append(structure0)
+                }
+            }
+        }
+        color = colorDecoded0
+        let valuesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.MeasureField?].self, forKey: .values)
+        var valuesDecoded0:[QuickSightClientTypes.MeasureField]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [QuickSightClientTypes.MeasureField]()
+            for structure0 in valuesContainer {
+                if let structure0 = structure0 {
+                    valuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The aggregated field well configuration of a RadarChartVisual.
+    public struct RadarChartAggregatedFieldWells: Swift.Equatable {
+        /// The aggregated field well categories of a radar chart.
+        public var category: [QuickSightClientTypes.DimensionField]?
+        /// The color that are assigned to the aggregated field wells of a radar chart.
+        public var color: [QuickSightClientTypes.DimensionField]?
+        /// The values that are assigned to the aggregated field wells of a radar chart.
+        public var values: [QuickSightClientTypes.MeasureField]?
+
+        public init (
+            category: [QuickSightClientTypes.DimensionField]? = nil,
+            color: [QuickSightClientTypes.DimensionField]? = nil,
+            values: [QuickSightClientTypes.MeasureField]? = nil
+        )
+        {
+            self.category = category
+            self.color = color
+            self.values = values
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RadarChartAreaStyleSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The configured style settings of a radar chart.
+    public struct RadarChartAreaStyleSettings: Swift.Equatable {
+        /// The visibility settings of a radar chart.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init (
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.visibility = visibility
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alternateBandColorsVisibility = "AlternateBandColorsVisibility"
+        case alternateBandEvenColor = "AlternateBandEvenColor"
+        case alternateBandOddColor = "AlternateBandOddColor"
+        case baseSeriesSettings = "BaseSeriesSettings"
+        case categoryAxis = "CategoryAxis"
+        case categoryLabelOptions = "CategoryLabelOptions"
+        case colorAxis = "ColorAxis"
+        case colorLabelOptions = "ColorLabelOptions"
+        case fieldWells = "FieldWells"
+        case legend = "Legend"
+        case shape = "Shape"
+        case sortConfiguration = "SortConfiguration"
+        case startAngle = "StartAngle"
+        case visualPalette = "VisualPalette"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alternateBandColorsVisibility = self.alternateBandColorsVisibility {
+            try encodeContainer.encode(alternateBandColorsVisibility.rawValue, forKey: .alternateBandColorsVisibility)
+        }
+        if let alternateBandEvenColor = self.alternateBandEvenColor {
+            try encodeContainer.encode(alternateBandEvenColor, forKey: .alternateBandEvenColor)
+        }
+        if let alternateBandOddColor = self.alternateBandOddColor {
+            try encodeContainer.encode(alternateBandOddColor, forKey: .alternateBandOddColor)
+        }
+        if let baseSeriesSettings = self.baseSeriesSettings {
+            try encodeContainer.encode(baseSeriesSettings, forKey: .baseSeriesSettings)
+        }
+        if let categoryAxis = self.categoryAxis {
+            try encodeContainer.encode(categoryAxis, forKey: .categoryAxis)
+        }
+        if let categoryLabelOptions = self.categoryLabelOptions {
+            try encodeContainer.encode(categoryLabelOptions, forKey: .categoryLabelOptions)
+        }
+        if let colorAxis = self.colorAxis {
+            try encodeContainer.encode(colorAxis, forKey: .colorAxis)
+        }
+        if let colorLabelOptions = self.colorLabelOptions {
+            try encodeContainer.encode(colorLabelOptions, forKey: .colorLabelOptions)
+        }
+        if let fieldWells = self.fieldWells {
+            try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let legend = self.legend {
+            try encodeContainer.encode(legend, forKey: .legend)
+        }
+        if let shape = self.shape {
+            try encodeContainer.encode(shape.rawValue, forKey: .shape)
+        }
+        if let sortConfiguration = self.sortConfiguration {
+            try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
+        }
+        if let startAngle = self.startAngle {
+            try encodeContainer.encode(startAngle, forKey: .startAngle)
+        }
+        if let visualPalette = self.visualPalette {
+            try encodeContainer.encode(visualPalette, forKey: .visualPalette)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fieldWellsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartFieldWells.self, forKey: .fieldWells)
+        fieldWells = fieldWellsDecoded
+        let sortConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartSortConfiguration.self, forKey: .sortConfiguration)
+        sortConfiguration = sortConfigurationDecoded
+        let shapeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartShape.self, forKey: .shape)
+        shape = shapeDecoded
+        let baseSeriesSettingsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartSeriesSettings.self, forKey: .baseSeriesSettings)
+        baseSeriesSettings = baseSeriesSettingsDecoded
+        let startAngleDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .startAngle)
+        startAngle = startAngleDecoded
+        let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
+        visualPalette = visualPaletteDecoded
+        let alternateBandColorsVisibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .alternateBandColorsVisibility)
+        alternateBandColorsVisibility = alternateBandColorsVisibilityDecoded
+        let alternateBandEvenColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alternateBandEvenColor)
+        alternateBandEvenColor = alternateBandEvenColorDecoded
+        let alternateBandOddColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alternateBandOddColor)
+        alternateBandOddColor = alternateBandOddColorDecoded
+        let categoryAxisDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AxisDisplayOptions.self, forKey: .categoryAxis)
+        categoryAxis = categoryAxisDecoded
+        let categoryLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .categoryLabelOptions)
+        categoryLabelOptions = categoryLabelOptionsDecoded
+        let colorAxisDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AxisDisplayOptions.self, forKey: .colorAxis)
+        colorAxis = colorAxisDecoded
+        let colorLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ChartAxisLabelOptions.self, forKey: .colorLabelOptions)
+        colorLabelOptions = colorLabelOptionsDecoded
+        let legendDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.LegendOptions.self, forKey: .legend)
+        legend = legendDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The configuration of a RadarChartVisual.
+    public struct RadarChartConfiguration: Swift.Equatable {
+        /// Determines the visibility of the colors of alternatign bands in a radar chart.
+        public var alternateBandColorsVisibility: QuickSightClientTypes.Visibility?
+        /// The color of the even-numbered alternate bands of a radar chart.
+        public var alternateBandEvenColor: Swift.String?
+        /// The color of the odd-numbered alternate bands of a radar chart.
+        public var alternateBandOddColor: Swift.String?
+        /// The base sreies settings of a radar chart.
+        public var baseSeriesSettings: QuickSightClientTypes.RadarChartSeriesSettings?
+        /// The category axis of a radar chart.
+        public var categoryAxis: QuickSightClientTypes.AxisDisplayOptions?
+        /// The category label options of a radar chart.
+        public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The color axis of a radar chart.
+        public var colorAxis: QuickSightClientTypes.AxisDisplayOptions?
+        /// The color label options of a radar chart.
+        public var colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The field well configuration of a RadarChartVisual.
+        public var fieldWells: QuickSightClientTypes.RadarChartFieldWells?
+        /// The legend display setup of the visual.
+        public var legend: QuickSightClientTypes.LegendOptions?
+        /// The shape of the radar chart.
+        public var shape: QuickSightClientTypes.RadarChartShape?
+        /// The sort configuration of a RadarChartVisual.
+        public var sortConfiguration: QuickSightClientTypes.RadarChartSortConfiguration?
+        /// The start angle of a radar chart's axis.
+        public var startAngle: Swift.Double?
+        /// The palette (chart color) display setup of the visual.
+        public var visualPalette: QuickSightClientTypes.VisualPalette?
+
+        public init (
+            alternateBandColorsVisibility: QuickSightClientTypes.Visibility? = nil,
+            alternateBandEvenColor: Swift.String? = nil,
+            alternateBandOddColor: Swift.String? = nil,
+            baseSeriesSettings: QuickSightClientTypes.RadarChartSeriesSettings? = nil,
+            categoryAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
+            categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            colorAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
+            colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            fieldWells: QuickSightClientTypes.RadarChartFieldWells? = nil,
+            legend: QuickSightClientTypes.LegendOptions? = nil,
+            shape: QuickSightClientTypes.RadarChartShape? = nil,
+            sortConfiguration: QuickSightClientTypes.RadarChartSortConfiguration? = nil,
+            startAngle: Swift.Double? = nil,
+            visualPalette: QuickSightClientTypes.VisualPalette? = nil
+        )
+        {
+            self.alternateBandColorsVisibility = alternateBandColorsVisibility
+            self.alternateBandEvenColor = alternateBandEvenColor
+            self.alternateBandOddColor = alternateBandOddColor
+            self.baseSeriesSettings = baseSeriesSettings
+            self.categoryAxis = categoryAxis
+            self.categoryLabelOptions = categoryLabelOptions
+            self.colorAxis = colorAxis
+            self.colorLabelOptions = colorLabelOptions
+            self.fieldWells = fieldWells
+            self.legend = legend
+            self.shape = shape
+            self.sortConfiguration = sortConfiguration
+            self.startAngle = startAngle
+            self.visualPalette = visualPalette
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RadarChartFieldWells: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case radarChartAggregatedFieldWells = "RadarChartAggregatedFieldWells"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let radarChartAggregatedFieldWells = self.radarChartAggregatedFieldWells {
+            try encodeContainer.encode(radarChartAggregatedFieldWells, forKey: .radarChartAggregatedFieldWells)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let radarChartAggregatedFieldWellsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartAggregatedFieldWells.self, forKey: .radarChartAggregatedFieldWells)
+        radarChartAggregatedFieldWells = radarChartAggregatedFieldWellsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The field wells of a radar chart visual.
+    public struct RadarChartFieldWells: Swift.Equatable {
+        /// The aggregated field wells of a radar chart visual.
+        public var radarChartAggregatedFieldWells: QuickSightClientTypes.RadarChartAggregatedFieldWells?
+
+        public init (
+            radarChartAggregatedFieldWells: QuickSightClientTypes.RadarChartAggregatedFieldWells? = nil
+        )
+        {
+            self.radarChartAggregatedFieldWells = radarChartAggregatedFieldWells
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RadarChartSeriesSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case areaStyleSettings = "AreaStyleSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let areaStyleSettings = self.areaStyleSettings {
+            try encodeContainer.encode(areaStyleSettings, forKey: .areaStyleSettings)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let areaStyleSettingsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartAreaStyleSettings.self, forKey: .areaStyleSettings)
+        areaStyleSettings = areaStyleSettingsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The series settings of a radar chart.
+    public struct RadarChartSeriesSettings: Swift.Equatable {
+        /// The area style settings of a radar chart.
+        public var areaStyleSettings: QuickSightClientTypes.RadarChartAreaStyleSettings?
+
+        public init (
+            areaStyleSettings: QuickSightClientTypes.RadarChartAreaStyleSettings? = nil
+        )
+        {
+            self.areaStyleSettings = areaStyleSettings
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum RadarChartShape: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case circle
+        case polygon
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RadarChartShape] {
+            return [
+                .circle,
+                .polygon,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .circle: return "CIRCLE"
+            case .polygon: return "POLYGON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RadarChartShape(rawValue: rawValue) ?? RadarChartShape.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QuickSightClientTypes.RadarChartSortConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case categoryItemsLimit = "CategoryItemsLimit"
+        case categorySort = "CategorySort"
+        case colorItemsLimit = "ColorItemsLimit"
+        case colorSort = "ColorSort"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let categoryItemsLimit = self.categoryItemsLimit {
+            try encodeContainer.encode(categoryItemsLimit, forKey: .categoryItemsLimit)
+        }
+        if let categorySort = categorySort {
+            var categorySortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .categorySort)
+            for fieldsortoptions0 in categorySort {
+                try categorySortContainer.encode(fieldsortoptions0)
+            }
+        }
+        if let colorItemsLimit = self.colorItemsLimit {
+            try encodeContainer.encode(colorItemsLimit, forKey: .colorItemsLimit)
+        }
+        if let colorSort = colorSort {
+            var colorSortContainer = encodeContainer.nestedUnkeyedContainer(forKey: .colorSort)
+            for fieldsortoptions0 in colorSort {
+                try colorSortContainer.encode(fieldsortoptions0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let categorySortContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.FieldSortOptions?].self, forKey: .categorySort)
+        var categorySortDecoded0:[QuickSightClientTypes.FieldSortOptions]? = nil
+        if let categorySortContainer = categorySortContainer {
+            categorySortDecoded0 = [QuickSightClientTypes.FieldSortOptions]()
+            for structure0 in categorySortContainer {
+                if let structure0 = structure0 {
+                    categorySortDecoded0?.append(structure0)
+                }
+            }
+        }
+        categorySort = categorySortDecoded0
+        let categoryItemsLimitDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ItemsLimitConfiguration.self, forKey: .categoryItemsLimit)
+        categoryItemsLimit = categoryItemsLimitDecoded
+        let colorSortContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.FieldSortOptions?].self, forKey: .colorSort)
+        var colorSortDecoded0:[QuickSightClientTypes.FieldSortOptions]? = nil
+        if let colorSortContainer = colorSortContainer {
+            colorSortDecoded0 = [QuickSightClientTypes.FieldSortOptions]()
+            for structure0 in colorSortContainer {
+                if let structure0 = structure0 {
+                    colorSortDecoded0?.append(structure0)
+                }
+            }
+        }
+        colorSort = colorSortDecoded0
+        let colorItemsLimitDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ItemsLimitConfiguration.self, forKey: .colorItemsLimit)
+        colorItemsLimit = colorItemsLimitDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The sort configuration of a RadarChartVisual.
+    public struct RadarChartSortConfiguration: Swift.Equatable {
+        /// The category items limit for a radar chart.
+        public var categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
+        /// The category sort options of a radar chart.
+        public var categorySort: [QuickSightClientTypes.FieldSortOptions]?
+        /// The color items limit of a radar chart.
+        public var colorItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration?
+        /// The color sort configuration of a radar chart.
+        public var colorSort: [QuickSightClientTypes.FieldSortOptions]?
+
+        public init (
+            categoryItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
+            categorySort: [QuickSightClientTypes.FieldSortOptions]? = nil,
+            colorItemsLimit: QuickSightClientTypes.ItemsLimitConfiguration? = nil,
+            colorSort: [QuickSightClientTypes.FieldSortOptions]? = nil
+        )
+        {
+            self.categoryItemsLimit = categoryItemsLimit
+            self.categorySort = categorySort
+            self.colorItemsLimit = colorItemsLimit
+            self.colorSort = colorSort
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.RadarChartVisual: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case chartConfiguration = "ChartConfiguration"
+        case columnHierarchies = "ColumnHierarchies"
+        case subtitle = "Subtitle"
+        case title = "Title"
+        case visualId = "VisualId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for visualcustomaction0 in actions {
+                try actionsContainer.encode(visualcustomaction0)
+            }
+        }
+        if let chartConfiguration = self.chartConfiguration {
+            try encodeContainer.encode(chartConfiguration, forKey: .chartConfiguration)
+        }
+        if let columnHierarchies = columnHierarchies {
+            var columnHierarchiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .columnHierarchies)
+            for columnhierarchy0 in columnHierarchies {
+                try columnHierarchiesContainer.encode(columnhierarchy0)
+            }
+        }
+        if let subtitle = self.subtitle {
+            try encodeContainer.encode(subtitle, forKey: .subtitle)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+        if let visualId = self.visualId {
+            try encodeContainer.encode(visualId, forKey: .visualId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visualIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .visualId)
+        visualId = visualIdDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualTitleLabelOptions.self, forKey: .title)
+        title = titleDecoded
+        let subtitleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualSubtitleLabelOptions.self, forKey: .subtitle)
+        subtitle = subtitleDecoded
+        let chartConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartConfiguration.self, forKey: .chartConfiguration)
+        chartConfiguration = chartConfigurationDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.VisualCustomAction?].self, forKey: .actions)
+        var actionsDecoded0:[QuickSightClientTypes.VisualCustomAction]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [QuickSightClientTypes.VisualCustomAction]()
+            for structure0 in actionsContainer {
+                if let structure0 = structure0 {
+                    actionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+        let columnHierarchiesContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.ColumnHierarchy?].self, forKey: .columnHierarchies)
+        var columnHierarchiesDecoded0:[QuickSightClientTypes.ColumnHierarchy]? = nil
+        if let columnHierarchiesContainer = columnHierarchiesContainer {
+            columnHierarchiesDecoded0 = [QuickSightClientTypes.ColumnHierarchy]()
+            for structure0 in columnHierarchiesContainer {
+                if let structure0 = structure0 {
+                    columnHierarchiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        columnHierarchies = columnHierarchiesDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A radar chart visual.
+    public struct RadarChartVisual: Swift.Equatable {
+        /// The list of custom actions that are configured for a visual.
+        public var actions: [QuickSightClientTypes.VisualCustomAction]?
+        /// The configuration settings of the visual.
+        public var chartConfiguration: QuickSightClientTypes.RadarChartConfiguration?
+        /// The column hierarchy that is used during drill-downs and drill-ups.
+        public var columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]?
+        /// The subtitle that is displayed on the visual.
+        public var subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions?
+        /// The title that is displayed on the visual.
+        public var title: QuickSightClientTypes.VisualTitleLabelOptions?
+        /// The unique identifier of a visual. This identifier must be unique within the context of a dashboard, template, or analysis. Two dashboards, analyses, or templates can have visuals with the same identifiers.
+        /// This member is required.
+        public var visualId: Swift.String?
+
+        public init (
+            actions: [QuickSightClientTypes.VisualCustomAction]? = nil,
+            chartConfiguration: QuickSightClientTypes.RadarChartConfiguration? = nil,
+            columnHierarchies: [QuickSightClientTypes.ColumnHierarchy]? = nil,
+            subtitle: QuickSightClientTypes.VisualSubtitleLabelOptions? = nil,
+            title: QuickSightClientTypes.VisualTitleLabelOptions? = nil,
+            visualId: Swift.String? = nil
+        )
+        {
+            self.actions = actions
+            self.chartConfiguration = chartConfiguration
+            self.columnHierarchies = columnHierarchies
+            self.subtitle = subtitle
+            self.title = title
+            self.visualId = visualId
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.RangeEndsLabelType: Swift.Codable {
@@ -53787,6 +54663,41 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.SheetLayoutElementMaximizationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The sheet layout maximization options of a dashbaord.
+    public struct SheetLayoutElementMaximizationOption: Swift.Equatable {
+        /// The status of the sheet layout maximization options of a dashbaord.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.SheetStyle: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tile = "Tile"
@@ -55436,6 +56347,7 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         case fieldWells = "FieldWells"
         case paginatedReportOptions = "PaginatedReportOptions"
         case sortConfiguration = "SortConfiguration"
+        case tableInlineVisualizations = "TableInlineVisualizations"
         case tableOptions = "TableOptions"
         case totalOptions = "TotalOptions"
     }
@@ -55453,6 +56365,12 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
+        }
+        if let tableInlineVisualizations = tableInlineVisualizations {
+            var tableInlineVisualizationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tableInlineVisualizations)
+            for tableinlinevisualization0 in tableInlineVisualizations {
+                try tableInlineVisualizationsContainer.encode(tableinlinevisualization0)
+            }
         }
         if let tableOptions = self.tableOptions {
             try encodeContainer.encode(tableOptions, forKey: .tableOptions)
@@ -55476,6 +56394,17 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         fieldOptions = fieldOptionsDecoded
         let paginatedReportOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TablePaginatedReportOptions.self, forKey: .paginatedReportOptions)
         paginatedReportOptions = paginatedReportOptionsDecoded
+        let tableInlineVisualizationsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TableInlineVisualization?].self, forKey: .tableInlineVisualizations)
+        var tableInlineVisualizationsDecoded0:[QuickSightClientTypes.TableInlineVisualization]? = nil
+        if let tableInlineVisualizationsContainer = tableInlineVisualizationsContainer {
+            tableInlineVisualizationsDecoded0 = [QuickSightClientTypes.TableInlineVisualization]()
+            for structure0 in tableInlineVisualizationsContainer {
+                if let structure0 = structure0 {
+                    tableInlineVisualizationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tableInlineVisualizations = tableInlineVisualizationsDecoded0
     }
 }
 
@@ -55490,6 +56419,8 @@ extension QuickSightClientTypes {
         public var paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions?
         /// The sort configuration for a TableVisual.
         public var sortConfiguration: QuickSightClientTypes.TableSortConfiguration?
+        /// A collection of inline visualizations to display within a chart.
+        public var tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]?
         /// The table options for a table visual.
         public var tableOptions: QuickSightClientTypes.TableOptions?
         /// The total options for a table visual.
@@ -55500,6 +56431,7 @@ extension QuickSightClientTypes {
             fieldWells: QuickSightClientTypes.TableFieldWells? = nil,
             paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions? = nil,
             sortConfiguration: QuickSightClientTypes.TableSortConfiguration? = nil,
+            tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]? = nil,
             tableOptions: QuickSightClientTypes.TableOptions? = nil,
             totalOptions: QuickSightClientTypes.TotalOptions? = nil
         )
@@ -55508,6 +56440,7 @@ extension QuickSightClientTypes {
             self.fieldWells = fieldWells
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
+            self.tableInlineVisualizations = tableInlineVisualizations
             self.tableOptions = tableOptions
             self.totalOptions = totalOptions
         }
@@ -55982,6 +56915,41 @@ extension QuickSightClientTypes {
         {
             self.tableAggregatedFieldWells = tableAggregatedFieldWells
             self.tableUnaggregatedFieldWells = tableUnaggregatedFieldWells
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TableInlineVisualization: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataBars = "DataBars"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataBars = self.dataBars {
+            try encodeContainer.encode(dataBars, forKey: .dataBars)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataBarsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataBarsOptions.self, forKey: .dataBars)
+        dataBars = dataBarsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The inline visualization of a specific type to display within a chart.
+    public struct TableInlineVisualization: Swift.Equatable {
+        /// The configuration of the inline visualization of the data bars within a chart.
+        public var dataBars: QuickSightClientTypes.DataBarsOptions?
+
+        public init (
+            dataBars: QuickSightClientTypes.DataBarsOptions? = nil
+        )
+        {
+            self.dataBars = dataBars
         }
     }
 
@@ -57000,7 +57968,7 @@ extension QuickSightClientTypes {
         public var message: Swift.String?
         /// Type of error.
         public var type: QuickSightClientTypes.TemplateErrorType?
-        ///
+        /// An error path that shows which entities caused the template error.
         public var violatedEntities: [QuickSightClientTypes.Entity]?
 
         public init (
@@ -57398,7 +58366,21 @@ extension QuickSightClientTypes {
         public var sheets: [QuickSightClientTypes.Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public var sourceEntityArn: Swift.String?
-        /// The HTTP status of the request.
+        /// The status that is associated with the template.
+        ///
+        /// * CREATION_IN_PROGRESS
+        ///
+        /// * CREATION_SUCCESSFUL
+        ///
+        /// * CREATION_FAILED
+        ///
+        /// * UPDATE_IN_PROGRESS
+        ///
+        /// * UPDATE_SUCCESSFUL
+        ///
+        /// * UPDATE_FAILED
+        ///
+        /// * DELETED
         public var status: QuickSightClientTypes.ResourceStatus?
         /// The ARN of the theme associated with this version of the template.
         public var themeArn: Swift.String?
@@ -61364,7 +62346,7 @@ extension UpdateAccountSettingsInput: Swift.Encodable {
         if let notificationEmail = self.notificationEmail {
             try encodeContainer.encode(notificationEmail, forKey: .notificationEmail)
         }
-        if terminationProtectionEnabled != false {
+        if let terminationProtectionEnabled = self.terminationProtectionEnabled {
             try encodeContainer.encode(terminationProtectionEnabled, forKey: .terminationProtectionEnabled)
         }
     }
@@ -61389,13 +62371,13 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
     /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon Web Services account or Amazon QuickSight subscription.
     public var notificationEmail: Swift.String?
     /// A boolean value that determines whether or not an Amazon QuickSight account can be deleted. A True value doesn't allow the account to be deleted and results in an error message if a user tries to make a DeleteAccountSubscription request. A False value will allow the account to be deleted.
-    public var terminationProtectionEnabled: Swift.Bool
+    public var terminationProtectionEnabled: Swift.Bool?
 
     public init (
         awsAccountId: Swift.String? = nil,
         defaultNamespace: Swift.String? = nil,
         notificationEmail: Swift.String? = nil,
-        terminationProtectionEnabled: Swift.Bool = false
+        terminationProtectionEnabled: Swift.Bool? = nil
     )
     {
         self.awsAccountId = awsAccountId
@@ -61408,7 +62390,7 @@ public struct UpdateAccountSettingsInput: Swift.Equatable {
 struct UpdateAccountSettingsInputBody: Swift.Equatable {
     let defaultNamespace: Swift.String?
     let notificationEmail: Swift.String?
-    let terminationProtectionEnabled: Swift.Bool
+    let terminationProtectionEnabled: Swift.Bool?
 }
 
 extension UpdateAccountSettingsInputBody: Swift.Decodable {
@@ -61424,7 +62406,7 @@ extension UpdateAccountSettingsInputBody: Swift.Decodable {
         defaultNamespace = defaultNamespaceDecoded
         let notificationEmailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationEmail)
         notificationEmail = notificationEmailDecoded
-        let terminationProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtectionEnabled) ?? false
+        let terminationProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtectionEnabled)
         terminationProtectionEnabled = terminationProtectionEnabledDecoded
     }
 }
@@ -64661,7 +65643,7 @@ extension UpdatePublicSharingSettingsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if publicSharingEnabled != false {
+        if let publicSharingEnabled = self.publicSharingEnabled {
             try encodeContainer.encode(publicSharingEnabled, forKey: .publicSharingEnabled)
         }
     }
@@ -64681,11 +65663,11 @@ public struct UpdatePublicSharingSettingsInput: Swift.Equatable {
     /// This member is required.
     public var awsAccountId: Swift.String?
     /// A Boolean value that indicates whether public sharing is turned on for an Amazon QuickSight account.
-    public var publicSharingEnabled: Swift.Bool
+    public var publicSharingEnabled: Swift.Bool?
 
     public init (
         awsAccountId: Swift.String? = nil,
-        publicSharingEnabled: Swift.Bool = false
+        publicSharingEnabled: Swift.Bool? = nil
     )
     {
         self.awsAccountId = awsAccountId
@@ -64694,7 +65676,7 @@ public struct UpdatePublicSharingSettingsInput: Swift.Equatable {
 }
 
 struct UpdatePublicSharingSettingsInputBody: Swift.Equatable {
-    let publicSharingEnabled: Swift.Bool
+    let publicSharingEnabled: Swift.Bool?
 }
 
 extension UpdatePublicSharingSettingsInputBody: Swift.Decodable {
@@ -64704,7 +65686,7 @@ extension UpdatePublicSharingSettingsInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let publicSharingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publicSharingEnabled) ?? false
+        let publicSharingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publicSharingEnabled)
         publicSharingEnabled = publicSharingEnabledDecoded
     }
 }
@@ -66045,7 +67027,7 @@ extension UpdateUserInput: Swift.Encodable {
         if let role = self.role {
             try encodeContainer.encode(role.rawValue, forKey: .role)
         }
-        if unapplyCustomPermissions != false {
+        if let unapplyCustomPermissions = self.unapplyCustomPermissions {
             try encodeContainer.encode(unapplyCustomPermissions, forKey: .unapplyCustomPermissions)
         }
     }
@@ -66114,7 +67096,7 @@ public struct UpdateUserInput: Swift.Equatable {
     /// This member is required.
     public var role: QuickSightClientTypes.UserRole?
     /// A flag that you use to indicate that you want to remove all custom permissions from this user. Using this parameter resets the user to the state it was in before a custom permissions profile was applied. This parameter defaults to NULL and it doesn't accept any other value.
-    public var unapplyCustomPermissions: Swift.Bool
+    public var unapplyCustomPermissions: Swift.Bool?
     /// The Amazon QuickSight user name that you want to update.
     /// This member is required.
     public var userName: Swift.String?
@@ -66128,7 +67110,7 @@ public struct UpdateUserInput: Swift.Equatable {
         externalLoginId: Swift.String? = nil,
         namespace: Swift.String? = nil,
         role: QuickSightClientTypes.UserRole? = nil,
-        unapplyCustomPermissions: Swift.Bool = false,
+        unapplyCustomPermissions: Swift.Bool? = nil,
         userName: Swift.String? = nil
     )
     {
@@ -66149,7 +67131,7 @@ struct UpdateUserInputBody: Swift.Equatable {
     let email: Swift.String?
     let role: QuickSightClientTypes.UserRole?
     let customPermissionsName: Swift.String?
-    let unapplyCustomPermissions: Swift.Bool
+    let unapplyCustomPermissions: Swift.Bool?
     let externalLoginFederationProviderType: Swift.String?
     let customFederationProviderUrl: Swift.String?
     let externalLoginId: Swift.String?
@@ -66174,7 +67156,7 @@ extension UpdateUserInputBody: Swift.Decodable {
         role = roleDecoded
         let customPermissionsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customPermissionsName)
         customPermissionsName = customPermissionsNameDecoded
-        let unapplyCustomPermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unapplyCustomPermissions) ?? false
+        let unapplyCustomPermissionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unapplyCustomPermissions)
         unapplyCustomPermissions = unapplyCustomPermissionsDecoded
         let externalLoginFederationProviderTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalLoginFederationProviderType)
         externalLoginFederationProviderType = externalLoginFederationProviderTypeDecoded
@@ -66696,6 +67678,7 @@ extension QuickSightClientTypes.Visual: Swift.Codable {
         case lineChartVisual = "LineChartVisual"
         case pieChartVisual = "PieChartVisual"
         case pivotTableVisual = "PivotTableVisual"
+        case radarChartVisual = "RadarChartVisual"
         case sankeyDiagramVisual = "SankeyDiagramVisual"
         case scatterPlotVisual = "ScatterPlotVisual"
         case tableVisual = "TableVisual"
@@ -66753,6 +67736,9 @@ extension QuickSightClientTypes.Visual: Swift.Codable {
         }
         if let pivotTableVisual = self.pivotTableVisual {
             try encodeContainer.encode(pivotTableVisual, forKey: .pivotTableVisual)
+        }
+        if let radarChartVisual = self.radarChartVisual {
+            try encodeContainer.encode(radarChartVisual, forKey: .radarChartVisual)
         }
         if let sankeyDiagramVisual = self.sankeyDiagramVisual {
             try encodeContainer.encode(sankeyDiagramVisual, forKey: .sankeyDiagramVisual)
@@ -66820,6 +67806,8 @@ extension QuickSightClientTypes.Visual: Swift.Codable {
         customContentVisual = customContentVisualDecoded
         let emptyVisualDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.EmptyVisual.self, forKey: .emptyVisual)
         emptyVisual = emptyVisualDecoded
+        let radarChartVisualDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartVisual.self, forKey: .radarChartVisual)
+        radarChartVisual = radarChartVisualDecoded
     }
 }
 
@@ -66858,6 +67846,8 @@ extension QuickSightClientTypes {
         public var pieChartVisual: QuickSightClientTypes.PieChartVisual?
         /// A pivot table. For more information, see [Using pivot tables](https://docs.aws.amazon.com/quicksight/latest/user/pivot-table.html) in the Amazon QuickSight User Guide.
         public var pivotTableVisual: QuickSightClientTypes.PivotTableVisual?
+        /// A radar chart visual. For more information, see [Using radar charts](https://docs.aws.amazon.com/quicksight/latest/user/radar-chart.html) in the Amazon QuickSight User Guide.
+        public var radarChartVisual: QuickSightClientTypes.RadarChartVisual?
         /// A sankey diagram. For more information, see [Using Sankey diagrams](https://docs.aws.amazon.com/quicksight/latest/user/sankey-diagram.html) in the Amazon QuickSight User Guide.
         public var sankeyDiagramVisual: QuickSightClientTypes.SankeyDiagramVisual?
         /// A scatter plot. For more information, see [Using scatter plots](https://docs.aws.amazon.com/quicksight/latest/user/scatter-plot.html) in the Amazon QuickSight User Guide.
@@ -66888,6 +67878,7 @@ extension QuickSightClientTypes {
             lineChartVisual: QuickSightClientTypes.LineChartVisual? = nil,
             pieChartVisual: QuickSightClientTypes.PieChartVisual? = nil,
             pivotTableVisual: QuickSightClientTypes.PivotTableVisual? = nil,
+            radarChartVisual: QuickSightClientTypes.RadarChartVisual? = nil,
             sankeyDiagramVisual: QuickSightClientTypes.SankeyDiagramVisual? = nil,
             scatterPlotVisual: QuickSightClientTypes.ScatterPlotVisual? = nil,
             tableVisual: QuickSightClientTypes.TableVisual? = nil,
@@ -66912,12 +67903,48 @@ extension QuickSightClientTypes {
             self.lineChartVisual = lineChartVisual
             self.pieChartVisual = pieChartVisual
             self.pivotTableVisual = pivotTableVisual
+            self.radarChartVisual = radarChartVisual
             self.sankeyDiagramVisual = sankeyDiagramVisual
             self.scatterPlotVisual = scatterPlotVisual
             self.tableVisual = tableVisual
             self.treeMapVisual = treeMapVisual
             self.waterfallVisual = waterfallVisual
             self.wordCloudVisual = wordCloudVisual
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.VisualAxisSortOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The axis sort options for a visual.
+    public struct VisualAxisSortOption: Swift.Equatable {
+        /// The availaiblity status of a visual's axis sort options.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
         }
     }
 
@@ -67113,6 +68140,41 @@ extension QuickSightClientTypes {
             self = VisualCustomActionTrigger(rawValue: rawValue) ?? VisualCustomActionTrigger.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.VisualMenuOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The menu options for a visual.
+    public struct VisualMenuOption: Swift.Equatable {
+        /// The availaiblity status of a visual's menu options.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init (
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.VisualPalette: Swift.Codable {

@@ -19,13 +19,13 @@ public protocol WorkSpacesClientProtocol {
     func createConnectionAlias(input: CreateConnectionAliasInput) async throws -> CreateConnectionAliasOutputResponse
     /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using [AuthorizeIpRules]. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     func createIpGroup(input: CreateIpGroupInput) async throws -> CreateIpGroupOutputResponse
-    /// Creates a Standby WorkSpace in a secondary region.
+    /// Creates a standby WorkSpace in a secondary Region.
     func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutputResponse
     /// Creates the specified tags for the specified WorkSpaces resource.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use [ DescribeWorkspaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html).
     ///
-    /// * Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.
+    /// * Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.
     ///
     /// * Microsoft Windows updates and other application updates are not included in the update process.
     ///
@@ -99,7 +99,7 @@ public protocol WorkSpacesClientProtocol {
     ///
     /// * Imported data can take up to a minute to appear in the WorkSpaces client.
     func importClientBranding(input: ImportClientBrandingInput) async throws -> ImportClientBrandingOutputResponse
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL) or Windows Server 2016 BYOL image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+    /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     func importWorkspaceImage(input: ImportWorkspaceImageInput) async throws -> ImportWorkspaceImageOutputResponse
     /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL). This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     func listAvailableManagementCidrRanges(input: ListAvailableManagementCidrRangesInput) async throws -> ListAvailableManagementCidrRangesOutputResponse

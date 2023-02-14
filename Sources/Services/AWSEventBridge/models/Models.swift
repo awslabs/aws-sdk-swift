@@ -1049,7 +1049,7 @@ extension EventBridgeClientTypes.Connection: Swift.Codable {
 extension EventBridgeClientTypes {
     /// Contains information about a connection.
     public struct Connection: Swift.Equatable {
-        /// The authorization type specified for the connection.
+        /// The authorization type specified for the connection. OAUTH tokens are refreshed when a 401 or 407 response is returned.
         public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
         /// The ARN of the connection.
         public var connectionArn: Swift.String?
@@ -2302,7 +2302,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     /// A CreateConnectionAuthRequestParameters object that contains the authorization parameters to use to authorize with the endpoint.
     /// This member is required.
     public var authParameters: EventBridgeClientTypes.CreateConnectionAuthRequestParameters?
-    /// The type of authorization to use for the connection.
+    /// The type of authorization to use for the connection. OAUTH tokens are refreshed when a 401 or 407 response is returned.
     /// This member is required.
     public var authorizationType: EventBridgeClientTypes.ConnectionAuthorizationType?
     /// A description for the connection to create.
@@ -2616,7 +2616,7 @@ public struct CreateEndpointInput: Swift.Equatable {
     /// The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint".
     /// This member is required.
     public var name: Swift.String?
-    /// Enable or disable event replication.
+    /// Enable or disable event replication. The default state is ENABLED which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
     public var replicationConfig: EventBridgeClientTypes.ReplicationConfig?
     /// The ARN of the role used for replication.
     public var roleArn: Swift.String?
@@ -2856,7 +2856,7 @@ extension CreateEventBusInput: ClientRuntime.URLPathProvider {
 public struct CreateEventBusInput: Swift.Equatable {
     /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
     public var eventSourceName: Swift.String?
-    /// The name of the new event bus. Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
+    /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
     public var name: Swift.String?
     /// Tags to associate with the event bus.
@@ -6347,7 +6347,7 @@ extension EventBridgeClientTypes.Endpoint: Swift.Codable {
 }
 
 extension EventBridgeClientTypes {
-    /// An global endpoint used to improve your application's availability by making it regional-fault tolerant. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide..
+    /// A global endpoint used to improve your application's availability by making it regional-fault tolerant. For more information about global endpoints, see [Making applications Regional-fault tolerant with global endpoints and event replication](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-global-endpoints.html) in the Amazon EventBridge User Guide.
     public struct Endpoint: Swift.Equatable {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
@@ -6355,7 +6355,7 @@ extension EventBridgeClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// A description for the endpoint.
         public var description: Swift.String?
-        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
         public var endpointId: Swift.String?
         /// The URL of the endpoint.
         public var endpointUrl: Swift.String?
@@ -6365,7 +6365,7 @@ extension EventBridgeClientTypes {
         public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the endpoint.
         public var name: Swift.String?
-        /// Whether event replication was enabled or disabled for this endpoint.
+        /// Whether event replication was enabled or disabled for this endpoint. The default state is ENABLED which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event replication enabled, set the state to DISABLED.
         public var replicationConfig: EventBridgeClientTypes.ReplicationConfig?
         /// The ARN of the role used by event replication for the endpoint.
         public var roleArn: Swift.String?
@@ -6525,7 +6525,7 @@ extension EventBridgeClientTypes.EventBus: Swift.Codable {
 }
 
 extension EventBridgeClientTypes {
-    /// An event bus receives events from a source and routes them to rules associated with that event bus. Your account's default event bus receives events from Amazon Web Services services. A custom event bus can receive events from your custom applications and services. A partner event bus receives events from an event source created by an SaaS partner. These events come from the partners services or applications.
+    /// An event bus receives events from a source, uses rules to evaluate them, applies any configured input transformation, and routes them to the appropriate target(s). Your account's default event bus receives events from Amazon Web Services services. A custom event bus can receive events from your custom applications and services. A partner event bus receives events from an event source created by an SaaS partner. These events come from the partners services or applications.
     public struct EventBus: Swift.Equatable {
         /// The ARN of the event bus.
         public var arn: Swift.String?
@@ -6783,13 +6783,13 @@ extension EventBridgeClientTypes.HttpParameters: Swift.Codable {
 }
 
 extension EventBridgeClientTypes {
-    /// These are custom parameter to be used when the target is an API Gateway REST APIs or EventBridge ApiDestinations. In the latter case, these are merged with any InvocationParameters specified on the Connection, with any values from the Connection taking precedence.
+    /// These are custom parameter to be used when the target is an API Gateway APIs or EventBridge ApiDestinations. In the latter case, these are merged with any InvocationParameters specified on the Connection, with any values from the Connection taking precedence.
     public struct HttpParameters: Swift.Equatable {
-        /// The headers that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
+        /// The headers that need to be sent as part of request invoking the API Gateway API or EventBridge ApiDestination.
         public var headerParameters: [Swift.String:Swift.String]?
-        /// The path parameter values to be used to populate API Gateway REST API or EventBridge ApiDestination path wildcards ("*").
+        /// The path parameter values to be used to populate API Gateway API or EventBridge ApiDestination path wildcards ("*").
         public var pathParameterValues: [Swift.String]?
-        /// The query string keys/values that need to be sent as part of request invoking the API Gateway REST API or EventBridge ApiDestination.
+        /// The query string keys/values that need to be sent as part of request invoking the API Gateway API or EventBridge ApiDestination.
         public var queryStringParameters: [Swift.String:Swift.String]?
 
         public init (
@@ -6900,7 +6900,7 @@ extension EventBridgeClientTypes {
     public struct InputTransformer: Swift.Equatable {
         /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target. InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 100 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "Amazon Web Services."
         public var inputPathsMap: [Swift.String:Swift.String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: <value> The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: <value> If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:
         ///
         /// * The placeholder cannot be used as an object key.
         ///
@@ -6921,7 +6921,7 @@ extension EventBridgeClientTypes {
         ///     "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},
         ///
         ///
-        ///     "InputTemplate": " is in state """
+        ///     "InputTemplate": " is in state \"\""
         ///
         /// } The InputTemplate can also be valid JSON with varibles in quotes or out, as in the following example:  "InputTransformer":
         ///     {
@@ -6930,7 +6930,7 @@ extension EventBridgeClientTypes {
         ///     "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},
         ///
         ///
-        ///     "InputTemplate": '{"myInstance": ,"myStatus": " is in state """}'
+        ///     "InputTemplate": '{"myInstance": ,"myStatus": " is in state \"\""}'
         ///
         ///
         ///     }
@@ -9876,7 +9876,7 @@ extension PutEventsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutEventsInput: Swift.Equatable {
-    /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo. When using Java, you must include auth-crt on the class path.
+    /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo. When using Java, you must include auth-crt on the class path.
     public var endpointId: Swift.String?
     /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
     /// This member is required.
@@ -9959,7 +9959,7 @@ extension PutEventsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutEventsOutputResponse: Swift.Equatable {
-    /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
+    /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry. For each record, the index of the response element is the same as the index in the request array.
     public var entries: [EventBridgeClientTypes.PutEventsResultEntry]?
     /// The number of failed entries.
     public var failedEntryCount: Swift.Int
@@ -10075,7 +10075,7 @@ extension EventBridgeClientTypes {
     public struct PutEventsRequestEntry: Swift.Equatable {
         /// A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested subobjects.
         public var detail: Swift.String?
-        /// Free-form string used to decide what fields to expect in the event detail.
+        /// Free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public var detailType: Swift.String?
         /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used. If you're using a global endpoint with a custom bus, you must enter the name, not the ARN, of the event bus in either the primary or secondary Region here and the corresponding event bus in the other Region will be determined based on the endpoint referenced by the EndpointId.
         public var eventBusName: Swift.String?
@@ -10369,7 +10369,7 @@ extension EventBridgeClientTypes {
     public struct PutPartnerEventsRequestEntry: Swift.Equatable {
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public var detail: Swift.String?
-        /// A free-form string used to decide what fields to expect in the event detail.
+        /// A free-form string, with a maximum of 128 characters, used to decide what fields to expect in the event detail.
         public var detailType: Swift.String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public var resources: [Swift.String]?
@@ -10653,7 +10653,7 @@ public struct PutRuleInput: Swift.Equatable {
     public var description: Swift.String?
     /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
     public var eventBusName: Swift.String?
-    /// The event pattern. For more information, see [EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html.html) in the Amazon EventBridge User Guide.
+    /// The event pattern. For more information, see [Amazon EventBridge event patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html) in the Amazon EventBridge User Guide.
     public var eventPattern: Swift.String?
     /// The name of the rule that you are creating or updating.
     /// This member is required.
@@ -11095,12 +11095,12 @@ extension EventBridgeClientTypes.RedshiftDataParameters: Swift.Codable {
 }
 
 extension EventBridgeClientTypes {
-    /// These are custom parameters to be used when the target is a Amazon Redshift cluster to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
+    /// These are custom parameters to be used when the target is a Amazon Redshift cluster or Redshift Serverless workgroup to invoke the Amazon Redshift Data API ExecuteStatement based on EventBridge events.
     public struct RedshiftDataParameters: Swift.Equatable {
         /// The name of the database. Required when authenticating using temporary credentials.
         /// This member is required.
         public var database: Swift.String?
-        /// The database user name. Required when authenticating using temporary credentials.
+        /// The database user name. Required when authenticating using temporary credentials. Do not provide this parameter when connecting to a Redshift Serverless workgroup.
         public var dbUser: Swift.String?
         /// The name or ARN of the secret that enables access to the database. Required when authenticating using Amazon Web Services Secrets Manager.
         public var secretManagerArn: Swift.String?
@@ -12861,14 +12861,14 @@ extension EventBridgeClientTypes {
         public var deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see [Task Definitions ](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html) in the Amazon EC2 Container Service Developer Guide.
         public var ecsParameters: EventBridgeClientTypes.EcsParameters?
-        /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
+        /// Contains the HTTP parameters to use when the target is a API Gateway endpoint or EventBridge ApiDestination. If you specify an API Gateway API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public var httpParameters: EventBridgeClientTypes.HttpParameters?
         /// The ID of the target within the specified rule. Use this ID to reference the target when updating the rule. We recommend using a memorable and unique string.
         /// This member is required.
         public var id: Swift.String?
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see [The JavaScript Object Notation (JSON) Data Interchange Format](http://www.rfc-editor.org/rfc/rfc7159.txt).
         public var input: Swift.String?
-        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You must use JSON dot notation, not bracket notation. For more information about JSON paths, see [JSONPath](http://goessner.net/articles/JsonPath/).
+        /// The value of the JSONPath that is used for extracting part of the matched event when passing it to the target. You may use JSON dot notation or bracket notation. For more information about JSON paths, see [JSONPath](http://goessner.net/articles/JsonPath/).
         public var inputPath: Swift.String?
         /// Settings to enable you to provide custom input to a target based on certain event data. You can extract one or more key-value pairs from the event and then use that data to send customized input to the target.
         public var inputTransformer: EventBridgeClientTypes.InputTransformer?
@@ -14082,7 +14082,7 @@ public struct UpdateEndpointInput: Swift.Equatable {
     public var replicationConfig: EventBridgeClientTypes.ReplicationConfig?
     /// The ARN of the role used by event replication for this request.
     public var roleArn: Swift.String?
-    /// Configure the routing policy, including the health check and secondary Region..
+    /// Configure the routing policy, including the health check and secondary Region.
     public var routingConfig: EventBridgeClientTypes.RoutingConfig?
 
     public init (

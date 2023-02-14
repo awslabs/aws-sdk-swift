@@ -782,6 +782,41 @@ extension SecurityHubClientTypes {
     }
 }
 
+extension SecurityHubClientTypes.AssociatedStandard: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsId = "StandardsId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let standardsId = self.standardsId {
+            try encodeContainer.encode(standardsId, forKey: .standardsId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsId)
+        standardsId = standardsIdDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Information about an enabled security standard in which a security control is enabled.
+    public struct AssociatedStandard: Swift.Equatable {
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
+        public var standardsId: Swift.String?
+
+        public init (
+            standardsId: Swift.String? = nil
+        )
+        {
+            self.standardsId = standardsId
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes {
     public enum AutoEnableStandards: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
@@ -31820,9 +31855,9 @@ extension SecurityHubClientTypes {
     public struct AwsSageMakerNotebookInstanceDetails: Swift.Equatable {
         /// A list of Amazon Elastic Inference instance types to associate with the notebook instance. Currently, only one instance type can be associated with a notebook instance.
         public var acceleratorTypes: [Swift.String]?
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
         public var additionalCodeRepositories: [Swift.String]?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [AWS CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in [CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html) or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see [Associating Git repositories with SageMaker notebook instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html) in the Amazon SageMaker Developer Guide.
         public var defaultCodeRepository: Swift.String?
         /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled, this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a Network Address Translation (NAT) Gateway in your VPC.
         public var directInternetAccess: Swift.String?
@@ -32652,6 +32687,8 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId = "AwsAccountId"
         case companyName = "CompanyName"
+        case complianceAssociatedStandardsId = "ComplianceAssociatedStandardsId"
+        case complianceSecurityControlId = "ComplianceSecurityControlId"
         case complianceStatus = "ComplianceStatus"
         case confidence = "Confidence"
         case createdAt = "CreatedAt"
@@ -32759,6 +32796,18 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             var companyNameContainer = encodeContainer.nestedUnkeyedContainer(forKey: .companyName)
             for stringfilter0 in companyName {
                 try companyNameContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceAssociatedStandardsId = complianceAssociatedStandardsId {
+            var complianceAssociatedStandardsIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceAssociatedStandardsId)
+            for stringfilter0 in complianceAssociatedStandardsId {
+                try complianceAssociatedStandardsIdContainer.encode(stringfilter0)
+            }
+        }
+        if let complianceSecurityControlId = complianceSecurityControlId {
+            var complianceSecurityControlIdContainer = encodeContainer.nestedUnkeyedContainer(forKey: .complianceSecurityControlId)
+            for stringfilter0 in complianceSecurityControlId {
+                try complianceSecurityControlIdContainer.encode(stringfilter0)
             }
         }
         if let complianceStatus = complianceStatus {
@@ -34368,6 +34417,28 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters: Swift.Codable {
             }
         }
         sample = sampleDecoded0
+        let complianceSecurityControlIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceSecurityControlId)
+        var complianceSecurityControlIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceSecurityControlIdContainer = complianceSecurityControlIdContainer {
+            complianceSecurityControlIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceSecurityControlIdContainer {
+                if let structure0 = structure0 {
+                    complianceSecurityControlIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceSecurityControlId = complianceSecurityControlIdDecoded0
+        let complianceAssociatedStandardsIdContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StringFilter?].self, forKey: .complianceAssociatedStandardsId)
+        var complianceAssociatedStandardsIdDecoded0:[SecurityHubClientTypes.StringFilter]? = nil
+        if let complianceAssociatedStandardsIdContainer = complianceAssociatedStandardsIdContainer {
+            complianceAssociatedStandardsIdDecoded0 = [SecurityHubClientTypes.StringFilter]()
+            for structure0 in complianceAssociatedStandardsIdContainer {
+                if let structure0 = structure0 {
+                    complianceAssociatedStandardsIdDecoded0?.append(structure0)
+                }
+            }
+        }
+        complianceAssociatedStandardsId = complianceAssociatedStandardsIdDecoded0
     }
 }
 
@@ -34378,6 +34449,10 @@ extension SecurityHubClientTypes {
         public var awsAccountId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the findings provider (company) that owns the solution (product) that generates findings.
         public var companyName: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
+        public var complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]?
+        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
+        public var complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]?
         /// Exclusive to findings that are generated as the result of a check run against a specific rule in a supported standard, such as CIS Amazon Web Services Foundations. Contains security standard-related finding details.
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
@@ -34601,6 +34676,8 @@ extension SecurityHubClientTypes {
         public init (
             awsAccountId: [SecurityHubClientTypes.StringFilter]? = nil,
             companyName: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceAssociatedStandardsId: [SecurityHubClientTypes.StringFilter]? = nil,
+            complianceSecurityControlId: [SecurityHubClientTypes.StringFilter]? = nil,
             complianceStatus: [SecurityHubClientTypes.StringFilter]? = nil,
             confidence: [SecurityHubClientTypes.NumberFilter]? = nil,
             createdAt: [SecurityHubClientTypes.DateFilter]? = nil,
@@ -34698,6 +34775,8 @@ extension SecurityHubClientTypes {
         {
             self.awsAccountId = awsAccountId
             self.companyName = companyName
+            self.complianceAssociatedStandardsId = complianceAssociatedStandardsId
+            self.complianceSecurityControlId = complianceSecurityControlId
             self.complianceStatus = complianceStatus
             self.confidence = confidence
             self.createdAt = createdAt
@@ -37274,7 +37353,7 @@ extension SecurityHubClientTypes.AwsWafv2RulesDetails: Swift.Codable {
 }
 
 extension SecurityHubClientTypes {
-    /// Provides details about rules in a rule group. A rule identifies web requests that you want to allow, block, or count. Each rule includes one top-level Statement that AWS WAF uses to identify matching web requests, and parameters that govern how AWS WAF handles them.
+    /// Provides details about rules in a rule group. A rule identifies web requests that you want to allow, block, or count. Each rule includes one top-level Statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public struct AwsWafv2RulesDetails: Swift.Equatable {
         /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.
         public var action: SecurityHubClientTypes.AwsWafv2RulesActionDetails?
@@ -38119,10 +38198,10 @@ extension BatchUpdateFindingsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if confidence != 0 {
+        if let confidence = self.confidence {
             try encodeContainer.encode(confidence, forKey: .confidence)
         }
-        if criticality != 0 {
+        if let criticality = self.criticality {
             try encodeContainer.encode(criticality, forKey: .criticality)
         }
         if let findingIdentifiers = findingIdentifiers {
@@ -38172,9 +38251,9 @@ extension BatchUpdateFindingsInput: ClientRuntime.URLPathProvider {
 
 public struct BatchUpdateFindingsInput: Swift.Equatable {
     /// The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
-    public var confidence: Swift.Int
+    public var confidence: Swift.Int?
     /// The updated value for the level of importance assigned to the resources associated with the findings. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
-    public var criticality: Swift.Int
+    public var criticality: Swift.Int?
     /// The list of findings to update. BatchUpdateFindings can be used to update up to 100 findings at a time. For each finding, the list provides the finding identifier and the ARN of the finding provider.
     /// This member is required.
     public var findingIdentifiers: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]?
@@ -38212,8 +38291,8 @@ public struct BatchUpdateFindingsInput: Swift.Equatable {
     public var workflow: SecurityHubClientTypes.WorkflowUpdate?
 
     public init (
-        confidence: Swift.Int = 0,
-        criticality: Swift.Int = 0,
+        confidence: Swift.Int? = nil,
+        criticality: Swift.Int? = nil,
         findingIdentifiers: [SecurityHubClientTypes.AwsSecurityFindingIdentifier]? = nil,
         note: SecurityHubClientTypes.NoteUpdate? = nil,
         relatedFindings: [SecurityHubClientTypes.RelatedFinding]? = nil,
@@ -38242,8 +38321,8 @@ struct BatchUpdateFindingsInputBody: Swift.Equatable {
     let note: SecurityHubClientTypes.NoteUpdate?
     let severity: SecurityHubClientTypes.SeverityUpdate?
     let verificationState: SecurityHubClientTypes.VerificationState?
-    let confidence: Swift.Int
-    let criticality: Swift.Int
+    let confidence: Swift.Int?
+    let criticality: Swift.Int?
     let types: [Swift.String]?
     let userDefinedFields: [Swift.String:Swift.String]?
     let workflow: SecurityHubClientTypes.WorkflowUpdate?
@@ -38283,9 +38362,9 @@ extension BatchUpdateFindingsInputBody: Swift.Decodable {
         severity = severityDecoded
         let verificationStateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VerificationState.self, forKey: .verificationState)
         verificationState = verificationStateDecoded
-        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence) ?? 0
+        let confidenceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .confidence)
         confidence = confidenceDecoded
-        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality) ?? 0
+        let criticalityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .criticality)
         criticality = criticalityDecoded
         let typesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .types)
         var typesDecoded0:[Swift.String]? = nil
@@ -38840,18 +38919,29 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.Compliance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associatedStandards = "AssociatedStandards"
         case relatedRequirements = "RelatedRequirements"
+        case securityControlId = "SecurityControlId"
         case status = "Status"
         case statusReasons = "StatusReasons"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associatedStandards = associatedStandards {
+            var associatedStandardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .associatedStandards)
+            for associatedstandard0 in associatedStandards {
+                try associatedStandardsContainer.encode(associatedstandard0)
+            }
+        }
         if let relatedRequirements = relatedRequirements {
             var relatedRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedRequirements)
             for nonemptystring0 in relatedRequirements {
                 try relatedRequirementsContainer.encode(nonemptystring0)
             }
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -38890,14 +38980,31 @@ extension SecurityHubClientTypes.Compliance: Swift.Codable {
             }
         }
         statusReasons = statusReasonsDecoded0
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let associatedStandardsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.AssociatedStandard?].self, forKey: .associatedStandards)
+        var associatedStandardsDecoded0:[SecurityHubClientTypes.AssociatedStandard]? = nil
+        if let associatedStandardsContainer = associatedStandardsContainer {
+            associatedStandardsDecoded0 = [SecurityHubClientTypes.AssociatedStandard]()
+            for structure0 in associatedStandardsContainer {
+                if let structure0 = structure0 {
+                    associatedStandardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        associatedStandards = associatedStandardsDecoded0
     }
 }
 
 extension SecurityHubClientTypes {
     /// Contains finding details that are specific to control-based findings. Only returned for findings generated from controls.
     public struct Compliance: Swift.Equatable {
+        /// The enabled security standards in which a security control is currently enabled.
+        public var associatedStandards: [SecurityHubClientTypes.AssociatedStandard]?
         /// For a control, the industry or regulatory framework requirements that are related to the control. The check for that control is aligned with these requirements.
         public var relatedRequirements: [Swift.String]?
+        /// The unique identifier of a control across standards. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5.
+        public var securityControlId: Swift.String?
         /// The result of a standards check. The valid values for Status are as follows.
         ///
         ///
@@ -38913,12 +39020,16 @@ extension SecurityHubClientTypes {
         public var statusReasons: [SecurityHubClientTypes.StatusReason]?
 
         public init (
+            associatedStandards: [SecurityHubClientTypes.AssociatedStandard]? = nil,
             relatedRequirements: [Swift.String]? = nil,
+            securityControlId: Swift.String? = nil,
             status: SecurityHubClientTypes.ComplianceStatus? = nil,
             statusReasons: [SecurityHubClientTypes.StatusReason]? = nil
         )
         {
+            self.associatedStandards = associatedStandards
             self.relatedRequirements = relatedRequirements
+            self.securityControlId = securityControlId
             self.status = status
             self.statusReasons = statusReasons
         }
@@ -40861,7 +40972,7 @@ extension DescribeActionTargetsInput: Swift.Encodable {
                 try actionTargetArnsContainer.encode(nonemptystring0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -40880,13 +40991,13 @@ public struct DescribeActionTargetsInput: Swift.Equatable {
     /// A list of custom action target ARNs for the custom action targets to retrieve.
     public var actionTargetArns: [Swift.String]?
     /// The maximum number of results to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
         actionTargetArns: [Swift.String]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -40899,7 +41010,7 @@ public struct DescribeActionTargetsInput: Swift.Equatable {
 struct DescribeActionTargetsInputBody: Swift.Equatable {
     let actionTargetArns: [Swift.String]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension DescribeActionTargetsInputBody: Swift.Decodable {
@@ -40924,7 +41035,7 @@ extension DescribeActionTargetsInputBody: Swift.Decodable {
         actionTargetArns = actionTargetArnsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -41270,7 +41381,7 @@ extension DescribeProductsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -41287,14 +41398,14 @@ extension DescribeProductsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeProductsInput: Swift.Equatable {
     /// The maximum number of results to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
     /// The ARN of the integration to return.
     public var productArn: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         productArn: Swift.String? = nil
     )
@@ -41411,7 +41522,7 @@ extension DescribeStandardsControlsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -41431,7 +41542,7 @@ extension DescribeStandardsControlsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeStandardsControlsInput: Swift.Equatable {
     /// The maximum number of security standard controls to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
     /// The ARN of a resource that represents your subscription to a supported standard. To get the subscription ARNs of the standards you have enabled, use the GetEnabledStandards operation.
@@ -41439,7 +41550,7 @@ public struct DescribeStandardsControlsInput: Swift.Equatable {
     public var standardsSubscriptionArn: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         standardsSubscriptionArn: Swift.String? = nil
     )
@@ -41555,7 +41666,7 @@ extension DescribeStandardsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -41572,12 +41683,12 @@ extension DescribeStandardsInput: ClientRuntime.URLPathProvider {
 
 public struct DescribeStandardsInput: Swift.Equatable {
     /// The maximum number of standards to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -42384,7 +42495,7 @@ extension EnableSecurityHubInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if enableDefaultStandards != false {
+        if let enableDefaultStandards = self.enableDefaultStandards {
             try encodeContainer.encode(enableDefaultStandards, forKey: .enableDefaultStandards)
         }
         if let tags = tags {
@@ -42404,12 +42515,12 @@ extension EnableSecurityHubInput: ClientRuntime.URLPathProvider {
 
 public struct EnableSecurityHubInput: Swift.Equatable {
     /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
-    public var enableDefaultStandards: Swift.Bool
+    public var enableDefaultStandards: Swift.Bool?
     /// The tags to add to the hub resource when you enable Security Hub.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
-        enableDefaultStandards: Swift.Bool = false,
+        enableDefaultStandards: Swift.Bool? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -42420,7 +42531,7 @@ public struct EnableSecurityHubInput: Swift.Equatable {
 
 struct EnableSecurityHubInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
-    let enableDefaultStandards: Swift.Bool
+    let enableDefaultStandards: Swift.Bool?
 }
 
 extension EnableSecurityHubInputBody: Swift.Decodable {
@@ -42442,7 +42553,7 @@ extension EnableSecurityHubInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let enableDefaultStandardsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultStandards) ?? false
+        let enableDefaultStandardsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultStandards)
         enableDefaultStandards = enableDefaultStandardsDecoded
     }
 }
@@ -43136,7 +43247,7 @@ extension GetEnabledStandardsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -43159,14 +43270,14 @@ extension GetEnabledStandardsInput: ClientRuntime.URLPathProvider {
 
 public struct GetEnabledStandardsInput: Swift.Equatable {
     /// The maximum number of results to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
     /// The list of the standards subscription ARNs for the standards to retrieve.
     public var standardsSubscriptionArns: [Swift.String]?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         standardsSubscriptionArns: [Swift.String]? = nil
     )
@@ -43180,7 +43291,7 @@ public struct GetEnabledStandardsInput: Swift.Equatable {
 struct GetEnabledStandardsInputBody: Swift.Equatable {
     let standardsSubscriptionArns: [Swift.String]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension GetEnabledStandardsInputBody: Swift.Decodable {
@@ -43205,7 +43316,7 @@ extension GetEnabledStandardsInputBody: Swift.Decodable {
         standardsSubscriptionArns = standardsSubscriptionArnsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -43454,7 +43565,7 @@ extension GetFindingsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -43479,7 +43590,7 @@ public struct GetFindingsInput: Swift.Equatable {
     /// The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
     public var filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     /// The maximum number of findings to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
     /// The finding attributes used to sort the list of returned findings.
@@ -43487,7 +43598,7 @@ public struct GetFindingsInput: Swift.Equatable {
 
     public init (
         filters: SecurityHubClientTypes.AwsSecurityFindingFilters? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
     )
@@ -43503,7 +43614,7 @@ struct GetFindingsInputBody: Swift.Equatable {
     let filters: SecurityHubClientTypes.AwsSecurityFindingFilters?
     let sortCriteria: [SecurityHubClientTypes.SortCriterion]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension GetFindingsInputBody: Swift.Decodable {
@@ -43531,7 +43642,7 @@ extension GetFindingsInputBody: Swift.Decodable {
         sortCriteria = sortCriteriaDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -43743,7 +43854,7 @@ extension GetInsightsInput: Swift.Encodable {
                 try insightArnsContainer.encode(nonemptystring0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -43762,13 +43873,13 @@ public struct GetInsightsInput: Swift.Equatable {
     /// The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights.
     public var insightArns: [Swift.String]?
     /// The maximum number of items to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
         insightArns: [Swift.String]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -43781,7 +43892,7 @@ public struct GetInsightsInput: Swift.Equatable {
 struct GetInsightsInputBody: Swift.Equatable {
     let insightArns: [Swift.String]?
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
 }
 
 extension GetInsightsInputBody: Swift.Decodable {
@@ -43806,7 +43917,7 @@ extension GetInsightsInputBody: Swift.Decodable {
         insightArns = insightArnsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
     }
 }
@@ -45224,7 +45335,7 @@ extension ListEnabledProductsForImportInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -45241,12 +45352,12 @@ extension ListEnabledProductsForImportInput: ClientRuntime.URLPathProvider {
 
 public struct ListEnabledProductsForImportInput: Swift.Equatable {
     /// The maximum number of items to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -45358,7 +45469,7 @@ extension ListFindingAggregatorsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -45375,12 +45486,12 @@ extension ListFindingAggregatorsInput: ClientRuntime.URLPathProvider {
 
 public struct ListFindingAggregatorsInput: Swift.Equatable {
     /// The maximum number of results to return. This operation currently only returns a single result.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token returned with the previous set of results. Identifies the next set of results to return.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -45496,7 +45607,7 @@ extension ListInvitationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -45513,12 +45624,12 @@ extension ListInvitationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListInvitationsInput: Swift.Equatable {
     /// The maximum number of items to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -45632,11 +45743,11 @@ extension ListMembersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
-            if onlyAssociated != false {
+            if let onlyAssociated = onlyAssociated {
                 let onlyAssociatedQueryItem = ClientRuntime.URLQueryItem(name: "OnlyAssociated".urlPercentEncoding(), value: Swift.String(onlyAssociated).urlPercentEncoding())
                 items.append(onlyAssociatedQueryItem)
             }
@@ -45653,16 +45764,16 @@ extension ListMembersInput: ClientRuntime.URLPathProvider {
 
 public struct ListMembersInput: Swift.Equatable {
     /// The maximum number of items to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
     /// Specifies which member accounts to include in the response based on their relationship status with the administrator account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the administrator account is set to ENABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts.
-    public var onlyAssociated: Swift.Bool
+    public var onlyAssociated: Swift.Bool?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        onlyAssociated: Swift.Bool = false
+        onlyAssociated: Swift.Bool? = nil
     )
     {
         self.maxResults = maxResults
@@ -45776,7 +45887,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -45793,12 +45904,12 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.URLPathProvider {
 
 public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
     /// The maximum number of items to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -46386,19 +46497,19 @@ extension SecurityHubClientTypes {
         public var masterId: Swift.String?
         /// The status of the relationship between the member account and its administrator account. The status can have one of the following values:
         ///
-        /// * CREATED - Indicates that the administrator account added the member account, but has not yet invited the member account.
+        /// * Created - Indicates that the administrator account added the member account, but has not yet invited the member account.
         ///
-        /// * INVITED - Indicates that the administrator account invited the member account. The member account has not yet responded to the invitation.
+        /// * Invited - Indicates that the administrator account invited the member account. The member account has not yet responded to the invitation.
         ///
-        /// * ENABLED - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.
+        /// * Enabled - Indicates that the member account is currently active. For manually invited member accounts, indicates that the member account accepted the invitation.
         ///
-        /// * REMOVED - Indicates that the administrator account disassociated the member account.
+        /// * Removed - Indicates that the administrator account disassociated the member account.
         ///
-        /// * RESIGNED - Indicates that the member account disassociated themselves from the administrator account.
+        /// * Resigned - Indicates that the member account disassociated themselves from the administrator account.
         ///
-        /// * DELETED - Indicates that the administrator account deleted the member account.
+        /// * Deleted - Indicates that the administrator account deleted the member account.
         ///
-        /// * ACCOUNT_SUSPENDED - Indicates that an organization account was suspended from Amazon Web Services at the same time that the administrator account tried to enable the organization account as a member account.
+        /// * AccountSuspended - Indicates that an organization account was suspended from Amazon Web Services at the same time that the administrator account tried to enable the organization account as a member account.
         public var memberStatus: Swift.String?
         /// The timestamp for the date and time when the member account was updated.
         public var updatedAt: ClientRuntime.Date?
@@ -52781,7 +52892,7 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
         if let autoEnableStandards = self.autoEnableStandards {
@@ -52799,12 +52910,12 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     /// Whether to automatically enable Security Hub for new accounts in the organization. By default, this is false, and new accounts are not added automatically. To automatically enable Security Hub for new accounts, set this to true.
     /// This member is required.
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// Whether to automatically enable Security Hub [default standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards-enable-disable.html) for new member accounts in the organization. By default, this parameter is equal to DEFAULT, and new member accounts are automatically enabled with default Security Hub standards. To opt out of enabling default standards for new member accounts, set this parameter equal to NONE.
     public var autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
 
     public init (
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards? = nil
     )
     {
@@ -52814,7 +52925,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
 }
 
 struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
-    let autoEnable: Swift.Bool
+    let autoEnable: Swift.Bool?
     let autoEnableStandards: SecurityHubClientTypes.AutoEnableStandards?
 }
 
@@ -52826,7 +52937,7 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
         let autoEnableStandardsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AutoEnableStandards.self, forKey: .autoEnableStandards)
         autoEnableStandards = autoEnableStandardsDecoded
@@ -52878,7 +52989,7 @@ extension UpdateSecurityHubConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnableControls != false {
+        if let autoEnableControls = self.autoEnableControls {
             try encodeContainer.encode(autoEnableControls, forKey: .autoEnableControls)
         }
     }
@@ -52892,10 +53003,10 @@ extension UpdateSecurityHubConfigurationInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateSecurityHubConfigurationInput: Swift.Equatable {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.
-    public var autoEnableControls: Swift.Bool
+    public var autoEnableControls: Swift.Bool?
 
     public init (
-        autoEnableControls: Swift.Bool = false
+        autoEnableControls: Swift.Bool? = nil
     )
     {
         self.autoEnableControls = autoEnableControls
@@ -52903,7 +53014,7 @@ public struct UpdateSecurityHubConfigurationInput: Swift.Equatable {
 }
 
 struct UpdateSecurityHubConfigurationInputBody: Swift.Equatable {
-    let autoEnableControls: Swift.Bool
+    let autoEnableControls: Swift.Bool?
 }
 
 extension UpdateSecurityHubConfigurationInputBody: Swift.Decodable {
@@ -52913,7 +53024,7 @@ extension UpdateSecurityHubConfigurationInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls) ?? false
+        let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls)
         autoEnableControls = autoEnableControlsDecoded
     }
 }

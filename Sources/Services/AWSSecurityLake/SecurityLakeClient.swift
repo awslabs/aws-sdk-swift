@@ -224,10 +224,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>(id: "createAwsLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAwsLogSourceInput, CreateAwsLogSourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateAwsLogSourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAwsLogSourceOutputResponse, CreateAwsLogSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -262,10 +259,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>(id: "createCustomLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCustomLogSourceInput, CreateCustomLogSourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateCustomLogSourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCustomLogSourceOutputResponse, CreateCustomLogSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -300,10 +294,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDatalakeInput, CreateDatalakeOutputResponse, CreateDatalakeOutputError>(id: "createDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeInput, CreateDatalakeOutputResponse, CreateDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeInput, CreateDatalakeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDatalakeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatalakeOutputResponse, CreateDatalakeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -338,10 +329,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>(id: "createDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeAutoEnableInput, CreateDatalakeAutoEnableOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDatalakeAutoEnableOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatalakeAutoEnableOutputResponse, CreateDatalakeAutoEnableOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -376,10 +364,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>(id: "createDatalakeDelegatedAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeDelegatedAdminInput, CreateDatalakeDelegatedAdminOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDatalakeDelegatedAdminOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatalakeDelegatedAdminOutputResponse, CreateDatalakeDelegatedAdminOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -414,10 +399,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>(id: "createDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateDatalakeExceptionsSubscriptionInput, CreateDatalakeExceptionsSubscriptionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateDatalakeExceptionsSubscriptionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateDatalakeExceptionsSubscriptionOutputResponse, CreateDatalakeExceptionsSubscriptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -452,10 +434,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>(id: "createSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse, CreateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriberInput, CreateSubscriberOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateSubscriberOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSubscriberOutputResponse, CreateSubscriberOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -490,10 +469,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>(id: "createSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSubscriptionNotificationConfigurationInput, CreateSubscriptionNotificationConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateSubscriptionNotificationConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSubscriptionNotificationConfigurationOutputResponse, CreateSubscriptionNotificationConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -528,10 +504,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>(id: "deleteAwsLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAwsLogSourceInput, DeleteAwsLogSourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAwsLogSourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAwsLogSourceOutputResponse, DeleteAwsLogSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -566,10 +539,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>(id: "deleteCustomLogSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCustomLogSourceInput, DeleteCustomLogSourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteCustomLogSourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCustomLogSourceOutputResponse, DeleteCustomLogSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -602,10 +572,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDatalakeInput, DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>(id: "deleteDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeInput, DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeInput, DeleteDatalakeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDatalakeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatalakeOutputResponse, DeleteDatalakeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -637,10 +604,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>(id: "deleteDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeAutoEnableInput, DeleteDatalakeAutoEnableOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDatalakeAutoEnableOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatalakeAutoEnableOutputResponse, DeleteDatalakeAutoEnableOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -675,10 +639,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>(id: "deleteDatalakeDelegatedAdmin")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeDelegatedAdminInput, DeleteDatalakeDelegatedAdminOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDatalakeDelegatedAdminOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatalakeDelegatedAdminOutputResponse, DeleteDatalakeDelegatedAdminOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -710,10 +671,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>(id: "deleteDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteDatalakeExceptionsSubscriptionInput, DeleteDatalakeExceptionsSubscriptionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteDatalakeExceptionsSubscriptionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteDatalakeExceptionsSubscriptionOutputResponse, DeleteDatalakeExceptionsSubscriptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -745,10 +703,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(id: "deleteSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriberInput, DeleteSubscriberOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteSubscriberOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSubscriberOutputResponse, DeleteSubscriberOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -781,10 +736,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>(id: "deleteSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSubscriptionNotificationConfigurationInput, DeleteSubscriptionNotificationConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteSubscriptionNotificationConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSubscriptionNotificationConfigurationOutputResponse, DeleteSubscriptionNotificationConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -816,10 +768,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDatalakeInput, GetDatalakeOutputResponse, GetDatalakeOutputError>(id: "getDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeInput, GetDatalakeOutputResponse, GetDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeInput, GetDatalakeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDatalakeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatalakeOutputResponse, GetDatalakeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -851,10 +800,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>(id: "getDatalakeAutoEnable")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeAutoEnableInput, GetDatalakeAutoEnableOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDatalakeAutoEnableOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatalakeAutoEnableOutputResponse, GetDatalakeAutoEnableOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -886,10 +832,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>(id: "getDatalakeExceptionsExpiry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeExceptionsExpiryInput, GetDatalakeExceptionsExpiryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDatalakeExceptionsExpiryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatalakeExceptionsExpiryOutputResponse, GetDatalakeExceptionsExpiryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -921,10 +864,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>(id: "getDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeExceptionsSubscriptionInput, GetDatalakeExceptionsSubscriptionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDatalakeExceptionsSubscriptionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatalakeExceptionsSubscriptionOutputResponse, GetDatalakeExceptionsSubscriptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -956,10 +896,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>(id: "getDatalakeStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDatalakeStatusInput, GetDatalakeStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDatalakeStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDatalakeStatusOutputResponse, GetDatalakeStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -994,10 +931,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSubscriberInput, GetSubscriberOutputResponse, GetSubscriberOutputError>(id: "getSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSubscriberInput, GetSubscriberOutputResponse, GetSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSubscriberInput, GetSubscriberOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetSubscriberOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSubscriberOutputResponse, GetSubscriberOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1029,10 +963,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>(id: "listDatalakeExceptions")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListDatalakeExceptionsInput, ListDatalakeExceptionsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListDatalakeExceptionsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListDatalakeExceptionsOutputResponse, ListDatalakeExceptionsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1067,10 +998,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<ListLogSourcesInput, ListLogSourcesOutputResponse, ListLogSourcesOutputError>(id: "listLogSources")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLogSourcesInput, ListLogSourcesOutputResponse, ListLogSourcesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLogSourcesInput, ListLogSourcesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListLogSourcesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLogSourcesOutputResponse, ListLogSourcesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1105,10 +1033,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<ListSubscribersInput, ListSubscribersOutputResponse, ListSubscribersOutputError>(id: "listSubscribers")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSubscribersInput, ListSubscribersOutputResponse, ListSubscribersOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSubscribersInput, ListSubscribersOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListSubscribersOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSubscribersOutputResponse, ListSubscribersOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1141,10 +1066,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDatalakeInput, UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>(id: "updateDatalake")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeInput, UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeInput, UpdateDatalakeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDatalakeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDatalakeOutputResponse, UpdateDatalakeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1179,10 +1101,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>(id: "updateDatalakeExceptionsExpiry")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeExceptionsExpiryInput, UpdateDatalakeExceptionsExpiryOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDatalakeExceptionsExpiryOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDatalakeExceptionsExpiryOutputResponse, UpdateDatalakeExceptionsExpiryOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1217,10 +1136,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>(id: "updateDatalakeExceptionsSubscription")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDatalakeExceptionsSubscriptionInput, UpdateDatalakeExceptionsSubscriptionOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateDatalakeExceptionsSubscriptionOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDatalakeExceptionsSubscriptionOutputResponse, UpdateDatalakeExceptionsSubscriptionOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1255,10 +1171,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(id: "updateSubscriber")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriberInput, UpdateSubscriberOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateSubscriberOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSubscriberOutputResponse, UpdateSubscriberOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1293,10 +1206,7 @@ extension SecurityLakeClient: SecurityLakeClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>(id: "updateSubscriptionNotificationConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSubscriptionNotificationConfigurationInput, UpdateSubscriptionNotificationConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateSubscriptionNotificationConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSubscriptionNotificationConfigurationOutputResponse, UpdateSubscriptionNotificationConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

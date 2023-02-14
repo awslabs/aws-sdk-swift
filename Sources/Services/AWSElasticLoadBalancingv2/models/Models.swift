@@ -2308,7 +2308,7 @@ public struct CreateTargetGroupInput: Swift.Equatable {
     public var healthCheckProtocol: ElasticLoadBalancingv2ClientTypes.ProtocolEnum?
     /// The amount of time, in seconds, during which no response from a target means a failed health check. The range is 2–120 seconds. For target groups with a protocol of HTTP, the default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If the target type is lambda, the default is 30 seconds.
     public var healthCheckTimeoutSeconds: Swift.Int?
-    /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 3. If the target type is lambda, the default is 5.
+    /// The number of consecutive health check successes required before considering a target healthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol of GENEVE, the default is 5. If the target type is lambda, the default is 5.
     public var healthyThresholdCount: Swift.Int?
     /// The type of IP address used for this target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
     public var ipAddressType: ElasticLoadBalancingv2ClientTypes.TargetGroupIpAddressTypeEnum?
@@ -2335,7 +2335,7 @@ public struct CreateTargetGroupInput: Swift.Equatable {
     ///
     /// * alb - Register a single Application Load Balancer as a target.
     public var targetType: ElasticLoadBalancingv2ClientTypes.TargetTypeEnum?
-    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 3. If the target type is lambda, the default is 5.
+    /// The number of consecutive health check failures required before considering a target unhealthy. The range is 2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol of GENEVE, the default is 2. If the target type is lambda, the default is 5.
     public var unhealthyThresholdCount: Swift.Int?
     /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
     public var vpcId: Swift.String?
@@ -10757,10 +10757,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// * target_group_health.dns_failover.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, mark the zone as unhealthy in DNS, so that traffic is routed only to healthy zones. The possible values are off or an integer from 1 to 100. The default is off.
         ///
-        /// * target_group_health.unhealthy_state_routing.minimum_healthy_targets.count - The minimum number of targets that must be healthy.
-        ///
-        ///
-        /// If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.
+        /// * target_group_health.unhealthy_state_routing.minimum_healthy_targets.count - The minimum number of targets that must be healthy. If the number of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are 1 to the maximum number of targets. The default is 1.
         ///
         /// * target_group_health.unhealthy_state_routing.minimum_healthy_targets.percentage - The minimum percentage of targets that must be healthy. If the percentage of healthy targets is below this value, send traffic to all targets, including unhealthy targets. The possible values are off or an integer from 1 to 100. The default is off.
         ///

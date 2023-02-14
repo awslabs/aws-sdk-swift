@@ -6169,9 +6169,13 @@ public struct CreateClusterInput: Swift.Equatable {
     public var masterUserPassword: Swift.String?
     /// The user name associated with the admin user account for the cluster that is being created. Constraints:
     ///
-    /// * Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC.
+    /// * Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.
     ///
-    /// * First character must be a letter.
+    /// * Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.
+    ///
+    /// * The first character must be a letter.
+    ///
+    /// * Must not contain a colon (:) or a slash (/).
     ///
     /// * Cannot be a reserved word. A list of reserved words can be found in [Reserved Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html) in the Amazon Redshift Database Developer Guide.
     /// This member is required.
@@ -13024,9 +13028,9 @@ extension DescribeClusterSecurityGroupsInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DescribeClusterSecurityGroupsInput: Swift.Equatable {
-    /// The name of a cluster security group for which you are requesting details. You can specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both. Example: securitygroup1
+    /// The name of a cluster security group for which you are requesting details. You must specify either the Marker parameter or a ClusterSecurityGroupName parameter, but not both. Example: securitygroup1
     public var clusterSecurityGroupName: Swift.String?
-    /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSecurityGroups] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You can specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both.
+    /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSecurityGroups] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request. Constraints: You must specify either the ClusterSecurityGroupName parameter or the Marker parameter, but not both.
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
@@ -15234,7 +15238,7 @@ extension DescribeEndpointAuthorizationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeEndpointAuthorizationInput: Swift.Equatable {
-    /// The AAmazon Web Services account ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
+    /// The Amazon Web Services account ID of either the cluster owner (grantor) or grantee. If Grantee parameter is true, then the Account value is of the grantor.
     public var account: Swift.String?
     /// The cluster identifier of the cluster to access.
     public var clusterIdentifier: Swift.String?
@@ -16539,7 +16543,7 @@ public struct DescribeLoggingStatusOutputResponse: Swift.Equatable {
     public var lastSuccessfulDeliveryTime: ClientRuntime.Date?
     /// The log destination type. An enum with possible values of s3 and cloudwatch.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Log types include the connection log, user log and user activity log.
+    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool
@@ -19627,7 +19631,7 @@ public struct DisableLoggingOutputResponse: Swift.Equatable {
     public var lastSuccessfulDeliveryTime: ClientRuntime.Date?
     /// The log destination type. An enum with possible values of s3 and cloudwatch.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Log types include the connection log, user log and user activity log.
+    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool
@@ -20222,7 +20226,7 @@ public struct EnableLoggingInput: Swift.Equatable {
     public var clusterIdentifier: Swift.String?
     /// The log destination type. An enum with possible values of s3 and cloudwatch.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Log types include the connection log, user log and user activity log.
+    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// The prefix applied to the log file names. Constraints:
     ///
@@ -20376,7 +20380,7 @@ public struct EnableLoggingOutputResponse: Swift.Equatable {
     public var lastSuccessfulDeliveryTime: ClientRuntime.Date?
     /// The log destination type. An enum with possible values of s3 and cloudwatch.
     public var logDestinationType: RedshiftClientTypes.LogDestinationType?
-    /// The collection of exported log types. Log types include the connection log, user log and user activity log.
+    /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
     public var logExports: [Swift.String]?
     /// true if logging is on, false if logging is off.
     public var loggingEnabled: Swift.Bool
@@ -31804,11 +31808,11 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var publiclyAccessible: Swift.Bool?
     /// The identifier of the target reserved node offering.
     public var reservedNodeId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You can specify this parameter or snapshotIdentifier, but not both.
+    /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
     public var snapshotArn: Swift.String?
     /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
-    /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You can specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
+    /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
     public var snapshotIdentifier: Swift.String?
     /// A unique identifier for the snapshot schedule.
     public var snapshotScheduleIdentifier: Swift.String?

@@ -224,10 +224,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>(id: "associateAssessmentReportEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateAssessmentReportEvidenceFolderInput, AssociateAssessmentReportEvidenceFolderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AssociateAssessmentReportEvidenceFolderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateAssessmentReportEvidenceFolderOutputResponse, AssociateAssessmentReportEvidenceFolderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -262,10 +259,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>(id: "batchAssociateAssessmentReportEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateAssessmentReportEvidenceInput, BatchAssociateAssessmentReportEvidenceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<BatchAssociateAssessmentReportEvidenceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchAssociateAssessmentReportEvidenceOutputResponse, BatchAssociateAssessmentReportEvidenceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -300,10 +294,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>(id: "batchCreateDelegationByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchCreateDelegationByAssessmentInput, BatchCreateDelegationByAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<BatchCreateDelegationByAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchCreateDelegationByAssessmentOutputResponse, BatchCreateDelegationByAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -338,10 +329,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>(id: "batchDeleteDelegationByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDeleteDelegationByAssessmentInput, BatchDeleteDelegationByAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<BatchDeleteDelegationByAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDeleteDelegationByAssessmentOutputResponse, BatchDeleteDelegationByAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -376,10 +364,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>(id: "batchDisassociateAssessmentReportEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateAssessmentReportEvidenceInput, BatchDisassociateAssessmentReportEvidenceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<BatchDisassociateAssessmentReportEvidenceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisassociateAssessmentReportEvidenceOutputResponse, BatchDisassociateAssessmentReportEvidenceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -423,10 +408,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>(id: "batchImportEvidenceToAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchImportEvidenceToAssessmentControlInput, BatchImportEvidenceToAssessmentControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<BatchImportEvidenceToAssessmentControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchImportEvidenceToAssessmentControlOutputResponse, BatchImportEvidenceToAssessmentControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -461,10 +443,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateAssessmentInput, CreateAssessmentOutputResponse, CreateAssessmentOutputError>(id: "createAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentInput, CreateAssessmentOutputResponse, CreateAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentInput, CreateAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAssessmentOutputResponse, CreateAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -499,10 +478,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>(id: "createAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentFrameworkInput, CreateAssessmentFrameworkOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateAssessmentFrameworkOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAssessmentFrameworkOutputResponse, CreateAssessmentFrameworkOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -537,10 +513,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>(id: "createAssessmentReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAssessmentReportInput, CreateAssessmentReportOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateAssessmentReportOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAssessmentReportOutputResponse, CreateAssessmentReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -575,10 +548,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateControlInput, CreateControlOutputResponse, CreateControlOutputError>(id: "createControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateControlInput, CreateControlOutputResponse, CreateControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateControlInput, CreateControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateControlOutputResponse, CreateControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -613,10 +583,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAssessmentInput, DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>(id: "deleteAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentInput, DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentInput, DeleteAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAssessmentOutputResponse, DeleteAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -648,10 +615,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>(id: "deleteAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkInput, DeleteAssessmentFrameworkOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAssessmentFrameworkOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAssessmentFrameworkOutputResponse, DeleteAssessmentFrameworkOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -683,10 +647,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>(id: "deleteAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentFrameworkShareInput, DeleteAssessmentFrameworkShareOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAssessmentFrameworkShareOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAssessmentFrameworkShareOutputResponse, DeleteAssessmentFrameworkShareOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -726,10 +687,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>(id: "deleteAssessmentReport")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAssessmentReportInput, DeleteAssessmentReportOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAssessmentReportOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAssessmentReportOutputResponse, DeleteAssessmentReportOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -761,10 +719,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteControlInput, DeleteControlOutputResponse, DeleteControlOutputError>(id: "deleteControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteControlInput, DeleteControlOutputResponse, DeleteControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteControlInput, DeleteControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteControlOutputResponse, DeleteControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -796,10 +751,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeregisterAccountInput, DeregisterAccountOutputResponse, DeregisterAccountOutputError>(id: "deregisterAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterAccountInput, DeregisterAccountOutputResponse, DeregisterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterAccountInput, DeregisterAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeregisterAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterAccountOutputResponse, DeregisterAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -844,10 +796,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>(id: "deregisterOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterOrganizationAdminAccountInput, DeregisterOrganizationAdminAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeregisterOrganizationAdminAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterOrganizationAdminAccountOutputResponse, DeregisterOrganizationAdminAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -882,10 +831,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>(id: "disassociateAssessmentReportEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateAssessmentReportEvidenceFolderInput, DisassociateAssessmentReportEvidenceFolderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DisassociateAssessmentReportEvidenceFolderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateAssessmentReportEvidenceFolderOutputResponse, DisassociateAssessmentReportEvidenceFolderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -920,10 +866,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAccountStatusInput, GetAccountStatusOutputResponse, GetAccountStatusOutputError>(id: "getAccountStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAccountStatusInput, GetAccountStatusOutputResponse, GetAccountStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAccountStatusInput, GetAccountStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAccountStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAccountStatusOutputResponse, GetAccountStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -955,10 +898,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>(id: "getAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentInput, GetAssessmentOutputResponse, GetAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentInput, GetAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssessmentOutputResponse, GetAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -990,10 +930,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>(id: "getAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentFrameworkInput, GetAssessmentFrameworkOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAssessmentFrameworkOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssessmentFrameworkOutputResponse, GetAssessmentFrameworkOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1025,10 +962,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>(id: "getAssessmentReportUrl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAssessmentReportUrlInput, GetAssessmentReportUrlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetAssessmentReportUrlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAssessmentReportUrlOutputResponse, GetAssessmentReportUrlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1060,10 +994,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetChangeLogsInput, GetChangeLogsOutputResponse, GetChangeLogsOutputError>(id: "getChangeLogs")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetChangeLogsInput, GetChangeLogsOutputResponse, GetChangeLogsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChangeLogsInput, GetChangeLogsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetChangeLogsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChangeLogsOutputResponse, GetChangeLogsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1096,10 +1027,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetControlInput, GetControlOutputResponse, GetControlOutputError>(id: "getControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetControlInput, GetControlOutputResponse, GetControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetControlInput, GetControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetControlOutputResponse, GetControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1131,10 +1059,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetDelegationsInput, GetDelegationsOutputResponse, GetDelegationsOutputError>(id: "getDelegations")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetDelegationsInput, GetDelegationsOutputResponse, GetDelegationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDelegationsInput, GetDelegationsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetDelegationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDelegationsOutputResponse, GetDelegationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1167,10 +1092,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEvidenceInput, GetEvidenceOutputResponse, GetEvidenceOutputError>(id: "getEvidence")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceInput, GetEvidenceOutputResponse, GetEvidenceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceInput, GetEvidenceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEvidenceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEvidenceOutputResponse, GetEvidenceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1202,10 +1124,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>(id: "getEvidenceByEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceByEvidenceFolderInput, GetEvidenceByEvidenceFolderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEvidenceByEvidenceFolderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEvidenceByEvidenceFolderOutputResponse, GetEvidenceByEvidenceFolderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1238,10 +1157,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>(id: "getEvidenceFolder")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFolderInput, GetEvidenceFolderOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEvidenceFolderOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEvidenceFolderOutputResponse, GetEvidenceFolderOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1273,10 +1189,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>(id: "getEvidenceFoldersByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentInput, GetEvidenceFoldersByAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEvidenceFoldersByAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEvidenceFoldersByAssessmentOutputResponse, GetEvidenceFoldersByAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1309,10 +1222,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>(id: "getEvidenceFoldersByAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEvidenceFoldersByAssessmentControlInput, GetEvidenceFoldersByAssessmentControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetEvidenceFoldersByAssessmentControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEvidenceFoldersByAssessmentControlOutputResponse, GetEvidenceFoldersByAssessmentControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1345,10 +1255,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInsightsInput, GetInsightsOutputResponse, GetInsightsOutputError>(id: "getInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsInput, GetInsightsOutputResponse, GetInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightsInput, GetInsightsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInsightsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightsOutputResponse, GetInsightsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1380,10 +1287,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>(id: "getInsightsByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightsByAssessmentInput, GetInsightsByAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInsightsByAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightsByAssessmentOutputResponse, GetInsightsByAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1415,10 +1319,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>(id: "getOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetOrganizationAdminAccountInput, GetOrganizationAdminAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetOrganizationAdminAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetOrganizationAdminAccountOutputResponse, GetOrganizationAdminAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1450,10 +1351,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetServicesInScopeInput, GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>(id: "getServicesInScope")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetServicesInScopeInput, GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetServicesInScopeInput, GetServicesInScopeOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetServicesInScopeOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetServicesInScopeOutputResponse, GetServicesInScopeOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1485,10 +1383,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<GetSettingsInput, GetSettingsOutputResponse, GetSettingsOutputError>(id: "getSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSettingsInput, GetSettingsOutputResponse, GetSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSettingsInput, GetSettingsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetSettingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSettingsOutputResponse, GetSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1520,10 +1415,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>(id: "listAssessmentControlInsightsByControlDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentControlInsightsByControlDomainInput, ListAssessmentControlInsightsByControlDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAssessmentControlInsightsByControlDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssessmentControlInsightsByControlDomainOutputResponse, ListAssessmentControlInsightsByControlDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1556,10 +1448,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>(id: "listAssessmentFrameworkShareRequests")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentFrameworkShareRequestsInput, ListAssessmentFrameworkShareRequestsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAssessmentFrameworkShareRequestsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssessmentFrameworkShareRequestsOutputResponse, ListAssessmentFrameworkShareRequestsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1592,10 +1481,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>(id: "listAssessmentFrameworks")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentFrameworksInput, ListAssessmentFrameworksOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAssessmentFrameworksOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssessmentFrameworksOutputResponse, ListAssessmentFrameworksOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1628,10 +1514,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>(id: "listAssessmentReports")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentReportsInput, ListAssessmentReportsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAssessmentReportsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssessmentReportsOutputResponse, ListAssessmentReportsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1664,10 +1547,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAssessmentsInput, ListAssessmentsOutputResponse, ListAssessmentsOutputError>(id: "listAssessments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAssessmentsInput, ListAssessmentsOutputResponse, ListAssessmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssessmentsInput, ListAssessmentsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAssessmentsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssessmentsOutputResponse, ListAssessmentsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1700,10 +1580,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>(id: "listControlDomainInsights")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlDomainInsightsInput, ListControlDomainInsightsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListControlDomainInsightsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListControlDomainInsightsOutputResponse, ListControlDomainInsightsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1736,10 +1613,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>(id: "listControlDomainInsightsByAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlDomainInsightsByAssessmentInput, ListControlDomainInsightsByAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListControlDomainInsightsByAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListControlDomainInsightsByAssessmentOutputResponse, ListControlDomainInsightsByAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1772,10 +1646,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>(id: "listControlInsightsByControlDomain")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlInsightsByControlDomainInput, ListControlInsightsByControlDomainOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListControlInsightsByControlDomainOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListControlInsightsByControlDomainOutputResponse, ListControlInsightsByControlDomainOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1808,10 +1679,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListControlsInput, ListControlsOutputResponse, ListControlsOutputError>(id: "listControls")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListControlsInput, ListControlsOutputResponse, ListControlsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListControlsInput, ListControlsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListControlsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListControlsOutputResponse, ListControlsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1844,10 +1712,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>(id: "listKeywordsForDataSource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListKeywordsForDataSourceInput, ListKeywordsForDataSourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListKeywordsForDataSourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListKeywordsForDataSourceOutputResponse, ListKeywordsForDataSourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1880,10 +1745,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>(id: "listNotifications")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListNotificationsInput, ListNotificationsOutputResponse, ListNotificationsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListNotificationsInput, ListNotificationsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListNotificationsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListNotificationsOutputResponse, ListNotificationsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1916,10 +1778,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1951,10 +1810,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>(id: "registerAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterAccountInput, RegisterAccountOutputResponse, RegisterAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterAccountInput, RegisterAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RegisterAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterAccountOutputResponse, RegisterAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1989,10 +1845,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>(id: "registerOrganizationAdminAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterOrganizationAdminAccountInput, RegisterOrganizationAdminAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<RegisterOrganizationAdminAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterOrganizationAdminAccountOutputResponse, RegisterOrganizationAdminAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2038,10 +1891,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>(id: "startAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartAssessmentFrameworkShareInput, StartAssessmentFrameworkShareOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<StartAssessmentFrameworkShareOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartAssessmentFrameworkShareOutputResponse, StartAssessmentFrameworkShareOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2076,10 +1926,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2114,10 +1961,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2150,10 +1994,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentInput, UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>(id: "updateAssessment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentInput, UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentInput, UpdateAssessmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentOutputResponse, UpdateAssessmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2188,10 +2029,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>(id: "updateAssessmentControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentControlInput, UpdateAssessmentControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentControlOutputResponse, UpdateAssessmentControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2226,10 +2064,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>(id: "updateAssessmentControlSetStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentControlSetStatusInput, UpdateAssessmentControlSetStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentControlSetStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentControlSetStatusOutputResponse, UpdateAssessmentControlSetStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2264,10 +2099,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>(id: "updateAssessmentFramework")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkInput, UpdateAssessmentFrameworkOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentFrameworkOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentFrameworkOutputResponse, UpdateAssessmentFrameworkOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2302,10 +2134,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>(id: "updateAssessmentFrameworkShare")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentFrameworkShareInput, UpdateAssessmentFrameworkShareOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentFrameworkShareOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentFrameworkShareOutputResponse, UpdateAssessmentFrameworkShareOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2340,10 +2169,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>(id: "updateAssessmentStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAssessmentStatusInput, UpdateAssessmentStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateAssessmentStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAssessmentStatusOutputResponse, UpdateAssessmentStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2378,10 +2204,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateControlInput, UpdateControlOutputResponse, UpdateControlOutputError>(id: "updateControl")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateControlInput, UpdateControlOutputResponse, UpdateControlOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateControlInput, UpdateControlOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateControlOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateControlOutputResponse, UpdateControlOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2416,10 +2239,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>(id: "updateSettings")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse, UpdateSettingsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSettingsInput, UpdateSettingsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateSettingsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSettingsOutputResponse, UpdateSettingsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -2454,10 +2274,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         var operation = ClientRuntime.OperationStack<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>(id: "validateAssessmentReportIntegrity")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ValidateAssessmentReportIntegrityInput, ValidateAssessmentReportIntegrityOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ValidateAssessmentReportIntegrityOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ValidateAssessmentReportIntegrityOutputResponse, ValidateAssessmentReportIntegrityOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

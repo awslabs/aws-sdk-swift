@@ -2466,6 +2466,7 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         case queueInfo = "QueueInfo"
         case relatedContactId = "RelatedContactId"
         case scheduledTimestamp = "ScheduledTimestamp"
+        case wisdomInfo = "WisdomInfo"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2515,6 +2516,9 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         if let scheduledTimestamp = self.scheduledTimestamp {
             try encodeContainer.encodeTimestamp(scheduledTimestamp, format: .epochSeconds, forKey: .scheduledTimestamp)
         }
+        if let wisdomInfo = self.wisdomInfo {
+            try encodeContainer.encode(wisdomInfo, forKey: .wisdomInfo)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -2549,6 +2553,8 @@ extension ConnectClientTypes.Contact: Swift.Codable {
         scheduledTimestamp = scheduledTimestampDecoded
         let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
         relatedContactId = relatedContactIdDecoded
+        let wisdomInfoDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.WisdomInfo.self, forKey: .wisdomInfo)
+        wisdomInfo = wisdomInfoDecoded
     }
 }
 
@@ -2585,6 +2591,8 @@ extension ConnectClientTypes {
         public var relatedContactId: Swift.String?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
         public var scheduledTimestamp: ClientRuntime.Date?
+        /// Information about Amazon Connect Wisdom.
+        public var wisdomInfo: ConnectClientTypes.WisdomInfo?
 
         public init (
             agentInfo: ConnectClientTypes.AgentInfo? = nil,
@@ -2601,7 +2609,8 @@ extension ConnectClientTypes {
             previousContactId: Swift.String? = nil,
             queueInfo: ConnectClientTypes.QueueInfo? = nil,
             relatedContactId: Swift.String? = nil,
-            scheduledTimestamp: ClientRuntime.Date? = nil
+            scheduledTimestamp: ClientRuntime.Date? = nil,
+            wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
         )
         {
             self.agentInfo = agentInfo
@@ -2619,6 +2628,7 @@ extension ConnectClientTypes {
             self.queueInfo = queueInfo
             self.relatedContactId = relatedContactId
             self.scheduledTimestamp = scheduledTimestamp
+            self.wisdomInfo = wisdomInfo
         }
     }
 
@@ -5228,7 +5238,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
     /// The name of the routing profile. Must not be more than 127 characters.
     /// This member is required.
     public var name: Swift.String?
-    /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls.
+    /// The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in [Amazon Connect service quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html).
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
     /// The tags used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String:Swift.String]?
@@ -16977,7 +16987,7 @@ extension ListContactFlowsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -17008,14 +17018,14 @@ public struct ListContactFlowsInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         contactFlowTypes: [ConnectClientTypes.ContactFlowType]? = nil,
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -17296,7 +17306,7 @@ extension ListDefaultVocabulariesInput: Swift.Encodable {
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -17321,14 +17331,14 @@ public struct ListDefaultVocabulariesInput: Swift.Equatable {
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
     public var languageCode: ConnectClientTypes.VocabularyLanguageCode?
     /// The maximum number of results to return per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         instanceId: Swift.String? = nil,
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -17341,7 +17351,7 @@ public struct ListDefaultVocabulariesInput: Swift.Equatable {
 
 struct ListDefaultVocabulariesInputBody: Swift.Equatable {
     let languageCode: ConnectClientTypes.VocabularyLanguageCode?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -17356,7 +17366,7 @@ extension ListDefaultVocabulariesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let languageCodeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.VocabularyLanguageCode.self, forKey: .languageCode)
         languageCode = languageCodeDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -17460,7 +17470,7 @@ extension ListHoursOfOperationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -17483,13 +17493,13 @@ public struct ListHoursOfOperationsInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -18491,7 +18501,7 @@ extension ListPhoneNumbersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -18520,7 +18530,7 @@ public struct ListPhoneNumbersInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ISO country code.
@@ -18530,7 +18540,7 @@ public struct ListPhoneNumbersInput: Swift.Equatable {
 
     public init (
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         phoneNumberCountryCodes: [ConnectClientTypes.PhoneNumberCountryCode]? = nil,
         phoneNumberTypes: [ConnectClientTypes.PhoneNumberType]? = nil
@@ -19257,7 +19267,7 @@ extension ListQueuesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -19286,7 +19296,7 @@ public struct ListQueuesInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The type of queue.
@@ -19294,7 +19304,7 @@ public struct ListQueuesInput: Swift.Equatable {
 
     public init (
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         queueTypes: [ConnectClientTypes.QueueType]? = nil
     )
@@ -20755,7 +20765,7 @@ extension ListTrafficDistributionGroupsInput: ClientRuntime.QueryItemProvider {
                 let instanceIdQueryItem = ClientRuntime.URLQueryItem(name: "instanceId".urlPercentEncoding(), value: Swift.String(instanceId).urlPercentEncoding())
                 items.append(instanceIdQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -20774,13 +20784,13 @@ public struct ListTrafficDistributionGroupsInput: Swift.Equatable {
     /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -27317,7 +27327,7 @@ extension SearchVocabulariesInput: Swift.Encodable {
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode.rawValue, forKey: .languageCode)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nameStartsWith = self.nameStartsWith {
@@ -27348,7 +27358,7 @@ public struct SearchVocabulariesInput: Swift.Equatable {
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
     public var languageCode: ConnectClientTypes.VocabularyLanguageCode?
     /// The maximum number of results to return per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The starting pattern of the name of the vocabulary.
     public var nameStartsWith: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -27359,7 +27369,7 @@ public struct SearchVocabulariesInput: Swift.Equatable {
     public init (
         instanceId: Swift.String? = nil,
         languageCode: ConnectClientTypes.VocabularyLanguageCode? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nameStartsWith: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         state: ConnectClientTypes.VocabularyState? = nil
@@ -27375,7 +27385,7 @@ public struct SearchVocabulariesInput: Swift.Equatable {
 }
 
 struct SearchVocabulariesInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let state: ConnectClientTypes.VocabularyState?
     let nameStartsWith: Swift.String?
@@ -27393,7 +27403,7 @@ extension SearchVocabulariesInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -31410,7 +31420,7 @@ extension UpdateAgentStatusInput: Swift.Encodable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if resetOrderNumber != false {
+        if let resetOrderNumber = self.resetOrderNumber {
             try encodeContainer.encode(resetOrderNumber, forKey: .resetOrderNumber)
         }
         if let state = self.state {
@@ -31445,7 +31455,7 @@ public struct UpdateAgentStatusInput: Swift.Equatable {
     /// The name of the agent status.
     public var name: Swift.String?
     /// A number indicating the reset order of the agent status.
-    public var resetOrderNumber: Swift.Bool
+    public var resetOrderNumber: Swift.Bool?
     /// The state of the agent status.
     public var state: ConnectClientTypes.AgentStatusState?
 
@@ -31455,7 +31465,7 @@ public struct UpdateAgentStatusInput: Swift.Equatable {
         displayOrder: Swift.Int? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
-        resetOrderNumber: Swift.Bool = false,
+        resetOrderNumber: Swift.Bool? = nil,
         state: ConnectClientTypes.AgentStatusState? = nil
     )
     {
@@ -31474,7 +31484,7 @@ struct UpdateAgentStatusInputBody: Swift.Equatable {
     let description: Swift.String?
     let state: ConnectClientTypes.AgentStatusState?
     let displayOrder: Swift.Int?
-    let resetOrderNumber: Swift.Bool
+    let resetOrderNumber: Swift.Bool?
 }
 
 extension UpdateAgentStatusInputBody: Swift.Decodable {
@@ -31496,7 +31506,7 @@ extension UpdateAgentStatusInputBody: Swift.Decodable {
         state = stateDecoded
         let displayOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .displayOrder)
         displayOrder = displayOrderDecoded
-        let resetOrderNumberDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetOrderNumber) ?? false
+        let resetOrderNumberDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetOrderNumber)
         resetOrderNumber = resetOrderNumberDecoded
     }
 }
@@ -37561,4 +37571,39 @@ extension ConnectClientTypes {
             self = VoiceRecordingTrack(rawValue: rawValue) ?? VoiceRecordingTrack.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ConnectClientTypes.WisdomInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sessionArn = "SessionArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sessionArn = self.sessionArn {
+            try encodeContainer.encode(sessionArn, forKey: .sessionArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionArn)
+        sessionArn = sessionArnDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about Amazon Connect Wisdom.
+    public struct WisdomInfo: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the Wisdom session.
+        public var sessionArn: Swift.String?
+
+        public init (
+            sessionArn: Swift.String? = nil
+        )
+        {
+            self.sessionArn = sessionArn
+        }
+    }
+
 }

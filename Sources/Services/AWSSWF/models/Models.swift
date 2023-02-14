@@ -4789,13 +4789,13 @@ extension GetWorkflowExecutionHistoryInput: Swift.Encodable {
         if let execution = self.execution {
             try encodeContainer.encode(execution, forKey: .execution)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
     }
@@ -4815,18 +4815,18 @@ public struct GetWorkflowExecutionHistoryInput: Swift.Equatable {
     /// This member is required.
     public var execution: SWFClientTypes.WorkflowExecution?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimeStamp of the events.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
 
     public init (
         domain: Swift.String? = nil,
         execution: SWFClientTypes.WorkflowExecution? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool = false
+        reverseOrder: Swift.Bool? = nil
     )
     {
         self.domain = domain
@@ -4841,8 +4841,8 @@ struct GetWorkflowExecutionHistoryInputBody: Swift.Equatable {
     let domain: Swift.String?
     let execution: SWFClientTypes.WorkflowExecution?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension GetWorkflowExecutionHistoryInputBody: Swift.Decodable {
@@ -4862,9 +4862,9 @@ extension GetWorkflowExecutionHistoryInputBody: Swift.Decodable {
         execution = executionDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }
@@ -6051,7 +6051,7 @@ extension ListActivityTypesInput: Swift.Encodable {
         if let domain = self.domain {
             try encodeContainer.encode(domain, forKey: .domain)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let name = self.name {
@@ -6063,7 +6063,7 @@ extension ListActivityTypesInput: Swift.Encodable {
         if let registrationStatus = self.registrationStatus {
             try encodeContainer.encode(registrationStatus.rawValue, forKey: .registrationStatus)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
     }
@@ -6080,7 +6080,7 @@ public struct ListActivityTypesInput: Swift.Equatable {
     /// This member is required.
     public var domain: Swift.String?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If specified, only lists the activity types that have this name.
     public var name: Swift.String?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
@@ -6089,15 +6089,15 @@ public struct ListActivityTypesInput: Swift.Equatable {
     /// This member is required.
     public var registrationStatus: SWFClientTypes.RegistrationStatus?
     /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the activity types.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
 
     public init (
         domain: Swift.String? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool = false
+        reverseOrder: Swift.Bool? = nil
     )
     {
         self.domain = domain
@@ -6114,8 +6114,8 @@ struct ListActivityTypesInputBody: Swift.Equatable {
     let name: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension ListActivityTypesInputBody: Swift.Decodable {
@@ -6138,9 +6138,9 @@ extension ListActivityTypesInputBody: Swift.Decodable {
         registrationStatus = registrationStatusDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }
@@ -6259,13 +6259,13 @@ extension ListClosedWorkflowExecutionsInput: Swift.Encodable {
         if let executionFilter = self.executionFilter {
             try encodeContainer.encode(executionFilter, forKey: .executionFilter)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
         if let startTimeFilter = self.startTimeFilter {
@@ -6297,11 +6297,11 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
     /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var executionFilter: SWFClientTypes.WorkflowExecutionFilter?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start or the close time of the executions.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
     /// If specified, the workflow executions are included in the returned results based on whether their start times are within the range specified by this filter. Also, if this parameter is specified, the returned results are ordered by their start times. startTimeFilter and closeTimeFilter are mutually exclusive. You must specify one of these in a request but not both.
     public var startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
     /// If specified, only executions that have the matching tag are listed. closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
@@ -6314,9 +6314,9 @@ public struct ListClosedWorkflowExecutionsInput: Swift.Equatable {
         closeTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool = false,
+        reverseOrder: Swift.Bool? = nil,
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
@@ -6344,8 +6344,8 @@ struct ListClosedWorkflowExecutionsInputBody: Swift.Equatable {
     let typeFilter: SWFClientTypes.WorkflowTypeFilter?
     let tagFilter: SWFClientTypes.TagFilter?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension ListClosedWorkflowExecutionsInputBody: Swift.Decodable {
@@ -6380,9 +6380,9 @@ extension ListClosedWorkflowExecutionsInputBody: Swift.Decodable {
         tagFilter = tagFilterDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }
@@ -6483,7 +6483,7 @@ extension ListDomainsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let nextPageToken = self.nextPageToken {
@@ -6492,7 +6492,7 @@ extension ListDomainsInput: Swift.Encodable {
         if let registrationStatus = self.registrationStatus {
             try encodeContainer.encode(registrationStatus.rawValue, forKey: .registrationStatus)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
     }
@@ -6506,20 +6506,20 @@ extension ListDomainsInput: ClientRuntime.URLPathProvider {
 
 public struct ListDomainsInput: Swift.Equatable {
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// Specifies the registration status of the domains to list.
     /// This member is required.
     public var registrationStatus: SWFClientTypes.RegistrationStatus?
     /// When set to true, returns the results in reverse order. By default, the results are returned in ascending alphabetical order by name of the domains.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
 
     public init (
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool = false
+        reverseOrder: Swift.Bool? = nil
     )
     {
         self.maximumPageSize = maximumPageSize
@@ -6532,8 +6532,8 @@ public struct ListDomainsInput: Swift.Equatable {
 struct ListDomainsInputBody: Swift.Equatable {
     let nextPageToken: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension ListDomainsInputBody: Swift.Decodable {
@@ -6550,9 +6550,9 @@ extension ListDomainsInputBody: Swift.Decodable {
         nextPageToken = nextPageTokenDecoded
         let registrationStatusDecoded = try containerValues.decodeIfPresent(SWFClientTypes.RegistrationStatus.self, forKey: .registrationStatus)
         registrationStatus = registrationStatusDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }
@@ -6661,13 +6661,13 @@ extension ListOpenWorkflowExecutionsInput: Swift.Encodable {
         if let executionFilter = self.executionFilter {
             try encodeContainer.encode(executionFilter, forKey: .executionFilter)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
         if let startTimeFilter = self.startTimeFilter {
@@ -6695,11 +6695,11 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
     /// If specified, only workflow executions matching the workflow ID specified in the filter are returned. executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most one of these in a request.
     public var executionFilter: SWFClientTypes.WorkflowExecutionFilter?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the results in reverse order. By default the results are returned in descending order of the start time of the executions.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
     /// Workflow executions are included in the returned results based on whether their start times are within the range specified by this filter.
     /// This member is required.
     public var startTimeFilter: SWFClientTypes.ExecutionTimeFilter?
@@ -6711,9 +6711,9 @@ public struct ListOpenWorkflowExecutionsInput: Swift.Equatable {
     public init (
         domain: Swift.String? = nil,
         executionFilter: SWFClientTypes.WorkflowExecutionFilter? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool = false,
+        reverseOrder: Swift.Bool? = nil,
         startTimeFilter: SWFClientTypes.ExecutionTimeFilter? = nil,
         tagFilter: SWFClientTypes.TagFilter? = nil,
         typeFilter: SWFClientTypes.WorkflowTypeFilter? = nil
@@ -6736,8 +6736,8 @@ struct ListOpenWorkflowExecutionsInputBody: Swift.Equatable {
     let typeFilter: SWFClientTypes.WorkflowTypeFilter?
     let tagFilter: SWFClientTypes.TagFilter?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
     let executionFilter: SWFClientTypes.WorkflowExecutionFilter?
 }
 
@@ -6765,9 +6765,9 @@ extension ListOpenWorkflowExecutionsInputBody: Swift.Decodable {
         tagFilter = tagFilterDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
         let executionFilterDecoded = try containerValues.decodeIfPresent(SWFClientTypes.WorkflowExecutionFilter.self, forKey: .executionFilter)
         executionFilter = executionFilterDecoded
@@ -6999,7 +6999,7 @@ extension ListWorkflowTypesInput: Swift.Encodable {
         if let domain = self.domain {
             try encodeContainer.encode(domain, forKey: .domain)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let name = self.name {
@@ -7011,7 +7011,7 @@ extension ListWorkflowTypesInput: Swift.Encodable {
         if let registrationStatus = self.registrationStatus {
             try encodeContainer.encode(registrationStatus.rawValue, forKey: .registrationStatus)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
     }
@@ -7028,7 +7028,7 @@ public struct ListWorkflowTypesInput: Swift.Equatable {
     /// This member is required.
     public var domain: Swift.String?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If specified, lists the workflow type with this name.
     public var name: Swift.String?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call.
@@ -7037,15 +7037,15 @@ public struct ListWorkflowTypesInput: Swift.Equatable {
     /// This member is required.
     public var registrationStatus: SWFClientTypes.RegistrationStatus?
     /// When set to true, returns the results in reverse order. By default the results are returned in ascending alphabetical order of the name of the workflow types.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
 
     public init (
         domain: Swift.String? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         nextPageToken: Swift.String? = nil,
         registrationStatus: SWFClientTypes.RegistrationStatus? = nil,
-        reverseOrder: Swift.Bool = false
+        reverseOrder: Swift.Bool? = nil
     )
     {
         self.domain = domain
@@ -7062,8 +7062,8 @@ struct ListWorkflowTypesInputBody: Swift.Equatable {
     let name: Swift.String?
     let registrationStatus: SWFClientTypes.RegistrationStatus?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension ListWorkflowTypesInputBody: Swift.Decodable {
@@ -7086,9 +7086,9 @@ extension ListWorkflowTypesInputBody: Swift.Decodable {
         registrationStatus = registrationStatusDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }
@@ -7503,13 +7503,13 @@ extension PollForDecisionTaskInput: Swift.Encodable {
         if let identity = self.identity {
             try encodeContainer.encode(identity, forKey: .identity)
         }
-        if maximumPageSize != 0 {
+        if let maximumPageSize = self.maximumPageSize {
             try encodeContainer.encode(maximumPageSize, forKey: .maximumPageSize)
         }
         if let nextPageToken = self.nextPageToken {
             try encodeContainer.encode(nextPageToken, forKey: .nextPageToken)
         }
-        if reverseOrder != false {
+        if let reverseOrder = self.reverseOrder {
             try encodeContainer.encode(reverseOrder, forKey: .reverseOrder)
         }
         if let taskList = self.taskList {
@@ -7531,11 +7531,11 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
     /// Identity of the decider making the request, which is recorded in the DecisionTaskStarted event in the workflow history. This enables diagnostic tracing when problems arise. The form of this identity is user defined.
     public var identity: Swift.String?
     /// The maximum number of results that are returned per call. Use nextPageToken to obtain further pages of results. This is an upper limit only; the actual number of results returned per call may be fewer than the specified maximum.
-    public var maximumPageSize: Swift.Int
+    public var maximumPageSize: Swift.Int?
     /// If NextPageToken is returned there are more results available. The value of NextPageToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 60 seconds. Using an expired pagination token will return a 400 error: "Specified token has exceeded its maximum lifetime". The configured maximumPageSize determines how many results can be returned in a single call. The nextPageToken returned by this action cannot be used with [GetWorkflowExecutionHistory] to get the next page. You must call [PollForDecisionTask] again (with the nextPageToken) to retrieve the next page of history records. Calling [PollForDecisionTask] with a nextPageToken doesn't return a new decision task.
     public var nextPageToken: Swift.String?
     /// When set to true, returns the events in reverse order. By default the results are returned in ascending order of the eventTimestamp of the events.
-    public var reverseOrder: Swift.Bool
+    public var reverseOrder: Swift.Bool?
     /// Specifies the task list to poll for decision tasks. The specified string must not start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control characters (\u0000-\u001f | \u007f-\u009f). Also, it must not be the literal string arn.
     /// This member is required.
     public var taskList: SWFClientTypes.TaskList?
@@ -7543,9 +7543,9 @@ public struct PollForDecisionTaskInput: Swift.Equatable {
     public init (
         domain: Swift.String? = nil,
         identity: Swift.String? = nil,
-        maximumPageSize: Swift.Int = 0,
+        maximumPageSize: Swift.Int? = nil,
         nextPageToken: Swift.String? = nil,
-        reverseOrder: Swift.Bool = false,
+        reverseOrder: Swift.Bool? = nil,
         taskList: SWFClientTypes.TaskList? = nil
     )
     {
@@ -7563,8 +7563,8 @@ struct PollForDecisionTaskInputBody: Swift.Equatable {
     let taskList: SWFClientTypes.TaskList?
     let identity: Swift.String?
     let nextPageToken: Swift.String?
-    let maximumPageSize: Swift.Int
-    let reverseOrder: Swift.Bool
+    let maximumPageSize: Swift.Int?
+    let reverseOrder: Swift.Bool?
 }
 
 extension PollForDecisionTaskInputBody: Swift.Decodable {
@@ -7587,9 +7587,9 @@ extension PollForDecisionTaskInputBody: Swift.Decodable {
         identity = identityDecoded
         let nextPageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPageToken)
         nextPageToken = nextPageTokenDecoded
-        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize) ?? 0
+        let maximumPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPageSize)
         maximumPageSize = maximumPageSizeDecoded
-        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder) ?? false
+        let reverseOrderDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reverseOrder)
         reverseOrder = reverseOrderDecoded
     }
 }

@@ -5901,12 +5901,16 @@ extension IoTClientTypes {
 
 extension IoTClientTypes.CloudwatchLogsAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchMode
         case logGroupName
         case roleArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let batchMode = self.batchMode {
+            try encodeContainer.encode(batchMode, forKey: .batchMode)
+        }
         if let logGroupName = self.logGroupName {
             try encodeContainer.encode(logGroupName, forKey: .logGroupName)
         }
@@ -5921,12 +5925,16 @@ extension IoTClientTypes.CloudwatchLogsAction: Swift.Codable {
         roleArn = roleArnDecoded
         let logGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupName)
         logGroupName = logGroupNameDecoded
+        let batchModeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .batchMode)
+        batchMode = batchModeDecoded
     }
 }
 
 extension IoTClientTypes {
     /// Describes an action that sends data to CloudWatch Logs.
     public struct CloudwatchLogsAction: Swift.Equatable {
+        /// Indicates whether batches of log records will be extracted and uploaded into CloudWatch. Values include true or false (default).
+        public var batchMode: Swift.Bool?
         /// The CloudWatch log group to which the action sends data.
         /// This member is required.
         public var logGroupName: Swift.String?
@@ -5935,10 +5943,12 @@ extension IoTClientTypes {
         public var roleArn: Swift.String?
 
         public init (
+            batchMode: Swift.Bool? = nil,
             logGroupName: Swift.String? = nil,
             roleArn: Swift.String? = nil
         )
         {
+            self.batchMode = batchMode
             self.logGroupName = logGroupName
             self.roleArn = roleArn
         }

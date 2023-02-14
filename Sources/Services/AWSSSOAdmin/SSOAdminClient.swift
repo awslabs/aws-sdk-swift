@@ -224,10 +224,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(id: "attachCustomerManagedPolicyReferenceToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetInput, AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse, AttachCustomerManagedPolicyReferenceToPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -263,10 +260,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>(id: "attachManagedPolicyToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AttachManagedPolicyToPermissionSetInput, AttachManagedPolicyToPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<AttachManagedPolicyToPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AttachManagedPolicyToPermissionSetOutputResponse, AttachManagedPolicyToPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -302,10 +296,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>(id: "createAccountAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAccountAssignmentInput, CreateAccountAssignmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateAccountAssignmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAccountAssignmentOutputResponse, CreateAccountAssignmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -341,10 +332,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>(id: "createInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateInstanceAccessControlAttributeConfigurationInput, CreateInstanceAccessControlAttributeConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreateInstanceAccessControlAttributeConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateInstanceAccessControlAttributeConfigurationOutputResponse, CreateInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -380,10 +368,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<CreatePermissionSetInput, CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>(id: "createPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreatePermissionSetInput, CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePermissionSetInput, CreatePermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<CreatePermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePermissionSetOutputResponse, CreatePermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -419,10 +404,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>(id: "deleteAccountAssignment")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAccountAssignmentInput, DeleteAccountAssignmentOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteAccountAssignmentOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAccountAssignmentOutputResponse, DeleteAccountAssignmentOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -458,10 +440,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>(id: "deleteInlinePolicyFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInlinePolicyFromPermissionSetInput, DeleteInlinePolicyFromPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteInlinePolicyFromPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInlinePolicyFromPermissionSetOutputResponse, DeleteInlinePolicyFromPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -497,10 +476,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>(id: "deleteInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteInstanceAccessControlAttributeConfigurationInput, DeleteInstanceAccessControlAttributeConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeleteInstanceAccessControlAttributeConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteInstanceAccessControlAttributeConfigurationOutputResponse, DeleteInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -536,10 +512,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DeletePermissionSetInput, DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>(id: "deletePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionSetInput, DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionSetInput, DeletePermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeletePermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionSetOutputResponse, DeletePermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -575,10 +548,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>(id: "deletePermissionsBoundaryFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePermissionsBoundaryFromPermissionSetInput, DeletePermissionsBoundaryFromPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DeletePermissionsBoundaryFromPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePermissionsBoundaryFromPermissionSetOutputResponse, DeletePermissionsBoundaryFromPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -614,10 +584,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>(id: "describeAccountAssignmentCreationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentCreationStatusInput, DescribeAccountAssignmentCreationStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeAccountAssignmentCreationStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentCreationStatusOutputResponse, DescribeAccountAssignmentCreationStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -653,10 +620,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>(id: "describeAccountAssignmentDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeAccountAssignmentDeletionStatusInput, DescribeAccountAssignmentDeletionStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeAccountAssignmentDeletionStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeAccountAssignmentDeletionStatusOutputResponse, DescribeAccountAssignmentDeletionStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -692,10 +656,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>(id: "describeInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeInstanceAccessControlAttributeConfigurationInput, DescribeInstanceAccessControlAttributeConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribeInstanceAccessControlAttributeConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeInstanceAccessControlAttributeConfigurationOutputResponse, DescribeInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -731,10 +692,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribePermissionSetInput, DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>(id: "describePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetInput, DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetInput, DescribePermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribePermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetOutputResponse, DescribePermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -770,10 +728,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>(id: "describePermissionSetProvisioningStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePermissionSetProvisioningStatusInput, DescribePermissionSetProvisioningStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DescribePermissionSetProvisioningStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePermissionSetProvisioningStatusOutputResponse, DescribePermissionSetProvisioningStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -809,10 +764,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(id: "detachCustomerManagedPolicyReferenceFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetInput, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse, DetachCustomerManagedPolicyReferenceFromPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -848,10 +800,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>(id: "detachManagedPolicyFromPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DetachManagedPolicyFromPermissionSetInput, DetachManagedPolicyFromPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<DetachManagedPolicyFromPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DetachManagedPolicyFromPermissionSetOutputResponse, DetachManagedPolicyFromPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -887,10 +836,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>(id: "getInlinePolicyForPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInlinePolicyForPermissionSetInput, GetInlinePolicyForPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetInlinePolicyForPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInlinePolicyForPermissionSetOutputResponse, GetInlinePolicyForPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -926,10 +872,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>(id: "getPermissionsBoundaryForPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPermissionsBoundaryForPermissionSetInput, GetPermissionsBoundaryForPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<GetPermissionsBoundaryForPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPermissionsBoundaryForPermissionSetOutputResponse, GetPermissionsBoundaryForPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -965,10 +908,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>(id: "listAccountAssignmentCreationStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentCreationStatusInput, ListAccountAssignmentCreationStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAccountAssignmentCreationStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentCreationStatusOutputResponse, ListAccountAssignmentCreationStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1004,10 +944,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>(id: "listAccountAssignmentDeletionStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentDeletionStatusInput, ListAccountAssignmentDeletionStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAccountAssignmentDeletionStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentDeletionStatusOutputResponse, ListAccountAssignmentDeletionStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1043,10 +980,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>(id: "listAccountAssignments")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountAssignmentsInput, ListAccountAssignmentsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAccountAssignmentsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountAssignmentsOutputResponse, ListAccountAssignmentsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1082,10 +1016,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>(id: "listAccountsForProvisionedPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAccountsForProvisionedPermissionSetInput, ListAccountsForProvisionedPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListAccountsForProvisionedPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAccountsForProvisionedPermissionSetOutputResponse, ListAccountsForProvisionedPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1121,10 +1052,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(id: "listCustomerManagedPolicyReferencesInPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetInput, ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListCustomerManagedPolicyReferencesInPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse, ListCustomerManagedPolicyReferencesInPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1160,10 +1088,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>(id: "listInstances")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListInstancesInput, ListInstancesOutputResponse, ListInstancesOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListInstancesInput, ListInstancesOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListInstancesOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListInstancesOutputResponse, ListInstancesOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1199,10 +1124,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>(id: "listManagedPoliciesInPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListManagedPoliciesInPermissionSetInput, ListManagedPoliciesInPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListManagedPoliciesInPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListManagedPoliciesInPermissionSetOutputResponse, ListManagedPoliciesInPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1238,10 +1160,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>(id: "listPermissionSetProvisioningStatus")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetProvisioningStatusInput, ListPermissionSetProvisioningStatusOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListPermissionSetProvisioningStatusOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetProvisioningStatusOutputResponse, ListPermissionSetProvisioningStatusOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1277,10 +1196,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListPermissionSetsInput, ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>(id: "listPermissionSets")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsInput, ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsInput, ListPermissionSetsOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListPermissionSetsOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsOutputResponse, ListPermissionSetsOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1316,10 +1232,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>(id: "listPermissionSetsProvisionedToAccount")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPermissionSetsProvisionedToAccountInput, ListPermissionSetsProvisionedToAccountOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListPermissionSetsProvisionedToAccountOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPermissionSetsProvisionedToAccountOutputResponse, ListPermissionSetsProvisionedToAccountOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1355,10 +1268,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(id: "listTagsForResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ListTagsForResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1394,10 +1304,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>(id: "provisionPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ProvisionPermissionSetInput, ProvisionPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<ProvisionPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ProvisionPermissionSetOutputResponse, ProvisionPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1433,10 +1340,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>(id: "putInlinePolicyToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInlinePolicyToPermissionSetInput, PutInlinePolicyToPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutInlinePolicyToPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInlinePolicyToPermissionSetOutputResponse, PutInlinePolicyToPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1472,10 +1376,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>(id: "putPermissionsBoundaryToPermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutPermissionsBoundaryToPermissionSetInput, PutPermissionsBoundaryToPermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<PutPermissionsBoundaryToPermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutPermissionsBoundaryToPermissionSetOutputResponse, PutPermissionsBoundaryToPermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1511,10 +1412,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>(id: "tagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<TagResourceInput, TagResourceOutputResponse, TagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<TagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1550,10 +1448,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>(id: "untagResource")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UntagResourceInput, UntagResourceOutputResponse, UntagResourceOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UntagResourceOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1589,10 +1484,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>(id: "updateInstanceAccessControlAttributeConfiguration")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateInstanceAccessControlAttributeConfigurationInput, UpdateInstanceAccessControlAttributeConfigurationOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdateInstanceAccessControlAttributeConfigurationOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateInstanceAccessControlAttributeConfigurationOutputResponse, UpdateInstanceAccessControlAttributeConfigurationOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -1628,10 +1520,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         var operation = ClientRuntime.OperationStack<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>(id: "updatePermissionSet")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePermissionSetInput, UpdatePermissionSetOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<UpdatePermissionSetOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePermissionSetOutputResponse, UpdatePermissionSetOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))

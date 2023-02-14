@@ -78,6 +78,7 @@ let package = Package(
         .library(name: "AWSCloudSearch", targets: ["AWSCloudSearch"]),
         .library(name: "AWSCloudSearchDomain", targets: ["AWSCloudSearchDomain"]),
         .library(name: "AWSCloudTrail", targets: ["AWSCloudTrail"]),
+        .library(name: "AWSCloudTrailData", targets: ["AWSCloudTrailData"]),
         .library(name: "AWSCloudWatch", targets: ["AWSCloudWatch"]),
         .library(name: "AWSCloudWatchEvents", targets: ["AWSCloudWatchEvents"]),
         .library(name: "AWSCloudWatchLogs", targets: ["AWSCloudWatchLogs"]),
@@ -427,6 +428,7 @@ let package = Package(
         .target(name: "AWSCloudSearch", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudSearch"),
         .target(name: "AWSCloudSearchDomain", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudSearchDomain"),
         .target(name: "AWSCloudTrail", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudTrail"),
+        .target(name: "AWSCloudTrailData", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudTrailData"),
         .target(name: "AWSCloudWatch", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudWatch"),
         .target(name: "AWSCloudWatchEvents", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudWatchEvents"),
         .target(name: "AWSCloudWatchLogs", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSCloudWatchLogs"),
@@ -767,6 +769,7 @@ let package = Package(
         // .testTarget(name: "AWSCloudSearchTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudSearch", smithyTestUtil], path: "./Tests/Services/AWSCloudSearchTests"),
         // .testTarget(name: "AWSCloudSearchDomainTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudSearchDomain", smithyTestUtil], path: "./Tests/Services/AWSCloudSearchDomainTests"),
         // .testTarget(name: "AWSCloudTrailTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudTrail", smithyTestUtil], path: "./Tests/Services/AWSCloudTrailTests"),
+        // .testTarget(name: "AWSCloudTrailDataTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudTrailData", smithyTestUtil], path: "./Tests/Services/AWSCloudTrailDataTests"),
         // .testTarget(name: "AWSCloudWatchTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudWatch", smithyTestUtil], path: "./Tests/Services/AWSCloudWatchTests"),
         // .testTarget(name: "AWSCloudWatchEventsTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudWatchEvents", smithyTestUtil], path: "./Tests/Services/AWSCloudWatchEventsTests"),
         // .testTarget(name: "AWSCloudWatchLogsTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSCloudWatchLogs", smithyTestUtil], path: "./Tests/Services/AWSCloudWatchLogsTests"),
@@ -1070,6 +1073,6 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.10.2"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0"))
     ]
 }

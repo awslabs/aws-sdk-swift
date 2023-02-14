@@ -3,16 +3,16 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// The WorkDocs API is designed for the following use cases:
+/// The Amazon WorkDocs API is designed for the following use cases:
 ///
 /// * File Migration: File migration applications are supported for users who want to migrate their files from an on-premises or off-premises file system or service. Users can insert files into a user directory structure, as well as allow for basic metadata changes, such as modifications to the permissions of files.
 ///
-/// * Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with AWS CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.
+/// * Security: Support security applications are supported for users who have additional security needs, such as antivirus or data loss prevention. The API actions, along with CloudTrail, allow these applications to detect when changes occur in Amazon WorkDocs. Then, the application can take the necessary actions and replace the target file. If the target file violates the policy, the application can also choose to email the user.
 ///
-/// * eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with AWS CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.
+/// * eDiscovery/Analytics: General administrative applications are supported, such as eDiscovery and analytics. These applications can choose to mimic or record the actions in an Amazon WorkDocs site, along with CloudTrail, to replicate data for eDiscovery, backup, or analytical applications.
 ///
 ///
-/// All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model. The pricing for Amazon WorkDocs APIs varies depending on the API call type for these actions:
+/// All Amazon WorkDocs API actions are Amazon authenticated and certificate-signed. They not only require the use of the Amazon Web Services SDK, but also allow for the exclusive use of IAM users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the Amazon WorkDocs site, the IAM user gains full administrative visibility into the entire Amazon WorkDocs site (or as set in the IAM policy). This includes, but is not limited to, the ability to modify file permissions and upload any file to any user. This allows developers to perform the three use cases above, as well as give users the ability to grant access on a selective basis using the IAM model. The pricing for Amazon WorkDocs APIs varies depending on the API call type for these actions:
 ///
 /// * READ (Get*)
 ///
@@ -51,7 +51,7 @@ public protocol WorkDocsClientProtocol {
     func deleteCustomMetadata(input: DeleteCustomMetadataInput) async throws -> DeleteCustomMetadataOutputResponse
     /// Permanently deletes the specified document and its associated metadata.
     func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutputResponse
-    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    /// Deletes a specific version of a document.
     func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutputResponse
     /// Permanently deletes the specified folder and its contents.
     func deleteFolder(input: DeleteFolderInput) async throws -> DeleteFolderOutputResponse
@@ -61,7 +61,7 @@ public protocol WorkDocsClientProtocol {
     func deleteLabels(input: DeleteLabelsInput) async throws -> DeleteLabelsOutputResponse
     /// Deletes the specified subscription from the specified organization.
     func deleteNotificationSubscription(input: DeleteNotificationSubscriptionInput) async throws -> DeleteNotificationSubscriptionOutputResponse
-    /// Deletes the specified user from a Simple AD or Microsoft AD directory.
+    /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     /// Describes the user activities in a specified time period.
     func describeActivities(input: DescribeActivitiesInput) async throws -> DescribeActivitiesOutputResponse

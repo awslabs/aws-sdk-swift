@@ -1552,7 +1552,7 @@ extension DescribeCasesInput: Swift.Encodable {
         if let includeCommunications = self.includeCommunications {
             try encodeContainer.encode(includeCommunications, forKey: .includeCommunications)
         }
-        if includeResolvedCases != false {
+        if let includeResolvedCases = self.includeResolvedCases {
             try encodeContainer.encode(includeResolvedCases, forKey: .includeResolvedCases)
         }
         if let language = self.language {
@@ -1585,7 +1585,7 @@ public struct DescribeCasesInput: Swift.Equatable {
     /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
     public var includeCommunications: Swift.Bool?
     /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
-    public var includeResolvedCases: Swift.Bool
+    public var includeResolvedCases: Swift.Bool?
     /// The language in which Amazon Web Services Support handles the case. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). You must specify the ISO 639-1 code for the language parameter if you want support in that language.
     public var language: Swift.String?
     /// The maximum number of results to return before paginating.
@@ -1599,7 +1599,7 @@ public struct DescribeCasesInput: Swift.Equatable {
         caseIdList: [Swift.String]? = nil,
         displayId: Swift.String? = nil,
         includeCommunications: Swift.Bool? = nil,
-        includeResolvedCases: Swift.Bool = false,
+        includeResolvedCases: Swift.Bool? = nil,
         language: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -1622,7 +1622,7 @@ struct DescribeCasesInputBody: Swift.Equatable {
     let displayId: Swift.String?
     let afterTime: Swift.String?
     let beforeTime: Swift.String?
-    let includeResolvedCases: Swift.Bool
+    let includeResolvedCases: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let language: Swift.String?
@@ -1661,7 +1661,7 @@ extension DescribeCasesInputBody: Swift.Decodable {
         afterTime = afterTimeDecoded
         let beforeTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .beforeTime)
         beforeTime = beforeTimeDecoded
-        let includeResolvedCasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeResolvedCases) ?? false
+        let includeResolvedCasesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeResolvedCases)
         includeResolvedCases = includeResolvedCasesDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded

@@ -286,7 +286,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
         return result
     }
 
-    /// Creates a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     public func createManagedEndpoint(input: CreateManagedEndpointInput) async throws -> CreateManagedEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,7 +413,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
         return result
     }
 
-    /// Deletes a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     public func deleteManagedEndpoint(input: DeleteManagedEndpointInput) async throws -> DeleteManagedEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -553,7 +553,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
         return result
     }
 
-    /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     public func describeManagedEndpoint(input: DescribeManagedEndpointInput) async throws -> DescribeManagedEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -695,7 +695,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
         return result
     }
 
-    /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects EMR Studio to Amazon EMR on EKS so that EMR Studio can communicate with your virtual cluster.
+    /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     public func listManagedEndpoints(input: ListManagedEndpointsInput) async throws -> ListManagedEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -848,7 +848,7 @@ extension EMRcontainersClient: EMRcontainersClientProtocol {
         return result
     }
 
-    /// Assigns tags to resources. A tag is a label that you assign to an AWS resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your AWS resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
+    /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

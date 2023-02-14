@@ -1512,15 +1512,15 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric: Swift.Codable {
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the metric data of your service against its projected metric data.
+    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the metric data of your service against its projected metric data.
     public struct ECSServiceProjectedMetric: Swift.Equatable {
         /// The lower bound values for the projected metric.
         public var lowerBoundValues: [Swift.Double]?
         /// The name of the projected metric. The following metrics are available:
         ///
-        /// * CPU — The percentage of allocated compute units that are currently in use on the ECS service tasks.
+        /// * Cpu — The percentage of allocated compute units that are currently in use on the service tasks.
         ///
-        /// * Memory — The percentage of memory that is currently in use on the ECS service tasks.
+        /// * Memory — The percentage of memory that's currently in use on the service tasks.
         public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
         /// The timestamps of the projected metric.
         public var timestamps: [ClientRuntime.Date]?
@@ -1581,15 +1581,15 @@ extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric: Swif
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes the projected utilization metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    /// Describes the projected utilization metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
     public struct ECSServiceProjectedUtilizationMetric: Swift.Equatable {
         /// The lower bound values for the projected utilization metrics.
         public var lowerBoundValue: Swift.Double
         /// The name of the projected utilization metric. The following utilization metrics are available:
         ///
-        /// * CPU — The percentage of allocated compute units that are currently in use on the ECS service tasks.
+        /// * Cpu — The percentage of allocated compute units that are currently in use on the service tasks.
         ///
-        /// * Memory — The percentage of memory that is currently in use on the ECS service tasks.
+        /// * Memory — The percentage of memory that's currently in use on the service tasks.
         public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
         /// The statistic of the projected utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
         public var statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic?
@@ -1730,41 +1730,41 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendation: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// Describes an Amazon ECS service recommendation.
     public struct ECSServiceRecommendation: Swift.Equatable {
-        /// The Amazon Web Services account ID of the ECS service.
+        /// The Amazon Web Services account ID of the Amazon ECS service.
         public var accountId: Swift.String?
-        /// The risk of the current ECS service not meeting the performance needs of its workloads. The higher the risk, the more likely the current service can't meet the performance requirements of its workload.
+        /// The risk of the current Amazon ECS service not meeting the performance needs of its workloads. The higher the risk, the more likely the current service can't meet the performance requirements of its workload.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
-        /// The configuration of the current ECS service.
+        /// The configuration of the current Amazon ECS service.
         public var currentServiceConfiguration: ComputeOptimizerClientTypes.ServiceConfiguration?
-        /// The finding classification of an ECS service. Findings for ECS services include:
+        /// The finding classification of an Amazon ECS service. Findings for Amazon ECS services include:
         ///
-        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough memory or CPU, an ECS service is considered under-provisioned. An under-provisioned ECS service might result in poor application performance.
+        /// * Underprovisioned — When Compute Optimizer detects that there’s not enough memory or CPU, an Amazon ECS service is considered under-provisioned. An under-provisioned service might result in poor application performance.
         ///
-        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive memory or CPU, an ECS service is considered over-provisioned. An over-provisioned ECS service might result in additional infrastructure costs.
+        /// * Overprovisioned — When Compute Optimizer detects that there’s excessive memory or CPU, an Amazon ECS service is considered over-provisioned. An over-provisioned service might result in additional infrastructure costs.
         ///
-        /// * Optimized — When both the CPU and memory of your ECS service meet the performance requirements of your workload, the service is considered optimized.
+        /// * Optimized — When both the CPU and memory of your Amazon ECS service meet the performance requirements of your workload, the service is considered optimized.
         public var finding: ComputeOptimizerClientTypes.ECSServiceRecommendationFinding?
-        /// The reason for the finding classification of an ECS service. Finding reason codes for ECS services include:
+        /// The reason for the finding classification of an Amazon ECS service. Finding reason codes for Amazon ECS services include:
         ///
-        /// * CPUUnderprovisioned — The ECS service CPU configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
+        /// * CPUUnderprovisioned — The service CPU configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
         ///
-        /// * CPUOverprovisioned — The ECS service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
+        /// * CPUOverprovisioned — The service CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current service during the look-back period.
         ///
-        /// * MemoryUnderprovisioned — The ECS service memory configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
+        /// * MemoryUnderprovisioned — The service memory configuration can be sized up to enhance the performance of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
         ///
-        /// * MemoryOverprovisioned — The ECS service memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
+        /// * MemoryOverprovisioned — The service memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the MemoryUtilization metric of the current service during the look-back period.
         public var findingReasonCodes: [ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode]?
-        /// The timestamp of when the ECS service recommendation was last generated.
+        /// The timestamp of when the Amazon ECS service recommendation was last generated.
         public var lastRefreshTimestamp: ClientRuntime.Date?
-        /// The launch type the ECS service is using. Compute Optimizer only supports the Fargate launch type.
+        /// The launch type the Amazon ECS service is using. Compute Optimizer only supports the Fargate launch type.
         public var launchType: ComputeOptimizerClientTypes.ECSServiceLaunchType?
-        /// The number of days the ECS service utilization metrics were analyzed.
+        /// The number of days the Amazon ECS service utilization metrics were analyzed.
         public var lookbackPeriodInDays: Swift.Double
-        /// The Amazon Resource Name (ARN) of the current ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+        /// The Amazon Resource Name (ARN) of the current Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
         public var serviceArn: Swift.String?
-        /// An array of objects that describe the recommendation options for the ECS service.
+        /// An array of objects that describe the recommendation options for the Amazon ECS service.
         public var serviceRecommendationOptions: [ComputeOptimizerClientTypes.ECSServiceRecommendationOption]?
-        /// An array of objects that describe the utilization metrics of the ECS service.
+        /// An array of objects that describe the utilization metrics of the Amazon ECS service.
         public var utilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceUtilizationMetric]?
 
         public init (
@@ -2033,13 +2033,13 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption: Swift.Coda
 extension ComputeOptimizerClientTypes {
     /// Describes the recommendation options for an Amazon ECS service.
     public struct ECSServiceRecommendationOption: Swift.Equatable {
-        /// The CPU and memory size recommendations for the containers within the task of your ECS service.
+        /// The CPU and memory size recommendations for the containers within the task of your Amazon ECS service.
         public var containerRecommendations: [ComputeOptimizerClientTypes.ContainerRecommendation]?
-        /// The CPU size of the ECS service recommendation option.
+        /// The CPU size of the Amazon ECS service recommendation option.
         public var cpu: Swift.Int?
-        /// The memory size of the ECS service recommendation option.
+        /// The memory size of the Amazon ECS service recommendation option.
         public var memory: Swift.Int?
-        /// An array of objects that describe the projected utilization metrics of the ECS service recommendation option.
+        /// An array of objects that describe the projected utilization metrics of the Amazon ECS service recommendation option.
         public var projectedUtilizationMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric]?
         /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
@@ -2106,13 +2106,13 @@ extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current ECS service and the recommended option, compare the metric data of your service against its projected metric data.
+    /// Describes the projected metrics of an Amazon ECS service recommendation option. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the metric data of your service against its projected metric data.
     public struct ECSServiceRecommendedOptionProjectedMetric: Swift.Equatable {
         /// An array of objects that describe the projected metric.
         public var projectedMetrics: [ComputeOptimizerClientTypes.ECSServiceProjectedMetric]?
-        /// The recommended CPU size for the ECS service.
+        /// The recommended CPU size for the Amazon ECS service.
         public var recommendedCpuUnits: Swift.Int
-        /// The recommended memory size for the ECS service.
+        /// The recommended memory size for the Amazon ECS service.
         public var recommendedMemorySize: Swift.Int
 
         public init (
@@ -2161,13 +2161,13 @@ extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric: Swift.Codable
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes the utilization metric of an Amazon ECS service. To determine the performance difference between your current ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
+    /// Describes the utilization metric of an Amazon ECS service. To determine the performance difference between your current Amazon ECS service and the recommended option, compare the utilization metric data of your service against its projected utilization metric data.
     public struct ECSServiceUtilizationMetric: Swift.Equatable {
         /// The name of the utilization metric. The following utilization metrics are available:
         ///
-        /// * Cpu — The amount of CPU units that are used in the service.
+        /// * Cpu — The amount of CPU capacity that's used in the service.
         ///
-        /// * Memory — The amount of memory that is used in the service.
+        /// * Memory — The amount of memory that's used in the service.
         public var name: ComputeOptimizerClientTypes.ECSServiceMetricName?
         /// The statistic of the utilization metric. The Compute Optimizer API, Command Line Interface (CLI), and SDKs return utilization metrics using only the Maximum statistic, which is the highest value observed during the specified period. The Compute Optimizer console displays graphs for some utilization metrics using the Average statistic, which is the value of Sum / SampleCount during the specified period. For more information, see [Viewing resource recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/viewing-recommendations.html) in the Compute Optimizer User Guide. You can also get averaged utilization metric data for your resources using Amazon CloudWatch. For more information, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
         public var statistic: ComputeOptimizerClientTypes.ECSServiceMetricStatistic?
@@ -3235,13 +3235,13 @@ extension ExportECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ExportECSServiceRecommendationsInput: Swift.Equatable {
-    /// The Amazon Web Services account IDs for the export ECS service recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    /// The Amazon Web Services account IDs for the export Amazon ECS service recommendations. If your account is the management account or the delegated administrator of an organization, use this parameter to specify the member account you want to export recommendations to. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter or the include member accounts parameter is omitted, the recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
     public var accountIds: [Swift.String]?
     /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
     public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableECSServiceField]?
     /// The format of the export file. The CSV file is the only export file format currently supported.
     public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
-    /// An array of objects to specify a filter that exports a more specific set of ECS service recommendations.
+    /// An array of objects to specify a filter that exports a more specific set of Amazon ECS service recommendations.
     public var filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
     /// If your account is the management account or the delegated administrator of an organization, this parameter indicates whether to include recommendations for resources in all member accounts of the organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file. If this parameter or the account ID parameter is omitted, recommendations for member accounts aren't included in the export.
     public var includeMemberAccounts: Swift.Bool
@@ -5636,7 +5636,7 @@ public struct GetECSServiceRecommendationProjectedMetricsInput: Swift.Equatable 
     /// The granularity, in seconds, of the projected metrics data points.
     /// This member is required.
     public var period: Swift.Int
-    /// The ARN that identifies the ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+    /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
     /// This member is required.
     public var serviceArn: Swift.String?
     /// The timestamp of the first projected metrics data point to return.
@@ -5825,15 +5825,15 @@ extension GetECSServiceRecommendationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetECSServiceRecommendationsInput: Swift.Equatable {
-    /// Return the ECS service recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the ECS service recommendations to specific member accounts. You can only specify one account ID per request.
+    /// Return the Amazon ECS service recommendations to the specified Amazon Web Services account IDs. If your account is the management account or the delegated administrator of an organization, use this parameter to return the Amazon ECS service recommendations to specific member accounts. You can only specify one account ID per request.
     public var accountIds: [Swift.String]?
-    /// An array of objects to specify a filter that returns a more specific list of ECS service recommendations.
+    /// An array of objects to specify a filter that returns a more specific list of Amazon ECS service recommendations.
     public var filters: [ComputeOptimizerClientTypes.ECSServiceRecommendationFilter]?
-    /// The maximum number of ECS service recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    /// The maximum number of Amazon ECS service recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token to advance to the next page of ECS service recommendations.
+    /// The token to advance to the next page of Amazon ECS service recommendations.
     public var nextToken: Swift.String?
-    /// The ARN that identifies the ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+    /// The ARN that identifies the Amazon ECS service. The following is the format of the ARN: arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
     public var serviceArns: [Swift.String]?
 
     public init (
@@ -5965,11 +5965,11 @@ extension GetECSServiceRecommendationsOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct GetECSServiceRecommendationsOutputResponse: Swift.Equatable {
-    /// An array of objects that describe the ECS service recommendations.
+    /// An array of objects that describe the Amazon ECS service recommendations.
     public var ecsServiceRecommendations: [ComputeOptimizerClientTypes.ECSServiceRecommendation]?
     /// An array of objects that describe errors of the request.
     public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
-    /// The token to advance to the next page of ECS service recommendations.
+    /// The token to advance to the next page of Amazon ECS service recommendations.
     public var nextToken: Swift.String?
 
     public init (
@@ -7121,6 +7121,7 @@ extension ComputeOptimizerClientTypes {
         case amazonEmr
         case apacheCassandra
         case apacheHadoop
+        case kafka
         case memcached
         case nginx
         case postgreSql
@@ -7132,6 +7133,7 @@ extension ComputeOptimizerClientTypes {
                 .amazonEmr,
                 .apacheCassandra,
                 .apacheHadoop,
+                .kafka,
                 .memcached,
                 .nginx,
                 .postgreSql,
@@ -7148,6 +7150,7 @@ extension ComputeOptimizerClientTypes {
             case .amazonEmr: return "AmazonEmr"
             case .apacheCassandra: return "ApacheCassandra"
             case .apacheHadoop: return "ApacheHadoop"
+            case .kafka: return "Kafka"
             case .memcached: return "Memcached"
             case .nginx: return "Nginx"
             case .postgreSql: return "PostgreSql"
@@ -7423,6 +7426,8 @@ extension ComputeOptimizerClientTypes {
         /// * PostgreSql - Infers that PostgreSQL might be running on the instance.
         ///
         /// * Redis - Infers that Redis might be running on the instance.
+        ///
+        /// * Kafka - Infers that Kafka might be running on the instance.
         public var inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]?
         /// The Amazon Resource Name (ARN) of the current instance.
         public var instanceArn: Swift.String?
@@ -10140,22 +10145,22 @@ extension ComputeOptimizerClientTypes.ServiceConfiguration: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// The Amazon ECS service configurations used for recommendations.
     public struct ServiceConfiguration: Swift.Equatable {
-        /// Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects the generated recommendations. For example, if Auto Scaling is configured on a ECS service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations. The Auto Scaling configuration methods include:
+        /// Describes the Auto Scaling configuration methods for an Amazon ECS service. This affects the generated recommendations. For example, if Auto Scaling is configured on a service’s CPU, then Compute Optimizer doesn’t generate CPU size recommendations. The Auto Scaling configuration methods include:
         ///
-        /// * TARGET_TRACKING_SCALING_CPU — If the ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.
+        /// * TARGET_TRACKING_SCALING_CPU — If the Amazon ECS service is configured to use target scaling on CPU, Compute Optimizer doesn't generate CPU recommendations.
         ///
-        /// * TARGET_TRACKING_SCALING_MEMORY — If the ECS service is configured to use target scaling on memory, Compute Optimizer doesn't generate memory recommendations.
+        /// * TARGET_TRACKING_SCALING_MEMORY — If the Amazon ECS service is configured to use target scaling on memory, Compute Optimizer doesn't generate memory recommendations.
         ///
         ///
         /// For more information about step scaling and target scaling, see [ Step scaling policies for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) and [ Target tracking scaling policies for Application Auto Scaling](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) in the Application Auto Scaling User Guide.
         public var autoScalingConfiguration: ComputeOptimizerClientTypes.AutoScalingConfiguration?
-        /// The container configurations within a task of an ECS service.
+        /// The container configurations within a task of an Amazon ECS service.
         public var containerConfigurations: [ComputeOptimizerClientTypes.ContainerConfiguration]?
-        /// The number of CPU units used by the tasks in the ECS service.
+        /// The number of CPU units used by the tasks in the Amazon ECS service.
         public var cpu: Swift.Int?
-        /// The amount of memory used by the tasks in the ECS service.
+        /// The amount of memory used by the tasks in the Amazon ECS service.
         public var memory: Swift.Int?
-        /// The task definition ARN used by the tasks in the ECS service.
+        /// The task definition ARN used by the tasks in the Amazon ECS service.
         public var taskDefinitionArn: Swift.String?
 
         public init (

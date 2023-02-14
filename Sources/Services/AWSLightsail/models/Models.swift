@@ -2084,7 +2084,7 @@ extension LightsailClientTypes.AvailabilityZone: Swift.Codable {
 }
 
 extension LightsailClientTypes {
-    /// Describes an Availability Zone.
+    /// Describes an Availability Zone. This is returned only as part of a GetRegions request.
     public struct AvailabilityZone: Swift.Equatable {
         /// The state of the Availability Zone.
         public var state: Swift.String?
@@ -5313,9 +5313,9 @@ extension LightsailClientTypes.ContainerServiceRegistryLogin: Swift.Codable {
 }
 
 extension LightsailClientTypes {
-    /// Describes the login information for the container image registry of an Amazon Lightsail account.
+    /// Describes the sign-in credentials for the container image registry of an Amazon Lightsail account.
     public struct ContainerServiceRegistryLogin: Swift.Equatable {
-        /// The timestamp of when the container image registry username and password expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
+        /// The timestamp of when the container image registry sign-in credentials expire. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials using the CreateContainerServiceRegistryLogin action.
         public var expiresAt: ClientRuntime.Date?
         /// The container service registry password to use to push container images to the container image registry of a Lightsail account
         public var password: Swift.String?
@@ -9268,7 +9268,7 @@ extension CreateLoadBalancerInput: Swift.Encodable {
         if let healthCheckPath = self.healthCheckPath {
             try encodeContainer.encode(healthCheckPath, forKey: .healthCheckPath)
         }
-        if instancePort != 0 {
+        if let instancePort = self.instancePort {
             try encodeContainer.encode(instancePort, forKey: .instancePort)
         }
         if let ipAddressType = self.ipAddressType {
@@ -9306,7 +9306,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
     public var healthCheckPath: Swift.String?
     /// The instance port where you're creating your load balancer.
     /// This member is required.
-    public var instancePort: Swift.Int
+    public var instancePort: Swift.Int?
     /// The IP address type for the load balancer. The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
     public var ipAddressType: LightsailClientTypes.IpAddressType?
     /// The name of your load balancer.
@@ -9322,7 +9322,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
         certificateDomainName: Swift.String? = nil,
         certificateName: Swift.String? = nil,
         healthCheckPath: Swift.String? = nil,
-        instancePort: Swift.Int = 0,
+        instancePort: Swift.Int? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         loadBalancerName: Swift.String? = nil,
         tags: [LightsailClientTypes.Tag]? = nil,
@@ -9343,7 +9343,7 @@ public struct CreateLoadBalancerInput: Swift.Equatable {
 
 struct CreateLoadBalancerInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
-    let instancePort: Swift.Int
+    let instancePort: Swift.Int?
     let healthCheckPath: Swift.String?
     let certificateName: Swift.String?
     let certificateDomainName: Swift.String?
@@ -9370,7 +9370,7 @@ extension CreateLoadBalancerInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
-        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort)
         instancePort = instancePortDecoded
         let healthCheckPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .healthCheckPath)
         healthCheckPath = healthCheckPathDecoded
@@ -14982,7 +14982,7 @@ extension LightsailClientTypes {
     public struct DomainEntry: Swift.Equatable {
         /// The ID of the domain recordset entry.
         public var id: Swift.String?
-        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer. You can include an alias (A type) record in your request, which points to a load balancer DNS name and routes traffic to your load balancer.
+        /// When true, specifies whether the domain entry is an alias used by the Lightsail load balancer, Lightsail container service, Lightsail content delivery network (CDN) distribution, or another Amazon Web Services resource. You can include an alias (A type) record in your request, which points to the DNS name of a load balancer, container service, CDN distribution, or other Amazon Web Services resource and routes traffic to that resource.
         public var isAlias: Swift.Bool?
         /// The name of the domain.
         public var name: Swift.String?
@@ -16709,7 +16709,7 @@ extension GetBucketMetricDataInput: Swift.Encodable {
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let startTime = self.startTime {
@@ -16749,7 +16749,7 @@ public struct GetBucketMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.BucketMetricName?
     /// The granularity, in seconds, of the returned data points. Bucket storage metrics are reported once per day. Therefore, you should specify a period of 86400 seconds, which is the number of seconds in a day.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The timestamp indicating the earliest data to be returned.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
@@ -16774,7 +16774,7 @@ public struct GetBucketMetricDataInput: Swift.Equatable {
         bucketName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         metricName: LightsailClientTypes.BucketMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
@@ -16795,7 +16795,7 @@ struct GetBucketMetricDataInputBody: Swift.Equatable {
     let metricName: LightsailClientTypes.BucketMetricName?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
-    let period: Swift.Int
+    let period: Swift.Int?
     let statistics: [LightsailClientTypes.MetricStatistic]?
     let unit: LightsailClientTypes.MetricUnit?
 }
@@ -16821,7 +16821,7 @@ extension GetBucketMetricDataInputBody: Swift.Decodable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let statisticsContainer = try containerValues.decodeIfPresent([LightsailClientTypes.MetricStatistic?].self, forKey: .statistics)
         var statisticsDecoded0:[LightsailClientTypes.MetricStatistic]? = nil
@@ -17271,7 +17271,7 @@ extension GetCertificatesInput: Swift.Encodable {
                 try certificateStatusesContainer.encode(certificatestatus0.rawValue)
             }
         }
-        if includeCertificateDetails != false {
+        if let includeCertificateDetails = self.includeCertificateDetails {
             try encodeContainer.encode(includeCertificateDetails, forKey: .includeCertificateDetails)
         }
     }
@@ -17289,12 +17289,12 @@ public struct GetCertificatesInput: Swift.Equatable {
     /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status.
     public var certificateStatuses: [LightsailClientTypes.CertificateStatus]?
     /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
-    public var includeCertificateDetails: Swift.Bool
+    public var includeCertificateDetails: Swift.Bool?
 
     public init (
         certificateName: Swift.String? = nil,
         certificateStatuses: [LightsailClientTypes.CertificateStatus]? = nil,
-        includeCertificateDetails: Swift.Bool = false
+        includeCertificateDetails: Swift.Bool? = nil
     )
     {
         self.certificateName = certificateName
@@ -17305,7 +17305,7 @@ public struct GetCertificatesInput: Swift.Equatable {
 
 struct GetCertificatesInputBody: Swift.Equatable {
     let certificateStatuses: [LightsailClientTypes.CertificateStatus]?
-    let includeCertificateDetails: Swift.Bool
+    let includeCertificateDetails: Swift.Bool?
     let certificateName: Swift.String?
 }
 
@@ -17329,7 +17329,7 @@ extension GetCertificatesInputBody: Swift.Decodable {
             }
         }
         certificateStatuses = certificateStatusesDecoded0
-        let includeCertificateDetailsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeCertificateDetails) ?? false
+        let includeCertificateDetailsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeCertificateDetails)
         includeCertificateDetails = includeCertificateDetailsDecoded
         let certificateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateName)
         certificateName = certificateNameDecoded
@@ -18259,7 +18259,7 @@ public struct GetContainerServiceMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.ContainerServiceMetricName?
     /// The granularity, in seconds, of the returned data points. All container service metric data is available in 5-minute (300 seconds) granularity.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The name of the container service for which to get metric data.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -18283,7 +18283,7 @@ public struct GetContainerServiceMetricDataInput: Swift.Equatable {
     public init (
         endTime: ClientRuntime.Date? = nil,
         metricName: LightsailClientTypes.ContainerServiceMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         serviceName: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil
@@ -19419,7 +19419,7 @@ extension GetDistributionMetricDataInput: Swift.Encodable {
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let startTime = self.startTime {
@@ -19474,7 +19474,7 @@ public struct GetDistributionMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.DistributionMetricName?
     /// The granularity, in seconds, for the metric data points that will be returned.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The start of the time interval for which to get metric data. Constraints:
     ///
     /// * Specified in Coordinated Universal Time (UTC).
@@ -19506,7 +19506,7 @@ public struct GetDistributionMetricDataInput: Swift.Equatable {
         distributionName: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
         metricName: LightsailClientTypes.DistributionMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
@@ -19527,7 +19527,7 @@ struct GetDistributionMetricDataInputBody: Swift.Equatable {
     let metricName: LightsailClientTypes.DistributionMetricName?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
-    let period: Swift.Int
+    let period: Swift.Int?
     let unit: LightsailClientTypes.MetricUnit?
     let statistics: [LightsailClientTypes.MetricStatistic]?
 }
@@ -19553,7 +19553,7 @@ extension GetDistributionMetricDataInputBody: Swift.Decodable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let unitDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.MetricUnit.self, forKey: .unit)
         unit = unitDecoded
@@ -20424,7 +20424,7 @@ extension GetInstanceMetricDataInput: Swift.Encodable {
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let startTime = self.startTime {
@@ -20478,7 +20478,7 @@ public struct GetInstanceMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.InstanceMetricName?
     /// The granularity, in seconds, of the returned data points. The StatusCheckFailed, StatusCheckFailed_Instance, and StatusCheckFailed_System instance metric data is available in 1-minute (60 seconds) granularity. All other instance metric data is available in 5-minute (300 seconds) granularity.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The start time of the time period.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
@@ -20503,7 +20503,7 @@ public struct GetInstanceMetricDataInput: Swift.Equatable {
         endTime: ClientRuntime.Date? = nil,
         instanceName: Swift.String? = nil,
         metricName: LightsailClientTypes.InstanceMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
@@ -20522,7 +20522,7 @@ public struct GetInstanceMetricDataInput: Swift.Equatable {
 struct GetInstanceMetricDataInputBody: Swift.Equatable {
     let instanceName: Swift.String?
     let metricName: LightsailClientTypes.InstanceMetricName?
-    let period: Swift.Int
+    let period: Swift.Int?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let unit: LightsailClientTypes.MetricUnit?
@@ -20546,7 +20546,7 @@ extension GetInstanceMetricDataInputBody: Swift.Decodable {
         instanceName = instanceNameDecoded
         let metricNameDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.InstanceMetricName.self, forKey: .metricName)
         metricName = metricNameDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -21743,7 +21743,7 @@ extension GetLoadBalancerMetricDataInput: Swift.Encodable {
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let startTime = self.startTime {
@@ -21803,7 +21803,7 @@ public struct GetLoadBalancerMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.LoadBalancerMetricName?
     /// The granularity, in seconds, of the returned data points.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The start time of the period.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
@@ -21828,7 +21828,7 @@ public struct GetLoadBalancerMetricDataInput: Swift.Equatable {
         endTime: ClientRuntime.Date? = nil,
         loadBalancerName: Swift.String? = nil,
         metricName: LightsailClientTypes.LoadBalancerMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
         unit: LightsailClientTypes.MetricUnit? = nil
@@ -21847,7 +21847,7 @@ public struct GetLoadBalancerMetricDataInput: Swift.Equatable {
 struct GetLoadBalancerMetricDataInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
     let metricName: LightsailClientTypes.LoadBalancerMetricName?
-    let period: Swift.Int
+    let period: Swift.Int?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let unit: LightsailClientTypes.MetricUnit?
@@ -21871,7 +21871,7 @@ extension GetLoadBalancerMetricDataInputBody: Swift.Decodable {
         loadBalancerName = loadBalancerNameDecoded
         let metricNameDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.LoadBalancerMetricName.self, forKey: .metricName)
         metricName = metricNameDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -24074,7 +24074,7 @@ extension GetRelationalDatabaseMetricDataInput: Swift.Encodable {
         if let metricName = self.metricName {
             try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
         }
-        if period != 0 {
+        if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
         if let relationalDatabaseName = self.relationalDatabaseName {
@@ -24126,7 +24126,7 @@ public struct GetRelationalDatabaseMetricDataInput: Swift.Equatable {
     public var metricName: LightsailClientTypes.RelationalDatabaseMetricName?
     /// The granularity, in seconds, of the returned data points. All relational database metric data is available in 1-minute (60 seconds) granularity.
     /// This member is required.
-    public var period: Swift.Int
+    public var period: Swift.Int?
     /// The name of your database from which to get metric data.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -24157,7 +24157,7 @@ public struct GetRelationalDatabaseMetricDataInput: Swift.Equatable {
     public init (
         endTime: ClientRuntime.Date? = nil,
         metricName: LightsailClientTypes.RelationalDatabaseMetricName? = nil,
-        period: Swift.Int = 0,
+        period: Swift.Int? = nil,
         relationalDatabaseName: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         statistics: [LightsailClientTypes.MetricStatistic]? = nil,
@@ -24177,7 +24177,7 @@ public struct GetRelationalDatabaseMetricDataInput: Swift.Equatable {
 struct GetRelationalDatabaseMetricDataInputBody: Swift.Equatable {
     let relationalDatabaseName: Swift.String?
     let metricName: LightsailClientTypes.RelationalDatabaseMetricName?
-    let period: Swift.Int
+    let period: Swift.Int?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let unit: LightsailClientTypes.MetricUnit?
@@ -24201,7 +24201,7 @@ extension GetRelationalDatabaseMetricDataInputBody: Swift.Decodable {
         relationalDatabaseName = relationalDatabaseNameDecoded
         let metricNameDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.RelationalDatabaseMetricName.self, forKey: .metricName)
         metricName = metricNameDecoded
-        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period) ?? 0
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
         period = periodDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
         startTime = startTimeDecoded
@@ -37698,7 +37698,7 @@ extension UpdateInstanceMetadataOptionsOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct UpdateInstanceMetadataOptionsOutputResponse: Swift.Equatable {
-    /// Describes the API operation.
+    /// An array of objects that describe the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
     public var operation: LightsailClientTypes.Operation?
 
     public init (

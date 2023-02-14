@@ -1223,6 +1223,72 @@ extension PaginatorSequence where Input == DescribeIpamPoolsInput, Output == Des
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeIpamResourceDiscoveriesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeIpamResourceDiscoveriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamResourceDiscoveriesOutputResponse`
+    public func describeIpamResourceDiscoveriesPaginated(input: DescribeIpamResourceDiscoveriesInput) -> ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveriesInput, DescribeIpamResourceDiscoveriesOutputResponse>(input: input, inputKey: \DescribeIpamResourceDiscoveriesInput.nextToken, outputKey: \DescribeIpamResourceDiscoveriesOutputResponse.nextToken, paginationFunction: self.describeIpamResourceDiscoveries(input:))
+    }
+}
+
+extension DescribeIpamResourceDiscoveriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeIpamResourceDiscoveriesInput {
+        return DescribeIpamResourceDiscoveriesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryIds: self.ipamResourceDiscoveryIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeIpamResourceDiscoveriesInput, Output == DescribeIpamResourceDiscoveriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeIpamResourceDiscoveriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamResourceDiscovery]`
+    /// - Returns: `[EC2ClientTypes.IpamResourceDiscovery]`
+    public func ipamResourceDiscoveries() async throws -> [EC2ClientTypes.IpamResourceDiscovery] {
+        return try await self.asyncCompactMap { item in item.ipamResourceDiscoveries }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeIpamResourceDiscoveryAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeIpamResourceDiscoveryAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeIpamResourceDiscoveryAssociationsOutputResponse`
+    public func describeIpamResourceDiscoveryAssociationsPaginated(input: DescribeIpamResourceDiscoveryAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeIpamResourceDiscoveryAssociationsInput, DescribeIpamResourceDiscoveryAssociationsOutputResponse>(input: input, inputKey: \DescribeIpamResourceDiscoveryAssociationsInput.nextToken, outputKey: \DescribeIpamResourceDiscoveryAssociationsOutputResponse.nextToken, paginationFunction: self.describeIpamResourceDiscoveryAssociations(input:))
+    }
+}
+
+extension DescribeIpamResourceDiscoveryAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeIpamResourceDiscoveryAssociationsInput {
+        return DescribeIpamResourceDiscoveryAssociationsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryAssociationIds: self.ipamResourceDiscoveryAssociationIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeIpamResourceDiscoveryAssociationsInput, Output == DescribeIpamResourceDiscoveryAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeIpamResourceDiscoveryAssociationsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamResourceDiscoveryAssociation]`
+    /// - Returns: `[EC2ClientTypes.IpamResourceDiscoveryAssociation]`
+    public func ipamResourceDiscoveryAssociations() async throws -> [EC2ClientTypes.IpamResourceDiscoveryAssociation] {
+        return try await self.asyncCompactMap { item in item.ipamResourceDiscoveryAssociations }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeIpamsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -3755,6 +3821,74 @@ extension PaginatorSequence where Input == GetIpamAddressHistoryInput, Output ==
     /// - Returns: `[EC2ClientTypes.IpamAddressHistoryRecord]`
     public func historyRecords() async throws -> [EC2ClientTypes.IpamAddressHistoryRecord] {
         return try await self.asyncCompactMap { item in item.historyRecords }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetIpamDiscoveredAccountsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetIpamDiscoveredAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIpamDiscoveredAccountsOutputResponse`
+    public func getIpamDiscoveredAccountsPaginated(input: GetIpamDiscoveredAccountsInput) -> ClientRuntime.PaginatorSequence<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetIpamDiscoveredAccountsInput, GetIpamDiscoveredAccountsOutputResponse>(input: input, inputKey: \GetIpamDiscoveredAccountsInput.nextToken, outputKey: \GetIpamDiscoveredAccountsOutputResponse.nextToken, paginationFunction: self.getIpamDiscoveredAccounts(input:))
+    }
+}
+
+extension GetIpamDiscoveredAccountsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetIpamDiscoveredAccountsInput {
+        return GetIpamDiscoveredAccountsInput(
+            discoveryRegion: self.discoveryRegion,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryId: self.ipamResourceDiscoveryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == GetIpamDiscoveredAccountsInput, Output == GetIpamDiscoveredAccountsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getIpamDiscoveredAccountsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamDiscoveredAccount]`
+    /// - Returns: `[EC2ClientTypes.IpamDiscoveredAccount]`
+    public func ipamDiscoveredAccounts() async throws -> [EC2ClientTypes.IpamDiscoveredAccount] {
+        return try await self.asyncCompactMap { item in item.ipamDiscoveredAccounts }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetIpamDiscoveredResourceCidrsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetIpamDiscoveredResourceCidrsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetIpamDiscoveredResourceCidrsOutputResponse`
+    public func getIpamDiscoveredResourceCidrsPaginated(input: GetIpamDiscoveredResourceCidrsInput) -> ClientRuntime.PaginatorSequence<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetIpamDiscoveredResourceCidrsInput, GetIpamDiscoveredResourceCidrsOutputResponse>(input: input, inputKey: \GetIpamDiscoveredResourceCidrsInput.nextToken, outputKey: \GetIpamDiscoveredResourceCidrsOutputResponse.nextToken, paginationFunction: self.getIpamDiscoveredResourceCidrs(input:))
+    }
+}
+
+extension GetIpamDiscoveredResourceCidrsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetIpamDiscoveredResourceCidrsInput {
+        return GetIpamDiscoveredResourceCidrsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamResourceDiscoveryId: self.ipamResourceDiscoveryId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceRegion: self.resourceRegion
+        )}
+}
+
+extension PaginatorSequence where Input == GetIpamDiscoveredResourceCidrsInput, Output == GetIpamDiscoveredResourceCidrsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `getIpamDiscoveredResourceCidrsPaginated`
+    /// to access the nested member `[EC2ClientTypes.IpamDiscoveredResourceCidr]`
+    /// - Returns: `[EC2ClientTypes.IpamDiscoveredResourceCidr]`
+    public func ipamDiscoveredResourceCidrs() async throws -> [EC2ClientTypes.IpamDiscoveredResourceCidr] {
+        return try await self.asyncCompactMap { item in item.ipamDiscoveredResourceCidrs }
     }
 }
 extension EC2Client {

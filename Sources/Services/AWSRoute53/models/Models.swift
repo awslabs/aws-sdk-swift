@@ -2140,6 +2140,7 @@ extension Route53ClientTypes {
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
+        case apSoutheast4
         case caCentral1
         case cnNorth1
         case cnNorthwest1
@@ -2177,6 +2178,7 @@ extension Route53ClientTypes {
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
+                .apSoutheast4,
                 .caCentral1,
                 .cnNorth1,
                 .cnNorthwest1,
@@ -2219,6 +2221,7 @@ extension Route53ClientTypes {
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
@@ -15824,6 +15827,7 @@ extension Route53ClientTypes {
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
+        case apSoutheast4
         case caCentral1
         case cnNorth1
         case cnNorthwest1
@@ -15856,6 +15860,7 @@ extension Route53ClientTypes {
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
+                .apSoutheast4,
                 .caCentral1,
                 .cnNorth1,
                 .cnNorthwest1,
@@ -15893,6 +15898,7 @@ extension Route53ClientTypes {
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
             case .cnNorth1: return "cn-north-1"
             case .cnNorthwest1: return "cn-northwest-1"
@@ -18548,6 +18554,7 @@ extension Route53ClientTypes {
         case apSoutheast1
         case apSoutheast2
         case apSoutheast3
+        case apSoutheast4
         case caCentral1
         case cnNorth1
         case euCentral1
@@ -18584,6 +18591,7 @@ extension Route53ClientTypes {
                 .apSoutheast1,
                 .apSoutheast2,
                 .apSoutheast3,
+                .apSoutheast4,
                 .caCentral1,
                 .cnNorth1,
                 .euCentral1,
@@ -18625,6 +18633,7 @@ extension Route53ClientTypes {
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
             case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
             case .caCentral1: return "ca-central-1"
             case .cnNorth1: return "cn-north-1"
             case .euCentral1: return "eu-central-1"

@@ -5,6 +5,8 @@ import ClientRuntime
 
 /// Use the AWS Elemental MediaTailor SDKs and CLI to configure scalable ad insertion and linear channels. With MediaTailor, you can assemble existing content into a linear stream and serve targeted ads to viewers while maintaining broadcast quality in over-the-top (OTT) video applications. For information about using the service, including detailed information about the settings covered in this guide, see the [AWS Elemental MediaTailor User Guide](https://docs.aws.amazon.com/mediatailor/latest/ug/). Through the SDKs and the CLI you manage AWS Elemental MediaTailor configurations and channels the same as you do through the console. For example, you specify ad insertion behavior and mapping information for the origin server and the ad decision server (ADS).
 public protocol MediaTailorClientProtocol {
+    /// Configures Amazon CloudWatch log settings for a channel.
+    func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutputResponse
     /// Amazon CloudWatch log settings for a playback configuration.
     func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutputResponse
     /// Creates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
@@ -85,6 +87,8 @@ public protocol MediaTailorClientProtocol {
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     /// Updates a live source's configuration.
     func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutputResponse
+    /// Updates a program within a channel.
+    func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutputResponse
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutputResponse
     /// Updates a VOD source's configuration.

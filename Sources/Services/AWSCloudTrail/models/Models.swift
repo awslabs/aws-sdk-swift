@@ -72,7 +72,7 @@ extension AccountNotFoundException {
     }
 }
 
-/// This exception is thrown when when the specified account is not found or not part of an organization.
+/// This exception is thrown when the specified account is not found or not part of an organization.
 public struct AccountNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -240,9 +240,9 @@ extension AddTagsInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Specifies the tags to add to a trail or event data store.
+/// Specifies the tags to add to a trail, event data store, or channel.
 public struct AddTagsInput: Swift.Equatable {
-    /// Specifies the ARN of the trail or event data store to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+    /// Specifies the ARN of the trail, event data store, or channel to which one or more tags will be added. The format of a trail ARN is: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The format of an event data store ARN is: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The format of a channel ARN is: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Contains a list of tags, up to a limit of 50
@@ -299,6 +299,7 @@ extension AddTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension AddTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -318,6 +319,7 @@ extension AddTagsOutputError {
 }
 
 public enum AddTagsOutputError: Swift.Error, Swift.Equatable {
+    case channelNotFoundException(ChannelNotFoundException)
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case conflictException(ConflictException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
@@ -552,7 +554,7 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in an event record on which to filter events to be logged. Supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported. For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.
         ///
         /// * readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
         ///
@@ -560,9 +562,22 @@ extension CloudTrailClientTypes {
         ///
         /// * eventName - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.
         ///
-        /// * eventCategory - This is required. It must be set to Equals, and the value must be Management or Data.
+        /// * eventCategory - This is required and must be set to Equals.
         ///
-        /// * resources.type - This ﬁeld is required. resources.type can only use the Equals operator, and the value can be one of the following:
+        /// * For CloudTrail event records, the value must be Management or Data.
+        ///
+        /// * For Config configuration items, the value must be ConfigurationItem.
+        ///
+        /// * For Audit Manager evidence, the value must be Evidence.
+        ///
+        /// * For non-Amazon Web Services events, the value must be ActivityAuditLog.
+        ///
+        ///
+        ///
+        ///
+        /// * resources.type - This ﬁeld is required for CloudTrail data events. resources.type can only use the Equals operator, and the value can be one of the following:
+        ///
+        /// * AWS::CloudTrail::Channel
         ///
         /// * AWS::S3::Object
         ///
@@ -583,6 +598,12 @@ extension CloudTrailClientTypes {
         /// * AWS::DynamoDB::Stream
         ///
         /// * AWS::Glue::Table
+        ///
+        /// * AWS::FinSpace::Environment
+        ///
+        /// * AWS::SageMaker::ExperimentTrialComponent
+        ///
+        /// * AWS::SageMaker::FeatureGroup
         ///
         ///
         /// You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.
@@ -609,6 +630,11 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::dynamodb:::table/
+        ///
+        ///
+        /// When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::cloudtrail:::channel/
         ///
         ///
         /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -639,6 +665,21 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::glue:::table//
+        ///
+        ///
+        /// When resources.type equals AWS::FinSpace::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::finspace:::environment/
+        ///
+        ///
+        /// When resources.type equals AWS::SageMaker::ExperimentTrialComponent, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sagemaker:::experiment-trial-component/
+        ///
+        ///
+        /// When resources.type equals AWS::SageMaker::FeatureGroup, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sagemaker:::feature-group/
         /// This member is required.
         public var field: Swift.String?
         /// An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
@@ -977,6 +1018,165 @@ extension ChannelARNInvalidExceptionBody: Swift.Decodable {
     }
 }
 
+extension ChannelAlreadyExistsException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ChannelAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the provided channel already exists.
+public struct ChannelAlreadyExistsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ChannelAlreadyExistsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ChannelAlreadyExistsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ChannelExistsForEDSException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ChannelExistsForEDSExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the specified event data store cannot yet be deleted because it is in use by a channel.
+public struct ChannelExistsForEDSException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ChannelExistsForEDSExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ChannelExistsForEDSExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ChannelMaxLimitExceededException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ChannelMaxLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the maximum number of channels limit is exceeded.
+public struct ChannelMaxLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ChannelMaxLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ChannelMaxLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ChannelNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -994,7 +1194,7 @@ extension ChannelNotFoundException {
     }
 }
 
-/// The specified channel was not found.
+/// This exception is thrown when CloudTrail cannot find the specified channel.
 public struct ChannelNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1047,7 +1247,7 @@ extension CloudTrailARNInvalidException {
     }
 }
 
-/// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+/// This exception is thrown when an operation is called with a trail ARN that is not valid. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail This exception is also thrown when you call AddTags or RemoveTags on a trail, event data store, or channel with a resource ARN that is not valid. The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 public struct CloudTrailARNInvalidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1259,7 +1459,7 @@ extension ConflictException {
     }
 }
 
-/// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource. If this exception occurs, wait a few minutes, and then try the operation again.
+/// This exception is thrown when the specified resource is not ready for an operation. This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource, or because another operation is modifying the resource. If this exception occurs, wait a few minutes, and then try the operation again.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1292,6 +1492,259 @@ extension ConflictExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension CreateChannelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations = "Destinations"
+        case name = "Name"
+        case source = "Source"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for destination0 in destinations {
+                try destinationsContainer.encode(destination0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateChannelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateChannelInput: Swift.Equatable {
+    /// One or more event data stores to which events arriving through a channel will be logged.
+    /// This member is required.
+    public var destinations: [CloudTrailClientTypes.Destination]?
+    /// The name of the channel.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of the partner or external event source. You cannot change this name after you create the channel. A maximum of one channel is allowed per source. A source can be either Custom for all valid non-Amazon Web Services events, or the name of a partner event source. For information about the source names for available partners, see [Additional information about integration partners](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store-integration.html#cloudtrail-lake-partner-information) in the CloudTrail User Guide.
+    /// This member is required.
+    public var source: Swift.String?
+    /// A list of tags.
+    public var tags: [CloudTrailClientTypes.Tag]?
+
+    public init (
+        destinations: [CloudTrailClientTypes.Destination]? = nil,
+        name: Swift.String? = nil,
+        source: Swift.String? = nil,
+        tags: [CloudTrailClientTypes.Tag]? = nil
+    )
+    {
+        self.destinations = destinations
+        self.name = name
+        self.source = source
+        self.tags = tags
+    }
+}
+
+struct CreateChannelInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let source: Swift.String?
+    let destinations: [CloudTrailClientTypes.Destination]?
+    let tags: [CloudTrailClientTypes.Tag]?
+}
+
+extension CreateChannelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations = "Destinations"
+        case name = "Name"
+        case source = "Source"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Destination?].self, forKey: .destinations)
+        var destinationsDecoded0:[CloudTrailClientTypes.Destination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [CloudTrailClientTypes.Destination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CloudTrailClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CloudTrailClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateChannelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateChannelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ChannelAlreadyExists" : self = .channelAlreadyExistsException(try ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ChannelMaxLimitExceeded" : self = .channelMaxLimitExceededException(try ChannelMaxLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEventDataStoreCategory" : self = .invalidEventDataStoreCategoryException(try InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidSource" : self = .invalidSourceException(try InvalidSourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidTagParameter" : self = .invalidTagParameterException(try InvalidTagParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TagsLimitExceeded" : self = .tagsLimitExceededException(try TagsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateChannelOutputError: Swift.Error, Swift.Equatable {
+    case channelAlreadyExistsException(ChannelAlreadyExistsException)
+    case channelMaxLimitExceededException(ChannelMaxLimitExceededException)
+    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
+    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
+    case inactiveEventDataStoreException(InactiveEventDataStoreException)
+    case invalidEventDataStoreCategoryException(InvalidEventDataStoreCategoryException)
+    case invalidParameterException(InvalidParameterException)
+    case invalidSourceException(InvalidSourceException)
+    case invalidTagParameterException(InvalidTagParameterException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case tagsLimitExceededException(TagsLimitExceededException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.channelArn = output.channelArn
+            self.destinations = output.destinations
+            self.name = output.name
+            self.source = output.source
+            self.tags = output.tags
+        } else {
+            self.channelArn = nil
+            self.destinations = nil
+            self.name = nil
+            self.source = nil
+            self.tags = nil
+        }
+    }
+}
+
+public struct CreateChannelOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the new channel.
+    public var channelArn: Swift.String?
+    /// The event data stores that log the events arriving through the channel.
+    public var destinations: [CloudTrailClientTypes.Destination]?
+    /// The name of the new channel.
+    public var name: Swift.String?
+    /// The partner or external event source name.
+    public var source: Swift.String?
+    /// A list of tags.
+    public var tags: [CloudTrailClientTypes.Tag]?
+
+    public init (
+        channelArn: Swift.String? = nil,
+        destinations: [CloudTrailClientTypes.Destination]? = nil,
+        name: Swift.String? = nil,
+        source: Swift.String? = nil,
+        tags: [CloudTrailClientTypes.Tag]? = nil
+    )
+    {
+        self.channelArn = channelArn
+        self.destinations = destinations
+        self.name = name
+        self.source = source
+        self.tags = tags
+    }
+}
+
+struct CreateChannelOutputResponseBody: Swift.Equatable {
+    let channelArn: Swift.String?
+    let name: Swift.String?
+    let source: Swift.String?
+    let destinations: [CloudTrailClientTypes.Destination]?
+    let tags: [CloudTrailClientTypes.Tag]?
+}
+
+extension CreateChannelOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn = "ChannelArn"
+        case destinations = "Destinations"
+        case name = "Name"
+        case source = "Source"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Destination?].self, forKey: .destinations)
+        var destinationsDecoded0:[CloudTrailClientTypes.Destination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [CloudTrailClientTypes.Destination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CloudTrailClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CloudTrailClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1349,7 +1802,7 @@ extension CreateEventDataStoreInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateEventDataStoreInput: Swift.Equatable {
-    /// The advanced event selectors to use to select the events for the data store. For more information about how to use advanced event selectors, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide.
+    /// The advanced event selectors to use to select the events for the data store. You can configure up to five advanced event selectors for each event data store. For more information about how to use advanced event selectors to log CloudTrail events, see [Log events by using advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include Config configuration items in your event data store, see [Create an event data store for Config configuration items](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-eds-config) in the CloudTrail User Guide. For more information about how to use advanced event selectors to include non-Amazon Web Services events in your event data store, see [Create an integration to log events from outside Amazon Web Services](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-lake-cli.html#lake-cli-create-integration) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
     /// Specifies the KMS key ID to use to encrypt the events delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. Disabling or deleting the KMS key, or removing CloudTrail permissions on the key, prevents CloudTrail from logging events to the event data store, and prevents users from querying the data in the event data store that was encrypted with the key. After you associate an event data store with a KMS key, the KMS key cannot be removed or changed. Before you disable or delete a KMS key that you are using with an event data store, delete or back up your event data store. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
@@ -1752,9 +2205,9 @@ extension CreateTrailInput: ClientRuntime.URLPathProvider {
 
 /// Specifies the settings for each trail.
 public struct CreateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
-    /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+    /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?
     /// Specifies whether log file integrity validation is enabled. The default is false. When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
     public var enableLogFileValidation: Swift.Bool?
@@ -1762,7 +2215,7 @@ public struct CreateTrailInput: Swift.Equatable {
     public var includeGlobalServiceEvents: Swift.Bool?
     /// Specifies whether the trail is created in the current region or in all regions. The default is false, which creates a trail only in the region where you are signed in. As a best practice, consider creating trails that log events in all regions.
     public var isMultiRegionTrail: Swift.Bool?
-    /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations.
+    /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
     public var isOrganizationTrail: Swift.Bool?
     /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
@@ -2179,7 +2632,7 @@ extension CloudTrailClientTypes.DataResource: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// The Amazon S3 buckets, Lambda functions, or Amazon DynamoDB tables that you specify in your event selectors for your trail to log data events. Data events provide information about the resource operations performed on or within a resource itself. These are also known as data plane operations. You can specify up to 250 data resources for a trail. The total number of allowed data resources is 250. This number can be distributed between 1 and 5 event selectors, but the total cannot exceed 250 across all selectors. If you are using advanced event selectors, the maximum total number of values for all conditions, across all advanced event selectors for the trail, is 500. The following example demonstrates how logging works when you configure logging of all data events for an S3 bucket named bucket-1. In this example, the CloudTrail user specified an empty prefix, and the option to log both Read and Write data events.
+    /// The Amazon S3 buckets, Lambda functions, or Amazon DynamoDB tables that you specify in your event selectors for your trail to log data events. Data events provide information about the resource operations performed on or within a resource itself. These are also known as data plane operations. You can specify up to 250 data resources for a trail. The total number of allowed data resources is 250. This number can be distributed between 1 and 5 event selectors, but the total cannot exceed 250 across all selectors for the trail. If you are using advanced event selectors, the maximum total number of values for all conditions, across all advanced event selectors for the trail, is 500. The following example demonstrates how logging works when you configure logging of all data events for an S3 bucket named bucket-1. In this example, the CloudTrail user specified an empty prefix, and the option to log both Read and Write data events.
     ///
     /// * A user uploads an image file to bucket-1.
     ///
@@ -2209,6 +2662,8 @@ extension CloudTrailClientTypes {
         ///
         /// The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see [AdvancedFieldSelector$Field].
         ///
+        /// * AWS::CloudTrail::Channel
+        ///
         /// * AWS::S3Outposts::Object
         ///
         /// * AWS::ManagedBlockchain::Node
@@ -2222,6 +2677,12 @@ extension CloudTrailClientTypes {
         /// * AWS::DynamoDB::Stream
         ///
         /// * AWS::Glue::Table
+        ///
+        /// * AWS::FinSpace::Environment
+        ///
+        /// * AWS::SageMaker::ExperimentTrialComponent
+        ///
+        /// * AWS::SageMaker::FeatureGroup
         public var type: Swift.String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.
         ///
@@ -2303,6 +2764,92 @@ extension DelegatedAdminAccountLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension DeleteChannelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel = "Channel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel, forKey: .channel)
+        }
+    }
+}
+
+extension DeleteChannelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteChannelInput: Swift.Equatable {
+    /// The ARN or the UUID value of the channel that you want to delete.
+    /// This member is required.
+    public var channel: Swift.String?
+
+    public init (
+        channel: Swift.String? = nil
+    )
+    {
+        self.channel = channel
+    }
+}
+
+struct DeleteChannelInputBody: Swift.Equatable {
+    let channel: Swift.String?
+}
+
+extension DeleteChannelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel = "Channel"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
+        channel = channelDecoded
+    }
+}
+
+extension DeleteChannelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteChannelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteChannelOutputError: Swift.Error, Swift.Equatable {
+    case channelARNInvalidException(ChannelARNInvalidException)
+    case channelNotFoundException(ChannelNotFoundException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteChannelOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension DeleteEventDataStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case eventDataStore = "EventDataStore"
@@ -2362,6 +2909,7 @@ extension DeleteEventDataStoreOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteEventDataStoreOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelExistsForEDS" : self = .channelExistsForEDSException(try ChannelExistsForEDSException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreHasOngoingImport" : self = .eventDataStoreHasOngoingImportException(try EventDataStoreHasOngoingImportException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2379,6 +2927,7 @@ extension DeleteEventDataStoreOutputError {
 }
 
 public enum DeleteEventDataStoreOutputError: Swift.Error, Swift.Equatable {
+    case channelExistsForEDSException(ChannelExistsForEDSException)
     case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
     case eventDataStoreHasOngoingImportException(EventDataStoreHasOngoingImportException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
@@ -2399,6 +2948,96 @@ extension DeleteEventDataStoreOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct DeleteEventDataStoreOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the CloudTrail channel you're deleting the resource-based policy from. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyNotFound" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case operationNotPermittedException(OperationNotPermittedException)
+    case resourceARNNotValidException(ResourceARNNotValidException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
+    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteResourcePolicyOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -2619,6 +3258,7 @@ extension DeregisterOrganizationDelegatedAdminOutputError {
         case "AccountNotFound" : self = .accountNotFoundException(try AccountNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "AccountNotRegistered" : self = .accountNotRegisteredException(try AccountNotRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "NotOrganizationManagementAccount" : self = .notOrganizationManagementAccountException(try NotOrganizationManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -2635,6 +3275,7 @@ public enum DeregisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.
     case accountNotFoundException(AccountNotFoundException)
     case accountNotRegisteredException(AccountNotRegisteredException)
     case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
+    case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidParameterException(InvalidParameterException)
     case notOrganizationManagementAccountException(NotOrganizationManagementAccountException)
@@ -2891,7 +3532,7 @@ public struct DescribeTrailsInput: Swift.Equatable {
     /// * If an empty list is specified and IncludeShadowTrails is null or true, then information for all trails in the current region and any associated shadow trails in other regions is returned.
     ///
     ///
-    /// If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region. To return information about a trail in another region, you must specify its trail ARN.
+    /// If one or more trail names are specified, information is returned only if the names match the names of trails belonging only to the current region and current account. To return information about a trail in another region, you must specify its trail ARN.
     public var trailNameList: [Swift.String]?
 
     public init (
@@ -3038,12 +3679,12 @@ extension CloudTrailClientTypes.Destination: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// Contains information about the service where CloudTrail delivers events.
+    /// Contains information about the destination receiving events.
     public struct Destination: Swift.Equatable {
-        /// For service-linked channels, the value is the name of the Amazon Web Services service.
+        /// For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service.
         /// This member is required.
         public var location: Swift.String?
-        /// The type of destination for events arriving from a channel. For service-linked channels, the value is AWS_SERVICE.
+        /// The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EventDataStore. For service-linked channels, the value is AWS_SERVICE.
         /// This member is required.
         public var type: CloudTrailClientTypes.DestinationType?
 
@@ -3335,32 +3976,32 @@ extension CloudTrailClientTypes.EventDataStore: Swift.Codable {
 extension CloudTrailClientTypes {
     /// A storage lake of event data against which you can run complex SQL-based queries. An event data store can include events that you have logged on your account from the last 90 to 2557 days (about three months to up to seven years). To select events for an event data store, use [advanced event selectors](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html#creating-data-event-selectors-advanced).
     public struct EventDataStore: Swift.Equatable {
-        /// This field is being deprecated. The advanced event selectors that were used to select events for the data store.
+        /// The advanced event selectors that were used to select events for the data store.
         @available(*, deprecated, message: "AdvancedEventSelectors is no longer returned by ListEventDataStores")
         public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
-        /// This field is being deprecated. The timestamp of the event data store's creation.
+        /// The timestamp of the event data store's creation.
         @available(*, deprecated, message: "CreatedTimestamp is no longer returned by ListEventDataStores")
         public var createdTimestamp: ClientRuntime.Date?
         /// The ARN of the event data store.
         public var eventDataStoreArn: Swift.String?
-        /// This field is being deprecated. Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+        /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
         @available(*, deprecated, message: "MultiRegionEnabled is no longer returned by ListEventDataStores")
         public var multiRegionEnabled: Swift.Bool?
         /// The name of the event data store.
         public var name: Swift.String?
-        /// This field is being deprecated. Indicates that an event data store is collecting logged events for an organization.
+        /// Indicates that an event data store is collecting logged events for an organization.
         @available(*, deprecated, message: "OrganizationEnabled is no longer returned by ListEventDataStores")
         public var organizationEnabled: Swift.Bool?
-        /// This field is being deprecated. The retention period, in days.
+        /// The retention period, in days.
         @available(*, deprecated, message: "RetentionPeriod is no longer returned by ListEventDataStores")
         public var retentionPeriod: Swift.Int?
-        /// This field is being deprecated. The status of an event data store. Values are ENABLED and PENDING_DELETION.
+        /// The status of an event data store. Values are ENABLED and PENDING_DELETION.
         @available(*, deprecated, message: "Status is no longer returned by ListEventDataStores")
         public var status: CloudTrailClientTypes.EventDataStoreStatus?
-        /// This field is being deprecated. Indicates whether the event data store is protected from termination.
+        /// Indicates whether the event data store is protected from termination.
         @available(*, deprecated, message: "TerminationProtectionEnabled is no longer returned by ListEventDataStores")
         public var terminationProtectionEnabled: Swift.Bool?
-        /// This field is being deprecated. The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        /// The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         @available(*, deprecated, message: "UpdatedTimestamp is no longer returned by ListEventDataStores")
         public var updatedTimestamp: ClientRuntime.Date?
 
@@ -3918,12 +4559,14 @@ extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: GetChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.channelArn = output.channelArn
             self.destinations = output.destinations
+            self.ingestionStatus = output.ingestionStatus
             self.name = output.name
             self.source = output.source
             self.sourceConfig = output.sourceConfig
         } else {
             self.channelArn = nil
             self.destinations = nil
+            self.ingestionStatus = nil
             self.name = nil
             self.source = nil
             self.sourceConfig = nil
@@ -3934,11 +4577,13 @@ extension GetChannelOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetChannelOutputResponse: Swift.Equatable {
     /// The ARN of an channel returned by a GetChannel request.
     public var channelArn: Swift.String?
-    /// The Amazon Web Services service that created the service-linked channel.
+    /// The destinations for the channel. For channels created for integrations, the destinations are the event data stores that log events arriving through the channel. For service-linked channels, the destination is the Amazon Web Services service that created the service-linked channel to receive events.
     public var destinations: [CloudTrailClientTypes.Destination]?
-    /// The name of the CloudTrail channel. For service-linked channels, the value is aws-service-channel/service-name/custom-suffix where service-name represents the name of the Amazon Web Services service that created the channel and custom-suffix represents the suffix generated by the Amazon Web Services service.
+    /// A table showing information about the most recent successful and failed attempts to ingest events.
+    public var ingestionStatus: CloudTrailClientTypes.IngestionStatus?
+    /// The name of the CloudTrail channel. For service-linked channels, the name is aws-service-channel/service-name/custom-suffix where service-name represents the name of the Amazon Web Services service that created the channel and custom-suffix represents the suffix generated by the Amazon Web Services service.
     public var name: Swift.String?
-    /// The event source for the CloudTrail channel.
+    /// The source for the CloudTrail channel.
     public var source: Swift.String?
     /// Provides information about the advanced event selectors configured for the channel, and whether the channel applies to all regions or a single region.
     public var sourceConfig: CloudTrailClientTypes.SourceConfig?
@@ -3946,6 +4591,7 @@ public struct GetChannelOutputResponse: Swift.Equatable {
     public init (
         channelArn: Swift.String? = nil,
         destinations: [CloudTrailClientTypes.Destination]? = nil,
+        ingestionStatus: CloudTrailClientTypes.IngestionStatus? = nil,
         name: Swift.String? = nil,
         source: Swift.String? = nil,
         sourceConfig: CloudTrailClientTypes.SourceConfig? = nil
@@ -3953,6 +4599,7 @@ public struct GetChannelOutputResponse: Swift.Equatable {
     {
         self.channelArn = channelArn
         self.destinations = destinations
+        self.ingestionStatus = ingestionStatus
         self.name = name
         self.source = source
         self.sourceConfig = sourceConfig
@@ -3965,12 +4612,14 @@ struct GetChannelOutputResponseBody: Swift.Equatable {
     let source: Swift.String?
     let sourceConfig: CloudTrailClientTypes.SourceConfig?
     let destinations: [CloudTrailClientTypes.Destination]?
+    let ingestionStatus: CloudTrailClientTypes.IngestionStatus?
 }
 
 extension GetChannelOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn = "ChannelArn"
         case destinations = "Destinations"
+        case ingestionStatus = "IngestionStatus"
         case name = "Name"
         case source = "Source"
         case sourceConfig = "SourceConfig"
@@ -3997,6 +4646,8 @@ extension GetChannelOutputResponseBody: Swift.Decodable {
             }
         }
         destinations = destinationsDecoded0
+        let ingestionStatusDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.IngestionStatus.self, forKey: .ingestionStatus)
+        ingestionStatus = ingestionStatusDecoded
     }
 }
 
@@ -4998,6 +5649,137 @@ extension GetQueryResultsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension GetResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension GetResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyNotFound" : self = .resourcePolicyNotFoundException(try ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case operationNotPermittedException(OperationNotPermittedException)
+    case resourceARNNotValidException(ResourceARNNotValidException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourcePolicyNotFoundException(ResourcePolicyNotFoundException)
+    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourceArn = output.resourceArn
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourceArn = nil
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct GetResourcePolicyOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to resource-based policy.
+    public var resourceArn: Swift.String?
+    /// A JSON-formatted string that contains the resource-based policy attached to the CloudTrail channel.
+    public var resourcePolicy: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct GetResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let resourcePolicy: Swift.String?
+}
+
+extension GetResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
 extension GetTrailInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -5904,6 +6686,81 @@ extension InactiveQueryExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CloudTrailClientTypes.IngestionStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestIngestionAttemptEventID = "LatestIngestionAttemptEventID"
+        case latestIngestionAttemptTime = "LatestIngestionAttemptTime"
+        case latestIngestionErrorCode = "LatestIngestionErrorCode"
+        case latestIngestionSuccessEventID = "LatestIngestionSuccessEventID"
+        case latestIngestionSuccessTime = "LatestIngestionSuccessTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let latestIngestionAttemptEventID = self.latestIngestionAttemptEventID {
+            try encodeContainer.encode(latestIngestionAttemptEventID, forKey: .latestIngestionAttemptEventID)
+        }
+        if let latestIngestionAttemptTime = self.latestIngestionAttemptTime {
+            try encodeContainer.encodeTimestamp(latestIngestionAttemptTime, format: .epochSeconds, forKey: .latestIngestionAttemptTime)
+        }
+        if let latestIngestionErrorCode = self.latestIngestionErrorCode {
+            try encodeContainer.encode(latestIngestionErrorCode, forKey: .latestIngestionErrorCode)
+        }
+        if let latestIngestionSuccessEventID = self.latestIngestionSuccessEventID {
+            try encodeContainer.encode(latestIngestionSuccessEventID, forKey: .latestIngestionSuccessEventID)
+        }
+        if let latestIngestionSuccessTime = self.latestIngestionSuccessTime {
+            try encodeContainer.encodeTimestamp(latestIngestionSuccessTime, format: .epochSeconds, forKey: .latestIngestionSuccessTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let latestIngestionSuccessTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestIngestionSuccessTime)
+        latestIngestionSuccessTime = latestIngestionSuccessTimeDecoded
+        let latestIngestionSuccessEventIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestIngestionSuccessEventID)
+        latestIngestionSuccessEventID = latestIngestionSuccessEventIDDecoded
+        let latestIngestionErrorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestIngestionErrorCode)
+        latestIngestionErrorCode = latestIngestionErrorCodeDecoded
+        let latestIngestionAttemptTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .latestIngestionAttemptTime)
+        latestIngestionAttemptTime = latestIngestionAttemptTimeDecoded
+        let latestIngestionAttemptEventIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .latestIngestionAttemptEventID)
+        latestIngestionAttemptEventID = latestIngestionAttemptEventIDDecoded
+    }
+}
+
+extension CloudTrailClientTypes {
+    /// A table showing information about the most recent successful and failed attempts to ingest events.
+    public struct IngestionStatus: Swift.Equatable {
+        /// The event ID of the most recent attempt to ingest events.
+        public var latestIngestionAttemptEventID: Swift.String?
+        /// The time stamp of the most recent attempt to ingest events on the channel.
+        public var latestIngestionAttemptTime: ClientRuntime.Date?
+        /// The error code for the most recent failure to ingest events.
+        public var latestIngestionErrorCode: Swift.String?
+        /// The event ID of the most recent successful ingestion of events.
+        public var latestIngestionSuccessEventID: Swift.String?
+        /// The time stamp of the most recent successful ingestion of events for the channel.
+        public var latestIngestionSuccessTime: ClientRuntime.Date?
+
+        public init (
+            latestIngestionAttemptEventID: Swift.String? = nil,
+            latestIngestionAttemptTime: ClientRuntime.Date? = nil,
+            latestIngestionErrorCode: Swift.String? = nil,
+            latestIngestionSuccessEventID: Swift.String? = nil,
+            latestIngestionSuccessTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.latestIngestionAttemptEventID = latestIngestionAttemptEventID
+            self.latestIngestionAttemptTime = latestIngestionAttemptTime
+            self.latestIngestionErrorCode = latestIngestionErrorCode
+            self.latestIngestionSuccessEventID = latestIngestionSuccessEventID
+            self.latestIngestionSuccessTime = latestIngestionSuccessTime
+        }
+    }
+
 }
 
 extension InsightNotEnabledException {
@@ -7359,6 +8216,59 @@ extension InvalidSnsTopicNameExceptionBody: Swift.Decodable {
     }
 }
 
+extension InvalidSourceException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: InvalidSourceExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the specified value of Source is not valid.
+public struct InvalidSourceException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct InvalidSourceExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InvalidSourceExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidTagParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -8767,7 +9677,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 public struct ListTagsInput: Swift.Equatable {
     /// Reserved for future use.
     public var nextToken: Swift.String?
-    /// Specifies a list of trail and event data store ARNs whose tags will be listed. The list has a limit of 20 ARNs.
+    /// Specifies a list of trail, event data store, or channel ARNs whose tags will be listed. The list has a limit of 20 ARNs.
     /// This member is required.
     public var resourceIdList: [Swift.String]?
 
@@ -10250,6 +11160,156 @@ extension PutInsightSelectorsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourcePolicy = self.resourcePolicy {
+            try encodeContainer.encode(resourcePolicy, forKey: .resourcePolicy)
+        }
+    }
+}
+
+extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy. The following is the format of a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A JSON-formatted string for an Amazon Web Services resource-based policy. The following are requirements for the resource policy:
+    ///
+    /// * Contains only one action: cloudtrail-data:PutAuditEvents
+    ///
+    /// * Contains at least one statement. The policy can have a maximum of 20 statements.
+    ///
+    /// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+    /// This member is required.
+    public var resourcePolicy: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let resourcePolicy: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
+extension PutResourcePolicyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension PutResourcePolicyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceARNNotValid" : self = .resourceARNNotValidException(try ResourceARNNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFound" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourcePolicyNotValid" : self = .resourcePolicyNotValidException(try ResourcePolicyNotValidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceTypeNotSupported" : self = .resourceTypeNotSupportedException(try ResourceTypeNotSupportedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum PutResourcePolicyOutputError: Swift.Error, Swift.Equatable {
+    case operationNotPermittedException(OperationNotPermittedException)
+    case resourceARNNotValidException(ResourceARNNotValidException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case resourcePolicyNotValidException(ResourcePolicyNotValidException)
+    case resourceTypeNotSupportedException(ResourceTypeNotSupportedException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension PutResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: PutResourcePolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.resourceArn = output.resourceArn
+            self.resourcePolicy = output.resourcePolicy
+        } else {
+            self.resourceArn = nil
+            self.resourcePolicy = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the CloudTrail channel attached to the resource-based policy.
+    public var resourceArn: Swift.String?
+    /// The JSON-formatted string of the Amazon Web Services resource-based policy attached to the CloudTrail channel.
+    public var resourcePolicy: Swift.String?
+
+    public init (
+        resourceArn: Swift.String? = nil,
+        resourcePolicy: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.resourcePolicy = resourcePolicy
+    }
+}
+
+struct PutResourcePolicyOutputResponseBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let resourcePolicy: Swift.String?
+}
+
+extension PutResourcePolicyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+        case resourcePolicy = "ResourcePolicy"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
+    }
+}
+
 extension CloudTrailClientTypes.Query: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
@@ -10631,6 +11691,7 @@ extension RegisterOrganizationDelegatedAdminOutputError {
         case "AccountRegistered" : self = .accountRegisteredException(try AccountRegisteredException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CannotDelegateManagementAccount" : self = .cannotDelegateManagementAccountException(try CannotDelegateManagementAccountException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailAccessNotEnabled" : self = .cloudTrailAccessNotEnabledException(try CloudTrailAccessNotEnabledException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "DelegatedAdminAccountLimitExceeded" : self = .delegatedAdminAccountLimitExceededException(try DelegatedAdminAccountLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10649,6 +11710,7 @@ public enum RegisterOrganizationDelegatedAdminOutputError: Swift.Error, Swift.Eq
     case accountRegisteredException(AccountRegisteredException)
     case cannotDelegateManagementAccountException(CannotDelegateManagementAccountException)
     case cloudTrailAccessNotEnabledException(CloudTrailAccessNotEnabledException)
+    case conflictException(ConflictException)
     case delegatedAdminAccountLimitExceededException(DelegatedAdminAccountLimitExceededException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidParameterException(InvalidParameterException)
@@ -10697,9 +11759,9 @@ extension RemoveTagsInput: ClientRuntime.URLPathProvider {
     }
 }
 
-/// Specifies the tags to remove from a trail or event data store.
+/// Specifies the tags to remove from a trail, event data store, or channel.
 public struct RemoveTagsInput: Swift.Equatable {
-    /// Specifies the ARN of the trail or event data store from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+    /// Specifies the ARN of the trail, event data store, or channel from which tags should be removed. Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// This member is required.
     public var resourceId: Swift.String?
     /// Specifies a list of tags to be removed.
@@ -10756,6 +11818,7 @@ extension RemoveTagsOutputError: ClientRuntime.HttpResponseBinding {
 extension RemoveTagsOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -10773,6 +11836,7 @@ extension RemoveTagsOutputError {
 }
 
 public enum RemoveTagsOutputError: Swift.Error, Swift.Equatable {
+    case channelNotFoundException(ChannelNotFoundException)
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
     case inactiveEventDataStoreException(InactiveEventDataStoreException)
@@ -10843,6 +11907,59 @@ extension CloudTrailClientTypes {
 
 }
 
+extension ResourceARNNotValidException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ResourceARNNotValidExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the provided resource does not exist, or the ARN format of the resource is not valid. The following is the valid format for a resource ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/MyChannel.
+public struct ResourceARNNotValidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ResourceARNNotValidExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceARNNotValidExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -10885,6 +12002,118 @@ struct ResourceNotFoundExceptionBody: Swift.Equatable {
 }
 
 extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyNotFoundException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ResourcePolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the specified resource policy is not found.
+public struct ResourcePolicyNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourcePolicyNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyNotValidException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ResourcePolicyNotValidExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// This exception is thrown when the resouce-based policy has syntax errors, or contains a principal that is not valid. The following are requirements for the resource policy:
+///
+/// * Contains only one action: cloudtrail-data:PutAuditEvents
+///
+/// * Contains at least one statement. The policy can have a maximum of 20 statements.
+///
+/// * Each statement contains at least one principal. A statement can have a maximum of 50 principals.
+public struct ResourcePolicyNotValidException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// Brief description of the exception returned by the request.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ResourcePolicyNotValidExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourcePolicyNotValidExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message = "Message"
     }
@@ -11748,6 +12977,7 @@ extension StartLoggingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -11763,6 +12993,7 @@ extension StartLoggingOutputError {
 
 public enum StartLoggingOutputError: Swift.Error, Swift.Equatable {
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
+    case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidHomeRegionException(InvalidHomeRegionException)
     case invalidTrailNameException(InvalidTrailNameException)
@@ -12201,6 +13432,7 @@ extension StopLoggingOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidHomeRegion" : self = .invalidHomeRegionException(try InvalidHomeRegionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InvalidTrailName" : self = .invalidTrailNameException(try InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -12216,6 +13448,7 @@ extension StopLoggingOutputError {
 
 public enum StopLoggingOutputError: Swift.Error, Swift.Equatable {
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
+    case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case invalidHomeRegionException(InvalidHomeRegionException)
     case invalidTrailNameException(InvalidTrailNameException)
@@ -12264,7 +13497,7 @@ extension CloudTrailClientTypes.Tag: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// A custom key-value pair associated with a resource such as a CloudTrail trail.
+    /// A custom key-value pair associated with a resource such as a CloudTrail trail, event data store, or channel.
     public struct Tag: Swift.Equatable {
         /// The key in a key-value pair. The key must be must be no longer than 128 Unicode characters. The key must be unique for the resource to which it applies.
         /// This member is required.
@@ -12301,7 +13534,7 @@ extension TagsLimitExceededException {
     }
 }
 
-/// The number of tags per trail has exceeded the permitted amount. Currently, the limit is 50.
+/// The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
 public struct TagsLimitExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -12790,6 +14023,210 @@ extension UnsupportedOperationExceptionBody: Swift.Decodable {
     }
 }
 
+extension UpdateChannelInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel = "Channel"
+        case destinations = "Destinations"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let channel = self.channel {
+            try encodeContainer.encode(channel, forKey: .channel)
+        }
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for destination0 in destinations {
+                try destinationsContainer.encode(destination0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateChannelInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateChannelInput: Swift.Equatable {
+    /// The ARN or ID (the ARN suffix) of the channel that you want to update.
+    /// This member is required.
+    public var channel: Swift.String?
+    /// The ARNs of event data stores that you want to log events arriving through the channel.
+    public var destinations: [CloudTrailClientTypes.Destination]?
+    /// Changes the name of the channel.
+    public var name: Swift.String?
+
+    public init (
+        channel: Swift.String? = nil,
+        destinations: [CloudTrailClientTypes.Destination]? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.channel = channel
+        self.destinations = destinations
+        self.name = name
+    }
+}
+
+struct UpdateChannelInputBody: Swift.Equatable {
+    let channel: Swift.String?
+    let destinations: [CloudTrailClientTypes.Destination]?
+    let name: Swift.String?
+}
+
+extension UpdateChannelInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channel = "Channel"
+        case destinations = "Destinations"
+        case name = "Name"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channel)
+        channel = channelDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Destination?].self, forKey: .destinations)
+        var destinationsDecoded0:[CloudTrailClientTypes.Destination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [CloudTrailClientTypes.Destination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdateChannelOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateChannelOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ChannelAlreadyExists" : self = .channelAlreadyExistsException(try ChannelAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ChannelARNInvalid" : self = .channelARNInvalidException(try ChannelARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ChannelNotFound" : self = .channelNotFoundException(try ChannelNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreARNInvalid" : self = .eventDataStoreARNInvalidException(try EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "EventDataStoreNotFound" : self = .eventDataStoreNotFoundException(try EventDataStoreNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InactiveEventDataStore" : self = .inactiveEventDataStoreException(try InactiveEventDataStoreException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEventDataStoreCategory" : self = .invalidEventDataStoreCategoryException(try InvalidEventDataStoreCategoryException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameter" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "OperationNotPermitted" : self = .operationNotPermittedException(try OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "UnsupportedOperation" : self = .unsupportedOperationException(try UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateChannelOutputError: Swift.Error, Swift.Equatable {
+    case channelAlreadyExistsException(ChannelAlreadyExistsException)
+    case channelARNInvalidException(ChannelARNInvalidException)
+    case channelNotFoundException(ChannelNotFoundException)
+    case eventDataStoreARNInvalidException(EventDataStoreARNInvalidException)
+    case eventDataStoreNotFoundException(EventDataStoreNotFoundException)
+    case inactiveEventDataStoreException(InactiveEventDataStoreException)
+    case invalidEventDataStoreCategoryException(InvalidEventDataStoreCategoryException)
+    case invalidParameterException(InvalidParameterException)
+    case operationNotPermittedException(OperationNotPermittedException)
+    case unsupportedOperationException(UnsupportedOperationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateChannelOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateChannelOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.channelArn = output.channelArn
+            self.destinations = output.destinations
+            self.name = output.name
+            self.source = output.source
+        } else {
+            self.channelArn = nil
+            self.destinations = nil
+            self.name = nil
+            self.source = nil
+        }
+    }
+}
+
+public struct UpdateChannelOutputResponse: Swift.Equatable {
+    /// The ARN of the channel that was updated.
+    public var channelArn: Swift.String?
+    /// The event data stores that log events arriving through the channel.
+    public var destinations: [CloudTrailClientTypes.Destination]?
+    /// The name of the channel that was updated.
+    public var name: Swift.String?
+    /// The event source of the channel that was updated.
+    public var source: Swift.String?
+
+    public init (
+        channelArn: Swift.String? = nil,
+        destinations: [CloudTrailClientTypes.Destination]? = nil,
+        name: Swift.String? = nil,
+        source: Swift.String? = nil
+    )
+    {
+        self.channelArn = channelArn
+        self.destinations = destinations
+        self.name = name
+        self.source = source
+    }
+}
+
+struct UpdateChannelOutputResponseBody: Swift.Equatable {
+    let channelArn: Swift.String?
+    let name: Swift.String?
+    let source: Swift.String?
+    let destinations: [CloudTrailClientTypes.Destination]?
+}
+
+extension UpdateChannelOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case channelArn = "ChannelArn"
+        case destinations = "Destinations"
+        case name = "Name"
+        case source = "Source"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let channelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .channelArn)
+        channelArn = channelArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([CloudTrailClientTypes.Destination?].self, forKey: .destinations)
+        var destinationsDecoded0:[CloudTrailClientTypes.Destination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [CloudTrailClientTypes.Destination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+    }
+}
+
 extension UpdateEventDataStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case advancedEventSelectors = "AdvancedEventSelectors"
@@ -13209,9 +14646,9 @@ extension UpdateTrailInput: ClientRuntime.URLPathProvider {
 
 /// Specifies settings to update for the trail.
 public struct UpdateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. Not required unless you specify CloudWatchLogsRoleArn.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
-    /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group.
+    /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?
     /// Specifies whether log file validation is enabled. The default is false. When you disable log file integrity validation, the chain of digest files is broken after one hour. CloudTrail does not create digest files for log files that were delivered during a period in which log file integrity validation was disabled. For example, if you enable log file integrity validation at noon on January 1, disable it at noon on January 2, and re-enable it at noon on January 10, digest files will not be created for the log files delivered from noon on January 2 to noon on January 10. The same applies whenever you stop CloudTrail logging or delete a trail.
     public var enableLogFileValidation: Swift.Bool?
@@ -13219,7 +14656,7 @@ public struct UpdateTrailInput: Swift.Equatable {
     public var includeGlobalServiceEvents: Swift.Bool?
     /// Specifies whether the trail applies only to the current region or to all regions. The default is false. If the trail exists only in the current region and this value is set to true, shadow trails (replications of the trail) will be created in the other regions. If the trail exists in all regions and this value is set to false, the trail will remain in the region where it was created, and its shadow trails in other regions will be deleted. As a best practice, consider using trails that log events in all regions.
     public var isMultiRegionTrail: Swift.Bool?
-    /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.
+    /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.
     public var isOrganizationTrail: Swift.Bool?
     /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see [Using multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html) in the Key Management Service Developer Guide. Examples:
     ///
@@ -13353,6 +14790,7 @@ extension UpdateTrailOutputError {
         case "CloudTrailARNInvalid" : self = .cloudTrailARNInvalidException(try CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudTrailInvalidClientTokenId" : self = .cloudTrailInvalidClientTokenIdException(try CloudTrailInvalidClientTokenIdException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "CloudWatchLogsDeliveryUnavailable" : self = .cloudWatchLogsDeliveryUnavailableException(try CloudWatchLogsDeliveryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientDependencyServiceAccessPermission" : self = .insufficientDependencyServiceAccessPermissionException(try InsufficientDependencyServiceAccessPermissionException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientEncryptionPolicy" : self = .insufficientEncryptionPolicyException(try InsufficientEncryptionPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InsufficientS3BucketPolicy" : self = .insufficientS3BucketPolicyException(try InsufficientS3BucketPolicyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -13390,6 +14828,7 @@ public enum UpdateTrailOutputError: Swift.Error, Swift.Equatable {
     case cloudTrailARNInvalidException(CloudTrailARNInvalidException)
     case cloudTrailInvalidClientTokenIdException(CloudTrailInvalidClientTokenIdException)
     case cloudWatchLogsDeliveryUnavailableException(CloudWatchLogsDeliveryUnavailableException)
+    case conflictException(ConflictException)
     case insufficientDependencyServiceAccessPermissionException(InsufficientDependencyServiceAccessPermissionException)
     case insufficientEncryptionPolicyException(InsufficientEncryptionPolicyException)
     case insufficientS3BucketPolicyException(InsufficientS3BucketPolicyException)

@@ -40,7 +40,7 @@ extension AppConfigClientTypes.Action: Swift.Codable {
 }
 
 extension AppConfigClientTypes {
-    /// An action defines the tasks the extension performs during the AppConfig workflow. Each action includes an action point such as ON_CREATE_HOSTED_CONFIGURATION, PRE_DEPLOYMENT, or ON_DEPLOYMENT. Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. You can specify the following actions for an extension:
+    /// An action defines the tasks that the extension performs during the AppConfig workflow. Each action includes an action point such as ON_CREATE_HOSTED_CONFIGURATION, PRE_DEPLOYMENT, or ON_DEPLOYMENT. Each action also includes a name, a URI to an Lambda function, and an Amazon Resource Name (ARN) for an Identity and Access Management assume role. You specify the name, URI, and ARN for each action point defined in the extension. You can specify the following actions for an extension:
     ///
     /// * PRE_CREATE_HOSTED_CONFIGURATION_VERSION
     ///
@@ -581,9 +581,9 @@ extension AppConfigClientTypes.ConfigurationProfileSummary: Swift.Codable {
         var validatorTypesDecoded0:[AppConfigClientTypes.ValidatorType]? = nil
         if let validatorTypesContainer = validatorTypesContainer {
             validatorTypesDecoded0 = [AppConfigClientTypes.ValidatorType]()
-            for string0 in validatorTypesContainer {
-                if let string0 = string0 {
-                    validatorTypesDecoded0?.append(string0)
+            for enum0 in validatorTypesContainer {
+                if let enum0 = enum0 {
+                    validatorTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -909,7 +909,17 @@ public struct CreateConfigurationProfileInput: Swift.Equatable {
     public var applicationId: Swift.String?
     /// A description of the configuration profile.
     public var description: Swift.String?
-    /// A URI to locate the configuration. You can specify the AppConfig hosted configuration store, Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For the hosted configuration store and for feature flags, specify hosted. For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter:// or the ARN. For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+    /// A URI to locate the configuration. You can specify the following:
+    ///
+    /// * For the AppConfig hosted configuration store and for feature flags, specify hosted.
+    ///
+    /// * For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.
+    ///
+    /// * For an Secrets Manager secret, specify the URI in the following format: secrets-manager://.
+    ///
+    /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
+    ///
+    /// * For an SSM document, specify either the document name in the format ssm-document:// or the Amazon Resource Name (ARN).
     /// This member is required.
     public var locationUri: Swift.String?
     /// A name for the configuration profile.
@@ -3835,7 +3845,7 @@ public struct GetConfigurationInput: Swift.Equatable {
     /// The application to get. Specify either the application name or the application ID.
     /// This member is required.
     public var application: Swift.String?
-    /// The configuration version returned in the most recent GetConfiguration response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter. For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html) in the AppConfig User Guide.
+    /// The configuration version returned in the most recent GetConfiguration response. AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend you use the [StartConfigurationSession](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html) and [GetLatestConfiguration](https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html) APIs, which track the client configuration version on your behalf. If you choose to continue using GetConfiguration, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. The value to use for ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by GetConfiguration when there is new or updated data, and should be saved for subsequent calls to GetConfiguration. For more information about working with configurations, see [Retrieving the Configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html) in the AppConfig User Guide.
     public var clientConfigurationVersion: Swift.String?
     /// The clientId parameter in the following command is a unique, user-specified ID to identify the client for the configuration. This ID enables AppConfig to deploy the configuration in intervals, as defined in the deployment strategy.
     /// This member is required.
@@ -4240,6 +4250,8 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = output.finalBakeTimeInMinutes
             self.growthFactor = output.growthFactor
             self.growthType = output.growthType
+            self.kmsKeyArn = output.kmsKeyArn
+            self.kmsKeyIdentifier = output.kmsKeyIdentifier
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
@@ -4260,6 +4272,8 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = 0
             self.growthFactor = 0.0
             self.growthType = nil
+            self.kmsKeyArn = nil
+            self.kmsKeyIdentifier = nil
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
@@ -4300,6 +4314,10 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
     public var growthFactor: Swift.Float
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
+    /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
+    public var kmsKeyArn: Swift.String?
+    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
     public var percentageComplete: Swift.Float
     /// The time the deployment started.
@@ -4324,6 +4342,8 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         finalBakeTimeInMinutes: Swift.Int = 0,
         growthFactor: Swift.Float = 0.0,
         growthType: AppConfigClientTypes.GrowthType? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil
@@ -4345,6 +4365,8 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
         self.growthFactor = growthFactor
         self.growthType = growthType
+        self.kmsKeyArn = kmsKeyArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
@@ -4371,6 +4393,8 @@ struct GetDeploymentOutputResponseBody: Swift.Equatable {
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
+    let kmsKeyArn: Swift.String?
+    let kmsKeyIdentifier: Swift.String?
 }
 
 extension GetDeploymentOutputResponseBody: Swift.Decodable {
@@ -4391,6 +4415,8 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
         case growthFactor = "GrowthFactor"
         case growthType = "GrowthType"
+        case kmsKeyArn = "KmsKeyArn"
+        case kmsKeyIdentifier = "KmsKeyIdentifier"
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
@@ -4454,6 +4480,10 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
             }
         }
         appliedExtensions = appliedExtensionsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
+        kmsKeyIdentifier = kmsKeyIdentifierDecoded
     }
 }
 
@@ -6497,7 +6527,7 @@ extension ListExtensionsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListExtensionsOutputResponse: Swift.Equatable {
-    /// The list of available extensions. The list includes Amazon Web Services-authored and user-created extensions.
+    /// The list of available extensions. The list includes Amazon Web Services authored and user-created extensions.
     public var items: [AppConfigClientTypes.ExtensionSummary]?
     /// The token for the next set of items to return. Use this token to get the next set of results.
     public var nextToken: Swift.String?
@@ -7119,6 +7149,7 @@ extension StartDeploymentInput: Swift.Encodable {
         case configurationVersion = "ConfigurationVersion"
         case deploymentStrategyId = "DeploymentStrategyId"
         case description = "Description"
+        case kmsKeyIdentifier = "KmsKeyIdentifier"
         case tags = "Tags"
     }
 
@@ -7135,6 +7166,9 @@ extension StartDeploymentInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let kmsKeyIdentifier = self.kmsKeyIdentifier {
+            try encodeContainer.encode(kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -7175,6 +7209,8 @@ public struct StartDeploymentInput: Swift.Equatable {
     /// The environment ID.
     /// This member is required.
     public var environmentId: Swift.String?
+    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+    public var kmsKeyIdentifier: Swift.String?
     /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
     public var tags: [Swift.String:Swift.String]?
 
@@ -7185,6 +7221,7 @@ public struct StartDeploymentInput: Swift.Equatable {
         deploymentStrategyId: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -7194,6 +7231,7 @@ public struct StartDeploymentInput: Swift.Equatable {
         self.deploymentStrategyId = deploymentStrategyId
         self.description = description
         self.environmentId = environmentId
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.tags = tags
     }
 }
@@ -7204,6 +7242,7 @@ struct StartDeploymentInputBody: Swift.Equatable {
     let configurationVersion: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let kmsKeyIdentifier: Swift.String?
 }
 
 extension StartDeploymentInputBody: Swift.Decodable {
@@ -7212,6 +7251,7 @@ extension StartDeploymentInputBody: Swift.Decodable {
         case configurationVersion = "ConfigurationVersion"
         case deploymentStrategyId = "DeploymentStrategyId"
         case description = "Description"
+        case kmsKeyIdentifier = "KmsKeyIdentifier"
         case tags = "Tags"
     }
 
@@ -7236,6 +7276,8 @@ extension StartDeploymentInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
+        kmsKeyIdentifier = kmsKeyIdentifierDecoded
     }
 }
 
@@ -7289,6 +7331,8 @@ extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = output.finalBakeTimeInMinutes
             self.growthFactor = output.growthFactor
             self.growthType = output.growthType
+            self.kmsKeyArn = output.kmsKeyArn
+            self.kmsKeyIdentifier = output.kmsKeyIdentifier
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
@@ -7309,6 +7353,8 @@ extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = 0
             self.growthFactor = 0.0
             self.growthType = nil
+            self.kmsKeyArn = nil
+            self.kmsKeyIdentifier = nil
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
@@ -7349,6 +7395,10 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
     public var growthFactor: Swift.Float
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
+    /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
+    public var kmsKeyArn: Swift.String?
+    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
     public var percentageComplete: Swift.Float
     /// The time the deployment started.
@@ -7373,6 +7423,8 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
         finalBakeTimeInMinutes: Swift.Int = 0,
         growthFactor: Swift.Float = 0.0,
         growthType: AppConfigClientTypes.GrowthType? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil
@@ -7394,6 +7446,8 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
         self.growthFactor = growthFactor
         self.growthType = growthType
+        self.kmsKeyArn = kmsKeyArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
@@ -7420,6 +7474,8 @@ struct StartDeploymentOutputResponseBody: Swift.Equatable {
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
+    let kmsKeyArn: Swift.String?
+    let kmsKeyIdentifier: Swift.String?
 }
 
 extension StartDeploymentOutputResponseBody: Swift.Decodable {
@@ -7440,6 +7496,8 @@ extension StartDeploymentOutputResponseBody: Swift.Decodable {
         case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
         case growthFactor = "GrowthFactor"
         case growthType = "GrowthType"
+        case kmsKeyArn = "KmsKeyArn"
+        case kmsKeyIdentifier = "KmsKeyIdentifier"
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
@@ -7503,6 +7561,10 @@ extension StartDeploymentOutputResponseBody: Swift.Decodable {
             }
         }
         appliedExtensions = appliedExtensionsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
+        kmsKeyIdentifier = kmsKeyIdentifierDecoded
     }
 }
 
@@ -7601,6 +7663,8 @@ extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = output.finalBakeTimeInMinutes
             self.growthFactor = output.growthFactor
             self.growthType = output.growthType
+            self.kmsKeyArn = output.kmsKeyArn
+            self.kmsKeyIdentifier = output.kmsKeyIdentifier
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
@@ -7621,6 +7685,8 @@ extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.finalBakeTimeInMinutes = 0
             self.growthFactor = 0.0
             self.growthType = nil
+            self.kmsKeyArn = nil
+            self.kmsKeyIdentifier = nil
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
@@ -7661,6 +7727,10 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
     public var growthFactor: Swift.Float
     /// The algorithm used to define how percentage grew over time.
     public var growthType: AppConfigClientTypes.GrowthType?
+    /// The Amazon Resource Name of the Key Management Service key used to encrypt configuration data. You can encrypt secrets stored in Secrets Manager, Amazon Simple Storage Service (Amazon S3) objects encrypted with SSE-KMS, or secure string parameters stored in Amazon Web Services Systems Manager Parameter Store.
+    public var kmsKeyArn: Swift.String?
+    /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+    public var kmsKeyIdentifier: Swift.String?
     /// The percentage of targets for which the deployment is available.
     public var percentageComplete: Swift.Float
     /// The time the deployment started.
@@ -7685,6 +7755,8 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
         finalBakeTimeInMinutes: Swift.Int = 0,
         growthFactor: Swift.Float = 0.0,
         growthType: AppConfigClientTypes.GrowthType? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
         state: AppConfigClientTypes.DeploymentState? = nil
@@ -7706,6 +7778,8 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
         self.finalBakeTimeInMinutes = finalBakeTimeInMinutes
         self.growthFactor = growthFactor
         self.growthType = growthType
+        self.kmsKeyArn = kmsKeyArn
+        self.kmsKeyIdentifier = kmsKeyIdentifier
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
@@ -7732,6 +7806,8 @@ struct StopDeploymentOutputResponseBody: Swift.Equatable {
     let startedAt: ClientRuntime.Date?
     let completedAt: ClientRuntime.Date?
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
+    let kmsKeyArn: Swift.String?
+    let kmsKeyIdentifier: Swift.String?
 }
 
 extension StopDeploymentOutputResponseBody: Swift.Decodable {
@@ -7752,6 +7828,8 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
         case finalBakeTimeInMinutes = "FinalBakeTimeInMinutes"
         case growthFactor = "GrowthFactor"
         case growthType = "GrowthType"
+        case kmsKeyArn = "KmsKeyArn"
+        case kmsKeyIdentifier = "KmsKeyIdentifier"
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
@@ -7815,6 +7893,10 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
             }
         }
         appliedExtensions = appliedExtensionsDecoded0
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
+        kmsKeyIdentifier = kmsKeyIdentifierDecoded
     }
 }
 

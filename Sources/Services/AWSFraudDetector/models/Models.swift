@@ -9942,6 +9942,17 @@ extension FraudDetectorClientTypes {
         /// The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD, LEGIT) to the appropriate event type labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" => ["0"], "LEGIT" => ["1"]} or {"FRAUD" => ["false"], "LEGIT" => ["true"]} or {"FRAUD" => ["fraud", "abuse"], "LEGIT" => ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label.
         public var labelMapper: [Swift.String:[Swift.String]]?
         /// The action to take for unlabeled events.
+        ///
+        /// * Use IGNORE if you want the unlabeled events to be ignored. This is recommended when the majority of the events in the dataset are labeled.
+        ///
+        /// * Use FRAUD if you want to categorize all unlabeled events as “Fraud”. This is recommended when most of the events in your dataset are fraudulent.
+        ///
+        /// * Use LEGIT f you want to categorize all unlabeled events as “Legit”. This is recommended when most of the events in your dataset are legitimate.
+        ///
+        /// * Use AUTO if you want Amazon Fraud Detector to decide how to use the unlabeled data. This is recommended when there is significant unlabeled events in the dataset.
+        ///
+        ///
+        /// By default, Amazon Fraud Detector ignores the unlabeled data.
         public var unlabeledEventsTreatment: FraudDetectorClientTypes.UnlabeledEventsTreatment?
 
         public init (
@@ -11369,6 +11380,7 @@ extension FraudDetectorClientTypes {
 extension FraudDetectorClientTypes.OFIModelPerformance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auc
+        case uncertaintyRange
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11376,12 +11388,17 @@ extension FraudDetectorClientTypes.OFIModelPerformance: Swift.Codable {
         if let auc = self.auc {
             try encodeContainer.encode(auc, forKey: .auc)
         }
+        if let uncertaintyRange = self.uncertaintyRange {
+            try encodeContainer.encode(uncertaintyRange, forKey: .uncertaintyRange)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aucDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .auc)
         auc = aucDecoded
+        let uncertaintyRangeDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.UncertaintyRange.self, forKey: .uncertaintyRange)
+        uncertaintyRange = uncertaintyRangeDecoded
     }
 }
 
@@ -11390,12 +11407,16 @@ extension FraudDetectorClientTypes {
     public struct OFIModelPerformance: Swift.Equatable {
         /// The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public var auc: Swift.Float?
+        /// Indicates the range of area under curve (auc) expected from the OFI model. A range greater than 0.1 indicates higher model uncertainity.
+        public var uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange?
 
         public init (
-            auc: Swift.Float? = nil
+            auc: Swift.Float? = nil,
+            uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange? = nil
         )
         {
             self.auc = auc
+            self.uncertaintyRange = uncertaintyRange
         }
     }
 
@@ -13287,6 +13308,7 @@ extension FraudDetectorClientTypes {
 extension FraudDetectorClientTypes.TFIModelPerformance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case auc
+        case uncertaintyRange
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13294,12 +13316,17 @@ extension FraudDetectorClientTypes.TFIModelPerformance: Swift.Codable {
         if let auc = self.auc {
             try encodeContainer.encode(auc, forKey: .auc)
         }
+        if let uncertaintyRange = self.uncertaintyRange {
+            try encodeContainer.encode(uncertaintyRange, forKey: .uncertaintyRange)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let aucDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .auc)
         auc = aucDecoded
+        let uncertaintyRangeDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.UncertaintyRange.self, forKey: .uncertaintyRange)
+        uncertaintyRange = uncertaintyRangeDecoded
     }
 }
 
@@ -13308,12 +13335,16 @@ extension FraudDetectorClientTypes {
     public struct TFIModelPerformance: Swift.Equatable {
         /// The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public var auc: Swift.Float?
+        /// Indicates the range of area under curve (auc) expected from the TFI model. A range greater than 0.1 indicates higher model uncertainity.
+        public var uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange?
 
         public init (
-            auc: Swift.Float? = nil
+            auc: Swift.Float? = nil,
+            uncertaintyRange: FraudDetectorClientTypes.UncertaintyRange? = nil
         )
         {
             self.auc = auc
+            self.uncertaintyRange = uncertaintyRange
         }
     }
 
@@ -13909,8 +13940,56 @@ extension FraudDetectorClientTypes {
 
 }
 
+extension FraudDetectorClientTypes.UncertaintyRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lowerBoundValue
+        case upperBoundValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lowerBoundValue = self.lowerBoundValue {
+            try encodeContainer.encode(lowerBoundValue, forKey: .lowerBoundValue)
+        }
+        if let upperBoundValue = self.upperBoundValue {
+            try encodeContainer.encode(upperBoundValue, forKey: .upperBoundValue)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lowerBoundValueDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .lowerBoundValue)
+        lowerBoundValue = lowerBoundValueDecoded
+        let upperBoundValueDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .upperBoundValue)
+        upperBoundValue = upperBoundValueDecoded
+    }
+}
+
+extension FraudDetectorClientTypes {
+    /// Range of area under curve (auc) expected from the model. A range greater than 0.1 indicates higher model uncertainity. A range is the difference between upper and lower bound of auc.
+    public struct UncertaintyRange: Swift.Equatable {
+        /// The lower bound value of the area under curve (auc).
+        /// This member is required.
+        public var lowerBoundValue: Swift.Float?
+        /// The lower bound value of the area under curve (auc).
+        /// This member is required.
+        public var upperBoundValue: Swift.Float?
+
+        public init (
+            lowerBoundValue: Swift.Float? = nil,
+            upperBoundValue: Swift.Float? = nil
+        )
+        {
+            self.lowerBoundValue = lowerBoundValue
+            self.upperBoundValue = upperBoundValue
+        }
+    }
+
+}
+
 extension FraudDetectorClientTypes {
     public enum UnlabeledEventsTreatment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
         case fraud
         case ignore
         case legit
@@ -13918,6 +13997,7 @@ extension FraudDetectorClientTypes {
 
         public static var allCases: [UnlabeledEventsTreatment] {
             return [
+                .auto,
                 .fraud,
                 .ignore,
                 .legit,
@@ -13930,6 +14010,7 @@ extension FraudDetectorClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .auto: return "AUTO"
             case .fraud: return "FRAUD"
             case .ignore: return "IGNORE"
             case .legit: return "LEGIT"

@@ -1851,7 +1851,7 @@ extension CreateLoginProfileInput: Swift.Encodable {
         if let password = password {
             try container.encode(password, forKey: ClientRuntime.Key("Password"))
         }
-        if passwordResetRequired != false {
+        if let passwordResetRequired = passwordResetRequired {
             try container.encode(passwordResetRequired, forKey: ClientRuntime.Key("PasswordResetRequired"))
         }
         if let userName = userName {
@@ -1873,14 +1873,14 @@ public struct CreateLoginProfileInput: Swift.Equatable {
     /// This member is required.
     public var password: Swift.String?
     /// Specifies whether the user is required to set a new password on next sign-in.
-    public var passwordResetRequired: Swift.Bool
+    public var passwordResetRequired: Swift.Bool?
     /// The name of the IAM user to create a password for. The user must already exist. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     /// This member is required.
     public var userName: Swift.String?
 
     public init (
         password: Swift.String? = nil,
-        passwordResetRequired: Swift.Bool = false,
+        passwordResetRequired: Swift.Bool? = nil,
         userName: Swift.String? = nil
     )
     {
@@ -1893,7 +1893,7 @@ public struct CreateLoginProfileInput: Swift.Equatable {
 struct CreateLoginProfileInputBody: Swift.Equatable {
     let userName: Swift.String?
     let password: Swift.String?
-    let passwordResetRequired: Swift.Bool
+    let passwordResetRequired: Swift.Bool?
 }
 
 extension CreateLoginProfileInputBody: Swift.Decodable {
@@ -1909,7 +1909,7 @@ extension CreateLoginProfileInputBody: Swift.Decodable {
         userName = userNameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
-        let passwordResetRequiredDecoded = try containerValues.decode(Swift.Bool.self, forKey: .passwordResetRequired)
+        let passwordResetRequiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .passwordResetRequired)
         passwordResetRequired = passwordResetRequiredDecoded
     }
 }
@@ -2450,7 +2450,7 @@ extension CreatePolicyVersionInput: Swift.Encodable {
         if let policyDocument = policyDocument {
             try container.encode(policyDocument, forKey: ClientRuntime.Key("PolicyDocument"))
         }
-        if setAsDefault != false {
+        if let setAsDefault = setAsDefault {
             try container.encode(setAsDefault, forKey: ClientRuntime.Key("SetAsDefault"))
         }
         try container.encode("CreatePolicyVersion", forKey:ClientRuntime.Key("Action"))
@@ -2478,12 +2478,12 @@ public struct CreatePolicyVersionInput: Swift.Equatable {
     /// This member is required.
     public var policyDocument: Swift.String?
     /// Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see [Versioning for managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-versions.html) in the IAM User Guide.
-    public var setAsDefault: Swift.Bool
+    public var setAsDefault: Swift.Bool?
 
     public init (
         policyArn: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
-        setAsDefault: Swift.Bool = false
+        setAsDefault: Swift.Bool? = nil
     )
     {
         self.policyArn = policyArn
@@ -2495,7 +2495,7 @@ public struct CreatePolicyVersionInput: Swift.Equatable {
 struct CreatePolicyVersionInputBody: Swift.Equatable {
     let policyArn: Swift.String?
     let policyDocument: Swift.String?
-    let setAsDefault: Swift.Bool
+    let setAsDefault: Swift.Bool?
 }
 
 extension CreatePolicyVersionInputBody: Swift.Decodable {
@@ -2511,7 +2511,7 @@ extension CreatePolicyVersionInputBody: Swift.Decodable {
         policyArn = policyArnDecoded
         let policyDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyDocument)
         policyDocument = policyDocumentDecoded
-        let setAsDefaultDecoded = try containerValues.decode(Swift.Bool.self, forKey: .setAsDefault)
+        let setAsDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .setAsDefault)
         setAsDefault = setAsDefaultDecoded
     }
 }
@@ -2651,7 +2651,7 @@ public struct CreateRoleInput: Swift.Equatable {
     public var maxSessionDuration: Swift.Int?
     /// The path to the role. For more information about paths, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var path: Swift.String?
-    /// The ARN of the policy that is used to set the permissions boundary for the role.
+    /// The ARN of the managed policy that is used to set the permissions boundary for the role. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     public var permissionsBoundary: Swift.String?
     /// The name of the role to create. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
     /// This member is required.
@@ -3305,7 +3305,7 @@ extension CreateUserInput: ClientRuntime.URLPathProvider {
 public struct CreateUserInput: Swift.Equatable {
     /// The path for the user name. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var path: Swift.String?
-    /// The ARN of the policy that is used to set the permissions boundary for the user.
+    /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     public var permissionsBoundary: Swift.String?
     /// A list of tags that you want to attach to the new user. Each tag consists of a key name and an associated value. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide. If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request fails and the resource is not created.
     public var tags: [IAMClientTypes.Tag]?
@@ -15128,7 +15128,7 @@ extension ListPoliciesInput: Swift.Encodable {
         if let maxItems = maxItems {
             try container.encode(maxItems, forKey: ClientRuntime.Key("MaxItems"))
         }
-        if onlyAttached != false {
+        if let onlyAttached = onlyAttached {
             try container.encode(onlyAttached, forKey: ClientRuntime.Key("OnlyAttached"))
         }
         if let pathPrefix = pathPrefix {
@@ -15157,7 +15157,7 @@ public struct ListPoliciesInput: Swift.Equatable {
     /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
     public var maxItems: Swift.Int?
     /// A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
-    public var onlyAttached: Swift.Bool
+    public var onlyAttached: Swift.Bool?
     /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including most punctuation characters, digits, and upper and lowercased letters.
     public var pathPrefix: Swift.String?
     /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
@@ -15168,7 +15168,7 @@ public struct ListPoliciesInput: Swift.Equatable {
     public init (
         marker: Swift.String? = nil,
         maxItems: Swift.Int? = nil,
-        onlyAttached: Swift.Bool = false,
+        onlyAttached: Swift.Bool? = nil,
         pathPrefix: Swift.String? = nil,
         policyUsageFilter: IAMClientTypes.PolicyUsageType? = nil,
         scope: IAMClientTypes.PolicyScopeType? = nil
@@ -15185,7 +15185,7 @@ public struct ListPoliciesInput: Swift.Equatable {
 
 struct ListPoliciesInputBody: Swift.Equatable {
     let scope: IAMClientTypes.PolicyScopeType?
-    let onlyAttached: Swift.Bool
+    let onlyAttached: Swift.Bool?
     let pathPrefix: Swift.String?
     let policyUsageFilter: IAMClientTypes.PolicyUsageType?
     let marker: Swift.String?
@@ -15206,7 +15206,7 @@ extension ListPoliciesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let scopeDecoded = try containerValues.decodeIfPresent(IAMClientTypes.PolicyScopeType.self, forKey: .scope)
         scope = scopeDecoded
-        let onlyAttachedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .onlyAttached)
+        let onlyAttachedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onlyAttached)
         onlyAttached = onlyAttachedDecoded
         let pathPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pathPrefix)
         pathPrefix = pathPrefixDecoded
@@ -19687,7 +19687,7 @@ extension PutRolePermissionsBoundaryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutRolePermissionsBoundaryInput: Swift.Equatable {
-    /// The ARN of the policy that is used to set the permissions boundary for the role.
+    /// The ARN of the managed policy that is used to set the permissions boundary for the role. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     /// This member is required.
     public var permissionsBoundary: Swift.String?
     /// The name (friendly name, not ARN) of the IAM role for which you want to set the permissions boundary.
@@ -19899,7 +19899,7 @@ extension PutUserPermissionsBoundaryInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutUserPermissionsBoundaryInput: Swift.Equatable {
-    /// The ARN of the policy that is used to set the permissions boundary for the user.
+    /// The ARN of the managed policy that is used to set the permissions boundary for the user. A permissions boundary policy defines the maximum permissions that identity-based policies can grant to an entity, but does not grant permissions. Permissions boundaries do not define the maximum permissions that a resource-based policy can grant to an entity. To learn more, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. For more information about policy types, see [Policy types ](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policy-types) in the IAM User Guide.
     /// This member is required.
     public var permissionsBoundary: Swift.String?
     /// The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary.
@@ -22608,7 +22608,7 @@ public struct SimulateCustomPolicyInput: Swift.Equatable {
     /// * The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
     /// This member is required.
     public var policyInputList: [Swift.String]?
-    /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. If you include a ResourcePolicy, then it must be applicable to all of the resources included in the simulation or you receive an invalid input error. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. Simulation of resource-based policies isn't supported for IAM roles.
     public var resourceArns: [Swift.String]?
     /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html) in the Amazon EC2 User Guide.
     ///
@@ -22629,6 +22629,9 @@ public struct SimulateCustomPolicyInput: Swift.Equatable {
     /// * The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)
     ///
     /// * The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+    ///
+    ///
+    /// Simulation of resource-based policies isn't supported for IAM roles.
     public var resourcePolicy: Swift.String?
 
     public init (
@@ -23029,7 +23032,7 @@ public struct SimulatePrincipalPolicyInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of a user, group, or role whose policies you want to include in the simulation. If you specify a user, group, or role, the simulation includes all policies that are associated with that entity. If you specify a user, the simulation also includes all policies that are attached to any groups the user belongs to. The maximum length of the policy document that you can pass in this operation, including whitespace, is listed below. To view the maximum character counts of a managed policy with no whitespaces, see [IAM and STS character quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-quotas-entity-length). For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var policySourceArn: Swift.String?
-    /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// A list of ARNs of Amazon Web Services resources to include in the simulation. If this parameter is not provided, then the value defaults to * (all resources). Each API in the ActionNames parameter is evaluated for each resource in this list. The simulation determines the access result (allowed or denied) of each combination and reports it in the response. You can simulate resources that don't exist in your account. The simulation does not automatically retrieve policies for the specified resources. If you want to include a resource policy in the simulation, then you must include the policy as a string in the ResourcePolicy parameter. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. Simulation of resource-based policies isn't supported for IAM roles.
     public var resourceArns: [Swift.String]?
     /// Specifies the type of simulation to run. Different API operations that support resource-based policies require different combinations of resources. By specifying the type of simulation to run, you enable the policy simulator to enforce the presence of the required resources to ensure reliable simulation results. If your simulation does not match one of the following scenarios, then you can omit this parameter. The following list shows each of the supported scenario values and the resources that you must define to run the simulation. Each of the EC2 scenarios requires that you specify instance, image, and security group resources. If your scenario includes an EBS volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC, then you must supply the network interface resource. If it includes an IP subnet, then you must specify the subnet resource. For more information on the EC2 scenario options, see [Supported platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html) in the Amazon EC2 User Guide.
     ///
@@ -23050,6 +23053,9 @@ public struct SimulatePrincipalPolicyInput: Swift.Equatable {
     /// * The printable characters in the Basic Latin and Latin-1 Supplement character set (through \u00FF)
     ///
     /// * The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
+    ///
+    ///
+    /// Simulation of resource-based policies isn't supported for IAM roles.
     public var resourcePolicy: Swift.String?
 
     public init (
@@ -25840,7 +25846,7 @@ public struct UpdateAccessKeyOutputResponse: Swift.Equatable {
 extension UpdateAccountPasswordPolicyInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowUsersToChangePassword != false {
+        if let allowUsersToChangePassword = allowUsersToChangePassword {
             try container.encode(allowUsersToChangePassword, forKey: ClientRuntime.Key("AllowUsersToChangePassword"))
         }
         if let hardExpiry = hardExpiry {
@@ -25855,16 +25861,16 @@ extension UpdateAccountPasswordPolicyInput: Swift.Encodable {
         if let passwordReusePrevention = passwordReusePrevention {
             try container.encode(passwordReusePrevention, forKey: ClientRuntime.Key("PasswordReusePrevention"))
         }
-        if requireLowercaseCharacters != false {
+        if let requireLowercaseCharacters = requireLowercaseCharacters {
             try container.encode(requireLowercaseCharacters, forKey: ClientRuntime.Key("RequireLowercaseCharacters"))
         }
-        if requireNumbers != false {
+        if let requireNumbers = requireNumbers {
             try container.encode(requireNumbers, forKey: ClientRuntime.Key("RequireNumbers"))
         }
-        if requireSymbols != false {
+        if let requireSymbols = requireSymbols {
             try container.encode(requireSymbols, forKey: ClientRuntime.Key("RequireSymbols"))
         }
-        if requireUppercaseCharacters != false {
+        if let requireUppercaseCharacters = requireUppercaseCharacters {
             try container.encode(requireUppercaseCharacters, forKey: ClientRuntime.Key("RequireUppercaseCharacters"))
         }
         try container.encode("UpdateAccountPasswordPolicy", forKey:ClientRuntime.Key("Action"))
@@ -25880,7 +25886,7 @@ extension UpdateAccountPasswordPolicyInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateAccountPasswordPolicyInput: Swift.Equatable {
     /// Allows all IAM users in your account to use the Amazon Web Services Management Console to change their own passwords. For more information, see [Permitting IAM users to change their own passwords](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_enable-user-change.html) in the IAM User Guide. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users in the account do not automatically have permissions to change their own password.
-    public var allowUsersToChangePassword: Swift.Bool
+    public var allowUsersToChangePassword: Swift.Bool?
     /// Prevents IAM users who are accessing the account via the Amazon Web Services Management Console from setting a new console password after their password has expired. The IAM user cannot access the console until an administrator resets the password. If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that IAM users can change their passwords after they expire and continue to sign in as the user. In the Amazon Web Services Management Console, the custom password policy option Allow users to change their own password gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM. IAM users with iam:ChangePassword permission and active access keys can reset their own expired console password using the CLI or API.
     public var hardExpiry: Swift.Bool?
     /// The number of days that an IAM user password is valid. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM user passwords never expire.
@@ -25890,24 +25896,24 @@ public struct UpdateAccountPasswordPolicyInput: Swift.Equatable {
     /// Specifies the number of previous passwords that IAM users are prevented from reusing. If you do not specify a value for this parameter, then the operation uses the default value of 0. The result is that IAM users are not prevented from reusing previous passwords.
     public var passwordReusePrevention: Swift.Int?
     /// Specifies whether IAM user passwords must contain at least one lowercase character from the ISO basic Latin alphabet (a to z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one lowercase character.
-    public var requireLowercaseCharacters: Swift.Bool
+    public var requireLowercaseCharacters: Swift.Bool?
     /// Specifies whether IAM user passwords must contain at least one numeric character (0 to 9). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one numeric character.
-    public var requireNumbers: Swift.Bool
+    public var requireNumbers: Swift.Bool?
     /// Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ # $ % ^ & * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
-    public var requireSymbols: Swift.Bool
+    public var requireSymbols: Swift.Bool?
     /// Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
-    public var requireUppercaseCharacters: Swift.Bool
+    public var requireUppercaseCharacters: Swift.Bool?
 
     public init (
-        allowUsersToChangePassword: Swift.Bool = false,
+        allowUsersToChangePassword: Swift.Bool? = nil,
         hardExpiry: Swift.Bool? = nil,
         maxPasswordAge: Swift.Int? = nil,
         minimumPasswordLength: Swift.Int? = nil,
         passwordReusePrevention: Swift.Int? = nil,
-        requireLowercaseCharacters: Swift.Bool = false,
-        requireNumbers: Swift.Bool = false,
-        requireSymbols: Swift.Bool = false,
-        requireUppercaseCharacters: Swift.Bool = false
+        requireLowercaseCharacters: Swift.Bool? = nil,
+        requireNumbers: Swift.Bool? = nil,
+        requireSymbols: Swift.Bool? = nil,
+        requireUppercaseCharacters: Swift.Bool? = nil
     )
     {
         self.allowUsersToChangePassword = allowUsersToChangePassword
@@ -25924,11 +25930,11 @@ public struct UpdateAccountPasswordPolicyInput: Swift.Equatable {
 
 struct UpdateAccountPasswordPolicyInputBody: Swift.Equatable {
     let minimumPasswordLength: Swift.Int?
-    let requireSymbols: Swift.Bool
-    let requireNumbers: Swift.Bool
-    let requireUppercaseCharacters: Swift.Bool
-    let requireLowercaseCharacters: Swift.Bool
-    let allowUsersToChangePassword: Swift.Bool
+    let requireSymbols: Swift.Bool?
+    let requireNumbers: Swift.Bool?
+    let requireUppercaseCharacters: Swift.Bool?
+    let requireLowercaseCharacters: Swift.Bool?
+    let allowUsersToChangePassword: Swift.Bool?
     let maxPasswordAge: Swift.Int?
     let passwordReusePrevention: Swift.Int?
     let hardExpiry: Swift.Bool?
@@ -25951,15 +25957,15 @@ extension UpdateAccountPasswordPolicyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let minimumPasswordLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimumPasswordLength)
         minimumPasswordLength = minimumPasswordLengthDecoded
-        let requireSymbolsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireSymbols)
+        let requireSymbolsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireSymbols)
         requireSymbols = requireSymbolsDecoded
-        let requireNumbersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireNumbers)
+        let requireNumbersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireNumbers)
         requireNumbers = requireNumbersDecoded
-        let requireUppercaseCharactersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireUppercaseCharacters)
+        let requireUppercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireUppercaseCharacters)
         requireUppercaseCharacters = requireUppercaseCharactersDecoded
-        let requireLowercaseCharactersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireLowercaseCharacters)
+        let requireLowercaseCharactersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireLowercaseCharacters)
         requireLowercaseCharacters = requireLowercaseCharactersDecoded
-        let allowUsersToChangePasswordDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowUsersToChangePassword)
+        let allowUsersToChangePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUsersToChangePassword)
         allowUsersToChangePassword = allowUsersToChangePasswordDecoded
         let maxPasswordAgeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPasswordAge)
         maxPasswordAge = maxPasswordAgeDecoded

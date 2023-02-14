@@ -108,7 +108,7 @@ extension InternalFailureBody: Swift.Decodable {
 
 extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
+        "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
 }
 
 extension InvokeEndpointAsyncInput: ClientRuntime.HeaderProvider {
@@ -128,6 +128,9 @@ extension InvokeEndpointAsyncInput: ClientRuntime.HeaderProvider {
         }
         if let inputLocation = inputLocation {
             items.add(Header(name: "X-Amzn-SageMaker-InputLocation", value: Swift.String(inputLocation)))
+        }
+        if let invocationTimeoutSeconds = invocationTimeoutSeconds {
+            items.add(Header(name: "X-Amzn-SageMaker-InvocationTimeoutSeconds", value: Swift.String(invocationTimeoutSeconds)))
         }
         if let requestTTLSeconds = requestTTLSeconds {
             items.add(Header(name: "X-Amzn-SageMaker-RequestTTLSeconds", value: Swift.String(requestTTLSeconds)))
@@ -160,6 +163,8 @@ public struct InvokeEndpointAsyncInput: Swift.Equatable {
     /// The Amazon S3 URI where the inference request payload is stored.
     /// This member is required.
     public var inputLocation: Swift.String?
+    /// Maximum amount of time in seconds a request can be processed before it is marked as expired.
+    public var invocationTimeoutSeconds: Swift.Int?
     /// Maximum age in seconds a request can be in the queue before it is marked as expired.
     public var requestTTLSeconds: Swift.Int?
 
@@ -170,6 +175,7 @@ public struct InvokeEndpointAsyncInput: Swift.Equatable {
         endpointName: Swift.String? = nil,
         inferenceId: Swift.String? = nil,
         inputLocation: Swift.String? = nil,
+        invocationTimeoutSeconds: Swift.Int? = nil,
         requestTTLSeconds: Swift.Int? = nil
     )
     {
@@ -179,6 +185,7 @@ public struct InvokeEndpointAsyncInput: Swift.Equatable {
         self.endpointName = endpointName
         self.inferenceId = inferenceId
         self.inputLocation = inputLocation
+        self.invocationTimeoutSeconds = invocationTimeoutSeconds
         self.requestTTLSeconds = requestTTLSeconds
     }
 }
@@ -362,7 +369,7 @@ public struct InvokeEndpointInput: Swift.Equatable {
     public var contentType: Swift.String?
     /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
     public var customAttributes: Swift.String?
-    /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the [EnableExplanations](https://docs.aws.amazon.com/clarify-online-explainability-create-endpoint.html#clarify-online-exaplainability-create-endpoint-enable) section in the developer guide for more information.
+    /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable) section in the developer guide for more information.
     public var enableExplanations: Swift.String?
     /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.

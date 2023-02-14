@@ -175,7 +175,7 @@ extension GetLatestConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetLatestConfigurationInput: Swift.Equatable {
-    /// Token describing the current state of the configuration session. To obtain a token, first call the [StartConfigurationSession] API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and MUST be provided to subsequent GetLatestConfiguration API calls.
+    /// Token describing the current state of the configuration session. To obtain a token, first call the [StartConfigurationSession] API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     /// This member is required.
     public var configurationToken: Swift.String?
 
@@ -226,7 +226,7 @@ public enum GetLatestConfigurationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetLatestConfigurationOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetLatestConfigurationOutputResponse(contentType: \(Swift.String(describing: contentType)), nextPollConfigurationToken: \(Swift.String(describing: nextPollConfigurationToken)), nextPollIntervalInSeconds: \(Swift.String(describing: nextPollIntervalInSeconds)), configuration: \"CONTENT_REDACTED\")"}
+        "GetLatestConfigurationOutputResponse(contentType: \(Swift.String(describing: contentType)), nextPollConfigurationToken: \(Swift.String(describing: nextPollConfigurationToken)), nextPollIntervalInSeconds: \(Swift.String(describing: nextPollIntervalInSeconds)), versionLabel: \(Swift.String(describing: versionLabel)), configuration: \"CONTENT_REDACTED\")"}
 }
 
 extension GetLatestConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -246,6 +246,11 @@ extension GetLatestConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
         } else {
             self.nextPollIntervalInSeconds = 0
         }
+        if let versionLabelHeaderValue = httpResponse.headers.value(for: "Version-Label") {
+            self.versionLabel = versionLabelHeaderValue
+        } else {
+            self.versionLabel = nil
+        }
         if let data = httpResponse.body.toBytes()?.getData() {
             self.configuration = data
         } else {
@@ -259,22 +264,26 @@ public struct GetLatestConfigurationOutputResponse: Swift.Equatable {
     public var configuration: ClientRuntime.Data?
     /// A standard MIME type describing the format of the configuration content.
     public var contentType: Swift.String?
-    /// The latest token describing the current state of the configuration session. This MUST be provided to the next call to GetLatestConfiguration.
+    /// The latest token describing the current state of the configuration session. This must be provided to the next call to GetLatestConfiguration. This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     public var nextPollConfigurationToken: Swift.String?
     /// The amount of time the client should wait before polling for configuration updates again. Use RequiredMinimumPollIntervalInSeconds to set the desired poll interval.
     public var nextPollIntervalInSeconds: Swift.Int
+    /// The user-defined label for the AppConfig hosted configuration version. This attribute doesn't apply if the configuration is not from an AppConfig hosted configuration version. If the client already has the latest version of the configuration data, this value is empty.
+    public var versionLabel: Swift.String?
 
     public init (
         configuration: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
         nextPollConfigurationToken: Swift.String? = nil,
-        nextPollIntervalInSeconds: Swift.Int = 0
+        nextPollIntervalInSeconds: Swift.Int = 0,
+        versionLabel: Swift.String? = nil
     )
     {
         self.configuration = configuration
         self.contentType = contentType
         self.nextPollConfigurationToken = nextPollConfigurationToken
         self.nextPollIntervalInSeconds = nextPollIntervalInSeconds
+        self.versionLabel = versionLabel
     }
 }
 
@@ -587,7 +596,7 @@ public struct StartConfigurationSessionInput: Swift.Equatable {
     /// The environment ID or the environment name.
     /// This member is required.
     public var environmentIdentifier: Swift.String?
-    /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call [GetLatestConfiguration] more frequently then every 60 seconds.
+    /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call [GetLatestConfiguration] more frequently than every 60 seconds.
     public var requiredMinimumPollIntervalInSeconds: Swift.Int?
 
     public init (
@@ -674,7 +683,7 @@ extension StartConfigurationSessionOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct StartConfigurationSessionOutputResponse: Swift.Equatable {
-    /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data. This token should only be used once in your first call to GetLatestConfiguration. You MUST use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration.
+    /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data. This token should only be used once in your first call to GetLatestConfiguration. You must use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration. The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     public var initialConfigurationToken: Swift.String?
 
     public init (

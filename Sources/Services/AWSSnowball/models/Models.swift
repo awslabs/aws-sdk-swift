@@ -1527,7 +1527,7 @@ extension CreateLongTermPricingInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLongTermPricingInput: Swift.Equatable {
-    /// snowballty Specifies whether the current long-term pricing type for the device should be renewed.
+    /// Specifies whether the current long-term pricing type for the device should be renewed.
     public var isLongTermPricingAutoRenew: Swift.Bool?
     /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
     /// This member is required.
@@ -1825,6 +1825,51 @@ extension SnowballClientTypes {
             self.objectsTransferred = objectsTransferred
             self.totalBytes = totalBytes
             self.totalObjects = totalObjects
+        }
+    }
+
+}
+
+extension SnowballClientTypes.DependentService: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceName = "ServiceName"
+        case serviceVersion = "ServiceVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName.rawValue, forKey: .serviceName)
+        }
+        if let serviceVersion = self.serviceVersion {
+            try encodeContainer.encode(serviceVersion, forKey: .serviceVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceName.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let serviceVersionDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceVersion.self, forKey: .serviceVersion)
+        serviceVersion = serviceVersionDecoded
+    }
+}
+
+extension SnowballClientTypes {
+    /// The name and version of the service dependant on the requested service.
+    public struct DependentService: Swift.Equatable {
+        /// The name of the dependent service.
+        public var serviceName: SnowballClientTypes.ServiceName?
+        /// The version of the dependent service.
+        public var serviceVersion: SnowballClientTypes.ServiceVersion?
+
+        public init (
+            serviceName: SnowballClientTypes.ServiceName? = nil,
+            serviceVersion: SnowballClientTypes.ServiceVersion? = nil
+        )
+        {
+            self.serviceName = serviceName
+            self.serviceVersion = serviceVersion
         }
     }
 
@@ -2525,6 +2570,51 @@ extension SnowballClientTypes {
             self = DeviceServiceName(rawValue: rawValue) ?? DeviceServiceName.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SnowballClientTypes.EKSOnDeviceServiceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksAnywhereVersion = "EKSAnywhereVersion"
+        case kubernetesVersion = "KubernetesVersion"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksAnywhereVersion = self.eksAnywhereVersion {
+            try encodeContainer.encode(eksAnywhereVersion, forKey: .eksAnywhereVersion)
+        }
+        if let kubernetesVersion = self.kubernetesVersion {
+            try encodeContainer.encode(kubernetesVersion, forKey: .kubernetesVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kubernetesVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kubernetesVersion)
+        kubernetesVersion = kubernetesVersionDecoded
+        let eksAnywhereVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eksAnywhereVersion)
+        eksAnywhereVersion = eksAnywhereVersionDecoded
+    }
+}
+
+extension SnowballClientTypes {
+    /// An object representing the metadata and configuration settings of EKS Anywhere on the Snow Family device.
+    public struct EKSOnDeviceServiceConfiguration: Swift.Equatable {
+        /// The version of EKS Anywhere on the Snow Family device.
+        public var eksAnywhereVersion: Swift.String?
+        /// The Kubernetes version for EKS Anywhere on the Snow Family device.
+        public var kubernetesVersion: Swift.String?
+
+        public init (
+            eksAnywhereVersion: Swift.String? = nil,
+            kubernetesVersion: Swift.String? = nil
+        )
+        {
+            self.eksAnywhereVersion = eksAnywhereVersion
+            self.kubernetesVersion = kubernetesVersion
+        }
+    }
+
 }
 
 extension SnowballClientTypes.Ec2AmiResource: Swift.Codable {
@@ -4867,6 +4957,217 @@ extension ListLongTermPricingOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListServiceVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dependentServices = "DependentServices"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serviceName = "ServiceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dependentServices = dependentServices {
+            var dependentServicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependentServices)
+            for dependentservice0 in dependentServices {
+                try dependentServicesContainer.encode(dependentservice0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName.rawValue, forKey: .serviceName)
+        }
+    }
+}
+
+extension ListServiceVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListServiceVersionsInput: Swift.Equatable {
+    /// A list of names and versions of dependant services of the requested service.
+    public var dependentServices: [SnowballClientTypes.DependentService]?
+    /// The maximum number of ListServiceVersions objects to return.
+    public var maxResults: Swift.Int?
+    /// Because HTTP requests are stateless, this is the starting point for the next list of returned ListServiceVersionsRequest versions.
+    public var nextToken: Swift.String?
+    /// The name of the service for which you're requesting supported versions.
+    /// This member is required.
+    public var serviceName: SnowballClientTypes.ServiceName?
+
+    public init (
+        dependentServices: [SnowballClientTypes.DependentService]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        serviceName: SnowballClientTypes.ServiceName? = nil
+    )
+    {
+        self.dependentServices = dependentServices
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.serviceName = serviceName
+    }
+}
+
+struct ListServiceVersionsInputBody: Swift.Equatable {
+    let serviceName: SnowballClientTypes.ServiceName?
+    let dependentServices: [SnowballClientTypes.DependentService]?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListServiceVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dependentServices = "DependentServices"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case serviceName = "ServiceName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceName.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let dependentServicesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.DependentService?].self, forKey: .dependentServices)
+        var dependentServicesDecoded0:[SnowballClientTypes.DependentService]? = nil
+        if let dependentServicesContainer = dependentServicesContainer {
+            dependentServicesDecoded0 = [SnowballClientTypes.DependentService]()
+            for structure0 in dependentServicesContainer {
+                if let structure0 = structure0 {
+                    dependentServicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependentServices = dependentServicesDecoded0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListServiceVersionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListServiceVersionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InvalidNextTokenException" : self = .invalidNextTokenException(try InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidResourceException" : self = .invalidResourceException(try InvalidResourceException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListServiceVersionsOutputError: Swift.Error, Swift.Equatable {
+    case invalidNextTokenException(InvalidNextTokenException)
+    case invalidResourceException(InvalidResourceException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListServiceVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListServiceVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dependentServices = output.dependentServices
+            self.nextToken = output.nextToken
+            self.serviceName = output.serviceName
+            self.serviceVersions = output.serviceVersions
+        } else {
+            self.dependentServices = nil
+            self.nextToken = nil
+            self.serviceName = nil
+            self.serviceVersions = nil
+        }
+    }
+}
+
+public struct ListServiceVersionsOutputResponse: Swift.Equatable {
+    /// A list of names and versions of dependant services of the service for which the system provided supported versions.
+    public var dependentServices: [SnowballClientTypes.DependentService]?
+    /// Because HTTP requests are stateless, this is the starting point of the next list of returned ListServiceVersionsResult results.
+    public var nextToken: Swift.String?
+    /// The name of the service for which the system provided supported versions.
+    /// This member is required.
+    public var serviceName: SnowballClientTypes.ServiceName?
+    /// A list of supported versions.
+    /// This member is required.
+    public var serviceVersions: [SnowballClientTypes.ServiceVersion]?
+
+    public init (
+        dependentServices: [SnowballClientTypes.DependentService]? = nil,
+        nextToken: Swift.String? = nil,
+        serviceName: SnowballClientTypes.ServiceName? = nil,
+        serviceVersions: [SnowballClientTypes.ServiceVersion]? = nil
+    )
+    {
+        self.dependentServices = dependentServices
+        self.nextToken = nextToken
+        self.serviceName = serviceName
+        self.serviceVersions = serviceVersions
+    }
+}
+
+struct ListServiceVersionsOutputResponseBody: Swift.Equatable {
+    let serviceVersions: [SnowballClientTypes.ServiceVersion]?
+    let serviceName: SnowballClientTypes.ServiceName?
+    let dependentServices: [SnowballClientTypes.DependentService]?
+    let nextToken: Swift.String?
+}
+
+extension ListServiceVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dependentServices = "DependentServices"
+        case nextToken = "NextToken"
+        case serviceName = "ServiceName"
+        case serviceVersions = "ServiceVersions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceVersionsContainer = try containerValues.decodeIfPresent([SnowballClientTypes.ServiceVersion?].self, forKey: .serviceVersions)
+        var serviceVersionsDecoded0:[SnowballClientTypes.ServiceVersion]? = nil
+        if let serviceVersionsContainer = serviceVersionsContainer {
+            serviceVersionsDecoded0 = [SnowballClientTypes.ServiceVersion]()
+            for structure0 in serviceVersionsContainer {
+                if let structure0 = structure0 {
+                    serviceVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        serviceVersions = serviceVersionsDecoded0
+        let serviceNameDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.ServiceName.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let dependentServicesContainer = try containerValues.decodeIfPresent([SnowballClientTypes.DependentService?].self, forKey: .dependentServices)
+        var dependentServicesDecoded0:[SnowballClientTypes.DependentService]? = nil
+        if let dependentServicesContainer = dependentServicesContainer {
+            dependentServicesDecoded0 = [SnowballClientTypes.DependentService]()
+            for structure0 in dependentServicesContainer {
+                if let structure0 = structure0 {
+                    dependentServicesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependentServices = dependentServicesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension SnowballClientTypes.LongTermPricingListEntry: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case currentActiveJob = "CurrentActiveJob"
@@ -5150,12 +5451,16 @@ extension SnowballClientTypes {
 
 extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eksOnDeviceService = "EKSOnDeviceService"
         case nfsOnDeviceService = "NFSOnDeviceService"
         case tgwOnDeviceService = "TGWOnDeviceService"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eksOnDeviceService = self.eksOnDeviceService {
+            try encodeContainer.encode(eksOnDeviceService, forKey: .eksOnDeviceService)
+        }
         if let nfsOnDeviceService = self.nfsOnDeviceService {
             try encodeContainer.encode(nfsOnDeviceService, forKey: .nfsOnDeviceService)
         }
@@ -5170,22 +5475,28 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
         nfsOnDeviceService = nfsOnDeviceServiceDecoded
         let tgwOnDeviceServiceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.TGWOnDeviceServiceConfiguration.self, forKey: .tgwOnDeviceService)
         tgwOnDeviceService = tgwOnDeviceServiceDecoded
+        let eksOnDeviceServiceDecoded = try containerValues.decodeIfPresent(SnowballClientTypes.EKSOnDeviceServiceConfiguration.self, forKey: .eksOnDeviceService)
+        eksOnDeviceService = eksOnDeviceServiceDecoded
     }
 }
 
 extension SnowballClientTypes {
     /// An object that represents the metadata and configuration settings for services on an Amazon Web Services Snow Family device.
     public struct OnDeviceServiceConfiguration: Swift.Equatable {
+        /// The configuration of EKS Anywhere on the Snow Family device.
+        public var eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration?
         /// Represents the NFS (Network File System) service on a Snow Family device.
         public var nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration?
         /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
         public var tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration?
 
         public init (
+            eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration? = nil,
             nfsOnDeviceService: SnowballClientTypes.NFSOnDeviceServiceConfiguration? = nil,
             tgwOnDeviceService: SnowballClientTypes.TGWOnDeviceServiceConfiguration? = nil
         )
         {
+            self.eksOnDeviceService = eksOnDeviceService
             self.nfsOnDeviceService = nfsOnDeviceService
             self.tgwOnDeviceService = tgwOnDeviceService
         }
@@ -5339,6 +5650,73 @@ extension SnowballClientTypes {
             self.bucketArn = bucketArn
             self.keyRange = keyRange
             self.targetOnDeviceServices = targetOnDeviceServices
+        }
+    }
+
+}
+
+extension SnowballClientTypes {
+    public enum ServiceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case eksAnywhere
+        case kubernetes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceName] {
+            return [
+                .eksAnywhere,
+                .kubernetes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .eksAnywhere: return "EKS_ANYWHERE"
+            case .kubernetes: return "KUBERNETES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ServiceName(rawValue: rawValue) ?? ServiceName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SnowballClientTypes.ServiceVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case version = "Version"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let version = self.version {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+    }
+}
+
+extension SnowballClientTypes {
+    /// The version of the requested service.
+    public struct ServiceVersion: Swift.Equatable {
+        /// The version number of the requested service.
+        public var version: Swift.String?
+
+        public init (
+            version: Swift.String? = nil
+        )
+        {
+            self.version = version
         }
     }
 

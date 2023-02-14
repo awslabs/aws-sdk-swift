@@ -571,11 +571,13 @@ extension M2ClientTypes {
 extension M2ClientTypes.BatchJobExecutionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId
+        case batchJobIdentifier
         case endTime
         case executionId
         case jobId
         case jobName
         case jobType
+        case returnCode
         case startTime
         case status
     }
@@ -584,6 +586,9 @@ extension M2ClientTypes.BatchJobExecutionSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationId = self.applicationId {
             try encodeContainer.encode(applicationId, forKey: .applicationId)
+        }
+        if let batchJobIdentifier = self.batchJobIdentifier {
+            try encodeContainer.encode(batchJobIdentifier, forKey: .batchJobIdentifier)
         }
         if let endTime = self.endTime {
             try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
@@ -599,6 +604,9 @@ extension M2ClientTypes.BatchJobExecutionSummary: Swift.Codable {
         }
         if let jobType = self.jobType {
             try encodeContainer.encode(jobType.rawValue, forKey: .jobType)
+        }
+        if let returnCode = self.returnCode {
+            try encodeContainer.encode(returnCode, forKey: .returnCode)
         }
         if let startTime = self.startTime {
             try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
@@ -626,6 +634,10 @@ extension M2ClientTypes.BatchJobExecutionSummary: Swift.Codable {
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
         endTime = endTimeDecoded
+        let returnCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnCode)
+        returnCode = returnCodeDecoded
+        let batchJobIdentifierDecoded = try containerValues.decodeIfPresent(M2ClientTypes.BatchJobIdentifier.self, forKey: .batchJobIdentifier)
+        batchJobIdentifier = batchJobIdentifierDecoded
     }
 }
 
@@ -635,6 +647,8 @@ extension M2ClientTypes {
         /// The unique identifier of the application that hosts this batch job.
         /// This member is required.
         public var applicationId: Swift.String?
+        /// Identifies a specific batch job.
+        public var batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
         /// The timestamp when this batch job execution ended.
         public var endTime: ClientRuntime.Date?
         /// The unique identifier of this execution of the batch job.
@@ -646,6 +660,8 @@ extension M2ClientTypes {
         public var jobName: Swift.String?
         /// The type of a particular batch job execution.
         public var jobType: M2ClientTypes.BatchJobType?
+        ///
+        public var returnCode: Swift.String?
         /// The timestamp when a particular batch job execution started.
         /// This member is required.
         public var startTime: ClientRuntime.Date?
@@ -655,21 +671,25 @@ extension M2ClientTypes {
 
         public init (
             applicationId: Swift.String? = nil,
+            batchJobIdentifier: M2ClientTypes.BatchJobIdentifier? = nil,
             endTime: ClientRuntime.Date? = nil,
             executionId: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobType: M2ClientTypes.BatchJobType? = nil,
+            returnCode: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: M2ClientTypes.BatchJobExecutionStatus? = nil
         )
         {
             self.applicationId = applicationId
+            self.batchJobIdentifier = batchJobIdentifier
             self.endTime = endTime
             self.executionId = executionId
             self.jobId = jobId
             self.jobName = jobName
             self.jobType = jobType
+            self.returnCode = returnCode
             self.startTime = startTime
             self.status = status
         }
@@ -3903,23 +3923,27 @@ extension GetBatchJobExecutionOutputResponse: ClientRuntime.HttpResponseBinding 
             let data = reader.toBytes().getData()
             let output: GetBatchJobExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.applicationId = output.applicationId
+            self.batchJobIdentifier = output.batchJobIdentifier
             self.endTime = output.endTime
             self.executionId = output.executionId
             self.jobId = output.jobId
             self.jobName = output.jobName
             self.jobType = output.jobType
             self.jobUser = output.jobUser
+            self.returnCode = output.returnCode
             self.startTime = output.startTime
             self.status = output.status
             self.statusReason = output.statusReason
         } else {
             self.applicationId = nil
+            self.batchJobIdentifier = nil
             self.endTime = nil
             self.executionId = nil
             self.jobId = nil
             self.jobName = nil
             self.jobType = nil
             self.jobUser = nil
+            self.returnCode = nil
             self.startTime = nil
             self.status = nil
             self.statusReason = nil
@@ -3931,6 +3955,8 @@ public struct GetBatchJobExecutionOutputResponse: Swift.Equatable {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
+    /// Identifies a specific batch job.
+    public var batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
     /// The timestamp when the batch job execution ended.
     public var endTime: ClientRuntime.Date?
     /// The unique identifier for this batch job execution.
@@ -3944,6 +3970,8 @@ public struct GetBatchJobExecutionOutputResponse: Swift.Equatable {
     public var jobType: M2ClientTypes.BatchJobType?
     /// The user for the job.
     public var jobUser: Swift.String?
+    ///
+    public var returnCode: Swift.String?
     /// The timestamp when the batch job execution started.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
@@ -3955,24 +3983,28 @@ public struct GetBatchJobExecutionOutputResponse: Swift.Equatable {
 
     public init (
         applicationId: Swift.String? = nil,
+        batchJobIdentifier: M2ClientTypes.BatchJobIdentifier? = nil,
         endTime: ClientRuntime.Date? = nil,
         executionId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobType: M2ClientTypes.BatchJobType? = nil,
         jobUser: Swift.String? = nil,
+        returnCode: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
         status: M2ClientTypes.BatchJobExecutionStatus? = nil,
         statusReason: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
+        self.batchJobIdentifier = batchJobIdentifier
         self.endTime = endTime
         self.executionId = executionId
         self.jobId = jobId
         self.jobName = jobName
         self.jobType = jobType
         self.jobUser = jobUser
+        self.returnCode = returnCode
         self.startTime = startTime
         self.status = status
         self.statusReason = statusReason
@@ -3990,17 +4022,21 @@ struct GetBatchJobExecutionOutputResponseBody: Swift.Equatable {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let statusReason: Swift.String?
+    let returnCode: Swift.String?
+    let batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
 }
 
 extension GetBatchJobExecutionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId
+        case batchJobIdentifier
         case endTime
         case executionId
         case jobId
         case jobName
         case jobType
         case jobUser
+        case returnCode
         case startTime
         case status
         case statusReason
@@ -4028,6 +4064,10 @@ extension GetBatchJobExecutionOutputResponseBody: Swift.Decodable {
         endTime = endTimeDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let returnCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnCode)
+        returnCode = returnCodeDecoded
+        let batchJobIdentifierDecoded = try containerValues.decodeIfPresent(M2ClientTypes.BatchJobIdentifier.self, forKey: .batchJobIdentifier)
+        batchJobIdentifier = batchJobIdentifierDecoded
     }
 }
 

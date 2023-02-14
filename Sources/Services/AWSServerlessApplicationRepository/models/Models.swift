@@ -1116,9 +1116,9 @@ extension CreateApplicationVersionOutputResponseBody: Swift.Decodable {
         var requiredCapabilitiesDecoded0:[ServerlessApplicationRepositoryClientTypes.Capability]? = nil
         if let requiredCapabilitiesContainer = requiredCapabilitiesContainer {
             requiredCapabilitiesDecoded0 = [ServerlessApplicationRepositoryClientTypes.Capability]()
-            for string0 in requiredCapabilitiesContainer {
-                if let string0 = string0 {
-                    requiredCapabilitiesDecoded0?.append(string0)
+            for enum0 in requiredCapabilitiesContainer {
+                if let enum0 = enum0 {
+                    requiredCapabilitiesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4017,9 +4017,9 @@ extension ServerlessApplicationRepositoryClientTypes.Version: Swift.Codable {
         var requiredCapabilitiesDecoded0:[ServerlessApplicationRepositoryClientTypes.Capability]? = nil
         if let requiredCapabilitiesContainer = requiredCapabilitiesContainer {
             requiredCapabilitiesDecoded0 = [ServerlessApplicationRepositoryClientTypes.Capability]()
-            for string0 in requiredCapabilitiesContainer {
-                if let string0 = string0 {
-                    requiredCapabilitiesDecoded0?.append(string0)
+            for enum0 in requiredCapabilitiesContainer {
+                if let enum0 = enum0 {
+                    requiredCapabilitiesDecoded0?.append(enum0)
                 }
             }
         }

@@ -95,3 +95,35 @@ extension PaginatorSequence where Input == ListDatabasesInput, Output == ListDat
         return try await self.asyncCompactMap { item in item.databases }
     }
 }
+extension SsmSapClient {
+    /// Paginate over `[ListOperationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOperationsOutputResponse`
+    public func listOperationsPaginated(input: ListOperationsInput) -> ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListOperationsInput, ListOperationsOutputResponse>(input: input, inputKey: \ListOperationsInput.nextToken, outputKey: \ListOperationsOutputResponse.nextToken, paginationFunction: self.listOperations(input:))
+    }
+}
+
+extension ListOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOperationsInput {
+        return ListOperationsInput(
+            applicationId: self.applicationId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListOperationsInput, Output == ListOperationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listOperationsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.Operation]`
+    /// - Returns: `[SsmSapClientTypes.Operation]`
+    public func operations() async throws -> [SsmSapClientTypes.Operation] {
+        return try await self.asyncCompactMap { item in item.operations }
+    }
+}

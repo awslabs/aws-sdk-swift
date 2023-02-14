@@ -53,14 +53,11 @@ extension ChimeSDKMeetingsClientTypes {
         ///
         /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
         ///
-        ///
-        ///
-        ///
         /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
         ///
         /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
         public var capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
         public var externalUserId: Swift.String?
         /// The join token used by the Amazon Chime SDK attendee.
         public var joinToken: Swift.String?
@@ -116,9 +113,6 @@ extension ChimeSDKMeetingsClientTypes {
     /// The media capabilities of an attendee: audio, video, or content. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
-    ///
-    ///
-    ///
     ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
     ///
@@ -722,7 +716,7 @@ extension ChimeSDKMeetingsClientTypes {
         public var errorCode: Swift.String?
         /// The error message.
         public var errorMessage: Swift.String?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
         public var externalUserId: Swift.String?
 
         public init (
@@ -775,14 +769,11 @@ public struct CreateAttendeeInput: Swift.Equatable {
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
-    ///
-    ///
-    ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendess can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     public var capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
-    /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+    /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix.
     /// This member is required.
     public var externalUserId: Swift.String?
     /// The unique ID of the meeting.
@@ -935,7 +926,7 @@ extension ChimeSDKMeetingsClientTypes {
     public struct CreateAttendeeRequestItem: Swift.Equatable {
         /// A list of one or more capabilities.
         public var capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
-        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
+        /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
         /// This member is required.
         public var externalUserId: Swift.String?
 
@@ -1017,16 +1008,10 @@ public struct CreateMeetingInput: Swift.Equatable {
     /// The unique identifier for the client request. Use a different token for different meetings.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The external meeting ID.
+    /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
-    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2,
-    ///
-    ///
-    /// ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3,
-    ///
-    ///
-    /// sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
     /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -1304,16 +1289,10 @@ public struct CreateMeetingWithAttendeesInput: Swift.Equatable {
     /// The unique identifier for the client request. Use a different token for different meetings.
     /// This member is required.
     public var clientRequestToken: Swift.String?
-    /// The external meeting ID.
+    /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
-    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2,
-    ///
-    ///
-    /// ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3,
-    ///
-    ///
-    /// sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
+    /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
     /// Lists the audio and video features enabled for a meeting, such as echo reduction.
@@ -2815,7 +2794,7 @@ extension ChimeSDKMeetingsClientTypes.Meeting: Swift.CustomDebugStringConvertibl
 extension ChimeSDKMeetingsClientTypes {
     /// A meeting created using the Amazon Chime SDK.
     public struct Meeting: Swift.Equatable {
-        /// The external meeting ID.
+        /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
         public var externalMeetingId: Swift.String?
         /// The media placement for the meeting.
         public var mediaPlacement: ChimeSDKMeetingsClientTypes.MediaPlacement?
@@ -2823,7 +2802,7 @@ extension ChimeSDKMeetingsClientTypes {
         public var mediaRegion: Swift.String?
         /// The ARN of the meeting.
         public var meetingArn: Swift.String?
-        /// The features available to a meeting, such as Amazon Voice Focus.
+        /// The features available to a meeting, such as echo reduction.
         public var meetingFeatures: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration?
         /// Reserved.
         public var meetingHostId: Swift.String?
@@ -2912,7 +2891,7 @@ extension ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration: Swift.Codabl
 }
 
 extension ChimeSDKMeetingsClientTypes {
-    /// The configuration settings of the features available to a meeting.>
+    /// The configuration settings of the features available to a meeting.
     public struct MeetingFeaturesConfiguration: Swift.Equatable {
         /// The configuration settings for the audio features available to a meeting.
         public var audio: ChimeSDKMeetingsClientTypes.AudioFeatures?

@@ -30,7 +30,7 @@ extension AbortDocumentVersionUploadInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AbortDocumentVersionUploadInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -129,7 +129,7 @@ extension ActivateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ActivateUserInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
     /// This member is required.
@@ -510,7 +510,7 @@ extension AddResourcePermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AddResourcePermissionsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The notification options.
     public var notificationOptions: WorkDocsClientTypes.NotificationOptions?
@@ -1059,7 +1059,7 @@ extension CreateCommentInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if notifyCollaborators != false {
+        if let notifyCollaborators = self.notifyCollaborators {
             try encodeContainer.encode(notifyCollaborators, forKey: .notifyCollaborators)
         }
         if let parentId = self.parentId {
@@ -1100,13 +1100,13 @@ extension CreateCommentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateCommentInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
     public var documentId: Swift.String?
     /// Set this parameter to TRUE to send an email out to the document collaborators after the comment is created.
-    public var notifyCollaborators: Swift.Bool
+    public var notifyCollaborators: Swift.Bool?
     /// The ID of the parent comment.
     public var parentId: Swift.String?
     /// The text of the comment.
@@ -1123,7 +1123,7 @@ public struct CreateCommentInput: Swift.Equatable {
     public init (
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
-        notifyCollaborators: Swift.Bool = false,
+        notifyCollaborators: Swift.Bool? = nil,
         parentId: Swift.String? = nil,
         text: Swift.String? = nil,
         threadId: Swift.String? = nil,
@@ -1147,7 +1147,7 @@ struct CreateCommentInputBody: Swift.Equatable {
     let threadId: Swift.String?
     let text: Swift.String?
     let visibility: WorkDocsClientTypes.CommentVisibilityType?
-    let notifyCollaborators: Swift.Bool
+    let notifyCollaborators: Swift.Bool?
 }
 
 extension CreateCommentInputBody: Swift.Decodable {
@@ -1169,7 +1169,7 @@ extension CreateCommentInputBody: Swift.Decodable {
         text = textDecoded
         let visibilityDecoded = try containerValues.decodeIfPresent(WorkDocsClientTypes.CommentVisibilityType.self, forKey: .visibility)
         visibility = visibilityDecoded
-        let notifyCollaboratorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .notifyCollaborators) ?? false
+        let notifyCollaboratorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .notifyCollaborators)
         notifyCollaborators = notifyCollaboratorsDecoded
     }
 }
@@ -1305,7 +1305,7 @@ extension CreateCustomMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateCustomMetadataInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Custom metadata in the form of name-value pairs.
     /// This member is required.
@@ -1438,7 +1438,7 @@ extension CreateFolderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFolderInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The name of the new folder.
     public var name: Swift.String?
@@ -1600,7 +1600,7 @@ extension CreateLabelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateLabelsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// List of labels to add to the resource.
     /// This member is required.
@@ -1902,7 +1902,7 @@ extension CreateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateUserInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The email address of the user.
     public var emailAddress: Swift.String?
@@ -2141,7 +2141,7 @@ extension DeactivateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeactivateUserInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
     /// This member is required.
@@ -2298,7 +2298,7 @@ extension DeleteCommentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteCommentInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the comment.
     /// This member is required.
@@ -2400,7 +2400,7 @@ extension DeleteCustomMetadataInput: ClientRuntime.QueryItemProvider {
                 let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
                 items.append(versionIdQueryItem)
             }
-            if deleteAll != false {
+            if let deleteAll = deleteAll {
                 let deleteAllQueryItem = ClientRuntime.URLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
                 items.append(deleteAllQueryItem)
             }
@@ -2425,10 +2425,10 @@ extension DeleteCustomMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteCustomMetadataInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Flag to indicate removal of all custom metadata properties from the specified resource.
-    public var deleteAll: Swift.Bool
+    public var deleteAll: Swift.Bool?
     /// List of properties to remove.
     public var keys: [Swift.String]?
     /// The ID of the resource, either a document or folder.
@@ -2439,7 +2439,7 @@ public struct DeleteCustomMetadataInput: Swift.Equatable {
 
     public init (
         authenticationToken: Swift.String? = nil,
-        deleteAll: Swift.Bool = false,
+        deleteAll: Swift.Bool? = nil,
         keys: [Swift.String]? = nil,
         resourceId: Swift.String? = nil,
         versionId: Swift.String? = nil
@@ -2529,7 +2529,7 @@ extension DeleteDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDocumentInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -2621,6 +2621,10 @@ extension DeleteDocumentVersionInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            guard let deletePriorVersions = deletePriorVersions else {
+                let message = "Creating a URL Query Item failed. deletePriorVersions is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let deletePriorVersionsQueryItem = ClientRuntime.URLQueryItem(name: "deletePriorVersions".urlPercentEncoding(), value: Swift.String(deletePriorVersions).urlPercentEncoding())
             items.append(deletePriorVersionsQueryItem)
             return items
@@ -2641,21 +2645,21 @@ extension DeleteDocumentVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteDocumentVersionInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
-    /// When set to TRUE, deletes the specified version and all prior versions of a document.
+    /// Deletes all versions of a document prior to the current version.
     /// This member is required.
-    public var deletePriorVersions: Swift.Bool
-    /// The ID of a document.
+    public var deletePriorVersions: Swift.Bool?
+    /// The ID of the document associated with the version being deleted.
     /// This member is required.
     public var documentId: Swift.String?
-    /// The version ID of a document.
+    /// The ID of the version being deleted.
     /// This member is required.
     public var versionId: Swift.String?
 
     public init (
         authenticationToken: Swift.String? = nil,
-        deletePriorVersions: Swift.Bool = false,
+        deletePriorVersions: Swift.Bool? = nil,
         documentId: Swift.String? = nil,
         versionId: Swift.String? = nil
     )
@@ -2747,7 +2751,7 @@ extension DeleteFolderContentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteFolderContentsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
     /// This member is required.
@@ -2841,7 +2845,7 @@ extension DeleteFolderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteFolderInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
     /// This member is required.
@@ -2933,7 +2937,7 @@ extension DeleteLabelsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if deleteAll != false {
+            if let deleteAll = deleteAll {
                 let deleteAllQueryItem = ClientRuntime.URLQueryItem(name: "deleteAll".urlPercentEncoding(), value: Swift.String(deleteAll).urlPercentEncoding())
                 items.append(deleteAllQueryItem)
             }
@@ -2958,10 +2962,10 @@ extension DeleteLabelsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteLabelsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// Flag to request removal of all labels from the specified resource.
-    public var deleteAll: Swift.Bool
+    public var deleteAll: Swift.Bool?
     /// List of labels to delete from the resource.
     public var labels: [Swift.String]?
     /// The ID of the resource.
@@ -2970,7 +2974,7 @@ public struct DeleteLabelsInput: Swift.Equatable {
 
     public init (
         authenticationToken: Swift.String? = nil,
-        deleteAll: Swift.Bool = false,
+        deleteAll: Swift.Bool? = nil,
         labels: [Swift.String]? = nil,
         resourceId: Swift.String? = nil
     )
@@ -3135,7 +3139,7 @@ extension DeleteUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteUserInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials.
+    /// Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using Amazon Web Services credentials.
     public var authenticationToken: Swift.String?
     /// The ID of the user.
     /// This member is required.
@@ -3235,7 +3239,7 @@ extension DescribeActivitiesInput: ClientRuntime.QueryItemProvider {
                 let startTimeQueryItem = ClientRuntime.URLQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
                 items.append(startTimeQueryItem)
             }
-            if includeIndirectActivities != false {
+            if let includeIndirectActivities = includeIndirectActivities {
                 let includeIndirectActivitiesQueryItem = ClientRuntime.URLQueryItem(name: "includeIndirectActivities".urlPercentEncoding(), value: Swift.String(includeIndirectActivities).urlPercentEncoding())
                 items.append(includeIndirectActivitiesQueryItem)
             }
@@ -3269,12 +3273,12 @@ extension DescribeActivitiesInput: ClientRuntime.URLPathProvider {
 public struct DescribeActivitiesInput: Swift.Equatable {
     /// Specifies which activity types to include in the response. If this field is left empty, all activity types are returned.
     public var activityTypes: Swift.String?
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The timestamp that determines the end time of the activities. The response includes the activities performed before the specified timestamp.
     public var endTime: ClientRuntime.Date?
     /// Includes indirect activities. An indirect activity results from a direct activity performed on a parent resource. For example, sharing a parent folder (the direct activity) shares all of the subfolders and documents within the parent folder (the indirect activity).
-    public var includeIndirectActivities: Swift.Bool
+    public var includeIndirectActivities: Swift.Bool?
     /// The maximum number of items to return.
     public var limit: Swift.Int?
     /// The marker for the next set of results.
@@ -3292,7 +3296,7 @@ public struct DescribeActivitiesInput: Swift.Equatable {
         activityTypes: Swift.String? = nil,
         authenticationToken: Swift.String? = nil,
         endTime: ClientRuntime.Date? = nil,
-        includeIndirectActivities: Swift.Bool = false,
+        includeIndirectActivities: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         marker: Swift.String? = nil,
         organizationId: Swift.String? = nil,
@@ -3458,7 +3462,7 @@ extension DescribeCommentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeCommentsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -3638,7 +3642,7 @@ extension DescribeDocumentVersionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeDocumentVersionsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -3833,7 +3837,7 @@ extension DescribeFolderContentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeFolderContentsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
     /// This member is required.
@@ -4042,7 +4046,7 @@ extension DescribeGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeGroupsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The maximum number of items to return with this call.
     public var limit: Swift.Int?
@@ -4355,7 +4359,7 @@ extension DescribeResourcePermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeResourcePermissionsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The maximum number of items to return with this call.
     public var limit: Swift.Int?
@@ -4707,7 +4711,7 @@ extension DescribeUsersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeUsersInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// A comma-separated list of values. Specify "STORAGE_METADATA" to include the user storage quota and utilization information.
     public var fields: Swift.String?
@@ -5544,7 +5548,7 @@ extension FailedDependencyException {
     }
 }
 
-/// The AWS Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
+/// The Directory Service cannot reach an on-premises instance. Or a dependency under the control of the organization is failing, such as a connected Active Directory.
 public struct FailedDependencyException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -5894,7 +5898,7 @@ extension GetDocumentInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if includeCustomMetadata != false {
+            if let includeCustomMetadata = includeCustomMetadata {
                 let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
                 items.append(includeCustomMetadataQueryItem)
             }
@@ -5913,18 +5917,18 @@ extension GetDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDocumentInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
     public var documentId: Swift.String?
     /// Set this to TRUE to include custom metadata in the response.
-    public var includeCustomMetadata: Swift.Bool
+    public var includeCustomMetadata: Swift.Bool?
 
     public init (
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool = false
+        includeCustomMetadata: Swift.Bool? = nil
     )
     {
         self.authenticationToken = authenticationToken
@@ -6082,7 +6086,7 @@ extension GetDocumentPathInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDocumentPathInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -6213,7 +6217,7 @@ extension GetDocumentVersionInput: ClientRuntime.QueryItemProvider {
                 let fieldsQueryItem = ClientRuntime.URLQueryItem(name: "fields".urlPercentEncoding(), value: Swift.String(fields).urlPercentEncoding())
                 items.append(fieldsQueryItem)
             }
-            if includeCustomMetadata != false {
+            if let includeCustomMetadata = includeCustomMetadata {
                 let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
                 items.append(includeCustomMetadataQueryItem)
             }
@@ -6235,7 +6239,7 @@ extension GetDocumentVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetDocumentVersionInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -6243,7 +6247,7 @@ public struct GetDocumentVersionInput: Swift.Equatable {
     /// A comma-separated list of values. Specify "SOURCE" to include a URL for the source document.
     public var fields: Swift.String?
     /// Set this to TRUE to include custom metadata in the response.
-    public var includeCustomMetadata: Swift.Bool
+    public var includeCustomMetadata: Swift.Bool?
     /// The version ID of the document.
     /// This member is required.
     public var versionId: Swift.String?
@@ -6252,7 +6256,7 @@ public struct GetDocumentVersionInput: Swift.Equatable {
         authenticationToken: Swift.String? = nil,
         documentId: Swift.String? = nil,
         fields: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool = false,
+        includeCustomMetadata: Swift.Bool? = nil,
         versionId: Swift.String? = nil
     )
     {
@@ -6386,7 +6390,7 @@ extension GetFolderInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if includeCustomMetadata != false {
+            if let includeCustomMetadata = includeCustomMetadata {
                 let includeCustomMetadataQueryItem = ClientRuntime.URLQueryItem(name: "includeCustomMetadata".urlPercentEncoding(), value: Swift.String(includeCustomMetadata).urlPercentEncoding())
                 items.append(includeCustomMetadataQueryItem)
             }
@@ -6405,18 +6409,18 @@ extension GetFolderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetFolderInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
     /// This member is required.
     public var folderId: Swift.String?
     /// Set to TRUE to include custom metadata in the response.
-    public var includeCustomMetadata: Swift.Bool
+    public var includeCustomMetadata: Swift.Bool?
 
     public init (
         authenticationToken: Swift.String? = nil,
         folderId: Swift.String? = nil,
-        includeCustomMetadata: Swift.Bool = false
+        includeCustomMetadata: Swift.Bool? = nil
     )
     {
         self.authenticationToken = authenticationToken
@@ -6574,7 +6578,7 @@ extension GetFolderPathInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetFolderPathInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// A comma-separated list of values. Specify "NAME" to include the names of the parent folders.
     public var fields: Swift.String?
@@ -6729,7 +6733,7 @@ extension GetResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResourcesInput: Swift.Equatable {
-    /// The Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// The Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The collection type.
     public var collectionType: WorkDocsClientTypes.ResourceCollectionType?
@@ -7030,7 +7034,7 @@ extension InitiateDocumentVersionUploadInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InitiateDocumentVersionUploadInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The timestamp when the content of the document was originally created.
     public var contentCreatedTimestamp: ClientRuntime.Date?
@@ -7560,7 +7564,7 @@ extension WorkDocsClientTypes {
     public struct NotificationOptions: Swift.Equatable {
         /// Text value to be included in the email body.
         public var emailMessage: Swift.String?
-        /// Boolean value to indicate an email notification should be sent to the receipients.
+        /// Boolean value to indicate an email notification should be sent to the recipients.
         public var sendEmail: Swift.Bool
 
         public init (
@@ -7906,7 +7910,7 @@ extension RemoveAllResourcePermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RemoveAllResourcePermissionsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the resource.
     /// This member is required.
@@ -8010,7 +8014,7 @@ extension RemoveResourcePermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RemoveResourcePermissionInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The principal ID of the resource.
     /// This member is required.
@@ -8529,7 +8533,7 @@ extension RestoreDocumentVersionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreDocumentVersionsInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -9462,7 +9466,7 @@ extension UpdateDocumentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateDocumentInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -9605,7 +9609,7 @@ extension UpdateDocumentVersionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateDocumentVersionInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the document.
     /// This member is required.
@@ -9738,7 +9742,7 @@ extension UpdateFolderInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFolderInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The ID of the folder.
     /// This member is required.
@@ -9902,11 +9906,11 @@ extension UpdateUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUserInput: Swift.Equatable {
-    /// Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API.
+    /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     public var authenticationToken: Swift.String?
     /// The given name of the user.
     public var givenName: Swift.String?
-    /// Boolean value to determine whether the user is granted Poweruser privileges.
+    /// Boolean value to determine whether the user is granted Power user privileges.
     public var grantPoweruserPrivileges: WorkDocsClientTypes.BooleanEnumType?
     /// The locale of the user.
     public var locale: WorkDocsClientTypes.LocaleType?

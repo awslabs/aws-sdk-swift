@@ -5872,7 +5872,7 @@ extension CreateIndexInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if isUnique != false {
+        if let isUnique = self.isUnique {
             try encodeContainer.encode(isUnique, forKey: .isUnique)
         }
         if let linkName = self.linkName {
@@ -5912,7 +5912,7 @@ public struct CreateIndexInput: Swift.Equatable {
     public var directoryArn: Swift.String?
     /// Indicates whether the attribute that is being indexed has unique values or not.
     /// This member is required.
-    public var isUnique: Swift.Bool
+    public var isUnique: Swift.Bool?
     /// The name of the link between the parent object and the index object.
     public var linkName: Swift.String?
     /// Specifies the attributes that should be indexed on. Currently only a single attribute is supported.
@@ -5923,7 +5923,7 @@ public struct CreateIndexInput: Swift.Equatable {
 
     public init (
         directoryArn: Swift.String? = nil,
-        isUnique: Swift.Bool = false,
+        isUnique: Swift.Bool? = nil,
         linkName: Swift.String? = nil,
         orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]? = nil,
         parentReference: CloudDirectoryClientTypes.ObjectReference? = nil
@@ -5939,7 +5939,7 @@ public struct CreateIndexInput: Swift.Equatable {
 
 struct CreateIndexInputBody: Swift.Equatable {
     let orderedIndexedAttributeList: [CloudDirectoryClientTypes.AttributeKey]?
-    let isUnique: Swift.Bool
+    let isUnique: Swift.Bool?
     let parentReference: CloudDirectoryClientTypes.ObjectReference?
     let linkName: Swift.String?
 }
@@ -5965,7 +5965,7 @@ extension CreateIndexInputBody: Swift.Decodable {
             }
         }
         orderedIndexedAttributeList = orderedIndexedAttributeListDecoded0
-        let isUniqueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isUnique) ?? false
+        let isUniqueDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isUnique)
         isUnique = isUniqueDecoded
         let parentReferenceDecoded = try containerValues.decodeIfPresent(CloudDirectoryClientTypes.ObjectReference.self, forKey: .parentReference)
         parentReference = parentReferenceDecoded
@@ -12954,7 +12954,7 @@ extension ListObjectParentsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if includeAllLinksToEachParent != false {
+        if let includeAllLinksToEachParent = self.includeAllLinksToEachParent {
             try encodeContainer.encode(includeAllLinksToEachParent, forKey: .includeAllLinksToEachParent)
         }
         if let maxResults = self.maxResults {
@@ -12995,7 +12995,7 @@ public struct ListObjectParentsInput: Swift.Equatable {
     /// This member is required.
     public var directoryArn: Swift.String?
     /// When set to True, returns all [ListObjectParentsResponse$ParentLinks]. There could be multiple links between a parent-child pair.
-    public var includeAllLinksToEachParent: Swift.Bool
+    public var includeAllLinksToEachParent: Swift.Bool?
     /// The maximum number of items to be retrieved in a single call. This is an approximate number.
     public var maxResults: Swift.Int?
     /// The pagination token.
@@ -13007,7 +13007,7 @@ public struct ListObjectParentsInput: Swift.Equatable {
     public init (
         consistencyLevel: CloudDirectoryClientTypes.ConsistencyLevel? = nil,
         directoryArn: Swift.String? = nil,
-        includeAllLinksToEachParent: Swift.Bool = false,
+        includeAllLinksToEachParent: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectReference: CloudDirectoryClientTypes.ObjectReference? = nil
@@ -13026,7 +13026,7 @@ struct ListObjectParentsInputBody: Swift.Equatable {
     let objectReference: CloudDirectoryClientTypes.ObjectReference?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
-    let includeAllLinksToEachParent: Swift.Bool
+    let includeAllLinksToEachParent: Swift.Bool?
 }
 
 extension ListObjectParentsInputBody: Swift.Decodable {
@@ -13045,7 +13045,7 @@ extension ListObjectParentsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
-        let includeAllLinksToEachParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeAllLinksToEachParent) ?? false
+        let includeAllLinksToEachParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeAllLinksToEachParent)
         includeAllLinksToEachParent = includeAllLinksToEachParentDecoded
     }
 }
@@ -17939,7 +17939,7 @@ extension UpgradeAppliedSchemaInput: Swift.Encodable {
         if let directoryArn = self.directoryArn {
             try encodeContainer.encode(directoryArn, forKey: .directoryArn)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let publishedSchemaArn = self.publishedSchemaArn {
@@ -17959,14 +17959,14 @@ public struct UpgradeAppliedSchemaInput: Swift.Equatable {
     /// This member is required.
     public var directoryArn: Swift.String?
     /// Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The revision of the published schema to upgrade the directory to.
     /// This member is required.
     public var publishedSchemaArn: Swift.String?
 
     public init (
         directoryArn: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         publishedSchemaArn: Swift.String? = nil
     )
     {
@@ -17979,7 +17979,7 @@ public struct UpgradeAppliedSchemaInput: Swift.Equatable {
 struct UpgradeAppliedSchemaInputBody: Swift.Equatable {
     let publishedSchemaArn: Swift.String?
     let directoryArn: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension UpgradeAppliedSchemaInputBody: Swift.Decodable {
@@ -17995,7 +17995,7 @@ extension UpgradeAppliedSchemaInputBody: Swift.Decodable {
         publishedSchemaArn = publishedSchemaArnDecoded
         let directoryArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .directoryArn)
         directoryArn = directoryArnDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -18102,7 +18102,7 @@ extension UpgradePublishedSchemaInput: Swift.Encodable {
         if let developmentSchemaArn = self.developmentSchemaArn {
             try encodeContainer.encode(developmentSchemaArn, forKey: .developmentSchemaArn)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let minorVersion = self.minorVersion {
@@ -18125,7 +18125,7 @@ public struct UpgradePublishedSchemaInput: Swift.Equatable {
     /// This member is required.
     public var developmentSchemaArn: Swift.String?
     /// Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Identifies the minor version of the published schema that will be created. This parameter is NOT optional.
     /// This member is required.
     public var minorVersion: Swift.String?
@@ -18135,7 +18135,7 @@ public struct UpgradePublishedSchemaInput: Swift.Equatable {
 
     public init (
         developmentSchemaArn: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         minorVersion: Swift.String? = nil,
         publishedSchemaArn: Swift.String? = nil
     )
@@ -18151,7 +18151,7 @@ struct UpgradePublishedSchemaInputBody: Swift.Equatable {
     let developmentSchemaArn: Swift.String?
     let publishedSchemaArn: Swift.String?
     let minorVersion: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension UpgradePublishedSchemaInputBody: Swift.Decodable {
@@ -18170,7 +18170,7 @@ extension UpgradePublishedSchemaInputBody: Swift.Decodable {
         publishedSchemaArn = publishedSchemaArnDecoded
         let minorVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minorVersion)
         minorVersion = minorVersionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }

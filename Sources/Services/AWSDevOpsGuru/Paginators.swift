@@ -106,6 +106,7 @@ extension ListAnomaliesForInsightInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListAnomaliesForInsightInput {
         return ListAnomaliesForInsightInput(
             accountId: self.accountId,
+            filters: self.filters,
             insightId: self.insightId,
             maxResults: self.maxResults,
             nextToken: token,

@@ -180,6 +180,7 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
         case startBy = "StartBy"
         case state = "State"
@@ -244,6 +245,9 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
@@ -314,6 +318,8 @@ extension BackupClientTypes.BackupJob: Swift.Codable {
         parentJobId = parentJobIdDecoded
         let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
         isParent = isParentDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -356,6 +362,8 @@ extension BackupClientTypes {
         public var recoveryPointArn: Swift.String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
+        /// This is the non-unique name of the resource that belongs to the specified backup.
+        public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -384,6 +392,7 @@ extension BackupClientTypes {
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             startBy: ClientRuntime.Date? = nil,
             state: BackupClientTypes.BackupJobState? = nil,
@@ -408,6 +417,7 @@ extension BackupClientTypes {
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.startBy = startBy
             self.state = state
@@ -2193,6 +2203,7 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         case numberOfChildJobs = "NumberOfChildJobs"
         case parentJobId = "ParentJobId"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
         case sourceBackupVaultArn = "SourceBackupVaultArn"
         case sourceRecoveryPointArn = "SourceRecoveryPointArn"
@@ -2249,6 +2260,9 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
@@ -2318,6 +2332,8 @@ extension BackupClientTypes.CopyJob: Swift.Codable {
             }
         }
         childJobsInState = childJobsInStateDecoded0
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -2354,6 +2370,8 @@ extension BackupClientTypes {
         public var parentJobId: Swift.String?
         /// The Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public var resourceArn: Swift.String?
+        /// This is the non-unique name of the resource that belongs to the specified backup.
+        public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public var resourceType: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
@@ -2381,6 +2399,7 @@ extension BackupClientTypes {
             numberOfChildJobs: Swift.Int? = nil,
             parentJobId: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceBackupVaultArn: Swift.String? = nil,
             sourceRecoveryPointArn: Swift.String? = nil,
@@ -2403,6 +2422,7 @@ extension BackupClientTypes {
             self.numberOfChildJobs = numberOfChildJobs
             self.parentJobId = parentJobId
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.sourceRecoveryPointArn = sourceRecoveryPointArn
@@ -4594,6 +4614,7 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentDone = output.percentDone
             self.recoveryPointArn = output.recoveryPointArn
             self.resourceArn = output.resourceArn
+            self.resourceName = output.resourceName
             self.resourceType = output.resourceType
             self.startBy = output.startBy
             self.state = output.state
@@ -4619,6 +4640,7 @@ extension DescribeBackupJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentDone = nil
             self.recoveryPointArn = nil
             self.resourceArn = nil
+            self.resourceName = nil
             self.resourceType = nil
             self.startBy = nil
             self.state = nil
@@ -4668,6 +4690,8 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
     /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
+    /// This is the non-unique name of the resource that belongs to the specified backup.
+    public var resourceName: Swift.String?
     /// The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
     public var resourceType: Swift.String?
     /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -4698,6 +4722,7 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         startBy: ClientRuntime.Date? = nil,
         state: BackupClientTypes.BackupJobState? = nil,
@@ -4724,6 +4749,7 @@ public struct DescribeBackupJobOutputResponse: Swift.Equatable {
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
         self.resourceArn = resourceArn
+        self.resourceName = resourceName
         self.resourceType = resourceType
         self.startBy = startBy
         self.state = state
@@ -4756,6 +4782,7 @@ struct DescribeBackupJobOutputResponseBody: Swift.Equatable {
     let isParent: Swift.Bool
     let numberOfChildJobs: Swift.Int?
     let childJobsInState: [Swift.String:Swift.Int]?
+    let resourceName: Swift.String?
 }
 
 extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
@@ -4780,6 +4807,7 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
         case percentDone = "PercentDone"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
         case startBy = "StartBy"
         case state = "State"
@@ -4854,6 +4882,8 @@ extension DescribeBackupJobOutputResponseBody: Swift.Decodable {
             }
         }
         childJobsInState = childJobsInStateDecoded0
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -5505,10 +5535,12 @@ extension DescribeProtectedResourceOutputResponse: ClientRuntime.HttpResponseBin
             let output: DescribeProtectedResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.lastBackupTime = output.lastBackupTime
             self.resourceArn = output.resourceArn
+            self.resourceName = output.resourceName
             self.resourceType = output.resourceType
         } else {
             self.lastBackupTime = nil
             self.resourceArn = nil
+            self.resourceName = nil
             self.resourceType = nil
         }
     }
@@ -5519,17 +5551,21 @@ public struct DescribeProtectedResourceOutputResponse: Swift.Equatable {
     public var lastBackupTime: ClientRuntime.Date?
     /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
+    /// This is the non-unique name of the resource that belongs to the specified backup.
+    public var resourceName: Swift.String?
     /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon EBS volume or an Amazon RDS database.
     public var resourceType: Swift.String?
 
     public init (
         lastBackupTime: ClientRuntime.Date? = nil,
         resourceArn: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil
     )
     {
         self.lastBackupTime = lastBackupTime
         self.resourceArn = resourceArn
+        self.resourceName = resourceName
         self.resourceType = resourceType
     }
 }
@@ -5538,12 +5574,14 @@ struct DescribeProtectedResourceOutputResponseBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let resourceType: Swift.String?
     let lastBackupTime: ClientRuntime.Date?
+    let resourceName: Swift.String?
 }
 
 extension DescribeProtectedResourceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
     }
 
@@ -5555,6 +5593,8 @@ extension DescribeProtectedResourceOutputResponseBody: Swift.Decodable {
         resourceType = resourceTypeDecoded
         let lastBackupTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastBackupTime)
         lastBackupTime = lastBackupTimeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -5648,6 +5688,7 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.parentRecoveryPointArn = output.parentRecoveryPointArn
             self.recoveryPointArn = output.recoveryPointArn
             self.resourceArn = output.resourceArn
+            self.resourceName = output.resourceName
             self.resourceType = output.resourceType
             self.sourceBackupVaultArn = output.sourceBackupVaultArn
             self.status = output.status
@@ -5671,6 +5712,7 @@ extension DescribeRecoveryPointOutputResponse: ClientRuntime.HttpResponseBinding
             self.parentRecoveryPointArn = nil
             self.recoveryPointArn = nil
             self.resourceArn = nil
+            self.resourceName = nil
             self.resourceType = nil
             self.sourceBackupVaultArn = nil
             self.status = nil
@@ -5715,6 +5757,8 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
     public var recoveryPointArn: Swift.String?
     /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
+    /// This is the non-unique name of the resource that belongs to the specified backup.
+    public var resourceName: Swift.String?
     /// The type of Amazon Web Services resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
     public var resourceType: Swift.String?
     /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:vault:BackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
@@ -5744,6 +5788,7 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         parentRecoveryPointArn: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
+        resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         sourceBackupVaultArn: Swift.String? = nil,
         status: BackupClientTypes.RecoveryPointStatus? = nil,
@@ -5768,6 +5813,7 @@ public struct DescribeRecoveryPointOutputResponse: Swift.Equatable {
         self.parentRecoveryPointArn = parentRecoveryPointArn
         self.recoveryPointArn = recoveryPointArn
         self.resourceArn = resourceArn
+        self.resourceName = resourceName
         self.resourceType = resourceType
         self.sourceBackupVaultArn = sourceBackupVaultArn
         self.status = status
@@ -5799,6 +5845,7 @@ struct DescribeRecoveryPointOutputResponseBody: Swift.Equatable {
     let parentRecoveryPointArn: Swift.String?
     let compositeMemberIdentifier: Swift.String?
     let isParent: Swift.Bool
+    let resourceName: Swift.String?
 }
 
 extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
@@ -5820,6 +5867,7 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
         case sourceBackupVaultArn = "SourceBackupVaultArn"
         case status = "Status"
@@ -5873,6 +5921,8 @@ extension DescribeRecoveryPointOutputResponseBody: Swift.Decodable {
         compositeMemberIdentifier = compositeMemberIdentifierDecoded
         let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
         isParent = isParentDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -11364,6 +11414,7 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastBackupTime = "LastBackupTime"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
     }
 
@@ -11374,6 +11425,9 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
         }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
@@ -11388,6 +11442,8 @@ extension BackupClientTypes.ProtectedResource: Swift.Codable {
         resourceType = resourceTypeDecoded
         let lastBackupTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastBackupTime)
         lastBackupTime = lastBackupTimeDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -11398,17 +11454,21 @@ extension BackupClientTypes {
         public var lastBackupTime: ClientRuntime.Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
+        /// This is the non-unique name of the resource that belongs to the specified backup.
+        public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
 
         public init (
             lastBackupTime: ClientRuntime.Date? = nil,
             resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil
         )
         {
             self.lastBackupTime = lastBackupTime
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
         }
     }
@@ -11776,6 +11836,7 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
         case resourceArn = "ResourceArn"
+        case resourceName = "ResourceName"
         case resourceType = "ResourceType"
         case sourceBackupVaultArn = "SourceBackupVaultArn"
         case status = "Status"
@@ -11835,6 +11896,9 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
+        }
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType, forKey: .resourceType)
         }
@@ -11893,6 +11957,8 @@ extension BackupClientTypes.RecoveryPointByBackupVault: Swift.Codable {
         compositeMemberIdentifier = compositeMemberIdentifierDecoded
         let isParentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isParent) ?? false
         isParent = isParentDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -11933,6 +11999,8 @@ extension BackupClientTypes {
         public var recoveryPointArn: Swift.String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
+        /// This is the non-unique name of the resource that belongs to the specified backup.
+        public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For Windows Volume Shadow Copy Service (VSS) backups, the only supported resource type is Amazon EC2.
         public var resourceType: Swift.String?
         /// The backup vault where the recovery point was originally copied from. If the recovery point is restored to the same account this value will be null.
@@ -11960,6 +12028,7 @@ extension BackupClientTypes {
             parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             resourceArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             sourceBackupVaultArn: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
@@ -11983,6 +12052,7 @@ extension BackupClientTypes {
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
             self.resourceArn = resourceArn
+            self.resourceName = resourceName
             self.resourceType = resourceType
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
@@ -12001,6 +12071,7 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         case isParent = "IsParent"
         case parentRecoveryPointArn = "ParentRecoveryPointArn"
         case recoveryPointArn = "RecoveryPointArn"
+        case resourceName = "ResourceName"
         case status = "Status"
         case statusMessage = "StatusMessage"
     }
@@ -12027,6 +12098,9 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         }
         if let recoveryPointArn = self.recoveryPointArn {
             try encodeContainer.encode(recoveryPointArn, forKey: .recoveryPointArn)
+        }
+        if let resourceName = self.resourceName {
+            try encodeContainer.encode(resourceName, forKey: .resourceName)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -12056,6 +12130,8 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         isParent = isParentDecoded
         let parentRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentRecoveryPointArn)
         parentRecoveryPointArn = parentRecoveryPointArnDecoded
+        let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
+        resourceName = resourceNameDecoded
     }
 }
 
@@ -12076,6 +12152,8 @@ extension BackupClientTypes {
         public var parentRecoveryPointArn: Swift.String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
+        /// This is the non-unique name of the resource that belongs to the specified backup.
+        public var resourceName: Swift.String?
         /// A status code specifying the state of the recovery point.
         public var status: BackupClientTypes.RecoveryPointStatus?
         /// A message explaining the reason of the recovery point deletion failure.
@@ -12089,6 +12167,7 @@ extension BackupClientTypes {
             isParent: Swift.Bool = false,
             parentRecoveryPointArn: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
             statusMessage: Swift.String? = nil
         )
@@ -12100,6 +12179,7 @@ extension BackupClientTypes {
             self.isParent = isParent
             self.parentRecoveryPointArn = parentRecoveryPointArn
             self.recoveryPointArn = recoveryPointArn
+            self.resourceName = resourceName
             self.status = status
             self.statusMessage = statusMessage
         }
@@ -13394,7 +13474,7 @@ public struct StartBackupJobOutputResponse: Swift.Equatable {
     public var creationDate: ClientRuntime.Date?
     /// This is a returned boolean value indicating this is a parent (composite) backup job.
     public var isParent: Swift.Bool
-    /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+    /// Note: This field is only returned for Amazon EFS and Advanced DynamoDB resources. An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
 
     public init (

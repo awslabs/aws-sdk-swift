@@ -27,6 +27,8 @@ public protocol GroundStationClientProtocol {
     func describeContact(input: DescribeContactInput) async throws -> DescribeContactOutputResponse
     /// Describes an existing ephemeris.
     func describeEphemeris(input: DescribeEphemerisInput) async throws -> DescribeEphemerisOutputResponse
+    /// Gets the latest configuration information for a registered agent.
+    func getAgentConfiguration(input: GetAgentConfigurationInput) async throws -> GetAgentConfigurationOutputResponse
     /// Returns Config information. Only one Config response can be returned.
     func getConfig(input: GetConfigInput) async throws -> GetConfigOutputResponse
     /// Returns the dataflow endpoint group.
@@ -53,12 +55,16 @@ public protocol GroundStationClientProtocol {
     func listSatellites(input: ListSatellitesInput) async throws -> ListSatellitesOutputResponse
     /// Returns a list of tags for a specified resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Registers a new agent with AWS Groundstation.
+    func registerAgent(input: RegisterAgentInput) async throws -> RegisterAgentOutputResponse
     /// Reserves a contact using specified parameters.
     func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutputResponse
     /// Assigns a tag to a resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Deassigns a resource tag.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Update the status of the agent.
+    func updateAgentStatus(input: UpdateAgentStatusInput) async throws -> UpdateAgentStatusOutputResponse
     /// Updates the Config used when scheduling contacts. Updating a Config will not update the execution parameters for existing future contacts scheduled with this Config.
     func updateConfig(input: UpdateConfigInput) async throws -> UpdateConfigOutputResponse
     /// Updates an existing ephemeris

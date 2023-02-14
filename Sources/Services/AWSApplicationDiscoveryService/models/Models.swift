@@ -1988,7 +1988,7 @@ extension DescribeAgentsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2009,14 +2009,14 @@ public struct DescribeAgentsInput: Swift.Equatable {
     /// You can filter the request using various logical operators and a key-value format. For example: {"key": "collectionStatus", "value": "STARTED"}
     public var filters: [ApplicationDiscoveryClientTypes.Filter]?
     /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
     public var nextToken: Swift.String?
 
     public init (
         agentIds: [Swift.String]? = nil,
         filters: [ApplicationDiscoveryClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2030,7 +2030,7 @@ public struct DescribeAgentsInput: Swift.Equatable {
 struct DescribeAgentsInputBody: Swift.Equatable {
     let agentIds: [Swift.String]?
     let filters: [ApplicationDiscoveryClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2066,7 +2066,7 @@ extension DescribeAgentsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -2504,7 +2504,7 @@ extension DescribeExportConfigurationsInput: Swift.Encodable {
                 try exportIdsContainer.encode(configurationsexportid0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2523,13 +2523,13 @@ public struct DescribeExportConfigurationsInput: Swift.Equatable {
     /// A list of continuous export IDs to search for.
     public var exportIds: [Swift.String]?
     /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token from the previous call to describe-export-tasks.
     public var nextToken: Swift.String?
 
     public init (
         exportIds: [Swift.String]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2541,7 +2541,7 @@ public struct DescribeExportConfigurationsInput: Swift.Equatable {
 
 struct DescribeExportConfigurationsInputBody: Swift.Equatable {
     let exportIds: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2565,7 +2565,7 @@ extension DescribeExportConfigurationsInputBody: Swift.Decodable {
             }
         }
         exportIds = exportIdsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -2686,7 +2686,7 @@ extension DescribeExportTasksInput: Swift.Encodable {
                 try filtersContainer.encode(exportfilter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2709,14 +2709,14 @@ public struct DescribeExportTasksInput: Swift.Equatable {
     /// * AgentId - ID of the agent whose collected data will be exported
     public var filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
     /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The nextToken value returned from a previous paginated DescribeExportTasks request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
 
     public init (
         exportIds: [Swift.String]? = nil,
         filters: [ApplicationDiscoveryClientTypes.ExportFilter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2730,7 +2730,7 @@ public struct DescribeExportTasksInput: Swift.Equatable {
 struct DescribeExportTasksInputBody: Swift.Equatable {
     let exportIds: [Swift.String]?
     let filters: [ApplicationDiscoveryClientTypes.ExportFilter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2766,7 +2766,7 @@ extension DescribeExportTasksInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3051,7 +3051,7 @@ extension DescribeTagsInput: Swift.Encodable {
                 try filtersContainer.encode(tagfilter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3070,13 +3070,13 @@ public struct DescribeTagsInput: Swift.Equatable {
     /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.
     public var filters: [ApplicationDiscoveryClientTypes.TagFilter]?
     /// The total number of items to return in a single page of output. The maximum value is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
     public var nextToken: Swift.String?
 
     public init (
         filters: [ApplicationDiscoveryClientTypes.TagFilter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3088,7 +3088,7 @@ public struct DescribeTagsInput: Swift.Equatable {
 
 struct DescribeTagsInputBody: Swift.Equatable {
     let filters: [ApplicationDiscoveryClientTypes.TagFilter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3112,7 +3112,7 @@ extension DescribeTagsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4391,7 +4391,7 @@ extension ListConfigurationsInput: Swift.Encodable {
                 try filtersContainer.encode(filter0)
             }
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4419,7 +4419,7 @@ public struct ListConfigurationsInput: Swift.Equatable {
     /// You can filter the request using various logical operators and a key-value format. For example: {"key": "serverType", "value": "webServer"} For a complete list of filter options and guidance about using them with this action, see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations) in the Amazon Web Services Application Discovery Service User Guide.
     public var filters: [ApplicationDiscoveryClientTypes.Filter]?
     /// The total number of items to return. The maximum value is 100.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Token to retrieve the next set of results. For example, if a previous call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
     public var nextToken: Swift.String?
     /// Certain filter criteria return output that can be sorted in ascending or descending order. For a list of output characteristics for each filter, see [Using the ListConfigurations Action](https://docs.aws.amazon.com/application-discovery/latest/userguide/discovery-api-queries.html#ListConfigurations) in the Amazon Web Services Application Discovery Service User Guide.
@@ -4428,7 +4428,7 @@ public struct ListConfigurationsInput: Swift.Equatable {
     public init (
         configurationType: ApplicationDiscoveryClientTypes.ConfigurationItemType? = nil,
         filters: [ApplicationDiscoveryClientTypes.Filter]? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         orderBy: [ApplicationDiscoveryClientTypes.OrderByElement]? = nil
     )
@@ -4444,7 +4444,7 @@ public struct ListConfigurationsInput: Swift.Equatable {
 struct ListConfigurationsInputBody: Swift.Equatable {
     let configurationType: ApplicationDiscoveryClientTypes.ConfigurationItemType?
     let filters: [ApplicationDiscoveryClientTypes.Filter]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let orderBy: [ApplicationDiscoveryClientTypes.OrderByElement]?
 }
@@ -4473,7 +4473,7 @@ extension ListConfigurationsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -4606,7 +4606,7 @@ extension ListServerNeighborsInput: Swift.Encodable {
         if let configurationId = self.configurationId {
             try encodeContainer.encode(configurationId, forKey: .configurationId)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let neighborConfigurationIds = neighborConfigurationIds {
@@ -4618,7 +4618,7 @@ extension ListServerNeighborsInput: Swift.Encodable {
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if portInformationNeeded != false {
+        if let portInformationNeeded = self.portInformationNeeded {
             try encodeContainer.encode(portInformationNeeded, forKey: .portInformationNeeded)
         }
     }
@@ -4635,20 +4635,20 @@ public struct ListServerNeighborsInput: Swift.Equatable {
     /// This member is required.
     public var configurationId: Swift.String?
     /// Maximum number of results to return in a single page of output.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// List of configuration IDs to test for one-hop-away.
     public var neighborConfigurationIds: [Swift.String]?
     /// Token to retrieve the next set of results. For example, if you previously specified 100 IDs for ListServerNeighborsRequest$neighborConfigurationIds but set ListServerNeighborsRequest$maxResults to 10, you received a set of 10 results along with a token. Use that token in this query to get the next set of 10.
     public var nextToken: Swift.String?
     /// Flag to indicate if port and protocol information is needed as part of the response.
-    public var portInformationNeeded: Swift.Bool
+    public var portInformationNeeded: Swift.Bool?
 
     public init (
         configurationId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         neighborConfigurationIds: [Swift.String]? = nil,
         nextToken: Swift.String? = nil,
-        portInformationNeeded: Swift.Bool = false
+        portInformationNeeded: Swift.Bool? = nil
     )
     {
         self.configurationId = configurationId
@@ -4661,9 +4661,9 @@ public struct ListServerNeighborsInput: Swift.Equatable {
 
 struct ListServerNeighborsInputBody: Swift.Equatable {
     let configurationId: Swift.String?
-    let portInformationNeeded: Swift.Bool
+    let portInformationNeeded: Swift.Bool?
     let neighborConfigurationIds: [Swift.String]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -4680,7 +4680,7 @@ extension ListServerNeighborsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
         configurationId = configurationIdDecoded
-        let portInformationNeededDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .portInformationNeeded) ?? false
+        let portInformationNeededDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .portInformationNeeded)
         portInformationNeeded = portInformationNeededDecoded
         let neighborConfigurationIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .neighborConfigurationIds)
         var neighborConfigurationIdsDecoded0:[Swift.String]? = nil
@@ -4693,7 +4693,7 @@ extension ListServerNeighborsInputBody: Swift.Decodable {
             }
         }
         neighborConfigurationIds = neighborConfigurationIdsDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -5543,9 +5543,9 @@ extension StartExportTaskInputBody: Swift.Decodable {
         var exportDataFormatDecoded0:[ApplicationDiscoveryClientTypes.ExportDataFormat]? = nil
         if let exportDataFormatContainer = exportDataFormatContainer {
             exportDataFormatDecoded0 = [ApplicationDiscoveryClientTypes.ExportDataFormat]()
-            for string0 in exportDataFormatContainer {
-                if let string0 = string0 {
-                    exportDataFormatDecoded0?.append(string0)
+            for enum0 in exportDataFormatContainer {
+                if let enum0 = enum0 {
+                    exportDataFormatDecoded0?.append(enum0)
                 }
             }
         }

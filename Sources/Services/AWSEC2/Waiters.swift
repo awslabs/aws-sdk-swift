@@ -385,6 +385,54 @@ extension EC2ClientProtocol {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func snapshotImportedWaiterConfig() throws -> WaiterConfiguration<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutputResponse> {
+        let acceptors: [WaiterConfiguration<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutputResponse>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeImportSnapshotTasksInput, result: Result<DescribeImportSnapshotTasksOutputResponse, Error>) -> Bool in
+                // JMESPath expression: "ImportSnapshotTasks[].SnapshotTaskDetail.Status"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "completed"
+                guard case .success(let output) = result else { return false }
+                let importSnapshotTasks = output.importSnapshotTasks
+                let projection: [Swift.String]? = importSnapshotTasks?.compactMap { original in
+                    let snapshotTaskDetail = original.snapshotTaskDetail
+                    let status = snapshotTaskDetail?.status
+                    return status
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { JMESUtils.compare($0, ==, "completed") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeImportSnapshotTasksInput, result: Result<DescribeImportSnapshotTasksOutputResponse, Error>) -> Bool in
+                // JMESPath expression: "ImportSnapshotTasks[].SnapshotTaskDetail.Status"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "error"
+                guard case .success(let output) = result else { return false }
+                let importSnapshotTasks = output.importSnapshotTasks
+                let projection: [Swift.String]? = importSnapshotTasks?.compactMap { original in
+                    let snapshotTaskDetail = original.snapshotTaskDetail
+                    let status = snapshotTaskDetail?.status
+                    return status
+                }
+                return projection?.contains(where: { JMESUtils.compare($0, ==, "error") }) ?? false
+            }),
+        ]
+        return try WaiterConfiguration<DescribeImportSnapshotTasksInput, DescribeImportSnapshotTasksOutputResponse>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SnapshotImported event on the describeImportSnapshotTasks operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeImportSnapshotTasksInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSnapshotImported(options: WaiterOptions, input: DescribeImportSnapshotTasksInput) async throws -> WaiterOutcome<DescribeImportSnapshotTasksOutputResponse> {
+        let waiter = Waiter(config: try Self.snapshotImportedWaiterConfig(), operation: self.describeImportSnapshotTasks(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func instanceExistsWaiterConfig() throws -> WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse> {
         let acceptors: [WaiterConfiguration<DescribeInstancesInput, DescribeInstancesOutputResponse>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Result<DescribeInstancesOutputResponse, Error>) -> Bool in

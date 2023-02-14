@@ -23449,7 +23449,7 @@ extension CloudFrontClientTypes {
         /// A name to identify the origin access control.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of origin that this origin access control is for. The only valid value is s3.
+        /// The type of origin that this origin access control is for.
         /// This member is required.
         public var originAccessControlOriginType: CloudFrontClientTypes.OriginAccessControlOriginTypes?
         /// Specifies which requests CloudFront signs (adds authentication information to). Specify always for the most common use case. For more information, see [origin access control advanced settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html#oac-advanced-settings) in the Amazon CloudFront Developer Guide. This field can have one of the following values:
@@ -23662,11 +23662,13 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
     public enum OriginAccessControlOriginTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mediastore
         case s3
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OriginAccessControlOriginTypes] {
             return [
+                .mediastore,
                 .s3,
                 .sdkUnknown("")
             ]
@@ -23677,6 +23679,7 @@ extension CloudFrontClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .mediastore: return "mediastore"
             case .s3: return "s3"
             case let .sdkUnknown(s): return s
             }
@@ -23831,7 +23834,7 @@ extension CloudFrontClientTypes {
         /// A unique name that identifies the origin access control.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of origin that this origin access control is for. The only valid value is s3.
+        /// The type of origin that this origin access control is for.
         /// This member is required.
         public var originAccessControlOriginType: CloudFrontClientTypes.OriginAccessControlOriginTypes?
         /// A value that specifies which requests CloudFront signs (adds authentication information to). This field can have one of the following values:
