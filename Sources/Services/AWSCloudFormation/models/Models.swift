@@ -3829,7 +3829,7 @@ extension DeleteStackInstancesInput: Swift.Encodable {
                 try regionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if retainStacks != false {
+        if let retainStacks = retainStacks {
             try container.encode(retainStacks, forKey: ClientRuntime.Key("RetainStacks"))
         }
         if let stackSetName = stackSetName {
@@ -3866,7 +3866,7 @@ public struct DeleteStackInstancesInput: Swift.Equatable {
     public var regions: [Swift.String]?
     /// Removes the stack instances from the specified stack set, but doesn't delete the stacks. You can't reassociate a retained stack or add an existing, saved stack to a new stack set. For more information, see [Stack set operation options](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html#stackset-ops-options).
     /// This member is required.
-    public var retainStacks: Swift.Bool
+    public var retainStacks: Swift.Bool?
     /// The name or unique ID of the stack set that you want to delete stack instances for.
     /// This member is required.
     public var stackSetName: Swift.String?
@@ -3878,7 +3878,7 @@ public struct DeleteStackInstancesInput: Swift.Equatable {
         operationId: Swift.String? = nil,
         operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences? = nil,
         regions: [Swift.String]? = nil,
-        retainStacks: Swift.Bool = false,
+        retainStacks: Swift.Bool? = nil,
         stackSetName: Swift.String? = nil
     )
     {
@@ -3899,7 +3899,7 @@ struct DeleteStackInstancesInputBody: Swift.Equatable {
     let deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
     let regions: [Swift.String]?
     let operationPreferences: CloudFormationClientTypes.StackSetOperationPreferences?
-    let retainStacks: Swift.Bool
+    let retainStacks: Swift.Bool?
     let operationId: Swift.String?
     let callAs: CloudFormationClientTypes.CallAs?
 }
@@ -3962,7 +3962,7 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
         }
         let operationPreferencesDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSetOperationPreferences.self, forKey: .operationPreferences)
         operationPreferences = operationPreferencesDecoded
-        let retainStacksDecoded = try containerValues.decode(Swift.Bool.self, forKey: .retainStacks)
+        let retainStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainStacks)
         retainStacks = retainStacksDecoded
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -17158,6 +17158,7 @@ extension CloudFormationClientTypes.StackSet: Swift.Codable {
         case organizationalUnitIds = "OrganizationalUnitIds"
         case parameters = "Parameters"
         case permissionModel = "PermissionModel"
+        case regions = "Regions"
         case stackSetARN = "StackSetARN"
         case stackSetDriftDetectionDetails = "StackSetDriftDetectionDetails"
         case stackSetId = "StackSetId"
@@ -17222,6 +17223,18 @@ extension CloudFormationClientTypes.StackSet: Swift.Codable {
         }
         if let permissionModel = permissionModel {
             try container.encode(permissionModel, forKey: ClientRuntime.Key("PermissionModel"))
+        }
+        if let regions = regions {
+            if !regions.isEmpty {
+                var regionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Regions"))
+                for (index0, region0) in regions.enumerated() {
+                    try regionsContainer.encode(region0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var regionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Regions"))
+                try regionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
         }
         if let stackSetARN = stackSetARN {
             try container.encode(stackSetARN, forKey: ClientRuntime.Key("StackSetARN"))
@@ -17357,6 +17370,25 @@ extension CloudFormationClientTypes.StackSet: Swift.Codable {
         }
         let managedExecutionDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.ManagedExecution.self, forKey: .managedExecution)
         managedExecution = managedExecutionDecoded
+        if containerValues.contains(.regions) {
+            struct KeyVal0{struct member{}}
+            let regionsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .regions)
+            if let regionsWrappedContainer = regionsWrappedContainer {
+                let regionsContainer = try regionsWrappedContainer.decodeIfPresent([Swift.String].self, forKey: .member)
+                var regionsBuffer:[Swift.String]? = nil
+                if let regionsContainer = regionsContainer {
+                    regionsBuffer = [Swift.String]()
+                    for stringContainer0 in regionsContainer {
+                        regionsBuffer?.append(stringContainer0)
+                    }
+                }
+                regions = regionsBuffer
+            } else {
+                regions = []
+            }
+        } else {
+            regions = nil
+        }
     }
 }
 
@@ -17385,6 +17417,7 @@ extension CloudFormationClientTypes {
         ///
         /// * With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see [Grant Service-Managed Stack Set Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html).
         public var permissionModel: CloudFormationClientTypes.PermissionModels?
+        public var regions: [Swift.String]?
         /// The Amazon Resource Name (ARN) of the stack set.
         public var stackSetARN: Swift.String?
         /// Detailed information about the drift status of the stack set. For stack sets, contains information about the last completed drift operation performed on the stack set. Information about drift operations currently in progress isn't included.
@@ -17410,6 +17443,7 @@ extension CloudFormationClientTypes {
             organizationalUnitIds: [Swift.String]? = nil,
             parameters: [CloudFormationClientTypes.Parameter]? = nil,
             permissionModel: CloudFormationClientTypes.PermissionModels? = nil,
+            regions: [Swift.String]? = nil,
             stackSetARN: Swift.String? = nil,
             stackSetDriftDetectionDetails: CloudFormationClientTypes.StackSetDriftDetectionDetails? = nil,
             stackSetId: Swift.String? = nil,
@@ -17428,6 +17462,7 @@ extension CloudFormationClientTypes {
             self.organizationalUnitIds = organizationalUnitIds
             self.parameters = parameters
             self.permissionModel = permissionModel
+            self.regions = regions
             self.stackSetARN = stackSetARN
             self.stackSetDriftDetectionDetails = stackSetDriftDetectionDetails
             self.stackSetId = stackSetId

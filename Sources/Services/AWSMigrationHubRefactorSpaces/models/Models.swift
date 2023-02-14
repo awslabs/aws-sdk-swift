@@ -5621,11 +5621,13 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 
 extension MigrationHubRefactorSpacesClientTypes {
     public enum NetworkFabricType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
         case transitGateway
         case sdkUnknown(Swift.String)
 
         public static var allCases: [NetworkFabricType] {
             return [
+                .none,
                 .transitGateway,
                 .sdkUnknown("")
             ]
@@ -5636,6 +5638,7 @@ extension MigrationHubRefactorSpacesClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .none: return "NONE"
             case .transitGateway: return "TRANSIT_GATEWAY"
             case let .sdkUnknown(s): return s
             }

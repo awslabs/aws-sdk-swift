@@ -228,7 +228,7 @@ extension ActiveInstanceRefreshNotFoundFault {
     }
 }
 
-/// The request failed because an active instance refresh for the specified Auto Scaling group was not found.
+/// The request failed because an active instance refresh or rollback for the specified Auto Scaling group was not found.
 public struct ActiveInstanceRefreshNotFoundFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1534,7 +1534,7 @@ extension AutoScalingClientTypes {
         public var targetGroupARNs: [Swift.String]?
         /// The termination policies for the group.
         public var terminationPolicies: [Swift.String]?
-        /// The unique identifiers of the traffic sources.
+        /// Reserved for use with Amazon VPC Lattice, which is in preview release and is subject to change. Do not use this parameter for production workloads. It is also subject to change. The unique identifiers of the traffic sources.
         public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
         /// One or more subnet IDs, if applicable, separated by commas.
         public var vpcZoneIdentifier: Swift.String?
@@ -2348,7 +2348,7 @@ extension CancelInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct CancelInstanceRefreshOutputResponse: Swift.Equatable {
-    /// The instance refresh ID.
+    /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
     public var instanceRefreshId: Swift.String?
 
     public init (
@@ -2803,7 +2803,7 @@ public struct CreateAutoScalingGroupInput: Swift.Equatable {
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html) in the Amazon EC2 Auto Scaling User Guide. Default: 300 seconds
     public var defaultCooldown: Swift.Int?
-    /// The amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting in more reliable usage data. Set this value equal to the amount of time that it takes for resource consumption to become stable after an instance reaches the InService state. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage your warm-up settings at the group level, we recommend that you set the default instance warmup, even if its value is set to 0 seconds. This also optimizes the performance of scaling policies that scale continuously, such as target tracking and step scaling policies. If you need to remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a minimum value of 0. Default: None
+    /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value. Default: None
     public var defaultInstanceWarmup: Swift.Int?
     /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
     public var desiredCapacity: Swift.Int?
@@ -10104,6 +10104,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
         case percentageComplete = "PercentageComplete"
         case preferences = "Preferences"
         case progressDetails = "ProgressDetails"
+        case rollbackDetails = "RollbackDetails"
         case startTime = "StartTime"
         case status = "Status"
         case statusReason = "StatusReason"
@@ -10134,6 +10135,9 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
         }
         if let progressDetails = progressDetails {
             try container.encode(progressDetails, forKey: ClientRuntime.Key("ProgressDetails"))
+        }
+        if let rollbackDetails = rollbackDetails {
+            try container.encode(rollbackDetails, forKey: ClientRuntime.Key("RollbackDetails"))
         }
         if let startTime = startTime {
             try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
@@ -10170,6 +10174,8 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
         preferences = preferencesDecoded
         let desiredConfigurationDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.DesiredConfiguration.self, forKey: .desiredConfiguration)
         desiredConfiguration = desiredConfigurationDecoded
+        let rollbackDetailsDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.RollbackDetails.self, forKey: .rollbackDetails)
+        rollbackDetails = rollbackDetailsDecoded
     }
 }
 
@@ -10178,37 +10184,45 @@ extension AutoScalingClientTypes {
     public struct InstanceRefresh: Swift.Equatable {
         /// The name of the Auto Scaling group.
         public var autoScalingGroupName: Swift.String?
-        /// Describes the specific update you want to deploy.
+        /// Describes the desired configuration for the instance refresh.
         public var desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration?
         /// The date and time at which the instance refresh ended.
         public var endTime: ClientRuntime.Date?
         /// The instance refresh ID.
         public var instanceRefreshId: Swift.String?
-        /// The number of instances remaining to update before the instance refresh is complete.
+        /// The number of instances remaining to update before the instance refresh is complete. If you roll back the instance refresh, InstancesToUpdate shows you the number of instances that were not yet updated by the instance refresh. Therefore, these instances don't need to be replaced as part of the rollback.
         public var instancesToUpdate: Swift.Int?
-        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete.
+        /// The percentage of the instance refresh that is complete. For each instance replacement, Amazon EC2 Auto Scaling tracks the instance's health status and warm-up time. When the instance's health status changes to healthy and the specified warm-up time passes, the instance is considered updated and is added to the percentage complete. PercentageComplete does not include instances that are replaced during a rollback. This value gradually goes back down to zero during a rollback.
         public var percentageComplete: Swift.Int?
         /// Describes the preferences for an instance refresh.
         public var preferences: AutoScalingClientTypes.RefreshPreferences?
         /// Additional progress details for an Auto Scaling group that has a warm pool.
         public var progressDetails: AutoScalingClientTypes.InstanceRefreshProgressDetails?
+        /// The rollback details.
+        public var rollbackDetails: AutoScalingClientTypes.RollbackDetails?
         /// The date and time at which the instance refresh began.
         public var startTime: ClientRuntime.Date?
         /// The current status for the instance refresh operation:
         ///
-        /// * Pending - The request was created, but the operation has not started.
+        /// * Pending - The request was created, but the instance refresh has not started.
         ///
-        /// * InProgress - The operation is in progress.
+        /// * InProgress - An instance refresh is in progress.
         ///
-        /// * Successful - The operation completed successfully.
+        /// * Successful - An instance refresh completed successfully.
         ///
-        /// * Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.
+        /// * Failed - An instance refresh failed to complete. You can troubleshoot using the status reason and the scaling activities.
         ///
-        /// * Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.
+        /// * Cancelling - An ongoing instance refresh is being cancelled.
         ///
-        /// * Cancelled - The operation is cancelled.
+        /// * Cancelled - The instance refresh is cancelled.
+        ///
+        /// * RollbackInProgress - An instance refresh is being rolled back.
+        ///
+        /// * RollbackFailed - The rollback failed to complete. You can troubleshoot using the status reason and the scaling activities.
+        ///
+        /// * RollbackSuccessful - The rollback completed successfully.
         public var status: AutoScalingClientTypes.InstanceRefreshStatus?
-        /// Provides more details about the current status of the instance refresh.
+        /// The explanation for the specific status assigned to this operation.
         public var statusReason: Swift.String?
 
         public init (
@@ -10220,6 +10234,7 @@ extension AutoScalingClientTypes {
             percentageComplete: Swift.Int? = nil,
             preferences: AutoScalingClientTypes.RefreshPreferences? = nil,
             progressDetails: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
+            rollbackDetails: AutoScalingClientTypes.RollbackDetails? = nil,
             startTime: ClientRuntime.Date? = nil,
             status: AutoScalingClientTypes.InstanceRefreshStatus? = nil,
             statusReason: Swift.String? = nil
@@ -10233,6 +10248,7 @@ extension AutoScalingClientTypes {
             self.percentageComplete = percentageComplete
             self.preferences = preferences
             self.progressDetails = progressDetails
+            self.rollbackDetails = rollbackDetails
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -10257,7 +10273,7 @@ extension InstanceRefreshInProgressFault {
     }
 }
 
-/// The request failed because an active instance refresh operation already exists for the specified Auto Scaling group.
+/// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
 public struct InstanceRefreshInProgressFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -10318,7 +10334,7 @@ extension AutoScalingClientTypes.InstanceRefreshLivePoolProgress: Swift.Codable 
 }
 
 extension AutoScalingClientTypes {
-    /// Reports the progress of an instance refresh on instances that are in the Auto Scaling group.
+    /// Reports progress on replacing instances that are in the Auto Scaling group.
     public struct InstanceRefreshLivePoolProgress: Swift.Equatable {
         /// The number of instances remaining to update.
         public var instancesToUpdate: Swift.Int?
@@ -10363,11 +10379,11 @@ extension AutoScalingClientTypes.InstanceRefreshProgressDetails: Swift.Codable {
 }
 
 extension AutoScalingClientTypes {
-    /// Reports the progress of an instance refresh on an Auto Scaling group that has a warm pool. This includes separate details for instances in the warm pool and instances in the Auto Scaling group (the live pool).
+    /// Reports progress on replacing instances in an Auto Scaling group that has a warm pool. This includes separate details for instances in the warm pool and instances in the Auto Scaling group (the live pool).
     public struct InstanceRefreshProgressDetails: Swift.Equatable {
-        /// Indicates the progress of an instance refresh on instances that are in the Auto Scaling group.
+        /// Reports progress on replacing instances that are in the Auto Scaling group.
         public var livePoolProgress: AutoScalingClientTypes.InstanceRefreshLivePoolProgress?
-        /// Indicates the progress of an instance refresh on instances that are in the warm pool.
+        /// Reports progress on replacing instances that are in the warm pool.
         public var warmPoolProgress: AutoScalingClientTypes.InstanceRefreshWarmPoolProgress?
 
         public init (
@@ -10389,6 +10405,9 @@ extension AutoScalingClientTypes {
         case failed
         case inprogress
         case pending
+        case rollbackfailed
+        case rollbackinprogress
+        case rollbacksuccessful
         case successful
         case sdkUnknown(Swift.String)
 
@@ -10399,6 +10418,9 @@ extension AutoScalingClientTypes {
                 .failed,
                 .inprogress,
                 .pending,
+                .rollbackfailed,
+                .rollbackinprogress,
+                .rollbacksuccessful,
                 .successful,
                 .sdkUnknown("")
             ]
@@ -10414,6 +10436,9 @@ extension AutoScalingClientTypes {
             case .failed: return "Failed"
             case .inprogress: return "InProgress"
             case .pending: return "Pending"
+            case .rollbackfailed: return "RollbackFailed"
+            case .rollbackinprogress: return "RollbackInProgress"
+            case .rollbacksuccessful: return "RollbackSuccessful"
             case .successful: return "Successful"
             case let .sdkUnknown(s): return s
             }
@@ -10452,7 +10477,7 @@ extension AutoScalingClientTypes.InstanceRefreshWarmPoolProgress: Swift.Codable 
 }
 
 extension AutoScalingClientTypes {
-    /// Reports the progress of an instance refresh on instances that are in the warm pool.
+    /// Reports progress on replacing instances that are in the warm pool.
     public struct InstanceRefreshWarmPoolProgress: Swift.Equatable {
         /// The number of instances remaining to update.
         public var instancesToUpdate: Swift.Int?
@@ -11164,6 +11189,57 @@ struct InvalidNextTokenBody: Swift.Equatable {
 }
 
 extension InvalidNextTokenBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension IrreversibleInstanceRefreshFault {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if let data = httpResponse.body.toBytes()?.getData(),
+            let responseDecoder = decoder {
+            let output: AWSClientRuntime.ErrorResponseContainer<IrreversibleInstanceRefreshFaultBody> = try responseDecoder.decode(responseBody: data)
+            self.message = output.error.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request failed because a desired configuration was not found or an incompatible launch template (uses a Systems Manager parameter instead of an AMI ID) or launch template version ($Latest or $Default) is present on the Auto Scaling group.
+public struct IrreversibleInstanceRefreshFault: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct IrreversibleInstanceRefreshFaultBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension IrreversibleInstanceRefreshFaultBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -14969,15 +15045,21 @@ public struct RecordLifecycleActionHeartbeatOutputResponse: Swift.Equatable {
 
 extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoRollback = "AutoRollback"
         case checkpointDelay = "CheckpointDelay"
         case checkpointPercentages = "CheckpointPercentages"
         case instanceWarmup = "InstanceWarmup"
         case minHealthyPercentage = "MinHealthyPercentage"
+        case scaleInProtectedInstances = "ScaleInProtectedInstances"
         case skipMatching = "SkipMatching"
+        case standbyInstances = "StandbyInstances"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let autoRollback = autoRollback {
+            try container.encode(autoRollback, forKey: ClientRuntime.Key("AutoRollback"))
+        }
         if let checkpointDelay = checkpointDelay {
             try container.encode(checkpointDelay, forKey: ClientRuntime.Key("CheckpointDelay"))
         }
@@ -14999,8 +15081,14 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         if let minHealthyPercentage = minHealthyPercentage {
             try container.encode(minHealthyPercentage, forKey: ClientRuntime.Key("MinHealthyPercentage"))
         }
+        if let scaleInProtectedInstances = scaleInProtectedInstances {
+            try container.encode(scaleInProtectedInstances, forKey: ClientRuntime.Key("ScaleInProtectedInstances"))
+        }
         if let skipMatching = skipMatching {
             try container.encode(skipMatching, forKey: ClientRuntime.Key("SkipMatching"))
+        }
+        if let standbyInstances = standbyInstances {
+            try container.encode(standbyInstances, forKey: ClientRuntime.Key("StandbyInstances"))
         }
     }
 
@@ -15033,36 +15121,60 @@ extension AutoScalingClientTypes.RefreshPreferences: Swift.Codable {
         checkpointDelay = checkpointDelayDecoded
         let skipMatchingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .skipMatching)
         skipMatching = skipMatchingDecoded
+        let autoRollbackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoRollback)
+        autoRollback = autoRollbackDecoded
+        let scaleInProtectedInstancesDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.ScaleInProtectedInstances.self, forKey: .scaleInProtectedInstances)
+        scaleInProtectedInstances = scaleInProtectedInstancesDecoded
+        let standbyInstancesDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.StandbyInstances.self, forKey: .standbyInstances)
+        standbyInstances = standbyInstancesDecoded
     }
 }
 
 extension AutoScalingClientTypes {
     /// Describes the preferences for an instance refresh.
     public struct RefreshPreferences: Swift.Equatable {
-        /// The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
+        /// (Optional) Indicates whether to roll back the Auto Scaling group to its previous configuration if the instance refresh fails. The default is false. A rollback is not supported in the following situations:
+        ///
+        /// * There is no desired configuration specified for the instance refresh.
+        ///
+        /// * The Auto Scaling group has a launch template that uses an Amazon Web Services Systems Manager parameter instead of an AMI ID for the ImageId property.
+        ///
+        /// * The Auto Scaling group uses the launch template's $Latest or $Default version.
+        public var autoRollback: Swift.Bool?
+        /// (Optional) The amount of time, in seconds, to wait after a checkpoint before continuing. This property is optional, but if you specify a value for it, you must also specify a value for CheckpointPercentages. If you specify a value for CheckpointPercentages and not for CheckpointDelay, the CheckpointDelay defaults to 3600 (1 hour).
         public var checkpointDelay: Swift.Int?
-        /// Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see [Adding checkpoints to an instance refresh](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-adding-checkpoints-instance-refresh.html) in the Amazon EC2 Auto Scaling User Guide.
+        /// (Optional) Threshold values for each checkpoint in ascending order. Each number must be unique. To replace all instances in the Auto Scaling group, the last number in the array must be 100. For usage examples, see [Adding checkpoints to an instance refresh](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-adding-checkpoints-instance-refresh.html) in the Amazon EC2 Auto Scaling User Guide.
         public var checkpointPercentages: [Swift.Int]?
-        /// Not needed if the default instance warmup is defined for the group. The duration of the instance warmup, in seconds. The default is to use the value for the default instance warmup defined for the group. If default instance warmup is null, then InstanceWarmup falls back to the value of the health check grace period.
+        /// A time period, in seconds, during which an instance refresh waits before moving on to replacing the next instance after a new instance enters the InService state. This property is not required for normal usage. Instead, use the DefaultInstanceWarmup property of the Auto Scaling group. The InstanceWarmup and DefaultInstanceWarmup properties work the same way. Only specify this property if you must override the DefaultInstanceWarmup property. If you do not specify this property, the instance warmup by default is the value of the DefaultInstanceWarmup property, if defined (which is recommended in all cases), or the HealthCheckGracePeriod property otherwise.
         public var instanceWarmup: Swift.Int?
         /// The amount of capacity in the Auto Scaling group that must pass your group's health checks to allow the operation to continue. The value is expressed as a percentage of the desired capacity of the Auto Scaling group (rounded up to the nearest integer). The default is 90. Setting the minimum healthy percentage to 100 percent limits the rate of replacement to one instance at a time. In contrast, setting it to 0 percent has the effect of replacing all instances at the same time.
         public var minHealthyPercentage: Swift.Int?
-        /// A boolean value that indicates whether skip matching is enabled. If true, then Amazon EC2 Auto Scaling skips replacing instances that match the desired configuration. If no desired configuration is specified, then it skips replacing instances that have the same configuration that is already set on the group. The default is false.
+        /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances protected from scale in are found. The following lists the valid values: Refresh Amazon EC2 Auto Scaling replaces instances that are protected from scale in. Ignore Amazon EC2 Auto Scaling ignores instances that are protected from scale in and continues to replace instances that are not protected. Wait (default) Amazon EC2 Auto Scaling waits one hour for you to remove scale-in protection. Otherwise, the instance refresh will fail.
+        public var scaleInProtectedInstances: AutoScalingClientTypes.ScaleInProtectedInstances?
+        /// (Optional) Indicates whether skip matching is enabled. If enabled (true), then Amazon EC2 Auto Scaling skips replacing instances that match the desired configuration. If no desired configuration is specified, then it skips replacing instances that have the same launch template and instance types that the Auto Scaling group was using before the start of the instance refresh. The default is false. For more information, see [Use an instance refresh with skip matching](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-instance-refresh-skip-matching.html) in the Amazon EC2 Auto Scaling User Guide.
         public var skipMatching: Swift.Bool?
+        /// Choose the behavior that you want Amazon EC2 Auto Scaling to use if instances in Standby state are found. The following lists the valid values: Terminate Amazon EC2 Auto Scaling terminates instances that are in Standby. Ignore Amazon EC2 Auto Scaling ignores instances that are in Standby and continues to replace instances that are in the InService state. Wait (default) Amazon EC2 Auto Scaling waits one hour for you to return the instances to service. Otherwise, the instance refresh will fail.
+        public var standbyInstances: AutoScalingClientTypes.StandbyInstances?
 
         public init (
+            autoRollback: Swift.Bool? = nil,
             checkpointDelay: Swift.Int? = nil,
             checkpointPercentages: [Swift.Int]? = nil,
             instanceWarmup: Swift.Int? = nil,
             minHealthyPercentage: Swift.Int? = nil,
-            skipMatching: Swift.Bool? = nil
+            scaleInProtectedInstances: AutoScalingClientTypes.ScaleInProtectedInstances? = nil,
+            skipMatching: Swift.Bool? = nil,
+            standbyInstances: AutoScalingClientTypes.StandbyInstances? = nil
         )
         {
+            self.autoRollback = autoRollback
             self.checkpointDelay = checkpointDelay
             self.checkpointPercentages = checkpointPercentages
             self.instanceWarmup = instanceWarmup
             self.minHealthyPercentage = minHealthyPercentage
+            self.scaleInProtectedInstances = scaleInProtectedInstances
             self.skipMatching = skipMatching
+            self.standbyInstances = standbyInstances
         }
     }
 
@@ -15336,6 +15448,230 @@ extension ResumeProcessesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ResumeProcessesOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension AutoScalingClientTypes.RollbackDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instancesToUpdateOnRollback = "InstancesToUpdateOnRollback"
+        case percentageCompleteOnRollback = "PercentageCompleteOnRollback"
+        case progressDetailsOnRollback = "ProgressDetailsOnRollback"
+        case rollbackReason = "RollbackReason"
+        case rollbackStartTime = "RollbackStartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let instancesToUpdateOnRollback = instancesToUpdateOnRollback {
+            try container.encode(instancesToUpdateOnRollback, forKey: ClientRuntime.Key("InstancesToUpdateOnRollback"))
+        }
+        if let percentageCompleteOnRollback = percentageCompleteOnRollback {
+            try container.encode(percentageCompleteOnRollback, forKey: ClientRuntime.Key("PercentageCompleteOnRollback"))
+        }
+        if let progressDetailsOnRollback = progressDetailsOnRollback {
+            try container.encode(progressDetailsOnRollback, forKey: ClientRuntime.Key("ProgressDetailsOnRollback"))
+        }
+        if let rollbackReason = rollbackReason {
+            try container.encode(rollbackReason, forKey: ClientRuntime.Key("RollbackReason"))
+        }
+        if let rollbackStartTime = rollbackStartTime {
+            try container.encodeTimestamp(rollbackStartTime, format: .dateTime, forKey: ClientRuntime.Key("rollbackStartTime"))
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rollbackReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rollbackReason)
+        rollbackReason = rollbackReasonDecoded
+        let rollbackStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .rollbackStartTime)
+        rollbackStartTime = rollbackStartTimeDecoded
+        let percentageCompleteOnRollbackDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .percentageCompleteOnRollback)
+        percentageCompleteOnRollback = percentageCompleteOnRollbackDecoded
+        let instancesToUpdateOnRollbackDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancesToUpdateOnRollback)
+        instancesToUpdateOnRollback = instancesToUpdateOnRollbackDecoded
+        let progressDetailsOnRollbackDecoded = try containerValues.decodeIfPresent(AutoScalingClientTypes.InstanceRefreshProgressDetails.self, forKey: .progressDetailsOnRollback)
+        progressDetailsOnRollback = progressDetailsOnRollbackDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    /// Details about an instance refresh rollback.
+    public struct RollbackDetails: Swift.Equatable {
+        /// Indicates the value of InstancesToUpdate at the time the rollback started.
+        public var instancesToUpdateOnRollback: Swift.Int?
+        /// Indicates the value of PercentageComplete at the time the rollback started.
+        public var percentageCompleteOnRollback: Swift.Int?
+        /// Reports progress on replacing instances in an Auto Scaling group that has a warm pool. This includes separate details for instances in the warm pool and instances in the Auto Scaling group (the live pool).
+        public var progressDetailsOnRollback: AutoScalingClientTypes.InstanceRefreshProgressDetails?
+        /// The reason for this instance refresh rollback (for example, whether a manual or automatic rollback was initiated).
+        public var rollbackReason: Swift.String?
+        /// The date and time at which the rollback began.
+        public var rollbackStartTime: ClientRuntime.Date?
+
+        public init (
+            instancesToUpdateOnRollback: Swift.Int? = nil,
+            percentageCompleteOnRollback: Swift.Int? = nil,
+            progressDetailsOnRollback: AutoScalingClientTypes.InstanceRefreshProgressDetails? = nil,
+            rollbackReason: Swift.String? = nil,
+            rollbackStartTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.instancesToUpdateOnRollback = instancesToUpdateOnRollback
+            self.percentageCompleteOnRollback = percentageCompleteOnRollback
+            self.progressDetailsOnRollback = progressDetailsOnRollback
+            self.rollbackReason = rollbackReason
+            self.rollbackStartTime = rollbackStartTime
+        }
+    }
+
+}
+
+extension RollbackInstanceRefreshInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let autoScalingGroupName = autoScalingGroupName {
+            try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
+        }
+        try container.encode("RollbackInstanceRefresh", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension RollbackInstanceRefreshInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct RollbackInstanceRefreshInput: Swift.Equatable {
+    /// The name of the Auto Scaling group.
+    public var autoScalingGroupName: Swift.String?
+
+    public init (
+        autoScalingGroupName: Swift.String? = nil
+    )
+    {
+        self.autoScalingGroupName = autoScalingGroupName
+    }
+}
+
+struct RollbackInstanceRefreshInputBody: Swift.Equatable {
+    let autoScalingGroupName: Swift.String?
+}
+
+extension RollbackInstanceRefreshInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingGroupName = "AutoScalingGroupName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingGroupName)
+        autoScalingGroupName = autoScalingGroupNameDecoded
+    }
+}
+
+extension RollbackInstanceRefreshOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        try self.init(errorType: errorDetails.errorCode, httpResponse: httpResponse, decoder: decoder, message: errorDetails.message, requestID: errorDetails.requestId)
+    }
+}
+
+extension RollbackInstanceRefreshOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "ActiveInstanceRefreshNotFound" : self = .activeInstanceRefreshNotFoundFault(try ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "IrreversibleInstanceRefresh" : self = .irreversibleInstanceRefreshFault(try IrreversibleInstanceRefreshFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceeded" : self = .limitExceededFault(try LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceContention" : self = .resourceContentionFault(try ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RollbackInstanceRefreshOutputError: Swift.Error, Swift.Equatable {
+    case activeInstanceRefreshNotFoundFault(ActiveInstanceRefreshNotFoundFault)
+    case irreversibleInstanceRefreshFault(IrreversibleInstanceRefreshFault)
+    case limitExceededFault(LimitExceededFault)
+    case resourceContentionFault(ResourceContentionFault)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RollbackInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RollbackInstanceRefreshOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instanceRefreshId = output.instanceRefreshId
+        } else {
+            self.instanceRefreshId = nil
+        }
+    }
+}
+
+public struct RollbackInstanceRefreshOutputResponse: Swift.Equatable {
+    /// The instance refresh ID associated with the request. This is the unique ID assigned to the instance refresh when it was started.
+    public var instanceRefreshId: Swift.String?
+
+    public init (
+        instanceRefreshId: Swift.String? = nil
+    )
+    {
+        self.instanceRefreshId = instanceRefreshId
+    }
+}
+
+struct RollbackInstanceRefreshOutputResponseBody: Swift.Equatable {
+    let instanceRefreshId: Swift.String?
+}
+
+extension RollbackInstanceRefreshOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceRefreshId = "InstanceRefreshId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("RollbackInstanceRefreshResult"))
+        let instanceRefreshIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceRefreshId)
+        instanceRefreshId = instanceRefreshIdDecoded
+    }
+}
+
+extension AutoScalingClientTypes {
+    public enum ScaleInProtectedInstances: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ignore
+        case refresh
+        case wait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScaleInProtectedInstances] {
+            return [
+                .ignore,
+                .refresh,
+                .wait,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignore: return "Ignore"
+            case .refresh: return "Refresh"
+            case .wait: return "Wait"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScaleInProtectedInstances(rawValue: rawValue) ?? ScaleInProtectedInstances.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ScalingActivityInProgressFault {
@@ -16324,6 +16660,41 @@ public struct SetInstanceProtectionOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension AutoScalingClientTypes {
+    public enum StandbyInstances: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ignore
+        case terminate
+        case wait
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandbyInstances] {
+            return [
+                .ignore,
+                .terminate,
+                .wait,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignore: return "Ignore"
+            case .terminate: return "Terminate"
+            case .wait: return "Wait"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StandbyInstances(rawValue: rawValue) ?? StandbyInstances.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension StartInstanceRefreshInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
@@ -16354,11 +16725,17 @@ public struct StartInstanceRefreshInput: Swift.Equatable {
     /// The name of the Auto Scaling group.
     /// This member is required.
     public var autoScalingGroupName: Swift.String?
-    /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration. When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and version. This can help you reduce the number of replacements that are required to apply updates.
+    /// The desired configuration. For example, the desired configuration can specify a new launch template or a new version of the current launch template. Once the instance refresh succeeds, Amazon EC2 Auto Scaling updates the settings of the Auto Scaling group to reflect the new desired configuration. When you specify a new launch template or a new version of the current launch template for your desired configuration, consider enabling the SkipMatching property in preferences. If it's enabled, Amazon EC2 Auto Scaling skips replacing instances that already use the specified launch template and instance types. This can help you reduce the number of replacements that are required to apply updates.
     public var desiredConfiguration: AutoScalingClientTypes.DesiredConfiguration?
-    /// Set of preferences associated with the instance refresh request. If not provided, the default values are used.
+    /// Sets your preferences for the instance refresh so that it performs as expected when you start it. Includes the instance warmup time, the minimum healthy percentage, and the behaviors that you want Amazon EC2 Auto Scaling to use if instances that are in Standby state or protected from scale in are found. You can also choose to enable additional features, such as the following:
+    ///
+    /// * Auto rollback
+    ///
+    /// * Checkpoints
+    ///
+    /// * Skip matching
     public var preferences: AutoScalingClientTypes.RefreshPreferences?
-    /// The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update helps you update your instances gradually. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale in. If the rolling update process fails, any instances that are replaced are not rolled back to their previous configuration.
+    /// The strategy to use for the instance refresh. The only valid value is Rolling.
     public var strategy: AutoScalingClientTypes.RefreshStrategy?
 
     public init (
@@ -16442,7 +16819,7 @@ extension StartInstanceRefreshOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct StartInstanceRefreshOutputResponse: Swift.Equatable {
-    /// A unique ID for tracking the progress of the request.
+    /// A unique ID for tracking the progress of the instance refresh.
     public var instanceRefreshId: Swift.String?
 
     public init (
@@ -17441,7 +17818,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Equatable {
     public var context: Swift.String?
     /// Only needed if you use simple scaling policies. The amount of time, in seconds, between one scaling activity ending and another one starting due to simple scaling policies. For more information, see [Scaling cooldowns for Amazon EC2 Auto Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html) in the Amazon EC2 Auto Scaling User Guide.
     public var defaultCooldown: Swift.Int?
-    /// The amount of time, in seconds, until a newly launched instance can contribute to the Amazon CloudWatch metrics. This delay lets an instance finish initializing before Amazon EC2 Auto Scaling aggregates instance metrics, resulting in more reliable usage data. Set this value equal to the amount of time that it takes for resource consumption to become stable after an instance reaches the InService state. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage your warm-up settings at the group level, we recommend that you set the default instance warmup, even if its value is set to 0 seconds. This also optimizes the performance of scaling policies that scale continuously, such as target tracking and step scaling policies. If you need to remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a minimum value of 0.
+    /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
     public var defaultInstanceWarmup: Swift.Int?
     /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
     public var desiredCapacity: Swift.Int?

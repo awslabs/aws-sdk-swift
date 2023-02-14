@@ -1234,6 +1234,101 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension ProtonClientTypes.CountsSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case components
+        case environmentTemplates
+        case environments
+        case pipelines
+        case serviceInstances
+        case serviceTemplates
+        case services
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let components = self.components {
+            try encodeContainer.encode(components, forKey: .components)
+        }
+        if let environmentTemplates = self.environmentTemplates {
+            try encodeContainer.encode(environmentTemplates, forKey: .environmentTemplates)
+        }
+        if let environments = self.environments {
+            try encodeContainer.encode(environments, forKey: .environments)
+        }
+        if let pipelines = self.pipelines {
+            try encodeContainer.encode(pipelines, forKey: .pipelines)
+        }
+        if let serviceInstances = self.serviceInstances {
+            try encodeContainer.encode(serviceInstances, forKey: .serviceInstances)
+        }
+        if let serviceTemplates = self.serviceTemplates {
+            try encodeContainer.encode(serviceTemplates, forKey: .serviceTemplates)
+        }
+        if let services = self.services {
+            try encodeContainer.encode(services, forKey: .services)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .components)
+        components = componentsDecoded
+        let environmentsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .environments)
+        environments = environmentsDecoded
+        let environmentTemplatesDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .environmentTemplates)
+        environmentTemplates = environmentTemplatesDecoded
+        let serviceInstancesDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .serviceInstances)
+        serviceInstances = serviceInstancesDecoded
+        let servicesDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .services)
+        services = servicesDecoded
+        let serviceTemplatesDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .serviceTemplates)
+        serviceTemplates = serviceTemplatesDecoded
+        let pipelinesDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.ResourceCountsSummary.self, forKey: .pipelines)
+        pipelines = pipelinesDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Summary counts of each Proton resource type.
+    public struct CountsSummary: Swift.Equatable {
+        /// The total number of components in the Amazon Web Services account. The semantics of the components field are different from the semantics of results for other infrastructure-provisioning resources. That's because at this time components don't have associated templates, therefore they don't have the concept of staleness. The components object will only contain total and failed members.
+        public var components: ProtonClientTypes.ResourceCountsSummary?
+        /// The total number of environment templates in the Amazon Web Services account.
+        public var environmentTemplates: ProtonClientTypes.ResourceCountsSummary?
+        /// The staleness counts for Proton environments in the Amazon Web Services account. The environments object will only contain total members.
+        public var environments: ProtonClientTypes.ResourceCountsSummary?
+        /// The staleness counts for Proton pipelines in the Amazon Web Services account.
+        public var pipelines: ProtonClientTypes.ResourceCountsSummary?
+        /// The staleness counts for Proton service instances in the Amazon Web Services account.
+        public var serviceInstances: ProtonClientTypes.ResourceCountsSummary?
+        /// The total number of service templates in the Amazon Web Services account. The serviceTemplates object will only contain total members.
+        public var serviceTemplates: ProtonClientTypes.ResourceCountsSummary?
+        /// The staleness counts for Proton services in the Amazon Web Services account.
+        public var services: ProtonClientTypes.ResourceCountsSummary?
+
+        public init (
+            components: ProtonClientTypes.ResourceCountsSummary? = nil,
+            environmentTemplates: ProtonClientTypes.ResourceCountsSummary? = nil,
+            environments: ProtonClientTypes.ResourceCountsSummary? = nil,
+            pipelines: ProtonClientTypes.ResourceCountsSummary? = nil,
+            serviceInstances: ProtonClientTypes.ResourceCountsSummary? = nil,
+            serviceTemplates: ProtonClientTypes.ResourceCountsSummary? = nil,
+            services: ProtonClientTypes.ResourceCountsSummary? = nil
+        )
+        {
+            self.components = components
+            self.environmentTemplates = environmentTemplates
+            self.environments = environments
+            self.pipelines = pipelines
+            self.serviceInstances = serviceInstances
+            self.serviceTemplates = serviceTemplates
+            self.services = services
+        }
+    }
+
+}
+
 extension CreateComponentInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateComponentInput(environmentName: \(Swift.String(describing: environmentName)), name: \(Swift.String(describing: name)), serviceInstanceName: \(Swift.String(describing: serviceInstanceName)), serviceName: \(Swift.String(describing: serviceName)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", manifest: \"CONTENT_REDACTED\", serviceSpec: \"CONTENT_REDACTED\", templateFile: \"CONTENT_REDACTED\")"}
@@ -7161,6 +7256,104 @@ extension GetRepositorySyncStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetResourcesSummaryInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension GetResourcesSummaryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourcesSummaryInput: Swift.Equatable {
+
+    public init () { }
+}
+
+struct GetResourcesSummaryInputBody: Swift.Equatable {
+}
+
+extension GetResourcesSummaryInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetResourcesSummaryOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetResourcesSummaryOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetResourcesSummaryOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetResourcesSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetResourcesSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.counts = output.counts
+        } else {
+            self.counts = nil
+        }
+    }
+}
+
+public struct GetResourcesSummaryOutputResponse: Swift.Equatable {
+    /// Summary counts of each Proton resource type.
+    /// This member is required.
+    public var counts: ProtonClientTypes.CountsSummary?
+
+    public init (
+        counts: ProtonClientTypes.CountsSummary? = nil
+    )
+    {
+        self.counts = counts
+    }
+}
+
+struct GetResourcesSummaryOutputResponseBody: Swift.Equatable {
+    let counts: ProtonClientTypes.CountsSummary?
+}
+
+extension GetResourcesSummaryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case counts
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let countsDecoded = try containerValues.decodeIfPresent(ProtonClientTypes.CountsSummary.self, forKey: .counts)
+        counts = countsDecoded
+    }
+}
+
 extension GetServiceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -12432,6 +12625,82 @@ extension ProtonClientTypes {
             self = RepositorySyncStatus(rawValue: rawValue) ?? RepositorySyncStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ProtonClientTypes.ResourceCountsSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case behindMajor
+        case behindMinor
+        case failed
+        case total
+        case upToDate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let behindMajor = self.behindMajor {
+            try encodeContainer.encode(behindMajor, forKey: .behindMajor)
+        }
+        if let behindMinor = self.behindMinor {
+            try encodeContainer.encode(behindMinor, forKey: .behindMinor)
+        }
+        if let failed = self.failed {
+            try encodeContainer.encode(failed, forKey: .failed)
+        }
+        if let total = self.total {
+            try encodeContainer.encode(total, forKey: .total)
+        }
+        if let upToDate = self.upToDate {
+            try encodeContainer.encode(upToDate, forKey: .upToDate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .total)
+        total = totalDecoded
+        let failedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failed)
+        failed = failedDecoded
+        let upToDateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .upToDate)
+        upToDate = upToDateDecoded
+        let behindMajorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .behindMajor)
+        behindMajor = behindMajorDecoded
+        let behindMinorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .behindMinor)
+        behindMinor = behindMinorDecoded
+    }
+}
+
+extension ProtonClientTypes {
+    /// Summary counts of each Proton resource types.
+    public struct ResourceCountsSummary: Swift.Equatable {
+        /// The number of resources of this type in the Amazon Web Services account that need a major template version update.
+        public var behindMajor: Swift.Int?
+        /// The number of resources of this type in the Amazon Web Services account that need a minor template version update.
+        public var behindMinor: Swift.Int?
+        /// The number of resources of this type in the Amazon Web Services account that failed to deploy.
+        public var failed: Swift.Int?
+        /// The total number of resources of this type in the Amazon Web Services account.
+        /// This member is required.
+        public var total: Swift.Int?
+        /// The number of resources of this type in the Amazon Web Services account that are up-to-date with their template.
+        public var upToDate: Swift.Int?
+
+        public init (
+            behindMajor: Swift.Int? = nil,
+            behindMinor: Swift.Int? = nil,
+            failed: Swift.Int? = nil,
+            total: Swift.Int? = nil,
+            upToDate: Swift.Int? = nil
+        )
+        {
+            self.behindMajor = behindMajor
+            self.behindMinor = behindMinor
+            self.failed = failed
+            self.total = total
+            self.upToDate = upToDate
+        }
+    }
+
 }
 
 extension ProtonClientTypes {

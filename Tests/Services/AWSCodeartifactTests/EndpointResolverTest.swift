@@ -7,10 +7,10 @@ import SmithyTestUtil
 import XCTest
 
 class EndpointResolverTest: CrtXCBaseTestCase {
-    /// For region eu-north-1 with FIPS disabled and DualStack disabled
+    /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
-            region: "eu-north-1",
+            region: "ap-northeast-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -22,7 +22,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -47,10 +47,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-south-1 with FIPS disabled and DualStack disabled
+    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
     func testResolve3() throws {
         let endpointParams = EndpointParams(
-            region: "eu-south-1",
+            region: "ap-southeast-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -62,15 +62,15 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.eu-south-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
+    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
     func testResolve4() throws {
         let endpointParams = EndpointParams(
-            region: "ap-northeast-1",
+            region: "ap-southeast-2",
             useDualStack: false,
             useFIPS: false
         )
@@ -82,7 +82,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-northeast-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -107,10 +107,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    /// For region eu-north-1 with FIPS disabled and DualStack disabled
     func testResolve6() throws {
         let endpointParams = EndpointParams(
-            region: "us-west-2",
+            region: "eu-north-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -122,13 +122,33 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-west-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-south-1 with FIPS disabled and DualStack disabled
+    func testResolve7() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.eu-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region eu-west-1 with FIPS disabled and DualStack disabled
-    func testResolve7() throws {
+    func testResolve8() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-1",
             useDualStack: false,
@@ -148,7 +168,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region eu-west-2 with FIPS disabled and DualStack disabled
-    func testResolve8() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-2",
             useDualStack: false,
@@ -168,7 +188,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region eu-west-3 with FIPS disabled and DualStack disabled
-    func testResolve9() throws {
+    func testResolve10() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-3",
             useDualStack: false,
@@ -187,48 +207,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-2",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region us-east-1 with FIPS disabled and DualStack disabled
-    func testResolve12() throws {
+    func testResolve11() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: false,
@@ -248,7 +228,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-2 with FIPS disabled and DualStack disabled
-    func testResolve13() throws {
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -263,6 +243,26 @@ class EndpointResolverTest: CrtXCBaseTestCase {
 
         let headers = Headers()
         let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-east-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    func testResolve13() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -327,128 +327,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve17() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve18() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve19() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve21() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region cn-north-1 with FIPS enabled and DualStack enabled
-    func testResolve23() throws {
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -468,7 +348,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS enabled and DualStack disabled
-    func testResolve24() throws {
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -488,7 +368,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack enabled
-    func testResolve25() throws {
+    func testResolve19() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -508,7 +388,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack disabled
-    func testResolve26() throws {
+    func testResolve20() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -527,8 +407,88 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
+    func testResolve21() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
+    func testResolve22() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
+    func testResolve23() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
+    func testResolve24() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve27() throws {
+    func testResolve25() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -548,7 +508,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve28() throws {
+    func testResolve26() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -567,7 +527,47 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips disabled and dualstack disabled
+    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
+    func testResolve27() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
+    func testResolve28() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://codeartifact.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with region set and fips disabled and dualstack disabled
     func testResolve29() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
@@ -588,8 +588,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips enabled and dualstack disabled
+    /// For custom endpoint with region not set and fips disabled and dualstack disabled
     func testResolve30() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with fips enabled and dualstack disabled
+    func testResolve31() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -609,7 +629,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve31() throws {
+    func testResolve32() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",

@@ -50,7 +50,7 @@ public protocol SageMakerClientProtocol {
     func createDataQualityJobDefinition(input: CreateDataQualityJobDefinitionInput) async throws -> CreateDataQualityJobDefinitionOutputResponse
     /// Creates a device fleet.
     func createDeviceFleet(input: CreateDeviceFleetInput) async throws -> CreateDeviceFleetOutputResponse
-    /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An Amazon Web Services account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html). VPC configuration All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:
+    /// Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other. EFS storage When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see [Protect Data at Rest Using Encryption](https://docs.aws.amazon.com/sagemaker/latest/dg/encryption-at-rest.html). VPC configuration All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:
     ///
     /// * PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.
     ///
@@ -65,7 +65,7 @@ public protocol SageMakerClientProtocol {
     func createEdgeDeploymentStage(input: CreateEdgeDeploymentStageInput) async throws -> CreateEdgeDeploymentStageOutputResponse
     /// Starts a SageMaker Edge Manager model packaging job. Edge Manager will use the model artifacts from the Amazon Simple Storage Service bucket that you specify. After the model has been packaged, Amazon SageMaker saves the resulting artifacts to an S3 bucket that you specify.
     func createEdgePackagingJob(input: CreateEdgePackagingJobInput) async throws -> CreateEdgePackagingJobOutputResponse
-    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the [CreateEndpointConfig] API. Use this API to deploy models using SageMaker hosting services. For an example that calls this method when deploying a model to SageMaker hosting services, see the [Create Endpoint example notebook.](https://github.com/aws/amazon-sagemaker-examples/blob/master/sagemaker-fundamentals/create-endpoint/create_endpoint.ipynb) You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web Services account. When it receives the request, SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them. When you call [CreateEndpoint], a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [Eventually Consistent Reads](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html), the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig] before calling [CreateEndpoint] to minimize the potential impact of a DynamoDB eventually consistent read. When SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the [DescribeEndpoint] API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your IAM user account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the Amazon Web Services Identity and Access Management User Guide. To add the IAM role policies for using this API operation, go to the [IAM console](https://console.aws.amazon.com/iam/), and choose Roles in the left navigation pane. Search the IAM role that you want to grant access to use the [CreateEndpoint] and [CreateEndpointConfig] API operations, add the following policies to the role.
+    /// Creates an endpoint using the endpoint configuration specified in the request. SageMaker uses the endpoint to provision resources and deploy models. You create the endpoint configuration with the [CreateEndpointConfig] API. Use this API to deploy models using SageMaker hosting services. For an example that calls this method when deploying a model to SageMaker hosting services, see the [Create Endpoint example notebook.](https://github.com/aws/amazon-sagemaker-examples/blob/master/sagemaker-fundamentals/create-endpoint/create_endpoint.ipynb) You must not delete an EndpointConfig that is in use by an endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you must create a new EndpointConfig. The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web Services account. When it receives the request, SageMaker creates the endpoint, launches the resources (ML compute instances), and deploys the model(s) on them. When you call [CreateEndpoint], a load call is made to DynamoDB to verify that your endpoint configuration exists. When you read data from a DynamoDB table supporting [Eventually Consistent Reads](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html), the response might not reflect the results of a recently completed write operation. The response might include some stale data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If you repeat your read request after a short time, the response should return the latest data. So retry logic is recommended to handle these possible issues. We also recommend that customers call [DescribeEndpointConfig] before calling [CreateEndpoint] to minimize the potential impact of a DynamoDB eventually consistent read. When SageMaker receives the request, it sets the endpoint status to Creating. After it creates the endpoint, it sets the status to InService. SageMaker can then process incoming requests for inferences. To check the status of an endpoint, use the [DescribeEndpoint] API. If any of the models hosted at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your Amazon Web Services account by default. If you previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon Web Services STS for that region. For more information, see [Activating and Deactivating Amazon Web Services STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the Amazon Web Services Identity and Access Management User Guide. To add the IAM role policies for using this API operation, go to the [IAM console](https://console.aws.amazon.com/iam/), and choose Roles in the left navigation pane. Search the IAM role that you want to grant access to use the [CreateEndpoint] and [CreateEndpointConfig] API operations, add the following policies to the role.
     ///
     /// * Option 1: For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.
     ///
@@ -79,7 +79,7 @@ public protocol SageMakerClientProtocol {
     func createFeatureGroup(input: CreateFeatureGroupInput) async throws -> CreateFeatureGroupOutputResponse
     /// Creates a flow definition.
     func createFlowDefinition(input: CreateFlowDefinitionInput) async throws -> CreateFlowDefinitionOutputResponse
-    /// Create a hub.
+    /// Create a hub. Hub APIs are only callable through SageMaker Studio.
     func createHub(input: CreateHubInput) async throws -> CreateHubOutputResponse
     /// Defines the settings you will use for the human review workflow user interface. Reviewers will see a three-panel interface with an instruction area, the item to review, and an input area.
     func createHumanTaskUi(input: CreateHumanTaskUiInput) async throws -> CreateHumanTaskUiOutputResponse
@@ -239,9 +239,9 @@ public protocol SageMakerClientProtocol {
     func deleteFeatureGroup(input: DeleteFeatureGroupInput) async throws -> DeleteFeatureGroupOutputResponse
     /// Deletes the specified flow definition.
     func deleteFlowDefinition(input: DeleteFlowDefinitionInput) async throws -> DeleteFlowDefinitionOutputResponse
-    /// Delete a hub.
+    /// Delete a hub. Hub APIs are only callable through SageMaker Studio.
     func deleteHub(input: DeleteHubInput) async throws -> DeleteHubOutputResponse
-    /// Delete the contents of a hub.
+    /// Delete the contents of a hub. Hub APIs are only callable through SageMaker Studio.
     func deleteHubContent(input: DeleteHubContentInput) async throws -> DeleteHubContentOutputResponse
     /// Use this operation to delete a human task user interface (worker task template). To see a list of human task user interfaces (work task templates) in your account, use . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
     func deleteHumanTaskUi(input: DeleteHumanTaskUiInput) async throws -> DeleteHumanTaskUiOutputResponse
@@ -337,9 +337,9 @@ public protocol SageMakerClientProtocol {
     func describeFeatureMetadata(input: DescribeFeatureMetadataInput) async throws -> DescribeFeatureMetadataOutputResponse
     /// Returns information about the specified flow definition.
     func describeFlowDefinition(input: DescribeFlowDefinitionInput) async throws -> DescribeFlowDefinitionOutputResponse
-    /// Describe a hub.
+    /// Describe a hub. Hub APIs are only callable through SageMaker Studio.
     func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutputResponse
-    /// Describe the content of a hub.
+    /// Describe the content of a hub. Hub APIs are only callable through SageMaker Studio.
     func describeHubContent(input: DescribeHubContentInput) async throws -> DescribeHubContentOutputResponse
     /// Returns information about the requested human task user interface (worker task template).
     func describeHumanTaskUi(input: DescribeHumanTaskUiInput) async throws -> DescribeHumanTaskUiOutputResponse
@@ -425,7 +425,7 @@ public protocol SageMakerClientProtocol {
     func getSagemakerServicecatalogPortfolioStatus(input: GetSagemakerServicecatalogPortfolioStatusInput) async throws -> GetSagemakerServicecatalogPortfolioStatusOutputResponse
     /// An auto-complete API for the search functionality in the Amazon SageMaker console. It returns suggestions of possible matches for the property name to use in Search queries. Provides suggestions for HyperParameters, Tags, and Metrics.
     func getSearchSuggestions(input: GetSearchSuggestionsInput) async throws -> GetSearchSuggestionsOutputResponse
-    /// Import hub content.
+    /// Import hub content. Hub APIs are only callable through SageMaker Studio.
     func importHubContent(input: ImportHubContentInput) async throws -> ImportHubContentOutputResponse
     /// Lists the actions in your account and their properties.
     func listActions(input: ListActionsInput) async throws -> ListActionsOutputResponse
@@ -473,11 +473,11 @@ public protocol SageMakerClientProtocol {
     func listFeatureGroups(input: ListFeatureGroupsInput) async throws -> ListFeatureGroupsOutputResponse
     /// Returns information about the flow definitions in your account.
     func listFlowDefinitions(input: ListFlowDefinitionsInput) async throws -> ListFlowDefinitionsOutputResponse
-    /// List the contents of a hub.
+    /// List the contents of a hub. Hub APIs are only callable through SageMaker Studio.
     func listHubContents(input: ListHubContentsInput) async throws -> ListHubContentsOutputResponse
-    /// List hub content versions.
+    /// List hub content versions. Hub APIs are only callable through SageMaker Studio.
     func listHubContentVersions(input: ListHubContentVersionsInput) async throws -> ListHubContentVersionsOutputResponse
-    /// List all existing hubs.
+    /// List all existing hubs. Hub APIs are only callable through SageMaker Studio.
     func listHubs(input: ListHubsInput) async throws -> ListHubsOutputResponse
     /// Returns information about the human task user interfaces in your account.
     func listHumanTaskUis(input: ListHumanTaskUisInput) async throws -> ListHumanTaskUisOutputResponse
@@ -601,7 +601,7 @@ public protocol SageMakerClientProtocol {
     func startNotebookInstance(input: StartNotebookInstanceInput) async throws -> StartNotebookInstanceOutputResponse
     /// Starts a pipeline execution.
     func startPipelineExecution(input: StartPipelineExecutionInput) async throws -> StartPipelineExecutionOutputResponse
-    /// A method for forcing the termination of a running job.
+    /// A method for forcing a running job to shut down.
     func stopAutoMLJob(input: StopAutoMLJobInput) async throws -> StopAutoMLJobOutputResponse
     /// Stops a model compilation job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the [CompilationJobSummary$CompilationJobStatus] of the job to Stopping. After Amazon SageMaker stops the job, it sets the [CompilationJobSummary$CompilationJobStatus] to Stopped.
     func stopCompilationJob(input: StopCompilationJobInput) async throws -> StopCompilationJobOutputResponse
@@ -655,7 +655,7 @@ public protocol SageMakerClientProtocol {
     func updateFeatureGroup(input: UpdateFeatureGroupInput) async throws -> UpdateFeatureGroupOutputResponse
     /// Updates the description and parameters of the feature group.
     func updateFeatureMetadata(input: UpdateFeatureMetadataInput) async throws -> UpdateFeatureMetadataOutputResponse
-    /// Update a hub.
+    /// Update a hub. Hub APIs are only callable through SageMaker Studio.
     func updateHub(input: UpdateHubInput) async throws -> UpdateHubOutputResponse
     /// Updates the properties of a SageMaker image. To change the image's tags, use the [AddTags] and [DeleteTags] APIs.
     func updateImage(input: UpdateImageInput) async throws -> UpdateImageOutputResponse

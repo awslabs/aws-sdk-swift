@@ -1702,6 +1702,7 @@ public struct CreateProfileInput: Swift.Equatable {
     /// The customer’s first name.
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
+    @available(*, deprecated)
     public var gender: CustomerProfilesClientTypes.Gender?
     /// An alternative to Gender which accepts any string as input.
     public var genderString: Swift.String?
@@ -1716,6 +1717,7 @@ public struct CreateProfileInput: Swift.Equatable {
     /// The customer’s mobile phone number.
     public var mobilePhoneNumber: Swift.String?
     /// The type of profile used to describe the customer.
+    @available(*, deprecated)
     public var partyType: CustomerProfilesClientTypes.PartyType?
     /// An alternative to PartyType which accepts any string as input.
     public var partyTypeString: Swift.String?
@@ -3446,6 +3448,7 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes {
+    @available(*, deprecated)
     public enum Gender: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case female
         case male
@@ -4203,7 +4206,7 @@ public struct GetIntegrationOutputResponse: Swift.Equatable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// Boolean to indicate if the Flow associated with the Integration is created via Appflow console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+    /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
     /// This member is required.
@@ -6345,7 +6348,7 @@ extension CustomerProfilesClientTypes {
         /// The unique name of the domain.
         /// This member is required.
         public var domainName: Swift.String?
-        /// Boolean to indicate if the Flow associated with the Integration is created via Appflow console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+        /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public var isUnstructured: Swift.Bool?
         /// The timestamp of when the domain was most recently edited.
         /// This member is required.
@@ -8379,6 +8382,7 @@ extension CustomerProfilesClientTypes {
 }
 
 extension CustomerProfilesClientTypes {
+    @available(*, deprecated)
     public enum PartyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case business
         case individual
@@ -8428,12 +8432,14 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         case firstName = "FirstName"
         case foundByItems = "FoundByItems"
         case gender = "Gender"
+        case genderString = "GenderString"
         case homePhoneNumber = "HomePhoneNumber"
         case lastName = "LastName"
         case mailingAddress = "MailingAddress"
         case middleName = "MiddleName"
         case mobilePhoneNumber = "MobilePhoneNumber"
         case partyType = "PartyType"
+        case partyTypeString = "PartyTypeString"
         case personalEmailAddress = "PersonalEmailAddress"
         case phoneNumber = "PhoneNumber"
         case profileId = "ProfileId"
@@ -8487,6 +8493,9 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         if let gender = self.gender {
             try encodeContainer.encode(gender.rawValue, forKey: .gender)
         }
+        if let genderString = self.genderString {
+            try encodeContainer.encode(genderString, forKey: .genderString)
+        }
         if let homePhoneNumber = self.homePhoneNumber {
             try encodeContainer.encode(homePhoneNumber, forKey: .homePhoneNumber)
         }
@@ -8504,6 +8513,9 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
         }
         if let partyType = self.partyType {
             try encodeContainer.encode(partyType.rawValue, forKey: .partyType)
+        }
+        if let partyTypeString = self.partyTypeString {
+            try encodeContainer.encode(partyTypeString, forKey: .partyTypeString)
         }
         if let personalEmailAddress = self.personalEmailAddress {
             try encodeContainer.encode(personalEmailAddress, forKey: .personalEmailAddress)
@@ -8585,6 +8597,10 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
             }
         }
         foundByItems = foundByItemsDecoded0
+        let partyTypeStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partyTypeString)
+        partyTypeString = partyTypeStringDecoded
+        let genderStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .genderString)
+        genderString = genderStringDecoded
     }
 }
 
@@ -8623,7 +8639,10 @@ extension CustomerProfilesClientTypes {
         /// The OR relationship is the default behavior if the LogicalOperator parameter is not included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
         public var foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]?
         /// The gender with which the customer identifies.
+        @available(*, deprecated)
         public var gender: CustomerProfilesClientTypes.Gender?
+        /// An alternative to Gender which accepts any string as input.
+        public var genderString: Swift.String?
         /// The customer’s home phone number.
         public var homePhoneNumber: Swift.String?
         /// The customer’s last name.
@@ -8635,7 +8654,10 @@ extension CustomerProfilesClientTypes {
         /// The customer’s mobile phone number.
         public var mobilePhoneNumber: Swift.String?
         /// The type of profile used to describe the customer.
+        @available(*, deprecated)
         public var partyType: CustomerProfilesClientTypes.PartyType?
+        /// An alternative to PartyType which accepts any string as input.
+        public var partyTypeString: Swift.String?
         /// The customer’s personal email address.
         public var personalEmailAddress: Swift.String?
         /// The customer's phone number, which has not been specified as a mobile, home, or business number.
@@ -8659,12 +8681,14 @@ extension CustomerProfilesClientTypes {
             firstName: Swift.String? = nil,
             foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]? = nil,
             gender: CustomerProfilesClientTypes.Gender? = nil,
+            genderString: Swift.String? = nil,
             homePhoneNumber: Swift.String? = nil,
             lastName: Swift.String? = nil,
             mailingAddress: CustomerProfilesClientTypes.Address? = nil,
             middleName: Swift.String? = nil,
             mobilePhoneNumber: Swift.String? = nil,
             partyType: CustomerProfilesClientTypes.PartyType? = nil,
+            partyTypeString: Swift.String? = nil,
             personalEmailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             profileId: Swift.String? = nil,
@@ -8684,12 +8708,14 @@ extension CustomerProfilesClientTypes {
             self.firstName = firstName
             self.foundByItems = foundByItems
             self.gender = gender
+            self.genderString = genderString
             self.homePhoneNumber = homePhoneNumber
             self.lastName = lastName
             self.mailingAddress = mailingAddress
             self.middleName = middleName
             self.mobilePhoneNumber = mobilePhoneNumber
             self.partyType = partyType
+            self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
@@ -8892,7 +8918,7 @@ public struct PutIntegrationOutputResponse: Swift.Equatable {
     /// The unique name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
-    /// Boolean to indicate if the Flow associated with the Integration is created via Appflow console or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition
+    /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
     public var isUnstructured: Swift.Bool?
     /// The timestamp of when the domain was most recently edited.
     /// This member is required.
@@ -9154,7 +9180,7 @@ extension PutProfileObjectTypeInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowProfileCreation != false {
+        if let allowProfileCreation = self.allowProfileCreation {
             try encodeContainer.encode(allowProfileCreation, forKey: .allowProfileCreation)
         }
         if let description = self.description {
@@ -9210,7 +9236,7 @@ extension PutProfileObjectTypeInput: ClientRuntime.URLPathProvider {
 
 public struct PutProfileObjectTypeInput: Swift.Equatable {
     /// Indicates whether a profile should be created when data is received if one doesn’t exist for an object of this type. The default is FALSE. If the AllowProfileCreation flag is set to FALSE, then the service tries to fetch a standard profile and associate this object with the profile. If it is set to TRUE, and if no match is found, then the service creates a new standard profile.
-    public var allowProfileCreation: Swift.Bool
+    public var allowProfileCreation: Swift.Bool?
     /// Description of the profile object type.
     /// This member is required.
     public var description: Swift.String?
@@ -9236,7 +9262,7 @@ public struct PutProfileObjectTypeInput: Swift.Equatable {
     public var templateId: Swift.String?
 
     public init (
-        allowProfileCreation: Swift.Bool = false,
+        allowProfileCreation: Swift.Bool? = nil,
         description: Swift.String? = nil,
         domainName: Swift.String? = nil,
         encryptionKey: Swift.String? = nil,
@@ -9268,7 +9294,7 @@ struct PutProfileObjectTypeInputBody: Swift.Equatable {
     let templateId: Swift.String?
     let expirationDays: Swift.Int?
     let encryptionKey: Swift.String?
-    let allowProfileCreation: Swift.Bool
+    let allowProfileCreation: Swift.Bool?
     let sourceLastUpdatedTimestampFormat: Swift.String?
     let fields: [Swift.String:CustomerProfilesClientTypes.ObjectTypeField]?
     let keys: [Swift.String:[CustomerProfilesClientTypes.ObjectTypeKey]]?
@@ -9298,7 +9324,7 @@ extension PutProfileObjectTypeInputBody: Swift.Decodable {
         expirationDays = expirationDaysDecoded
         let encryptionKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .encryptionKey)
         encryptionKey = encryptionKeyDecoded
-        let allowProfileCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowProfileCreation) ?? false
+        let allowProfileCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowProfileCreation)
         allowProfileCreation = allowProfileCreationDecoded
         let sourceLastUpdatedTimestampFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLastUpdatedTimestampFormat)
         sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormatDecoded
@@ -11768,6 +11794,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     /// The customer’s first name.
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
+    @available(*, deprecated)
     public var gender: CustomerProfilesClientTypes.Gender?
     /// An alternative to Gender which accepts any string as input.
     public var genderString: Swift.String?
@@ -11782,6 +11809,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     /// The customer’s mobile phone number.
     public var mobilePhoneNumber: Swift.String?
     /// The type of profile used to describe the customer.
+    @available(*, deprecated)
     public var partyType: CustomerProfilesClientTypes.PartyType?
     /// An alternative to PartyType which accepts any string as input.
     public var partyTypeString: Swift.String?

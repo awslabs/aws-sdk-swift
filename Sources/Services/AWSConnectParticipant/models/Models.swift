@@ -1936,7 +1936,7 @@ extension StartAttachmentUploadInput: Swift.Encodable {
         if let attachmentName = self.attachmentName {
             try encodeContainer.encode(attachmentName, forKey: .attachmentName)
         }
-        if attachmentSizeInBytes != 0 {
+        if let attachmentSizeInBytes = self.attachmentSizeInBytes {
             try encodeContainer.encode(attachmentSizeInBytes, forKey: .attachmentSizeInBytes)
         }
         if let clientToken = self.clientToken {
@@ -1970,7 +1970,7 @@ public struct StartAttachmentUploadInput: Swift.Equatable {
     public var attachmentName: Swift.String?
     /// The size of the attachment in bytes.
     /// This member is required.
-    public var attachmentSizeInBytes: Swift.Int
+    public var attachmentSizeInBytes: Swift.Int?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     /// This member is required.
     public var clientToken: Swift.String?
@@ -1983,7 +1983,7 @@ public struct StartAttachmentUploadInput: Swift.Equatable {
 
     public init (
         attachmentName: Swift.String? = nil,
-        attachmentSizeInBytes: Swift.Int = 0,
+        attachmentSizeInBytes: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         connectionToken: Swift.String? = nil,
         contentType: Swift.String? = nil
@@ -1999,7 +1999,7 @@ public struct StartAttachmentUploadInput: Swift.Equatable {
 
 struct StartAttachmentUploadInputBody: Swift.Equatable {
     let contentType: Swift.String?
-    let attachmentSizeInBytes: Swift.Int
+    let attachmentSizeInBytes: Swift.Int?
     let attachmentName: Swift.String?
     let clientToken: Swift.String?
 }
@@ -2016,7 +2016,7 @@ extension StartAttachmentUploadInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
-        let attachmentSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attachmentSizeInBytes) ?? 0
+        let attachmentSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .attachmentSizeInBytes)
         attachmentSizeInBytes = attachmentSizeInBytesDecoded
         let attachmentNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentName)
         attachmentName = attachmentNameDecoded

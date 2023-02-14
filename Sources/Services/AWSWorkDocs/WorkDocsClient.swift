@@ -695,7 +695,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
         return result
     }
 
-    /// Deletes a version of an Amazon WorkDocs document. Use the DeletePriorVersions parameter to delete prior versions.
+    /// Deletes a specific version of a document.
     public func deleteDocumentVersion(input: DeleteDocumentVersionInput) async throws -> DeleteDocumentVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -876,7 +876,7 @@ extension WorkDocsClient: WorkDocsClientProtocol {
         return result
     }
 
-    /// Deletes the specified user from a Simple AD or Microsoft AD directory.
+    /// Deletes the specified user from a Simple AD or Microsoft AD directory. Deleting a user immediately and permanently deletes all content in that user's folder structure. Site retention policies do NOT apply to this type of deletion.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

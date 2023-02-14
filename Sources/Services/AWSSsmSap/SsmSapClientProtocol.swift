@@ -25,6 +25,8 @@ public protocol SsmSapClientProtocol {
     func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
     func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
+    /// Lists the operations performed by AWS Systems Manager for SAP.
+    func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutputResponse
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds permissions to the target database.
@@ -35,7 +37,7 @@ public protocol SsmSapClientProtocol {
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Delete the tags for a resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
-    ///
+    /// Updates the settings of an application registered with AWS Systems Manager for SAP.
     func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutputResponse
 }
 

@@ -10310,7 +10310,7 @@ extension ListComponentsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if byName != false {
+        if let byName = self.byName {
             try encodeContainer.encode(byName, forKey: .byName)
         }
         if let filters = filters {
@@ -10339,7 +10339,7 @@ extension ListComponentsInput: ClientRuntime.URLPathProvider {
 
 public struct ListComponentsInput: Swift.Equatable {
     /// Returns the list of components for the specified name.
-    public var byName: Swift.Bool
+    public var byName: Swift.Bool?
     /// Use the following filters to streamline results:
     ///
     /// * description
@@ -10362,7 +10362,7 @@ public struct ListComponentsInput: Swift.Equatable {
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init (
-        byName: Swift.Bool = false,
+        byName: Swift.Bool? = nil,
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -10380,7 +10380,7 @@ public struct ListComponentsInput: Swift.Equatable {
 struct ListComponentsInputBody: Swift.Equatable {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
-    let byName: Swift.Bool
+    let byName: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -10409,7 +10409,7 @@ extension ListComponentsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let byNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .byName) ?? false
+        let byNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .byName)
         byName = byNameDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -11926,7 +11926,7 @@ extension ListImagesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if byName != false {
+        if let byName = self.byName {
             try encodeContainer.encode(byName, forKey: .byName)
         }
         if let filters = filters {
@@ -11958,7 +11958,7 @@ extension ListImagesInput: ClientRuntime.URLPathProvider {
 
 public struct ListImagesInput: Swift.Equatable {
     /// Requests a list of images with a specific recipe name.
-    public var byName: Swift.Bool
+    public var byName: Swift.Bool?
     /// Use the following filters to streamline results:
     ///
     /// * name
@@ -11981,7 +11981,7 @@ public struct ListImagesInput: Swift.Equatable {
     public var owner: ImagebuilderClientTypes.Ownership?
 
     public init (
-        byName: Swift.Bool = false,
+        byName: Swift.Bool? = nil,
         filters: [ImagebuilderClientTypes.Filter]? = nil,
         includeDeprecated: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
@@ -12001,7 +12001,7 @@ public struct ListImagesInput: Swift.Equatable {
 struct ListImagesInputBody: Swift.Equatable {
     let owner: ImagebuilderClientTypes.Ownership?
     let filters: [ImagebuilderClientTypes.Filter]?
-    let byName: Swift.Bool
+    let byName: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let includeDeprecated: Swift.Bool?
@@ -12032,7 +12032,7 @@ extension ListImagesInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let byNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .byName) ?? false
+        let byNameDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .byName)
         byName = byNameDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded

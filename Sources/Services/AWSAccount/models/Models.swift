@@ -170,6 +170,59 @@ extension AccountClientTypes {
     }
 }
 
+extension ConflictException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+        } else {
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// This member is required.
+    public var message: Swift.String?
+
+    public init (
+        message: Swift.String? = nil
+    )
+    {
+        self.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension AccountClientTypes.ContactInformation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressLine1 = "AddressLine1"
@@ -426,6 +479,206 @@ public struct DeleteAlternateContactOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension DisableRegionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
+        }
+    }
+}
+
+extension DisableRegionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/disableRegion"
+    }
+}
+
+public struct DisableRegionInput: Swift.Equatable {
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+    /// Specifies the Region-code for a given Region name (for example, af-south-1). When you disable a Region, AWS performs actions to deactivate that Region in your account, such as destroying IAM resources in the Region. This process takes a few minutes for most accounts, but this can take several hours. You cannot enable the Region until the disabling process is fully completed.
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.regionName = regionName
+    }
+}
+
+struct DisableRegionInputBody: Swift.Equatable {
+    let accountId: Swift.String?
+    let regionName: Swift.String?
+}
+
+extension DisableRegionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
+    }
+}
+
+extension DisableRegionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DisableRegionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DisableRegionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DisableRegionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DisableRegionOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension EnableRegionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
+        }
+    }
+}
+
+extension EnableRegionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/enableRegion"
+    }
+}
+
+public struct EnableRegionInput: Swift.Equatable {
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+    /// Specifies the Region-code for a given Region name (for example, af-south-1). When you enable a Region, AWS performs actions to prepare your account in that Region, such as distributing your IAM resources to the Region. This process takes a few minutes for most accounts, but it can take several hours. You cannot use the Region until this process is complete. Furthermore, you cannot disable the Region until the enabling process is fully completed.
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.regionName = regionName
+    }
+}
+
+struct EnableRegionInputBody: Swift.Equatable {
+    let accountId: Swift.String?
+    let regionName: Swift.String?
+}
+
+extension EnableRegionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
+    }
+}
+
+extension EnableRegionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension EnableRegionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum EnableRegionOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension EnableRegionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct EnableRegionOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension GetAlternateContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -675,6 +928,145 @@ extension GetContactInformationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetRegionOptStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
+        }
+    }
+}
+
+extension GetRegionOptStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/getRegionOptStatus"
+    }
+}
+
+public struct GetRegionOptStatusInput: Swift.Equatable {
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+    /// Specifies the Region-code for a given Region name (for example, af-south-1). This function will return the status of whatever Region you pass into this parameter.
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init (
+        accountId: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    )
+    {
+        self.accountId = accountId
+        self.regionName = regionName
+    }
+}
+
+struct GetRegionOptStatusInputBody: Swift.Equatable {
+    let accountId: Swift.String?
+    let regionName: Swift.String?
+}
+
+extension GetRegionOptStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case regionName = "RegionName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
+    }
+}
+
+extension GetRegionOptStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetRegionOptStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetRegionOptStatusOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetRegionOptStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetRegionOptStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.regionName = output.regionName
+            self.regionOptStatus = output.regionOptStatus
+        } else {
+            self.regionName = nil
+            self.regionOptStatus = nil
+        }
+    }
+}
+
+public struct GetRegionOptStatusOutputResponse: Swift.Equatable {
+    /// The Region code that was passed in.
+    public var regionName: Swift.String?
+    /// One of the potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
+    public var regionOptStatus: AccountClientTypes.RegionOptStatus?
+
+    public init (
+        regionName: Swift.String? = nil,
+        regionOptStatus: AccountClientTypes.RegionOptStatus? = nil
+    )
+    {
+        self.regionName = regionName
+        self.regionOptStatus = regionOptStatus
+    }
+}
+
+struct GetRegionOptStatusOutputResponseBody: Swift.Equatable {
+    let regionName: Swift.String?
+    let regionOptStatus: AccountClientTypes.RegionOptStatus?
+}
+
+extension GetRegionOptStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case regionName = "RegionName"
+        case regionOptStatus = "RegionOptStatus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
+        let regionOptStatusDecoded = try containerValues.decodeIfPresent(AccountClientTypes.RegionOptStatus.self, forKey: .regionOptStatus)
+        regionOptStatus = regionOptStatusDecoded
+    }
+}
+
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -725,6 +1117,189 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListRegionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case regionOptStatusContains = "RegionOptStatusContains"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let regionOptStatusContains = regionOptStatusContains {
+            var regionOptStatusContainsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .regionOptStatusContains)
+            for regionoptstatus0 in regionOptStatusContains {
+                try regionOptStatusContainsContainer.encode(regionoptstatus0.rawValue)
+            }
+        }
+    }
+}
+
+extension ListRegionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/listRegions"
+    }
+}
+
+public struct ListRegionsInput: Swift.Equatable {
+    /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the [organization's management account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_getting-started_concepts.html#account) or a delegated administrator account. The specified account ID must also be a member account in the same organization. The organization must have [all features enabled](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html), and the organization must have [trusted access](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-trusted-access.html) enabled for the Account Management service, and optionally a [delegated admin](https://docs.aws.amazon.com/organizations/latest/userguide/using-orgs-delegated-admin.html) account assigned. The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter. To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    public var accountId: Swift.String?
+    /// The total number of items to return in the command’s output. If the total number of items available is more than the value specified, a NextToken is provided in the command’s output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the Amazon Web Services CLI. For usage examples, see [Pagination](http://docs.aws.amazon.com/cli/latest/userguide/pagination.html) in the Amazon Web Services Command Line Interface User Guide.
+    public var maxResults: Swift.Int?
+    /// A token used to specify where to start paginating. This is the NextToken from a previously truncated response. For usage examples, see [Pagination](http://docs.aws.amazon.com/cli/latest/userguide/pagination.html) in the Amazon Web Services Command Line Interface User Guide.
+    public var nextToken: Swift.String?
+    /// A list of Region statuses (Enabling, Enabled, Disabling, Disabled, Enabled_by_default) to use to filter the list of Regions for a given account. For example, passing in a value of ENABLING will only return a list of Regions with a Region status of ENABLING.
+    public var regionOptStatusContains: [AccountClientTypes.RegionOptStatus]?
+
+    public init (
+        accountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        regionOptStatusContains: [AccountClientTypes.RegionOptStatus]? = nil
+    )
+    {
+        self.accountId = accountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.regionOptStatusContains = regionOptStatusContains
+    }
+}
+
+struct ListRegionsInputBody: Swift.Equatable {
+    let accountId: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let regionOptStatusContains: [AccountClientTypes.RegionOptStatus]?
+}
+
+extension ListRegionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case regionOptStatusContains = "RegionOptStatusContains"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let regionOptStatusContainsContainer = try containerValues.decodeIfPresent([AccountClientTypes.RegionOptStatus?].self, forKey: .regionOptStatusContains)
+        var regionOptStatusContainsDecoded0:[AccountClientTypes.RegionOptStatus]? = nil
+        if let regionOptStatusContainsContainer = regionOptStatusContainsContainer {
+            regionOptStatusContainsDecoded0 = [AccountClientTypes.RegionOptStatus]()
+            for string0 in regionOptStatusContainsContainer {
+                if let string0 = string0 {
+                    regionOptStatusContainsDecoded0?.append(string0)
+                }
+            }
+        }
+        regionOptStatusContains = regionOptStatusContainsDecoded0
+    }
+}
+
+extension ListRegionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListRegionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "TooManyRequestsException" : self = .tooManyRequestsException(try TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListRegionsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case tooManyRequestsException(TooManyRequestsException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListRegionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListRegionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.regions = output.regions
+        } else {
+            self.nextToken = nil
+            self.regions = nil
+        }
+    }
+}
+
+public struct ListRegionsOutputResponse: Swift.Equatable {
+    /// If there is more data to be returned, this will be populated. It should be passed into the next-token request parameter of list-regions.
+    public var nextToken: Swift.String?
+    /// This is a list of Regions for a given account, or if the filtered parameter was used, a list of Regions that match the filter criteria set in the filter parameter.
+    public var regions: [AccountClientTypes.Region]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        regions: [AccountClientTypes.Region]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.regions = regions
+    }
+}
+
+struct ListRegionsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let regions: [AccountClientTypes.Region]?
+}
+
+extension ListRegionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case regions = "Regions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let regionsContainer = try containerValues.decodeIfPresent([AccountClientTypes.Region?].self, forKey: .regions)
+        var regionsDecoded0:[AccountClientTypes.Region]? = nil
+        if let regionsContainer = regionsContainer {
+            regionsDecoded0 = [AccountClientTypes.Region]()
+            for structure0 in regionsContainer {
+                if let structure0 = structure0 {
+                    regionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        regions = regionsDecoded0
     }
 }
 
@@ -981,6 +1556,92 @@ public struct PutContactInformationOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension AccountClientTypes.Region: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case regionName = "RegionName"
+        case regionOptStatus = "RegionOptStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let regionName = self.regionName {
+            try encodeContainer.encode(regionName, forKey: .regionName)
+        }
+        if let regionOptStatus = self.regionOptStatus {
+            try encodeContainer.encode(regionOptStatus.rawValue, forKey: .regionOptStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .regionName)
+        regionName = regionNameDecoded
+        let regionOptStatusDecoded = try containerValues.decodeIfPresent(AccountClientTypes.RegionOptStatus.self, forKey: .regionOptStatus)
+        regionOptStatus = regionOptStatusDecoded
+    }
+}
+
+extension AccountClientTypes {
+    /// This is a structure that expresses the Region for a given account, consisting of a name and opt-in status.
+    public struct Region: Swift.Equatable {
+        /// The Region code of a given Region (for example, us-east-1).
+        public var regionName: Swift.String?
+        /// One of potential statuses a Region can undergo (Enabled, Enabling, Disabled, Disabling, Enabled_By_Default).
+        public var regionOptStatus: AccountClientTypes.RegionOptStatus?
+
+        public init (
+            regionName: Swift.String? = nil,
+            regionOptStatus: AccountClientTypes.RegionOptStatus? = nil
+        )
+        {
+            self.regionName = regionName
+            self.regionOptStatus = regionOptStatus
+        }
+    }
+
+}
+
+extension AccountClientTypes {
+    public enum RegionOptStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabledByDefault
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionOptStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabledByDefault,
+                .enabling,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabledByDefault: return "ENABLED_BY_DEFAULT"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegionOptStatus(rawValue: rawValue) ?? RegionOptStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -1087,15 +1748,24 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
+extension ValidationException: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidationException(fieldList: \(Swift.String(describing: fieldList)), reason: \(Swift.String(describing: reason)), message: \"CONTENT_REDACTED\")"}
+}
+
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.fieldList = output.fieldList
             self.message = output.message
+            self.reason = output.reason
         } else {
+            self.fieldList = nil
             self.message = nil
+            self.reason = nil
         }
         self._headers = httpResponse.headers
         self._statusCode = httpResponse.statusCode
@@ -1113,29 +1783,139 @@ public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _retryable: Swift.Bool = false
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
+    /// The field where the invalid entry was detected.
+    public var fieldList: [AccountClientTypes.ValidationExceptionField]?
+    /// The message that informs you about what was invalid about the request.
     /// This member is required.
     public var message: Swift.String?
+    /// The reason that validation failed.
+    public var reason: AccountClientTypes.ValidationExceptionReason?
 
     public init (
-        message: Swift.String? = nil
+        fieldList: [AccountClientTypes.ValidationExceptionField]? = nil,
+        message: Swift.String? = nil,
+        reason: AccountClientTypes.ValidationExceptionReason? = nil
     )
     {
+        self.fieldList = fieldList
         self.message = message
+        self.reason = reason
     }
 }
 
 struct ValidationExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let reason: AccountClientTypes.ValidationExceptionReason?
+    let fieldList: [AccountClientTypes.ValidationExceptionField]?
 }
 
 extension ValidationExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fieldList
         case message
+        case reason
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(AccountClientTypes.ValidationExceptionReason.self, forKey: .reason)
+        reason = reasonDecoded
+        let fieldListContainer = try containerValues.decodeIfPresent([AccountClientTypes.ValidationExceptionField?].self, forKey: .fieldList)
+        var fieldListDecoded0:[AccountClientTypes.ValidationExceptionField]? = nil
+        if let fieldListContainer = fieldListContainer {
+            fieldListDecoded0 = [AccountClientTypes.ValidationExceptionField]()
+            for structure0 in fieldListContainer {
+                if let structure0 = structure0 {
+                    fieldListDecoded0?.append(structure0)
+                }
+            }
+        }
+        fieldList = fieldListDecoded0
+    }
+}
+
+extension AccountClientTypes.ValidationExceptionField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension AccountClientTypes.ValidationExceptionField: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidationExceptionField(name: \(Swift.String(describing: name)), message: \"CONTENT_REDACTED\")"}
+}
+
+extension AccountClientTypes {
+    /// The input failed to meet the constraints specified by the AWS service in a specified field.
+    public struct ValidationExceptionField: Swift.Equatable {
+        /// A message about the validation exception.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The field name where the invalid entry was detected.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            message: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.name = name
+        }
+    }
+
+}
+
+extension AccountClientTypes {
+    public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fieldValidationFailed
+        case invalidRegionOptTarget
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .fieldValidationFailed,
+                .invalidRegionOptTarget,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fieldValidationFailed: return "fieldValidationFailed"
+            case .invalidRegionOptTarget: return "invalidRegionOptTarget"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
     }
 }

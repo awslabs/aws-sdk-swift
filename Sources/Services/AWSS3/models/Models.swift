@@ -2667,7 +2667,7 @@ extension CopyObjectInput: ClientRuntime.HeaderProvider {
         if let acl = acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if bucketKeyEnabled != false {
+        if let bucketKeyEnabled = bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
         if let cacheControl = cacheControl {
@@ -2813,7 +2813,7 @@ public struct CopyObjectInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key.
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
     /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
@@ -2903,7 +2903,7 @@ public struct CopyObjectInput: Swift.Equatable {
     public init (
         acl: S3ClientTypes.ObjectCannedACL? = nil,
         bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         contentDisposition: Swift.String? = nil,
@@ -3509,7 +3509,7 @@ extension CreateBucketInput: ClientRuntime.HeaderProvider {
         if let grantWriteACP = grantWriteACP {
             items.add(Header(name: "x-amz-grant-write-acp", value: Swift.String(grantWriteACP)))
         }
-        if objectLockEnabledForBucket != false {
+        if let objectLockEnabledForBucket = objectLockEnabledForBucket {
             items.add(Header(name: "x-amz-bucket-object-lock-enabled", value: Swift.String(objectLockEnabledForBucket)))
         }
         if let objectOwnership = objectOwnership {
@@ -3544,7 +3544,7 @@ public struct CreateBucketInput: Swift.Equatable {
     /// Allows grantee to write the ACL for the applicable bucket.
     public var grantWriteACP: Swift.String?
     /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
-    public var objectLockEnabledForBucket: Swift.Bool
+    public var objectLockEnabledForBucket: Swift.Bool?
     /// The container element for object ownership for a bucket's ownership controls. BucketOwnerPreferred - Objects uploaded to the bucket change ownership to the bucket owner if the objects are uploaded with the bucket-owner-full-control canned ACL. ObjectWriter - The uploading account will own the object if the object is uploaded with the bucket-owner-full-control canned ACL. BucketOwnerEnforced - Access control lists (ACLs) are disabled and no longer affect permissions. The bucket owner automatically owns and has full control over every object in the bucket. The bucket only accepts PUT requests that don't specify an ACL or bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format.
     public var objectOwnership: S3ClientTypes.ObjectOwnership?
 
@@ -3557,7 +3557,7 @@ public struct CreateBucketInput: Swift.Equatable {
         grantReadACP: Swift.String? = nil,
         grantWrite: Swift.String? = nil,
         grantWriteACP: Swift.String? = nil,
-        objectLockEnabledForBucket: Swift.Bool = false,
+        objectLockEnabledForBucket: Swift.Bool? = nil,
         objectOwnership: S3ClientTypes.ObjectOwnership? = nil
     )
     {
@@ -3653,7 +3653,7 @@ extension CreateMultipartUploadInput: ClientRuntime.HeaderProvider {
         if let acl = acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if bucketKeyEnabled != false {
+        if let bucketKeyEnabled = bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
         if let cacheControl = cacheControl {
@@ -3767,7 +3767,7 @@ public struct CreateMultipartUploadInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
     /// Indicates the algorithm you want Amazon S3 to use to create the checksum for the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
@@ -3827,7 +3827,7 @@ public struct CreateMultipartUploadInput: Swift.Equatable {
     public init (
         acl: S3ClientTypes.ObjectCannedACL? = nil,
         bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         contentDisposition: Swift.String? = nil,
@@ -5587,7 +5587,7 @@ extension S3ClientTypes {
 extension DeleteObjectInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
         if let expectedBucketOwner = expectedBucketOwner {
@@ -5631,7 +5631,7 @@ public struct DeleteObjectInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission.
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// Key name of the object to delete.
@@ -5646,7 +5646,7 @@ public struct DeleteObjectInput: Swift.Equatable {
 
     public init (
         bucket: Swift.String? = nil,
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
         mfa: Swift.String? = nil,
@@ -5927,7 +5927,7 @@ extension DeleteObjectsInput: Swift.Encodable {
 extension DeleteObjectsInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
         if let checksumAlgorithm = checksumAlgorithm {
@@ -5968,7 +5968,7 @@ public struct DeleteObjectsInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// Container for the request.
@@ -5983,7 +5983,7 @@ public struct DeleteObjectsInput: Swift.Equatable {
 
     public init (
         bucket: Swift.String? = nil,
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         delete: S3ClientTypes.Delete? = nil,
         expectedBucketOwner: Swift.String? = nil,
@@ -11020,7 +11020,7 @@ extension GetObjectAttributesInput: ClientRuntime.HeaderProvider {
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if maxParts != 0 {
+        if let maxParts = maxParts {
             items.add(Header(name: "x-amz-max-parts", value: Swift.String(maxParts)))
         }
         if let objectAttributes = objectAttributes {
@@ -11080,7 +11080,7 @@ public struct GetObjectAttributesInput: Swift.Equatable {
     /// This member is required.
     public var key: Swift.String?
     /// Sets the maximum number of parts to return.
-    public var maxParts: Swift.Int
+    public var maxParts: Swift.Int?
     /// An XML header that specifies the fields at the root level that you want returned in the response. Fields that you do not specify are not returned.
     /// This member is required.
     public var objectAttributes: [S3ClientTypes.ObjectAttributes]?
@@ -11101,7 +11101,7 @@ public struct GetObjectAttributesInput: Swift.Equatable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
-        maxParts: Swift.Int = 0,
+        maxParts: Swift.Int? = nil,
         objectAttributes: [S3ClientTypes.ObjectAttributes]? = nil,
         partNumberMarker: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
@@ -11643,7 +11643,7 @@ extension GetObjectInput: ClientRuntime.QueryItemProvider {
                 let responseContentDispositionQueryItem = ClientRuntime.URLQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
                 items.append(responseContentDispositionQueryItem)
             }
-            if partNumber != 0 {
+            if let partNumber = partNumber {
                 let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
                 items.append(partNumberQueryItem)
             }
@@ -11701,7 +11701,7 @@ public struct GetObjectInput: Swift.Equatable {
     /// This member is required.
     public var key: Swift.String?
     /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
-    public var partNumber: Swift.Int
+    public var partNumber: Swift.Int?
     /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35). Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
     public var range: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
@@ -11736,7 +11736,7 @@ public struct GetObjectInput: Swift.Equatable {
         ifNoneMatch: Swift.String? = nil,
         ifUnmodifiedSince: ClientRuntime.Date? = nil,
         key: Swift.String? = nil,
-        partNumber: Swift.Int = 0,
+        partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         responseCacheControl: Swift.String? = nil,
@@ -13417,7 +13417,7 @@ extension HeadObjectInput: ClientRuntime.QueryItemProvider {
                 let versionIdQueryItem = ClientRuntime.URLQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
                 items.append(versionIdQueryItem)
             }
-            if partNumber != 0 {
+            if let partNumber = partNumber {
                 let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
                 items.append(partNumberQueryItem)
             }
@@ -13455,7 +13455,7 @@ public struct HeadObjectInput: Swift.Equatable {
     /// This member is required.
     public var key: Swift.String?
     /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
-    public var partNumber: Swift.Int
+    public var partNumber: Swift.Int?
     /// Because HeadObject returns only the metadata for an object, this parameter has no effect.
     public var range: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
@@ -13478,7 +13478,7 @@ public struct HeadObjectInput: Swift.Equatable {
         ifNoneMatch: Swift.String? = nil,
         ifUnmodifiedSince: ClientRuntime.Date? = nil,
         key: Swift.String? = nil,
-        partNumber: Swift.Int = 0,
+        partNumber: Swift.Int? = nil,
         range: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
@@ -16594,7 +16594,7 @@ extension ListMultipartUploadsInput: ClientRuntime.QueryItemProvider {
                 let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
                 items.append(delimiterQueryItem)
             }
-            if maxUploads != 0 {
+            if let maxUploads = maxUploads {
                 let maxUploadsQueryItem = ClientRuntime.URLQueryItem(name: "max-uploads".urlPercentEncoding(), value: Swift.String(maxUploads).urlPercentEncoding())
                 items.append(maxUploadsQueryItem)
             }
@@ -16634,7 +16634,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
     /// Together with upload-id-marker, this parameter specifies the multipart upload after which listing should begin. If upload-id-marker is not specified, only the keys lexicographically greater than the specified key-marker will be included in the list. If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker might also be included, provided those multipart uploads have upload IDs lexicographically greater than the specified upload-id-marker.
     public var keyMarker: Swift.String?
     /// Sets the maximum number of multipart uploads, from 1 to 1,000, to return in the response body. 1,000 is the maximum number of uploads that can be returned in a response.
-    public var maxUploads: Swift.Int
+    public var maxUploads: Swift.Int?
     /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
     public var `prefix`: Swift.String?
     /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
@@ -16646,7 +16646,7 @@ public struct ListMultipartUploadsInput: Swift.Equatable {
         encodingType: S3ClientTypes.EncodingType? = nil,
         expectedBucketOwner: Swift.String? = nil,
         keyMarker: Swift.String? = nil,
-        maxUploads: Swift.Int = 0,
+        maxUploads: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
         uploadIdMarker: Swift.String? = nil
     )
@@ -16911,7 +16911,7 @@ extension ListObjectVersionsInput: ClientRuntime.QueryItemProvider {
                 let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
                 items.append(prefixQueryItem)
             }
-            if maxKeys != 0 {
+            if let maxKeys = maxKeys {
                 let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
                 items.append(maxKeysQueryItem)
             }
@@ -16943,7 +16943,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
     /// Specifies the key to start with when listing objects in a bucket.
     public var keyMarker: Swift.String?
     /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains true. To return the additional keys, see key-marker and version-id-marker.
-    public var maxKeys: Swift.Int
+    public var maxKeys: Swift.Int?
     /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
     public var `prefix`: Swift.String?
     /// Specifies the object version you want to start listing from.
@@ -16955,7 +16955,7 @@ public struct ListObjectVersionsInput: Swift.Equatable {
         encodingType: S3ClientTypes.EncodingType? = nil,
         expectedBucketOwner: Swift.String? = nil,
         keyMarker: Swift.String? = nil,
-        maxKeys: Swift.Int = 0,
+        maxKeys: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
         versionIdMarker: Swift.String? = nil
     )
@@ -17248,7 +17248,7 @@ extension ListObjectsInput: ClientRuntime.QueryItemProvider {
                 let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
                 items.append(prefixQueryItem)
             }
-            if maxKeys != 0 {
+            if let maxKeys = maxKeys {
                 let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
                 items.append(maxKeysQueryItem)
             }
@@ -17276,7 +17276,7 @@ public struct ListObjectsInput: Swift.Equatable {
     /// Marker is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. Marker can be any key in the bucket.
     public var marker: Swift.String?
     /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-    public var maxKeys: Swift.Int
+    public var maxKeys: Swift.Int?
     /// Limits the response to keys that begin with the specified prefix.
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
@@ -17288,7 +17288,7 @@ public struct ListObjectsInput: Swift.Equatable {
         encodingType: S3ClientTypes.EncodingType? = nil,
         expectedBucketOwner: Swift.String? = nil,
         marker: Swift.String? = nil,
-        maxKeys: Swift.Int = 0,
+        maxKeys: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil
     )
@@ -17530,7 +17530,7 @@ extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
                 let delimiterQueryItem = ClientRuntime.URLQueryItem(name: "delimiter".urlPercentEncoding(), value: Swift.String(delimiter).urlPercentEncoding())
                 items.append(delimiterQueryItem)
             }
-            if fetchOwner != false {
+            if let fetchOwner = fetchOwner {
                 let fetchOwnerQueryItem = ClientRuntime.URLQueryItem(name: "fetch-owner".urlPercentEncoding(), value: Swift.String(fetchOwner).urlPercentEncoding())
                 items.append(fetchOwnerQueryItem)
             }
@@ -17546,7 +17546,7 @@ extension ListObjectsV2Input: ClientRuntime.QueryItemProvider {
                 let prefixQueryItem = ClientRuntime.URLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
                 items.append(prefixQueryItem)
             }
-            if maxKeys != 0 {
+            if let maxKeys = maxKeys {
                 let maxKeysQueryItem = ClientRuntime.URLQueryItem(name: "max-keys".urlPercentEncoding(), value: Swift.String(maxKeys).urlPercentEncoding())
                 items.append(maxKeysQueryItem)
             }
@@ -17574,9 +17574,9 @@ public struct ListObjectsV2Input: Swift.Equatable {
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
     /// The owner field is not present in listV2 by default, if you want to return owner field with each key in the result then set the fetch owner field to true.
-    public var fetchOwner: Swift.Bool
+    public var fetchOwner: Swift.Bool?
     /// Sets the maximum number of keys returned in the response. By default the action returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
-    public var maxKeys: Swift.Int
+    public var maxKeys: Swift.Int?
     /// Limits the response to keys that begin with the specified prefix.
     public var `prefix`: Swift.String?
     /// Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
@@ -17590,8 +17590,8 @@ public struct ListObjectsV2Input: Swift.Equatable {
         delimiter: Swift.String? = nil,
         encodingType: S3ClientTypes.EncodingType? = nil,
         expectedBucketOwner: Swift.String? = nil,
-        fetchOwner: Swift.Bool = false,
-        maxKeys: Swift.Int = 0,
+        fetchOwner: Swift.Bool? = nil,
+        maxKeys: Swift.Int? = nil,
         `prefix`: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         startAfter: Swift.String? = nil
@@ -17866,7 +17866,7 @@ extension ListPartsInput: ClientRuntime.QueryItemProvider {
                 let partNumberMarkerQueryItem = ClientRuntime.URLQueryItem(name: "part-number-marker".urlPercentEncoding(), value: Swift.String(partNumberMarker).urlPercentEncoding())
                 items.append(partNumberMarkerQueryItem)
             }
-            if maxParts != 0 {
+            if let maxParts = maxParts {
                 let maxPartsQueryItem = ClientRuntime.URLQueryItem(name: "max-parts".urlPercentEncoding(), value: Swift.String(maxParts).urlPercentEncoding())
                 items.append(maxPartsQueryItem)
             }
@@ -17900,7 +17900,7 @@ public struct ListPartsInput: Swift.Equatable {
     /// This member is required.
     public var key: Swift.String?
     /// Sets the maximum number of parts to return.
-    public var maxParts: Swift.Int
+    public var maxParts: Swift.Int?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
     public var partNumberMarker: Swift.String?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
@@ -17919,7 +17919,7 @@ public struct ListPartsInput: Swift.Equatable {
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
-        maxParts: Swift.Int = 0,
+        maxParts: Swift.Int? = nil,
         partNumberMarker: Swift.String? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
@@ -23109,7 +23109,7 @@ extension PutBucketNotificationConfigurationInput: ClientRuntime.HeaderProvider 
         if let expectedBucketOwner = expectedBucketOwner {
             items.add(Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
         }
-        if skipDestinationValidation != false {
+        if let skipDestinationValidation = skipDestinationValidation {
             items.add(Header(name: "x-amz-skip-destination-validation", value: Swift.String(skipDestinationValidation)))
         }
         return items
@@ -23142,13 +23142,13 @@ public struct PutBucketNotificationConfigurationInput: Swift.Equatable {
     /// This member is required.
     public var notificationConfiguration: S3ClientTypes.NotificationConfiguration?
     /// Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations. True or false value.
-    public var skipDestinationValidation: Swift.Bool
+    public var skipDestinationValidation: Swift.Bool?
 
     public init (
         bucket: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         notificationConfiguration: S3ClientTypes.NotificationConfiguration? = nil,
-        skipDestinationValidation: Swift.Bool = false
+        skipDestinationValidation: Swift.Bool? = nil
     )
     {
         self.bucket = bucket
@@ -23448,7 +23448,7 @@ extension PutBucketPolicyInput: ClientRuntime.HeaderProvider {
         if let checksumAlgorithm = checksumAlgorithm {
             items.add(Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
         }
-        if confirmRemoveSelfBucketAccess != false {
+        if let confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess {
             items.add(Header(name: "x-amz-confirm-remove-self-bucket-access", value: Swift.String(confirmRemoveSelfBucketAccess)))
         }
         if let contentMD5 = contentMD5 {
@@ -23484,7 +23484,7 @@ public struct PutBucketPolicyInput: Swift.Equatable {
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
-    public var confirmRemoveSelfBucketAccess: Swift.Bool
+    public var confirmRemoveSelfBucketAccess: Swift.Bool?
     /// The MD5 hash of the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
     public var contentMD5: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -23496,7 +23496,7 @@ public struct PutBucketPolicyInput: Swift.Equatable {
     public init (
         bucket: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
-        confirmRemoveSelfBucketAccess: Swift.Bool = false,
+        confirmRemoveSelfBucketAccess: Swift.Bool? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         policy: Swift.String? = nil
@@ -24820,7 +24820,7 @@ extension PutObjectInput: ClientRuntime.HeaderProvider {
         if let acl = acl {
             items.add(Header(name: "x-amz-acl", value: Swift.String(acl.rawValue)))
         }
-        if bucketKeyEnabled != false {
+        if let bucketKeyEnabled = bucketKeyEnabled {
             items.add(Header(name: "x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
         if let cacheControl = cacheControl {
@@ -24850,7 +24850,7 @@ extension PutObjectInput: ClientRuntime.HeaderProvider {
         if let contentLanguage = contentLanguage {
             items.add(Header(name: "Content-Language", value: Swift.String(contentLanguage)))
         }
-        if contentLength != 0 {
+        if let contentLength = contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
         if let contentMD5 = contentMD5 {
@@ -25047,7 +25047,7 @@ public struct PutObjectInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect bucket-level settings for S3 Bucket Key.
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Can be used to specify caching behavior along the request/reply chain. For more information, see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9).
     public var cacheControl: Swift.String?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
@@ -25067,7 +25067,7 @@ public struct PutObjectInput: Swift.Equatable {
     /// The language the content is in.
     public var contentLanguage: Swift.String?
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.13).
-    public var contentLength: Swift.Int
+    public var contentLength: Swift.Int?
     /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html).
     public var contentMD5: Swift.String?
     /// A standard MIME type describing the format of the contents. For more information, see [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.17).
@@ -25120,7 +25120,7 @@ public struct PutObjectInput: Swift.Equatable {
         acl: S3ClientTypes.ObjectCannedACL? = nil,
         body: ClientRuntime.ByteStream? = nil,
         bucket: Swift.String? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         checksumCRC32: Swift.String? = nil,
@@ -25130,7 +25130,7 @@ public struct PutObjectInput: Swift.Equatable {
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
-        contentLength: Swift.Int = 0,
+        contentLength: Swift.Int? = nil,
         contentMD5: Swift.String? = nil,
         contentType: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
@@ -25887,7 +25887,7 @@ extension PutObjectRetentionInput: Swift.Encodable {
 extension PutObjectRetentionInput: ClientRuntime.HeaderProvider {
     public var headers: ClientRuntime.Headers {
         var items = ClientRuntime.Headers()
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = bypassGovernanceRetention {
             items.add(Header(name: "x-amz-bypass-governance-retention", value: Swift.String(bypassGovernanceRetention)))
         }
         if let checksumAlgorithm = checksumAlgorithm {
@@ -25934,7 +25934,7 @@ public struct PutObjectRetentionInput: Swift.Equatable {
     /// This member is required.
     public var bucket: Swift.String?
     /// Indicates whether this action should bypass Governance-mode restrictions.
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// Indicates the algorithm used to create the checksum for the object when using the SDK. This header will not provide any additional functionality if not using the SDK. When sending this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
@@ -25953,7 +25953,7 @@ public struct PutObjectRetentionInput: Swift.Equatable {
 
     public init (
         bucket: Swift.String? = nil,
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
@@ -30234,6 +30234,10 @@ extension UploadPartCopyInput: ClientRuntime.QueryItemProvider {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
             items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPartCopy"))
+            guard let partNumber = partNumber else {
+                let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
             items.append(partNumberQueryItem)
             guard let uploadId = uploadId else {
@@ -30295,7 +30299,7 @@ public struct UploadPartCopyInput: Swift.Equatable {
     public var key: Swift.String?
     /// Part number of part being copied. This is a positive integer between 1 and 10,000.
     /// This member is required.
-    public var partNumber: Swift.Int
+    public var partNumber: Swift.Int?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
@@ -30322,7 +30326,7 @@ public struct UploadPartCopyInput: Swift.Equatable {
         expectedBucketOwner: Swift.String? = nil,
         expectedSourceBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
-        partNumber: Swift.Int = 0,
+        partNumber: Swift.Int? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKey: Swift.String? = nil,
@@ -30577,7 +30581,7 @@ extension UploadPartInput: ClientRuntime.HeaderProvider {
         if let checksumSHA256 = checksumSHA256 {
             items.add(Header(name: "x-amz-checksum-sha256", value: Swift.String(checksumSHA256)))
         }
-        if contentLength != 0 {
+        if let contentLength = contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
         if let contentMD5 = contentMD5 {
@@ -30657,6 +30661,10 @@ extension UploadPartInput: ClientRuntime.QueryItemProvider {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
             items.append(ClientRuntime.URLQueryItem(name: "x-id", value: "UploadPart"))
+            guard let partNumber = partNumber else {
+                let message = "Creating a URL Query Item failed. partNumber is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
             let partNumberQueryItem = ClientRuntime.URLQueryItem(name: "partNumber".urlPercentEncoding(), value: Swift.String(partNumber).urlPercentEncoding())
             items.append(partNumberQueryItem)
             guard let uploadId = uploadId else {
@@ -30696,7 +30704,7 @@ public struct UploadPartInput: Swift.Equatable {
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
     public var checksumSHA256: Swift.String?
     /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
-    public var contentLength: Swift.Int
+    public var contentLength: Swift.Int?
     /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.
     public var contentMD5: Swift.String?
     /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with the HTTP status code 403 Forbidden (access denied).
@@ -30706,7 +30714,7 @@ public struct UploadPartInput: Swift.Equatable {
     public var key: Swift.String?
     /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
     /// This member is required.
-    public var partNumber: Swift.Int
+    public var partNumber: Swift.Int?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
@@ -30727,11 +30735,11 @@ public struct UploadPartInput: Swift.Equatable {
         checksumCRC32C: Swift.String? = nil,
         checksumSHA1: Swift.String? = nil,
         checksumSHA256: Swift.String? = nil,
-        contentLength: Swift.Int = 0,
+        contentLength: Swift.Int? = nil,
         contentMD5: Swift.String? = nil,
         expectedBucketOwner: Swift.String? = nil,
         key: Swift.String? = nil,
-        partNumber: Swift.Int = 0,
+        partNumber: Swift.Int? = nil,
         requestPayer: S3ClientTypes.RequestPayer? = nil,
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKey: Swift.String? = nil,
@@ -31157,7 +31165,7 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let acceptRanges = acceptRanges {
             items.add(Header(name: "x-amz-fwd-header-accept-ranges", value: Swift.String(acceptRanges)))
         }
-        if bucketKeyEnabled != false {
+        if let bucketKeyEnabled = bucketKeyEnabled {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled", value: Swift.String(bucketKeyEnabled)))
         }
         if let cacheControl = cacheControl {
@@ -31184,7 +31192,7 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let contentLanguage = contentLanguage {
             items.add(Header(name: "x-amz-fwd-header-Content-Language", value: Swift.String(contentLanguage)))
         }
-        if contentLength != 0 {
+        if let contentLength = contentLength {
             items.add(Header(name: "Content-Length", value: Swift.String(contentLength)))
         }
         if let contentRange = contentRange {
@@ -31193,7 +31201,7 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let contentType = contentType {
             items.add(Header(name: "x-amz-fwd-header-Content-Type", value: Swift.String(contentType)))
         }
-        if deleteMarker != false {
+        if let deleteMarker = deleteMarker {
             items.add(Header(name: "x-amz-fwd-header-x-amz-delete-marker", value: Swift.String(deleteMarker)))
         }
         if let eTag = eTag {
@@ -31214,7 +31222,7 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let lastModified = lastModified {
             items.add(Header(name: "x-amz-fwd-header-Last-Modified", value: Swift.String(TimestampFormatter(format: .httpDate).string(from: lastModified))))
         }
-        if missingMeta != 0 {
+        if let missingMeta = missingMeta {
             items.add(Header(name: "x-amz-fwd-header-x-amz-missing-meta", value: Swift.String(missingMeta)))
         }
         if let objectLockLegalHoldStatus = objectLockLegalHoldStatus {
@@ -31226,7 +31234,7 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let objectLockRetainUntilDate = objectLockRetainUntilDate {
             items.add(Header(name: "x-amz-fwd-header-x-amz-object-lock-retain-until-date", value: Swift.String(TimestampFormatter(format: .dateTime).string(from: objectLockRetainUntilDate))))
         }
-        if partsCount != 0 {
+        if let partsCount = partsCount {
             items.add(Header(name: "x-amz-fwd-header-x-amz-mp-parts-count", value: Swift.String(partsCount)))
         }
         if let replicationStatus = replicationStatus {
@@ -31256,13 +31264,13 @@ extension WriteGetObjectResponseInput: ClientRuntime.HeaderProvider {
         if let serverSideEncryption = serverSideEncryption {
             items.add(Header(name: "x-amz-fwd-header-x-amz-server-side-encryption", value: Swift.String(serverSideEncryption.rawValue)))
         }
-        if statusCode != 0 {
+        if let statusCode = statusCode {
             items.add(Header(name: "x-amz-fwd-status", value: Swift.String(statusCode)))
         }
         if let storageClass = storageClass {
             items.add(Header(name: "x-amz-fwd-header-x-amz-storage-class", value: Swift.String(storageClass.rawValue)))
         }
-        if tagCount != 0 {
+        if let tagCount = tagCount {
             items.add(Header(name: "x-amz-fwd-header-x-amz-tagging-count", value: Swift.String(tagCount)))
         }
         if let versionId = versionId {
@@ -31299,7 +31307,7 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     /// The object data.
     public var body: ClientRuntime.ByteStream?
     /// Indicates whether the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon Web Services KMS (SSE-KMS).
-    public var bucketKeyEnabled: Swift.Bool
+    public var bucketKeyEnabled: Swift.Bool?
     /// Specifies caching behavior along the request/reply chain.
     public var cacheControl: Swift.String?
     /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 32-bit CRC32 checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
@@ -31317,13 +31325,13 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     /// The language the content is in.
     public var contentLanguage: Swift.String?
     /// The size of the content body in bytes.
-    public var contentLength: Swift.Int
+    public var contentLength: Swift.Int?
     /// The portion of the object returned in the response.
     public var contentRange: Swift.String?
     /// A standard MIME type describing the format of the object data.
     public var contentType: Swift.String?
     /// Specifies whether an object stored in Amazon S3 is (true) or is not (false) a delete marker.
-    public var deleteMarker: Swift.Bool
+    public var deleteMarker: Swift.Bool?
     /// An opaque identifier assigned by a web server to a specific version of a resource found at a URL.
     public var eTag: Swift.String?
     /// A string that uniquely identifies an error condition. Returned in the  tag of the error XML response for a corresponding GetObject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in the body. All error codes from S3 are sentence-cased. The regular expression (regex) value is "^[A-Z][a-zA-Z]+$".
@@ -31339,7 +31347,7 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     /// A map of metadata to store with the object in S3.
     public var metadata: [Swift.String:Swift.String]?
     /// Set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
-    public var missingMeta: Swift.Int
+    public var missingMeta: Swift.Int?
     /// Indicates whether an object stored in Amazon S3 has an active legal hold.
     public var objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus?
     /// Indicates whether an object stored in Amazon S3 has Object Lock enabled. For more information about S3 Object Lock, see [Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html).
@@ -31347,7 +31355,7 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     /// The date and time when Object Lock is configured to expire.
     public var objectLockRetainUntilDate: ClientRuntime.Date?
     /// The count of parts this object has.
-    public var partsCount: Swift.Int
+    public var partsCount: Swift.Int?
     /// Indicates if request involves bucket that is either a source or destination in a Replication rule. For more information about S3 Replication, see [Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
     public var replicationStatus: S3ClientTypes.ReplicationStatus?
     /// If present, indicates that the requester was successfully charged for the request.
@@ -31397,18 +31405,18 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
     /// * 500 - Internal Server Error
     ///
     /// * 503 - Service Unavailable
-    public var statusCode: Swift.Int
+    public var statusCode: Swift.Int?
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html).
     public var storageClass: S3ClientTypes.StorageClass?
     /// The number of tags, if any, on the object.
-    public var tagCount: Swift.Int
+    public var tagCount: Swift.Int?
     /// An ID used to reference a specific version of the object.
     public var versionId: Swift.String?
 
     public init (
         acceptRanges: Swift.String? = nil,
         body: ClientRuntime.ByteStream? = nil,
-        bucketKeyEnabled: Swift.Bool = false,
+        bucketKeyEnabled: Swift.Bool? = nil,
         cacheControl: Swift.String? = nil,
         checksumCRC32: Swift.String? = nil,
         checksumCRC32C: Swift.String? = nil,
@@ -31417,10 +31425,10 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
         contentDisposition: Swift.String? = nil,
         contentEncoding: Swift.String? = nil,
         contentLanguage: Swift.String? = nil,
-        contentLength: Swift.Int = 0,
+        contentLength: Swift.Int? = nil,
         contentRange: Swift.String? = nil,
         contentType: Swift.String? = nil,
-        deleteMarker: Swift.Bool = false,
+        deleteMarker: Swift.Bool? = nil,
         eTag: Swift.String? = nil,
         errorCode: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
@@ -31428,11 +31436,11 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
         expires: ClientRuntime.Date? = nil,
         lastModified: ClientRuntime.Date? = nil,
         metadata: [Swift.String:Swift.String]? = nil,
-        missingMeta: Swift.Int = 0,
+        missingMeta: Swift.Int? = nil,
         objectLockLegalHoldStatus: S3ClientTypes.ObjectLockLegalHoldStatus? = nil,
         objectLockMode: S3ClientTypes.ObjectLockMode? = nil,
         objectLockRetainUntilDate: ClientRuntime.Date? = nil,
-        partsCount: Swift.Int = 0,
+        partsCount: Swift.Int? = nil,
         replicationStatus: S3ClientTypes.ReplicationStatus? = nil,
         requestCharged: S3ClientTypes.RequestCharged? = nil,
         requestRoute: Swift.String? = nil,
@@ -31442,9 +31450,9 @@ public struct WriteGetObjectResponseInput: Swift.Equatable {
         sseCustomerAlgorithm: Swift.String? = nil,
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
-        statusCode: Swift.Int = 0,
+        statusCode: Swift.Int? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
-        tagCount: Swift.Int = 0,
+        tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil
     )
     {

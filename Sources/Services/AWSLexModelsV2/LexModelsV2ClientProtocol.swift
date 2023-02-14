@@ -5,11 +5,11 @@ import ClientRuntime
 
 ///
 public protocol LexModelsV2ClientProtocol {
-    /// Batch create custom vocabulary item for the specified locale in the specified bot.
+    /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutputResponse
-    /// Batch delete custom vocabulary item for the specified locale in the specified bot.
+    /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutputResponse
-    /// Batch update custom vocabulary item for the specified locale in the specified bot.
+    /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutputResponse
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     func buildBotLocale(input: BuildBotLocaleInput) async throws -> BuildBotLocaleOutputResponse
@@ -53,7 +53,7 @@ public protocol LexModelsV2ClientProtocol {
     func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutputResponse
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
     func deleteBotLocale(input: DeleteBotLocaleInput) async throws -> DeleteBotLocaleOutputResponse
-    /// Deletes a specific version of a bot. To delete all version of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_DeleteBot.html) operation.
+    /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
     func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutputResponse
     /// Removes a custom vocabulary from the specified locale in the specified bot.
     func deleteCustomVocabulary(input: DeleteCustomVocabularyInput) async throws -> DeleteCustomVocabularyOutputResponse
@@ -71,7 +71,7 @@ public protocol LexModelsV2ClientProtocol {
     func deleteSlot(input: DeleteSlotInput) async throws -> DeleteSlotOutputResponse
     /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
     func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutputResponse
-    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
+    /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutputResponse
     /// Provides metadata information about a bot.
     func describeBot(input: DescribeBotInput) async throws -> DescribeBotOutputResponse
@@ -115,11 +115,11 @@ public protocol LexModelsV2ClientProtocol {
     func listBots(input: ListBotsInput) async throws -> ListBotsOutputResponse
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     func listBotVersions(input: ListBotVersionsInput) async throws -> ListBotVersionsOutputResponse
-    /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateIntent.html).
+    /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
     func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutputResponse
     /// Gets a list of built-in slot types that meet the specified criteria.
     func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput) async throws -> ListBuiltInSlotTypesOutputResponse
-    /// List custom vocabulary items for the specified locale in the specified bot.
+    /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
     func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutputResponse
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
@@ -155,7 +155,7 @@ public protocol LexModelsV2ClientProtocol {
     func updateBotLocale(input: UpdateBotLocaleInput) async throws -> UpdateBotLocaleOutputResponse
     /// Updates an existing bot recommendation request.
     func updateBotRecommendation(input: UpdateBotRecommendationInput) async throws -> UpdateBotRecommendationOutputResponse
-    /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeExport.html) operation.
+    /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
     func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutputResponse
     /// Updates the settings for an intent.
     func updateIntent(input: UpdateIntentInput) async throws -> UpdateIntentOutputResponse

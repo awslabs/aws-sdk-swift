@@ -2629,6 +2629,8 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
         case assetInformationList = "AssetInformationList"
         case catalogItemId = "CatalogItemId"
         case lineItemId = "LineItemId"
+        case previousLineItemId = "PreviousLineItemId"
+        case previousOrderId = "PreviousOrderId"
         case quantity = "Quantity"
         case shipmentInformation = "ShipmentInformation"
         case status = "Status"
@@ -2647,6 +2649,12 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
         }
         if let lineItemId = self.lineItemId {
             try encodeContainer.encode(lineItemId, forKey: .lineItemId)
+        }
+        if let previousLineItemId = self.previousLineItemId {
+            try encodeContainer.encode(previousLineItemId, forKey: .previousLineItemId)
+        }
+        if let previousOrderId = self.previousOrderId {
+            try encodeContainer.encode(previousOrderId, forKey: .previousOrderId)
         }
         if quantity != 0 {
             try encodeContainer.encode(quantity, forKey: .quantity)
@@ -2682,6 +2690,10 @@ extension OutpostsClientTypes.LineItem: Swift.Codable {
             }
         }
         assetInformationList = assetInformationListDecoded0
+        let previousLineItemIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousLineItemId)
+        previousLineItemId = previousLineItemIdDecoded
+        let previousOrderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .previousOrderId)
+        previousOrderId = previousOrderIdDecoded
     }
 }
 
@@ -2694,6 +2706,10 @@ extension OutpostsClientTypes {
         public var catalogItemId: Swift.String?
         /// The ID of the line item.
         public var lineItemId: Swift.String?
+        /// The ID of the previous line item.
+        public var previousLineItemId: Swift.String?
+        /// The ID of the previous order.
+        public var previousOrderId: Swift.String?
         /// The quantity of the line item.
         public var quantity: Swift.Int
         /// Information about a line item shipment.
@@ -2705,6 +2721,8 @@ extension OutpostsClientTypes {
             assetInformationList: [OutpostsClientTypes.LineItemAssetInformation]? = nil,
             catalogItemId: Swift.String? = nil,
             lineItemId: Swift.String? = nil,
+            previousLineItemId: Swift.String? = nil,
+            previousOrderId: Swift.String? = nil,
             quantity: Swift.Int = 0,
             shipmentInformation: OutpostsClientTypes.ShipmentInformation? = nil,
             status: OutpostsClientTypes.LineItemStatus? = nil
@@ -2713,6 +2731,8 @@ extension OutpostsClientTypes {
             self.assetInformationList = assetInformationList
             self.catalogItemId = catalogItemId
             self.lineItemId = lineItemId
+            self.previousLineItemId = previousLineItemId
+            self.previousOrderId = previousOrderId
             self.quantity = quantity
             self.shipmentInformation = shipmentInformation
             self.status = status
@@ -2832,6 +2852,7 @@ extension OutpostsClientTypes {
         case installed
         case installing
         case preparing
+        case replaced
         case shipped
         case sdkUnknown(Swift.String)
 
@@ -2844,6 +2865,7 @@ extension OutpostsClientTypes {
                 .installed,
                 .installing,
                 .preparing,
+                .replaced,
                 .shipped,
                 .sdkUnknown("")
             ]
@@ -2861,6 +2883,7 @@ extension OutpostsClientTypes {
             case .installed: return "INSTALLED"
             case .installing: return "INSTALLING"
             case .preparing: return "PREPARING"
+            case .replaced: return "REPLACED"
             case .shipped: return "SHIPPED"
             case let .sdkUnknown(s): return s
             }
@@ -3944,8 +3967,10 @@ extension OutpostsClientTypes.Order: Swift.Codable {
         case orderFulfilledDate = "OrderFulfilledDate"
         case orderId = "OrderId"
         case orderSubmissionDate = "OrderSubmissionDate"
+        case orderType = "OrderType"
         case outpostId = "OutpostId"
         case paymentOption = "PaymentOption"
+        case paymentTerm = "PaymentTerm"
         case status = "Status"
     }
 
@@ -3966,11 +3991,17 @@ extension OutpostsClientTypes.Order: Swift.Codable {
         if let orderSubmissionDate = self.orderSubmissionDate {
             try encodeContainer.encodeTimestamp(orderSubmissionDate, format: .epochSeconds, forKey: .orderSubmissionDate)
         }
+        if let orderType = self.orderType {
+            try encodeContainer.encode(orderType.rawValue, forKey: .orderType)
+        }
         if let outpostId = self.outpostId {
             try encodeContainer.encode(outpostId, forKey: .outpostId)
         }
         if let paymentOption = self.paymentOption {
             try encodeContainer.encode(paymentOption.rawValue, forKey: .paymentOption)
+        }
+        if let paymentTerm = self.paymentTerm {
+            try encodeContainer.encode(paymentTerm.rawValue, forKey: .paymentTerm)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -4002,6 +4033,10 @@ extension OutpostsClientTypes.Order: Swift.Codable {
         orderSubmissionDate = orderSubmissionDateDecoded
         let orderFulfilledDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .orderFulfilledDate)
         orderFulfilledDate = orderFulfilledDateDecoded
+        let paymentTermDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.PaymentTerm.self, forKey: .paymentTerm)
+        paymentTerm = paymentTermDecoded
+        let orderTypeDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.OrderType.self, forKey: .orderType)
+        orderType = orderTypeDecoded
     }
 }
 
@@ -4016,10 +4051,14 @@ extension OutpostsClientTypes {
         public var orderId: Swift.String?
         /// The submission date for the order.
         public var orderSubmissionDate: ClientRuntime.Date?
+        /// The type of order.
+        public var orderType: OutpostsClientTypes.OrderType?
         /// The ID of the Outpost in the order.
         public var outpostId: Swift.String?
         /// The payment option for the order.
         public var paymentOption: OutpostsClientTypes.PaymentOption?
+        /// The payment term.
+        public var paymentTerm: OutpostsClientTypes.PaymentTerm?
         /// The status of the order.
         ///
         /// * PREPARING - Order is received and being prepared.
@@ -4041,8 +4080,10 @@ extension OutpostsClientTypes {
             orderFulfilledDate: ClientRuntime.Date? = nil,
             orderId: Swift.String? = nil,
             orderSubmissionDate: ClientRuntime.Date? = nil,
+            orderType: OutpostsClientTypes.OrderType? = nil,
             outpostId: Swift.String? = nil,
             paymentOption: OutpostsClientTypes.PaymentOption? = nil,
+            paymentTerm: OutpostsClientTypes.PaymentTerm? = nil,
             status: OutpostsClientTypes.OrderStatus? = nil
         )
         {
@@ -4050,8 +4091,10 @@ extension OutpostsClientTypes {
             self.orderFulfilledDate = orderFulfilledDate
             self.orderId = orderId
             self.orderSubmissionDate = orderSubmissionDate
+            self.orderType = orderType
             self.outpostId = outpostId
             self.paymentOption = paymentOption
+            self.paymentTerm = paymentTerm
             self.status = status
         }
     }
@@ -5078,7 +5121,7 @@ extension StartConnectionInput: Swift.Encodable {
         if let deviceSerialNumber = self.deviceSerialNumber {
             try encodeContainer.encode(deviceSerialNumber, forKey: .deviceSerialNumber)
         }
-        if networkInterfaceDeviceIndex != 0 {
+        if let networkInterfaceDeviceIndex = self.networkInterfaceDeviceIndex {
             try encodeContainer.encode(networkInterfaceDeviceIndex, forKey: .networkInterfaceDeviceIndex)
         }
     }
@@ -5102,13 +5145,13 @@ public struct StartConnectionInput: Swift.Equatable {
     public var deviceSerialNumber: Swift.String?
     /// The device index of the network interface on the Outpost server.
     /// This member is required.
-    public var networkInterfaceDeviceIndex: Swift.Int
+    public var networkInterfaceDeviceIndex: Swift.Int?
 
     public init (
         assetId: Swift.String? = nil,
         clientPublicKey: Swift.String? = nil,
         deviceSerialNumber: Swift.String? = nil,
-        networkInterfaceDeviceIndex: Swift.Int = 0
+        networkInterfaceDeviceIndex: Swift.Int? = nil
     )
     {
         self.assetId = assetId
@@ -5122,7 +5165,7 @@ struct StartConnectionInputBody: Swift.Equatable {
     let deviceSerialNumber: Swift.String?
     let assetId: Swift.String?
     let clientPublicKey: Swift.String?
-    let networkInterfaceDeviceIndex: Swift.Int
+    let networkInterfaceDeviceIndex: Swift.Int?
 }
 
 extension StartConnectionInputBody: Swift.Decodable {
@@ -5141,7 +5184,7 @@ extension StartConnectionInputBody: Swift.Decodable {
         assetId = assetIdDecoded
         let clientPublicKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientPublicKey)
         clientPublicKey = clientPublicKeyDecoded
-        let networkInterfaceDeviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkInterfaceDeviceIndex) ?? 0
+        let networkInterfaceDeviceIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .networkInterfaceDeviceIndex)
         networkInterfaceDeviceIndex = networkInterfaceDeviceIndexDecoded
     }
 }

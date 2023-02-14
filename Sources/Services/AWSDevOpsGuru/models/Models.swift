@@ -4282,9 +4282,45 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension DevOpsGuruClientTypes.ListAnomaliesForInsightFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case serviceCollection = "ServiceCollection"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let serviceCollection = self.serviceCollection {
+            try encodeContainer.encode(serviceCollection, forKey: .serviceCollection)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceCollectionDecoded = try containerValues.decodeIfPresent(DevOpsGuruClientTypes.ServiceCollection.self, forKey: .serviceCollection)
+        serviceCollection = serviceCollectionDecoded
+    }
+}
+
+extension DevOpsGuruClientTypes {
+    /// Specifies one or more service names that are used to list anomalies.
+    public struct ListAnomaliesForInsightFilters: Swift.Equatable {
+        /// A collection of the names of Amazon Web Services services.
+        public var serviceCollection: DevOpsGuruClientTypes.ServiceCollection?
+
+        public init (
+            serviceCollection: DevOpsGuruClientTypes.ServiceCollection? = nil
+        )
+        {
+            self.serviceCollection = serviceCollection
+        }
+    }
+
+}
+
 extension ListAnomaliesForInsightInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case startTimeRange = "StartTimeRange"
@@ -4294,6 +4330,9 @@ extension ListAnomaliesForInsightInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
         }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
@@ -4319,6 +4358,8 @@ extension ListAnomaliesForInsightInput: ClientRuntime.URLPathProvider {
 public struct ListAnomaliesForInsightInput: Swift.Equatable {
     /// The ID of the Amazon Web Services account.
     public var accountId: Swift.String?
+    /// Specifies one or more service names that are used to list anomalies.
+    public var filters: DevOpsGuruClientTypes.ListAnomaliesForInsightFilters?
     /// The ID of the insight. The returned anomalies belong to this insight.
     /// This member is required.
     public var insightId: Swift.String?
@@ -4331,6 +4372,7 @@ public struct ListAnomaliesForInsightInput: Swift.Equatable {
 
     public init (
         accountId: Swift.String? = nil,
+        filters: DevOpsGuruClientTypes.ListAnomaliesForInsightFilters? = nil,
         insightId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -4338,6 +4380,7 @@ public struct ListAnomaliesForInsightInput: Swift.Equatable {
     )
     {
         self.accountId = accountId
+        self.filters = filters
         self.insightId = insightId
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4350,11 +4393,13 @@ struct ListAnomaliesForInsightInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let accountId: Swift.String?
+    let filters: DevOpsGuruClientTypes.ListAnomaliesForInsightFilters?
 }
 
 extension ListAnomaliesForInsightInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case startTimeRange = "StartTimeRange"
@@ -4370,6 +4415,8 @@ extension ListAnomaliesForInsightInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
         accountId = accountIdDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(DevOpsGuruClientTypes.ListAnomaliesForInsightFilters.self, forKey: .filters)
+        filters = filtersDecoded
     }
 }
 

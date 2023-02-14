@@ -751,13 +751,28 @@ extension CreateAutoPredictorInput: ClientRuntime.URLPathProvider {
 public struct CreateAutoPredictorInput: Swift.Equatable {
     /// The data configuration for your dataset group and any additional datasets.
     public var dataConfig: ForecastClientTypes.DataConfig?
-    /// An AWS Key Management Service (KMS) key and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
+    /// An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// Create an Explainability resource for the predictor.
     public var explainPredictor: Swift.Bool?
     /// An array of dimension (field) names that specify how to group the generated forecast. For example, if you are generating forecasts for item sales across all your stores, and your dataset contains a store_id field, you would specify store_id as a dimension to group sales forecasts for each store.
     public var forecastDimensions: [Swift.String]?
-    /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes. The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+    /// The frequency of predictions in a forecast. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following:
+    ///
+    /// * Minute - 1-59
+    ///
+    /// * Hour - 1-23
+    ///
+    /// * Day - 1-6
+    ///
+    /// * Week - 1-4
+    ///
+    /// * Month - 1-11
+    ///
+    /// * Year - 1
+    ///
+    ///
+    /// Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
     public var forecastFrequency: Swift.String?
     /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length. The maximum forecast horizon is the lesser of 500 time-steps or 1/4 of the TARGET_TIME_SERIES dataset length. If you are retraining an existing AutoPredictor, then the maximum forecast horizon is the lesser of 500 time-steps or 1/3 of the TARGET_TIME_SERIES dataset length. If you are upgrading to an AutoPredictor or retraining an existing AutoPredictor, you cannot update the forecast horizon parameter. You can meet this requirement by providing longer time-series in the dataset.
     public var forecastHorizon: Swift.Int?
@@ -1043,7 +1058,7 @@ public struct CreateDatasetGroupInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
 
     public init (
@@ -1184,6 +1199,7 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         case datasetImportJobName = "DatasetImportJobName"
         case format = "Format"
         case geolocationFormat = "GeolocationFormat"
+        case importMode = "ImportMode"
         case tags = "Tags"
         case timeZone = "TimeZone"
         case timestampFormat = "TimestampFormat"
@@ -1206,6 +1222,9 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         }
         if let geolocationFormat = self.geolocationFormat {
             try encodeContainer.encode(geolocationFormat, forKey: .geolocationFormat)
+        }
+        if let importMode = self.importMode {
+            try encodeContainer.encode(importMode.rawValue, forKey: .importMode)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -1232,7 +1251,7 @@ extension CreateDatasetImportJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDatasetImportJobInput: Swift.Equatable {
-    /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation.
+    /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation.
     /// This member is required.
     public var dataSource: ForecastClientTypes.DataSource?
     /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to.
@@ -1249,6 +1268,8 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     ///
     /// * CC_POSTALCODE (US Only) - the country code (US), followed by the 5-digit ZIP code (Example: US_98121).
     public var geolocationFormat: Swift.String?
+    /// Specifies whether the dataset import job is a FULL or INCREMENTAL import. A FULL dataset import replaces all of the existing data with the newly imported data. An INCREMENTAL import appends the imported data to the existing data.
+    public var importMode: ForecastClientTypes.ImportMode?
     /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:
     ///
     /// * Maximum number of tags per resource - 50.
@@ -1263,7 +1284,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
     /// A single time zone for every item in your dataset. This option is ideal for datasets with all timestamps within a single time zone, or if all timestamps are normalized to a single time zone. Refer to the [Joda-Time API](http://joda-time.sourceforge.net/timezones.html) for a complete list of valid time zone names.
     public var timeZone: Swift.String?
@@ -1285,6 +1306,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
         datasetImportJobName: Swift.String? = nil,
         format: Swift.String? = nil,
         geolocationFormat: Swift.String? = nil,
+        importMode: ForecastClientTypes.ImportMode? = nil,
         tags: [ForecastClientTypes.Tag]? = nil,
         timeZone: Swift.String? = nil,
         timestampFormat: Swift.String? = nil,
@@ -1296,6 +1318,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
         self.datasetImportJobName = datasetImportJobName
         self.format = format
         self.geolocationFormat = geolocationFormat
+        self.importMode = importMode
         self.tags = tags
         self.timeZone = timeZone
         self.timestampFormat = timestampFormat
@@ -1313,6 +1336,7 @@ struct CreateDatasetImportJobInputBody: Swift.Equatable {
     let geolocationFormat: Swift.String?
     let tags: [ForecastClientTypes.Tag]?
     let format: Swift.String?
+    let importMode: ForecastClientTypes.ImportMode?
 }
 
 extension CreateDatasetImportJobInputBody: Swift.Decodable {
@@ -1322,6 +1346,7 @@ extension CreateDatasetImportJobInputBody: Swift.Decodable {
         case datasetImportJobName = "DatasetImportJobName"
         case format = "Format"
         case geolocationFormat = "GeolocationFormat"
+        case importMode = "ImportMode"
         case tags = "Tags"
         case timeZone = "TimeZone"
         case timestampFormat = "TimestampFormat"
@@ -1357,6 +1382,8 @@ extension CreateDatasetImportJobInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
         format = formatDecoded
+        let importModeDecoded = try containerValues.decodeIfPresent(ForecastClientTypes.ImportMode.self, forKey: .importMode)
+        importMode = importModeDecoded
     }
 }
 
@@ -1478,7 +1505,22 @@ extension CreateDatasetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDatasetInput: Swift.Equatable {
-    /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
+    /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following:
+    ///
+    /// * Minute - 1-59
+    ///
+    /// * Hour - 1-23
+    ///
+    /// * Day - 1-6
+    ///
+    /// * Week - 1-4
+    ///
+    /// * Month - 1-11
+    ///
+    /// * Year - 1
+    ///
+    ///
+    /// Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M".
     public var dataFrequency: Swift.String?
     /// A name for the dataset.
     /// This member is required.
@@ -1489,7 +1531,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     /// The domain associated with the dataset. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation must match. The Domain and DatasetType that you choose determine the fields that must be present in the training data that you import to the dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires item_id, timestamp, and demand fields to be present in your data. For more information, see [Importing datasets](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html).
     /// This member is required.
     public var domain: ForecastClientTypes.Domain?
-    /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
+    /// An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and DatasetType that you choose determine the minimum required fields in your training data. For information about the required fields for a specific dataset domain and type, see [Dataset Domains and Dataset Types](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-domains-ds-types.html).
     /// This member is required.
@@ -1508,7 +1550,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
 
     public init (
@@ -1686,7 +1728,7 @@ extension CreateExplainabilityExportInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateExplainabilityExportInput: Swift.Equatable {
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
     /// The Amazon Resource Name (ARN) of the Explainability to export.
@@ -1895,9 +1937,9 @@ extension CreateExplainabilityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateExplainabilityInput: Swift.Equatable {
-    /// The source of your data, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an AWS Key Management Service (KMS) key.
+    /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
     public var dataSource: ForecastClientTypes.DataSource?
-    /// Create an Explainability visualization that is viewable within the AWS console.
+    /// Create an Explainability visualization that is viewable within the Amazon Web Services console.
     public var enableVisualization: Swift.Bool?
     /// If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example: 2015-01-01T20:00:00)
     public var endDateTime: Swift.String?
@@ -2120,7 +2162,7 @@ extension CreateForecastExportJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateForecastExportJobInput: Swift.Equatable {
-    /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
+    /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
     /// The Amazon Resource Name (ARN) of the forecast that you want to export.
@@ -2145,7 +2187,7 @@ public struct CreateForecastExportJobInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
 
     public init (
@@ -2340,7 +2382,7 @@ public struct CreateForecastInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
     /// Defines the set of time series that are used to create the forecasts in a TimeSeriesIdentifiers object. The TimeSeriesIdentifiers object needs the following information:
     ///
@@ -2683,7 +2725,7 @@ extension CreatePredictorBacktestExportJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePredictorBacktestExportJobInput: Swift.Equatable {
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
     /// The format of the exported data, CSV or PARQUET. The default value is CSV.
@@ -2936,9 +2978,9 @@ public struct CreatePredictorInput: Swift.Equatable {
     ///
     /// * arn:aws:forecast:::algorithm/Prophet
     public var algorithmArn: Swift.String?
-    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges. Used to overide the default AutoML strategy, which is to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
+    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact Amazon Web Services Support or your account manager to learn more about access privileges. Used to overide the default AutoML strategy, which is to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time, use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
     public var autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
-    /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
+    /// An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// Used to override the default evaluation parameters of the specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into training data and testing data. The evaluation parameters define how to perform the split and the number of iterations.
     public var evaluationParameters: ForecastClientTypes.EvaluationParameters?
@@ -2982,7 +3024,7 @@ public struct CreatePredictorInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [ForecastClientTypes.Tag]?
     /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see [aws-forecast-choosing-recipes].
     public var trainingParameters: [Swift.String:Swift.String]?
@@ -3409,7 +3451,7 @@ extension CreateWhatIfForecastExportInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWhatIfForecastExportInput: Swift.Equatable {
-    /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
+    /// The location where you want to save the forecast and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
     /// This member is required.
     public var destination: ForecastClientTypes.DataDestination?
     /// The format of the exported data, CSV or PARQUET.
@@ -3852,7 +3894,7 @@ extension ForecastClientTypes.DataDestination: Swift.Codable {
 }
 
 extension ForecastClientTypes {
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public struct DataDestination: Swift.Equatable {
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         /// This member is required.
@@ -3888,7 +3930,7 @@ extension ForecastClientTypes.DataSource: Swift.Codable {
 }
 
 extension ForecastClientTypes {
-    /// The source of your data, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an AWS Key Management Service (KMS) key.
+    /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
     public struct DataSource: Swift.Equatable {
         /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         /// This member is required.
@@ -3975,6 +4017,7 @@ extension ForecastClientTypes.DatasetImportJobSummary: Swift.Codable {
         case dataSource = "DataSource"
         case datasetImportJobArn = "DatasetImportJobArn"
         case datasetImportJobName = "DatasetImportJobName"
+        case importMode = "ImportMode"
         case lastModificationTime = "LastModificationTime"
         case message = "Message"
         case status = "Status"
@@ -3993,6 +4036,9 @@ extension ForecastClientTypes.DatasetImportJobSummary: Swift.Codable {
         }
         if let datasetImportJobName = self.datasetImportJobName {
             try encodeContainer.encode(datasetImportJobName, forKey: .datasetImportJobName)
+        }
+        if let importMode = self.importMode {
+            try encodeContainer.encode(importMode.rawValue, forKey: .importMode)
         }
         if let lastModificationTime = self.lastModificationTime {
             try encodeContainer.encodeTimestamp(lastModificationTime, format: .epochSeconds, forKey: .lastModificationTime)
@@ -4021,6 +4067,8 @@ extension ForecastClientTypes.DatasetImportJobSummary: Swift.Codable {
         creationTime = creationTimeDecoded
         let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
         lastModificationTime = lastModificationTimeDecoded
+        let importModeDecoded = try containerValues.decodeIfPresent(ForecastClientTypes.ImportMode.self, forKey: .importMode)
+        importMode = importModeDecoded
     }
 }
 
@@ -4029,12 +4077,14 @@ extension ForecastClientTypes {
     public struct DatasetImportJobSummary: Swift.Equatable {
         /// When the dataset import job was created.
         public var creationTime: ClientRuntime.Date?
-        /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
+        /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an Key Management Service (KMS) key.
         public var dataSource: ForecastClientTypes.DataSource?
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public var datasetImportJobArn: Swift.String?
         /// The name of the dataset import job.
         public var datasetImportJobName: Swift.String?
+        /// The import mode of the dataset import job, FULL or INCREMENTAL.
+        public var importMode: ForecastClientTypes.ImportMode?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
         ///
         /// * CREATE_PENDING - The CreationTime.
@@ -4065,6 +4115,7 @@ extension ForecastClientTypes {
             dataSource: ForecastClientTypes.DataSource? = nil,
             datasetImportJobArn: Swift.String? = nil,
             datasetImportJobName: Swift.String? = nil,
+            importMode: ForecastClientTypes.ImportMode? = nil,
             lastModificationTime: ClientRuntime.Date? = nil,
             message: Swift.String? = nil,
             status: Swift.String? = nil
@@ -4074,6 +4125,7 @@ extension ForecastClientTypes {
             self.dataSource = dataSource
             self.datasetImportJobArn = datasetImportJobArn
             self.datasetImportJobName = datasetImportJobName
+            self.importMode = importMode
             self.lastModificationTime = lastModificationTime
             self.message = message
             self.status = status
@@ -5553,7 +5605,7 @@ public struct DescribeAutoPredictorOutputResponse: Swift.Equatable {
     public var dataConfig: ForecastClientTypes.DataConfig?
     /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
     public var datasetImportJobArns: [Swift.String]?
-    /// An AWS Key Management Service (KMS) key and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
+    /// An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// The estimated time remaining in minutes for the predictor training job to complete.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
@@ -6044,6 +6096,7 @@ extension DescribeDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBind
             self.fieldStatistics = output.fieldStatistics
             self.format = output.format
             self.geolocationFormat = output.geolocationFormat
+            self.importMode = output.importMode
             self.lastModificationTime = output.lastModificationTime
             self.message = output.message
             self.status = output.status
@@ -6061,6 +6114,7 @@ extension DescribeDatasetImportJobOutputResponse: ClientRuntime.HttpResponseBind
             self.fieldStatistics = nil
             self.format = nil
             self.geolocationFormat = nil
+            self.importMode = nil
             self.lastModificationTime = nil
             self.message = nil
             self.status = nil
@@ -6076,7 +6130,7 @@ public struct DescribeDatasetImportJobOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The size of the dataset in gigabytes (GB) after the import job has finished.
     public var dataSize: Swift.Double?
-    /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
+    /// The location of the training data to import and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. If encryption is used, DataSource includes an Key Management Service (KMS) key.
     public var dataSource: ForecastClientTypes.DataSource?
     /// The Amazon Resource Name (ARN) of the dataset that the training data was imported to.
     public var datasetArn: Swift.String?
@@ -6092,6 +6146,8 @@ public struct DescribeDatasetImportJobOutputResponse: Swift.Equatable {
     public var format: Swift.String?
     /// The format of the geolocation attribute. Valid Values:"LAT_LONG" and "CC_POSTALCODE".
     public var geolocationFormat: Swift.String?
+    /// The import mode of the dataset import job, FULL or INCREMENTAL.
+    public var importMode: ForecastClientTypes.ImportMode?
     /// The last time the resource was modified. The timestamp depends on the status of the job:
     ///
     /// * CREATE_PENDING - The CreationTime.
@@ -6138,6 +6194,7 @@ public struct DescribeDatasetImportJobOutputResponse: Swift.Equatable {
         fieldStatistics: [Swift.String:ForecastClientTypes.Statistics]? = nil,
         format: Swift.String? = nil,
         geolocationFormat: Swift.String? = nil,
+        importMode: ForecastClientTypes.ImportMode? = nil,
         lastModificationTime: ClientRuntime.Date? = nil,
         message: Swift.String? = nil,
         status: Swift.String? = nil,
@@ -6156,6 +6213,7 @@ public struct DescribeDatasetImportJobOutputResponse: Swift.Equatable {
         self.fieldStatistics = fieldStatistics
         self.format = format
         self.geolocationFormat = geolocationFormat
+        self.importMode = importMode
         self.lastModificationTime = lastModificationTime
         self.message = message
         self.status = status
@@ -6182,6 +6240,7 @@ struct DescribeDatasetImportJobOutputResponseBody: Swift.Equatable {
     let creationTime: ClientRuntime.Date?
     let lastModificationTime: ClientRuntime.Date?
     let format: Swift.String?
+    let importMode: ForecastClientTypes.ImportMode?
 }
 
 extension DescribeDatasetImportJobOutputResponseBody: Swift.Decodable {
@@ -6196,6 +6255,7 @@ extension DescribeDatasetImportJobOutputResponseBody: Swift.Decodable {
         case fieldStatistics = "FieldStatistics"
         case format = "Format"
         case geolocationFormat = "GeolocationFormat"
+        case importMode = "ImportMode"
         case lastModificationTime = "LastModificationTime"
         case message = "Message"
         case status = "Status"
@@ -6247,6 +6307,8 @@ extension DescribeDatasetImportJobOutputResponseBody: Swift.Decodable {
         lastModificationTime = lastModificationTimeDecoded
         let formatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .format)
         format = formatDecoded
+        let importModeDecoded = try containerValues.decodeIfPresent(ForecastClientTypes.ImportMode.self, forKey: .importMode)
+        importMode = importModeDecoded
     }
 }
 
@@ -6366,7 +6428,7 @@ public struct DescribeDatasetOutputResponse: Swift.Equatable {
     public var datasetType: ForecastClientTypes.DatasetType?
     /// The domain associated with the dataset.
     public var domain: ForecastClientTypes.Domain?
-    /// The AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
+    /// The Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// When you create a dataset, LastModificationTime is the same as CreationTime. While data is being imported to the dataset, LastModificationTime is the current time of the DescribeDataset call. After a [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation has finished, LastModificationTime is when the import job completed or failed.
     public var lastModificationTime: ClientRuntime.Date?
@@ -6568,7 +6630,7 @@ extension DescribeExplainabilityExportOutputResponse: ClientRuntime.HttpResponse
 public struct DescribeExplainabilityExportOutputResponse: Swift.Equatable {
     /// When the Explainability export was created.
     public var creationTime: ClientRuntime.Date?
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The Amazon Resource Name (ARN) of the Explainability export.
     public var explainabilityArn: Swift.String?
@@ -6789,7 +6851,7 @@ extension DescribeExplainabilityOutputResponse: ClientRuntime.HttpResponseBindin
 public struct DescribeExplainabilityOutputResponse: Swift.Equatable {
     /// When the Explainability resource was created.
     public var creationTime: ClientRuntime.Date?
-    /// The source of your data, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an AWS Key Management Service (KMS) key.
+    /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
     public var dataSource: ForecastClientTypes.DataSource?
     /// Whether the visualization was enabled for the Explainability resource.
     public var enableVisualization: Swift.Bool?
@@ -7710,7 +7772,7 @@ extension DescribePredictorBacktestExportJobOutputResponse: ClientRuntime.HttpRe
 public struct DescribePredictorBacktestExportJobOutputResponse: Swift.Equatable {
     /// When the predictor backtest export job was created.
     public var creationTime: ClientRuntime.Date?
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The format of the exported data, CSV or PARQUET.
     public var format: Swift.String?
@@ -7953,13 +8015,13 @@ public struct DescribePredictorOutputResponse: Swift.Equatable {
     public var algorithmArn: Swift.String?
     /// When PerformAutoML is specified, the ARN of the chosen algorithm.
     public var autoMLAlgorithmArns: [Swift.String]?
-    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact Amazon Web Services Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
     public var autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
     /// When the model training task was created.
     public var creationTime: ClientRuntime.Date?
     /// An array of the ARNs of the dataset import jobs used to import training data for the predictor.
     public var datasetImportJobArns: [Swift.String]?
-    /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
+    /// An Key Management Service (KMS) key and the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
     public var encryptionConfig: ForecastClientTypes.EncryptionConfig?
     /// The estimated time remaining in minutes for the predictor training job to complete.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
@@ -8543,7 +8605,7 @@ extension DescribeWhatIfForecastExportOutputResponse: ClientRuntime.HttpResponse
 public struct DescribeWhatIfForecastExportOutputResponse: Swift.Equatable {
     /// When the what-if forecast export was created.
     public var creationTime: ClientRuntime.Date?
-    /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+    /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
     public var destination: ForecastClientTypes.DataDestination?
     /// The approximate time remaining to complete the what-if forecast export, in minutes.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
@@ -8780,7 +8842,7 @@ public struct DescribeWhatIfForecastOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The approximate time remaining to complete the what-if forecast, in minutes.
     public var estimatedTimeRemainingInMinutes: Swift.Int?
-    /// The quantiles at which probabilistic forecasts are generated. You can specify up to 5 quantiles per what-if forecast in the [CreateWhatIfForecast] operation. If you didn't specify quantiles, the default values are ["0.1", "0.5", "0.9"].
+    /// The quantiles at which probabilistic forecasts are generated. You can specify up to five quantiles per what-if forecast in the [CreateWhatIfForecast] operation. If you didn't specify quantiles, the default values are ["0.1", "0.5", "0.9"].
     public var forecastTypes: [Swift.String]?
     /// The last time the resource was modified. The timestamp depends on the status of the job:
     ///
@@ -8995,12 +9057,12 @@ extension ForecastClientTypes.EncryptionConfig: Swift.Codable {
 }
 
 extension ForecastClientTypes {
-    /// An AWS Key Management Service (KMS) key and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
+    /// An Key Management Service (KMS) key and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key. You can specify this optional object in the [CreateDataset] and [CreatePredictor] requests.
     public struct EncryptionConfig: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the KMS key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
-        /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS KMS key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
+        /// The ARN of the IAM role that Amazon Forecast can assume to access the KMS key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         /// This member is required.
         public var roleArn: Swift.String?
 
@@ -9332,7 +9394,7 @@ extension ForecastClientTypes {
     public struct ExplainabilityExportSummary: Swift.Equatable {
         /// When the Explainability was created.
         public var creationTime: ClientRuntime.Date?
-        /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+        /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
         public var destination: ForecastClientTypes.DataDestination?
         /// The Amazon Resource Name (ARN) of the Explainability export.
         public var explainabilityExportArn: Swift.String?
@@ -9697,7 +9759,22 @@ extension ForecastClientTypes {
         public var featurizations: [ForecastClientTypes.Featurization]?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
         public var forecastDimensions: [Swift.String]?
-        /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes. The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+        /// The frequency of predictions in a forecast. Valid intervals are an integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, "1D" indicates every day and "15min" indicates every 15 minutes. You cannot specify a value that would overlap with the next larger frequency. That means, for example, you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are the following:
+        ///
+        /// * Minute - 1-59
+        ///
+        /// * Hour - 1-23
+        ///
+        /// * Day - 1-6
+        ///
+        /// * Week - 1-4
+        ///
+        /// * Month - 1-11
+        ///
+        /// * Year - 1
+        ///
+        ///
+        /// Thus, if you want every other week forecasts, specify "2W". Or, if you want quarterly forecasts, you specify "3M". The frequency must be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the TARGET_TIME_SERIES dataset frequency.
         /// This member is required.
         public var forecastFrequency: Swift.String?
 
@@ -10265,7 +10342,7 @@ extension GetAccuracyMetricsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetAccuracyMetricsOutputResponse: Swift.Equatable {
-    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact AWS Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
+    /// The LatencyOptimized AutoML override strategy is only available in private beta. Contact Amazon Web Services Support or your account manager to learn more about access privileges. The AutoML strategy used to train the predictor. Unless LatencyOptimized is specified, the AutoML strategy optimizes predictor accuracy. This parameter is only valid for predictors trained using AutoML.
     public var autoMLOverrideStrategy: ForecastClientTypes.AutoMLOverrideStrategy?
     /// Whether the predictor was created with [CreateAutoPredictor].
     public var isAutoPredictor: Swift.Bool?
@@ -10358,6 +10435,38 @@ extension ForecastClientTypes {
         }
     }
 
+}
+
+extension ForecastClientTypes {
+    public enum ImportMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case full
+        case incremental
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImportMode] {
+            return [
+                .full,
+                .incremental,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .incremental: return "INCREMENTAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ImportMode(rawValue: rawValue) ?? ImportMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ForecastClientTypes.InputDataConfig: Swift.Codable {
@@ -13840,7 +13949,7 @@ extension ForecastClientTypes {
     public struct PredictorBacktestExportJobSummary: Swift.Equatable {
         /// When the predictor backtest export job was created.
         public var creationTime: ClientRuntime.Date?
-        /// The destination for an export job. Provide an S3 path, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an AWS Key Management Service (KMS) key (optional).
+        /// The destination for an export job. Provide an S3 path, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the location, and an Key Management Service (KMS) key (optional).
         public var destination: ForecastClientTypes.DataDestination?
         /// The last time the resource was modified. The timestamp depends on the status of the job:
         ///
@@ -14691,14 +14800,14 @@ extension ForecastClientTypes.S3Config: Swift.Codable {
 }
 
 extension ForecastClientTypes {
-    /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an AWS Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
+    /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
     public struct S3Config: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
+        /// The Amazon Resource Name (ARN) of an Key Management Service (KMS) key.
         public var kmsKeyArn: Swift.String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
         /// This member is required.
         public var path: Swift.String?
-        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
+        /// The ARN of the Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket or files. If you provide a value for the KMSKeyArn key, the role must allow access to the key. Passing a role across Amazon Web Services accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
         /// This member is required.
         public var roleArn: Swift.String?
 
@@ -15331,7 +15440,7 @@ extension ForecastClientTypes {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public struct Tag: Swift.Equatable {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
@@ -15396,7 +15505,7 @@ public struct TagResourceInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     /// This member is required.
     public var tags: [ForecastClientTypes.Tag]?
 
@@ -15767,7 +15876,7 @@ extension ForecastClientTypes.TimeSeriesIdentifiers: Swift.Codable {
 extension ForecastClientTypes {
     /// Details about the import file that contains the time series for which you want to create forecasts.
     public struct TimeSeriesIdentifiers: Swift.Equatable {
-        /// The source of your data, an AWS Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an AWS Key Management Service (KMS) key.
+        /// The source of your data, an Identity and Access Management (IAM) role that allows Amazon Forecast to access the data and, optionally, an Key Management Service (KMS) key.
         public var dataSource: ForecastClientTypes.DataSource?
         /// The format of the data, either CSV or PARQUET.
         public var format: Swift.String?
@@ -15830,7 +15939,7 @@ extension ForecastClientTypes {
     public struct TimeSeriesReplacementsDataSource: Swift.Equatable {
         /// The format of the replacement data, CSV or PARQUET.
         public var format: Swift.String?
-        /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an AWS Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
+        /// The path to the file(s) in an Amazon Simple Storage Service (Amazon S3) bucket, and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the file(s). Optionally, includes an Key Management Service (KMS) key. This object is part of the [DataSource] object that is submitted in the [CreateDatasetImportJob] request, and part of the [DataDestination] object.
         /// This member is required.
         public var s3Config: ForecastClientTypes.S3Config?
         /// Defines the fields of a dataset.

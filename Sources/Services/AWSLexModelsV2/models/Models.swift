@@ -583,7 +583,7 @@ extension LexModelsV2ClientTypes.AudioLogDestination: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// The location of audio log files collected when conversation logging is enabled for a bot.
     public struct AudioLogDestination: Swift.Equatable {
-        /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateBot.html) operation must have permission to write to this bucket.
+        /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation must have permission to write to this bucket.
         /// This member is required.
         public var s3Bucket: LexModelsV2ClientTypes.S3BucketLogDestination?
 
@@ -752,16 +752,16 @@ extension BatchCreateCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchCreateCustomVocabularyItemInput: Swift.Equatable {
-    /// The unique identifier of the bot to batch create the custom vocabulary item for.
+    /// The identifier of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
-    /// The bot version of the bot to batch create the custom vocabulary item for.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botVersion: Swift.String?
-    /// The custom vocabulary item list of the bot to batch create the custom vocabulary item for.
+    /// A list of new custom vocabulary items. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
     /// This member is required.
     public var customVocabularyItemList: [LexModelsV2ClientTypes.NewCustomVocabularyItem]?
-    /// The unique locale identifier of the bot to batch create the custom vocabulary item for.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
 
@@ -856,15 +856,15 @@ extension BatchCreateCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct BatchCreateCustomVocabularyItemOutputResponse: Swift.Equatable {
-    /// The unique identifier of the bot to batch create response for the custom vocabulary item.
+    /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
-    /// The bot version of the bot to batch create the custom vocabulary item response for.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     public var botVersion: Swift.String?
-    /// The errors of the action to batch create the custom vocabulary item response for a bot.
+    /// A list of custom vocabulary items that failed to create during the operation. The reason for the error is contained within each error object.
     public var errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]?
-    /// The unique locale identifier of the bot to batch create the custom vocabulary item response for.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     public var localeId: Swift.String?
-    /// The resources of the action to batch create the custom vocabulary item response for a bot.
+    /// A list of custom vocabulary items that were successfully created during the operation.
     public var resources: [LexModelsV2ClientTypes.CustomVocabularyItem]?
 
     public init (
@@ -965,16 +965,16 @@ extension BatchDeleteCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchDeleteCustomVocabularyItemInput: Swift.Equatable {
-    /// The unique identifier of the bot to batch delete request for the custom vocabulary item.
+    /// The identifier of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
-    /// The version of the bot to batch delete request for the custom vocabulary item.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botVersion: Swift.String?
-    /// The custom vocabulary list to batch delete request for the custom vocabulary item.
+    /// A list of custom vocabulary items requested to be deleted. Each entry must contain the unique custom vocabulary entry identifier.
     /// This member is required.
     public var customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyEntryId]?
-    /// The locale identifier of the bot to batch delete request for the custom vocabulary item.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
 
@@ -1069,15 +1069,15 @@ extension BatchDeleteCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct BatchDeleteCustomVocabularyItemOutputResponse: Swift.Equatable {
-    /// The unique identifier of the bot to batch delete response for the custom vocabulary item.
+    /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
-    /// The version of the bot to batch delete response for the custom vocabulary item.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     public var botVersion: Swift.String?
-    /// The errors of the action to batch delete response for the custom vocabulary item.
+    /// A list of custom vocabulary items that failed to delete during the operation. The reason for the error is contained within each error object.
     public var errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]?
-    /// The locale identifier of the bot to batch delete response for the custom vocabulary item.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see Supported languages (https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     public var localeId: Swift.String?
-    /// The resources of the action to batch delete response for the custom vocabulary item.
+    /// A list of custom vocabulary items that were successfully deleted during the operation.
     public var resources: [LexModelsV2ClientTypes.CustomVocabularyItem]?
 
     public init (
@@ -1178,16 +1178,16 @@ extension BatchUpdateCustomVocabularyItemInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BatchUpdateCustomVocabularyItemInput: Swift.Equatable {
-    /// The unique identifier of the bot to the batch update request for the custom vocabulary item.
+    /// The identifier of the bot associated with this custom vocabulary
     /// This member is required.
     public var botId: Swift.String?
-    /// The bot version of the bot to the batch update request for the custom vocabulary item.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botVersion: Swift.String?
-    /// The custom vocabulary item list of the bot to the batch update request for the custom vocabulary item.
+    /// A list of custom vocabulary items with updated fields. Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
     /// This member is required.
     public var customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyItem]?
-    /// The locale identifier of the bot to the batch update request for the custom vocabulary item.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
 
@@ -1282,15 +1282,15 @@ extension BatchUpdateCustomVocabularyItemOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct BatchUpdateCustomVocabularyItemOutputResponse: Swift.Equatable {
-    /// The unique identifier of the bot to the batch update response for the custom vocabulary item.
+    /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
-    /// The bot version of the bot to the batch update response for the custom vocabulary item.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     public var botVersion: Swift.String?
-    /// The errors of the action to batch update response for the custom vocabulary item.
+    /// A list of custom vocabulary items that failed to update during the operation. The reason for the error is contained within each error object.
     public var errors: [LexModelsV2ClientTypes.FailedCustomVocabularyItem]?
-    /// The locale identifier of the bot to the batch update response for the custom vocabulary item.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     public var localeId: Swift.String?
-    /// The resources of the action to batch update response for the custom vocabulary item.
+    /// A list of custom vocabulary items that were successfully updated during the operation.
     public var resources: [LexModelsV2ClientTypes.CustomVocabularyItem]?
 
     public init (
@@ -1554,9 +1554,9 @@ extension LexModelsV2ClientTypes.BotAliasSummary: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Summary information about bot aliases returned from the [ListBotAliases](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBotAliases.html) operation.
+    /// Summary information about bot aliases returned from the [ListBotAliases](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotAliases.html) operation.
     public struct BotAliasSummary: Swift.Equatable {
-        /// The unique identifier assigned to the bot alias. You can use this ID to get detailed information about the alias using the [DescribeBotAlias](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeBotAlias.html) operation.
+        /// The unique identifier assigned to the bot alias. You can use this ID to get detailed information about the alias using the [DescribeBotAlias](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBotAlias.html) operation.
         public var botAliasId: Swift.String?
         /// The name of the bot alias.
         public var botAliasName: Swift.String?
@@ -1713,11 +1713,13 @@ extension LexModelsV2ClientTypes {
 extension LexModelsV2ClientTypes {
     public enum BotFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case botname
+        case bottype
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BotFilterName] {
             return [
                 .botname,
+                .bottype,
                 .sdkUnknown("")
             ]
         }
@@ -1728,6 +1730,7 @@ extension LexModelsV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .botname: return "BotName"
+            case .bottype: return "BotType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1743,12 +1746,14 @@ extension LexModelsV2ClientTypes {
     public enum BotFilterOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case contains
         case equals
+        case notequals
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BotFilterOperator] {
             return [
                 .contains,
                 .equals,
+                .notequals,
                 .sdkUnknown("")
             ]
         }
@@ -1760,6 +1765,7 @@ extension LexModelsV2ClientTypes {
             switch self {
             case .contains: return "CO"
             case .equals: return "EQ"
+            case .notequals: return "NE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2384,7 +2390,7 @@ extension LexModelsV2ClientTypes.BotLocaleSummary: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Summary information about bot locales returned by the [ListBotLocales](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBotLocales.html) operation.
+    /// Summary information about bot locales returned by the [ListBotLocales](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotLocales.html) operation.
     public struct BotLocaleSummary: Swift.Equatable {
         /// The current status of the bot locale. When the status is Built the locale is ready for use.
         public var botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus?
@@ -2414,6 +2420,86 @@ extension LexModelsV2ClientTypes {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.localeName = localeName
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.BotMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botMemberAliasId
+        case botMemberAliasName
+        case botMemberId
+        case botMemberName
+        case botMemberVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botMemberAliasId = self.botMemberAliasId {
+            try encodeContainer.encode(botMemberAliasId, forKey: .botMemberAliasId)
+        }
+        if let botMemberAliasName = self.botMemberAliasName {
+            try encodeContainer.encode(botMemberAliasName, forKey: .botMemberAliasName)
+        }
+        if let botMemberId = self.botMemberId {
+            try encodeContainer.encode(botMemberId, forKey: .botMemberId)
+        }
+        if let botMemberName = self.botMemberName {
+            try encodeContainer.encode(botMemberName, forKey: .botMemberName)
+        }
+        if let botMemberVersion = self.botMemberVersion {
+            try encodeContainer.encode(botMemberVersion, forKey: .botMemberVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botMemberIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botMemberId)
+        botMemberId = botMemberIdDecoded
+        let botMemberNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botMemberName)
+        botMemberName = botMemberNameDecoded
+        let botMemberAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botMemberAliasId)
+        botMemberAliasId = botMemberAliasIdDecoded
+        let botMemberAliasNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botMemberAliasName)
+        botMemberAliasName = botMemberAliasNameDecoded
+        let botMemberVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botMemberVersion)
+        botMemberVersion = botMemberVersionDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// A bot that is a member of a network of bots.
+    public struct BotMember: Swift.Equatable {
+        /// The alias ID of a bot that is a member of this network of bots.
+        /// This member is required.
+        public var botMemberAliasId: Swift.String?
+        /// The alias name of a bot that is a member of this network of bots.
+        /// This member is required.
+        public var botMemberAliasName: Swift.String?
+        /// The unique ID of a bot that is a member of this network of bots.
+        /// This member is required.
+        public var botMemberId: Swift.String?
+        /// The unique name of a bot that is a member of this network of bots.
+        /// This member is required.
+        public var botMemberName: Swift.String?
+        /// The version of a bot that is a member of this network of bots.
+        /// This member is required.
+        public var botMemberVersion: Swift.String?
+
+        public init (
+            botMemberAliasId: Swift.String? = nil,
+            botMemberAliasName: Swift.String? = nil,
+            botMemberId: Swift.String? = nil,
+            botMemberName: Swift.String? = nil,
+            botMemberVersion: Swift.String? = nil
+        )
+        {
+            self.botMemberAliasId = botMemberAliasId
+            self.botMemberAliasName = botMemberAliasName
+            self.botMemberId = botMemberId
+            self.botMemberName = botMemberName
+            self.botMemberVersion = botMemberVersion
         }
     }
 
@@ -2723,6 +2809,7 @@ extension LexModelsV2ClientTypes {
         case failed
         case importing
         case inactive
+        case updating
         case versioning
         case sdkUnknown(Swift.String)
 
@@ -2734,6 +2821,7 @@ extension LexModelsV2ClientTypes {
                 .failed,
                 .importing,
                 .inactive,
+                .updating,
                 .versioning,
                 .sdkUnknown("")
             ]
@@ -2750,6 +2838,7 @@ extension LexModelsV2ClientTypes {
             case .failed: return "Failed"
             case .importing: return "Importing"
             case .inactive: return "Inactive"
+            case .updating: return "Updating"
             case .versioning: return "Versioning"
             case let .sdkUnknown(s): return s
             }
@@ -2767,6 +2856,7 @@ extension LexModelsV2ClientTypes.BotSummary: Swift.Codable {
         case botId
         case botName
         case botStatus
+        case botType
         case description
         case lastUpdatedDateTime
         case latestBotVersion
@@ -2782,6 +2872,9 @@ extension LexModelsV2ClientTypes.BotSummary: Swift.Codable {
         }
         if let botStatus = self.botStatus {
             try encodeContainer.encode(botStatus.rawValue, forKey: .botStatus)
+        }
+        if let botType = self.botType {
+            try encodeContainer.encode(botType.rawValue, forKey: .botType)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -2808,18 +2901,22 @@ extension LexModelsV2ClientTypes.BotSummary: Swift.Codable {
         latestBotVersion = latestBotVersionDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
     }
 }
 
 extension LexModelsV2ClientTypes {
-    /// Summary information about a bot returned by the [ListBots](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBots.html) operation.
+    /// Summary information about a bot returned by the [ListBots](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBots.html) operation.
     public struct BotSummary: Swift.Equatable {
-        /// The unique identifier assigned to the bot. Use this ID to get detailed information about the bot with the [DescribeBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeBot.html) operation.
+        /// The unique identifier assigned to the bot. Use this ID to get detailed information about the bot with the [DescribeBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBot.html) operation.
         public var botId: Swift.String?
         /// The name of the bot.
         public var botName: Swift.String?
         /// The current status of the bot. When the status is Available the bot is ready for use.
         public var botStatus: LexModelsV2ClientTypes.BotStatus?
+        /// The type of the bot.
+        public var botType: LexModelsV2ClientTypes.BotType?
         /// The description of the bot.
         public var description: Swift.String?
         /// The date and time that the bot was last updated.
@@ -2831,6 +2928,7 @@ extension LexModelsV2ClientTypes {
             botId: Swift.String? = nil,
             botName: Swift.String? = nil,
             botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
+            botType: LexModelsV2ClientTypes.BotType? = nil,
             description: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
             latestBotVersion: Swift.String? = nil
@@ -2839,12 +2937,45 @@ extension LexModelsV2ClientTypes {
             self.botId = botId
             self.botName = botName
             self.botStatus = botStatus
+            self.botType = botType
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.latestBotVersion = latestBotVersion
         }
     }
 
+}
+
+extension LexModelsV2ClientTypes {
+    public enum BotType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bot
+        case botnetwork
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotType] {
+            return [
+                .bot,
+                .botnetwork,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bot: return "Bot"
+            case .botnetwork: return "BotNetwork"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BotType(rawValue: rawValue) ?? BotType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension LexModelsV2ClientTypes.BotVersionLocaleDetails: Swift.Codable {
@@ -3003,7 +3134,7 @@ extension LexModelsV2ClientTypes.BotVersionSummary: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Summary information about a bot version returned by the [ListBotVersions](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBotVersions.html) operation.
+    /// Summary information about a bot version returned by the [ListBotVersions](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotVersions.html) operation.
     public struct BotVersionSummary: Swift.Equatable {
         /// The name of the bot associated with the version.
         public var botName: Swift.String?
@@ -3050,7 +3181,7 @@ extension BuildBotLocaleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct BuildBotLocaleInput: Swift.Equatable {
-    /// The identifier of the bot to build. The identifier is returned in the response from the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateBot.html) operation.
+    /// The identifier of the bot to build. The identifier is returned in the response from the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation.
     /// This member is required.
     public var botId: Swift.String?
     /// The version of the bot to build. This can only be the draft version of the bot.
@@ -3296,7 +3427,7 @@ extension LexModelsV2ClientTypes.BuiltInIntentSummary: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Provides summary information about a built-in intent for the [ ListBuiltInIntents ](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBuiltInIntents.html) operation.
+    /// Provides summary information about a built-in intent for the [ ListBuiltInIntents ](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInIntents.html) operation.
     public struct BuiltInIntentSummary: Swift.Equatable {
         /// The description of the intent.
         public var description: Swift.String?
@@ -3417,7 +3548,7 @@ extension LexModelsV2ClientTypes.BuiltInSlotTypeSummary: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Provides summary information about a built-in slot type for the [ ListBuiltInSlotTypes ](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListBuiltInSlotTypes.html) operation.
+    /// Provides summary information about a built-in slot type for the [ ListBuiltInSlotTypes ](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInSlotTypes.html) operation.
     public struct BuiltInSlotTypeSummary: Swift.Equatable {
         /// The description of the built-in slot type.
         public var description: Swift.String?
@@ -3969,7 +4100,7 @@ public struct CreateBotAliasInput: Swift.Equatable {
     /// The unique identifier of the bot that the alias applies to.
     /// This member is required.
     public var botId: Swift.String?
-    /// The version of the bot that this alias points to. You can use the [UpdateBotAlias](https://docs.aws.amazon.com/lexv2/latest/dg/API_UpdateBotAlias.html) operation to change the bot version associated with the alias.
+    /// The version of the bot that this alias points to. You can use the [UpdateBotAlias](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_UpdateBotAlias.html) operation to change the bot version associated with the alias.
     public var botVersion: Swift.String?
     /// Specifies whether Amazon Lex logs text and audio for a conversation with the bot. When you enable conversation logs, text logs store text input, transcripts of audio input, and associated metadata in Amazon CloudWatch Logs. Audio logs store audio input in Amazon S3.
     public var conversationLogSettings: LexModelsV2ClientTypes.ConversationLogSettings?
@@ -4253,8 +4384,10 @@ extension CreateBotAliasOutputResponseBody: Swift.Decodable {
 
 extension CreateBotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botMembers
         case botName
         case botTags
+        case botType
         case dataPrivacy
         case description
         case idleSessionTTLInSeconds
@@ -4264,6 +4397,12 @@ extension CreateBotInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botMembers = botMembers {
+            var botMembersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .botMembers)
+            for botmember0 in botMembers {
+                try botMembersContainer.encode(botmember0)
+            }
+        }
         if let botName = self.botName {
             try encodeContainer.encode(botName, forKey: .botName)
         }
@@ -4272,6 +4411,9 @@ extension CreateBotInput: Swift.Encodable {
             for (dictKey0, tagMap0) in botTags {
                 try botTagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let botType = self.botType {
+            try encodeContainer.encode(botType.rawValue, forKey: .botType)
         }
         if let dataPrivacy = self.dataPrivacy {
             try encodeContainer.encode(dataPrivacy, forKey: .dataPrivacy)
@@ -4301,11 +4443,15 @@ extension CreateBotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateBotInput: Swift.Equatable {
+    /// The list of bot members in a network to be created.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name of the bot. The bot name must be unique in the account that creates the bot.
     /// This member is required.
     public var botName: Swift.String?
     /// A list of tags to add to the bot. You can only add tags when you create a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation.
     public var botTags: [Swift.String:Swift.String]?
+    /// The type of a bot to create.
+    public var botType: LexModelsV2ClientTypes.BotType?
     /// Provides information on additional privacy protections Amazon Lex should use with the bot's data.
     /// This member is required.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
@@ -4321,8 +4467,10 @@ public struct CreateBotInput: Swift.Equatable {
     public var testBotAliasTags: [Swift.String:Swift.String]?
 
     public init (
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
         botTags: [Swift.String:Swift.String]? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
@@ -4330,8 +4478,10 @@ public struct CreateBotInput: Swift.Equatable {
         testBotAliasTags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.botMembers = botMembers
         self.botName = botName
         self.botTags = botTags
+        self.botType = botType
         self.dataPrivacy = dataPrivacy
         self.description = description
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
@@ -4348,12 +4498,16 @@ struct CreateBotInputBody: Swift.Equatable {
     let idleSessionTTLInSeconds: Swift.Int?
     let botTags: [Swift.String:Swift.String]?
     let testBotAliasTags: [Swift.String:Swift.String]?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
 }
 
 extension CreateBotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botMembers
         case botName
         case botTags
+        case botType
         case dataPrivacy
         case description
         case idleSessionTTLInSeconds
@@ -4395,6 +4549,19 @@ extension CreateBotInputBody: Swift.Decodable {
             }
         }
         testBotAliasTags = testBotAliasTagsDecoded0
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
     }
 }
 
@@ -4699,9 +4866,11 @@ extension CreateBotOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: CreateBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
+            self.botMembers = output.botMembers
             self.botName = output.botName
             self.botStatus = output.botStatus
             self.botTags = output.botTags
+            self.botType = output.botType
             self.creationDateTime = output.creationDateTime
             self.dataPrivacy = output.dataPrivacy
             self.description = output.description
@@ -4710,9 +4879,11 @@ extension CreateBotOutputResponse: ClientRuntime.HttpResponseBinding {
             self.testBotAliasTags = output.testBotAliasTags
         } else {
             self.botId = nil
+            self.botMembers = nil
             self.botName = nil
             self.botStatus = nil
             self.botTags = nil
+            self.botType = nil
             self.creationDateTime = nil
             self.dataPrivacy = nil
             self.description = nil
@@ -4726,12 +4897,16 @@ extension CreateBotOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct CreateBotOutputResponse: Swift.Equatable {
     /// A unique identifier for a particular bot. You use this to identify the bot when you call other Amazon Lex API operations.
     public var botId: Swift.String?
+    /// The list of bots in a network that was created.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name specified for the bot.
     public var botName: Swift.String?
-    /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the Draft version of the bot.
+    /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the DRAFT version of the bot.
     public var botStatus: LexModelsV2ClientTypes.BotStatus?
     /// A list of tags associated with the bot.
     public var botTags: [Swift.String:Swift.String]?
+    /// The type of a bot that was created.
+    public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp indicating the date and time that the bot was created.
     public var creationDateTime: ClientRuntime.Date?
     /// The data privacy settings specified for the bot.
@@ -4747,9 +4922,11 @@ public struct CreateBotOutputResponse: Swift.Equatable {
 
     public init (
         botId: Swift.String? = nil,
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
         botTags: [Swift.String:Swift.String]? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
@@ -4759,9 +4936,11 @@ public struct CreateBotOutputResponse: Swift.Equatable {
     )
     {
         self.botId = botId
+        self.botMembers = botMembers
         self.botName = botName
         self.botStatus = botStatus
         self.botTags = botTags
+        self.botType = botType
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
@@ -4782,14 +4961,18 @@ struct CreateBotOutputResponseBody: Swift.Equatable {
     let creationDateTime: ClientRuntime.Date?
     let botTags: [Swift.String:Swift.String]?
     let testBotAliasTags: [Swift.String:Swift.String]?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
 }
 
 extension CreateBotOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botId
+        case botMembers
         case botName
         case botStatus
         case botTags
+        case botType
         case creationDateTime
         case dataPrivacy
         case description
@@ -4838,6 +5021,19 @@ extension CreateBotOutputResponseBody: Swift.Decodable {
             }
         }
         testBotAliasTags = testBotAliasTagsDecoded0
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
     }
 }
 
@@ -5189,7 +5385,7 @@ public struct CreateExportOutputResponse: Swift.Equatable {
     public var creationDateTime: ClientRuntime.Date?
     /// An identifier for a specific request to create an export.
     public var exportId: Swift.String?
-    /// The status of the export. When the status is Completed, you can use the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeExport.html) operation to get the pre-signed S3 URL link to your exported bot or bot locale.
+    /// The status of the export. When the status is Completed, you can use the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation to get the pre-signed S3 URL link to your exported bot or bot locale.
     public var exportStatus: LexModelsV2ClientTypes.ExportStatus?
     /// The file format used for the bot or bot locale definition files.
     public var fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
@@ -6905,7 +7101,7 @@ extension CreateUploadUrlOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateUploadUrlOutputResponse: Swift.Equatable {
-    /// An identifier for a unique import job. Use it when you call the [StartImport](https://docs.aws.amazon.com/lexv2/latest/dg/API_StartImport.html) operation.
+    /// An identifier for a unique import job. Use it when you call the [StartImport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_StartImport.html) operation.
     public var importId: Swift.String?
     /// A pre-signed S3 write URL. Upload the zip archive file that contains the definition of your bot or bot locale.
     public var uploadUrl: Swift.String?
@@ -7168,7 +7364,7 @@ extension LexModelsV2ClientTypes.CustomVocabularyItem: Swift.Codable {
 extension LexModelsV2ClientTypes {
     /// The unique custom vocabulary item from the custom vocabulary list.
     public struct CustomVocabularyItem: Swift.Equatable {
-        /// The display as value for the custom vocabulary item from the custom vocabulary list.
+        /// The DisplayAs value for the custom vocabulary item from the custom vocabulary list.
         public var displayAs: Swift.String?
         /// The unique item identifer for the custom vocabulary item from the custom vocabulary list.
         /// This member is required.
@@ -7465,7 +7661,7 @@ public struct DeleteBotAliasInput: Swift.Equatable {
     /// The unique identifier of the bot associated with the alias to delete.
     /// This member is required.
     public var botId: Swift.String?
-    /// When this parameter is true, Amazon Lex doesn't check to see if any other resource is using the alias before it is deleted.
+    /// By default, Amazon Lex checks if any other resource, such as a bot network, is using the bot alias before it is deleted and throws a ResourceInUseException exception if the alias is being used by another resource. Set this parameter to true to skip this check and remove the alias even if it is being used by another resource.
     public var skipResourceInUseCheck: Swift.Bool
 
     public init (
@@ -7608,7 +7804,7 @@ public struct DeleteBotInput: Swift.Equatable {
     /// The identifier of the bot to delete.
     /// This member is required.
     public var botId: Swift.String?
-    /// When true, Amazon Lex doesn't check to see if another resource, such as an alias, is using the bot before it is deleted.
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the bot is being used by another resource. Set this parameter to true to skip this check and remove the bot even if it is being used by another resource.
     public var skipResourceInUseCheck: Swift.Bool
 
     public init (
@@ -7895,7 +8091,7 @@ public struct DeleteBotVersionInput: Swift.Equatable {
     /// The version of the bot to delete.
     /// This member is required.
     public var botVersion: Swift.String?
-    /// By default, the DeleteBotVersion operations throws a ResourceInUseException exception if you try to delete a bot version that has an alias pointing at it. Set the skipResourceInUseCheck parameter to true to skip this check and remove the version even if an alias points to it.
+    /// By default, Amazon Lex checks if any other resource, such as an alias or bot network, is using the bot version before it is deleted and throws a ResourceInUseException exception if the version is being used by another resource. Set this parameter to true to skip this check and remove the version even if it is being used by another resource.
     public var skipResourceInUseCheck: Swift.Bool
 
     public init (
@@ -8241,7 +8437,7 @@ extension DeleteExportOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteExportOutputResponse: Swift.Equatable {
     /// The unique identifier of the deleted export.
     public var exportId: Swift.String?
-    /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the [ListExports](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListExports.html) operation and calls to the [ DescribeExport](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeExport.html) operation with the export identifier will fail.
+    /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the [ListExports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html) operation and calls to the [ DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation with the export identifier will fail.
     public var exportStatus: LexModelsV2ClientTypes.ExportStatus?
 
     public init (
@@ -8353,7 +8549,7 @@ extension DeleteImportOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteImportOutputResponse: Swift.Equatable {
     /// The unique identifier of the deleted import.
     public var importId: Swift.String?
-    /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the [ListImports](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListImports.html) operation and calls to the [DescribeImport](https://docs.aws.amazon.com/lexv2/latest/dg/API_DescribeImport.html) operation with the import identifier will fail.
+    /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the [ListImports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html) operation and calls to the [DescribeImport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeImport.html) operation with the import identifier will fail.
     public var importStatus: LexModelsV2ClientTypes.ImportStatus?
 
     public init (
@@ -8996,7 +9192,7 @@ public struct DeleteUtterancesInput: Swift.Equatable {
     public var botId: Swift.String?
     /// The identifier of the language and locale where the utterances were collected. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     public var localeId: Swift.String?
-    /// The unique identifier of the session with the user. The ID is returned in the response from the [RecognizeText](https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_RecognizeText.html) and [RecognizeUtterance](https://docs.aws.amazon.com/lexv2/latest/dg/API_runtime_RecognizeUtterance.html) operations.
+    /// The unique identifier of the session with the user. The ID is returned in the response from the [RecognizeText](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_RecognizeText.html) and [RecognizeUtterance](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_runtime_RecognizeUtterance.html) operations.
     public var sessionId: Swift.String?
 
     public init (
@@ -9142,6 +9338,7 @@ extension DescribeBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = output.creationDateTime
             self.description = output.description
             self.lastUpdatedDateTime = output.lastUpdatedDateTime
+            self.parentBotNetworks = output.parentBotNetworks
             self.sentimentAnalysisSettings = output.sentimentAnalysisSettings
         } else {
             self.botAliasHistoryEvents = nil
@@ -9155,6 +9352,7 @@ extension DescribeBotAliasOutputResponse: ClientRuntime.HttpResponseBinding {
             self.creationDateTime = nil
             self.description = nil
             self.lastUpdatedDateTime = nil
+            self.parentBotNetworks = nil
             self.sentimentAnalysisSettings = nil
         }
     }
@@ -9183,6 +9381,8 @@ public struct DescribeBotAliasOutputResponse: Swift.Equatable {
     public var description: Swift.String?
     /// A timestamp of the date and time that the alias was last updated.
     public var lastUpdatedDateTime: ClientRuntime.Date?
+    /// A list of the networks to which the bot alias you described belongs.
+    public var parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]?
     /// Determines whether Amazon Lex will use Amazon Comprehend to detect the sentiment of user utterances.
     public var sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings?
 
@@ -9198,6 +9398,7 @@ public struct DescribeBotAliasOutputResponse: Swift.Equatable {
         creationDateTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         lastUpdatedDateTime: ClientRuntime.Date? = nil,
+        parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]? = nil,
         sentimentAnalysisSettings: LexModelsV2ClientTypes.SentimentAnalysisSettings? = nil
     )
     {
@@ -9212,6 +9413,7 @@ public struct DescribeBotAliasOutputResponse: Swift.Equatable {
         self.creationDateTime = creationDateTime
         self.description = description
         self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.parentBotNetworks = parentBotNetworks
         self.sentimentAnalysisSettings = sentimentAnalysisSettings
     }
 }
@@ -9229,6 +9431,7 @@ struct DescribeBotAliasOutputResponseBody: Swift.Equatable {
     let botId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
+    let parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]?
 }
 
 extension DescribeBotAliasOutputResponseBody: Swift.Decodable {
@@ -9244,6 +9447,7 @@ extension DescribeBotAliasOutputResponseBody: Swift.Decodable {
         case creationDateTime
         case description
         case lastUpdatedDateTime
+        case parentBotNetworks
         case sentimentAnalysisSettings
     }
 
@@ -9291,6 +9495,17 @@ extension DescribeBotAliasOutputResponseBody: Swift.Decodable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let parentBotNetworksContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ParentBotNetwork?].self, forKey: .parentBotNetworks)
+        var parentBotNetworksDecoded0:[LexModelsV2ClientTypes.ParentBotNetwork]? = nil
+        if let parentBotNetworksContainer = parentBotNetworksContainer {
+            parentBotNetworksDecoded0 = [LexModelsV2ClientTypes.ParentBotNetwork]()
+            for structure0 in parentBotNetworksContainer {
+                if let structure0 = structure0 {
+                    parentBotNetworksDecoded0?.append(structure0)
+                }
+            }
+        }
+        parentBotNetworks = parentBotNetworksDecoded0
     }
 }
 
@@ -9657,21 +9872,27 @@ extension DescribeBotOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: DescribeBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
+            self.botMembers = output.botMembers
             self.botName = output.botName
             self.botStatus = output.botStatus
+            self.botType = output.botType
             self.creationDateTime = output.creationDateTime
             self.dataPrivacy = output.dataPrivacy
             self.description = output.description
+            self.failureReasons = output.failureReasons
             self.idleSessionTTLInSeconds = output.idleSessionTTLInSeconds
             self.lastUpdatedDateTime = output.lastUpdatedDateTime
             self.roleArn = output.roleArn
         } else {
             self.botId = nil
+            self.botMembers = nil
             self.botName = nil
             self.botStatus = nil
+            self.botType = nil
             self.creationDateTime = nil
             self.dataPrivacy = nil
             self.description = nil
+            self.failureReasons = nil
             self.idleSessionTTLInSeconds = nil
             self.lastUpdatedDateTime = nil
             self.roleArn = nil
@@ -9682,16 +9903,22 @@ extension DescribeBotOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeBotOutputResponse: Swift.Equatable {
     /// The unique identifier of the bot.
     public var botId: Swift.String?
+    /// The list of bots in the network that was described.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name of the bot.
     public var botName: Swift.String?
     /// The current status of the bot. When the status is Available the bot is ready to be used in conversations with users.
     public var botStatus: LexModelsV2ClientTypes.BotStatus?
+    /// The type of the bot that was described.
+    public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp of the date and time that the bot was created.
     public var creationDateTime: ClientRuntime.Date?
     /// Settings for managing data privacy of the bot and its conversations with users.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     /// The description of the bot.
     public var description: Swift.String?
+    /// If the botStatus is Failed, this contains a list of reasons that the bot couldn't be built.
+    public var failureReasons: [Swift.String]?
     /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation.
     public var idleSessionTTLInSeconds: Swift.Int?
     /// A timestamp of the date and time that the bot was last updated.
@@ -9701,22 +9928,28 @@ public struct DescribeBotOutputResponse: Swift.Equatable {
 
     public init (
         botId: Swift.String? = nil,
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
+        failureReasons: [Swift.String]? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
         lastUpdatedDateTime: ClientRuntime.Date? = nil,
         roleArn: Swift.String? = nil
     )
     {
         self.botId = botId
+        self.botMembers = botMembers
         self.botName = botName
         self.botStatus = botStatus
+        self.botType = botType
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
+        self.failureReasons = failureReasons
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
         self.lastUpdatedDateTime = lastUpdatedDateTime
         self.roleArn = roleArn
@@ -9733,16 +9966,22 @@ struct DescribeBotOutputResponseBody: Swift.Equatable {
     let botStatus: LexModelsV2ClientTypes.BotStatus?
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
+    let failureReasons: [Swift.String]?
 }
 
 extension DescribeBotOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botId
+        case botMembers
         case botName
         case botStatus
+        case botType
         case creationDateTime
         case dataPrivacy
         case description
+        case failureReasons
         case idleSessionTTLInSeconds
         case lastUpdatedDateTime
         case roleArn
@@ -9768,6 +10007,30 @@ extension DescribeBotOutputResponseBody: Swift.Decodable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
     }
 }
 
@@ -10096,25 +10359,31 @@ extension DescribeBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: DescribeBotVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
+            self.botMembers = output.botMembers
             self.botName = output.botName
             self.botStatus = output.botStatus
+            self.botType = output.botType
             self.botVersion = output.botVersion
             self.creationDateTime = output.creationDateTime
             self.dataPrivacy = output.dataPrivacy
             self.description = output.description
             self.failureReasons = output.failureReasons
             self.idleSessionTTLInSeconds = output.idleSessionTTLInSeconds
+            self.parentBotNetworks = output.parentBotNetworks
             self.roleArn = output.roleArn
         } else {
             self.botId = nil
+            self.botMembers = nil
             self.botName = nil
             self.botStatus = nil
+            self.botType = nil
             self.botVersion = nil
             self.creationDateTime = nil
             self.dataPrivacy = nil
             self.description = nil
             self.failureReasons = nil
             self.idleSessionTTLInSeconds = nil
+            self.parentBotNetworks = nil
             self.roleArn = nil
         }
     }
@@ -10123,11 +10392,15 @@ extension DescribeBotVersionOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeBotVersionOutputResponse: Swift.Equatable {
     /// The identifier of the bot that contains the version.
     public var botId: Swift.String?
+    /// The members of bot network in the version that was described.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name of the bot that contains the version.
     public var botName: Swift.String?
     /// The current status of the bot. When the status is Available, the bot version is ready for use.
     public var botStatus: LexModelsV2ClientTypes.BotStatus?
-    /// The version of the bot to describe.
+    /// The type of the bot in the version that was described.
+    public var botType: LexModelsV2ClientTypes.BotType?
+    /// The version of the bot that was described.
     public var botVersion: Swift.String?
     /// A timestamp of the date and time that the bot version was created.
     public var creationDateTime: ClientRuntime.Date?
@@ -10139,31 +10412,39 @@ public struct DescribeBotVersionOutputResponse: Swift.Equatable {
     public var failureReasons: [Swift.String]?
     /// The number of seconds that a session with the bot remains active before it is discarded by Amazon Lex.
     public var idleSessionTTLInSeconds: Swift.Int?
+    /// A list of the networks to which the bot version you described belongs.
+    public var parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]?
     /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot version.
     public var roleArn: Swift.String?
 
     public init (
         botId: Swift.String? = nil,
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         botVersion: Swift.String? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         failureReasons: [Swift.String]? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
+        parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]? = nil,
         roleArn: Swift.String? = nil
     )
     {
         self.botId = botId
+        self.botMembers = botMembers
         self.botName = botName
         self.botStatus = botStatus
+        self.botType = botType
         self.botVersion = botVersion
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
         self.failureReasons = failureReasons
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+        self.parentBotNetworks = parentBotNetworks
         self.roleArn = roleArn
     }
 }
@@ -10179,19 +10460,25 @@ struct DescribeBotVersionOutputResponseBody: Swift.Equatable {
     let botStatus: LexModelsV2ClientTypes.BotStatus?
     let failureReasons: [Swift.String]?
     let creationDateTime: ClientRuntime.Date?
+    let parentBotNetworks: [LexModelsV2ClientTypes.ParentBotNetwork]?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
 }
 
 extension DescribeBotVersionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botId
+        case botMembers
         case botName
         case botStatus
+        case botType
         case botVersion
         case creationDateTime
         case dataPrivacy
         case description
         case failureReasons
         case idleSessionTTLInSeconds
+        case parentBotNetworks
         case roleArn
     }
 
@@ -10226,6 +10513,30 @@ extension DescribeBotVersionOutputResponseBody: Swift.Decodable {
         failureReasons = failureReasonsDecoded0
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
+        let parentBotNetworksContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.ParentBotNetwork?].self, forKey: .parentBotNetworks)
+        var parentBotNetworksDecoded0:[LexModelsV2ClientTypes.ParentBotNetwork]? = nil
+        if let parentBotNetworksContainer = parentBotNetworksContainer {
+            parentBotNetworksDecoded0 = [LexModelsV2ClientTypes.ParentBotNetwork]()
+            for structure0 in parentBotNetworksContainer {
+                if let structure0 = structure0 {
+                    parentBotNetworksDecoded0?.append(structure0)
+                }
+            }
+        }
+        parentBotNetworks = parentBotNetworksDecoded0
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
     }
 }
 
@@ -12244,7 +12555,7 @@ extension LexModelsV2ClientTypes.ExportFilter: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Filters the response form the [ListExports](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListExports.html) operation
+    /// Filters the response form the [ListExports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html) operation
     public struct ExportFilter: Swift.Equatable {
         /// The name of the field to use for filtering.
         /// This member is required.
@@ -13191,7 +13502,7 @@ extension LexModelsV2ClientTypes.ImportFilter: Swift.Codable {
 }
 
 extension LexModelsV2ClientTypes {
-    /// Filters the response from the [ListImports](https://docs.aws.amazon.com/lexv2/latest/dg/API_ListImports.html) operation.
+    /// Filters the response from the [ListImports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html) operation.
     public struct ImportFilter: Swift.Equatable {
         /// The name of the field to use for filtering.
         /// This member is required.
@@ -16179,16 +16490,16 @@ extension ListCustomVocabularyItemsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListCustomVocabularyItemsInput: Swift.Equatable {
-    /// The unique identifier of the bot to the list custom vocabulary request.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
     /// The bot version of the bot to the list custom vocabulary request.
     /// This member is required.
     public var botVersion: Swift.String?
-    /// The locale identifier of the bot to the list custom vocabulary request.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see Supported languages (https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
-    /// The maximum results to the list custom vocabulary request.
+    /// The maximum number of items returned by the list operation.
     public var maxResults: Swift.Int?
     /// The nextToken identifier to the list custom vocabulary request.
     public var nextToken: Swift.String?
@@ -16281,13 +16592,13 @@ extension ListCustomVocabularyItemsOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct ListCustomVocabularyItemsOutputResponse: Swift.Equatable {
-    /// The unique identifier of the bot to the list custom vocabulary response.
+    /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
-    /// The bot version of the bot to the list custom vocabulary response.
+    /// The identifier of the version of the bot associated with this custom vocabulary.
     public var botVersion: Swift.String?
     /// The custom vocabulary items from the list custom vocabulary response.
     public var customVocabularyItems: [LexModelsV2ClientTypes.CustomVocabularyItem]?
-    /// The locale identifier of the bot to the list custom vocabulary response.
+    /// The identifier of the language and locale where this custom vocabulary is used. The string must match one of the supported locales. For more information, see [ Supported Languages ](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     public var localeId: Swift.String?
     /// The nextToken identifier to the list custom vocabulary response.
     public var nextToken: Swift.String?
@@ -18304,6 +18615,53 @@ extension LexModelsV2ClientTypes {
             self.name = name
             self.timeToLiveInSeconds = timeToLiveInSeconds
             self.turnsToLive = turnsToLive
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.ParentBotNetwork: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botId = self.botId {
+            try encodeContainer.encode(botId, forKey: .botId)
+        }
+        if let botVersion = self.botVersion {
+            try encodeContainer.encode(botVersion, forKey: .botVersion)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// A network of bots.
+    public struct ParentBotNetwork: Swift.Equatable {
+        /// The identifier of the network of bots assigned by Amazon Lex.
+        /// This member is required.
+        public var botId: Swift.String?
+        /// The version of the network of bots.
+        /// This member is required.
+        public var botVersion: Swift.String?
+
+        public init (
+            botId: Swift.String? = nil,
+            botVersion: Swift.String? = nil
+        )
+        {
+            self.botId = botId
+            self.botVersion = botVersion
         }
     }
 
@@ -21518,7 +21876,7 @@ extension StartImportInput: ClientRuntime.URLPathProvider {
 public struct StartImportInput: Swift.Equatable {
     /// The password used to encrypt the zip archive that contains the resource definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
     public var filePassword: Swift.String?
-    /// The unique identifier for the import. It is included in the response from the [CreateUploadUrl](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateUploadUrl.html) operation.
+    /// The unique identifier for the import. It is included in the response from the [CreateUploadUrl](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateUploadUrl.html) operation.
     /// This member is required.
     public var importId: Swift.String?
     /// The strategy to use when there is a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
@@ -22372,6 +22730,7 @@ public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.E
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
     public var message: Swift.String?
+    /// The number of seconds after which the user can invoke the API again.
     public var retryAfterSeconds: Swift.Int
 
     public init (
@@ -22945,7 +23304,9 @@ extension UpdateBotAliasOutputResponseBody: Swift.Decodable {
 
 extension UpdateBotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botMembers
         case botName
+        case botType
         case dataPrivacy
         case description
         case idleSessionTTLInSeconds
@@ -22954,8 +23315,17 @@ extension UpdateBotInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botMembers = botMembers {
+            var botMembersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .botMembers)
+            for botmember0 in botMembers {
+                try botMembersContainer.encode(botmember0)
+            }
+        }
         if let botName = self.botName {
             try encodeContainer.encode(botName, forKey: .botName)
+        }
+        if let botType = self.botType {
+            try encodeContainer.encode(botType.rawValue, forKey: .botType)
         }
         if let dataPrivacy = self.dataPrivacy {
             try encodeContainer.encode(dataPrivacy, forKey: .dataPrivacy)
@@ -22982,12 +23352,16 @@ extension UpdateBotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateBotInput: Swift.Equatable {
-    /// The unique identifier of the bot to update. This identifier is returned by the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/dg/API_CreateBot.html) operation.
+    /// The unique identifier of the bot to update. This identifier is returned by the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation.
     /// This member is required.
     public var botId: Swift.String?
+    /// The list of bot members in the network associated with the update action.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The new name of the bot. The name must be unique in the account that creates the bot.
     /// This member is required.
     public var botName: Swift.String?
+    /// The type of the bot to be updated.
+    public var botType: LexModelsV2ClientTypes.BotType?
     /// Provides information on additional privacy protections Amazon Lex should use with the bot's data.
     /// This member is required.
     public var dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
@@ -23002,7 +23376,9 @@ public struct UpdateBotInput: Swift.Equatable {
 
     public init (
         botId: Swift.String? = nil,
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
         idleSessionTTLInSeconds: Swift.Int? = nil,
@@ -23010,7 +23386,9 @@ public struct UpdateBotInput: Swift.Equatable {
     )
     {
         self.botId = botId
+        self.botMembers = botMembers
         self.botName = botName
+        self.botType = botType
         self.dataPrivacy = dataPrivacy
         self.description = description
         self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
@@ -23024,11 +23402,15 @@ struct UpdateBotInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let dataPrivacy: LexModelsV2ClientTypes.DataPrivacy?
     let idleSessionTTLInSeconds: Swift.Int?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
 }
 
 extension UpdateBotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botMembers
         case botName
+        case botType
         case dataPrivacy
         case description
         case idleSessionTTLInSeconds
@@ -23047,6 +23429,19 @@ extension UpdateBotInputBody: Swift.Decodable {
         dataPrivacy = dataPrivacyDecoded
         let idleSessionTTLInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleSessionTTLInSeconds)
         idleSessionTTLInSeconds = idleSessionTTLInSecondsDecoded
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
     }
 }
 
@@ -23386,8 +23781,10 @@ extension UpdateBotOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: UpdateBotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.botId = output.botId
+            self.botMembers = output.botMembers
             self.botName = output.botName
             self.botStatus = output.botStatus
+            self.botType = output.botType
             self.creationDateTime = output.creationDateTime
             self.dataPrivacy = output.dataPrivacy
             self.description = output.description
@@ -23396,8 +23793,10 @@ extension UpdateBotOutputResponse: ClientRuntime.HttpResponseBinding {
             self.roleArn = output.roleArn
         } else {
             self.botId = nil
+            self.botMembers = nil
             self.botName = nil
             self.botStatus = nil
+            self.botType = nil
             self.creationDateTime = nil
             self.dataPrivacy = nil
             self.description = nil
@@ -23411,10 +23810,14 @@ extension UpdateBotOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UpdateBotOutputResponse: Swift.Equatable {
     /// The unique identifier of the bot that was updated.
     public var botId: Swift.String?
+    /// The list of bot members in the network that was updated.
+    public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name of the bot after the update.
     public var botName: Swift.String?
     /// Shows the current status of the bot. The bot is first in the Creating status. Once the bot is read for use, it changes to the Available status. After the bot is created, you can use the DRAFT version of the bot.
     public var botStatus: LexModelsV2ClientTypes.BotStatus?
+    /// The type of the bot that was updated.
+    public var botType: LexModelsV2ClientTypes.BotType?
     /// A timestamp of the date and time that the bot was created.
     public var creationDateTime: ClientRuntime.Date?
     /// The data privacy settings for the bot after the update.
@@ -23430,8 +23833,10 @@ public struct UpdateBotOutputResponse: Swift.Equatable {
 
     public init (
         botId: Swift.String? = nil,
+        botMembers: [LexModelsV2ClientTypes.BotMember]? = nil,
         botName: Swift.String? = nil,
         botStatus: LexModelsV2ClientTypes.BotStatus? = nil,
+        botType: LexModelsV2ClientTypes.BotType? = nil,
         creationDateTime: ClientRuntime.Date? = nil,
         dataPrivacy: LexModelsV2ClientTypes.DataPrivacy? = nil,
         description: Swift.String? = nil,
@@ -23441,8 +23846,10 @@ public struct UpdateBotOutputResponse: Swift.Equatable {
     )
     {
         self.botId = botId
+        self.botMembers = botMembers
         self.botName = botName
         self.botStatus = botStatus
+        self.botType = botType
         self.creationDateTime = creationDateTime
         self.dataPrivacy = dataPrivacy
         self.description = description
@@ -23462,13 +23869,17 @@ struct UpdateBotOutputResponseBody: Swift.Equatable {
     let botStatus: LexModelsV2ClientTypes.BotStatus?
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
+    let botType: LexModelsV2ClientTypes.BotType?
+    let botMembers: [LexModelsV2ClientTypes.BotMember]?
 }
 
 extension UpdateBotOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case botId
+        case botMembers
         case botName
         case botStatus
+        case botType
         case creationDateTime
         case dataPrivacy
         case description
@@ -23497,6 +23908,19 @@ extension UpdateBotOutputResponseBody: Swift.Decodable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let botTypeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotType.self, forKey: .botType)
+        botType = botTypeDecoded
+        let botMembersContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotMember?].self, forKey: .botMembers)
+        var botMembersDecoded0:[LexModelsV2ClientTypes.BotMember]? = nil
+        if let botMembersContainer = botMembersContainer {
+            botMembersDecoded0 = [LexModelsV2ClientTypes.BotMember]()
+            for structure0 in botMembersContainer {
+                if let structure0 = structure0 {
+                    botMembersDecoded0?.append(structure0)
+                }
+            }
+        }
+        botMembers = botMembersDecoded0
     }
 }
 

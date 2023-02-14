@@ -7,10 +7,10 @@ import SmithyTestUtil
 import XCTest
 
 class EndpointResolverTest: CrtXCBaseTestCase {
-    /// For region sa-east-1 with FIPS disabled and DualStack disabled
+    /// For region af-south-1 with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
-            region: "sa-east-1",
+            region: "af-south-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -22,7 +22,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.sa-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.af-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -47,248 +47,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-south-1 with FIPS disabled and DualStack disabled
-    func testResolve3() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-central-1 with FIPS disabled and DualStack disabled
-    func testResolve4() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-central-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-central-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
-    func testResolve5() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
-    func testResolve6() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-2",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-southeast-3 with FIPS disabled and DualStack disabled
-    func testResolve7() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-southeast-3",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-3.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ca-central-1 with FIPS disabled and DualStack disabled
-    func testResolve8() throws {
-        let endpointParams = EndpointParams(
-            region: "ca-central-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ca-central-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-1 with FIPS disabled and DualStack disabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-1 with FIPS enabled and DualStack disabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-2 with FIPS disabled and DualStack disabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-2",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-west-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-west-2 with FIPS enabled and DualStack disabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-west-2",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region af-south-1 with FIPS disabled and DualStack disabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "af-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.af-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region ap-south-1 with FIPS disabled and DualStack disabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "ap-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-south-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region ap-northeast-1 with FIPS disabled and DualStack disabled
-    func testResolve15() throws {
+    func testResolve3() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-1",
             useDualStack: false,
@@ -308,7 +68,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-2 with FIPS disabled and DualStack disabled
-    func testResolve16() throws {
+    func testResolve4() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-2",
             useDualStack: false,
@@ -328,7 +88,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region ap-northeast-3 with FIPS disabled and DualStack disabled
-    func testResolve17() throws {
+    func testResolve5() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-3",
             useDualStack: false,
@@ -347,10 +107,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS disabled and DualStack disabled
-    func testResolve18() throws {
+    /// For region ap-south-1 with FIPS disabled and DualStack disabled
+    func testResolve6() throws {
         let endpointParams = EndpointParams(
-            region: "us-east-1",
+            region: "ap-south-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -362,17 +122,17 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-east-1 with FIPS enabled and DualStack disabled
-    func testResolve19() throws {
+    /// For region ap-southeast-1 with FIPS disabled and DualStack disabled
+    func testResolve7() throws {
         let endpointParams = EndpointParams(
-            region: "us-east-1",
+            region: "ap-southeast-1",
             useDualStack: false,
-            useFIPS: true
+            useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
 
@@ -382,13 +142,133 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region ap-southeast-2 with FIPS disabled and DualStack disabled
+    func testResolve8() throws {
+        let endpointParams = EndpointParams(
+            region: "ap-southeast-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region ap-southeast-3 with FIPS disabled and DualStack disabled
+    func testResolve9() throws {
+        let endpointParams = EndpointParams(
+            region: "ap-southeast-3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ap-southeast-3.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region ca-central-1 with FIPS disabled and DualStack disabled
+    func testResolve10() throws {
+        let endpointParams = EndpointParams(
+            region: "ca-central-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.ca-central-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-central-1 with FIPS disabled and DualStack disabled
+    func testResolve11() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-central-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-central-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-north-1 with FIPS disabled and DualStack disabled
+    func testResolve12() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-north-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-south-1 with FIPS disabled and DualStack disabled
+    func testResolve13() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-south-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region eu-west-1 with FIPS disabled and DualStack disabled
-    func testResolve20() throws {
+    func testResolve14() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-1",
             useDualStack: false,
@@ -408,7 +288,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region eu-west-2 with FIPS disabled and DualStack disabled
-    func testResolve21() throws {
+    func testResolve15() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-2",
             useDualStack: false,
@@ -428,7 +308,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region eu-west-3 with FIPS disabled and DualStack disabled
-    func testResolve22() throws {
+    func testResolve16() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-3",
             useDualStack: false,
@@ -448,7 +328,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region me-south-1 with FIPS disabled and DualStack disabled
-    func testResolve23() throws {
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
             region: "me-south-1",
             useDualStack: false,
@@ -467,10 +347,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region eu-north-1 with FIPS disabled and DualStack disabled
-    func testResolve24() throws {
+    /// For region sa-east-1 with FIPS disabled and DualStack disabled
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
-            region: "eu-north-1",
+            region: "sa-east-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -482,13 +362,53 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.eu-north-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.sa-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS disabled and DualStack disabled
+    func testResolve19() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-east-1 with FIPS enabled and DualStack disabled
+    func testResolve20() throws {
+        let endpointParams = EndpointParams(
+            region: "us-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region us-east-2 with FIPS disabled and DualStack disabled
-    func testResolve25() throws {
+    func testResolve21() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -508,7 +428,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region us-east-2 with FIPS enabled and DualStack disabled
-    func testResolve26() throws {
+    func testResolve22() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -523,6 +443,86 @@ class EndpointResolverTest: CrtXCBaseTestCase {
 
         let headers = Headers()
         let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-east-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-1 with FIPS disabled and DualStack disabled
+    func testResolve23() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-1 with FIPS enabled and DualStack disabled
+    func testResolve24() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS disabled and DualStack disabled
+    func testResolve25() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-west-2.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-west-2 with FIPS enabled and DualStack disabled
+    func testResolve26() throws {
+        let endpointParams = EndpointParams(
+            region: "us-west-2",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-west-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -567,188 +567,8 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
-    func testResolve29() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
-    func testResolve30() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
-    func testResolve31() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
-    func testResolve32() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
-    func testResolve33() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
-    func testResolve34() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve35() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve36() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region cn-northwest-1 with FIPS disabled and DualStack disabled
-    func testResolve37() throws {
-        let endpointParams = EndpointParams(
-            region: "cn-northwest-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [:]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region cn-north-1 with FIPS disabled and DualStack disabled
-    func testResolve38() throws {
+    func testResolve29() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -767,8 +587,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region cn-northwest-1 with FIPS disabled and DualStack disabled
+    func testResolve30() throws {
+        let endpointParams = EndpointParams(
+            region: "cn-northwest-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.cn-northwest-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region cn-north-1 with FIPS enabled and DualStack enabled
-    func testResolve39() throws {
+    func testResolve31() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -788,7 +628,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS enabled and DualStack disabled
-    func testResolve40() throws {
+    func testResolve32() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: false,
@@ -808,7 +648,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For region cn-north-1 with FIPS disabled and DualStack enabled
-    func testResolve41() throws {
+    func testResolve33() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useDualStack: true,
@@ -827,10 +667,10 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-west-1 with FIPS disabled and DualStack disabled
-    func testResolve42() throws {
+    /// For region us-gov-east-1 with FIPS disabled and DualStack disabled
+    func testResolve34() throws {
         let endpointParams = EndpointParams(
-            region: "us-iso-west-1",
+            region: "us-gov-east-1",
             useDualStack: false,
             useFIPS: false
         )
@@ -842,13 +682,113 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS enabled and DualStack disabled
+    func testResolve35() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
+    func testResolve36() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
+    func testResolve37() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
+    func testResolve38() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-gov-east-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-east-1 with FIPS disabled and DualStack enabled
+    func testResolve39() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-east-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-gov-east-1.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
     /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve43() throws {
+    func testResolve40() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -867,8 +807,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
+    /// For region us-iso-west-1 with FIPS disabled and DualStack disabled
+    func testResolve41() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-iso-west-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve44() throws {
+    func testResolve42() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -887,7 +847,47 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips disabled and dualstack disabled
+    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
+    func testResolve43() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
+    func testResolve44() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://kinesis-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with region set and fips disabled and dualstack disabled
     func testResolve45() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
@@ -908,8 +908,28 @@ class EndpointResolverTest: CrtXCBaseTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For custom endpoint with fips enabled and dualstack disabled
+    /// For custom endpoint with region not set and fips disabled and dualstack disabled
     func testResolve46() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://example.com",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: AnyHashable] =
+            [:]
+
+        let headers = Headers()
+        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For custom endpoint with fips enabled and dualstack disabled
+    func testResolve47() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -929,7 +949,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve47() throws {
+    func testResolve48() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -949,7 +969,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Failed to parse ARN.
-    func testResolve48() throws {
+    func testResolve49() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn",
@@ -969,7 +989,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: partition missing from ARN.
-    func testResolve49() throws {
+    func testResolve50() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn::kinesis:us-west-2:123456789012:stream/testStream",
@@ -989,7 +1009,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: partitions mismatch.
-    func testResolve50() throws {
+    func testResolve51() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-west-1",
             streamARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream",
@@ -1009,7 +1029,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Not Kinesis
-    func testResolve51() throws {
+    func testResolve52() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream",
@@ -1029,7 +1049,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Region is missing in ARN
-    func testResolve52() throws {
+    func testResolve53() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:kinesis::123456789012:stream/testStream",
@@ -1049,7 +1069,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Region is empty string in ARN
-    func testResolve53() throws {
+    func testResolve54() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:kinesis:  :123456789012:stream/testStream",
@@ -1069,7 +1089,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve54() throws {
+    func testResolve55() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1090,7 +1110,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve55() throws {
+    func testResolve56() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1111,7 +1131,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Kinesis ARNs only support stream arn types
-    func testResolve56() throws {
+    func testResolve57() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream",
@@ -1131,7 +1151,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Dual Stack not supported region.
-    func testResolve57() throws {
+    func testResolve58() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-west-1",
@@ -1152,7 +1172,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// OperationType not set
-    func testResolve58() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream",
@@ -1172,7 +1192,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Custom Endpoint is specified
-    func testResolve59() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             operationType: "control",
@@ -1195,7 +1215,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type
-    func testResolve60() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1217,7 +1237,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting data operation type
-    func testResolve61() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1239,7 +1259,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type
-    func testResolve62() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1261,7 +1281,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type
-    func testResolve63() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1283,7 +1303,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with Dual Stack and FIPS enabled
-    func testResolve64() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1305,7 +1325,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with Dual Stack enabled
-    func testResolve65() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-west-1",
@@ -1327,7 +1347,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack disabled
-    func testResolve66() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-west-1",
@@ -1349,7 +1369,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// RegionMismatch: client region should be used for endpoint region
-    func testResolve67() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1371,7 +1391,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS enabled
-    func testResolve68() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -1393,7 +1413,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve69() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -1415,7 +1435,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve70() throws {
+    func testResolve71() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -1437,7 +1457,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve71() throws {
+    func testResolve72() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-west-1",
@@ -1459,7 +1479,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting data operation type in ADC regions
-    func testResolve72() throws {
+    func testResolve73() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -1481,7 +1501,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve73() throws {
+    func testResolve74() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -1503,7 +1523,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve74() throws {
+    func testResolve75() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -1525,7 +1545,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ConsumerARN: Failed to parse ARN.
-    func testResolve75() throws {
+    func testResolve76() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn",
             region: "us-east-1",
@@ -1545,7 +1565,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ConsumerARN: partition missing from ARN.
-    func testResolve76() throws {
+    func testResolve77() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn::kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1565,7 +1585,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: partitions mismatch.
-    func testResolve77() throws {
+    func testResolve78() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-gov-west-1",
@@ -1585,7 +1605,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Not Kinesis
-    func testResolve78() throws {
+    func testResolve79() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1605,7 +1625,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Region is missing in ARN
-    func testResolve79() throws {
+    func testResolve80() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis::123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1625,7 +1645,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Region is empty string in ARN
-    func testResolve80() throws {
+    func testResolve81() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:  :123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1645,7 +1665,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve81() throws {
+    func testResolve82() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1::stream/testStream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1666,7 +1686,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve82() throws {
+    func testResolve83() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:   :stream/testStream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1687,7 +1707,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Invalid ARN: Kinesis ARNs only support stream arn/consumer arn types
-    func testResolve83() throws {
+    func testResolve84() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1707,7 +1727,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Dual Stack not supported region.
-    func testResolve84() throws {
+    func testResolve85() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1728,7 +1748,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// OperationType not set
-    func testResolve85() throws {
+    func testResolve86() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1748,7 +1768,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Custom Endpoint is specified
-    func testResolve86() throws {
+    func testResolve87() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             endpoint: "https://example.com",
@@ -1771,7 +1791,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type
-    func testResolve87() throws {
+    func testResolve88() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1793,7 +1813,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting data operation type
-    func testResolve88() throws {
+    func testResolve89() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1815,7 +1835,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type
-    func testResolve89() throws {
+    func testResolve90() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1837,7 +1857,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type
-    func testResolve90() throws {
+    func testResolve91() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1859,7 +1879,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with Dual Stack and FIPS enabled
-    func testResolve91() throws {
+    func testResolve92() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1881,7 +1901,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with Dual Stack enabled
-    func testResolve92() throws {
+    func testResolve93() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1903,7 +1923,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack disabled
-    func testResolve93() throws {
+    func testResolve94() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1925,7 +1945,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// RegionMismatch: client region should be used for endpoint region
-    func testResolve94() throws {
+    func testResolve95() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/testStream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1947,7 +1967,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS enabled
-    func testResolve95() throws {
+    func testResolve96() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1969,7 +1989,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve96() throws {
+    func testResolve97() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1991,7 +2011,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve97() throws {
+    func testResolve98() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2013,7 +2033,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve98() throws {
+    func testResolve99() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2035,7 +2055,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint targeting data operation type in ADC regions
-    func testResolve99() throws {
+    func testResolve100() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2057,7 +2077,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve100() throws {
+    func testResolve101() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2079,7 +2099,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve101() throws {
+    func testResolve102() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2101,7 +2121,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// ConsumerARN targeting US-EAST-1
-    func testResolve102() throws {
+    func testResolve103() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789123:stream/foobar/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2123,7 +2143,7 @@ class EndpointResolverTest: CrtXCBaseTestCase {
     }
 
     /// Both StreamARN and ConsumerARN specified. StreamARN should take precedence
-    func testResolve103() throws {
+    func testResolve104() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789123:stream/foobar/consumer/test-consumer:1525898737",
             operationType: "data",

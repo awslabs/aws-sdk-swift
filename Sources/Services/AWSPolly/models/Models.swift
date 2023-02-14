@@ -84,7 +84,7 @@ extension DescribeVoicesInput: ClientRuntime.QueryItemProvider {
                 let engineQueryItem = ClientRuntime.URLQueryItem(name: "Engine".urlPercentEncoding(), value: Swift.String(engine.rawValue).urlPercentEncoding())
                 items.append(engineQueryItem)
             }
-            if includeAdditionalLanguageCodes != false {
+            if let includeAdditionalLanguageCodes = includeAdditionalLanguageCodes {
                 let includeAdditionalLanguageCodesQueryItem = ClientRuntime.URLQueryItem(name: "IncludeAdditionalLanguageCodes".urlPercentEncoding(), value: Swift.String(includeAdditionalLanguageCodes).urlPercentEncoding())
                 items.append(includeAdditionalLanguageCodesQueryItem)
             }
@@ -103,7 +103,7 @@ public struct DescribeVoicesInput: Swift.Equatable {
     /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
     public var engine: PollyClientTypes.Engine?
     /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
-    public var includeAdditionalLanguageCodes: Swift.Bool
+    public var includeAdditionalLanguageCodes: Swift.Bool?
     /// The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned.
     public var languageCode: PollyClientTypes.LanguageCode?
     /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
@@ -111,7 +111,7 @@ public struct DescribeVoicesInput: Swift.Equatable {
 
     public init (
         engine: PollyClientTypes.Engine? = nil,
-        includeAdditionalLanguageCodes: Swift.Bool = false,
+        includeAdditionalLanguageCodes: Swift.Bool? = nil,
         languageCode: PollyClientTypes.LanguageCode? = nil,
         nextToken: Swift.String? = nil
     )
@@ -2747,10 +2747,7 @@ extension SynthesizeSpeechInput {
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SynthesizeSpeechOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         operation.serializeStep.intercept(position: .after, middleware: SynthesizeSpeechInputGETQueryItemMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(retryer: config.retryer))
@@ -2792,10 +2789,7 @@ extension SynthesizeSpeechInput {
         var operation = ClientRuntime.OperationStack<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(id: "synthesizeSpeech")
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>())
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SynthesizeSpeechInput, SynthesizeSpeechOutputResponse>())
-        guard let region = config.region else {
-            throw SdkError<SynthesizeSpeechOutputError>.client(ClientError.unknownError(("Missing required parameter: Region")))
-        }
-        let endpointParams = EndpointParams(endpoint: config.endpoint, region: region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SynthesizeSpeechOutputResponse, SynthesizeSpeechOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
@@ -3445,7 +3439,9 @@ extension PollyClientTypes {
 extension PollyClientTypes {
     public enum VoiceId: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case aditi
+        case adriano
         case amy
+        case andres
         case aria
         case arlet
         case arthur
@@ -3485,6 +3481,7 @@ extension PollyClientTypes {
         case justin
         case kajal
         case karl
+        case kazuha
         case kendra
         case kevin
         case kimberly
@@ -3511,14 +3508,20 @@ extension PollyClientTypes {
         case pedro
         case penelope
         case raveena
+        case remi
         case ricardo
         case ruben
         case russell
+        case ruth
         case salli
         case seoyeon
+        case sergio
+        case stephen
         case suvi
         case takumi
         case tatyana
+        case thiago
+        case tomoko
         case vicki
         case vitoria
         case zeina
@@ -3528,7 +3531,9 @@ extension PollyClientTypes {
         public static var allCases: [VoiceId] {
             return [
                 .aditi,
+                .adriano,
                 .amy,
+                .andres,
                 .aria,
                 .arlet,
                 .arthur,
@@ -3568,6 +3573,7 @@ extension PollyClientTypes {
                 .justin,
                 .kajal,
                 .karl,
+                .kazuha,
                 .kendra,
                 .kevin,
                 .kimberly,
@@ -3594,14 +3600,20 @@ extension PollyClientTypes {
                 .pedro,
                 .penelope,
                 .raveena,
+                .remi,
                 .ricardo,
                 .ruben,
                 .russell,
+                .ruth,
                 .salli,
                 .seoyeon,
+                .sergio,
+                .stephen,
                 .suvi,
                 .takumi,
                 .tatyana,
+                .thiago,
+                .tomoko,
                 .vicki,
                 .vitoria,
                 .zeina,
@@ -3616,7 +3628,9 @@ extension PollyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aditi: return "Aditi"
+            case .adriano: return "Adriano"
             case .amy: return "Amy"
+            case .andres: return "Andres"
             case .aria: return "Aria"
             case .arlet: return "Arlet"
             case .arthur: return "Arthur"
@@ -3656,6 +3670,7 @@ extension PollyClientTypes {
             case .justin: return "Justin"
             case .kajal: return "Kajal"
             case .karl: return "Karl"
+            case .kazuha: return "Kazuha"
             case .kendra: return "Kendra"
             case .kevin: return "Kevin"
             case .kimberly: return "Kimberly"
@@ -3682,14 +3697,20 @@ extension PollyClientTypes {
             case .pedro: return "Pedro"
             case .penelope: return "Penelope"
             case .raveena: return "Raveena"
+            case .remi: return "Remi"
             case .ricardo: return "Ricardo"
             case .ruben: return "Ruben"
             case .russell: return "Russell"
+            case .ruth: return "Ruth"
             case .salli: return "Salli"
             case .seoyeon: return "Seoyeon"
+            case .sergio: return "Sergio"
+            case .stephen: return "Stephen"
             case .suvi: return "Suvi"
             case .takumi: return "Takumi"
             case .tatyana: return "Tatyana"
+            case .thiago: return "Thiago"
+            case .tomoko: return "Tomoko"
             case .vicki: return "Vicki"
             case .vitoria: return "Vitoria"
             case .zeina: return "Zeina"

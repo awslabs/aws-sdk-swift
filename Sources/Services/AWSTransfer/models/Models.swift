@@ -152,7 +152,7 @@ extension TransferClientTypes {
     public struct As2ConnectorConfig: Swift.Equatable {
         /// Specifies whether the AS2 file is compressed.
         public var compression: TransferClientTypes.CompressionEnum?
-        /// The algorithm that is used to encrypt the file.
+        /// The algorithm that is used to encrypt the file. You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
         public var encryptionAlgorithm: TransferClientTypes.EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
@@ -162,7 +162,7 @@ extension TransferClientTypes {
         ///
         /// * NONE: Specifies that no MDN response is required.
         public var mdnResponse: TransferClientTypes.MdnResponse?
-        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlogorithm is used.
+        /// The signing algorithm for the MDN response. If set to DEFAULT (or not set at all), the value for SigningAlgorithm is used.
         public var mdnSigningAlgorithm: TransferClientTypes.MdnSigningAlg?
         /// Used as the Subject HTTP header attribute in AS2 messages that are being sent with the connector.
         public var messageSubject: Swift.String?
@@ -448,17 +448,21 @@ extension TransferClientTypes.CopyStepDetails: Swift.Codable {
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
     public struct CopyStepDetails: Swift.Equatable {
-        /// Specifies the location for the file being copied. Only applicable for Copy type workflow steps. Use ${Transfer:username} in this field to parametrize the destination prefix by username.
+        /// Specifies the location for the file being copied. Use ${Transfer:username} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
+        ///
+        /// * Set the value of DestinationFileLocation to ${Transfer:username} to copy uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
+        ///
+        /// * Set the value of DestinationFileLocation to ${Transfer:UploadDate} to copy uploaded files to an Amazon S3 bucket that is prefixed with the date of the upload. The system resolves UploadDate to a date format of YYYY-MM-DD, based on the date the file is uploaded.
         public var destinationFileLocation: TransferClientTypes.InputFileLocation?
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
-        /// A flag that indicates whether or not to overwrite an existing file of the same name. The default is FALSE.
+        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
         public var overwriteExisting: TransferClientTypes.OverwriteExisting?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
-        /// * Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
+        /// * To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
         ///
-        /// * Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
 
         public init (
@@ -760,7 +764,7 @@ public struct CreateAgreementInput: Swift.Equatable {
     /// With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer.
     /// This member is required.
     public var accessRole: Swift.String?
-    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is DOC-EXAMPLE-BUCKET/home/mydirectory.
+    /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
     /// This member is required.
     public var baseDirectory: Swift.String?
     /// A name or short description to identify the agreement.
@@ -1405,7 +1409,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var endpointDetails: TransferClientTypes.EndpointDetails?
     /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Services account if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Services account on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     public var endpointType: TransferClientTypes.EndpointType?
-    /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Update host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
+    /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
     /// Required when IdentityProviderType is set to AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied authentication API, including the API Gateway URL. Not required when IdentityProviderType is set to SERVICE_MANAGED.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
@@ -1442,11 +1446,11 @@ public struct CreateServerInput: Swift.Equatable {
     ///
     /// * If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.
     ///
-    /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
+    /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
     ///
     /// * If Protocol includes FTP, then AddressAllocationIds cannot be associated.
     ///
-    /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+    /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
@@ -1454,7 +1458,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var securityPolicyName: Swift.String?
     /// Key-value pairs that can be used to group and search for servers.
     public var tags: [TransferClientTypes.Tag]?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -1737,7 +1741,13 @@ public struct CreateUserInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance. This is the specific server that you added your user to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    /// The public portion of the Secure Shell (SSH) key used to authenticate the user to the server. The three standard SSH public key format elements are , , and an optional , with spaces between each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    ///
+    /// * For RSA keys, the key type is ssh-rsa.
+    ///
+    /// * For ED25519 keys, the key type is ssh-ed25519.
+    ///
+    /// * For ECDSA keys, the key type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
     public var sshPublicKeyBody: Swift.String?
     /// Key-value pairs that can be used to group and search for users. Tags are metadata attached to users for any purpose.
     public var tags: [TransferClientTypes.Tag]?
@@ -1971,16 +1981,18 @@ public struct CreateWorkflowInput: Swift.Equatable {
     public var onExceptionSteps: [TransferClientTypes.WorkflowStep]?
     /// Specifies the details for the steps that are in the specified workflow. The TYPE specifies which of the following actions is being taken for this step.
     ///
-    /// * COPY: Copy the file to another location.
+    /// * COPY - Copy the file to another location.
     ///
-    /// * CUSTOM: Perform a custom step with an Lambda function target.
+    /// * CUSTOM - Perform a custom step with an Lambda function target.
     ///
-    /// * DELETE: Delete the file.
+    /// * DECRYPT - Decrypt a file that was encrypted before it was uploaded.
     ///
-    /// * TAG: Add a tag to the file.
+    /// * DELETE - Delete the file.
+    ///
+    /// * TAG - Add a tag to the file.
     ///
     ///
-    /// Currently, copying and tagging are supported only on S3. For file location, you specify either the S3 bucket and key, or the EFS file system ID and path.
+    /// Currently, copying and tagging are supported only on S3. For file location, you specify either the Amazon S3 bucket and key, or the Amazon EFS file system ID and path.
     /// This member is required.
     public var steps: [TransferClientTypes.WorkflowStep]?
     /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
@@ -2173,9 +2185,9 @@ extension TransferClientTypes {
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
-        /// * Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
+        /// * To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
         ///
-        /// * Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
         /// The ARN for the lambda function that is being called.
         public var target: Swift.String?
@@ -2274,13 +2286,22 @@ extension TransferClientTypes.DecryptStepDetails: Swift.Codable {
 }
 
 extension TransferClientTypes {
+    /// Each step type has its own StepDetails structure.
     public struct DecryptStepDetails: Swift.Equatable {
-        /// Specifies the location for the file being copied. Only applicable for the Copy type of workflow steps.
+        /// Specifies the location for the file that's being processed.
         /// This member is required.
         public var destinationFileLocation: TransferClientTypes.InputFileLocation?
+        /// The name of the step, used as an identifier.
         public var name: Swift.String?
+        /// A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
         public var overwriteExisting: TransferClientTypes.OverwriteExisting?
+        /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
+        ///
+        /// * To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
+        ///
+        /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
+        /// The type of encryption used. Currently, this value must be PGP.
         /// This member is required.
         public var type: TransferClientTypes.EncryptionType?
 
@@ -3093,9 +3114,9 @@ extension TransferClientTypes {
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
-        /// * Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
+        /// * To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
         ///
-        /// * Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
 
         public init (
@@ -5898,11 +5919,11 @@ extension TransferClientTypes {
         ///
         /// * If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.
         ///
-        /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
+        /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
         ///
         /// * If Protocol includes FTP, then AddressAllocationIds cannot be associated.
         ///
-        /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+        /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
         ///
         /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public var protocols: [TransferClientTypes.ModelProtocol]?
@@ -5916,7 +5937,7 @@ extension TransferClientTypes {
         public var tags: [TransferClientTypes.Tag]?
         /// Specifies the number of users that are assigned to a server you specified with the ServerId.
         public var userCount: Swift.Int?
-        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+        /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
         public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
         public init (
@@ -6307,7 +6328,7 @@ extension TransferClientTypes.EfsFileLocation: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Reserved for future use.
+    /// Specifies the details for the file location for the file that's being used in the workflow. Only applicable if you are using Amazon Elastic File Systems (Amazon EFS) for storage.
     public struct EfsFileLocation: Swift.Equatable {
         /// The identifier of the file system, assigned by Amazon EFS.
         public var fileSystemId: Swift.String?
@@ -6799,13 +6820,15 @@ extension TransferClientTypes {
         public var outputs: Swift.String?
         /// One of the available step types.
         ///
-        /// * COPY: Copy the file to another location.
+        /// * COPY - Copy the file to another location.
         ///
-        /// * CUSTOM: Perform a custom step with an Lambda function target.
+        /// * CUSTOM - Perform a custom step with an Lambda function target.
         ///
-        /// * DELETE: Delete the file.
+        /// * DECRYPT - Decrypt a file that was encrypted before it was uploaded.
         ///
-        /// * TAG: Add a tag to the file.
+        /// * DELETE - Delete the file.
+        ///
+        /// * TAG - Add a tag to the file.
         public var stepType: TransferClientTypes.WorkflowStepType?
 
         public init (
@@ -7108,7 +7131,9 @@ extension ImportCertificateInput: ClientRuntime.URLPathProvider {
 public struct ImportCertificateInput: Swift.Equatable {
     /// An optional date that specifies when the certificate becomes active.
     public var activeDate: ClientRuntime.Date?
-    /// The file that contains the certificate to import.
+    /// * For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem. Alternatively, you can provide the raw content.
+    ///
+    /// * For the SDK, specify the raw content of a certificate file. For example, --certificate "`cat encryption-cert.pem`".
     /// This member is required.
     public var certificate: Swift.String?
     /// An optional list of certificates that make up the chain for the certificate that's being imported.
@@ -7117,7 +7142,9 @@ public struct ImportCertificateInput: Swift.Equatable {
     public var description: Swift.String?
     /// An optional date that specifies when the certificate becomes inactive.
     public var inactiveDate: ClientRuntime.Date?
-    /// The file that contains the private key for the certificate that's being imported.
+    /// * For the CLI, provide a file path for a private key in URI format.For example, --private-key file://encryption-key.pem. Alternatively, you can provide the raw content of the private key file.
+    ///
+    /// * For the SDK, specify the raw content of a private key file. For example, --private-key "`cat encryption-key.pem`"
     public var privateKey: Swift.String?
     /// Key-value pairs that can be used to group and search for certificates.
     public var tags: [TransferClientTypes.Tag]?
@@ -7312,7 +7339,7 @@ extension ImportHostKeyInput: ClientRuntime.URLPathProvider {
 public struct ImportHostKeyInput: Swift.Equatable {
     /// The text description that identifies this host key.
     public var description: Swift.String?
-    /// The public key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+    /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
     /// This member is required.
     public var hostKeyBody: Swift.String?
     /// The identifier of the server that contains the host key that you are importing.
@@ -7654,11 +7681,11 @@ extension TransferClientTypes.InputFileLocation: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the location for the file being copied. Only applicable for the Copy type of workflow steps.
+    /// Specifies the location for the file that's being processed.
     public struct InputFileLocation: Swift.Equatable {
-        /// Reserved for future use.
+        /// Specifies the details for the Amazon Elastic File System (Amazon EFS) file that's being decrypted.
         public var efsFileLocation: TransferClientTypes.EfsFileLocation?
-        /// Specifies the details for the S3 file being copied.
+        /// Specifies the details for the Amazon S3 file that's being copied or decrypted.
         public var s3FileLocation: TransferClientTypes.S3InputFileLocation?
 
         public init (
@@ -11180,7 +11207,7 @@ extension TransferClientTypes.S3InputFileLocation: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the customer input S3 file location. If it is used inside copyStepDetails.DestinationFileLocation, it should be the S3 copy destination. You need to provide the bucket and key. The key can represent either a path or a file. This is determined by whether or not you end the key value with the forward slash (/) character. If the final character is "/", then your file is copied to the folder, and its name does not change. If, rather, the final character is alphanumeric, your uploaded file is renamed to the path value. In this case, if a file with that name already exists, it is overwritten. For example, if your path is shared-files/bob/, your uploaded files are copied to the shared-files/bob/, folder. If your path is shared-files/today, each uploaded file is copied to the shared-files folder and named today: each upload overwrites the previous version of the bob file.
+    /// Specifies the customer input Amazon S3 file location. If it is used inside copyStepDetails.DestinationFileLocation, it should be the S3 copy destination. You need to provide the bucket and key. The key can represent either a path or a file. This is determined by whether or not you end the key value with the forward slash (/) character. If the final character is "/", then your file is copied to the folder, and its name does not change. If, rather, the final character is alphanumeric, your uploaded file is renamed to the path value. In this case, if a file with that name already exists, it is overwritten. For example, if your path is shared-files/bob/, your uploaded files are copied to the shared-files/bob/, folder. If your path is shared-files/today, each uploaded file is copied to the shared-files folder and named today: each upload overwrites the previous version of the bob file.
     public struct S3InputFileLocation: Swift.Equatable {
         /// Specifies the S3 bucket for the customer input file.
         public var bucket: Swift.String?
@@ -12168,9 +12195,9 @@ extension TransferClientTypes {
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
         ///
-        /// * Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
+        /// * To use the previous file as the input, enter ${previous.file}. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.
         ///
-        /// * Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        /// * To use the originally uploaded file location as input for this step, enter ${original.file}.
         public var sourceFileLocation: Swift.String?
         /// Array that contains from 1 to 10 key/value pairs.
         public var tags: [TransferClientTypes.S3Tag]?
@@ -13736,7 +13763,7 @@ public struct UpdateServerInput: Swift.Equatable {
     public var endpointDetails: TransferClientTypes.EndpointDetails?
     /// The type of endpoint that you want your server to use. You can choose to make your server's endpoint publicly accessible (PUBLIC) or host it inside your VPC. With an endpoint that is hosted in a VPC, you can restrict access to your server and resources only within your VPC or choose to make it internet facing by attaching Elastic IP addresses directly to it. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint. It is recommended that you use VPC as the EndpointType. With this endpoint type, you have the option to directly associate up to three Elastic IPv4 addresses (BYO IP included) with your server's endpoint and use VPC security groups to restrict traffic by the client's public IP address. This is not possible with EndpointType set to VPC_ENDPOINT.
     public var endpointType: TransferClientTypes.EndpointType?
-    /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Update host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
+    /// The RSA, ECDSA, or ED25519 private key to use for your SFTP-enabled server. You can add multiple host keys, in case you want to rotate keys, or have a set of active keys that use different algorithms. Use the following command to generate an RSA 2048 bit key with no passphrase: ssh-keygen -t rsa -b 2048 -N "" -m PEM -f my-new-server-key. Use a minimum value of 2048 for the -b option. You can create a stronger key by using 3072 or 4096. Use the following command to generate an ECDSA 256 bit key with no passphrase: ssh-keygen -t ecdsa -b 256 -N "" -m PEM -f my-new-server-key. Valid values for the -b option for ECDSA are 256, 384, and 521. Use the following command to generate an ED25519 key with no passphrase: ssh-keygen -t ed25519 -N "" -f my-new-server-key. For all of these commands, you can replace my-new-server-key with a string of your choice. If you aren't planning to migrate existing users from an existing SFTP-enabled server to a new server, don't update the host key. Accidentally changing a server's host key can be disruptive. For more information, see [Manage host keys for your SFTP-enabled server](https://docs.aws.amazon.com/transfer/latest/userguide/edit-server-config.html#configuring-servers-change-host-key) in the Transfer Family User Guide.
     public var hostKey: Swift.String?
     /// An array containing all of the information required to call a customer's authentication API method.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
@@ -13771,11 +13798,11 @@ public struct UpdateServerInput: Swift.Equatable {
     ///
     /// * If you select FTPS, you must choose a certificate stored in Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS.
     ///
-    /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
+    /// * If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
     ///
     /// * If Protocol includes FTP, then AddressAllocationIds cannot be associated.
     ///
-    /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
+    /// * If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED, AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
@@ -13784,7 +13811,7 @@ public struct UpdateServerInput: Swift.Equatable {
     /// A system-assigned unique identifier for a server instance that the user account is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
     public var workflowDetails: TransferClientTypes.WorkflowDetails?
 
     public init (
@@ -14282,7 +14309,7 @@ extension TransferClientTypes.WorkflowDetail: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In additon to a workflow to execute when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
+    /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when a file is open when the session disconnects.
     public struct WorkflowDetail: Swift.Equatable {
         /// Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources
         /// This member is required.
@@ -14428,26 +14455,39 @@ extension TransferClientTypes {
         ///
         /// * A description
         ///
-        /// * An S3 location for the destination of the file copy.
+        /// * An Amazon S3 location for the destination of the file copy.
         ///
-        /// * A flag that indicates whether or not to overwrite an existing file of the same name. The default is FALSE.
+        /// * A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
         public var copyStepDetails: TransferClientTypes.CopyStepDetails?
-        /// Details for a step that invokes a lambda function. Consists of the lambda function name, target, and timeout (in seconds).
+        /// Details for a step that invokes an Lambda function. Consists of the Lambda function's name, target, and timeout (in seconds).
         public var customStepDetails: TransferClientTypes.CustomStepDetails?
+        /// Details for a step that decrypts an encrypted file. Consists of the following values:
+        ///
+        /// * A descriptive name
+        ///
+        /// * An Amazon S3 or Amazon Elastic File System (Amazon EFS) location for the source file to decrypt.
+        ///
+        /// * An S3 or Amazon EFS location for the destination of the file decryption.
+        ///
+        /// * A flag that indicates whether to overwrite an existing file of the same name. The default is FALSE.
+        ///
+        /// * The type of encryption that's used. Currently, only PGP encryption is supported.
         public var decryptStepDetails: TransferClientTypes.DecryptStepDetails?
         /// Details for a step that deletes the file.
         public var deleteStepDetails: TransferClientTypes.DeleteStepDetails?
-        /// Details for a step that creates one or more tags. You specify one or more tags: each tag contains a key/value pair.
+        /// Details for a step that creates one or more tags. You specify one or more tags. Each tag contains a key-value pair.
         public var tagStepDetails: TransferClientTypes.TagStepDetails?
         /// Currently, the following step types are supported.
         ///
-        /// * COPY: Copy the file to another location.
+        /// * COPY - Copy the file to another location.
         ///
-        /// * CUSTOM: Perform a custom step with an Lambda function target.
+        /// * CUSTOM - Perform a custom step with an Lambda function target.
         ///
-        /// * DELETE: Delete the file.
+        /// * DECRYPT - Decrypt a file that was encrypted before it was uploaded.
         ///
-        /// * TAG: Add a tag to the file.
+        /// * DELETE - Delete the file.
+        ///
+        /// * TAG - Add a tag to the file.
         public var type: TransferClientTypes.WorkflowStepType?
 
         public init (

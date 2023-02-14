@@ -4009,7 +4009,7 @@ extension CreateUpdatedImageInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let existingImageName = self.existingImageName {
@@ -4041,7 +4041,7 @@ extension CreateUpdatedImageInput: ClientRuntime.URLPathProvider {
 
 public struct CreateUpdatedImageInput: Swift.Equatable {
     /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the image to update.
     /// This member is required.
     public var existingImageName: Swift.String?
@@ -4056,7 +4056,7 @@ public struct CreateUpdatedImageInput: Swift.Equatable {
     public var newImageTags: [Swift.String:Swift.String]?
 
     public init (
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         existingImageName: Swift.String? = nil,
         newImageDescription: Swift.String? = nil,
         newImageDisplayName: Swift.String? = nil,
@@ -4079,7 +4079,7 @@ struct CreateUpdatedImageInputBody: Swift.Equatable {
     let newImageDescription: Swift.String?
     let newImageDisplayName: Swift.String?
     let newImageTags: [Swift.String:Swift.String]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension CreateUpdatedImageInputBody: Swift.Decodable {
@@ -4113,7 +4113,7 @@ extension CreateUpdatedImageInputBody: Swift.Decodable {
             }
         }
         newImageTags = newImageTagsDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -13945,7 +13945,7 @@ extension UpdateFleetInput: Swift.Encodable {
         if let computeCapacity = self.computeCapacity {
             try encodeContainer.encode(computeCapacity, forKey: .computeCapacity)
         }
-        if deleteVpcConfig != false {
+        if let deleteVpcConfig = self.deleteVpcConfig {
             try encodeContainer.encode(deleteVpcConfig, forKey: .deleteVpcConfig)
         }
         if let description = self.description {
@@ -14021,7 +14021,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     public var computeCapacity: AppStreamClientTypes.ComputeCapacity?
     /// Deletes the VPC association for the specified fleet.
     @available(*, deprecated)
-    public var deleteVpcConfig: Swift.Bool
+    public var deleteVpcConfig: Swift.Bool?
     /// The description to display.
     public var description: Swift.String?
     /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 360000.
@@ -14145,7 +14145,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     public init (
         attributesToDelete: [AppStreamClientTypes.FleetAttribute]? = nil,
         computeCapacity: AppStreamClientTypes.ComputeCapacity? = nil,
-        deleteVpcConfig: Swift.Bool = false,
+        deleteVpcConfig: Swift.Bool? = nil,
         description: Swift.String? = nil,
         disconnectTimeoutInSeconds: Swift.Int? = nil,
         displayName: Swift.String? = nil,
@@ -14199,7 +14199,7 @@ struct UpdateFleetInputBody: Swift.Equatable {
     let vpcConfig: AppStreamClientTypes.VpcConfig?
     let maxUserDurationInSeconds: Swift.Int?
     let disconnectTimeoutInSeconds: Swift.Int?
-    let deleteVpcConfig: Swift.Bool
+    let deleteVpcConfig: Swift.Bool?
     let description: Swift.String?
     let displayName: Swift.String?
     let enableDefaultInternetAccess: Swift.Bool?
@@ -14257,7 +14257,7 @@ extension UpdateFleetInputBody: Swift.Decodable {
         maxUserDurationInSeconds = maxUserDurationInSecondsDecoded
         let disconnectTimeoutInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .disconnectTimeoutInSeconds)
         disconnectTimeoutInSeconds = disconnectTimeoutInSecondsDecoded
-        let deleteVpcConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteVpcConfig) ?? false
+        let deleteVpcConfigDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteVpcConfig)
         deleteVpcConfig = deleteVpcConfigDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
@@ -14531,7 +14531,7 @@ extension UpdateStackInput: Swift.Encodable {
                 try attributesToDeleteContainer.encode(stackattribute0.rawValue)
             }
         }
-        if deleteStorageConnectors != false {
+        if let deleteStorageConnectors = self.deleteStorageConnectors {
             try encodeContainer.encode(deleteStorageConnectors, forKey: .deleteStorageConnectors)
         }
         if let description = self.description {
@@ -14588,7 +14588,7 @@ public struct UpdateStackInput: Swift.Equatable {
     public var attributesToDelete: [AppStreamClientTypes.StackAttribute]?
     /// Deletes the storage connectors currently enabled for the stack.
     @available(*, deprecated)
-    public var deleteStorageConnectors: Swift.Bool
+    public var deleteStorageConnectors: Swift.Bool?
     /// The description to display.
     public var description: Swift.String?
     /// The stack name to display.
@@ -14613,7 +14613,7 @@ public struct UpdateStackInput: Swift.Equatable {
         accessEndpoints: [AppStreamClientTypes.AccessEndpoint]? = nil,
         applicationSettings: AppStreamClientTypes.ApplicationSettings? = nil,
         attributesToDelete: [AppStreamClientTypes.StackAttribute]? = nil,
-        deleteStorageConnectors: Swift.Bool = false,
+        deleteStorageConnectors: Swift.Bool? = nil,
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         embedHostDomains: [Swift.String]? = nil,
@@ -14646,7 +14646,7 @@ struct UpdateStackInputBody: Swift.Equatable {
     let description: Swift.String?
     let name: Swift.String?
     let storageConnectors: [AppStreamClientTypes.StorageConnector]?
-    let deleteStorageConnectors: Swift.Bool
+    let deleteStorageConnectors: Swift.Bool?
     let redirectURL: Swift.String?
     let feedbackURL: Swift.String?
     let attributesToDelete: [AppStreamClientTypes.StackAttribute]?
@@ -14693,7 +14693,7 @@ extension UpdateStackInputBody: Swift.Decodable {
             }
         }
         storageConnectors = storageConnectorsDecoded0
-        let deleteStorageConnectorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteStorageConnectors) ?? false
+        let deleteStorageConnectorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteStorageConnectors)
         deleteStorageConnectors = deleteStorageConnectorsDecoded
         let redirectURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redirectURL)
         redirectURL = redirectURLDecoded

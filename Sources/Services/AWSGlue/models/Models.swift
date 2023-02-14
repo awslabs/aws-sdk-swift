@@ -4652,7 +4652,7 @@ extension CancelStatementInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if id != 0 {
+        if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
         if let requestOrigin = self.requestOrigin {
@@ -4673,7 +4673,7 @@ extension CancelStatementInput: ClientRuntime.URLPathProvider {
 public struct CancelStatementInput: Swift.Equatable {
     /// The ID of the statement to be cancelled.
     /// This member is required.
-    public var id: Swift.Int
+    public var id: Swift.Int?
     /// The origin of the request to cancel the statement.
     public var requestOrigin: Swift.String?
     /// The Session ID of the statement to be cancelled.
@@ -4681,7 +4681,7 @@ public struct CancelStatementInput: Swift.Equatable {
     public var sessionId: Swift.String?
 
     public init (
-        id: Swift.Int = 0,
+        id: Swift.Int? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
     )
@@ -4694,7 +4694,7 @@ public struct CancelStatementInput: Swift.Equatable {
 
 struct CancelStatementInputBody: Swift.Equatable {
     let sessionId: Swift.String?
-    let id: Swift.Int
+    let id: Swift.Int?
     let requestOrigin: Swift.String?
 }
 
@@ -4709,7 +4709,7 @@ extension CancelStatementInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
         sessionId = sessionIdDecoded
-        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id) ?? 0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
         let requestOriginDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestOrigin)
         requestOrigin = requestOriginDecoded
@@ -6050,7 +6050,7 @@ extension GlueClientTypes {
         public var dropNullFields: GlueClientTypes.DropNullFields?
         /// Specifies a custom visual transform created by a user.
         public var dynamicTransform: GlueClientTypes.DynamicTransform?
-        /// Specifies a DynamoDB data source in the Glue Data Catalog.
+        /// Specifies a DynamoDBC Catalog data store in the Glue Data Catalog.
         public var dynamoDBCatalogSource: GlueClientTypes.DynamoDBCatalogSource?
         /// Specifies your data quality evaluation criteria.
         public var evaluateDataQuality: GlueClientTypes.EvaluateDataQuality?
@@ -6092,7 +6092,7 @@ extension GlueClientTypes {
         public var redshiftSource: GlueClientTypes.RedshiftSource?
         /// Specifies a target that uses Amazon Redshift.
         public var redshiftTarget: GlueClientTypes.RedshiftTarget?
-        /// Specifies a Relational database data source in the Glue Data Catalog.
+        /// Specifies a relational catalog data store in the Glue Data Catalog.
         public var relationalCatalogSource: GlueClientTypes.RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public var renameField: GlueClientTypes.RenameField?
@@ -10490,7 +10490,7 @@ extension CreateDevEndpointInput: Swift.Encodable {
         if let glueVersion = self.glueVersion {
             try encodeContainer.encode(glueVersion, forKey: .glueVersion)
         }
-        if numberOfNodes != 0 {
+        if let numberOfNodes = self.numberOfNodes {
             try encodeContainer.encode(numberOfNodes, forKey: .numberOfNodes)
         }
         if let numberOfWorkers = self.numberOfWorkers {
@@ -10551,7 +10551,7 @@ public struct CreateDevEndpointInput: Swift.Equatable {
     /// Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
     public var glueVersion: Swift.String?
     /// The number of Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
-    public var numberOfNodes: Swift.Int
+    public var numberOfNodes: Swift.Int?
     /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
     public var numberOfWorkers: Swift.Int?
     /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
@@ -10587,7 +10587,7 @@ public struct CreateDevEndpointInput: Swift.Equatable {
         extraJarsS3Path: Swift.String? = nil,
         extraPythonLibsS3Path: Swift.String? = nil,
         glueVersion: Swift.String? = nil,
-        numberOfNodes: Swift.Int = 0,
+        numberOfNodes: Swift.Int? = nil,
         numberOfWorkers: Swift.Int? = nil,
         publicKey: Swift.String? = nil,
         publicKeys: [Swift.String]? = nil,
@@ -10624,7 +10624,7 @@ struct CreateDevEndpointInputBody: Swift.Equatable {
     let subnetId: Swift.String?
     let publicKey: Swift.String?
     let publicKeys: [Swift.String]?
-    let numberOfNodes: Swift.Int
+    let numberOfNodes: Swift.Int?
     let workerType: GlueClientTypes.WorkerType?
     let glueVersion: Swift.String?
     let numberOfWorkers: Swift.Int?
@@ -10686,7 +10686,7 @@ extension CreateDevEndpointInputBody: Swift.Decodable {
             }
         }
         publicKeys = publicKeysDecoded0
-        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes) ?? 0
+        let numberOfNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfNodes)
         numberOfNodes = numberOfNodesDecoded
         let workerTypeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.WorkerType.self, forKey: .workerType)
         workerType = workerTypeDecoded
@@ -11106,7 +11106,7 @@ extension CreateJobInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedCapacity != 0 {
+        if let allocatedCapacity = self.allocatedCapacity {
             try encodeContainer.encode(allocatedCapacity, forKey: .allocatedCapacity)
         }
         if let codeGenConfigurationNodes = codeGenConfigurationNodes {
@@ -11145,7 +11145,7 @@ extension CreateJobInput: Swift.Encodable {
         if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
         }
-        if maxRetries != 0 {
+        if let maxRetries = self.maxRetries {
             try encodeContainer.encode(maxRetries, forKey: .maxRetries)
         }
         if let name = self.name {
@@ -11196,7 +11196,7 @@ extension CreateJobInput: ClientRuntime.URLPathProvider {
 public struct CreateJobInput: Swift.Equatable {
     /// This parameter is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
     @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
-    public var allocatedCapacity: Swift.Int
+    public var allocatedCapacity: Swift.Int?
     /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
     public var codeGenConfigurationNodes: [Swift.String:GlueClientTypes.CodeGenConfigurationNode]?
     /// The JobCommand that runs this job.
@@ -11226,7 +11226,7 @@ public struct CreateJobInput: Swift.Equatable {
     /// For Glue version 2.0 jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker type and the Number of workers.
     public var maxCapacity: Swift.Double?
     /// The maximum number of times to retry this job if it fails.
-    public var maxRetries: Swift.Int
+    public var maxRetries: Swift.Int?
     /// The name you assign to this job definition. It must be unique in your account.
     /// This member is required.
     public var name: Swift.String?
@@ -11259,7 +11259,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var workerType: GlueClientTypes.WorkerType?
 
     public init (
-        allocatedCapacity: Swift.Int = 0,
+        allocatedCapacity: Swift.Int? = nil,
         codeGenConfigurationNodes: [Swift.String:GlueClientTypes.CodeGenConfigurationNode]? = nil,
         command: GlueClientTypes.JobCommand? = nil,
         connections: GlueClientTypes.ConnectionsList? = nil,
@@ -11270,7 +11270,7 @@ public struct CreateJobInput: Swift.Equatable {
         glueVersion: Swift.String? = nil,
         logUri: Swift.String? = nil,
         maxCapacity: Swift.Double? = nil,
-        maxRetries: Swift.Int = 0,
+        maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
         nonOverridableArguments: [Swift.String:Swift.String]? = nil,
         notificationProperty: GlueClientTypes.NotificationProperty? = nil,
@@ -11318,8 +11318,8 @@ struct CreateJobInputBody: Swift.Equatable {
     let defaultArguments: [Swift.String:Swift.String]?
     let nonOverridableArguments: [Swift.String:Swift.String]?
     let connections: GlueClientTypes.ConnectionsList?
-    let maxRetries: Swift.Int
-    let allocatedCapacity: Swift.Int
+    let maxRetries: Swift.Int?
+    let allocatedCapacity: Swift.Int?
     let timeout: Swift.Int?
     let maxCapacity: Swift.Double?
     let securityConfiguration: Swift.String?
@@ -11397,9 +11397,9 @@ extension CreateJobInputBody: Swift.Decodable {
         nonOverridableArguments = nonOverridableArgumentsDecoded0
         let connectionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ConnectionsList.self, forKey: .connections)
         connections = connectionsDecoded
-        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries) ?? 0
+        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries)
         maxRetries = maxRetriesDecoded
-        let allocatedCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedCapacity) ?? 0
+        let allocatedCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedCapacity)
         allocatedCapacity = allocatedCapacityDecoded
         let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
@@ -13547,7 +13547,7 @@ extension CreateTriggerInput: Swift.Encodable {
         if let schedule = self.schedule {
             try encodeContainer.encode(schedule, forKey: .schedule)
         }
-        if startOnCreation != false {
+        if let startOnCreation = self.startOnCreation {
             try encodeContainer.encode(startOnCreation, forKey: .startOnCreation)
         }
         if let tags = tags {
@@ -13587,7 +13587,7 @@ public struct CreateTriggerInput: Swift.Equatable {
     /// A cron expression used to specify the schedule (see [Time-Based Schedules for Jobs and Crawlers](https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html). For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *). This field is required when the trigger type is SCHEDULED.
     public var schedule: Swift.String?
     /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True is not supported for ON_DEMAND triggers.
-    public var startOnCreation: Swift.Bool
+    public var startOnCreation: Swift.Bool?
     /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in Glue, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html) in the developer guide.
     public var tags: [Swift.String:Swift.String]?
     /// The type of the new trigger.
@@ -13603,7 +13603,7 @@ public struct CreateTriggerInput: Swift.Equatable {
         name: Swift.String? = nil,
         predicate: GlueClientTypes.Predicate? = nil,
         schedule: Swift.String? = nil,
-        startOnCreation: Swift.Bool = false,
+        startOnCreation: Swift.Bool? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: GlueClientTypes.TriggerType? = nil,
         workflowName: Swift.String? = nil
@@ -13630,7 +13630,7 @@ struct CreateTriggerInputBody: Swift.Equatable {
     let predicate: GlueClientTypes.Predicate?
     let actions: [GlueClientTypes.Action]?
     let description: Swift.String?
-    let startOnCreation: Swift.Bool
+    let startOnCreation: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
     let eventBatchingCondition: GlueClientTypes.EventBatchingCondition?
 }
@@ -13674,7 +13674,7 @@ extension CreateTriggerInputBody: Swift.Decodable {
         actions = actionsDecoded0
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let startOnCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startOnCreation) ?? false
+        let startOnCreationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .startOnCreation)
         startOnCreation = startOnCreationDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
@@ -23017,7 +23017,7 @@ extension GetConnectionInput: Swift.Encodable {
         if let catalogId = self.catalogId {
             try encodeContainer.encode(catalogId, forKey: .catalogId)
         }
-        if hidePassword != false {
+        if let hidePassword = self.hidePassword {
             try encodeContainer.encode(hidePassword, forKey: .hidePassword)
         }
         if let name = self.name {
@@ -23036,14 +23036,14 @@ public struct GetConnectionInput: Swift.Equatable {
     /// The ID of the Data Catalog in which the connection resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
-    public var hidePassword: Swift.Bool
+    public var hidePassword: Swift.Bool?
     /// The name of the connection definition to retrieve.
     /// This member is required.
     public var name: Swift.String?
 
     public init (
         catalogId: Swift.String? = nil,
-        hidePassword: Swift.Bool = false,
+        hidePassword: Swift.Bool? = nil,
         name: Swift.String? = nil
     )
     {
@@ -23056,7 +23056,7 @@ public struct GetConnectionInput: Swift.Equatable {
 struct GetConnectionInputBody: Swift.Equatable {
     let catalogId: Swift.String?
     let name: Swift.String?
-    let hidePassword: Swift.Bool
+    let hidePassword: Swift.Bool?
 }
 
 extension GetConnectionInputBody: Swift.Decodable {
@@ -23072,7 +23072,7 @@ extension GetConnectionInputBody: Swift.Decodable {
         catalogId = catalogIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
-        let hidePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hidePassword) ?? false
+        let hidePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hidePassword)
         hidePassword = hidePasswordDecoded
     }
 }
@@ -23220,7 +23220,7 @@ extension GetConnectionsInput: Swift.Encodable {
         if let filter = self.filter {
             try encodeContainer.encode(filter, forKey: .filter)
         }
-        if hidePassword != false {
+        if let hidePassword = self.hidePassword {
             try encodeContainer.encode(hidePassword, forKey: .hidePassword)
         }
         if let maxResults = self.maxResults {
@@ -23244,7 +23244,7 @@ public struct GetConnectionsInput: Swift.Equatable {
     /// A filter that controls which connections are returned.
     public var filter: GlueClientTypes.GetConnectionsFilter?
     /// Allows you to retrieve the connection metadata without returning the password. For instance, the Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
-    public var hidePassword: Swift.Bool
+    public var hidePassword: Swift.Bool?
     /// The maximum number of connections to return in one response.
     public var maxResults: Swift.Int?
     /// A continuation token, if this is a continuation call.
@@ -23253,7 +23253,7 @@ public struct GetConnectionsInput: Swift.Equatable {
     public init (
         catalogId: Swift.String? = nil,
         filter: GlueClientTypes.GetConnectionsFilter? = nil,
-        hidePassword: Swift.Bool = false,
+        hidePassword: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -23269,7 +23269,7 @@ public struct GetConnectionsInput: Swift.Equatable {
 struct GetConnectionsInputBody: Swift.Equatable {
     let catalogId: Swift.String?
     let filter: GlueClientTypes.GetConnectionsFilter?
-    let hidePassword: Swift.Bool
+    let hidePassword: Swift.Bool?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -23289,7 +23289,7 @@ extension GetConnectionsInputBody: Swift.Decodable {
         catalogId = catalogIdDecoded
         let filterDecoded = try containerValues.decodeIfPresent(GlueClientTypes.GetConnectionsFilter.self, forKey: .filter)
         filter = filterDecoded
-        let hidePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hidePassword) ?? false
+        let hidePasswordDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hidePassword)
         hidePassword = hidePasswordDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -25945,7 +25945,7 @@ extension GetJobRunInput: Swift.Encodable {
         if let jobName = self.jobName {
             try encodeContainer.encode(jobName, forKey: .jobName)
         }
-        if predecessorsIncluded != false {
+        if let predecessorsIncluded = self.predecessorsIncluded {
             try encodeContainer.encode(predecessorsIncluded, forKey: .predecessorsIncluded)
         }
         if let runId = self.runId {
@@ -25965,14 +25965,14 @@ public struct GetJobRunInput: Swift.Equatable {
     /// This member is required.
     public var jobName: Swift.String?
     /// True if a list of predecessor runs should be returned.
-    public var predecessorsIncluded: Swift.Bool
+    public var predecessorsIncluded: Swift.Bool?
     /// The ID of the job run.
     /// This member is required.
     public var runId: Swift.String?
 
     public init (
         jobName: Swift.String? = nil,
-        predecessorsIncluded: Swift.Bool = false,
+        predecessorsIncluded: Swift.Bool? = nil,
         runId: Swift.String? = nil
     )
     {
@@ -25985,7 +25985,7 @@ public struct GetJobRunInput: Swift.Equatable {
 struct GetJobRunInputBody: Swift.Equatable {
     let jobName: Swift.String?
     let runId: Swift.String?
-    let predecessorsIncluded: Swift.Bool
+    let predecessorsIncluded: Swift.Bool?
 }
 
 extension GetJobRunInputBody: Swift.Decodable {
@@ -26001,7 +26001,7 @@ extension GetJobRunInputBody: Swift.Decodable {
         jobName = jobNameDecoded
         let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
         runId = runIdDecoded
-        let predecessorsIncludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .predecessorsIncluded) ?? false
+        let predecessorsIncludedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .predecessorsIncluded)
         predecessorsIncluded = predecessorsIncludedDecoded
     }
 }
@@ -29925,7 +29925,7 @@ extension GetStatementInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if id != 0 {
+        if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
         if let requestOrigin = self.requestOrigin {
@@ -29946,7 +29946,7 @@ extension GetStatementInput: ClientRuntime.URLPathProvider {
 public struct GetStatementInput: Swift.Equatable {
     /// The Id of the statement.
     /// This member is required.
-    public var id: Swift.Int
+    public var id: Swift.Int?
     /// The origin of the request.
     public var requestOrigin: Swift.String?
     /// The Session ID of the statement.
@@ -29954,7 +29954,7 @@ public struct GetStatementInput: Swift.Equatable {
     public var sessionId: Swift.String?
 
     public init (
-        id: Swift.Int = 0,
+        id: Swift.Int? = nil,
         requestOrigin: Swift.String? = nil,
         sessionId: Swift.String? = nil
     )
@@ -29967,7 +29967,7 @@ public struct GetStatementInput: Swift.Equatable {
 
 struct GetStatementInputBody: Swift.Equatable {
     let sessionId: Swift.String?
-    let id: Swift.Int
+    let id: Swift.Int?
     let requestOrigin: Swift.String?
 }
 
@@ -29982,7 +29982,7 @@ extension GetStatementInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
         sessionId = sessionIdDecoded
-        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id) ?? 0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .id)
         id = idDecoded
         let requestOriginDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestOrigin)
         requestOrigin = requestOriginDecoded
@@ -36164,12 +36164,15 @@ extension GlueClientTypes {
 
 extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addRecordTimestamp = "AddRecordTimestamp"
         case assign = "Assign"
         case bootstrapServers = "BootstrapServers"
         case classification = "Classification"
         case connectionName = "ConnectionName"
         case delimiter = "Delimiter"
+        case emitConsumerLagMetrics = "EmitConsumerLagMetrics"
         case endingOffsets = "EndingOffsets"
+        case includeHeaders = "IncludeHeaders"
         case maxOffsetsPerTrigger = "MaxOffsetsPerTrigger"
         case minPartitions = "MinPartitions"
         case numRetries = "NumRetries"
@@ -36183,6 +36186,9 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addRecordTimestamp = self.addRecordTimestamp {
+            try encodeContainer.encode(addRecordTimestamp, forKey: .addRecordTimestamp)
+        }
         if let assign = self.assign {
             try encodeContainer.encode(assign, forKey: .assign)
         }
@@ -36198,8 +36204,14 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         if let delimiter = self.delimiter {
             try encodeContainer.encode(delimiter, forKey: .delimiter)
         }
+        if let emitConsumerLagMetrics = self.emitConsumerLagMetrics {
+            try encodeContainer.encode(emitConsumerLagMetrics, forKey: .emitConsumerLagMetrics)
+        }
         if let endingOffsets = self.endingOffsets {
             try encodeContainer.encode(endingOffsets, forKey: .endingOffsets)
+        }
+        if let includeHeaders = self.includeHeaders {
+            try encodeContainer.encode(includeHeaders, forKey: .includeHeaders)
         }
         if let maxOffsetsPerTrigger = self.maxOffsetsPerTrigger {
             try encodeContainer.encode(maxOffsetsPerTrigger, forKey: .maxOffsetsPerTrigger)
@@ -36262,12 +36274,20 @@ extension GlueClientTypes.KafkaStreamingSourceOptions: Swift.Codable {
         maxOffsetsPerTrigger = maxOffsetsPerTriggerDecoded
         let minPartitionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minPartitions)
         minPartitions = minPartitionsDecoded
+        let includeHeadersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeHeaders)
+        includeHeaders = includeHeadersDecoded
+        let addRecordTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addRecordTimestamp)
+        addRecordTimestamp = addRecordTimestampDecoded
+        let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
+        emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
     }
 }
 
 extension GlueClientTypes {
     /// Additional options for streaming.
     public struct KafkaStreamingSourceOptions: Swift.Equatable {
+        /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the topic. The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public var addRecordTimestamp: Swift.String?
         /// The specific TopicPartitions to consume. You must specify at least one of "topicName", "assign" or "subscribePattern".
         public var assign: Swift.String?
         /// A list of bootstrap server URLs, for example, as b-1.vpc-test-2.o4q88o.c6.kafka.us-east-1.amazonaws.com:9094. This option must be specified in the API call or defined in the table metadata in the Data Catalog.
@@ -36278,8 +36298,12 @@ extension GlueClientTypes {
         public var connectionName: Swift.String?
         /// Specifies the delimiter character.
         public var delimiter: Swift.String?
+        /// When this option is set to 'true', for each batch, it will emit the metrics for the duration between the oldest record received by the topic and the time it arrives in Glue to CloudWatch. The metric's name is "glue.driver.streaming.maxConsumerLagInMs". The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public var emitConsumerLagMetrics: Swift.String?
         /// The end point when a batch query is ended. Possible values are either "latest" or a JSON string that specifies an ending offset for each TopicPartition.
         public var endingOffsets: Swift.String?
+        /// Whether to include the Kafka headers. When the option is set to "true", the data output will contain an additional column named "glue_streaming_kafka_headers" with type Array[Struct(key: String, value: String)]. The default value is "false". This option is available in Glue version 3.0 or later only.
+        public var includeHeaders: Swift.Bool?
         /// The rate limit on the maximum number of offsets that are processed per trigger interval. The specified total number of offsets is proportionally split across topicPartitions of different volumes. The default value is null, which means that the consumer reads all offsets until the known latest offset.
         public var maxOffsetsPerTrigger: Swift.Int?
         /// The desired minimum number of partitions to read from Kafka. The default value is null, which means that the number of spark partitions is equal to the number of Kafka partitions.
@@ -36300,12 +36324,15 @@ extension GlueClientTypes {
         public var topicName: Swift.String?
 
         public init (
+            addRecordTimestamp: Swift.String? = nil,
             assign: Swift.String? = nil,
             bootstrapServers: Swift.String? = nil,
             classification: Swift.String? = nil,
             connectionName: Swift.String? = nil,
             delimiter: Swift.String? = nil,
+            emitConsumerLagMetrics: Swift.String? = nil,
             endingOffsets: Swift.String? = nil,
+            includeHeaders: Swift.Bool? = nil,
             maxOffsetsPerTrigger: Swift.Int? = nil,
             minPartitions: Swift.Int? = nil,
             numRetries: Swift.Int? = nil,
@@ -36317,12 +36344,15 @@ extension GlueClientTypes {
             topicName: Swift.String? = nil
         )
         {
+            self.addRecordTimestamp = addRecordTimestamp
             self.assign = assign
             self.bootstrapServers = bootstrapServers
             self.classification = classification
             self.connectionName = connectionName
             self.delimiter = delimiter
+            self.emitConsumerLagMetrics = emitConsumerLagMetrics
             self.endingOffsets = endingOffsets
+            self.includeHeaders = includeHeaders
             self.maxOffsetsPerTrigger = maxOffsetsPerTrigger
             self.minPartitions = minPartitions
             self.numRetries = numRetries
@@ -36387,10 +36417,12 @@ extension GlueClientTypes {
 extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addIdleTimeBetweenReads = "AddIdleTimeBetweenReads"
+        case addRecordTimestamp = "AddRecordTimestamp"
         case avoidEmptyBatches = "AvoidEmptyBatches"
         case classification = "Classification"
         case delimiter = "Delimiter"
         case describeShardInterval = "DescribeShardInterval"
+        case emitConsumerLagMetrics = "EmitConsumerLagMetrics"
         case endpointUrl = "EndpointUrl"
         case idleTimeBetweenReadsInMs = "IdleTimeBetweenReadsInMs"
         case maxFetchRecordsPerShard = "MaxFetchRecordsPerShard"
@@ -36411,6 +36443,9 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         if let addIdleTimeBetweenReads = self.addIdleTimeBetweenReads {
             try encodeContainer.encode(addIdleTimeBetweenReads, forKey: .addIdleTimeBetweenReads)
         }
+        if let addRecordTimestamp = self.addRecordTimestamp {
+            try encodeContainer.encode(addRecordTimestamp, forKey: .addRecordTimestamp)
+        }
         if let avoidEmptyBatches = self.avoidEmptyBatches {
             try encodeContainer.encode(avoidEmptyBatches, forKey: .avoidEmptyBatches)
         }
@@ -36422,6 +36457,9 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         }
         if let describeShardInterval = self.describeShardInterval {
             try encodeContainer.encode(describeShardInterval, forKey: .describeShardInterval)
+        }
+        if let emitConsumerLagMetrics = self.emitConsumerLagMetrics {
+            try encodeContainer.encode(emitConsumerLagMetrics, forKey: .emitConsumerLagMetrics)
         }
         if let endpointUrl = self.endpointUrl {
             try encodeContainer.encode(endpointUrl, forKey: .endpointUrl)
@@ -36502,6 +36540,10 @@ extension GlueClientTypes.KinesisStreamingSourceOptions: Swift.Codable {
         roleArn = roleArnDecoded
         let roleSessionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleSessionName)
         roleSessionName = roleSessionNameDecoded
+        let addRecordTimestampDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .addRecordTimestamp)
+        addRecordTimestamp = addRecordTimestampDecoded
+        let emitConsumerLagMetricsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .emitConsumerLagMetrics)
+        emitConsumerLagMetrics = emitConsumerLagMetricsDecoded
     }
 }
 
@@ -36510,6 +36552,8 @@ extension GlueClientTypes {
     public struct KinesisStreamingSourceOptions: Swift.Equatable {
         /// Adds a time delay between two consecutive getRecords operations. The default value is "False". This option is only configurable for Glue version 2.0 and above.
         public var addIdleTimeBetweenReads: Swift.Bool?
+        /// When this option is set to 'true', the data output will contain an additional column named "__src_timestamp" that indicates the time when the corresponding record received by the stream. The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public var addRecordTimestamp: Swift.String?
         /// Avoids creating an empty microbatch job by checking for unread data in the Kinesis data stream before the batch is started. The default value is "False".
         public var avoidEmptyBatches: Swift.Bool?
         /// An optional classification.
@@ -36518,6 +36562,8 @@ extension GlueClientTypes {
         public var delimiter: Swift.String?
         /// The minimum time interval between two ListShards API calls for your script to consider resharding. The default value is 1s.
         public var describeShardInterval: Swift.Int?
+        /// When this option is set to 'true', for each batch, it will emit the metrics for the duration between the oldest record received by the stream and the time it arrives in Glue to CloudWatch. The metric's name is "glue.driver.streaming.maxConsumerLagInMs". The default value is 'false'. This option is supported in Glue version 4.0 or later.
+        public var emitConsumerLagMetrics: Swift.String?
         /// The URL of the Kinesis endpoint.
         public var endpointUrl: Swift.String?
         /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
@@ -36547,10 +36593,12 @@ extension GlueClientTypes {
 
         public init (
             addIdleTimeBetweenReads: Swift.Bool? = nil,
+            addRecordTimestamp: Swift.String? = nil,
             avoidEmptyBatches: Swift.Bool? = nil,
             classification: Swift.String? = nil,
             delimiter: Swift.String? = nil,
             describeShardInterval: Swift.Int? = nil,
+            emitConsumerLagMetrics: Swift.String? = nil,
             endpointUrl: Swift.String? = nil,
             idleTimeBetweenReadsInMs: Swift.Int? = nil,
             maxFetchRecordsPerShard: Swift.Int? = nil,
@@ -36567,10 +36615,12 @@ extension GlueClientTypes {
         )
         {
             self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
+            self.addRecordTimestamp = addRecordTimestamp
             self.avoidEmptyBatches = avoidEmptyBatches
             self.classification = classification
             self.delimiter = delimiter
             self.describeShardInterval = describeShardInterval
+            self.emitConsumerLagMetrics = emitConsumerLagMetrics
             self.endpointUrl = endpointUrl
             self.idleTimeBetweenReadsInMs = idleTimeBetweenReadsInMs
             self.maxFetchRecordsPerShard = maxFetchRecordsPerShard
@@ -43941,7 +43991,7 @@ extension QuerySchemaVersionMetadataInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let metadataList = metadataList {
@@ -43973,7 +44023,7 @@ extension QuerySchemaVersionMetadataInput: ClientRuntime.URLPathProvider {
 
 public struct QuerySchemaVersionMetadataInput: Swift.Equatable {
     /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Search key-value pairs for metadata, if they are not provided all the metadata information will be fetched.
     public var metadataList: [GlueClientTypes.MetadataKeyValuePair]?
     /// A continuation token, if this is a continuation call.
@@ -43986,7 +44036,7 @@ public struct QuerySchemaVersionMetadataInput: Swift.Equatable {
     public var schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         metadataList: [GlueClientTypes.MetadataKeyValuePair]? = nil,
         nextToken: Swift.String? = nil,
         schemaId: GlueClientTypes.SchemaId? = nil,
@@ -44008,7 +44058,7 @@ struct QuerySchemaVersionMetadataInputBody: Swift.Equatable {
     let schemaVersionNumber: GlueClientTypes.SchemaVersionNumber?
     let schemaVersionId: Swift.String?
     let metadataList: [GlueClientTypes.MetadataKeyValuePair]?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -44041,7 +44091,7 @@ extension QuerySchemaVersionMetadataInputBody: Swift.Decodable {
             }
         }
         metadataList = metadataListDecoded0
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -47044,6 +47094,7 @@ extension GlueClientTypes.S3HudiDirectTarget: Swift.Codable {
 extension GlueClientTypes {
     /// Specifies a target that writes to a Hudi data source in Amazon S3.
     public struct S3HudiDirectTarget: Swift.Equatable {
+        /// Specifies additional connection options for the connector.
         /// This member is required.
         public var additionalOptions: [Swift.String:Swift.String]?
         /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
@@ -47174,7 +47225,7 @@ extension GlueClientTypes {
     public struct S3HudiSource: Swift.Equatable {
         /// Specifies additional connection options.
         public var additionalHudiOptions: [Swift.String:Swift.String]?
-        /// Specifies additional connection options for the Amazon S3 data store.
+        /// Specifies additional options for the connector.
         public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
         /// The name of the Hudi source.
         /// This member is required.
@@ -51182,7 +51233,7 @@ extension StartImportLabelsTaskRunInput: Swift.Encodable {
         if let inputS3Path = self.inputS3Path {
             try encodeContainer.encode(inputS3Path, forKey: .inputS3Path)
         }
-        if replaceAllLabels != false {
+        if let replaceAllLabels = self.replaceAllLabels {
             try encodeContainer.encode(replaceAllLabels, forKey: .replaceAllLabels)
         }
         if let transformId = self.transformId {
@@ -51202,14 +51253,14 @@ public struct StartImportLabelsTaskRunInput: Swift.Equatable {
     /// This member is required.
     public var inputS3Path: Swift.String?
     /// Indicates whether to overwrite your existing labels.
-    public var replaceAllLabels: Swift.Bool
+    public var replaceAllLabels: Swift.Bool?
     /// The unique identifier of the machine learning transform.
     /// This member is required.
     public var transformId: Swift.String?
 
     public init (
         inputS3Path: Swift.String? = nil,
-        replaceAllLabels: Swift.Bool = false,
+        replaceAllLabels: Swift.Bool? = nil,
         transformId: Swift.String? = nil
     )
     {
@@ -51222,7 +51273,7 @@ public struct StartImportLabelsTaskRunInput: Swift.Equatable {
 struct StartImportLabelsTaskRunInputBody: Swift.Equatable {
     let transformId: Swift.String?
     let inputS3Path: Swift.String?
-    let replaceAllLabels: Swift.Bool
+    let replaceAllLabels: Swift.Bool?
 }
 
 extension StartImportLabelsTaskRunInputBody: Swift.Decodable {
@@ -51238,7 +51289,7 @@ extension StartImportLabelsTaskRunInputBody: Swift.Decodable {
         transformId = transformIdDecoded
         let inputS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputS3Path)
         inputS3Path = inputS3PathDecoded
-        let replaceAllLabelsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replaceAllLabels) ?? false
+        let replaceAllLabelsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replaceAllLabels)
         replaceAllLabels = replaceAllLabelsDecoded
     }
 }
@@ -51331,7 +51382,7 @@ extension StartJobRunInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allocatedCapacity != 0 {
+        if let allocatedCapacity = self.allocatedCapacity {
             try encodeContainer.encode(allocatedCapacity, forKey: .allocatedCapacity)
         }
         if let arguments = arguments {
@@ -51379,7 +51430,7 @@ extension StartJobRunInput: ClientRuntime.URLPathProvider {
 public struct StartJobRunInput: Swift.Equatable {
     /// This field is deprecated. Use MaxCapacity instead. The number of Glue data processing units (DPUs) to allocate to this JobRun. You can allocate a minimum of 2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the [Glue pricing page](https://aws.amazon.com/glue/pricing/).
     @available(*, deprecated, message: "This property is deprecated, use MaxCapacity instead.")
-    public var allocatedCapacity: Swift.Int
+    public var allocatedCapacity: Swift.Int?
     /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you intend to keep them within the Job. For information about how to specify and consume your own Job arguments, see the [Calling Glue APIs in Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html) topic in the developer guide. For information about the key-value pairs that Glue consumes to set up your job, see the [Special Parameters Used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html) topic in the developer guide.
     public var arguments: [Swift.String:Swift.String]?
     /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary. Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
@@ -51415,7 +51466,7 @@ public struct StartJobRunInput: Swift.Equatable {
     public var workerType: GlueClientTypes.WorkerType?
 
     public init (
-        allocatedCapacity: Swift.Int = 0,
+        allocatedCapacity: Swift.Int? = nil,
         arguments: [Swift.String:Swift.String]? = nil,
         executionClass: GlueClientTypes.ExecutionClass? = nil,
         jobName: Swift.String? = nil,
@@ -51446,7 +51497,7 @@ struct StartJobRunInputBody: Swift.Equatable {
     let jobName: Swift.String?
     let jobRunId: Swift.String?
     let arguments: [Swift.String:Swift.String]?
-    let allocatedCapacity: Swift.Int
+    let allocatedCapacity: Swift.Int?
     let timeout: Swift.Int?
     let maxCapacity: Swift.Double?
     let securityConfiguration: Swift.String?
@@ -51488,7 +51539,7 @@ extension StartJobRunInputBody: Swift.Decodable {
             }
         }
         arguments = argumentsDecoded0
-        let allocatedCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedCapacity) ?? 0
+        let allocatedCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedCapacity)
         allocatedCapacity = allocatedCapacityDecoded
         let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
@@ -57307,7 +57358,7 @@ extension UpdateDevEndpointInput: Swift.Encodable {
         if let publicKey = self.publicKey {
             try encodeContainer.encode(publicKey, forKey: .publicKey)
         }
-        if updateEtlLibraries != false {
+        if let updateEtlLibraries = self.updateEtlLibraries {
             try encodeContainer.encode(updateEtlLibraries, forKey: .updateEtlLibraries)
         }
     }
@@ -57341,7 +57392,7 @@ public struct UpdateDevEndpointInput: Swift.Equatable {
     /// The public key for the DevEndpoint to use.
     public var publicKey: Swift.String?
     /// True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False if otherwise.
-    public var updateEtlLibraries: Swift.Bool
+    public var updateEtlLibraries: Swift.Bool?
 
     public init (
         addArguments: [Swift.String:Swift.String]? = nil,
@@ -57351,7 +57402,7 @@ public struct UpdateDevEndpointInput: Swift.Equatable {
         deletePublicKeys: [Swift.String]? = nil,
         endpointName: Swift.String? = nil,
         publicKey: Swift.String? = nil,
-        updateEtlLibraries: Swift.Bool = false
+        updateEtlLibraries: Swift.Bool? = nil
     )
     {
         self.addArguments = addArguments
@@ -57371,7 +57422,7 @@ struct UpdateDevEndpointInputBody: Swift.Equatable {
     let addPublicKeys: [Swift.String]?
     let deletePublicKeys: [Swift.String]?
     let customLibraries: GlueClientTypes.DevEndpointCustomLibraries?
-    let updateEtlLibraries: Swift.Bool
+    let updateEtlLibraries: Swift.Bool?
     let deleteArguments: [Swift.String]?
     let addArguments: [Swift.String:Swift.String]?
 }
@@ -57418,7 +57469,7 @@ extension UpdateDevEndpointInputBody: Swift.Decodable {
         deletePublicKeys = deletePublicKeysDecoded0
         let customLibrariesDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DevEndpointCustomLibraries.self, forKey: .customLibraries)
         customLibraries = customLibrariesDecoded
-        let updateEtlLibrariesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateEtlLibraries) ?? false
+        let updateEtlLibrariesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .updateEtlLibraries)
         updateEtlLibraries = updateEtlLibrariesDecoded
         let deleteArgumentsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .deleteArguments)
         var deleteArgumentsDecoded0:[Swift.String]? = nil

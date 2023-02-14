@@ -1657,6 +1657,7 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
         case eventId
         case inputMode
         case interpretations
+        case recognizedBotMember
         case requestAttributes
         case sessionId
         case sessionState
@@ -1675,6 +1676,9 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
             for interpretation0 in interpretations {
                 try interpretationsContainer.encode(interpretation0)
             }
+        }
+        if let recognizedBotMember = self.recognizedBotMember {
+            try encodeContainer.encode(recognizedBotMember, forKey: .recognizedBotMember)
         }
         if let requestAttributes = requestAttributes {
             var requestAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .requestAttributes)
@@ -1722,6 +1726,8 @@ extension LexRuntimeV2ClientTypes.IntentResultEvent: Swift.Codable {
         sessionId = sessionIdDecoded
         let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
         eventId = eventIdDecoded
+        let recognizedBotMemberDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.RecognizedBotMember.self, forKey: .recognizedBotMember)
+        recognizedBotMember = recognizedBotMemberDecoded
     }
 }
 
@@ -1734,6 +1740,8 @@ extension LexRuntimeV2ClientTypes {
         public var inputMode: LexRuntimeV2ClientTypes.InputMode?
         /// A list of intents that Amazon Lex V2 determined might satisfy the user's utterance. Each interpretation includes the intent, a score that indicates how confident Amazon Lex V2 is that the interpretation is the correct one, and an optional sentiment response that indicates the sentiment expressed in the utterance.
         public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
+        /// The bot member that is processing the intent.
+        public var recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember?
         /// The attributes sent in the request.
         public var requestAttributes: [Swift.String:Swift.String]?
         /// The identifier of the session in use.
@@ -1745,6 +1753,7 @@ extension LexRuntimeV2ClientTypes {
             eventId: Swift.String? = nil,
             inputMode: LexRuntimeV2ClientTypes.InputMode? = nil,
             interpretations: [LexRuntimeV2ClientTypes.Interpretation]? = nil,
+            recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember? = nil,
             requestAttributes: [Swift.String:Swift.String]? = nil,
             sessionId: Swift.String? = nil,
             sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
@@ -1753,6 +1762,7 @@ extension LexRuntimeV2ClientTypes {
             self.eventId = eventId
             self.inputMode = inputMode
             self.interpretations = interpretations
+            self.recognizedBotMember = recognizedBotMember
             self.requestAttributes = requestAttributes
             self.sessionId = sessionId
             self.sessionState = sessionState
@@ -2594,12 +2604,14 @@ extension RecognizeTextOutputResponse: ClientRuntime.HttpResponseBinding {
             let output: RecognizeTextOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.interpretations = output.interpretations
             self.messages = output.messages
+            self.recognizedBotMember = output.recognizedBotMember
             self.requestAttributes = output.requestAttributes
             self.sessionId = output.sessionId
             self.sessionState = output.sessionState
         } else {
             self.interpretations = nil
             self.messages = nil
+            self.recognizedBotMember = nil
             self.requestAttributes = nil
             self.sessionId = nil
             self.sessionState = nil
@@ -2612,6 +2624,8 @@ public struct RecognizeTextOutputResponse: Swift.Equatable {
     public var interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     /// A list of messages last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot.
     public var messages: [LexRuntimeV2ClientTypes.Message]?
+    /// The bot member that recognized the text.
+    public var recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember?
     /// The attributes sent in the request.
     public var requestAttributes: [Swift.String:Swift.String]?
     /// The identifier of the session in use.
@@ -2622,6 +2636,7 @@ public struct RecognizeTextOutputResponse: Swift.Equatable {
     public init (
         interpretations: [LexRuntimeV2ClientTypes.Interpretation]? = nil,
         messages: [LexRuntimeV2ClientTypes.Message]? = nil,
+        recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember? = nil,
         requestAttributes: [Swift.String:Swift.String]? = nil,
         sessionId: Swift.String? = nil,
         sessionState: LexRuntimeV2ClientTypes.SessionState? = nil
@@ -2629,6 +2644,7 @@ public struct RecognizeTextOutputResponse: Swift.Equatable {
     {
         self.interpretations = interpretations
         self.messages = messages
+        self.recognizedBotMember = recognizedBotMember
         self.requestAttributes = requestAttributes
         self.sessionId = sessionId
         self.sessionState = sessionState
@@ -2641,12 +2657,14 @@ struct RecognizeTextOutputResponseBody: Swift.Equatable {
     let interpretations: [LexRuntimeV2ClientTypes.Interpretation]?
     let requestAttributes: [Swift.String:Swift.String]?
     let sessionId: Swift.String?
+    let recognizedBotMember: LexRuntimeV2ClientTypes.RecognizedBotMember?
 }
 
 extension RecognizeTextOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interpretations
         case messages
+        case recognizedBotMember
         case requestAttributes
         case sessionId
         case sessionState
@@ -2691,6 +2709,8 @@ extension RecognizeTextOutputResponseBody: Swift.Decodable {
         requestAttributes = requestAttributesDecoded0
         let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
         sessionId = sessionIdDecoded
+        let recognizedBotMemberDecoded = try containerValues.decodeIfPresent(LexRuntimeV2ClientTypes.RecognizedBotMember.self, forKey: .recognizedBotMember)
+        recognizedBotMember = recognizedBotMemberDecoded
     }
 }
 
@@ -2818,7 +2838,7 @@ public struct RecognizeUtteranceInput: Swift.Equatable {
     ///
     /// * If the value is text/plain;charset=utf-8, Amazon Lex V2 returns text in the response.
     ///
-    /// * If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the requestContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.
+    /// * If the value begins with audio/, Amazon Lex V2 returns speech in the response. Amazon Lex V2 uses Amazon Polly to generate the speech using the configuration that you specified in the responseContentType parameter. For example, if you specify audio/mpeg as the value, Amazon Lex V2 returns speech in the MPEG format.
     ///
     /// * If the value is audio/pcm, the speech returned is audio/pcm at 16 KHz in 16-bit, little-endian format.
     ///
@@ -2943,6 +2963,11 @@ extension RecognizeUtteranceOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.messages = nil
         }
+        if let recognizedBotMemberHeaderValue = httpResponse.headers.value(for: "x-amz-lex-recognized-bot-member") {
+            self.recognizedBotMember = recognizedBotMemberHeaderValue
+        } else {
+            self.recognizedBotMember = nil
+        }
         if let requestAttributesHeaderValue = httpResponse.headers.value(for: "x-amz-lex-request-attributes") {
             self.requestAttributes = requestAttributesHeaderValue
         } else {
@@ -2979,6 +3004,8 @@ public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
     public var interpretations: Swift.String?
     /// A list of messages that were last sent to the user. The messages are ordered based on the order that you returned the messages from your Lambda function or the order that the messages are defined in the bot. The messages field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents. See the example for a simple function to decode and decompress the contents.
     public var messages: Swift.String?
+    /// The bot member that recognized the utterance.
+    public var recognizedBotMember: Swift.String?
     /// The attributes sent in the request. The requestAttributes field is compressed with gzip and then base64 encoded. Before you can use the contents of the field, you must decode and decompress the contents.
     public var requestAttributes: Swift.String?
     /// The identifier of the session in use.
@@ -2993,6 +3020,7 @@ public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
         inputTranscript: Swift.String? = nil,
         interpretations: Swift.String? = nil,
         messages: Swift.String? = nil,
+        recognizedBotMember: Swift.String? = nil,
         requestAttributes: Swift.String? = nil,
         sessionId: Swift.String? = nil,
         sessionState: Swift.String? = nil
@@ -3004,6 +3032,7 @@ public struct RecognizeUtteranceOutputResponse: Swift.Equatable {
         self.inputTranscript = inputTranscript
         self.interpretations = interpretations
         self.messages = messages
+        self.recognizedBotMember = recognizedBotMember
         self.requestAttributes = requestAttributes
         self.sessionId = sessionId
         self.sessionState = sessionState
@@ -3024,6 +3053,52 @@ extension RecognizeUtteranceOutputResponseBody: Swift.Decodable {
         let audioStreamDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .audioStream)
         audioStream = audioStreamDecoded
     }
+}
+
+extension LexRuntimeV2ClientTypes.RecognizedBotMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botId = self.botId {
+            try encodeContainer.encode(botId, forKey: .botId)
+        }
+        if let botName = self.botName {
+            try encodeContainer.encode(botName, forKey: .botName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let botNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botName)
+        botName = botNameDecoded
+    }
+}
+
+extension LexRuntimeV2ClientTypes {
+    /// The bot member that processes the request.
+    public struct RecognizedBotMember: Swift.Equatable {
+        /// The identifier of the bot member that processes the request.
+        /// This member is required.
+        public var botId: Swift.String?
+        /// The name of the bot member that processes the request.
+        public var botName: Swift.String?
+
+        public init (
+            botId: Swift.String? = nil,
+            botName: Swift.String? = nil
+        )
+        {
+            self.botId = botId
+            self.botName = botName
+        }
+    }
+
 }
 
 extension ResourceNotFoundException: Swift.Codable {

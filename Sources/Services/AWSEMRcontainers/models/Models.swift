@@ -379,7 +379,7 @@ extension EMRcontainersClientTypes.ContainerInfo: Swift.Codable {
 extension EMRcontainersClientTypes {
     /// The information about the container used for a job run or a managed endpoint.
     public enum ContainerInfo: Swift.Equatable {
-        /// The information about the EKS cluster.
+        /// The information about the Amazon EKS cluster.
         case eksinfo(EMRcontainersClientTypes.EksInfo)
         case sdkUnknown(Swift.String)
     }
@@ -425,7 +425,7 @@ extension EMRcontainersClientTypes {
         public var id: Swift.String?
         /// The information about the container cluster.
         public var info: EMRcontainersClientTypes.ContainerInfo?
-        /// The type of the container provider. EKS is the only supported type as of now.
+        /// The type of the container provider. Amazon EKS is the only supported type as of now.
         /// This member is required.
         public var type: EMRcontainersClientTypes.ContainerProviderType?
 
@@ -1852,9 +1852,9 @@ extension EMRcontainersClientTypes.EksInfo: Swift.Codable {
 }
 
 extension EMRcontainersClientTypes {
-    /// The information about the EKS cluster.
+    /// The information about the Amazon EKS cluster.
     public struct EksInfo: Swift.Equatable {
-        /// The namespaces of the EKS cluster.
+        /// The namespaces of the Amazon EKS cluster.
         public var namespace: Swift.String?
 
         public init (
@@ -2287,6 +2287,8 @@ extension EMRcontainersClientTypes.JobRun: Swift.Codable {
         case jobDriver
         case name
         case releaseLabel
+        case retryPolicyConfiguration
+        case retryPolicyExecution
         case state
         case stateDetails
         case tags
@@ -2330,6 +2332,12 @@ extension EMRcontainersClientTypes.JobRun: Swift.Codable {
         }
         if let releaseLabel = self.releaseLabel {
             try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let retryPolicyConfiguration = self.retryPolicyConfiguration {
+            try encodeContainer.encode(retryPolicyConfiguration, forKey: .retryPolicyConfiguration)
+        }
+        if let retryPolicyExecution = self.retryPolicyExecution {
+            try encodeContainer.encode(retryPolicyExecution, forKey: .retryPolicyExecution)
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -2391,6 +2399,10 @@ extension EMRcontainersClientTypes.JobRun: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let retryPolicyConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.RetryPolicyConfiguration.self, forKey: .retryPolicyConfiguration)
+        retryPolicyConfiguration = retryPolicyConfigurationDecoded
+        let retryPolicyExecutionDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.RetryPolicyExecution.self, forKey: .retryPolicyExecution)
+        retryPolicyExecution = retryPolicyExecutionDecoded
     }
 }
 
@@ -2421,6 +2433,10 @@ extension EMRcontainersClientTypes {
         public var name: Swift.String?
         /// The release version of Amazon EMR.
         public var releaseLabel: Swift.String?
+        /// The configuration of the retry policy that the job runs on.
+        public var retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration?
+        /// The current status of the retry policy executed on the job.
+        public var retryPolicyExecution: EMRcontainersClientTypes.RetryPolicyExecution?
         /// The state of the job run.
         public var state: EMRcontainersClientTypes.JobRunState?
         /// Additional details of the job run state.
@@ -2443,6 +2459,8 @@ extension EMRcontainersClientTypes {
             jobDriver: EMRcontainersClientTypes.JobDriver? = nil,
             name: Swift.String? = nil,
             releaseLabel: Swift.String? = nil,
+            retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration? = nil,
+            retryPolicyExecution: EMRcontainersClientTypes.RetryPolicyExecution? = nil,
             state: EMRcontainersClientTypes.JobRunState? = nil,
             stateDetails: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -2461,6 +2479,8 @@ extension EMRcontainersClientTypes {
             self.jobDriver = jobDriver
             self.name = name
             self.releaseLabel = releaseLabel
+            self.retryPolicyConfiguration = retryPolicyConfiguration
+            self.retryPolicyExecution = retryPolicyExecution
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -3410,7 +3430,7 @@ extension ListVirtualClustersInput: ClientRuntime.URLPathProvider {
 public struct ListVirtualClustersInput: Swift.Equatable {
     /// The container provider ID of the virtual cluster.
     public var containerProviderId: Swift.String?
-    /// The container provider type of the virtual cluster. EKS is the only supported type as of now.
+    /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now.
     public var containerProviderType: EMRcontainersClientTypes.ContainerProviderType?
     /// The date and time after which the virtual clusters are created.
     public var createdAfter: ClientRuntime.Date?
@@ -3867,6 +3887,78 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension EMRcontainersClientTypes.RetryPolicyConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxAttempts
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxAttempts = self.maxAttempts {
+            try encodeContainer.encode(maxAttempts, forKey: .maxAttempts)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxAttemptsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAttempts)
+        maxAttempts = maxAttemptsDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// The configuration of the retry policy that the job runs on.
+    public struct RetryPolicyConfiguration: Swift.Equatable {
+        /// The maximum number of attempts on the job's driver.
+        /// This member is required.
+        public var maxAttempts: Swift.Int?
+
+        public init (
+            maxAttempts: Swift.Int? = nil
+        )
+        {
+            self.maxAttempts = maxAttempts
+        }
+    }
+
+}
+
+extension EMRcontainersClientTypes.RetryPolicyExecution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentAttemptCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentAttemptCount = self.currentAttemptCount {
+            try encodeContainer.encode(currentAttemptCount, forKey: .currentAttemptCount)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let currentAttemptCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .currentAttemptCount)
+        currentAttemptCount = currentAttemptCountDecoded
+    }
+}
+
+extension EMRcontainersClientTypes {
+    /// The current status of the retry policy executed on the job.
+    public struct RetryPolicyExecution: Swift.Equatable {
+        /// The current number of attempts made on the driver of the job.
+        /// This member is required.
+        public var currentAttemptCount: Swift.Int?
+
+        public init (
+            currentAttemptCount: Swift.Int? = nil
+        )
+        {
+            self.currentAttemptCount = currentAttemptCount
+        }
+    }
+
+}
+
 extension EMRcontainersClientTypes.S3MonitoringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logUri
@@ -4036,6 +4128,7 @@ extension StartJobRunInput: Swift.Encodable {
         case jobTemplateParameters
         case name
         case releaseLabel
+        case retryPolicyConfiguration
         case tags
     }
 
@@ -4067,6 +4160,9 @@ extension StartJobRunInput: Swift.Encodable {
         }
         if let releaseLabel = self.releaseLabel {
             try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let retryPolicyConfiguration = self.retryPolicyConfiguration {
+            try encodeContainer.encode(retryPolicyConfiguration, forKey: .retryPolicyConfiguration)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -4104,6 +4200,8 @@ public struct StartJobRunInput: Swift.Equatable {
     public var name: Swift.String?
     /// The Amazon EMR release version to use for the job run.
     public var releaseLabel: Swift.String?
+    /// The retry policy configuration for the job run.
+    public var retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration?
     /// The tags assigned to job runs.
     public var tags: [Swift.String:Swift.String]?
     /// The virtual cluster ID for which the job run request is submitted.
@@ -4119,6 +4217,7 @@ public struct StartJobRunInput: Swift.Equatable {
         jobTemplateParameters: [Swift.String:Swift.String]? = nil,
         name: Swift.String? = nil,
         releaseLabel: Swift.String? = nil,
+        retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         virtualClusterId: Swift.String? = nil
     )
@@ -4131,6 +4230,7 @@ public struct StartJobRunInput: Swift.Equatable {
         self.jobTemplateParameters = jobTemplateParameters
         self.name = name
         self.releaseLabel = releaseLabel
+        self.retryPolicyConfiguration = retryPolicyConfiguration
         self.tags = tags
         self.virtualClusterId = virtualClusterId
     }
@@ -4146,6 +4246,7 @@ struct StartJobRunInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let jobTemplateId: Swift.String?
     let jobTemplateParameters: [Swift.String:Swift.String]?
+    let retryPolicyConfiguration: EMRcontainersClientTypes.RetryPolicyConfiguration?
 }
 
 extension StartJobRunInputBody: Swift.Decodable {
@@ -4158,6 +4259,7 @@ extension StartJobRunInputBody: Swift.Decodable {
         case jobTemplateParameters
         case name
         case releaseLabel
+        case retryPolicyConfiguration
         case tags
     }
 
@@ -4199,6 +4301,8 @@ extension StartJobRunInputBody: Swift.Decodable {
             }
         }
         jobTemplateParameters = jobTemplateParametersDecoded0
+        let retryPolicyConfigurationDecoded = try containerValues.decodeIfPresent(EMRcontainersClientTypes.RetryPolicyConfiguration.self, forKey: .retryPolicyConfiguration)
+        retryPolicyConfiguration = retryPolicyConfigurationDecoded
     }
 }
 
@@ -4433,7 +4537,7 @@ extension EMRcontainersClientTypes {
     public struct TemplateParameterConfiguration: Swift.Equatable {
         /// The default value for the job template parameter.
         public var defaultValue: Swift.String?
-        /// The type of the job template parameter. Allowed values are: ‘String’, ‘Number’.
+        /// The type of the job template parameter. Allowed values are: ‘STRING’, ‘NUMBER’.
         public var type: EMRcontainersClientTypes.TemplateParameterDataType?
 
         public init (
@@ -4689,7 +4793,7 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
 }
 
 extension EMRcontainersClientTypes {
-    /// This entity describes a virtual cluster. A virtual cluster is a Kubernetes namespace that Amazon EMR is registered with. Amazon EMR uses virtual clusters to run jobs and host endpoints. Multiple virtual clusters can be backed by the same physical cluster. However, each virtual cluster maps to one namespace on an EKS cluster. Virtual clusters do not create any active resources that contribute to your bill or that require lifecycle management outside the service.
+    /// This entity describes a virtual cluster. A virtual cluster is a Kubernetes namespace that Amazon EMR is registered with. Amazon EMR uses virtual clusters to run jobs and host endpoints. Multiple virtual clusters can be backed by the same physical cluster. However, each virtual cluster maps to one namespace on an Amazon EKS cluster. Virtual clusters do not create any active resources that contribute to your bill or that require lifecycle management outside the service.
     public struct VirtualCluster: Swift.Equatable {
         /// The ARN of the virtual cluster.
         public var arn: Swift.String?

@@ -1941,6 +1941,7 @@ extension CreateDataSourceInput: Swift.Encodable {
         case description
         case dynamodbConfig
         case elasticsearchConfig
+        case eventBridgeConfig
         case httpConfig
         case lambdaConfig
         case name
@@ -1960,6 +1961,9 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let elasticsearchConfig = self.elasticsearchConfig {
             try encodeContainer.encode(elasticsearchConfig, forKey: .elasticsearchConfig)
+        }
+        if let eventBridgeConfig = self.eventBridgeConfig {
+            try encodeContainer.encode(eventBridgeConfig, forKey: .eventBridgeConfig)
         }
         if let httpConfig = self.httpConfig {
             try encodeContainer.encode(httpConfig, forKey: .httpConfig)
@@ -2004,6 +2008,8 @@ public struct CreateDataSourceInput: Swift.Equatable {
     public var dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig?
     /// Amazon OpenSearch Service settings. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. For new data sources, use [CreateDataSourceRequest$openSearchServiceConfig] to create an OpenSearch data source.
     public var elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig?
+    /// Amazon EventBridge settings.
+    public var eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
     /// HTTP endpoint settings.
     public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     /// Lambda settings.
@@ -2026,6 +2032,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         description: Swift.String? = nil,
         dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig? = nil,
         elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig? = nil,
+        eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
         httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
         lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
         name: Swift.String? = nil,
@@ -2039,6 +2046,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         self.description = description
         self.dynamodbConfig = dynamodbConfig
         self.elasticsearchConfig = elasticsearchConfig
+        self.eventBridgeConfig = eventBridgeConfig
         self.httpConfig = httpConfig
         self.lambdaConfig = lambdaConfig
         self.name = name
@@ -2060,6 +2068,7 @@ struct CreateDataSourceInputBody: Swift.Equatable {
     let openSearchServiceConfig: AppSyncClientTypes.OpenSearchServiceDataSourceConfig?
     let httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     let relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig?
+    let eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
 }
 
 extension CreateDataSourceInputBody: Swift.Decodable {
@@ -2067,6 +2076,7 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         case description
         case dynamodbConfig
         case elasticsearchConfig
+        case eventBridgeConfig
         case httpConfig
         case lambdaConfig
         case name
@@ -2098,6 +2108,8 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         httpConfig = httpConfigDecoded
         let relationalDatabaseConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.RelationalDatabaseDataSourceConfig.self, forKey: .relationalDatabaseConfig)
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
+        let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
+        eventBridgeConfig = eventBridgeConfigDecoded
     }
 }
 
@@ -3193,6 +3205,7 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         case description
         case dynamodbConfig
         case elasticsearchConfig
+        case eventBridgeConfig
         case httpConfig
         case lambdaConfig
         case name
@@ -3215,6 +3228,9 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         }
         if let elasticsearchConfig = self.elasticsearchConfig {
             try encodeContainer.encode(elasticsearchConfig, forKey: .elasticsearchConfig)
+        }
+        if let eventBridgeConfig = self.eventBridgeConfig {
+            try encodeContainer.encode(eventBridgeConfig, forKey: .eventBridgeConfig)
         }
         if let httpConfig = self.httpConfig {
             try encodeContainer.encode(httpConfig, forKey: .httpConfig)
@@ -3263,6 +3279,8 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         httpConfig = httpConfigDecoded
         let relationalDatabaseConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.RelationalDatabaseDataSourceConfig.self, forKey: .relationalDatabaseConfig)
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
+        let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
+        eventBridgeConfig = eventBridgeConfigDecoded
     }
 }
 
@@ -3277,6 +3295,8 @@ extension AppSyncClientTypes {
         public var dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig?
         /// Amazon OpenSearch Service settings.
         public var elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig?
+        /// Amazon EventBridge settings.
+        public var eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
         /// HTTP endpoint settings.
         public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
         /// Lambda settings.
@@ -3299,6 +3319,8 @@ extension AppSyncClientTypes {
         ///
         /// * AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.
         ///
+        /// * AMAZON_EVENTBRIDGE: The data source is an Amazon EventBridge configuration.
+        ///
         /// * NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.
         ///
         /// * HTTP: The data source is an HTTP endpoint.
@@ -3311,6 +3333,7 @@ extension AppSyncClientTypes {
             description: Swift.String? = nil,
             dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig? = nil,
             elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig? = nil,
+            eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
             httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
             lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
             name: Swift.String? = nil,
@@ -3324,6 +3347,7 @@ extension AppSyncClientTypes {
             self.description = description
             self.dynamodbConfig = dynamodbConfig
             self.elasticsearchConfig = elasticsearchConfig
+            self.eventBridgeConfig = eventBridgeConfig
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
             self.name = name
@@ -3340,6 +3364,7 @@ extension AppSyncClientTypes {
     public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonDynamodb
         case amazonElasticsearch
+        case amazonEventbridge
         case amazonOpensearchService
         case awsLambda
         case http
@@ -3351,6 +3376,7 @@ extension AppSyncClientTypes {
             return [
                 .amazonDynamodb,
                 .amazonElasticsearch,
+                .amazonEventbridge,
                 .amazonOpensearchService,
                 .awsLambda,
                 .http,
@@ -3367,6 +3393,7 @@ extension AppSyncClientTypes {
             switch self {
             case .amazonDynamodb: return "AMAZON_DYNAMODB"
             case .amazonElasticsearch: return "AMAZON_ELASTICSEARCH"
+            case .amazonEventbridge: return "AMAZON_EVENTBRIDGE"
             case .amazonOpensearchService: return "AMAZON_OPENSEARCH_SERVICE"
             case .awsLambda: return "AWS_LAMBDA"
             case .http: return "HTTP"
@@ -4785,6 +4812,42 @@ extension EvaluateMappingTemplateOutputResponseBody: Swift.Decodable {
         }
         logs = logsDecoded0
     }
+}
+
+extension AppSyncClientTypes.EventBridgeDataSourceConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventBusArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventBusArn = self.eventBusArn {
+            try encodeContainer.encode(eventBusArn, forKey: .eventBusArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventBusArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventBusArn)
+        eventBusArn = eventBusArnDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Describes an Amazon EventBridge bus data source configuration.
+    public struct EventBridgeDataSourceConfig: Swift.Equatable {
+        /// The ARN of the event bus. For more information about event buses, see [Amazon EventBridge event buses](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus.html).
+        /// This member is required.
+        public var eventBusArn: Swift.String?
+
+        public init (
+            eventBusArn: Swift.String? = nil
+        )
+        {
+            self.eventBusArn = eventBusArn
+        }
+    }
+
 }
 
 extension AppSyncClientTypes {
@@ -9570,6 +9633,7 @@ extension UpdateDataSourceInput: Swift.Encodable {
         case description
         case dynamodbConfig
         case elasticsearchConfig
+        case eventBridgeConfig
         case httpConfig
         case lambdaConfig
         case openSearchServiceConfig
@@ -9588,6 +9652,9 @@ extension UpdateDataSourceInput: Swift.Encodable {
         }
         if let elasticsearchConfig = self.elasticsearchConfig {
             try encodeContainer.encode(elasticsearchConfig, forKey: .elasticsearchConfig)
+        }
+        if let eventBridgeConfig = self.eventBridgeConfig {
+            try encodeContainer.encode(eventBridgeConfig, forKey: .eventBridgeConfig)
         }
         if let httpConfig = self.httpConfig {
             try encodeContainer.encode(httpConfig, forKey: .httpConfig)
@@ -9632,6 +9699,8 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     public var dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig?
     /// The new OpenSearch configuration. As of September 2021, Amazon Elasticsearch service is Amazon OpenSearch Service. This configuration is deprecated. Instead, use [UpdateDataSourceRequest$openSearchServiceConfig] to update an OpenSearch data source.
     public var elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig?
+    /// The new Amazon EventBridge settings.
+    public var eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
     /// The new HTTP endpoint configuration.
     public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     /// The new Lambda configuration.
@@ -9654,6 +9723,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
         description: Swift.String? = nil,
         dynamodbConfig: AppSyncClientTypes.DynamodbDataSourceConfig? = nil,
         elasticsearchConfig: AppSyncClientTypes.ElasticsearchDataSourceConfig? = nil,
+        eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
         httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
         lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
         name: Swift.String? = nil,
@@ -9667,6 +9737,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
         self.description = description
         self.dynamodbConfig = dynamodbConfig
         self.elasticsearchConfig = elasticsearchConfig
+        self.eventBridgeConfig = eventBridgeConfig
         self.httpConfig = httpConfig
         self.lambdaConfig = lambdaConfig
         self.name = name
@@ -9687,6 +9758,7 @@ struct UpdateDataSourceInputBody: Swift.Equatable {
     let openSearchServiceConfig: AppSyncClientTypes.OpenSearchServiceDataSourceConfig?
     let httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     let relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig?
+    let eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
 }
 
 extension UpdateDataSourceInputBody: Swift.Decodable {
@@ -9694,6 +9766,7 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         case description
         case dynamodbConfig
         case elasticsearchConfig
+        case eventBridgeConfig
         case httpConfig
         case lambdaConfig
         case openSearchServiceConfig
@@ -9722,6 +9795,8 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         httpConfig = httpConfigDecoded
         let relationalDatabaseConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.RelationalDatabaseDataSourceConfig.self, forKey: .relationalDatabaseConfig)
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
+        let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
+        eventBridgeConfig = eventBridgeConfigDecoded
     }
 }
 

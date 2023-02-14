@@ -5225,8 +5225,8 @@ extension DescribeEnvironmentHealthInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[ElasticBeanstalkClientTypes.EnvironmentHealthAttribute]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [ElasticBeanstalkClientTypes.EnvironmentHealthAttribute]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer
@@ -6441,8 +6441,8 @@ extension DescribeInstancesHealthInputBody: Swift.Decodable {
                 var attributeNamesBuffer:[ElasticBeanstalkClientTypes.InstancesHealthAttribute]? = nil
                 if let attributeNamesContainer = attributeNamesContainer {
                     attributeNamesBuffer = [ElasticBeanstalkClientTypes.InstancesHealthAttribute]()
-                    for stringContainer0 in attributeNamesContainer {
-                        attributeNamesBuffer?.append(stringContainer0)
+                    for enumContainer0 in attributeNamesContainer {
+                        attributeNamesBuffer?.append(enumContainer0)
                     }
                 }
                 attributeNames = attributeNamesBuffer

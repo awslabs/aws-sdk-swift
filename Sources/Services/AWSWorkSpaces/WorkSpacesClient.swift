@@ -478,7 +478,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         return result
     }
 
-    /// Creates a Standby WorkSpace in a secondary region.
+    /// Creates a standby WorkSpace in a secondary Region.
     public func createStandbyWorkspaces(input: CreateStandbyWorkspacesInput) async throws -> CreateStandbyWorkspacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -558,7 +558,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
 
     /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use [ DescribeWorkspaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html).
     ///
-    /// * Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.
+    /// * Only Windows 10, Windows Server 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.
     ///
     /// * Microsoft Windows updates and other application updates are not included in the update process.
     ///
@@ -1779,7 +1779,7 @@ extension WorkSpacesClient: WorkSpacesClientProtocol {
         return result
     }
 
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL) or Windows Server 2016 BYOL image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+    /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     public func importWorkspaceImage(input: ImportWorkspaceImageInput) async throws -> ImportWorkspaceImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

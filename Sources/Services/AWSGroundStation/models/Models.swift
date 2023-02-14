@@ -2,6 +2,206 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension GroundStationClientTypes.AgentDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentVersion
+        case componentVersions
+        case instanceId
+        case instanceType
+        case reservedCpuCores
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentVersion = self.agentVersion {
+            try encodeContainer.encode(agentVersion, forKey: .agentVersion)
+        }
+        if let componentVersions = componentVersions {
+            var componentVersionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentVersions)
+            for componentversion0 in componentVersions {
+                try componentVersionsContainer.encode(componentversion0)
+            }
+        }
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let reservedCpuCores = reservedCpuCores {
+            var reservedCpuCoresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reservedCpuCores)
+            for integer0 in reservedCpuCores {
+                try reservedCpuCoresContainer.encode(integer0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let reservedCpuCoresContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .reservedCpuCores)
+        var reservedCpuCoresDecoded0:[Swift.Int]? = nil
+        if let reservedCpuCoresContainer = reservedCpuCoresContainer {
+            reservedCpuCoresDecoded0 = [Swift.Int]()
+            for integer0 in reservedCpuCoresContainer {
+                if let integer0 = integer0 {
+                    reservedCpuCoresDecoded0?.append(integer0)
+                }
+            }
+        }
+        reservedCpuCores = reservedCpuCoresDecoded0
+        let componentVersionsContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.ComponentVersion?].self, forKey: .componentVersions)
+        var componentVersionsDecoded0:[GroundStationClientTypes.ComponentVersion]? = nil
+        if let componentVersionsContainer = componentVersionsContainer {
+            componentVersionsDecoded0 = [GroundStationClientTypes.ComponentVersion]()
+            for structure0 in componentVersionsContainer {
+                if let structure0 = structure0 {
+                    componentVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        componentVersions = componentVersionsDecoded0
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Detailed information about the agent.
+    public struct AgentDetails: Swift.Equatable {
+        /// Current agent version.
+        /// This member is required.
+        public var agentVersion: Swift.String?
+        /// List of versions being used by agent components.
+        /// This member is required.
+        public var componentVersions: [GroundStationClientTypes.ComponentVersion]?
+        /// ID of EC2 instance agent is running on.
+        /// This member is required.
+        public var instanceId: Swift.String?
+        /// Type of EC2 instance agent is running on.
+        /// This member is required.
+        public var instanceType: Swift.String?
+        /// Number of Cpu cores reserved for agent.
+        /// This member is required.
+        public var reservedCpuCores: [Swift.Int]?
+
+        public init (
+            agentVersion: Swift.String? = nil,
+            componentVersions: [GroundStationClientTypes.ComponentVersion]? = nil,
+            instanceId: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            reservedCpuCores: [Swift.Int]? = nil
+        )
+        {
+            self.agentVersion = agentVersion
+            self.componentVersions = componentVersions
+            self.instanceId = instanceId
+            self.instanceType = instanceType
+            self.reservedCpuCores = reservedCpuCores
+        }
+    }
+
+}
+
+extension GroundStationClientTypes {
+    public enum AgentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case failed
+        case inactive
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentStatus] {
+            return [
+                .active,
+                .failed,
+                .inactive,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case .inactive: return "INACTIVE"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AgentStatus(rawValue: rawValue) ?? AgentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes.AggregateStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case signatureMap
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let signatureMap = signatureMap {
+            var signatureMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .signatureMap)
+            for (dictKey0, signatureMap0) in signatureMap {
+                try signatureMapContainer.encode(signatureMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AgentStatus.self, forKey: .status)
+        status = statusDecoded
+        let signatureMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Bool?].self, forKey: .signatureMap)
+        var signatureMapDecoded0: [Swift.String:Swift.Bool]? = nil
+        if let signatureMapContainer = signatureMapContainer {
+            signatureMapDecoded0 = [Swift.String:Swift.Bool]()
+            for (key0, boolean0) in signatureMapContainer {
+                if let boolean0 = boolean0 {
+                    signatureMapDecoded0?[key0] = boolean0
+                }
+            }
+        }
+        signatureMap = signatureMapDecoded0
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Aggregate status of Agent components.
+    public struct AggregateStatus: Swift.Equatable {
+        /// Sparse map of failure signatures.
+        public var signatureMap: [Swift.String:Swift.Bool]?
+        /// Aggregate status.
+        /// This member is required.
+        public var status: GroundStationClientTypes.AgentStatus?
+
+        public init (
+            signatureMap: [Swift.String:Swift.Bool]? = nil,
+            status: GroundStationClientTypes.AgentStatus? = nil
+        )
+        {
+            self.signatureMap = signatureMap
+            self.status = status
+        }
+    }
+
+}
+
 extension GroundStationClientTypes {
     public enum AngleUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case degreeAngle
@@ -221,6 +421,116 @@ extension GroundStationClientTypes {
 }
 
 extension GroundStationClientTypes {
+    public enum AuditResults: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuditResults] {
+            return [
+                .healthy,
+                .unhealthy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuditResults(rawValue: rawValue) ?? AuditResults.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes.AwsGroundStationAgentEndpoint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentStatus
+        case auditResults
+        case egressAddress
+        case ingressAddress
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentStatus = self.agentStatus {
+            try encodeContainer.encode(agentStatus.rawValue, forKey: .agentStatus)
+        }
+        if let auditResults = self.auditResults {
+            try encodeContainer.encode(auditResults.rawValue, forKey: .auditResults)
+        }
+        if let egressAddress = self.egressAddress {
+            try encodeContainer.encode(egressAddress, forKey: .egressAddress)
+        }
+        if let ingressAddress = self.ingressAddress {
+            try encodeContainer.encode(ingressAddress, forKey: .ingressAddress)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let egressAddressDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.ConnectionDetails.self, forKey: .egressAddress)
+        egressAddress = egressAddressDecoded
+        let ingressAddressDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.RangedConnectionDetails.self, forKey: .ingressAddress)
+        ingressAddress = ingressAddressDecoded
+        let agentStatusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AgentStatus.self, forKey: .agentStatus)
+        agentStatus = agentStatusDecoded
+        let auditResultsDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AuditResults.self, forKey: .auditResults)
+        auditResults = auditResultsDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Information about AwsGroundStationAgentEndpoint.
+    public struct AwsGroundStationAgentEndpoint: Swift.Equatable {
+        /// The status of AgentEndpoint.
+        public var agentStatus: GroundStationClientTypes.AgentStatus?
+        /// The results of the audit.
+        public var auditResults: GroundStationClientTypes.AuditResults?
+        /// The egress address of AgentEndpoint.
+        /// This member is required.
+        public var egressAddress: GroundStationClientTypes.ConnectionDetails?
+        /// The ingress address of AgentEndpoint.
+        /// This member is required.
+        public var ingressAddress: GroundStationClientTypes.RangedConnectionDetails?
+        /// Name string associated with AgentEndpoint. Used as a human-readable identifier for AgentEndpoint.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init (
+            agentStatus: GroundStationClientTypes.AgentStatus? = nil,
+            auditResults: GroundStationClientTypes.AuditResults? = nil,
+            egressAddress: GroundStationClientTypes.ConnectionDetails? = nil,
+            ingressAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.egressAddress = egressAddress
+            self.ingressAddress = ingressAddress
+            self.name = name
+        }
+    }
+
+}
+
+extension GroundStationClientTypes {
     public enum BandwidthUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ghz
         case khz
@@ -353,6 +663,199 @@ extension CancelContactOutputResponseBody: Swift.Decodable {
         let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
         contactId = contactIdDecoded
     }
+}
+
+extension GroundStationClientTypes.ComponentStatusData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytesReceived
+        case bytesSent
+        case capabilityArn
+        case componentType
+        case dataflowId
+        case packetsDropped
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bytesReceived = self.bytesReceived {
+            try encodeContainer.encode(bytesReceived, forKey: .bytesReceived)
+        }
+        if let bytesSent = self.bytesSent {
+            try encodeContainer.encode(bytesSent, forKey: .bytesSent)
+        }
+        if let capabilityArn = self.capabilityArn {
+            try encodeContainer.encode(capabilityArn, forKey: .capabilityArn)
+        }
+        if let componentType = self.componentType {
+            try encodeContainer.encode(componentType.rawValue, forKey: .componentType)
+        }
+        if let dataflowId = self.dataflowId {
+            try encodeContainer.encode(dataflowId, forKey: .dataflowId)
+        }
+        if let packetsDropped = self.packetsDropped {
+            try encodeContainer.encode(packetsDropped, forKey: .packetsDropped)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentTypeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.ComponentType.self, forKey: .componentType)
+        componentType = componentTypeDecoded
+        let capabilityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capabilityArn)
+        capabilityArn = capabilityArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AgentStatus.self, forKey: .status)
+        status = statusDecoded
+        let bytesSentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesSent)
+        bytesSent = bytesSentDecoded
+        let bytesReceivedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReceived)
+        bytesReceived = bytesReceivedDecoded
+        let packetsDroppedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .packetsDropped)
+        packetsDropped = packetsDroppedDecoded
+        let dataflowIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataflowId)
+        dataflowId = dataflowIdDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Data on the status of agent components.
+    public struct ComponentStatusData: Swift.Equatable {
+        /// Bytes received by the component.
+        public var bytesReceived: Swift.Int?
+        /// Bytes sent by the component.
+        public var bytesSent: Swift.Int?
+        /// Capability ARN of the component.
+        /// This member is required.
+        public var capabilityArn: Swift.String?
+        /// The Component type.
+        /// This member is required.
+        public var componentType: GroundStationClientTypes.ComponentType?
+        /// Dataflow UUID associated with the component.
+        /// This member is required.
+        public var dataflowId: Swift.String?
+        /// Packets dropped by component.
+        public var packetsDropped: Swift.Int?
+        /// Component status.
+        /// This member is required.
+        public var status: GroundStationClientTypes.AgentStatus?
+
+        public init (
+            bytesReceived: Swift.Int? = nil,
+            bytesSent: Swift.Int? = nil,
+            capabilityArn: Swift.String? = nil,
+            componentType: GroundStationClientTypes.ComponentType? = nil,
+            dataflowId: Swift.String? = nil,
+            packetsDropped: Swift.Int? = nil,
+            status: GroundStationClientTypes.AgentStatus? = nil
+        )
+        {
+            self.bytesReceived = bytesReceived
+            self.bytesSent = bytesSent
+            self.capabilityArn = capabilityArn
+            self.componentType = componentType
+            self.dataflowId = dataflowId
+            self.packetsDropped = packetsDropped
+            self.status = status
+        }
+    }
+
+}
+
+extension GroundStationClientTypes {
+    public enum ComponentType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case digitizer
+        case laminarFlow
+        case prism
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComponentType] {
+            return [
+                .digitizer,
+                .laminarFlow,
+                .prism,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .digitizer: return "DIGITIZER"
+            case .laminarFlow: return "LAMINAR_FLOW"
+            case .prism: return "PRISM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ComponentType(rawValue: rawValue) ?? ComponentType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GroundStationClientTypes.ComponentVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case componentType
+        case versions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let componentType = self.componentType {
+            try encodeContainer.encode(componentType.rawValue, forKey: .componentType)
+        }
+        if let versions = versions {
+            var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
+            for versionstring0 in versions {
+                try versionsContainer.encode(versionstring0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let componentTypeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.ComponentType.self, forKey: .componentType)
+        componentType = componentTypeDecoded
+        let versionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .versions)
+        var versionsDecoded0:[Swift.String]? = nil
+        if let versionsContainer = versionsContainer {
+            versionsDecoded0 = [Swift.String]()
+            for string0 in versionsContainer {
+                if let string0 = string0 {
+                    versionsDecoded0?.append(string0)
+                }
+            }
+        }
+        versions = versionsDecoded0
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Version information for agent components.
+    public struct ComponentVersion: Swift.Equatable {
+        /// Component type.
+        /// This member is required.
+        public var componentType: GroundStationClientTypes.ComponentType?
+        /// List of versions.
+        /// This member is required.
+        public var versions: [Swift.String]?
+
+        public init (
+            componentType: GroundStationClientTypes.ComponentType? = nil,
+            versions: [Swift.String]? = nil
+        )
+        {
+            self.componentType = componentType
+            self.versions = versions
+        }
+    }
+
 }
 
 extension GroundStationClientTypes {
@@ -617,6 +1120,52 @@ extension GroundStationClientTypes {
         /// Information about an S3 recording Config.
         case s3recordingconfig(GroundStationClientTypes.S3RecordingConfig)
         case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension GroundStationClientTypes.ConnectionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mtu
+        case socketAddress
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mtu = self.mtu {
+            try encodeContainer.encode(mtu, forKey: .mtu)
+        }
+        if let socketAddress = self.socketAddress {
+            try encodeContainer.encode(socketAddress, forKey: .socketAddress)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let socketAddressDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.SocketAddress.self, forKey: .socketAddress)
+        socketAddress = socketAddressDecoded
+        let mtuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mtu)
+        mtu = mtuDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Egress address of AgentEndpoint with an optional mtu.
+    public struct ConnectionDetails: Swift.Equatable {
+        /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+        public var mtu: Swift.Int?
+        /// A socket address.
+        /// This member is required.
+        public var socketAddress: GroundStationClientTypes.SocketAddress?
+
+        public init (
+            mtu: Swift.Int? = nil,
+            socketAddress: GroundStationClientTypes.SocketAddress? = nil
+        )
+        {
+            self.mtu = mtu
+            self.socketAddress = socketAddress
+        }
     }
 
 }
@@ -1425,6 +1974,8 @@ extension CreateMissionProfileInput: Swift.Encodable {
         case dataflowEdges
         case minimumViableContactDurationSeconds
         case name
+        case streamsKmsKey
+        case streamsKmsRole
         case tags
         case trackingConfigArn
     }
@@ -1451,6 +2002,12 @@ extension CreateMissionProfileInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let streamsKmsKey = self.streamsKmsKey {
+            try encodeContainer.encode(streamsKmsKey, forKey: .streamsKmsKey)
+        }
+        if let streamsKmsRole = self.streamsKmsRole {
+            try encodeContainer.encode(streamsKmsRole, forKey: .streamsKmsRole)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1485,6 +2042,10 @@ public struct CreateMissionProfileInput: Swift.Equatable {
     /// Name of a mission profile.
     /// This member is required.
     public var name: Swift.String?
+    /// KMS key to use for encrypting streams.
+    public var streamsKmsKey: GroundStationClientTypes.KmsKey?
+    /// Role to use for encrypting streams with KMS key.
+    public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String:Swift.String]?
     /// ARN of a tracking Config.
@@ -1497,6 +2058,8 @@ public struct CreateMissionProfileInput: Swift.Equatable {
         dataflowEdges: [[Swift.String]]? = nil,
         minimumViableContactDurationSeconds: Swift.Int? = nil,
         name: Swift.String? = nil,
+        streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
+        streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         trackingConfigArn: Swift.String? = nil
     )
@@ -1506,6 +2069,8 @@ public struct CreateMissionProfileInput: Swift.Equatable {
         self.dataflowEdges = dataflowEdges
         self.minimumViableContactDurationSeconds = minimumViableContactDurationSeconds
         self.name = name
+        self.streamsKmsKey = streamsKmsKey
+        self.streamsKmsRole = streamsKmsRole
         self.tags = tags
         self.trackingConfigArn = trackingConfigArn
     }
@@ -1519,6 +2084,8 @@ struct CreateMissionProfileInputBody: Swift.Equatable {
     let dataflowEdges: [[Swift.String]]?
     let trackingConfigArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let streamsKmsKey: GroundStationClientTypes.KmsKey?
+    let streamsKmsRole: Swift.String?
 }
 
 extension CreateMissionProfileInputBody: Swift.Decodable {
@@ -1528,6 +2095,8 @@ extension CreateMissionProfileInputBody: Swift.Decodable {
         case dataflowEdges
         case minimumViableContactDurationSeconds
         case name
+        case streamsKmsKey
+        case streamsKmsRole
         case tags
         case trackingConfigArn
     }
@@ -1575,6 +2144,10 @@ extension CreateMissionProfileInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let streamsKmsKeyDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.KmsKey.self, forKey: .streamsKmsKey)
+        streamsKmsKey = streamsKmsKeyDecoded
+        let streamsKmsRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamsKmsRole)
+        streamsKmsRole = streamsKmsRoleDecoded
     }
 }
 
@@ -2962,6 +3535,100 @@ extension GroundStationClientTypes {
 
 }
 
+extension GroundStationClientTypes.DiscoveryData: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capabilityArns
+        case privateIpAddresses
+        case publicIpAddresses
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capabilityArns = capabilityArns {
+            var capabilityArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .capabilityArns)
+            for capabilityarn0 in capabilityArns {
+                try capabilityArnsContainer.encode(capabilityarn0)
+            }
+        }
+        if let privateIpAddresses = privateIpAddresses {
+            var privateIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .privateIpAddresses)
+            for ipv4address0 in privateIpAddresses {
+                try privateIpAddressesContainer.encode(ipv4address0)
+            }
+        }
+        if let publicIpAddresses = publicIpAddresses {
+            var publicIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicIpAddresses)
+            for ipv4address0 in publicIpAddresses {
+                try publicIpAddressesContainer.encode(ipv4address0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let publicIpAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .publicIpAddresses)
+        var publicIpAddressesDecoded0:[Swift.String]? = nil
+        if let publicIpAddressesContainer = publicIpAddressesContainer {
+            publicIpAddressesDecoded0 = [Swift.String]()
+            for string0 in publicIpAddressesContainer {
+                if let string0 = string0 {
+                    publicIpAddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        publicIpAddresses = publicIpAddressesDecoded0
+        let privateIpAddressesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .privateIpAddresses)
+        var privateIpAddressesDecoded0:[Swift.String]? = nil
+        if let privateIpAddressesContainer = privateIpAddressesContainer {
+            privateIpAddressesDecoded0 = [Swift.String]()
+            for string0 in privateIpAddressesContainer {
+                if let string0 = string0 {
+                    privateIpAddressesDecoded0?.append(string0)
+                }
+            }
+        }
+        privateIpAddresses = privateIpAddressesDecoded0
+        let capabilityArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .capabilityArns)
+        var capabilityArnsDecoded0:[Swift.String]? = nil
+        if let capabilityArnsContainer = capabilityArnsContainer {
+            capabilityArnsDecoded0 = [Swift.String]()
+            for string0 in capabilityArnsContainer {
+                if let string0 = string0 {
+                    capabilityArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        capabilityArns = capabilityArnsDecoded0
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Data for agent discovery.
+    public struct DiscoveryData: Swift.Equatable {
+        /// List of capabilities to associate with agent.
+        /// This member is required.
+        public var capabilityArns: [Swift.String]?
+        /// List of private IP addresses to associate with agent.
+        /// This member is required.
+        public var privateIpAddresses: [Swift.String]?
+        /// List of public IP addresses to associate with agent.
+        /// This member is required.
+        public var publicIpAddresses: [Swift.String]?
+
+        public init (
+            capabilityArns: [Swift.String]? = nil,
+            privateIpAddresses: [Swift.String]? = nil,
+            publicIpAddresses: [Swift.String]? = nil
+        )
+        {
+            self.capabilityArns = capabilityArns
+            self.privateIpAddresses = privateIpAddresses
+            self.publicIpAddresses = publicIpAddresses
+        }
+    }
+
+}
+
 extension GroundStationClientTypes.Eirp: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case units
@@ -3087,12 +3754,16 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsGroundStationAgentEndpoint
         case endpoint
         case securityDetails
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsGroundStationAgentEndpoint = self.awsGroundStationAgentEndpoint {
+            try encodeContainer.encode(awsGroundStationAgentEndpoint, forKey: .awsGroundStationAgentEndpoint)
+        }
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
@@ -3107,22 +3778,28 @@ extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
         securityDetails = securityDetailsDecoded
         let endpointDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.DataflowEndpoint.self, forKey: .endpoint)
         endpoint = endpointDecoded
+        let awsGroundStationAgentEndpointDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AwsGroundStationAgentEndpoint.self, forKey: .awsGroundStationAgentEndpoint)
+        awsGroundStationAgentEndpoint = awsGroundStationAgentEndpointDecoded
     }
 }
 
 extension GroundStationClientTypes {
     /// Information about the endpoint details.
     public struct EndpointDetails: Swift.Equatable {
+        /// An agent endpoint.
+        public var awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint?
         /// A dataflow endpoint.
         public var endpoint: GroundStationClientTypes.DataflowEndpoint?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public var securityDetails: GroundStationClientTypes.SecurityDetails?
 
         public init (
+            awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint? = nil,
             endpoint: GroundStationClientTypes.DataflowEndpoint? = nil,
             securityDetails: GroundStationClientTypes.SecurityDetails? = nil
         )
         {
+            self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
             self.endpoint = endpoint
             self.securityDetails = securityDetails
         }
@@ -3728,6 +4405,114 @@ extension GroundStationClientTypes {
     }
 }
 
+extension GetAgentConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let agentId = agentId else {
+            return nil
+        }
+        return "/agent/\(agentId.urlPercentEncoding())/configuration"
+    }
+}
+
+public struct GetAgentConfigurationInput: Swift.Equatable {
+    /// UUID of agent to get configuration information for.
+    /// This member is required.
+    public var agentId: Swift.String?
+
+    public init (
+        agentId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+    }
+}
+
+struct GetAgentConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetAgentConfigurationInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAgentConfigurationOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetAgentConfigurationOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetAgentConfigurationOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetAgentConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetAgentConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentId = output.agentId
+            self.taskingDocument = output.taskingDocument
+        } else {
+            self.agentId = nil
+            self.taskingDocument = nil
+        }
+    }
+}
+
+public struct GetAgentConfigurationOutputResponse: Swift.Equatable {
+    /// UUID of agent.
+    public var agentId: Swift.String?
+    /// Tasking document for agent.
+    public var taskingDocument: Swift.String?
+
+    public init (
+        agentId: Swift.String? = nil,
+        taskingDocument: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+        self.taskingDocument = taskingDocument
+    }
+}
+
+struct GetAgentConfigurationOutputResponseBody: Swift.Equatable {
+    let agentId: Swift.String?
+    let taskingDocument: Swift.String?
+}
+
+extension GetAgentConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentId
+        case taskingDocument
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentId)
+        agentId = agentIdDecoded
+        let taskingDocumentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskingDocument)
+        taskingDocument = taskingDocumentDecoded
+    }
+}
+
 extension GetConfigInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let configType = configType else {
@@ -4309,6 +5094,8 @@ extension GetMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
             self.missionProfileId = output.missionProfileId
             self.name = output.name
             self.region = output.region
+            self.streamsKmsKey = output.streamsKmsKey
+            self.streamsKmsRole = output.streamsKmsRole
             self.tags = output.tags
             self.trackingConfigArn = output.trackingConfigArn
         } else {
@@ -4320,6 +5107,8 @@ extension GetMissionProfileOutputResponse: ClientRuntime.HttpResponseBinding {
             self.missionProfileId = nil
             self.name = nil
             self.region = nil
+            self.streamsKmsKey = nil
+            self.streamsKmsRole = nil
             self.tags = nil
             self.trackingConfigArn = nil
         }
@@ -4344,6 +5133,10 @@ public struct GetMissionProfileOutputResponse: Swift.Equatable {
     public var name: Swift.String?
     /// Region of a mission profile.
     public var region: Swift.String?
+    /// KMS key to use for encrypting streams.
+    public var streamsKmsKey: GroundStationClientTypes.KmsKey?
+    /// Role to use for encrypting streams with KMS key.
+    public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String:Swift.String]?
     /// ARN of a tracking Config.
@@ -4358,6 +5151,8 @@ public struct GetMissionProfileOutputResponse: Swift.Equatable {
         missionProfileId: Swift.String? = nil,
         name: Swift.String? = nil,
         region: Swift.String? = nil,
+        streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
+        streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         trackingConfigArn: Swift.String? = nil
     )
@@ -4370,6 +5165,8 @@ public struct GetMissionProfileOutputResponse: Swift.Equatable {
         self.missionProfileId = missionProfileId
         self.name = name
         self.region = region
+        self.streamsKmsKey = streamsKmsKey
+        self.streamsKmsRole = streamsKmsRole
         self.tags = tags
         self.trackingConfigArn = trackingConfigArn
     }
@@ -4386,6 +5183,8 @@ struct GetMissionProfileOutputResponseBody: Swift.Equatable {
     let dataflowEdges: [[Swift.String]]?
     let trackingConfigArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let streamsKmsKey: GroundStationClientTypes.KmsKey?
+    let streamsKmsRole: Swift.String?
 }
 
 extension GetMissionProfileOutputResponseBody: Swift.Decodable {
@@ -4398,6 +5197,8 @@ extension GetMissionProfileOutputResponseBody: Swift.Decodable {
         case missionProfileId
         case name
         case region
+        case streamsKmsKey
+        case streamsKmsRole
         case tags
         case trackingConfigArn
     }
@@ -4451,6 +5252,10 @@ extension GetMissionProfileOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let streamsKmsKeyDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.KmsKey.self, forKey: .streamsKmsKey)
+        streamsKmsKey = streamsKmsKeyDecoded
+        let streamsKmsRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamsKmsRole)
+        streamsKmsRole = streamsKmsRoleDecoded
     }
 }
 
@@ -4658,6 +5463,53 @@ extension GroundStationClientTypes {
 
 }
 
+extension GroundStationClientTypes.IntegerRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maximum
+        case minimum
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maximum = self.maximum {
+            try encodeContainer.encode(maximum, forKey: .maximum)
+        }
+        if let minimum = self.minimum {
+            try encodeContainer.encode(minimum, forKey: .minimum)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minimumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minimum)
+        minimum = minimumDecoded
+        let maximumDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximum)
+        maximum = maximumDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// An integer range that has a minimum and maximum value.
+    public struct IntegerRange: Swift.Equatable {
+        /// A maximum value.
+        /// This member is required.
+        public var maximum: Swift.Int?
+        /// A minimum value.
+        /// This member is required.
+        public var minimum: Swift.Int?
+
+        public init (
+            maximum: Swift.Int? = nil,
+            minimum: Swift.Int? = nil
+        )
+        {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+    }
+
+}
+
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -4718,6 +5570,53 @@ extension InvalidParameterExceptionBody: Swift.Decodable {
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
     }
+}
+
+extension GroundStationClientTypes.KmsKey: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsaliasarn = "kmsAliasArn"
+        case kmskeyarn = "kmsKeyArn"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .kmsaliasarn(kmsaliasarn):
+                try container.encode(kmsaliasarn, forKey: .kmsaliasarn)
+            case let .kmskeyarn(kmskeyarn):
+                try container.encode(kmskeyarn, forKey: .kmskeyarn)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let kmskeyarnDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .kmskeyarn)
+        if let kmskeyarn = kmskeyarnDecoded {
+            self = .kmskeyarn(kmskeyarn)
+            return
+        }
+        let kmsaliasarnDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .kmsaliasarn)
+        if let kmsaliasarn = kmsaliasarnDecoded {
+            self = .kmsaliasarn(kmsaliasarn)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension GroundStationClientTypes {
+    /// AWS Key Management Service (KMS) Key.
+    public enum KmsKey: Swift.Equatable, Swift.Hashable {
+        /// KMS Key Arn.
+        case kmskeyarn(Swift.String)
+        /// KMS Alias Arn.
+        case kmsaliasarn(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension ListConfigsInput: ClientRuntime.QueryItemProvider {
@@ -6105,6 +7004,227 @@ extension GroundStationClientTypes {
     }
 }
 
+extension GroundStationClientTypes.RangedConnectionDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mtu
+        case socketAddress
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mtu = self.mtu {
+            try encodeContainer.encode(mtu, forKey: .mtu)
+        }
+        if let socketAddress = self.socketAddress {
+            try encodeContainer.encode(socketAddress, forKey: .socketAddress)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let socketAddressDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.RangedSocketAddress.self, forKey: .socketAddress)
+        socketAddress = socketAddressDecoded
+        let mtuDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .mtu)
+        mtu = mtuDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+    public struct RangedConnectionDetails: Swift.Equatable {
+        /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+        public var mtu: Swift.Int?
+        /// A ranged socket address.
+        /// This member is required.
+        public var socketAddress: GroundStationClientTypes.RangedSocketAddress?
+
+        public init (
+            mtu: Swift.Int? = nil,
+            socketAddress: GroundStationClientTypes.RangedSocketAddress? = nil
+        )
+        {
+            self.mtu = mtu
+            self.socketAddress = socketAddress
+        }
+    }
+
+}
+
+extension GroundStationClientTypes.RangedSocketAddress: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case portRange
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let portRange = self.portRange {
+            try encodeContainer.encode(portRange, forKey: .portRange)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let portRangeDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.IntegerRange.self, forKey: .portRange)
+        portRange = portRangeDecoded
+    }
+}
+
+extension GroundStationClientTypes {
+    /// A socket address with a port range.
+    public struct RangedSocketAddress: Swift.Equatable {
+        /// IPv4 socket address.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Port range of a socket address.
+        /// This member is required.
+        public var portRange: GroundStationClientTypes.IntegerRange?
+
+        public init (
+            name: Swift.String? = nil,
+            portRange: GroundStationClientTypes.IntegerRange? = nil
+        )
+        {
+            self.name = name
+            self.portRange = portRange
+        }
+    }
+
+}
+
+extension RegisterAgentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentDetails
+        case discoveryData
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentDetails = self.agentDetails {
+            try encodeContainer.encode(agentDetails, forKey: .agentDetails)
+        }
+        if let discoveryData = self.discoveryData {
+            try encodeContainer.encode(discoveryData, forKey: .discoveryData)
+        }
+    }
+}
+
+extension RegisterAgentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/agent"
+    }
+}
+
+public struct RegisterAgentInput: Swift.Equatable {
+    /// Detailed information about the agent being registered.
+    /// This member is required.
+    public var agentDetails: GroundStationClientTypes.AgentDetails?
+    /// Data for associating and agent with the capabilities it is managing.
+    /// This member is required.
+    public var discoveryData: GroundStationClientTypes.DiscoveryData?
+
+    public init (
+        agentDetails: GroundStationClientTypes.AgentDetails? = nil,
+        discoveryData: GroundStationClientTypes.DiscoveryData? = nil
+    )
+    {
+        self.agentDetails = agentDetails
+        self.discoveryData = discoveryData
+    }
+}
+
+struct RegisterAgentInputBody: Swift.Equatable {
+    let discoveryData: GroundStationClientTypes.DiscoveryData?
+    let agentDetails: GroundStationClientTypes.AgentDetails?
+}
+
+extension RegisterAgentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentDetails
+        case discoveryData
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let discoveryDataDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.DiscoveryData.self, forKey: .discoveryData)
+        discoveryData = discoveryDataDecoded
+        let agentDetailsDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AgentDetails.self, forKey: .agentDetails)
+        agentDetails = agentDetailsDecoded
+    }
+}
+
+extension RegisterAgentOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension RegisterAgentOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum RegisterAgentOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension RegisterAgentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: RegisterAgentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentId = output.agentId
+        } else {
+            self.agentId = nil
+        }
+    }
+}
+
+public struct RegisterAgentOutputResponse: Swift.Equatable {
+    /// UUID of registered agent.
+    public var agentId: Swift.String?
+
+    public init (
+        agentId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+    }
+}
+
+struct RegisterAgentOutputResponseBody: Swift.Equatable {
+    let agentId: Swift.String?
+}
+
+extension RegisterAgentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentId)
+        agentId = agentIdDecoded
+    }
+}
+
 extension ReserveContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime
@@ -7308,6 +8428,168 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension UpdateAgentStatusInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateStatus
+        case componentStatuses
+        case taskId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregateStatus = self.aggregateStatus {
+            try encodeContainer.encode(aggregateStatus, forKey: .aggregateStatus)
+        }
+        if let componentStatuses = componentStatuses {
+            var componentStatusesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .componentStatuses)
+            for componentstatusdata0 in componentStatuses {
+                try componentStatusesContainer.encode(componentstatusdata0)
+            }
+        }
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+    }
+}
+
+extension UpdateAgentStatusInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let agentId = agentId else {
+            return nil
+        }
+        return "/agent/\(agentId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateAgentStatusInput: Swift.Equatable {
+    /// UUID of agent to update.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// Aggregate status for agent.
+    /// This member is required.
+    public var aggregateStatus: GroundStationClientTypes.AggregateStatus?
+    /// List of component statuses for agent.
+    /// This member is required.
+    public var componentStatuses: [GroundStationClientTypes.ComponentStatusData]?
+    /// GUID of agent task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init (
+        agentId: Swift.String? = nil,
+        aggregateStatus: GroundStationClientTypes.AggregateStatus? = nil,
+        componentStatuses: [GroundStationClientTypes.ComponentStatusData]? = nil,
+        taskId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+        self.aggregateStatus = aggregateStatus
+        self.componentStatuses = componentStatuses
+        self.taskId = taskId
+    }
+}
+
+struct UpdateAgentStatusInputBody: Swift.Equatable {
+    let taskId: Swift.String?
+    let aggregateStatus: GroundStationClientTypes.AggregateStatus?
+    let componentStatuses: [GroundStationClientTypes.ComponentStatusData]?
+}
+
+extension UpdateAgentStatusInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregateStatus
+        case componentStatuses
+        case taskId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+        let aggregateStatusDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.AggregateStatus.self, forKey: .aggregateStatus)
+        aggregateStatus = aggregateStatusDecoded
+        let componentStatusesContainer = try containerValues.decodeIfPresent([GroundStationClientTypes.ComponentStatusData?].self, forKey: .componentStatuses)
+        var componentStatusesDecoded0:[GroundStationClientTypes.ComponentStatusData]? = nil
+        if let componentStatusesContainer = componentStatusesContainer {
+            componentStatusesDecoded0 = [GroundStationClientTypes.ComponentStatusData]()
+            for structure0 in componentStatusesContainer {
+                if let structure0 = structure0 {
+                    componentStatusesDecoded0?.append(structure0)
+                }
+            }
+        }
+        componentStatuses = componentStatusesDecoded0
+    }
+}
+
+extension UpdateAgentStatusOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateAgentStatusOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "DependencyException" : self = .dependencyException(try DependencyException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidParameterException" : self = .invalidParameterException(try InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateAgentStatusOutputError: Swift.Error, Swift.Equatable {
+    case dependencyException(DependencyException)
+    case invalidParameterException(InvalidParameterException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateAgentStatusOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateAgentStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentId = output.agentId
+        } else {
+            self.agentId = nil
+        }
+    }
+}
+
+public struct UpdateAgentStatusOutputResponse: Swift.Equatable {
+    /// UUID of updated agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+
+    public init (
+        agentId: Swift.String? = nil
+    )
+    {
+        self.agentId = agentId
+    }
+}
+
+struct UpdateAgentStatusOutputResponseBody: Swift.Equatable {
+    let agentId: Swift.String?
+}
+
+extension UpdateAgentStatusOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentId
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentId)
+        agentId = agentIdDecoded
+    }
+}
+
 extension UpdateConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configData
@@ -7628,6 +8910,8 @@ extension UpdateMissionProfileInput: Swift.Encodable {
         case dataflowEdges
         case minimumViableContactDurationSeconds
         case name
+        case streamsKmsKey
+        case streamsKmsRole
         case trackingConfigArn
     }
 
@@ -7653,6 +8937,12 @@ extension UpdateMissionProfileInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let streamsKmsKey = self.streamsKmsKey {
+            try encodeContainer.encode(streamsKmsKey, forKey: .streamsKmsKey)
+        }
+        if let streamsKmsRole = self.streamsKmsRole {
+            try encodeContainer.encode(streamsKmsRole, forKey: .streamsKmsRole)
         }
         if let trackingConfigArn = self.trackingConfigArn {
             try encodeContainer.encode(trackingConfigArn, forKey: .trackingConfigArn)
@@ -7684,6 +8974,10 @@ public struct UpdateMissionProfileInput: Swift.Equatable {
     public var missionProfileId: Swift.String?
     /// Name of a mission profile.
     public var name: Swift.String?
+    /// KMS key to use for encrypting streams.
+    public var streamsKmsKey: GroundStationClientTypes.KmsKey?
+    /// Role to use for encrypting streams with KMS key.
+    public var streamsKmsRole: Swift.String?
     /// ARN of a tracking Config.
     public var trackingConfigArn: Swift.String?
 
@@ -7694,6 +8988,8 @@ public struct UpdateMissionProfileInput: Swift.Equatable {
         minimumViableContactDurationSeconds: Swift.Int? = nil,
         missionProfileId: Swift.String? = nil,
         name: Swift.String? = nil,
+        streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
+        streamsKmsRole: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     )
     {
@@ -7703,6 +8999,8 @@ public struct UpdateMissionProfileInput: Swift.Equatable {
         self.minimumViableContactDurationSeconds = minimumViableContactDurationSeconds
         self.missionProfileId = missionProfileId
         self.name = name
+        self.streamsKmsKey = streamsKmsKey
+        self.streamsKmsRole = streamsKmsRole
         self.trackingConfigArn = trackingConfigArn
     }
 }
@@ -7714,6 +9012,8 @@ struct UpdateMissionProfileInputBody: Swift.Equatable {
     let minimumViableContactDurationSeconds: Swift.Int?
     let dataflowEdges: [[Swift.String]]?
     let trackingConfigArn: Swift.String?
+    let streamsKmsKey: GroundStationClientTypes.KmsKey?
+    let streamsKmsRole: Swift.String?
 }
 
 extension UpdateMissionProfileInputBody: Swift.Decodable {
@@ -7723,6 +9023,8 @@ extension UpdateMissionProfileInputBody: Swift.Decodable {
         case dataflowEdges
         case minimumViableContactDurationSeconds
         case name
+        case streamsKmsKey
+        case streamsKmsRole
         case trackingConfigArn
     }
 
@@ -7758,6 +9060,10 @@ extension UpdateMissionProfileInputBody: Swift.Decodable {
         dataflowEdges = dataflowEdgesDecoded0
         let trackingConfigArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trackingConfigArn)
         trackingConfigArn = trackingConfigArnDecoded
+        let streamsKmsKeyDecoded = try containerValues.decodeIfPresent(GroundStationClientTypes.KmsKey.self, forKey: .streamsKmsKey)
+        streamsKmsKey = streamsKmsKeyDecoded
+        let streamsKmsRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamsKmsRole)
+        streamsKmsRole = streamsKmsRoleDecoded
     }
 }
 
