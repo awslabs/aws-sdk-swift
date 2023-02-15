@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  pull_request:
   workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 env:
   BUILDER_VERSION: v0.8.19
@@ -22,7 +23,8 @@ env:
 
 jobs:
   macos-release:
-    if:  startsWith(github.head_ref, 'release/')
+    # if the workflow was manually dispatched, or if someone commented on the PR with /release 
+    if: github.event_name == 'workflow_dispatch' || (startsWith(github.ref_name, 'release/') && github.event.issue.pull_request && startsWith(github.event.comment.body, '/release'))
     runs-on: macos-11
     steps:
       - name: Checkout sources

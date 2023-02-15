@@ -3,6 +3,8 @@ name: CI
 on:
   pull_request:
   workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 env:
   BUILDER_VERSION: v0.9.18
@@ -21,6 +23,8 @@ env:
 
 jobs:
   ios-compat:
+    # if the job is triggered by a comment, then it must start with /ci
+    if: github.event_name != 'issue_comment' || (github.event.issue.pull_request && startsWith(github.event.comment.body, '/ci'))
     runs-on: macos-12
     env:
       DEVELOPER_DIR: /Applications/Xcode_14.0.app
@@ -44,6 +48,8 @@ jobs:
           chmod a+x builder.pyz
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 ./builder.pyz build -p ${{ env.PACKAGE_NAME }} --target=ios-armv8
   macos-compat:
+    # if the job is triggered by a comment, then it must start with /ci
+    if: github.event_name != 'issue_comment' || (github.event.issue.pull_request && startsWith(github.event.comment.body, '/ci'))
     runs-on: macos-11
     env:
       DEVELOPER_DIR: /Applications/Xcode_13.2.1.app
@@ -67,6 +73,8 @@ jobs:
           chmod a+x builder.pyz
           AWS_CRT_SWIFT_CI_DIR="${{ env.AWS_CRT_SWIFT_CI_DIR }}" AWS_SDK_SWIFT_CI_DIR="${{ env.AWS_SDK_SWIFT_CI_DIR }}" SMITHY_SWIFT_CI_DIR="${{ env.SMITHY_SWIFT_CI_DIR }}" AWS_SWIFT_SDK_USE_LOCAL_DEPS=1 ./builder.pyz build -p ${{ env.PACKAGE_NAME }}
   linux-compat:
+    # if the job is triggered by a comment, then it must start with /ci
+    if: github.event_name != 'issue_comment' || (github.event.issue.pull_request && startsWith(github.event.comment.body, '/ci'))
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
