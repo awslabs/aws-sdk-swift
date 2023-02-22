@@ -2,11 +2,17 @@
 
 @testable import AWSMigrationHubRefactorSpaces
 import AWSClientRuntime
+import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 
-class EndpointResolverTest: CrtXCBaseTestCase {
+class EndpointResolverTest: XCTestCase {
+
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+
     /// For custom endpoint with fips disabled and dualstack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(

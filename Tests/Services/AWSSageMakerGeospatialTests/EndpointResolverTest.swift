@@ -2,11 +2,17 @@
 
 @testable import AWSSageMakerGeospatial
 import AWSClientRuntime
+import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 
-class EndpointResolverTest: CrtXCBaseTestCase {
+class EndpointResolverTest: XCTestCase {
+
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+
     /// For region us-gov-east-1 with FIPS enabled and DualStack enabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
