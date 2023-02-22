@@ -55,6 +55,14 @@ object AWSClientRuntimeTypes {
         val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
         val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
     }
+
+    object CRT {
+        val CommonRuntimeKit = buildSymbol {
+            this.name = "CommonRuntimeKit"
+            this.namespace = AWSSwiftDependency.AWS_COMMON_RUNTIME.target
+            dependency(AWSSwiftDependency.AWS_COMMON_RUNTIME)
+        }
+    }
 }
 
 private fun runtimeSymbol(name: String): Symbol = buildSymbol {

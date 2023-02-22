@@ -139,9 +139,8 @@ func generateServiceTargets(_ releasedSDKs: [String]) {
     }
     print()
     print("        // MARK: - Service Test Targets")
-    print("        // TODO: enable test targets for all services https://github.com/awslabs/aws-sdk-swift/issues/814")
     for sdk in releasedSDKs {
-        print(#"        // .testTarget(name: "\#(sdk)Tests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
+        print(#"        .testTarget(name: "\#(sdk)Tests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "\#(sdk)", smithyTestUtil], path: "./Tests/Services/\#(sdk)Tests"),"#)
     }
 }
 

@@ -22,6 +22,14 @@ enum class AWSSwiftDependency(
         "https://github.com/awslabs/aws-sdk-swift",
         Resources.computeAbsolutePath("aws-sdk-swift", "", "AWS_SDK_SWIFT_CI_DIR"),
         "aws-sdk-swift"
+    ),
+    AWS_COMMON_RUNTIME(
+        "AwsCommonRuntimeKit",
+        "main",
+        "0.1.0",
+        "https://github.com/awslabs/aws-crt-swift",
+        "",
+        "aws-crt-swift"
     );
 
     override fun getDependencies(): List<SymbolDependency> {
