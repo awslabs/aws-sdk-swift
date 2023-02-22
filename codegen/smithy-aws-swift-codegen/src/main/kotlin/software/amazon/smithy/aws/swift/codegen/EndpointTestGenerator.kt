@@ -10,13 +10,12 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.language.eval.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
-import software.amazon.smithy.swift.codegen.XCTestTypes
 
 /**
  * Generates code for EndpointResolver tests.
