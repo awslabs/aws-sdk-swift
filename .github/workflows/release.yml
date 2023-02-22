@@ -56,7 +56,7 @@ jobs:
           ./scripts/generatePackageSwift.swift > Package.swift
           cat Package.swift
           swift build --build-tests
-          swift test --skip-build
+          swift test --skip-build --parallel
       - name: Commit Changes
         uses: EndBug/add-and-commit@v7
         with:
