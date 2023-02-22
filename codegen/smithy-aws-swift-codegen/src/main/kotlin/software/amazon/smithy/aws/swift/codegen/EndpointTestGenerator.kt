@@ -13,6 +13,7 @@ import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.XCTestTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
@@ -32,6 +33,7 @@ class EndpointTestGenerator(
         writer.addImport(ctx.settings.moduleName, isTestable = true)
         writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
         writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+        writer.addImport(AWSSwiftDependency.AWS_COMMON_RUNTIME.target)
         writer.addImport(SwiftDependency.XCTest.target)
         writer.addImport(SwiftDependency.SMITHY_TEST_UTIL.target)
 
@@ -39,7 +41,13 @@ class EndpointTestGenerator(
         val endpointParamsMembers = endpointRuleSet?.parameters?.toList()?.map { it.name.name.value }?.toSet() ?: emptySet()
 
         var count = 0
-        writer.openBlock("class EndpointResolverTest: \$L {", "}", ClientRuntimeTypes.Test.CrtXCBaseTestCase) {
+        writer.openBlock("class EndpointResolverTest: \$L {", "}", XCTestTypes.XCTestCase) {
+            writer.write("")
+            writer.openBlock("override class func setUp() {", "}") {
+                writer.write("\$L.initialize()", AWSClientRuntimeTypes.CRT.CommonRuntimeKit)
+            }
+            writer.write("")
+
             endpointTest.testCases.forEach { testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve${++count}() throws {", "}") {

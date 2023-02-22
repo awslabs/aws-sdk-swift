@@ -46,4 +46,4 @@ jobs:
           cat Package.swift
           ./gradlew --stop
           swift build --build-tests
-          swift test --skip-build
+          swift test --skip-build --parallel

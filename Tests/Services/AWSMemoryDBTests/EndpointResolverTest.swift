@@ -2,11 +2,17 @@
 
 @testable import AWSMemoryDB
 import AWSClientRuntime
+import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 
-class EndpointResolverTest: CrtXCBaseTestCase {
+class EndpointResolverTest: XCTestCase {
+
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+
     /// For region ap-east-1 with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
@@ -242,9 +248,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-west-1",
+                        "signingName": "memorydb",
                         "name": "sigv4",
-                        "signingName": "memorydb"
+                        "signingRegion": "us-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

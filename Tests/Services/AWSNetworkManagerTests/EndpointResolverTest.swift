@@ -2,11 +2,17 @@
 
 @testable import AWSNetworkManager
 import AWSClientRuntime
+import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 
-class EndpointResolverTest: CrtXCBaseTestCase {
+class EndpointResolverTest: XCTestCase {
+
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+
     /// For region aws-global with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
@@ -22,9 +28,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-west-2",
+                        "signingName": "networkmanager",
                         "name": "sigv4",
-                        "signingName": "networkmanager"
+                        "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -110,9 +116,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-west-2",
+                        "signingName": "networkmanager",
                         "name": "sigv4",
-                        "signingName": "networkmanager"
+                        "signingRegion": "us-west-2"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -218,9 +224,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "networkmanager",
                         "name": "sigv4",
-                        "signingName": "networkmanager"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -306,9 +312,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "networkmanager",
                         "name": "sigv4",
-                        "signingName": "networkmanager"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

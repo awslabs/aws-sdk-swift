@@ -2,11 +2,17 @@
 
 @testable import AWSOrganizations
 import AWSClientRuntime
+import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTestUtil
 import XCTest
 
-class EndpointResolverTest: CrtXCBaseTestCase {
+class EndpointResolverTest: XCTestCase {
+
+    override class func setUp() {
+        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+    }
+
     /// For region aws-global with FIPS disabled and DualStack disabled
     func testResolve1() throws {
         let endpointParams = EndpointParams(
@@ -22,9 +28,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -50,9 +56,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -98,9 +104,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -146,9 +152,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-east-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -174,9 +180,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-northwest-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "cn-northwest-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -262,9 +268,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "cn-northwest-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "cn-northwest-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -290,9 +296,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -318,9 +324,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -366,9 +372,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -414,9 +420,9 @@ class EndpointResolverTest: CrtXCBaseTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-gov-west-1",
+                        "signingName": "organizations",
                         "name": "sigv4",
-                        "signingName": "organizations"
+                        "signingRegion": "us-gov-west-1"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
