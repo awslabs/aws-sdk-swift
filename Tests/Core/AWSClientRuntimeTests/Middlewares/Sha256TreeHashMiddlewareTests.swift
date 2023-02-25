@@ -18,7 +18,7 @@ class Sha256TreeHashMiddlewareTests: XCTestCase {
         let expectation = XCTestExpectation(description: "closure was run")
         let bytesIn5_5MB: Int = Int(1024 * 1024 * 5.5)
         let byteArray: [UInt8] = Array(repeating: 0, count: bytesIn5_5MB)
-        let byteStream = ByteStream.stream(from: Data(byteArray))
+        let byteStream = ByteStream.stream(BufferedStream(data: .init(byteArray), isClosed: true))
         let streamInput = MockStreamInput(body: byteStream)
         var stack = OperationStack<MockStreamInput, MockOutput, MockMiddlewareError>(id: "TreeHashMiddlewareTestStack")
         stack.serializeStep.intercept(position: .before, middleware: MockSerializeStreamMiddleware())
