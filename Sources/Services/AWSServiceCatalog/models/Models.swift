@@ -933,9 +933,8 @@ public enum BatchAssociateServiceActionWithProvisioningArtifactOutputError: Swif
 
 extension BatchAssociateServiceActionWithProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchAssociateServiceActionWithProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedServiceActionAssociations = output.failedServiceActionAssociations
         } else {
@@ -1083,9 +1082,8 @@ public enum BatchDisassociateServiceActionFromProvisioningArtifactOutputError: S
 
 extension BatchDisassociateServiceActionFromProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDisassociateServiceActionFromProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.failedServiceActionAssociations = output.failedServiceActionAssociations
         } else {
@@ -1669,9 +1667,8 @@ public enum CopyProductOutputError: Swift.Error, Swift.Equatable {
 
 extension CopyProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CopyProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyProductToken = output.copyProductToken
         } else {
@@ -1913,9 +1910,8 @@ public enum CreateConstraintOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -2128,9 +2124,8 @@ public enum CreatePortfolioOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioDetail = output.portfolioDetail
             self.tags = output.tags
@@ -2332,9 +2327,8 @@ public enum CreatePortfolioShareOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
         } else {
@@ -2616,9 +2610,8 @@ public enum CreateProductOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewDetail = output.productViewDetail
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -2927,9 +2920,8 @@ public enum CreateProvisionedProductPlanOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateProvisionedProductPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.planId = output.planId
             self.planName = output.planName
@@ -3126,9 +3118,8 @@ public enum CreateProvisioningArtifactOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -3349,9 +3340,8 @@ public enum CreateServiceActionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -3477,9 +3467,8 @@ public enum CreateTagOptionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {
@@ -3840,9 +3829,8 @@ public enum DeletePortfolioShareOutputError: Swift.Error, Swift.Equatable {
 
 extension DeletePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeletePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
         } else {
@@ -4472,9 +4460,8 @@ public enum DescribeConstraintOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -4621,9 +4608,8 @@ public enum DescribeCopyProductStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeCopyProductStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeCopyProductStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.copyProductStatus = output.copyProductStatus
             self.statusDetail = output.statusDetail
@@ -4770,9 +4756,8 @@ public enum DescribePortfolioOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.portfolioDetail = output.portfolioDetail
@@ -4942,9 +4927,8 @@ public enum DescribePortfolioShareStatusOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribePortfolioShareStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePortfolioShareStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.organizationNodeValue = output.organizationNodeValue
             self.portfolioId = output.portfolioId
@@ -5170,9 +5154,8 @@ public enum DescribePortfolioSharesOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePortfolioSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePortfolioSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioShareDetails = output.portfolioShareDetails
@@ -5343,9 +5326,8 @@ public enum DescribeProductAsAdminOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeProductAsAdminOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProductAsAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.productViewDetail = output.productViewDetail
@@ -5561,9 +5543,8 @@ public enum DescribeProductOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.launchPaths = output.launchPaths
@@ -5749,9 +5730,8 @@ public enum DescribeProductViewOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeProductViewOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProductViewOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewSummary = output.productViewSummary
             self.provisioningArtifacts = output.provisioningArtifacts
@@ -5911,9 +5891,8 @@ public enum DescribeProvisionedProductOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeProvisionedProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cloudWatchDashboards = output.cloudWatchDashboards
             self.provisionedProductDetail = output.provisionedProductDetail
@@ -6085,9 +6064,8 @@ public enum DescribeProvisionedProductPlanOutputError: Swift.Error, Swift.Equata
 
 extension DescribeProvisionedProductPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProductPlanDetails = output.provisionedProductPlanDetails
@@ -6292,9 +6270,8 @@ public enum DescribeProvisioningArtifactOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -6511,9 +6488,8 @@ public enum DescribeProvisioningParametersOutputError: Swift.Error, Swift.Equata
 
 extension DescribeProvisioningParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeProvisioningParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintSummaries = output.constraintSummaries
             self.provisioningArtifactOutputKeys = output.provisioningArtifactOutputKeys
@@ -6779,9 +6755,8 @@ public enum DescribeRecordOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRecordOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRecordOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.recordDetail = output.recordDetail
@@ -6952,9 +6927,8 @@ public enum DescribeServiceActionExecutionParametersOutputError: Swift.Error, Sw
 
 extension DescribeServiceActionExecutionParametersOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeServiceActionExecutionParametersOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionParameters = output.serviceActionParameters
         } else {
@@ -7090,9 +7064,8 @@ public enum DescribeServiceActionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -7191,9 +7164,8 @@ public enum DescribeTagOptionOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {
@@ -7828,9 +7800,8 @@ public struct DisassociateTagOptionFromResourceOutputResponse: Swift.Equatable {
 
 extension DuplicateResourceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicateResourceExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8081,9 +8052,8 @@ public enum ExecuteProvisionedProductPlanOutputError: Swift.Error, Swift.Equatab
 
 extension ExecuteProvisionedProductPlanOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecuteProvisionedProductPlanOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8274,9 +8244,8 @@ public enum ExecuteProvisionedProductServiceActionOutputError: Swift.Error, Swif
 
 extension ExecuteProvisionedProductServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecuteProvisionedProductServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8509,9 +8478,8 @@ public enum GetAWSOrganizationsAccessStatusOutputError: Swift.Error, Swift.Equat
 
 extension GetAWSOrganizationsAccessStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAWSOrganizationsAccessStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessStatus = output.accessStatus
         } else {
@@ -8699,9 +8667,8 @@ public enum GetProvisionedProductOutputsOutputError: Swift.Error, Swift.Equatabl
 
 extension GetProvisionedProductOutputsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetProvisionedProductOutputsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.outputs = output.outputs
@@ -8905,9 +8872,8 @@ public enum ImportAsProvisionedProductOutputError: Swift.Error, Swift.Equatable 
 
 extension ImportAsProvisionedProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportAsProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -8946,9 +8912,8 @@ extension ImportAsProvisionedProductOutputResponseBody: Swift.Decodable {
 
 extension InvalidParametersException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParametersExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8998,9 +8963,8 @@ extension InvalidParametersExceptionBody: Swift.Decodable {
 
 extension InvalidStateException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidStateExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9301,9 +9265,8 @@ extension ServiceCatalogClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9472,9 +9435,8 @@ public enum ListAcceptedPortfolioSharesOutputError: Swift.Error, Swift.Equatable
 
 extension ListAcceptedPortfolioSharesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAcceptedPortfolioSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -9646,9 +9608,8 @@ public enum ListBudgetsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListBudgetsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListBudgetsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.budgets = output.budgets
             self.nextPageToken = output.nextPageToken
@@ -9832,9 +9793,8 @@ public enum ListConstraintsForPortfolioOutputError: Swift.Error, Swift.Equatable
 
 extension ListConstraintsForPortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListConstraintsForPortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetails = output.constraintDetails
             self.nextPageToken = output.nextPageToken
@@ -10006,9 +9966,8 @@ public enum ListLaunchPathsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListLaunchPathsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListLaunchPathsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.launchPathSummaries = output.launchPathSummaries
             self.nextPageToken = output.nextPageToken
@@ -10201,9 +10160,8 @@ public enum ListOrganizationPortfolioAccessOutputError: Swift.Error, Swift.Equat
 
 extension ListOrganizationPortfolioAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOrganizationPortfolioAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.organizationNodes = output.organizationNodes
@@ -10387,9 +10345,8 @@ public enum ListPortfolioAccessOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPortfolioAccessOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPortfolioAccessOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accountIds = output.accountIds
             self.nextPageToken = output.nextPageToken
@@ -10561,9 +10518,8 @@ public enum ListPortfoliosForProductOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPortfoliosForProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPortfoliosForProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -10720,9 +10676,8 @@ public enum ListPortfoliosOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPortfoliosOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPortfoliosOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.portfolioDetails = output.portfolioDetails
@@ -10894,9 +10849,8 @@ public enum ListPrincipalsForPortfolioOutputError: Swift.Error, Swift.Equatable 
 
 extension ListPrincipalsForPortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPrincipalsForPortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.principals = output.principals
@@ -11079,9 +11033,8 @@ public enum ListProvisionedProductPlansOutputError: Swift.Error, Swift.Equatable
 
 extension ListProvisionedProductPlansOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProvisionedProductPlansOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProductPlans = output.provisionedProductPlans
@@ -11253,9 +11206,8 @@ public enum ListProvisioningArtifactsForServiceActionOutputError: Swift.Error, S
 
 extension ListProvisioningArtifactsForServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProvisioningArtifactsForServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisioningArtifactViews = output.provisioningArtifactViews
@@ -11403,9 +11355,8 @@ public enum ListProvisioningArtifactsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProvisioningArtifactsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProvisioningArtifactsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisioningArtifactDetails = output.provisioningArtifactDetails
@@ -11586,9 +11537,8 @@ public enum ListRecordHistoryOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRecordHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRecordHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.recordDetails = output.recordDetails
@@ -11773,9 +11723,8 @@ public enum ListResourcesForTagOptionOutputError: Swift.Error, Swift.Equatable {
 
 extension ListResourcesForTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListResourcesForTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pageToken = output.pageToken
             self.resourceDetails = output.resourceDetails
@@ -11960,9 +11909,8 @@ public enum ListServiceActionsForProvisioningArtifactOutputError: Swift.Error, S
 
 extension ListServiceActionsForProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServiceActionsForProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.serviceActionSummaries = output.serviceActionSummaries
@@ -12119,9 +12067,8 @@ public enum ListServiceActionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServiceActionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServiceActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.serviceActionSummaries = output.serviceActionSummaries
@@ -12293,9 +12240,8 @@ public enum ListStackInstancesForProvisionedProductOutputError: Swift.Error, Swi
 
 extension ListStackInstancesForProvisionedProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStackInstancesForProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.stackInstances = output.stackInstances
@@ -12503,9 +12449,8 @@ public enum ListTagOptionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagOptionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagOptionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.pageToken = output.pageToken
             self.tagOptionDetails = output.tagOptionDetails
@@ -12563,9 +12508,8 @@ extension ListTagOptionsOutputResponseBody: Swift.Decodable {
 
 extension OperationNotSupportedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OperationNotSupportedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13762,9 +13706,8 @@ public enum ProvisionProductOutputError: Swift.Error, Swift.Equatable {
 
 extension ProvisionProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ProvisionProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -16419,9 +16362,8 @@ extension ServiceCatalogClientTypes {
 
 extension ResourceInUseException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16471,9 +16413,8 @@ extension ResourceInUseExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -16689,9 +16630,8 @@ public enum ScanProvisionedProductsOutputError: Swift.Error, Swift.Equatable {
 
 extension ScanProvisionedProductsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ScanProvisionedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProducts = output.provisionedProducts
@@ -16932,9 +16872,8 @@ public enum SearchProductsAsAdminOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchProductsAsAdminOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchProductsAsAdminOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.productViewDetails = output.productViewDetails
@@ -17149,9 +17088,8 @@ public enum SearchProductsOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchProductsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.productViewAggregations = output.productViewAggregations
@@ -17404,9 +17342,8 @@ public enum SearchProvisionedProductsOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchProvisionedProductsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchProvisionedProductsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextPageToken = output.nextPageToken
             self.provisionedProducts = output.provisionedProducts
@@ -18434,9 +18371,8 @@ extension ServiceCatalogClientTypes {
 
 extension TagOptionNotMigratedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TagOptionNotMigratedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -18679,9 +18615,8 @@ public enum TerminateProvisionedProductOutputError: Swift.Error, Swift.Equatable
 
 extension TerminateProvisionedProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TerminateProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -18834,9 +18769,8 @@ public enum UpdateConstraintOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateConstraintOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateConstraintOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.constraintDetail = output.constraintDetail
             self.constraintParameters = output.constraintParameters
@@ -19073,9 +19007,8 @@ public enum UpdatePortfolioOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePortfolioOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePortfolioOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioDetail = output.portfolioDetail
             self.tags = output.tags
@@ -19275,9 +19208,8 @@ public enum UpdatePortfolioShareOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePortfolioShareOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePortfolioShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.portfolioShareToken = output.portfolioShareToken
             self.status = output.status
@@ -19566,9 +19498,8 @@ public enum UpdateProductOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.productViewDetail = output.productViewDetail
             self.tags = output.tags
@@ -19872,9 +19803,8 @@ public enum UpdateProvisionedProductOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateProvisionedProductOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProvisionedProductOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recordDetail = output.recordDetail
         } else {
@@ -20043,9 +19973,8 @@ public enum UpdateProvisionedProductPropertiesOutputError: Swift.Error, Swift.Eq
 
 extension UpdateProvisionedProductPropertiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProvisionedProductPropertiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.provisionedProductId = output.provisionedProductId
             self.provisionedProductProperties = output.provisionedProductProperties
@@ -20274,9 +20203,8 @@ public enum UpdateProvisioningArtifactOutputError: Swift.Error, Swift.Equatable 
 
 extension UpdateProvisioningArtifactOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProvisioningArtifactOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.info = output.info
             self.provisioningArtifactDetail = output.provisioningArtifactDetail
@@ -20656,9 +20584,8 @@ public enum UpdateServiceActionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateServiceActionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateServiceActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.serviceActionDetail = output.serviceActionDetail
         } else {
@@ -20797,9 +20724,8 @@ public enum UpdateTagOptionOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateTagOptionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTagOptionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagOptionDetail = output.tagOptionDetail
         } else {

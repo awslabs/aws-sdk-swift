@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -362,9 +361,8 @@ public enum CompleteSnapshotOutputError: Swift.Error, Swift.Equatable {
 
 extension CompleteSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CompleteSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.status = output.status
         } else {
@@ -403,9 +401,8 @@ extension CompleteSnapshotOutputResponseBody: Swift.Decodable {
 
 extension ConcurrentLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -455,9 +452,8 @@ extension ConcurrentLimitExceededExceptionBody: Swift.Decodable {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -618,9 +614,12 @@ extension GetSnapshotBlockOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.dataLength = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
-            self.blockData = ByteStream.from(data: data)
-        } else {
+        switch httpResponse.body {
+        case .data(let data):
+            self.blockData = .data(data)
+        case .stream(let stream):
+            self.blockData = .stream(stream)
+        case .none:
             self.blockData = nil
         }
     }
@@ -668,9 +667,8 @@ extension GetSnapshotBlockOutputResponseBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -824,9 +822,8 @@ public enum ListChangedBlocksOutputError: Swift.Error, Swift.Equatable {
 
 extension ListChangedBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListChangedBlocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blockSize = output.blockSize
             self.changedBlocks = output.changedBlocks
@@ -1015,9 +1012,8 @@ extension ListSnapshotBlocksOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension ListSnapshotBlocksOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSnapshotBlocksOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blockSize = output.blockSize
             self.blocks = output.blocks
@@ -1117,9 +1113,8 @@ public struct PutSnapshotBlockInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let blockData = input.operationInput.blockData {
-            let blockDatadata = blockData
-            let blockDatabody = ClientRuntime.HttpBody.stream(blockDatadata)
-            input.builder.withBody(blockDatabody)
+            let blockDataBody = ClientRuntime.HttpBody(byteStream: blockData)
+            input.builder.withBody(blockDataBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -1142,7 +1137,7 @@ extension PutSnapshotBlockInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let blockData = self.blockData {
-            try encodeContainer.encode(blockData.toBytes().getData(), forKey: .blockData)
+            try encodeContainer.encode(blockData, forKey: .blockData)
         }
     }
 }
@@ -1301,9 +1296,8 @@ public struct PutSnapshotBlockOutputResponse: Swift.Equatable {
 
 extension RequestThrottledException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestThrottledExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -1398,9 +1392,8 @@ extension EBSClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -1492,9 +1485,8 @@ extension EBSClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason
@@ -1780,9 +1772,8 @@ extension StartSnapshotOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension StartSnapshotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSnapshotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.blockSize = output.blockSize
             self.description = output.description
@@ -2000,9 +1991,8 @@ extension EBSClientTypes {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason

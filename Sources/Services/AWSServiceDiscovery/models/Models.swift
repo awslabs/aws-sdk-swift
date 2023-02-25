@@ -130,9 +130,8 @@ public enum CreateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateHttpNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateHttpNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -322,9 +321,8 @@ public enum CreatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePrivateDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePrivateDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -501,9 +499,8 @@ public enum CreatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreatePublicDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreatePublicDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -735,9 +732,8 @@ public enum CreateServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
         } else {
@@ -776,9 +772,8 @@ extension CreateServiceOutputResponseBody: Swift.Decodable {
 
 extension CustomHealthNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CustomHealthNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -936,9 +931,8 @@ public enum DeleteNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -1152,9 +1146,8 @@ public enum DeregisterInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension DeregisterInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -1354,9 +1347,8 @@ public enum DiscoverInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension DiscoverInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DiscoverInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
         } else {
@@ -1657,9 +1649,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension DuplicateRequest {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
             self.duplicateOperationId = output.duplicateOperationId
             self.message = output.message
@@ -1844,9 +1835,8 @@ public enum GetInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instance = output.instance
         } else {
@@ -2007,9 +1997,8 @@ public enum GetInstancesHealthStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension GetInstancesHealthStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetInstancesHealthStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.status = output.status
@@ -2139,9 +2128,8 @@ public enum GetNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.namespace = output.namespace
         } else {
@@ -2252,9 +2240,8 @@ public enum GetOperationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetOperationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operation = output.operation
         } else {
@@ -2365,9 +2352,8 @@ public enum GetServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension GetServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.service = output.service
         } else {
@@ -2897,9 +2883,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension InstanceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InstanceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3013,9 +2998,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension InvalidInput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidInputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3161,9 +3145,8 @@ public enum ListInstancesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
             self.nextToken = output.nextToken
@@ -3326,9 +3309,8 @@ public enum ListNamespacesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListNamespacesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListNamespacesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.namespaces = output.namespaces
             self.nextToken = output.nextToken
@@ -3491,9 +3473,8 @@ public enum ListOperationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListOperationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListOperationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.operations = output.operations
@@ -3656,9 +3637,8 @@ public enum ListServicesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListServicesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.services = output.services
@@ -3788,9 +3768,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -3953,9 +3932,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension NamespaceAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NamespaceAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
             self.creatorRequestId = output.creatorRequestId
             self.message = output.message
@@ -4145,9 +4123,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension NamespaceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NamespaceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4649,9 +4626,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension OperationNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: OperationNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5446,9 +5422,8 @@ public enum RegisterInstanceOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterInstanceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterInstanceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -5487,9 +5462,8 @@ extension RegisterInstanceOutputResponseBody: Swift.Decodable {
 
 extension RequestLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RequestLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5539,9 +5513,8 @@ extension RequestLimitExceededBody: Swift.Decodable {
 
 extension ResourceInUse {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceInUseBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5591,9 +5564,8 @@ extension ResourceInUseBody: Swift.Decodable {
 
 extension ResourceLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5643,9 +5615,8 @@ extension ResourceLimitExceededBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5944,9 +5915,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
             self.creatorRequestId = output.creatorRequestId
             self.message = output.message
@@ -6171,9 +6141,8 @@ extension ServiceDiscoveryClientTypes {
 
 extension ServiceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6575,9 +6544,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -6845,9 +6813,8 @@ public enum UpdateHttpNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateHttpNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateHttpNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7099,9 +7066,8 @@ public enum UpdatePrivateDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePrivateDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePrivateDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7241,9 +7207,8 @@ public enum UpdatePublicDnsNamespaceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdatePublicDnsNamespaceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdatePublicDnsNamespaceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {
@@ -7369,9 +7334,8 @@ public enum UpdateServiceOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateServiceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateServiceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.operationId = output.operationId
         } else {

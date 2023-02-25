@@ -209,8 +209,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1019,8 +1019,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1048,8 +1048,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1077,8 +1077,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1106,8 +1106,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1135,8 +1135,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1164,8 +1164,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1193,8 +1193,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1222,8 +1222,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1251,8 +1251,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1280,8 +1280,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1309,8 +1309,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1338,8 +1338,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1367,8 +1367,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1396,8 +1396,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1425,8 +1425,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1454,8 +1454,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]
@@ -1483,8 +1483,8 @@ class EndpointResolverTest: XCTestCase {
                 "authSchemes": [
                     [
                         "signingName": "sts",
-                        "name": "sigv4",
-                        "signingRegion": "us-east-3"
+                        "signingRegion": "us-east-3",
+                        "name": "sigv4"
                     ] as [String: AnyHashable]
                 ] as [AnyHashable]
             ]

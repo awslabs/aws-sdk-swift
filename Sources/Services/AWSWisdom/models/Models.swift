@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -768,9 +767,8 @@ extension WisdomClientTypes {
 
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1442,9 +1440,8 @@ public enum CreateAssistantAssociationOutputError: Swift.Error, Swift.Equatable 
 
 extension CreateAssistantAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAssistantAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistantAssociation = output.assistantAssociation
         } else {
@@ -1632,9 +1629,8 @@ public enum CreateAssistantOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAssistantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAssistantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistant = output.assistant
         } else {
@@ -1856,9 +1852,8 @@ public enum CreateContentOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
         } else {
@@ -2070,9 +2065,8 @@ public enum CreateKnowledgeBaseOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateKnowledgeBaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateKnowledgeBaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.knowledgeBase = output.knowledgeBase
         } else {
@@ -2241,9 +2235,8 @@ public enum CreateSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.session = output.session
         } else {
@@ -2867,9 +2860,8 @@ public enum GetAssistantAssociationOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAssistantAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAssistantAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistantAssociation = output.assistantAssociation
         } else {
@@ -2965,9 +2957,8 @@ public enum GetAssistantOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAssistantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAssistantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistant = output.assistant
         } else {
@@ -3071,9 +3062,8 @@ public enum GetContentOutputError: Swift.Error, Swift.Equatable {
 
 extension GetContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
         } else {
@@ -3177,9 +3167,8 @@ public enum GetContentSummaryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetContentSummaryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetContentSummaryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentSummary = output.contentSummary
         } else {
@@ -3275,9 +3264,8 @@ public enum GetKnowledgeBaseOutputError: Swift.Error, Swift.Equatable {
 
 extension GetKnowledgeBaseOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetKnowledgeBaseOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.knowledgeBase = output.knowledgeBase
         } else {
@@ -3406,9 +3394,8 @@ public enum GetRecommendationsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.recommendations = output.recommendations
             self.triggers = output.triggers
@@ -3541,9 +3528,8 @@ public enum GetSessionOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSessionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSessionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.session = output.session
         } else {
@@ -4124,9 +4110,8 @@ public enum ListAssistantAssociationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAssistantAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAssistantAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistantAssociationSummaries = output.assistantAssociationSummaries
             self.nextToken = output.nextToken
@@ -4257,9 +4242,8 @@ public enum ListAssistantsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAssistantsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAssistantsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.assistantSummaries = output.assistantSummaries
             self.nextToken = output.nextToken
@@ -4400,9 +4384,8 @@ public enum ListContentsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListContentsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListContentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentSummaries = output.contentSummaries
             self.nextToken = output.nextToken
@@ -4533,9 +4516,8 @@ public enum ListKnowledgeBasesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListKnowledgeBasesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListKnowledgeBasesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.knowledgeBaseSummaries = output.knowledgeBaseSummaries
             self.nextToken = output.nextToken
@@ -4647,9 +4629,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -4844,9 +4825,8 @@ public enum NotifyRecommendationsReceivedOutputError: Swift.Error, Swift.Equatab
 
 extension NotifyRecommendationsReceivedOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: NotifyRecommendationsReceivedOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.errors = output.errors
             self.recommendationIds = output.recommendationIds
@@ -4913,9 +4893,8 @@ extension NotifyRecommendationsReceivedOutputResponseBody: Swift.Decodable {
 
 extension PreconditionFailedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PreconditionFailedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5076,9 +5055,8 @@ public enum QueryAssistantOutputError: Swift.Error, Swift.Equatable {
 
 extension QueryAssistantOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: QueryAssistantOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.results = output.results
@@ -5624,9 +5602,8 @@ extension WisdomClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -5850,9 +5827,8 @@ public enum SearchContentOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.contentSummaries = output.contentSummaries
             self.nextToken = output.nextToken
@@ -6066,9 +6042,8 @@ public enum SearchSessionsOutputError: Swift.Error, Swift.Equatable {
 
 extension SearchSessionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SearchSessionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.sessionSummaries = output.sessionSummaries
@@ -6162,9 +6137,8 @@ extension WisdomClientTypes {
 
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6497,9 +6471,8 @@ extension StartContentUploadOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension StartContentUploadOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartContentUploadOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.headersToInclude = output.headersToInclude
             self.uploadId = output.uploadId
@@ -6683,9 +6656,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -6993,9 +6965,8 @@ public enum UpdateContentOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateContentOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.content = output.content
         } else {
@@ -7116,9 +7087,8 @@ public enum UpdateKnowledgeBaseTemplateUriOutputError: Swift.Error, Swift.Equata
 
 extension UpdateKnowledgeBaseTemplateUriOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateKnowledgeBaseTemplateUriOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.knowledgeBase = output.knowledgeBase
         } else {
@@ -7157,9 +7127,8 @@ extension UpdateKnowledgeBaseTemplateUriOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

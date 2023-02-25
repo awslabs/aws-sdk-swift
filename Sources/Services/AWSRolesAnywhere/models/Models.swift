@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -249,9 +248,8 @@ public enum CreateProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -411,9 +409,8 @@ public enum CreateTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -698,9 +695,8 @@ public enum DeleteCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -795,9 +791,8 @@ public enum DeleteProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -891,9 +886,8 @@ public enum DeleteTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension DeleteTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -988,9 +982,8 @@ public enum DisableCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -1085,9 +1078,8 @@ public enum DisableProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -1181,9 +1173,8 @@ public enum DisableTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension DisableTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DisableTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -1278,9 +1269,8 @@ public enum EnableCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -1375,9 +1365,8 @@ public enum EnableProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -1471,9 +1460,8 @@ public enum EnableTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension EnableTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: EnableTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -1566,9 +1554,8 @@ public enum GetCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension GetCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -1663,9 +1650,8 @@ public enum GetProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension GetProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -1759,9 +1745,8 @@ public enum GetSubjectOutputError: Swift.Error, Swift.Equatable {
 
 extension GetSubjectOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetSubjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.subject = output.subject
         } else {
@@ -1857,9 +1842,8 @@ public enum GetTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension GetTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -2033,9 +2017,8 @@ public enum ImportCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension ImportCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ImportCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -2214,9 +2197,8 @@ public enum ListCrlsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListCrlsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListCrlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crls = output.crls
             self.nextToken = output.nextToken
@@ -2346,9 +2328,8 @@ public enum ListProfilesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.profiles = output.profiles
@@ -2478,9 +2459,8 @@ public enum ListSubjectsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSubjectsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSubjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.subjects = output.subjects
@@ -2607,9 +2587,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -2729,9 +2708,8 @@ public enum ListTrustAnchorsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTrustAnchorsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTrustAnchorsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.trustAnchors = output.trustAnchors
@@ -2958,9 +2936,8 @@ extension RolesAnywhereClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3499,9 +3476,8 @@ public struct TagResourceOutputResponse: Swift.Equatable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3883,9 +3859,8 @@ public enum UpdateCrlOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateCrlOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateCrlOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.crl = output.crl
         } else {
@@ -4078,9 +4053,8 @@ public enum UpdateProfileOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateProfileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.profile = output.profile
         } else {
@@ -4212,9 +4186,8 @@ public enum UpdateTrustAnchorOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateTrustAnchorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateTrustAnchorOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.trustAnchor = output.trustAnchor
         } else {
@@ -4254,9 +4227,8 @@ extension UpdateTrustAnchorOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

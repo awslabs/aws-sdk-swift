@@ -535,9 +535,8 @@ public enum DescribeEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equata
 
 extension DescribeEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
         } else {
@@ -652,9 +651,8 @@ public enum DescribeICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable
 
 extension DescribeICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
         } else {
@@ -769,9 +767,8 @@ public enum DescribePHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribePHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribePHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
         } else {
@@ -886,9 +883,8 @@ public enum DescribeRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
         } else {
@@ -1003,9 +999,8 @@ public enum DescribeSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatabl
 
 extension DescribeSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobProperties = output.comprehendMedicalAsyncJobProperties
         } else {
@@ -1124,9 +1119,8 @@ public enum DetectEntitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectEntitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectEntitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.modelVersion = output.modelVersion
@@ -1295,9 +1289,8 @@ public enum DetectEntitiesV2OutputError: Swift.Error, Swift.Equatable {
 
 extension DetectEntitiesV2OutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectEntitiesV2OutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.modelVersion = output.modelVersion
@@ -1466,9 +1459,8 @@ public enum DetectPHIOutputError: Swift.Error, Swift.Equatable {
 
 extension DetectPHIOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DetectPHIOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.modelVersion = output.modelVersion
@@ -2550,9 +2542,8 @@ public enum InferICD10CMOutputError: Swift.Error, Swift.Equatable {
 
 extension InferICD10CMOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InferICD10CMOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.modelVersion = output.modelVersion
@@ -2701,9 +2692,8 @@ public enum InferRxNormOutputError: Swift.Error, Swift.Equatable {
 
 extension InferRxNormOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InferRxNormOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.entities = output.entities
             self.modelVersion = output.modelVersion
@@ -2852,9 +2842,8 @@ public enum InferSNOMEDCTOutputError: Swift.Error, Swift.Equatable {
 
 extension InferSNOMEDCTOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InferSNOMEDCTOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.characters = output.characters
             self.entities = output.entities
@@ -2989,9 +2978,8 @@ extension ComprehendMedicalClientTypes {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3041,9 +3029,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidEncodingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidEncodingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3093,9 +3080,8 @@ extension InvalidEncodingExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidRequestExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3320,9 +3306,8 @@ public enum ListEntitiesDetectionV2JobsOutputError: Swift.Error, Swift.Equatable
 
 extension ListEntitiesDetectionV2JobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListEntitiesDetectionV2JobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
             self.nextToken = output.nextToken
@@ -3479,9 +3464,8 @@ public enum ListICD10CMInferenceJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListICD10CMInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListICD10CMInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
             self.nextToken = output.nextToken
@@ -3638,9 +3622,8 @@ public enum ListPHIDetectionJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListPHIDetectionJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListPHIDetectionJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
             self.nextToken = output.nextToken
@@ -3797,9 +3780,8 @@ public enum ListRxNormInferenceJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRxNormInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRxNormInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
             self.nextToken = output.nextToken
@@ -3956,9 +3938,8 @@ public enum ListSNOMEDCTInferenceJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSNOMEDCTInferenceJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSNOMEDCTInferenceJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.comprehendMedicalAsyncJobPropertiesList = output.comprehendMedicalAsyncJobPropertiesList
             self.nextToken = output.nextToken
@@ -4148,9 +4129,8 @@ extension ComprehendMedicalClientTypes {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5404,9 +5384,8 @@ extension ComprehendMedicalClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -5607,9 +5586,8 @@ public enum StartEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable
 
 extension StartEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -5799,9 +5777,8 @@ public enum StartICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -5991,9 +5968,8 @@ public enum StartPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartPHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6183,9 +6159,8 @@ public enum StartRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6375,9 +6350,8 @@ public enum StartSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StartSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6490,9 +6464,8 @@ public enum StopEntitiesDetectionV2JobOutputError: Swift.Error, Swift.Equatable 
 
 extension StopEntitiesDetectionV2JobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopEntitiesDetectionV2JobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6605,9 +6578,8 @@ public enum StopICD10CMInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopICD10CMInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopICD10CMInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6720,9 +6692,8 @@ public enum StopPHIDetectionJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopPHIDetectionJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopPHIDetectionJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6835,9 +6806,8 @@ public enum StopRxNormInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopRxNormInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopRxNormInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6952,9 +6922,8 @@ public enum StopSNOMEDCTInferenceJobOutputError: Swift.Error, Swift.Equatable {
 
 extension StopSNOMEDCTInferenceJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopSNOMEDCTInferenceJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -6993,9 +6962,8 @@ extension StopSNOMEDCTInferenceJobOutputResponseBody: Swift.Decodable {
 
 extension TextSizeLimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TextSizeLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7045,9 +7013,8 @@ extension TextSizeLimitExceededExceptionBody: Swift.Decodable {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7187,9 +7154,8 @@ extension ComprehendMedicalClientTypes {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

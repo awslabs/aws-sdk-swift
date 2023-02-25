@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension ActivityDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivityDoesNotExistBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -106,9 +105,8 @@ extension SFNClientTypes {
 
 extension ActivityLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivityLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -495,9 +493,8 @@ extension SFNClientTypes {
 
 extension ActivityWorkerLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ActivityWorkerLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -773,9 +770,8 @@ public enum CreateActivityOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateActivityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateActivityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activityArn = output.activityArn
             self.creationDate = output.creationDate
@@ -1018,9 +1014,8 @@ public enum CreateStateMachineOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.stateMachineArn = output.stateMachineArn
@@ -1305,9 +1300,8 @@ public enum DescribeActivityOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeActivityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeActivityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activityArn = output.activityArn
             self.creationDate = output.creationDate
@@ -1459,9 +1453,8 @@ extension DescribeExecutionOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension DescribeExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.cause = output.cause
             self.error = output.error
@@ -1719,9 +1712,8 @@ public enum DescribeMapRunOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeMapRunOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMapRunOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionArn = output.executionArn
             self.executionCounts = output.executionCounts
@@ -1936,9 +1928,8 @@ extension DescribeStateMachineForExecutionOutputResponse: Swift.CustomDebugStrin
 
 extension DescribeStateMachineForExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStateMachineForExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.definition = output.definition
             self.label = output.label
@@ -2139,9 +2130,8 @@ extension DescribeStateMachineOutputResponse: Swift.CustomDebugStringConvertible
 
 extension DescribeStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.definition = output.definition
@@ -2339,9 +2329,8 @@ extension SFNClientTypes {
 
 extension ExecutionAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecutionAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2391,9 +2380,8 @@ extension ExecutionAlreadyExistsBody: Swift.Decodable {
 
 extension ExecutionDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecutionDoesNotExistBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2493,9 +2481,8 @@ extension SFNClientTypes {
 
 extension ExecutionLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ExecutionLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -2960,9 +2947,8 @@ extension GetActivityTaskOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension GetActivityTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetActivityTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.input = output.input
             self.taskToken = output.taskToken
@@ -3133,9 +3119,8 @@ public enum GetExecutionHistoryOutputError: Swift.Error, Swift.Equatable {
 
 extension GetExecutionHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetExecutionHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.events = output.events
             self.nextToken = output.nextToken
@@ -3840,9 +3825,8 @@ extension SFNClientTypes {
 
 extension InvalidArn {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidArnBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3892,9 +3876,8 @@ extension InvalidArnBody: Swift.Decodable {
 
 extension InvalidDefinition {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidDefinitionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3944,9 +3927,8 @@ extension InvalidDefinitionBody: Swift.Decodable {
 
 extension InvalidExecutionInput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidExecutionInputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -3996,9 +3978,8 @@ extension InvalidExecutionInputBody: Swift.Decodable {
 
 extension InvalidLoggingConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidLoggingConfigurationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4048,9 +4029,8 @@ extension InvalidLoggingConfigurationBody: Swift.Decodable {
 
 extension InvalidName {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidNameBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4100,9 +4080,8 @@ extension InvalidNameBody: Swift.Decodable {
 
 extension InvalidOutput {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidOutputBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4152,9 +4131,8 @@ extension InvalidOutputBody: Swift.Decodable {
 
 extension InvalidToken {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTokenBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4204,9 +4182,8 @@ extension InvalidTokenBody: Swift.Decodable {
 
 extension InvalidTracingConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidTracingConfigurationBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -4668,9 +4645,8 @@ public enum ListActivitiesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListActivitiesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListActivitiesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.activities = output.activities
             self.nextToken = output.nextToken
@@ -4856,9 +4832,8 @@ public enum ListExecutionsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListExecutionsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListExecutionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executions = output.executions
             self.nextToken = output.nextToken
@@ -5015,9 +4990,8 @@ public enum ListMapRunsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListMapRunsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMapRunsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mapRuns = output.mapRuns
             self.nextToken = output.nextToken
@@ -5157,9 +5131,8 @@ public enum ListStateMachinesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListStateMachinesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStateMachinesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.stateMachines = output.stateMachines
@@ -5289,9 +5262,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5987,9 +5959,8 @@ extension SFNClientTypes {
 
 extension MissingRequiredParameter {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: MissingRequiredParameterBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -6039,9 +6010,8 @@ extension MissingRequiredParameterBody: Swift.Decodable {
 
 extension ResourceNotFound {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -6539,9 +6509,8 @@ public enum StartExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StartExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.executionArn = output.executionArn
             self.startDate = output.startDate
@@ -6718,9 +6687,8 @@ extension StartSyncExecutionOutputResponse: Swift.CustomDebugStringConvertible {
 
 extension StartSyncExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSyncExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.billingDetails = output.billingDetails
             self.cause = output.cause
@@ -7028,9 +6996,8 @@ extension SFNClientTypes {
 
 extension StateMachineAlreadyExists {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StateMachineAlreadyExistsBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7080,9 +7047,8 @@ extension StateMachineAlreadyExistsBody: Swift.Decodable {
 
 extension StateMachineDeleting {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StateMachineDeletingBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7132,9 +7098,8 @@ extension StateMachineDeletingBody: Swift.Decodable {
 
 extension StateMachineDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StateMachineDoesNotExistBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7184,9 +7149,8 @@ extension StateMachineDoesNotExistBody: Swift.Decodable {
 
 extension StateMachineLimitExceeded {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StateMachineLimitExceededBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7382,9 +7346,8 @@ extension SFNClientTypes {
 
 extension StateMachineTypeNotSupported {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StateMachineTypeNotSupportedBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -7537,9 +7500,8 @@ public enum StopExecutionOutputError: Swift.Error, Swift.Equatable {
 
 extension StopExecutionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StopExecutionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.stopDate = output.stopDate
         } else {
@@ -7803,9 +7765,8 @@ extension SFNClientTypes {
 
 extension TaskDoesNotExist {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TaskDoesNotExistBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8365,9 +8326,8 @@ extension SFNClientTypes {
 
 extension TaskTimedOut {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TaskTimedOutBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8488,9 +8448,8 @@ extension SFNClientTypes {
 
 extension TooManyTags {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: TooManyTagsBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.resourceName = output.resourceName
@@ -8948,9 +8907,8 @@ public enum UpdateStateMachineOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateStateMachineOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateStateMachineOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.updateDate = output.updateDate
         } else {
@@ -8990,9 +8948,8 @@ extension UpdateStateMachineOutputResponseBody: Swift.Decodable {
 
 extension ValidationException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
             self.reason = output.reason

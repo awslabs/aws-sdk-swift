@@ -836,7 +836,7 @@ extension S3ControlClientTypes {
 
 extension BadRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<BadRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -1312,9 +1312,8 @@ public enum CreateAccessPointForObjectLambdaOutputError: Swift.Error, Swift.Equa
 
 extension CreateAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.objectLambdaAccessPointArn = output.objectLambdaAccessPointArn
         } else {
@@ -1496,9 +1495,8 @@ public enum CreateAccessPointOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
             self.alias = output.alias
@@ -1614,15 +1612,15 @@ public struct CreateBucketInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let createBucketConfiguration = input.operationInput.createBucketConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let createBucketConfigurationdata = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
-                let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                input.builder.withBody(createBucketConfigurationbody)
+                let createBucketConfigurationData = try xmlEncoder.encode(createBucketConfiguration, withRootKey: "CreateBucketConfiguration")
+                let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                input.builder.withBody(createBucketConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let createBucketConfigurationdata = "{}".data(using: .utf8)!
-                    let createBucketConfigurationbody = ClientRuntime.HttpBody.data(createBucketConfigurationdata)
-                    input.builder.withBody(createBucketConfigurationbody)
+                    let createBucketConfigurationData = "{}".data(using: .utf8)!
+                    let createBucketConfigurationBody = ClientRuntime.HttpBody.data(createBucketConfigurationData)
+                    input.builder.withBody(createBucketConfigurationBody)
                 }
             }
         } catch let err {
@@ -1801,9 +1799,8 @@ extension CreateBucketOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.location = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateBucketOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucketArn = output.bucketArn
         } else {
@@ -2085,9 +2082,8 @@ public enum CreateJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
         } else {
@@ -2332,9 +2328,8 @@ public enum CreateMultiRegionAccessPointOutputError: Swift.Error, Swift.Equatabl
 
 extension CreateMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
@@ -3219,9 +3214,8 @@ public enum DeleteMultiRegionAccessPointOutputError: Swift.Error, Swift.Equatabl
 
 extension DeleteMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeleteMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
@@ -3550,9 +3544,8 @@ public enum DescribeJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.job = output.job
         } else {
@@ -3656,9 +3649,8 @@ public enum DescribeMultiRegionAccessPointOperationOutputError: Swift.Error, Swi
 
 extension DescribeMultiRegionAccessPointOperationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeMultiRegionAccessPointOperationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.asyncOperation = output.asyncOperation
         } else {
@@ -4123,9 +4115,8 @@ public enum GetAccessPointConfigurationForObjectLambdaOutputError: Swift.Error, 
 
 extension GetAccessPointConfigurationForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointConfigurationForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.configuration = output.configuration
         } else {
@@ -4229,9 +4220,8 @@ public enum GetAccessPointForObjectLambdaOutputError: Swift.Error, Swift.Equatab
 
 extension GetAccessPointForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.creationDate = output.creationDate
             self.name = output.name
@@ -4355,9 +4345,8 @@ public enum GetAccessPointOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPointArn = output.accessPointArn
             self.alias = output.alias
@@ -4568,9 +4557,8 @@ public enum GetAccessPointPolicyForObjectLambdaOutputError: Swift.Error, Swift.E
 
 extension GetAccessPointPolicyForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointPolicyForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -4674,9 +4662,8 @@ public enum GetAccessPointPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -4780,9 +4767,8 @@ public enum GetAccessPointPolicyStatusForObjectLambdaOutputError: Swift.Error, S
 
 extension GetAccessPointPolicyStatusForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointPolicyStatusForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyStatus = output.policyStatus
         } else {
@@ -4886,9 +4872,8 @@ public enum GetAccessPointPolicyStatusOutputError: Swift.Error, Swift.Equatable 
 
 extension GetAccessPointPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetAccessPointPolicyStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policyStatus = output.policyStatus
         } else {
@@ -5038,9 +5023,8 @@ public enum GetBucketLifecycleConfigurationOutputError: Swift.Error, Swift.Equat
 
 extension GetBucketLifecycleConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketLifecycleConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.rules = output.rules
         } else {
@@ -5115,9 +5099,8 @@ public enum GetBucketOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bucket = output.bucket
             self.creationDate = output.creationDate
@@ -5241,9 +5224,8 @@ public enum GetBucketPolicyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -5347,9 +5329,8 @@ public enum GetBucketTaggingOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tagSet = output.tagSet
         } else {
@@ -5471,9 +5452,8 @@ public enum GetBucketVersioningOutputError: Swift.Error, Swift.Equatable {
 
 extension GetBucketVersioningOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetBucketVersioningOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mfaDelete = output.mfaDelete
             self.status = output.status
@@ -5593,9 +5573,8 @@ public enum GetJobTaggingOutputError: Swift.Error, Swift.Equatable {
 
 extension GetJobTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetJobTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -5716,9 +5695,8 @@ public enum GetMultiRegionAccessPointOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMultiRegionAccessPointOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMultiRegionAccessPointOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPoint = output.accessPoint
         } else {
@@ -5822,9 +5800,8 @@ public enum GetMultiRegionAccessPointPolicyOutputError: Swift.Error, Swift.Equat
 
 extension GetMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMultiRegionAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
         } else {
@@ -5928,9 +5905,8 @@ public enum GetMultiRegionAccessPointPolicyStatusOutputError: Swift.Error, Swift
 
 extension GetMultiRegionAccessPointPolicyStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMultiRegionAccessPointPolicyStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.established = output.established
         } else {
@@ -6034,9 +6010,8 @@ public enum GetMultiRegionAccessPointRoutesOutputError: Swift.Error, Swift.Equat
 
 extension GetMultiRegionAccessPointRoutesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetMultiRegionAccessPointRoutesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.mrap = output.mrap
             self.routes = output.routes
@@ -6161,13 +6136,9 @@ public enum GetPublicAccessBlockOutputError: Swift.Error, Swift.Equatable {
 
 extension GetPublicAccessBlockOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ControlClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
-                self.publicAccessBlockConfiguration = output
-            } else {
-                self.publicAccessBlockConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ControlClientTypes.PublicAccessBlockConfiguration = try responseDecoder.decode(responseBody: data)
+            self.publicAccessBlockConfiguration = output
         } else {
             self.publicAccessBlockConfiguration = nil
         }
@@ -6269,13 +6240,9 @@ public enum GetStorageLensConfigurationOutputError: Swift.Error, Swift.Equatable
 
 extension GetStorageLensConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData() {
-            if let responseDecoder = decoder {
-                let output: S3ControlClientTypes.StorageLensConfiguration = try responseDecoder.decode(responseBody: data)
-                self.storageLensConfiguration = output
-            } else {
-                self.storageLensConfiguration = nil
-            }
+        if let data = try httpResponse.body.toData(), let responseDecoder = decoder {
+            let output: S3ControlClientTypes.StorageLensConfiguration = try responseDecoder.decode(responseBody: data)
+            self.storageLensConfiguration = output
         } else {
             self.storageLensConfiguration = nil
         }
@@ -6377,9 +6344,8 @@ public enum GetStorageLensConfigurationTaggingOutputError: Swift.Error, Swift.Eq
 
 extension GetStorageLensConfigurationTaggingOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetStorageLensConfigurationTaggingOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -6435,7 +6401,7 @@ extension GetStorageLensConfigurationTaggingOutputResponseBody: Swift.Decodable 
 
 extension IdempotencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<IdempotencyExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6588,7 +6554,7 @@ extension S3ControlClientTypes {
 
 extension InternalServiceException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InternalServiceExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6639,7 +6605,7 @@ extension InternalServiceExceptionBody: Swift.Decodable {
 
 extension InvalidNextTokenException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidNextTokenExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -6690,7 +6656,7 @@ extension InvalidNextTokenExceptionBody: Swift.Decodable {
 
 extension InvalidRequestException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<InvalidRequestExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8042,7 +8008,7 @@ extension S3ControlClientTypes {
 
 extension JobStatusException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<JobStatusExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -8780,9 +8746,8 @@ public enum ListAccessPointsForObjectLambdaOutputError: Swift.Error, Swift.Equat
 
 extension ListAccessPointsForObjectLambdaOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccessPointsForObjectLambdaOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.objectLambdaAccessPointList = output.objectLambdaAccessPointList
@@ -8938,9 +8903,8 @@ public enum ListAccessPointsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListAccessPointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListAccessPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPointList = output.accessPointList
             self.nextToken = output.nextToken
@@ -9104,9 +9068,8 @@ public enum ListJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.nextToken = output.nextToken
@@ -9254,9 +9217,8 @@ public enum ListMultiRegionAccessPointsOutputError: Swift.Error, Swift.Equatable
 
 extension ListMultiRegionAccessPointsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListMultiRegionAccessPointsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.accessPoints = output.accessPoints
             self.nextToken = output.nextToken
@@ -9411,9 +9373,8 @@ public enum ListRegionalBucketsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRegionalBucketsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRegionalBucketsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.regionalBucketList = output.regionalBucketList
@@ -9638,9 +9599,8 @@ public enum ListStorageLensConfigurationsOutputError: Swift.Error, Swift.Equatab
 
 extension ListStorageLensConfigurationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListStorageLensConfigurationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.storageLensConfigurationList = output.storageLensConfigurationList
@@ -10236,7 +10196,7 @@ extension S3ControlClientTypes {
 
 extension NoSuchPublicAccessBlockConfiguration {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NoSuchPublicAccessBlockConfigurationBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -10411,7 +10371,7 @@ extension S3ControlClientTypes {
 
 extension NotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<NotFoundExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -11606,15 +11566,15 @@ public struct PutBucketLifecycleConfigurationInputBodyMiddleware: ClientRuntime.
             let encoder = context.getEncoder()
             if let lifecycleConfiguration = input.operationInput.lifecycleConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let lifecycleConfigurationdata = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
-                let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                input.builder.withBody(lifecycleConfigurationbody)
+                let lifecycleConfigurationData = try xmlEncoder.encode(lifecycleConfiguration, withRootKey: "LifecycleConfiguration")
+                let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
+                input.builder.withBody(lifecycleConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let lifecycleConfigurationdata = "{}".data(using: .utf8)!
-                    let lifecycleConfigurationbody = ClientRuntime.HttpBody.data(lifecycleConfigurationdata)
-                    input.builder.withBody(lifecycleConfigurationbody)
+                    let lifecycleConfigurationData = "{}".data(using: .utf8)!
+                    let lifecycleConfigurationBody = ClientRuntime.HttpBody.data(lifecycleConfigurationData)
+                    input.builder.withBody(lifecycleConfigurationBody)
                 }
             }
         } catch let err {
@@ -11885,15 +11845,15 @@ public struct PutBucketTaggingInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let tagging = input.operationInput.tagging {
                 let xmlEncoder = encoder as! XMLEncoder
-                let taggingdata = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
-                let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                input.builder.withBody(taggingbody)
+                let taggingData = try xmlEncoder.encode(tagging, withRootKey: "Tagging")
+                let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                input.builder.withBody(taggingBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let taggingdata = "{}".data(using: .utf8)!
-                    let taggingbody = ClientRuntime.HttpBody.data(taggingdata)
-                    input.builder.withBody(taggingbody)
+                    let taggingData = "{}".data(using: .utf8)!
+                    let taggingBody = ClientRuntime.HttpBody.data(taggingData)
+                    input.builder.withBody(taggingBody)
                 }
             }
         } catch let err {
@@ -12041,15 +12001,15 @@ public struct PutBucketVersioningInputBodyMiddleware: ClientRuntime.Middleware {
             let encoder = context.getEncoder()
             if let versioningConfiguration = input.operationInput.versioningConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let versioningConfigurationdata = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
-                let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                input.builder.withBody(versioningConfigurationbody)
+                let versioningConfigurationData = try xmlEncoder.encode(versioningConfiguration, withRootKey: "VersioningConfiguration")
+                let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
+                input.builder.withBody(versioningConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let versioningConfigurationdata = "{}".data(using: .utf8)!
-                    let versioningConfigurationbody = ClientRuntime.HttpBody.data(versioningConfigurationdata)
-                    input.builder.withBody(versioningConfigurationbody)
+                    let versioningConfigurationData = "{}".data(using: .utf8)!
+                    let versioningConfigurationBody = ClientRuntime.HttpBody.data(versioningConfigurationData)
+                    input.builder.withBody(versioningConfigurationBody)
                 }
             }
         } catch let err {
@@ -12510,9 +12470,8 @@ public enum PutMultiRegionAccessPointPolicyOutputError: Swift.Error, Swift.Equat
 
 extension PutMultiRegionAccessPointPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: PutMultiRegionAccessPointPolicyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.requestTokenARN = output.requestTokenARN
         } else {
@@ -12566,15 +12525,15 @@ public struct PutPublicAccessBlockInputBodyMiddleware: ClientRuntime.Middleware 
             let encoder = context.getEncoder()
             if let publicAccessBlockConfiguration = input.operationInput.publicAccessBlockConfiguration {
                 let xmlEncoder = encoder as! XMLEncoder
-                let publicAccessBlockConfigurationdata = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
-                let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                input.builder.withBody(publicAccessBlockConfigurationbody)
+                let publicAccessBlockConfigurationData = try xmlEncoder.encode(publicAccessBlockConfiguration, withRootKey: "PublicAccessBlockConfiguration")
+                let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
+                input.builder.withBody(publicAccessBlockConfigurationBody)
             } else {
                 if encoder is JSONEncoder {
                     // Encode an empty body as an empty structure in JSON
-                    let publicAccessBlockConfigurationdata = "{}".data(using: .utf8)!
-                    let publicAccessBlockConfigurationbody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationdata)
-                    input.builder.withBody(publicAccessBlockConfigurationbody)
+                    let publicAccessBlockConfigurationData = "{}".data(using: .utf8)!
+                    let publicAccessBlockConfigurationBody = ClientRuntime.HttpBody.data(publicAccessBlockConfigurationData)
+                    input.builder.withBody(publicAccessBlockConfigurationBody)
                 }
             }
         } catch let err {
@@ -16107,7 +16066,7 @@ extension S3ControlClientTypes {
 
 extension TooManyRequestsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyRequestsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16158,7 +16117,7 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
 
 extension TooManyTagsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if let data = httpResponse.body.toBytes()?.getData(),
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
             let output: AWSClientRuntime.ErrorResponseContainer<TooManyTagsExceptionBody> = try responseDecoder.decode(responseBody: data)
             self.message = output.error.message
@@ -16411,9 +16370,8 @@ public enum UpdateJobPriorityOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJobPriorityOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateJobPriorityOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.priority = output.priority
@@ -16567,9 +16525,8 @@ public enum UpdateJobStatusOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateJobStatusOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateJobStatusOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobId = output.jobId
             self.status = output.status

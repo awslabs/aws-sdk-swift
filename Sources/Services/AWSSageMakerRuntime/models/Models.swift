@@ -4,9 +4,8 @@ import ClientRuntime
 
 extension InternalDependencyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalDependencyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -56,9 +55,8 @@ extension InternalDependencyExceptionBody: Swift.Decodable {
 
 extension InternalFailure {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalFailureBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -232,9 +230,8 @@ extension InvokeEndpointAsyncOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.outputLocation = nil
         }
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvokeEndpointAsyncOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.inferenceId = output.inferenceId
         } else {
@@ -289,9 +286,9 @@ public struct InvokeEndpointInputBodyMiddleware: ClientRuntime.Middleware {
     Self.Context == H.Context
     {
         if let body = input.operationInput.body {
-            let bodydata = body
-            let bodybody = ClientRuntime.HttpBody.data(bodydata)
-            input.builder.withBody(bodybody)
+            let bodyData = body
+            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+            input.builder.withBody(bodyBody)
         }
         return try await next.handle(context: context, input: input)
     }
@@ -479,9 +476,12 @@ extension InvokeEndpointOutputResponse: ClientRuntime.HttpResponseBinding {
         } else {
             self.invokedProductionVariant = nil
         }
-        if let data = httpResponse.body.toBytes()?.getData() {
+        switch httpResponse.body {
+        case .data(let data):
             self.body = data
-        } else {
+        case .stream(let stream):
+            self.body = try stream.readToEnd()
+        case .none:
             self.body = nil
         }
     }
@@ -530,9 +530,8 @@ extension InvokeEndpointOutputResponseBody: Swift.Decodable {
 
 extension ModelError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModelErrorBody = try responseDecoder.decode(responseBody: data)
             self.logStreamArn = output.logStreamArn
             self.message = output.message
@@ -612,9 +611,8 @@ extension ModelErrorBody: Swift.Decodable {
 
 extension ModelNotReadyException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ModelNotReadyExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -664,9 +662,8 @@ extension ModelNotReadyExceptionBody: Swift.Decodable {
 
 extension ServiceUnavailable {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -716,9 +713,8 @@ extension ServiceUnavailableBody: Swift.Decodable {
 
 extension ValidationError {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ValidationErrorBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {

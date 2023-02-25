@@ -125,9 +125,8 @@ public enum BatchDeleteWorldsOutputError: Swift.Error, Swift.Equatable {
 
 extension BatchDeleteWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDeleteWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.unprocessedWorlds = output.unprocessedWorlds
         } else {
@@ -263,9 +262,8 @@ public enum BatchDescribeSimulationJobOutputError: Swift.Error, Swift.Equatable 
 
 extension BatchDescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: BatchDescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.jobs = output.jobs
             self.unprocessedJobs = output.unprocessedJobs
@@ -951,9 +949,8 @@ extension RoboMakerClientTypes {
 
 extension ConcurrentDeploymentException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ConcurrentDeploymentExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -1160,9 +1157,8 @@ public enum CreateDeploymentJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -1401,9 +1397,8 @@ public enum CreateFleetOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -1635,9 +1630,8 @@ public enum CreateRobotApplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -1900,9 +1894,8 @@ public enum CreateRobotApplicationVersionOutputError: Swift.Error, Swift.Equatab
 
 extension CreateRobotApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRobotApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -2149,9 +2142,8 @@ public enum CreateRobotOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
@@ -2428,9 +2420,8 @@ public enum CreateSimulationApplicationOutputError: Swift.Error, Swift.Equatable
 
 extension CreateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -2713,9 +2704,8 @@ public enum CreateSimulationApplicationVersionOutputError: Swift.Error, Swift.Eq
 
 extension CreateSimulationApplicationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSimulationApplicationVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -3116,9 +3106,8 @@ public enum CreateSimulationJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -3517,9 +3506,8 @@ public enum CreateWorldExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -3792,9 +3780,8 @@ public enum CreateWorldGenerationJobOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -4070,9 +4057,8 @@ public enum CreateWorldTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension CreateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: CreateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -5383,9 +5369,8 @@ public enum DeregisterRobotOutputError: Swift.Error, Swift.Equatable {
 
 extension DeregisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DeregisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
@@ -5512,9 +5497,8 @@ public enum DescribeDeploymentJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -5748,9 +5732,8 @@ public enum DescribeFleetOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeFleetOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeFleetOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -5966,9 +5949,8 @@ public enum DescribeRobotApplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -6192,9 +6174,8 @@ public enum DescribeRobotOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.architecture = output.architecture
             self.arn = output.arn
@@ -6421,9 +6402,8 @@ public enum DescribeSimulationApplicationOutputError: Swift.Error, Swift.Equatab
 
 extension DescribeSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -6664,9 +6644,8 @@ public enum DescribeSimulationJobBatchOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
@@ -6927,9 +6906,8 @@ public enum DescribeSimulationJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeSimulationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeSimulationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7280,9 +7258,8 @@ public enum DescribeWorldExportJobOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorldExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorldExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7505,9 +7482,8 @@ public enum DescribeWorldGenerationJobOutputError: Swift.Error, Swift.Equatable 
 
 extension DescribeWorldGenerationJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorldGenerationJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -7740,9 +7716,8 @@ public enum DescribeWorldOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorldOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorldOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -7916,9 +7891,8 @@ public enum DescribeWorldTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension DescribeWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: DescribeWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.clientRequestToken = output.clientRequestToken
@@ -8543,9 +8517,8 @@ public enum GetWorldTemplateBodyOutputError: Swift.Error, Swift.Equatable {
 
 extension GetWorldTemplateBodyOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: GetWorldTemplateBodyOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.templateBody = output.templateBody
         } else {
@@ -8584,9 +8557,8 @@ extension GetWorldTemplateBodyOutputResponseBody: Swift.Decodable {
 
 extension IdempotentParameterMismatchException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: IdempotentParameterMismatchExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8636,9 +8608,8 @@ extension IdempotentParameterMismatchExceptionBody: Swift.Decodable {
 
 extension InternalServerException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8688,9 +8659,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
 
 extension InvalidParameterException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: InvalidParameterExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -8849,9 +8819,8 @@ extension RoboMakerClientTypes {
 
 extension LimitExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: LimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -9013,9 +8982,8 @@ public enum ListDeploymentJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListDeploymentJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListDeploymentJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.deploymentJobs = output.deploymentJobs
             self.nextToken = output.nextToken
@@ -9186,9 +9154,8 @@ public enum ListFleetsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListFleetsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListFleetsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleetDetails = output.fleetDetails
             self.nextToken = output.nextToken
@@ -9368,9 +9335,8 @@ public enum ListRobotApplicationsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRobotApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRobotApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robotApplicationSummaries = output.robotApplicationSummaries
@@ -9540,9 +9506,8 @@ public enum ListRobotsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListRobotsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListRobotsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.robots = output.robots
@@ -9722,9 +9687,8 @@ public enum ListSimulationApplicationsOutputError: Swift.Error, Swift.Equatable 
 
 extension ListSimulationApplicationsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSimulationApplicationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationApplicationSummaries = output.simulationApplicationSummaries
@@ -9889,9 +9853,8 @@ public enum ListSimulationJobBatchesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSimulationJobBatchesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSimulationJobBatchesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobBatchSummaries = output.simulationJobBatchSummaries
@@ -10058,9 +10021,8 @@ public enum ListSimulationJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListSimulationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListSimulationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.simulationJobSummaries = output.simulationJobSummaries
@@ -10178,9 +10140,8 @@ public enum ListTagsForResourceOutputError: Swift.Error, Swift.Equatable {
 
 extension ListTagsForResourceOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListTagsForResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.tags = output.tags
         } else {
@@ -10337,9 +10298,8 @@ public enum ListWorldExportJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorldExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorldExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldExportJobSummaries = output.worldExportJobSummaries
@@ -10507,9 +10467,8 @@ public enum ListWorldGenerationJobsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorldGenerationJobsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorldGenerationJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldGenerationJobSummaries = output.worldGenerationJobSummaries
@@ -10653,9 +10612,8 @@ public enum ListWorldTemplatesOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorldTemplatesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorldTemplatesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.templateSummaries = output.templateSummaries
@@ -10822,9 +10780,8 @@ public enum ListWorldsOutputError: Swift.Error, Swift.Equatable {
 
 extension ListWorldsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ListWorldsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.nextToken = output.nextToken
             self.worldSummaries = output.worldSummaries
@@ -11279,9 +11236,8 @@ public enum RegisterRobotOutputError: Swift.Error, Swift.Equatable {
 
 extension RegisterRobotOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: RegisterRobotOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.fleet = output.fleet
             self.robot = output.robot
@@ -11405,9 +11361,8 @@ extension RoboMakerClientTypes {
 
 extension ResourceAlreadyExistsException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceAlreadyExistsExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -11457,9 +11412,8 @@ extension ResourceAlreadyExistsExceptionBody: Swift.Decodable {
 
 extension ResourceNotFoundException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -12319,9 +12273,8 @@ extension RoboMakerClientTypes {
 
 extension ServiceUnavailableException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ServiceUnavailableExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -13909,9 +13862,8 @@ public enum StartSimulationJobBatchOutputError: Swift.Error, Swift.Equatable {
 
 extension StartSimulationJobBatchOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: StartSimulationJobBatchOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.batchPolicy = output.batchPolicy
@@ -14182,9 +14134,8 @@ public enum SyncDeploymentJobOutputError: Swift.Error, Swift.Equatable {
 
 extension SyncDeploymentJobOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: SyncDeploymentJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
@@ -14531,9 +14482,8 @@ extension RoboMakerClientTypes {
 
 extension ThrottlingException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
             self.message = output.message
         } else {
@@ -14890,9 +14840,8 @@ public enum UpdateRobotApplicationOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateRobotApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateRobotApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -15174,9 +15123,8 @@ public enum UpdateSimulationApplicationOutputError: Swift.Error, Swift.Equatable
 
 extension UpdateSimulationApplicationOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateSimulationApplicationOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.environment = output.environment
@@ -15426,9 +15374,8 @@ public enum UpdateWorldTemplateOutputError: Swift.Error, Swift.Equatable {
 
 extension UpdateWorldTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
-        if case .stream(let reader) = httpResponse.body,
+        if let data = try httpResponse.body.toData(),
             let responseDecoder = decoder {
-            let data = reader.toBytes().getData()
             let output: UpdateWorldTemplateOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.createdAt = output.createdAt
