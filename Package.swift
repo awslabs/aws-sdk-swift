@@ -364,9 +364,6 @@ let package = Package(
         .library(name: "AWSWorkSpacesWeb", targets: ["AWSWorkSpacesWeb"]),
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
-    dependencies: [
-        .package(path: "../aws-crt-swift")
-    ],
     targets: [
         // MARK: - Core Targets
         .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),
@@ -1064,14 +1061,17 @@ case (true, true):
     fatalError("Unable to determine which dependencies to use. Please only specify one of AWS_SWIFT_SDK_USE_LOCAL_DEPS or AWS_SWIFT_SDK_USE_MAIN_DEPS.")
 case (true, false):
     package.dependencies += [
-        .package(path: "../smithy-swift")
+        .package(path: "../smithy-swift"),
+        .package(path: "../aws-crt-swift"),
     ]
 case (false, true):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main")
+        .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main"),
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0")),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1")),
     ]
 }
