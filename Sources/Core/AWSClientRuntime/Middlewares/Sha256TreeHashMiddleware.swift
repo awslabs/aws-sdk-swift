@@ -35,7 +35,6 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                   }
               case .stream(let stream):
                   let streamBytes = try stream.readToEnd()
-                  
                   try stream.seek(toOffset: 0)
                   guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
                       return try await next.handle(context: context, input: input)
