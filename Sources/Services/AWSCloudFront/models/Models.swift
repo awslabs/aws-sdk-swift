@@ -1090,7 +1090,7 @@ extension CloudFrontClientTypes {
     /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
     ///
     ///
-    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct CachePolicy: Swift.Equatable {
         /// The cache policy configuration.
         /// This member is required.
@@ -1241,7 +1241,7 @@ extension CloudFrontClientTypes {
     /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
     ///
     ///
-    /// The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct CachePolicyConfig: Swift.Equatable {
         /// A comment to describe the cache policy. The comment cannot be longer than 128 characters.
         public var comment: Swift.String?
@@ -1255,7 +1255,7 @@ extension CloudFrontClientTypes {
         /// A unique name to identify the cache policy.
         /// This member is required.
         public var name: Swift.String?
-        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values included in the cache key are automatically included in requests that CloudFront sends to the origin.
+        /// The HTTP headers, cookies, and URL query strings to include in the cache key. The values included in the cache key are also included in requests that CloudFront sends to the origin.
         public var parametersInCacheKeyAndForwardedToOrigin: CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin?
 
         public init (
@@ -1359,17 +1359,17 @@ extension CloudFrontClientTypes.CachePolicyCookiesConfig: ClientRuntime.DynamicN
 }
 
 extension CloudFrontClientTypes {
-    /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+    /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and in requests that CloudFront sends to the origin.
     public struct CachePolicyCookiesConfig: Swift.Equatable {
-        /// Determines whether any cookies in viewer requests are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:
+        /// Determines whether any cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – Cookies in viewer requests are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in an OriginRequestPolicy are included in origin requests.
+        /// * none – No cookies in viewer requests are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in an OriginRequestPolicy are included in origin requests.
         ///
-        /// * whitelist – The cookies in viewer requests that are listed in the CookieNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the cookies in viewer requests that are listed in the CookieNames type are included in the cache key and in requests that CloudFront sends to the origin.
         ///
-        /// * allExcept – All cookies in viewer requests that are not listed in the CookieNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// * allExcept – All cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin, except for those that are listed in the CookieNames type, which are not included.
         ///
-        /// * all – All cookies in viewer requests are included in the cache key and are automatically included in requests that CloudFront sends to the origin.
+        /// * all – All cookies in viewer requests are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var cookieBehavior: CloudFrontClientTypes.CachePolicyCookieBehavior?
         /// Contains a list of cookie names.
@@ -1462,13 +1462,13 @@ extension CloudFrontClientTypes.CachePolicyHeadersConfig: ClientRuntime.DynamicN
 }
 
 extension CloudFrontClientTypes {
-    /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+    /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and in requests that CloudFront sends to the origin.
     public struct CachePolicyHeadersConfig: Swift.Equatable {
-        /// Determines whether any HTTP headers are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:
+        /// Determines whether any HTTP headers are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – HTTP headers are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in an OriginRequestPolicy are included in origin requests.
+        /// * none – No HTTP headers are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in an OriginRequestPolicy are included in origin requests.
         ///
-        /// * whitelist – The HTTP headers that are listed in the Headers type are included in the cache key and are automatically included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the HTTP headers that are listed in the Headers type are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var headerBehavior: CloudFrontClientTypes.CachePolicyHeaderBehavior?
         /// Contains a list of HTTP header names.
@@ -1722,20 +1722,20 @@ extension CloudFrontClientTypes.CachePolicyQueryStringsConfig: ClientRuntime.Dyn
 }
 
 extension CloudFrontClientTypes {
-    /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+    /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and in requests that CloudFront sends to the origin.
     public struct CachePolicyQueryStringsConfig: Swift.Equatable {
-        /// Determines whether any URL query strings in viewer requests are included in the cache key and automatically included in requests that CloudFront sends to the origin. Valid values are:
+        /// Determines whether any URL query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – Query strings in viewer requests are not included in the cache key and are not automatically included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in an OriginRequestPolicy are included in origin requests.
+        /// * none – No query strings in viewer requests are included in the cache key or in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in an OriginRequestPolicy are included in origin requests.
         ///
-        /// * whitelist – The query strings in viewer requests that are listed in the QueryStringNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the query strings in viewer requests that are listed in the QueryStringNames type are included in the cache key and in requests that CloudFront sends to the origin.
         ///
-        /// * allExcept – All query strings in viewer requests that are not listed in the QueryStringNames type are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// * allExcept – All query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin, except those that are listed in the QueryStringNames type, which are not included.
         ///
-        /// * all – All query strings in viewer requests are included in the cache key and are automatically included in requests that CloudFront sends to the origin.
+        /// * all – All query strings in viewer requests are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var queryStringBehavior: CloudFrontClientTypes.CachePolicyQueryStringBehavior?
-        /// Contains the specific query strings in viewer requests that either are or are not included in the cache key and automatically included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the CachePolicyQueryStringsConfig type is set to whitelist (the listed query strings are included) or allExcept (the listed query strings are not included, but all other query strings are).
+        /// Contains the specific query strings in viewer requests that either are or are not included in the cache key and in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the CachePolicyQueryStringsConfig type is set to whitelist (the listed query strings are included) or allExcept (the listed query strings are not included, but all other query strings are).
         public var queryStrings: CloudFrontClientTypes.QueryStringNames?
 
         public init (
@@ -24565,6 +24565,7 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
     public enum OriginRequestPolicyCookieBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
+        case allexcept
         case `none`
         case whitelist
         case sdkUnknown(Swift.String)
@@ -24572,6 +24573,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [OriginRequestPolicyCookieBehavior] {
             return [
                 .all,
+                .allexcept,
                 .none,
                 .whitelist,
                 .sdkUnknown("")
@@ -24584,6 +24586,7 @@ extension CloudFrontClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "all"
+            case .allexcept: return "allExcept"
             case .none: return "none"
             case .whitelist: return "whitelist"
             case let .sdkUnknown(s): return s
@@ -24644,11 +24647,13 @@ extension CloudFrontClientTypes {
     public struct OriginRequestPolicyCookiesConfig: Swift.Equatable {
         /// Determines whether cookies in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – Cookies in viewer requests are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in a CachePolicy are included in origin requests.
+        /// * none – No cookies in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any cookies that are listed in a CachePolicy are included in origin requests.
         ///
-        /// * whitelist – The cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the cookies in viewer requests that are listed in the CookieNames type are included in requests that CloudFront sends to the origin.
         ///
         /// * all – All cookies in viewer requests are included in requests that CloudFront sends to the origin.
+        ///
+        /// * allExcept – All cookies in viewer requests are included in requests that CloudFront sends to the origin, except for those listed in the CookieNames type, which are not included.
         /// This member is required.
         public var cookieBehavior: CloudFrontClientTypes.OriginRequestPolicyCookieBehavior?
         /// Contains a list of cookie names.
@@ -24668,6 +24673,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
     public enum OriginRequestPolicyHeaderBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allexcept
         case allviewer
         case allviewerandwhitelistcloudfront
         case `none`
@@ -24676,6 +24682,7 @@ extension CloudFrontClientTypes {
 
         public static var allCases: [OriginRequestPolicyHeaderBehavior] {
             return [
+                .allexcept,
                 .allviewer,
                 .allviewerandwhitelistcloudfront,
                 .none,
@@ -24689,6 +24696,7 @@ extension CloudFrontClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .allexcept: return "allExcept"
             case .allviewer: return "allViewer"
             case .allviewerandwhitelistcloudfront: return "allViewerAndWhitelistCloudFront"
             case .none: return "none"
@@ -24751,13 +24759,15 @@ extension CloudFrontClientTypes {
     public struct OriginRequestPolicyHeadersConfig: Swift.Equatable {
         /// Determines whether any HTTP headers are included in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – HTTP headers are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in a CachePolicy are included in origin requests.
+        /// * none – No HTTP headers in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any headers that are listed in a CachePolicy are included in origin requests.
         ///
-        /// * whitelist – The HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the HTTP headers that are listed in the Headers type are included in requests that CloudFront sends to the origin.
         ///
         /// * allViewer – All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin.
         ///
         /// * allViewerAndWhitelistCloudFront – All HTTP headers in viewer requests and the additional CloudFront headers that are listed in the Headers type are included in requests that CloudFront sends to the origin. The additional headers are added by CloudFront.
+        ///
+        /// * allExcept – All HTTP headers in viewer requests are included in requests that CloudFront sends to the origin, except for those listed in the Headers type, which are not included.
         /// This member is required.
         public var headerBehavior: CloudFrontClientTypes.OriginRequestPolicyHeaderBehavior?
         /// Contains a list of HTTP header names.
@@ -24933,6 +24943,7 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
     public enum OriginRequestPolicyQueryStringBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
+        case allexcept
         case `none`
         case whitelist
         case sdkUnknown(Swift.String)
@@ -24940,6 +24951,7 @@ extension CloudFrontClientTypes {
         public static var allCases: [OriginRequestPolicyQueryStringBehavior] {
             return [
                 .all,
+                .allexcept,
                 .none,
                 .whitelist,
                 .sdkUnknown("")
@@ -24952,6 +24964,7 @@ extension CloudFrontClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .all: return "all"
+            case .allexcept: return "allExcept"
             case .none: return "none"
             case .whitelist: return "whitelist"
             case let .sdkUnknown(s): return s
@@ -25012,14 +25025,16 @@ extension CloudFrontClientTypes {
     public struct OriginRequestPolicyQueryStringsConfig: Swift.Equatable {
         /// Determines whether any URL query strings in viewer requests are included in requests that CloudFront sends to the origin. Valid values are:
         ///
-        /// * none – Query strings in viewer requests are not included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in a CachePolicy are included in origin requests.
+        /// * none – No query strings in viewer requests are included in requests that CloudFront sends to the origin. Even when this field is set to none, any query strings that are listed in a CachePolicy are included in origin requests.
         ///
-        /// * whitelist – The query strings in viewer requests that are listed in the QueryStringNames type are included in requests that CloudFront sends to the origin.
+        /// * whitelist – Only the query strings in viewer requests that are listed in the QueryStringNames type are included in requests that CloudFront sends to the origin.
         ///
         /// * all – All query strings in viewer requests are included in requests that CloudFront sends to the origin.
+        ///
+        /// * allExcept – All query strings in viewer requests are included in requests that CloudFront sends to the origin, except for those listed in the QueryStringNames type, which are not included.
         /// This member is required.
         public var queryStringBehavior: CloudFrontClientTypes.OriginRequestPolicyQueryStringBehavior?
-        /// Contains a list of the query strings in viewer requests that are included in requests that CloudFront sends to the origin.
+        /// Contains the specific query strings in viewer requests that either are or are not included in requests that CloudFront sends to the origin. The behavior depends on whether the QueryStringBehavior field in the OriginRequestPolicyQueryStringsConfig type is set to whitelist (the listed query strings are included) or allExcept (the listed query strings are not included, but all other query strings are).
         public var queryStrings: CloudFrontClientTypes.QueryStringNames?
 
         public init (
@@ -25422,9 +25437,9 @@ extension CloudFrontClientTypes.ParametersInCacheKeyAndForwardedToOrigin: Client
 }
 
 extension CloudFrontClientTypes {
-    /// This object determines the values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. The headers, cookies, and query strings that are included in the cache key are automatically included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
+    /// This object determines the values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer. The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find an object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
     public struct ParametersInCacheKeyAndForwardedToOrigin: Swift.Equatable {
-        /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var cookiesConfig: CloudFrontClientTypes.CachePolicyCookiesConfig?
         /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:
@@ -25450,10 +25465,10 @@ extension CloudFrontClientTypes {
         /// For more information, see [Compression support](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-policy-compressed-objects) in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it's not included in the cache key and it's not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         /// This member is required.
         public var enableAcceptEncodingGzip: Swift.Bool?
-        /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var headersConfig: CloudFrontClientTypes.CachePolicyHeadersConfig?
-        /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
+        /// An object that determines whether any URL query strings in viewer requests (and if so, which query strings) are included in the cache key and in requests that CloudFront sends to the origin.
         /// This member is required.
         public var queryStringsConfig: CloudFrontClientTypes.CachePolicyQueryStringsConfig?
 

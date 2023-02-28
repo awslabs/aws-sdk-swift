@@ -3,6 +3,28 @@
 import ClientRuntime
 
 extension TimestreamWriteClient {
+    /// Paginate over `[ListBatchLoadTasksOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBatchLoadTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBatchLoadTasksOutputResponse`
+    public func listBatchLoadTasksPaginated(input: ListBatchLoadTasksInput) -> ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListBatchLoadTasksInput, ListBatchLoadTasksOutputResponse>(input: input, inputKey: \ListBatchLoadTasksInput.nextToken, outputKey: \ListBatchLoadTasksOutputResponse.nextToken, paginationFunction: self.listBatchLoadTasks(input:))
+    }
+}
+
+extension ListBatchLoadTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBatchLoadTasksInput {
+        return ListBatchLoadTasksInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            taskStatus: self.taskStatus
+        )}
+}
+extension TimestreamWriteClient {
     /// Paginate over `[ListDatabasesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

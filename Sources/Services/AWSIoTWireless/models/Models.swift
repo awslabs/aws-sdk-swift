@@ -1443,7 +1443,7 @@ extension IoTWirelessClientTypes {
     public struct CdmaObj: Swift.Equatable {
         /// CDMA base station latitude in degrees.
         public var baseLat: Swift.Float?
-        /// CDMA base station longtitude in degrees.
+        /// CDMA base station longitude in degrees.
         public var baseLng: Swift.Float?
         /// CDMA base station ID (BSID).
         /// This member is required.
@@ -2255,8 +2255,11 @@ extension CreateFuotaTaskInput: Swift.Encodable {
         case description = "Description"
         case firmwareUpdateImage = "FirmwareUpdateImage"
         case firmwareUpdateRole = "FirmwareUpdateRole"
+        case fragmentIntervalMS = "FragmentIntervalMS"
+        case fragmentSizeBytes = "FragmentSizeBytes"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case redundancyPercent = "RedundancyPercent"
         case tags = "Tags"
     }
 
@@ -2274,11 +2277,20 @@ extension CreateFuotaTaskInput: Swift.Encodable {
         if let firmwareUpdateRole = self.firmwareUpdateRole {
             try encodeContainer.encode(firmwareUpdateRole, forKey: .firmwareUpdateRole)
         }
+        if let fragmentIntervalMS = self.fragmentIntervalMS {
+            try encodeContainer.encode(fragmentIntervalMS, forKey: .fragmentIntervalMS)
+        }
+        if let fragmentSizeBytes = self.fragmentSizeBytes {
+            try encodeContainer.encode(fragmentSizeBytes, forKey: .fragmentSizeBytes)
+        }
         if let loRaWAN = self.loRaWAN {
             try encodeContainer.encode(loRaWAN, forKey: .loRaWAN)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let redundancyPercent = self.redundancyPercent {
+            try encodeContainer.encode(redundancyPercent, forKey: .redundancyPercent)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -2306,10 +2318,16 @@ public struct CreateFuotaTaskInput: Swift.Equatable {
     /// The firmware update role that is to be used with a FUOTA task.
     /// This member is required.
     public var firmwareUpdateRole: Swift.String?
+    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    public var fragmentIntervalMS: Swift.Int?
+    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    public var fragmentSizeBytes: Swift.Int?
     /// The LoRaWAN information used with a FUOTA task.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask?
     /// The name of a FUOTA task.
     public var name: Swift.String?
+    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    public var redundancyPercent: Swift.Int?
     /// The tag to attach to the specified resource. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
 
@@ -2318,8 +2336,11 @@ public struct CreateFuotaTaskInput: Swift.Equatable {
         description: Swift.String? = nil,
         firmwareUpdateImage: Swift.String? = nil,
         firmwareUpdateRole: Swift.String? = nil,
+        fragmentIntervalMS: Swift.Int? = nil,
+        fragmentSizeBytes: Swift.Int? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask? = nil,
         name: Swift.String? = nil,
+        redundancyPercent: Swift.Int? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil
     )
     {
@@ -2327,8 +2348,11 @@ public struct CreateFuotaTaskInput: Swift.Equatable {
         self.description = description
         self.firmwareUpdateImage = firmwareUpdateImage
         self.firmwareUpdateRole = firmwareUpdateRole
+        self.fragmentIntervalMS = fragmentIntervalMS
+        self.fragmentSizeBytes = fragmentSizeBytes
         self.loRaWAN = loRaWAN
         self.name = name
+        self.redundancyPercent = redundancyPercent
         self.tags = tags
     }
 }
@@ -2341,6 +2365,9 @@ struct CreateFuotaTaskInputBody: Swift.Equatable {
     let firmwareUpdateImage: Swift.String?
     let firmwareUpdateRole: Swift.String?
     let tags: [IoTWirelessClientTypes.Tag]?
+    let redundancyPercent: Swift.Int?
+    let fragmentSizeBytes: Swift.Int?
+    let fragmentIntervalMS: Swift.Int?
 }
 
 extension CreateFuotaTaskInputBody: Swift.Decodable {
@@ -2349,8 +2376,11 @@ extension CreateFuotaTaskInputBody: Swift.Decodable {
         case description = "Description"
         case firmwareUpdateImage = "FirmwareUpdateImage"
         case firmwareUpdateRole = "FirmwareUpdateRole"
+        case fragmentIntervalMS = "FragmentIntervalMS"
+        case fragmentSizeBytes = "FragmentSizeBytes"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case redundancyPercent = "RedundancyPercent"
         case tags = "Tags"
     }
 
@@ -2379,6 +2409,12 @@ extension CreateFuotaTaskInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let redundancyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redundancyPercent)
+        redundancyPercent = redundancyPercentDecoded
+        let fragmentSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentSizeBytes)
+        fragmentSizeBytes = fragmentSizeBytesDecoded
+        let fragmentIntervalMSDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentIntervalMS)
+        fragmentIntervalMS = fragmentIntervalMSDecoded
     }
 }
 
@@ -3499,7 +3535,7 @@ extension CreateWirelessGatewayTaskDefinitionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoCreateTasks != false {
+        if let autoCreateTasks = self.autoCreateTasks {
             try encodeContainer.encode(autoCreateTasks, forKey: .autoCreateTasks)
         }
         if let clientRequestToken = self.clientRequestToken {
@@ -3529,7 +3565,7 @@ extension CreateWirelessGatewayTaskDefinitionInput: ClientRuntime.URLPathProvide
 public struct CreateWirelessGatewayTaskDefinitionInput: Swift.Equatable {
     /// Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false, the task must me created by calling CreateWirelessGatewayTask.
     /// This member is required.
-    public var autoCreateTasks: Swift.Bool
+    public var autoCreateTasks: Swift.Bool?
     /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
     public var clientRequestToken: Swift.String?
     /// The name of the new resource.
@@ -3540,7 +3576,7 @@ public struct CreateWirelessGatewayTaskDefinitionInput: Swift.Equatable {
     public var update: IoTWirelessClientTypes.UpdateWirelessGatewayTaskCreate?
 
     public init (
-        autoCreateTasks: Swift.Bool = false,
+        autoCreateTasks: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
         name: Swift.String? = nil,
         tags: [IoTWirelessClientTypes.Tag]? = nil,
@@ -3556,7 +3592,7 @@ public struct CreateWirelessGatewayTaskDefinitionInput: Swift.Equatable {
 }
 
 struct CreateWirelessGatewayTaskDefinitionInputBody: Swift.Equatable {
-    let autoCreateTasks: Swift.Bool
+    let autoCreateTasks: Swift.Bool?
     let name: Swift.String?
     let update: IoTWirelessClientTypes.UpdateWirelessGatewayTaskCreate?
     let clientRequestToken: Swift.String?
@@ -3574,7 +3610,7 @@ extension CreateWirelessGatewayTaskDefinitionInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoCreateTasksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoCreateTasks) ?? false
+        let autoCreateTasksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoCreateTasks)
         autoCreateTasks = autoCreateTasksDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
@@ -6658,9 +6694,12 @@ extension GetFuotaTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.firmwareUpdateImage = output.firmwareUpdateImage
             self.firmwareUpdateRole = output.firmwareUpdateRole
+            self.fragmentIntervalMS = output.fragmentIntervalMS
+            self.fragmentSizeBytes = output.fragmentSizeBytes
             self.id = output.id
             self.loRaWAN = output.loRaWAN
             self.name = output.name
+            self.redundancyPercent = output.redundancyPercent
             self.status = output.status
         } else {
             self.arn = nil
@@ -6668,9 +6707,12 @@ extension GetFuotaTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.firmwareUpdateImage = nil
             self.firmwareUpdateRole = nil
+            self.fragmentIntervalMS = nil
+            self.fragmentSizeBytes = nil
             self.id = nil
             self.loRaWAN = nil
             self.name = nil
+            self.redundancyPercent = nil
             self.status = nil
         }
     }
@@ -6687,12 +6729,18 @@ public struct GetFuotaTaskOutputResponse: Swift.Equatable {
     public var firmwareUpdateImage: Swift.String?
     /// The firmware update role that is to be used with a FUOTA task.
     public var firmwareUpdateRole: Swift.String?
+    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    public var fragmentIntervalMS: Swift.Int?
+    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    public var fragmentSizeBytes: Swift.Int?
     /// The ID of a FUOTA task.
     public var id: Swift.String?
     /// The LoRaWAN information returned from getting a FUOTA task.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo?
     /// The name of a FUOTA task.
     public var name: Swift.String?
+    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    public var redundancyPercent: Swift.Int?
     /// The status of a FUOTA task.
     public var status: IoTWirelessClientTypes.FuotaTaskStatus?
 
@@ -6702,9 +6750,12 @@ public struct GetFuotaTaskOutputResponse: Swift.Equatable {
         description: Swift.String? = nil,
         firmwareUpdateImage: Swift.String? = nil,
         firmwareUpdateRole: Swift.String? = nil,
+        fragmentIntervalMS: Swift.Int? = nil,
+        fragmentSizeBytes: Swift.Int? = nil,
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTaskGetInfo? = nil,
         name: Swift.String? = nil,
+        redundancyPercent: Swift.Int? = nil,
         status: IoTWirelessClientTypes.FuotaTaskStatus? = nil
     )
     {
@@ -6713,9 +6764,12 @@ public struct GetFuotaTaskOutputResponse: Swift.Equatable {
         self.description = description
         self.firmwareUpdateImage = firmwareUpdateImage
         self.firmwareUpdateRole = firmwareUpdateRole
+        self.fragmentIntervalMS = fragmentIntervalMS
+        self.fragmentSizeBytes = fragmentSizeBytes
         self.id = id
         self.loRaWAN = loRaWAN
         self.name = name
+        self.redundancyPercent = redundancyPercent
         self.status = status
     }
 }
@@ -6730,6 +6784,9 @@ struct GetFuotaTaskOutputResponseBody: Swift.Equatable {
     let firmwareUpdateImage: Swift.String?
     let firmwareUpdateRole: Swift.String?
     let createdAt: ClientRuntime.Date?
+    let redundancyPercent: Swift.Int?
+    let fragmentSizeBytes: Swift.Int?
+    let fragmentIntervalMS: Swift.Int?
 }
 
 extension GetFuotaTaskOutputResponseBody: Swift.Decodable {
@@ -6739,9 +6796,12 @@ extension GetFuotaTaskOutputResponseBody: Swift.Decodable {
         case description = "Description"
         case firmwareUpdateImage = "FirmwareUpdateImage"
         case firmwareUpdateRole = "FirmwareUpdateRole"
+        case fragmentIntervalMS = "FragmentIntervalMS"
+        case fragmentSizeBytes = "FragmentSizeBytes"
         case id = "Id"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case redundancyPercent = "RedundancyPercent"
         case status = "Status"
     }
 
@@ -6765,6 +6825,12 @@ extension GetFuotaTaskOutputResponseBody: Swift.Decodable {
         firmwareUpdateRole = firmwareUpdateRoleDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let redundancyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redundancyPercent)
+        redundancyPercent = redundancyPercentDecoded
+        let fragmentSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentSizeBytes)
+        fragmentSizeBytes = fragmentSizeBytesDecoded
+        let fragmentIntervalMSDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentIntervalMS)
+        fragmentIntervalMS = fragmentIntervalMSDecoded
     }
 }
 
@@ -7640,7 +7706,7 @@ public struct GetPositionEstimateInput: Swift.Equatable {
     public var gnss: IoTWirelessClientTypes.Gnss?
     /// Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
     public var ip: IoTWirelessClientTypes.Ip?
-    /// Optional information that specifies the time when the position information will be resolved. It uses the UNIX timestamp format. If not specified, the time at which the request was received will be used.
+    /// Optional information that specifies the time when the position information will be resolved. It uses the Unix timestamp format. If not specified, the time at which the request was received will be used.
     public var timestamp: ClientRuntime.Date?
     /// Retrieves an estimated device position by resolving WLAN measurement data. The position is resolved using HERE's Wi-Fi based solver.
     public var wiFiAccessPoints: [IoTWirelessClientTypes.WiFiAccessPoint]?
@@ -8270,7 +8336,7 @@ extension GetResourcePositionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResourcePositionInput: Swift.Equatable {
-    /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+    /// The identifier of the resource for which position information is retrieved. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
     /// The type of resource for which position information is retrieved, which can be a wireless device or a wireless gateway.
@@ -9884,7 +9950,7 @@ extension IoTWirelessClientTypes {
     public struct Gnss: Swift.Equatable {
         /// Optional assistance altitude, which is the altitude of the device at capture time, specified in meters above the WGS84 reference ellipsoid.
         public var assistAltitude: Swift.Float?
-        /// Optional assistance position information, specified using latitude and longitude values in degrees. The co-ordinates are inside the WGS84 reference frame.
+        /// Optional assistance position information, specified using latitude and longitude values in degrees. The coordinates are inside the WGS84 reference frame.
         public var assistPosition: [Swift.Float]?
         /// Optional parameter that gives an estimate of the time when the GNSS scan information is taken, in seconds GPS time (GPST). If capture time is not specified, the local server time is used.
         public var captureTime: Swift.Float?
@@ -10368,7 +10434,7 @@ extension ListDestinationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10385,12 +10451,12 @@ extension ListDestinationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListDestinationsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10504,7 +10570,7 @@ extension ListDeviceProfilesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10521,12 +10587,12 @@ extension ListDeviceProfilesInput: ClientRuntime.URLPathProvider {
 
 public struct ListDeviceProfilesInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10640,7 +10706,7 @@ extension ListEventConfigurationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10663,7 +10729,7 @@ extension ListEventConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListEventConfigurationsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// Resource type to filter event configurations.
@@ -10671,7 +10737,7 @@ public struct ListEventConfigurationsInput: Swift.Equatable {
     public var resourceType: IoTWirelessClientTypes.EventNotificationResourceType?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.EventNotificationResourceType? = nil
     )
@@ -10787,7 +10853,7 @@ extension ListFuotaTasksInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10804,12 +10870,12 @@ extension ListFuotaTasksInput: ClientRuntime.URLPathProvider {
 
 public struct ListFuotaTasksInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10923,7 +10989,7 @@ extension ListMulticastGroupsByFuotaTaskInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10946,13 +11012,13 @@ public struct ListMulticastGroupsByFuotaTaskInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
         id: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11069,7 +11135,7 @@ extension ListMulticastGroupsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11086,12 +11152,12 @@ extension ListMulticastGroupsInput: ClientRuntime.URLPathProvider {
 
 public struct ListMulticastGroupsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11205,7 +11271,7 @@ extension ListNetworkAnalyzerConfigurationsInput: ClientRuntime.QueryItemProvide
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11222,12 +11288,12 @@ extension ListNetworkAnalyzerConfigurationsInput: ClientRuntime.URLPathProvider 
 
 public struct ListNetworkAnalyzerConfigurationsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11341,7 +11407,7 @@ extension ListPartnerAccountsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11358,12 +11424,12 @@ extension ListPartnerAccountsInput: ClientRuntime.URLPathProvider {
 
 public struct ListPartnerAccountsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11477,7 +11543,7 @@ extension ListPositionConfigurationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11499,14 +11565,14 @@ extension ListPositionConfigurationsInput: ClientRuntime.URLPathProvider {
 @available(*, deprecated, message: "This operation is no longer supported.")
 public struct ListPositionConfigurationsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// Resource type for which position configurations are listed.
     public var resourceType: IoTWirelessClientTypes.PositionResourceType?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceType: IoTWirelessClientTypes.PositionResourceType? = nil
     )
@@ -11623,7 +11689,7 @@ extension ListQueuedMessagesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11650,7 +11716,7 @@ public struct ListQueuedMessagesInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// The wireless device type, whic can be either Sidewalk or LoRaWAN.
@@ -11658,7 +11724,7 @@ public struct ListQueuedMessagesInput: Swift.Equatable {
 
     public init (
         id: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         wirelessDeviceType: IoTWirelessClientTypes.WirelessDeviceType? = nil
     )
@@ -11777,7 +11843,7 @@ extension ListServiceProfilesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11794,12 +11860,12 @@ extension ListServiceProfilesInput: ClientRuntime.URLPathProvider {
 
 public struct ListServiceProfilesInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -12044,7 +12110,7 @@ extension ListWirelessDevicesInput: ClientRuntime.QueryItemProvider {
                 let deviceProfileIdQueryItem = ClientRuntime.URLQueryItem(name: "deviceProfileId".urlPercentEncoding(), value: Swift.String(deviceProfileId).urlPercentEncoding())
                 items.append(deviceProfileIdQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -12083,7 +12149,7 @@ public struct ListWirelessDevicesInput: Swift.Equatable {
     /// The ID of a FUOTA task.
     public var fuotaTaskId: Swift.String?
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The ID of the multicast group.
     public var multicastGroupId: Swift.String?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -12097,7 +12163,7 @@ public struct ListWirelessDevicesInput: Swift.Equatable {
         destinationName: Swift.String? = nil,
         deviceProfileId: Swift.String? = nil,
         fuotaTaskId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         multicastGroupId: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         serviceProfileId: Swift.String? = nil,
@@ -12220,7 +12286,7 @@ extension ListWirelessGatewayTaskDefinitionsInput: ClientRuntime.QueryItemProvid
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -12241,14 +12307,14 @@ extension ListWirelessGatewayTaskDefinitionsInput: ClientRuntime.URLPathProvider
 
 public struct ListWirelessGatewayTaskDefinitionsInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// A filter to list only the wireless gateway task definitions that use this task definition type.
     public var taskDefinitionType: IoTWirelessClientTypes.WirelessGatewayTaskDefinitionType?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         taskDefinitionType: IoTWirelessClientTypes.WirelessGatewayTaskDefinitionType? = nil
     )
@@ -12364,7 +12430,7 @@ extension ListWirelessGatewaysInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -12381,12 +12447,12 @@ extension ListWirelessGatewaysInput: ClientRuntime.URLPathProvider {
 
 public struct ListWirelessGatewaysInput: Swift.Equatable {
     /// The maximum number of results to return in this operation.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -18664,8 +18730,11 @@ extension UpdateFuotaTaskInput: Swift.Encodable {
         case description = "Description"
         case firmwareUpdateImage = "FirmwareUpdateImage"
         case firmwareUpdateRole = "FirmwareUpdateRole"
+        case fragmentIntervalMS = "FragmentIntervalMS"
+        case fragmentSizeBytes = "FragmentSizeBytes"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case redundancyPercent = "RedundancyPercent"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -18679,11 +18748,20 @@ extension UpdateFuotaTaskInput: Swift.Encodable {
         if let firmwareUpdateRole = self.firmwareUpdateRole {
             try encodeContainer.encode(firmwareUpdateRole, forKey: .firmwareUpdateRole)
         }
+        if let fragmentIntervalMS = self.fragmentIntervalMS {
+            try encodeContainer.encode(fragmentIntervalMS, forKey: .fragmentIntervalMS)
+        }
+        if let fragmentSizeBytes = self.fragmentSizeBytes {
+            try encodeContainer.encode(fragmentSizeBytes, forKey: .fragmentSizeBytes)
+        }
         if let loRaWAN = self.loRaWAN {
             try encodeContainer.encode(loRaWAN, forKey: .loRaWAN)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let redundancyPercent = self.redundancyPercent {
+            try encodeContainer.encode(redundancyPercent, forKey: .redundancyPercent)
         }
     }
 }
@@ -18704,6 +18782,10 @@ public struct UpdateFuotaTaskInput: Swift.Equatable {
     public var firmwareUpdateImage: Swift.String?
     /// The firmware update role that is to be used with a FUOTA task.
     public var firmwareUpdateRole: Swift.String?
+    /// The interval of sending fragments in milliseconds. Currently the interval will be rounded to the nearest second. Note that this interval only controls the timing when the cloud sends the fragments down. The actual delay of receiving fragments at device side depends on the device's class and the communication delay with the cloud.
+    public var fragmentIntervalMS: Swift.Int?
+    /// The size of each fragment in bytes. Currently only supported in fuota tasks with multicast groups.
+    public var fragmentSizeBytes: Swift.Int?
     /// The ID of a FUOTA task.
     /// This member is required.
     public var id: Swift.String?
@@ -18711,22 +18793,30 @@ public struct UpdateFuotaTaskInput: Swift.Equatable {
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask?
     /// The name of a FUOTA task.
     public var name: Swift.String?
+    /// The percentage of added redundant fragments. For example, if firmware file is 100 bytes and fragment size is 10 bytes, with RedundancyPercent set to 50(%), the final number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    public var redundancyPercent: Swift.Int?
 
     public init (
         description: Swift.String? = nil,
         firmwareUpdateImage: Swift.String? = nil,
         firmwareUpdateRole: Swift.String? = nil,
+        fragmentIntervalMS: Swift.Int? = nil,
+        fragmentSizeBytes: Swift.Int? = nil,
         id: Swift.String? = nil,
         loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        redundancyPercent: Swift.Int? = nil
     )
     {
         self.description = description
         self.firmwareUpdateImage = firmwareUpdateImage
         self.firmwareUpdateRole = firmwareUpdateRole
+        self.fragmentIntervalMS = fragmentIntervalMS
+        self.fragmentSizeBytes = fragmentSizeBytes
         self.id = id
         self.loRaWAN = loRaWAN
         self.name = name
+        self.redundancyPercent = redundancyPercent
     }
 }
 
@@ -18736,6 +18826,9 @@ struct UpdateFuotaTaskInputBody: Swift.Equatable {
     let loRaWAN: IoTWirelessClientTypes.LoRaWANFuotaTask?
     let firmwareUpdateImage: Swift.String?
     let firmwareUpdateRole: Swift.String?
+    let redundancyPercent: Swift.Int?
+    let fragmentSizeBytes: Swift.Int?
+    let fragmentIntervalMS: Swift.Int?
 }
 
 extension UpdateFuotaTaskInputBody: Swift.Decodable {
@@ -18743,8 +18836,11 @@ extension UpdateFuotaTaskInputBody: Swift.Decodable {
         case description = "Description"
         case firmwareUpdateImage = "FirmwareUpdateImage"
         case firmwareUpdateRole = "FirmwareUpdateRole"
+        case fragmentIntervalMS = "FragmentIntervalMS"
+        case fragmentSizeBytes = "FragmentSizeBytes"
         case loRaWAN = "LoRaWAN"
         case name = "Name"
+        case redundancyPercent = "RedundancyPercent"
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -18759,6 +18855,12 @@ extension UpdateFuotaTaskInputBody: Swift.Decodable {
         firmwareUpdateImage = firmwareUpdateImageDecoded
         let firmwareUpdateRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firmwareUpdateRole)
         firmwareUpdateRole = firmwareUpdateRoleDecoded
+        let redundancyPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .redundancyPercent)
+        redundancyPercent = redundancyPercentDecoded
+        let fragmentSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentSizeBytes)
+        fragmentSizeBytes = fragmentSizeBytesDecoded
+        let fragmentIntervalMSDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fragmentIntervalMS)
+        fragmentIntervalMS = fragmentIntervalMSDecoded
     }
 }
 
@@ -19748,7 +19850,7 @@ extension UpdateResourcePositionInput: ClientRuntime.URLPathProvider {
 public struct UpdateResourcePositionInput: Swift.Equatable {
     /// The position information of the resource, displayed as a JSON payload. The payload uses the GeoJSON format, which a format that's used to encode geographic data structures. For more information, see [GeoJSON](https://geojson.org/).
     public var geoJsonPayload: ClientRuntime.Data?
-    /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID depending on the resource type.
+    /// The identifier of the resource for which position information is updated. It can be the wireless device ID or the wireless gateway ID, depending on the resource type.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
     /// The type of resource for which position information is updated, which can be a wireless device or a wireless gateway.

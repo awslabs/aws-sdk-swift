@@ -7195,11 +7195,15 @@ extension ListVoiceConnectorsOutputResponseBody: Swift.Decodable {
 
 extension ChimeSDKVoiceClientTypes.LoggingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableMediaMetricLogs = "EnableMediaMetricLogs"
         case enableSIPLogs = "EnableSIPLogs"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableMediaMetricLogs = self.enableMediaMetricLogs {
+            try encodeContainer.encode(enableMediaMetricLogs, forKey: .enableMediaMetricLogs)
+        }
         if let enableSIPLogs = self.enableSIPLogs {
             try encodeContainer.encode(enableSIPLogs, forKey: .enableSIPLogs)
         }
@@ -7209,17 +7213,22 @@ extension ChimeSDKVoiceClientTypes.LoggingConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let enableSIPLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableSIPLogs)
         enableSIPLogs = enableSIPLogsDecoded
+        let enableMediaMetricLogsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMediaMetricLogs)
+        enableMediaMetricLogs = enableMediaMetricLogsDecoded
     }
 }
 
 extension ChimeSDKVoiceClientTypes {
     public struct LoggingConfiguration: Swift.Equatable {
+        public var enableMediaMetricLogs: Swift.Bool?
         public var enableSIPLogs: Swift.Bool?
 
         public init (
+            enableMediaMetricLogs: Swift.Bool? = nil,
             enableSIPLogs: Swift.Bool? = nil
         )
         {
+            self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
         }
     }

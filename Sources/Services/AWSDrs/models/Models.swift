@@ -1139,6 +1139,7 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         case etaDateTime
         case lagDuration
         case replicatedDisks
+        case stagingAvailabilityZone
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1163,6 +1164,9 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
             for datareplicationinforeplicateddisk0 in replicatedDisks {
                 try replicatedDisksContainer.encode(datareplicationinforeplicateddisk0)
             }
+        }
+        if let stagingAvailabilityZone = self.stagingAvailabilityZone {
+            try encodeContainer.encode(stagingAvailabilityZone, forKey: .stagingAvailabilityZone)
         }
     }
 
@@ -1189,6 +1193,8 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         dataReplicationInitiation = dataReplicationInitiationDecoded
         let dataReplicationErrorDecoded = try containerValues.decodeIfPresent(DrsClientTypes.DataReplicationError.self, forKey: .dataReplicationError)
         dataReplicationError = dataReplicationErrorDecoded
+        let stagingAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingAvailabilityZone)
+        stagingAvailabilityZone = stagingAvailabilityZoneDecoded
     }
 }
 
@@ -1207,6 +1213,8 @@ extension DrsClientTypes {
         public var lagDuration: Swift.String?
         /// The disks that should be replicated.
         public var replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]?
+        /// AWS Availability zone into which data is being replicated.
+        public var stagingAvailabilityZone: Swift.String?
 
         public init (
             dataReplicationError: DrsClientTypes.DataReplicationError? = nil,
@@ -1214,7 +1222,8 @@ extension DrsClientTypes {
             dataReplicationState: DrsClientTypes.DataReplicationState? = nil,
             etaDateTime: Swift.String? = nil,
             lagDuration: Swift.String? = nil,
-            replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]? = nil
+            replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]? = nil,
+            stagingAvailabilityZone: Swift.String? = nil
         )
         {
             self.dataReplicationError = dataReplicationError
@@ -1223,6 +1232,7 @@ extension DrsClientTypes {
             self.etaDateTime = etaDateTime
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
+            self.stagingAvailabilityZone = stagingAvailabilityZone
         }
     }
 
@@ -5359,6 +5369,7 @@ extension DrsClientTypes {
 extension DrsClientTypes.LifeCycleLastLaunch: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case initiated
+        case status
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5366,12 +5377,17 @@ extension DrsClientTypes.LifeCycleLastLaunch: Swift.Codable {
         if let initiated = self.initiated {
             try encodeContainer.encode(initiated, forKey: .initiated)
         }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let initiatedDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LifeCycleLastLaunchInitiated.self, forKey: .initiated)
         initiated = initiatedDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -5380,12 +5396,16 @@ extension DrsClientTypes {
     public struct LifeCycleLastLaunch: Swift.Equatable {
         /// An object containing information regarding the initiation of the last launch of a Source Server.
         public var initiated: DrsClientTypes.LifeCycleLastLaunchInitiated?
+        /// Status of Source Server's last launch.
+        public var status: DrsClientTypes.LaunchStatus?
 
         public init (
-            initiated: DrsClientTypes.LifeCycleLastLaunchInitiated? = nil
+            initiated: DrsClientTypes.LifeCycleLastLaunchInitiated? = nil,
+            status: DrsClientTypes.LaunchStatus? = nil
         )
         {
             self.initiated = initiated
+            self.status = status
         }
     }
 
@@ -6173,6 +6193,7 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         case failback
         case isDrill
         case jobID
+        case originAvailabilityZone
         case originEnvironment
         case pointInTimeSnapshotDateTime
         case recoveryInstanceID
@@ -6203,6 +6224,9 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         }
         if let jobID = self.jobID {
             try encodeContainer.encode(jobID, forKey: .jobID)
+        }
+        if let originAvailabilityZone = self.originAvailabilityZone {
+            try encodeContainer.encode(originAvailabilityZone, forKey: .originAvailabilityZone)
         }
         if let originEnvironment = self.originEnvironment {
             try encodeContainer.encode(originEnvironment.rawValue, forKey: .originEnvironment)
@@ -6264,12 +6288,14 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         isDrill = isDrillDecoded
         let originEnvironmentDecoded = try containerValues.decodeIfPresent(DrsClientTypes.OriginEnvironment.self, forKey: .originEnvironment)
         originEnvironment = originEnvironmentDecoded
+        let originAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAvailabilityZone)
+        originAvailabilityZone = originAvailabilityZoneDecoded
     }
 }
 
 extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecoveryInstance(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
+        "RecoveryInstance(arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originAvailabilityZone: \(Swift.String(describing: originAvailabilityZone)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -6289,6 +6315,8 @@ extension DrsClientTypes {
         public var isDrill: Swift.Bool?
         /// The ID of the Job that created the Recovery Instance.
         public var jobID: Swift.String?
+        /// AWS availability zone associated with the recovery instance.
+        public var originAvailabilityZone: Swift.String?
         /// Environment (On Premises / AWS) of the instance that the recovery instance originated from.
         public var originEnvironment: DrsClientTypes.OriginEnvironment?
         /// The date and time of the Point in Time (PIT) snapshot that this Recovery Instance was launched from.
@@ -6310,6 +6338,7 @@ extension DrsClientTypes {
             failback: DrsClientTypes.RecoveryInstanceFailback? = nil,
             isDrill: Swift.Bool? = nil,
             jobID: Swift.String? = nil,
+            originAvailabilityZone: Swift.String? = nil,
             originEnvironment: DrsClientTypes.OriginEnvironment? = nil,
             pointInTimeSnapshotDateTime: Swift.String? = nil,
             recoveryInstanceID: Swift.String? = nil,
@@ -6325,6 +6354,7 @@ extension DrsClientTypes {
             self.failback = failback
             self.isDrill = isDrill
             self.jobID = jobID
+            self.originAvailabilityZone = originAvailabilityZone
             self.originEnvironment = originEnvironment
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
@@ -6389,6 +6419,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         case etaDateTime
         case lagDuration
         case replicatedDisks
+        case stagingAvailabilityZone
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6413,6 +6444,9 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
             for recoveryinstancedatareplicationinforeplicateddisk0 in replicatedDisks {
                 try replicatedDisksContainer.encode(recoveryinstancedatareplicationinforeplicateddisk0)
             }
+        }
+        if let stagingAvailabilityZone = self.stagingAvailabilityZone {
+            try encodeContainer.encode(stagingAvailabilityZone, forKey: .stagingAvailabilityZone)
         }
     }
 
@@ -6439,6 +6473,8 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         dataReplicationInitiation = dataReplicationInitiationDecoded
         let dataReplicationErrorDecoded = try containerValues.decodeIfPresent(DrsClientTypes.RecoveryInstanceDataReplicationError.self, forKey: .dataReplicationError)
         dataReplicationError = dataReplicationErrorDecoded
+        let stagingAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingAvailabilityZone)
+        stagingAvailabilityZone = stagingAvailabilityZoneDecoded
     }
 }
 
@@ -6457,6 +6493,8 @@ extension DrsClientTypes {
         public var lagDuration: Swift.String?
         /// The disks that should be replicated.
         public var replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]?
+        /// AWS Availability zone into which data is being replicated.
+        public var stagingAvailabilityZone: Swift.String?
 
         public init (
             dataReplicationError: DrsClientTypes.RecoveryInstanceDataReplicationError? = nil,
@@ -6464,7 +6502,8 @@ extension DrsClientTypes {
             dataReplicationState: DrsClientTypes.RecoveryInstanceDataReplicationState? = nil,
             etaDateTime: Swift.String? = nil,
             lagDuration: Swift.String? = nil,
-            replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil
+            replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil,
+            stagingAvailabilityZone: Swift.String? = nil
         )
         {
             self.dataReplicationError = dataReplicationError
@@ -6473,6 +6512,7 @@ extension DrsClientTypes {
             self.etaDateTime = etaDateTime
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
+            self.stagingAvailabilityZone = stagingAvailabilityZone
         }
     }
 
@@ -7431,7 +7471,7 @@ extension DrsClientTypes {
         public var iops: Swift.Int
         /// Whether to boot from this disk or not.
         public var isBootDisk: Swift.Bool?
-        /// When stagingDiskType is set to Auto, this field shows the current staging disk EBS volume type as it is constantly updated by the service. This is a read-only field.
+        /// The Staging Disk EBS volume type to be used during replication when stagingDiskType is set to Auto. This is a read-only field.
         public var optimizedStagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType?
         /// The Staging Disk EBS volume type to be used during replication.
         public var stagingDiskType: DrsClientTypes.ReplicationConfigurationReplicatedDiskStagingDiskType?

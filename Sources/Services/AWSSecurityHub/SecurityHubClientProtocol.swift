@@ -3,9 +3,9 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Security Hub provides you with a comprehensive view of the security state of your Amazon Web Services environment and resources. It also provides you with the readiness status of your environment based on controls from supported security standards. Security Hub collects security data from Amazon Web Services accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the [ Security HubUser Guide ](https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html). When you use operations in the Security Hub API, the requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, execute the same command for each Region to apply the change to. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the administrator account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invitation was sent from. The following throttling limits apply to using Security Hub API operations.
+/// Security Hub provides you with a comprehensive view of the security state of your Amazon Web Services environment and resources. It also provides you with the readiness status of your environment based on controls from supported security standards. Security Hub collects security data from Amazon Web Services accounts, services, and integrated third-party products and helps you analyze security trends in your environment to identify the highest priority security issues. For more information about Security Hub, see the [Security HubUser Guide](https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html). When you use operations in the Security Hub API, the requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, run the same command for each Region in which you want to apply the change. For example, if your Region is set to us-west-2, when you use CreateMembers to add a member account to Security Hub, the association of the member account with the administrator account is created only in the us-west-2 Region. Security Hub must be enabled for the member account in the same Region that the invitation was sent from. The following throttling limits apply to using Security Hub API operations.
 ///
-/// * BatchEnableStandards - RateLimit of 1 request per second, BurstLimit of 1 request per second.
+/// * BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.
 ///
 /// * GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.
 ///
@@ -13,7 +13,7 @@ import ClientRuntime
 ///
 /// * BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
 ///
-/// * UpdateStandardsControl - RateLimit of 1 request per second, BurstLimit of 5 requests per second.
+/// * UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.
 ///
 /// * All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
 public protocol SecurityHubClientProtocol {
@@ -26,6 +26,10 @@ public protocol SecurityHubClientProtocol {
     func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutputResponse
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
     func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutputResponse
+    /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
+    func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutputResponse
+    /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
+    func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutputResponse
     /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub. BatchImportFindings must be called by one of the following:
     ///
     /// * The Amazon Web Services account that is associated with a finding if you are using the [default product ARN](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-custom-providers.html#securityhub-custom-providers-bfi-reqs) or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.
@@ -82,6 +86,8 @@ public protocol SecurityHubClientProtocol {
     ///
     /// You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub User Guide.
     func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutputResponse
+    /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
+    func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutputResponse
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
     func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutputResponse
     /// Used to enable finding aggregation. Must be called from the aggregation Region. For more details about cross-Region replication, see [Configuring finding aggregation](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
@@ -145,14 +151,14 @@ public protocol SecurityHubClientProtocol {
     func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutputResponse
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
-    /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards.
+    /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:
     ///
-    /// * CIS Amazon Web Services Foundations
+    /// * Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
     ///
     /// * Amazon Web Services Foundational Security Best Practices
     ///
     ///
-    /// You do not enable the Payment Card Industry Data Security Standard (PCI DSS) standard. To not enable the automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
+    /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
     func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutputResponse
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
@@ -185,6 +191,10 @@ public protocol SecurityHubClientProtocol {
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
     func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
+    /// Lists all of the security controls that apply to a specified standard.
+    func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutputResponse
+    /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
+    func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutputResponse
     /// Returns a list of tags associated with a resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds one or more tags to a resource.

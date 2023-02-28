@@ -565,7 +565,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For more information, see [Create an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli) in the DataSync User Guide.
+    /// Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For more information, see [Create an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli).
     public func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -601,7 +601,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Defines a file system on a Server Message Block (SMB) server that can be read from or written to.
+    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see [Creating an SMB location](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     public func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,7 +781,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns metadata such as the name, the network interfaces, and the status (that is, whether the agent is running or not) for an agent. To specify which agent to describe, use the Amazon Resource Name (ARN) of the agent in your request.
+    /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
     public func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1249,7 +1249,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Returns a list of agents owned by an Amazon Web Services account in the Amazon Web Services Region specified in the request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this operation returns a maximum of 100 agents. This operation supports pagination that enables you to optionally reduce the number of agents returned in a response. If you have more agents than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a marker that you can specify in your next request to fetch the next page of agents.
+    /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
     public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

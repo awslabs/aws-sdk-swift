@@ -257,8 +257,11 @@ public protocol GlueClientProtocol {
     func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutputResponse
     /// Gets all the triggers associated with a job.
     func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutputResponse
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutputResponse
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutputResponse
+    /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutputResponse
     /// Retrieves a specified function definition from the Data Catalog.
     func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutputResponse

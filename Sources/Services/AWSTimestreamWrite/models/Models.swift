@@ -55,6 +55,414 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension TimestreamWriteClientTypes {
+    public enum BatchLoadDataFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchLoadDataFormat] {
+            return [
+                .csv,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BatchLoadDataFormat(rawValue: rawValue) ?? BatchLoadDataFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TimestreamWriteClientTypes.BatchLoadProgressReport: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytesMetered = "BytesMetered"
+        case fileFailures = "FileFailures"
+        case parseFailures = "ParseFailures"
+        case recordIngestionFailures = "RecordIngestionFailures"
+        case recordsIngested = "RecordsIngested"
+        case recordsProcessed = "RecordsProcessed"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if bytesMetered != 0 {
+            try encodeContainer.encode(bytesMetered, forKey: .bytesMetered)
+        }
+        if fileFailures != 0 {
+            try encodeContainer.encode(fileFailures, forKey: .fileFailures)
+        }
+        if parseFailures != 0 {
+            try encodeContainer.encode(parseFailures, forKey: .parseFailures)
+        }
+        if recordIngestionFailures != 0 {
+            try encodeContainer.encode(recordIngestionFailures, forKey: .recordIngestionFailures)
+        }
+        if recordsIngested != 0 {
+            try encodeContainer.encode(recordsIngested, forKey: .recordsIngested)
+        }
+        if recordsProcessed != 0 {
+            try encodeContainer.encode(recordsProcessed, forKey: .recordsProcessed)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let recordsProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsProcessed) ?? 0
+        recordsProcessed = recordsProcessedDecoded
+        let recordsIngestedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsIngested) ?? 0
+        recordsIngested = recordsIngestedDecoded
+        let parseFailuresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .parseFailures) ?? 0
+        parseFailures = parseFailuresDecoded
+        let recordIngestionFailuresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordIngestionFailures) ?? 0
+        recordIngestionFailures = recordIngestionFailuresDecoded
+        let fileFailuresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fileFailures) ?? 0
+        fileFailures = fileFailuresDecoded
+        let bytesMeteredDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesMetered) ?? 0
+        bytesMetered = bytesMeteredDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Details about the progress of a batch load task.
+    public struct BatchLoadProgressReport: Swift.Equatable {
+        ///
+        public var bytesMetered: Swift.Int
+        ///
+        public var fileFailures: Swift.Int
+        ///
+        public var parseFailures: Swift.Int
+        ///
+        public var recordIngestionFailures: Swift.Int
+        ///
+        public var recordsIngested: Swift.Int
+        ///
+        public var recordsProcessed: Swift.Int
+
+        public init (
+            bytesMetered: Swift.Int = 0,
+            fileFailures: Swift.Int = 0,
+            parseFailures: Swift.Int = 0,
+            recordIngestionFailures: Swift.Int = 0,
+            recordsIngested: Swift.Int = 0,
+            recordsProcessed: Swift.Int = 0
+        )
+        {
+            self.bytesMetered = bytesMetered
+            self.fileFailures = fileFailures
+            self.parseFailures = parseFailures
+            self.recordIngestionFailures = recordIngestionFailures
+            self.recordsIngested = recordsIngested
+            self.recordsProcessed = recordsProcessed
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes {
+    public enum BatchLoadStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case created
+        case failed
+        case inProgress
+        case pendingResume
+        case progressStopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchLoadStatus] {
+            return [
+                .created,
+                .failed,
+                .inProgress,
+                .pendingResume,
+                .progressStopped,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pendingResume: return "PENDING_RESUME"
+            case .progressStopped: return "PROGRESS_STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BatchLoadStatus(rawValue: rawValue) ?? BatchLoadStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TimestreamWriteClientTypes.BatchLoadTask: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case databaseName = "DatabaseName"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case resumableUntil = "ResumableUntil"
+        case tableName = "TableName"
+        case taskId = "TaskId"
+        case taskStatus = "TaskStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let resumableUntil = self.resumableUntil {
+            try encodeContainer.encodeTimestamp(resumableUntil, format: .epochSeconds, forKey: .resumableUntil)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+        if let taskStatus = self.taskStatus {
+            try encodeContainer.encode(taskStatus.rawValue, forKey: .taskStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+        let taskStatusDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadStatus.self, forKey: .taskStatus)
+        taskStatus = taskStatusDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let resumableUntilDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .resumableUntil)
+        resumableUntil = resumableUntilDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Details about a batch load task.
+    public struct BatchLoadTask: Swift.Equatable {
+        /// The time when the Timestream batch load task was created.
+        public var creationTime: ClientRuntime.Date?
+        /// Database name for the database into which a batch load task loads data.
+        public var databaseName: Swift.String?
+        /// The time when the Timestream batch load task was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        ///
+        public var resumableUntil: ClientRuntime.Date?
+        /// Table name for the table into which a batch load task loads data.
+        public var tableName: Swift.String?
+        /// The ID of the batch load task.
+        public var taskId: Swift.String?
+        /// Status of the batch load task.
+        public var taskStatus: TimestreamWriteClientTypes.BatchLoadStatus?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            databaseName: Swift.String? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            resumableUntil: ClientRuntime.Date? = nil,
+            tableName: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.databaseName = databaseName
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resumableUntil = resumableUntil
+            self.tableName = tableName
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.BatchLoadTaskDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case dataModelConfiguration = "DataModelConfiguration"
+        case dataSourceConfiguration = "DataSourceConfiguration"
+        case errorMessage = "ErrorMessage"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case progressReport = "ProgressReport"
+        case recordVersion = "RecordVersion"
+        case reportConfiguration = "ReportConfiguration"
+        case resumableUntil = "ResumableUntil"
+        case targetDatabaseName = "TargetDatabaseName"
+        case targetTableName = "TargetTableName"
+        case taskId = "TaskId"
+        case taskStatus = "TaskStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let dataModelConfiguration = self.dataModelConfiguration {
+            try encodeContainer.encode(dataModelConfiguration, forKey: .dataModelConfiguration)
+        }
+        if let dataSourceConfiguration = self.dataSourceConfiguration {
+            try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let lastUpdatedTime = self.lastUpdatedTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedTime, format: .epochSeconds, forKey: .lastUpdatedTime)
+        }
+        if let progressReport = self.progressReport {
+            try encodeContainer.encode(progressReport, forKey: .progressReport)
+        }
+        if recordVersion != 0 {
+            try encodeContainer.encode(recordVersion, forKey: .recordVersion)
+        }
+        if let reportConfiguration = self.reportConfiguration {
+            try encodeContainer.encode(reportConfiguration, forKey: .reportConfiguration)
+        }
+        if let resumableUntil = self.resumableUntil {
+            try encodeContainer.encodeTimestamp(resumableUntil, format: .epochSeconds, forKey: .resumableUntil)
+        }
+        if let targetDatabaseName = self.targetDatabaseName {
+            try encodeContainer.encode(targetDatabaseName, forKey: .targetDatabaseName)
+        }
+        if let targetTableName = self.targetTableName {
+            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
+        }
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+        if let taskStatus = self.taskStatus {
+            try encodeContainer.encode(taskStatus.rawValue, forKey: .taskStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let dataSourceConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataSourceConfiguration.self, forKey: .dataSourceConfiguration)
+        dataSourceConfiguration = dataSourceConfigurationDecoded
+        let progressReportDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadProgressReport.self, forKey: .progressReport)
+        progressReport = progressReportDecoded
+        let reportConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.ReportConfiguration.self, forKey: .reportConfiguration)
+        reportConfiguration = reportConfigurationDecoded
+        let dataModelConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataModelConfiguration.self, forKey: .dataModelConfiguration)
+        dataModelConfiguration = dataModelConfigurationDecoded
+        let targetDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDatabaseName)
+        targetDatabaseName = targetDatabaseNameDecoded
+        let targetTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetTableName)
+        targetTableName = targetTableNameDecoded
+        let taskStatusDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadStatus.self, forKey: .taskStatus)
+        taskStatus = taskStatusDecoded
+        let recordVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordVersion) ?? 0
+        recordVersion = recordVersionDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
+        lastUpdatedTime = lastUpdatedTimeDecoded
+        let resumableUntilDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .resumableUntil)
+        resumableUntil = resumableUntilDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Details about a batch load task.
+    public struct BatchLoadTaskDescription: Swift.Equatable {
+        /// The time when the Timestream batch load task was created.
+        public var creationTime: ClientRuntime.Date?
+        /// Data model configuration for a batch load task. This contains details about where a data model for a batch load task is stored.
+        public var dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration?
+        /// Configuration details about the data source for a batch load task.
+        public var dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration?
+        ///
+        public var errorMessage: Swift.String?
+        /// The time when the Timestream batch load task was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        ///
+        public var progressReport: TimestreamWriteClientTypes.BatchLoadProgressReport?
+        ///
+        public var recordVersion: Swift.Int
+        /// Report configuration for a batch load task. This contains details about where error reports are stored.
+        public var reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration?
+        ///
+        public var resumableUntil: ClientRuntime.Date?
+        ///
+        public var targetDatabaseName: Swift.String?
+        ///
+        public var targetTableName: Swift.String?
+        /// The ID of the batch load task.
+        public var taskId: Swift.String?
+        /// Status of the batch load task.
+        public var taskStatus: TimestreamWriteClientTypes.BatchLoadStatus?
+
+        public init (
+            creationTime: ClientRuntime.Date? = nil,
+            dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration? = nil,
+            dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration? = nil,
+            errorMessage: Swift.String? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            progressReport: TimestreamWriteClientTypes.BatchLoadProgressReport? = nil,
+            recordVersion: Swift.Int = 0,
+            reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration? = nil,
+            resumableUntil: ClientRuntime.Date? = nil,
+            targetDatabaseName: Swift.String? = nil,
+            targetTableName: Swift.String? = nil,
+            taskId: Swift.String? = nil,
+            taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.dataModelConfiguration = dataModelConfiguration
+            self.dataSourceConfiguration = dataSourceConfiguration
+            self.errorMessage = errorMessage
+            self.lastUpdatedTime = lastUpdatedTime
+            self.progressReport = progressReport
+            self.recordVersion = recordVersion
+            self.reportConfiguration = reportConfiguration
+            self.resumableUntil = resumableUntil
+            self.targetDatabaseName = targetDatabaseName
+            self.targetTableName = targetTableName
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+    }
+
+}
+
 extension ConflictException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -108,6 +516,212 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreateBatchLoadTaskInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBatchLoadTaskInput(dataModelConfiguration: \(Swift.String(describing: dataModelConfiguration)), dataSourceConfiguration: \(Swift.String(describing: dataSourceConfiguration)), recordVersion: \(Swift.String(describing: recordVersion)), reportConfiguration: \(Swift.String(describing: reportConfiguration)), targetDatabaseName: \(Swift.String(describing: targetDatabaseName)), targetTableName: \(Swift.String(describing: targetTableName)), clientToken: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateBatchLoadTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case dataModelConfiguration = "DataModelConfiguration"
+        case dataSourceConfiguration = "DataSourceConfiguration"
+        case recordVersion = "RecordVersion"
+        case reportConfiguration = "ReportConfiguration"
+        case targetDatabaseName = "TargetDatabaseName"
+        case targetTableName = "TargetTableName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let dataModelConfiguration = self.dataModelConfiguration {
+            try encodeContainer.encode(dataModelConfiguration, forKey: .dataModelConfiguration)
+        }
+        if let dataSourceConfiguration = self.dataSourceConfiguration {
+            try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
+        }
+        if let recordVersion = self.recordVersion {
+            try encodeContainer.encode(recordVersion, forKey: .recordVersion)
+        }
+        if let reportConfiguration = self.reportConfiguration {
+            try encodeContainer.encode(reportConfiguration, forKey: .reportConfiguration)
+        }
+        if let targetDatabaseName = self.targetDatabaseName {
+            try encodeContainer.encode(targetDatabaseName, forKey: .targetDatabaseName)
+        }
+        if let targetTableName = self.targetTableName {
+            try encodeContainer.encode(targetTableName, forKey: .targetTableName)
+        }
+    }
+}
+
+extension CreateBatchLoadTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateBatchLoadTaskInput: Swift.Equatable {
+    ///
+    public var clientToken: Swift.String?
+    ///
+    public var dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration?
+    /// Defines configuration details about the data source for a batch load task.
+    /// This member is required.
+    public var dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration?
+    ///
+    public var recordVersion: Swift.Int?
+    /// Report configuration for a batch load task. This contains details about where error reports are stored.
+    /// This member is required.
+    public var reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration?
+    /// Target Timestream database for a batch load task.
+    /// This member is required.
+    public var targetDatabaseName: Swift.String?
+    /// Target Timestream table for a batch load task.
+    /// This member is required.
+    public var targetTableName: Swift.String?
+
+    public init (
+        clientToken: Swift.String? = nil,
+        dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration? = nil,
+        dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration? = nil,
+        recordVersion: Swift.Int? = nil,
+        reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration? = nil,
+        targetDatabaseName: Swift.String? = nil,
+        targetTableName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.dataModelConfiguration = dataModelConfiguration
+        self.dataSourceConfiguration = dataSourceConfiguration
+        self.recordVersion = recordVersion
+        self.reportConfiguration = reportConfiguration
+        self.targetDatabaseName = targetDatabaseName
+        self.targetTableName = targetTableName
+    }
+}
+
+struct CreateBatchLoadTaskInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let dataModelConfiguration: TimestreamWriteClientTypes.DataModelConfiguration?
+    let dataSourceConfiguration: TimestreamWriteClientTypes.DataSourceConfiguration?
+    let reportConfiguration: TimestreamWriteClientTypes.ReportConfiguration?
+    let targetDatabaseName: Swift.String?
+    let targetTableName: Swift.String?
+    let recordVersion: Swift.Int?
+}
+
+extension CreateBatchLoadTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case dataModelConfiguration = "DataModelConfiguration"
+        case dataSourceConfiguration = "DataSourceConfiguration"
+        case recordVersion = "RecordVersion"
+        case reportConfiguration = "ReportConfiguration"
+        case targetDatabaseName = "TargetDatabaseName"
+        case targetTableName = "TargetTableName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let dataModelConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataModelConfiguration.self, forKey: .dataModelConfiguration)
+        dataModelConfiguration = dataModelConfigurationDecoded
+        let dataSourceConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataSourceConfiguration.self, forKey: .dataSourceConfiguration)
+        dataSourceConfiguration = dataSourceConfigurationDecoded
+        let reportConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.ReportConfiguration.self, forKey: .reportConfiguration)
+        reportConfiguration = reportConfigurationDecoded
+        let targetDatabaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDatabaseName)
+        targetDatabaseName = targetDatabaseNameDecoded
+        let targetTableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetTableName)
+        targetTableName = targetTableNameDecoded
+        let recordVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordVersion)
+        recordVersion = recordVersionDecoded
+    }
+}
+
+extension CreateBatchLoadTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateBatchLoadTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateBatchLoadTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case invalidEndpointException(InvalidEndpointException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateBatchLoadTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateBatchLoadTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.taskId = output.taskId
+        } else {
+            self.taskId = nil
+        }
+    }
+}
+
+public struct CreateBatchLoadTaskOutputResponse: Swift.Equatable {
+    /// The ID of the batch load task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init (
+        taskId: Swift.String? = nil
+    )
+    {
+        self.taskId = taskId
+    }
+}
+
+struct CreateBatchLoadTaskOutputResponseBody: Swift.Equatable {
+    let taskId: Swift.String?
+}
+
+extension CreateBatchLoadTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId = "TaskId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+    }
+}
+
 extension CreateDatabaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case databaseName = "DatabaseName"
@@ -142,7 +756,7 @@ public struct CreateDatabaseInput: Swift.Equatable {
     /// The name of the Timestream database.
     /// This member is required.
     public var databaseName: Swift.String?
-    /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to [Amazon Web Services managed KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) for more info.
+    /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. For more information, see [Amazon Web Services managed keys](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
     public var kmsKeyId: Swift.String?
     /// A list of key-value pairs to label the table.
     public var tags: [TimestreamWriteClientTypes.Tag]?
@@ -311,7 +925,7 @@ public struct CreateTableInput: Swift.Equatable {
     public var databaseName: Swift.String?
     /// Contains properties to set on the table when enabling magnetic store writes.
     public var magneticStoreWriteProperties: TimestreamWriteClientTypes.MagneticStoreWriteProperties?
-    /// The duration for which your time series data must be stored in the memory store and the magnetic store.
+    /// The duration for which your time-series data must be stored in the memory store and the magnetic store.
     public var retentionProperties: TimestreamWriteClientTypes.RetentionProperties?
     /// The name of the Timestream table.
     /// This member is required.
@@ -453,6 +1067,384 @@ extension CreateTableOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension TimestreamWriteClientTypes.CsvConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case columnSeparator = "ColumnSeparator"
+        case escapeChar = "EscapeChar"
+        case nullValue = "NullValue"
+        case quoteChar = "QuoteChar"
+        case trimWhiteSpace = "TrimWhiteSpace"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let columnSeparator = self.columnSeparator {
+            try encodeContainer.encode(columnSeparator, forKey: .columnSeparator)
+        }
+        if let escapeChar = self.escapeChar {
+            try encodeContainer.encode(escapeChar, forKey: .escapeChar)
+        }
+        if let nullValue = self.nullValue {
+            try encodeContainer.encode(nullValue, forKey: .nullValue)
+        }
+        if let quoteChar = self.quoteChar {
+            try encodeContainer.encode(quoteChar, forKey: .quoteChar)
+        }
+        if let trimWhiteSpace = self.trimWhiteSpace {
+            try encodeContainer.encode(trimWhiteSpace, forKey: .trimWhiteSpace)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let columnSeparatorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .columnSeparator)
+        columnSeparator = columnSeparatorDecoded
+        let escapeCharDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .escapeChar)
+        escapeChar = escapeCharDecoded
+        let quoteCharDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quoteChar)
+        quoteChar = quoteCharDecoded
+        let nullValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nullValue)
+        nullValue = nullValueDecoded
+        let trimWhiteSpaceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .trimWhiteSpace)
+        trimWhiteSpace = trimWhiteSpaceDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// A delimited data format where the column separator can be a comma and the record separator is a newline character.
+    public struct CsvConfiguration: Swift.Equatable {
+        /// Column separator can be one of comma (','), pipe ('|), semicolon (';'), tab('/t'), or blank space (' ').
+        public var columnSeparator: Swift.String?
+        /// Escape character can be one of
+        public var escapeChar: Swift.String?
+        /// Can be blank space (' ').
+        public var nullValue: Swift.String?
+        /// Can be single quote (') or double quote (").
+        public var quoteChar: Swift.String?
+        /// Specifies to trim leading and trailing white space.
+        public var trimWhiteSpace: Swift.Bool?
+
+        public init (
+            columnSeparator: Swift.String? = nil,
+            escapeChar: Swift.String? = nil,
+            nullValue: Swift.String? = nil,
+            quoteChar: Swift.String? = nil,
+            trimWhiteSpace: Swift.Bool? = nil
+        )
+        {
+            self.columnSeparator = columnSeparator
+            self.escapeChar = escapeChar
+            self.nullValue = nullValue
+            self.quoteChar = quoteChar
+            self.trimWhiteSpace = trimWhiteSpace
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DataModel: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dimensionMappings = "DimensionMappings"
+        case measureNameColumn = "MeasureNameColumn"
+        case mixedMeasureMappings = "MixedMeasureMappings"
+        case multiMeasureMappings = "MultiMeasureMappings"
+        case timeColumn = "TimeColumn"
+        case timeUnit = "TimeUnit"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dimensionMappings = dimensionMappings {
+            var dimensionMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensionMappings)
+            for dimensionmapping0 in dimensionMappings {
+                try dimensionMappingsContainer.encode(dimensionmapping0)
+            }
+        }
+        if let measureNameColumn = self.measureNameColumn {
+            try encodeContainer.encode(measureNameColumn, forKey: .measureNameColumn)
+        }
+        if let mixedMeasureMappings = mixedMeasureMappings {
+            var mixedMeasureMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mixedMeasureMappings)
+            for mixedmeasuremapping0 in mixedMeasureMappings {
+                try mixedMeasureMappingsContainer.encode(mixedmeasuremapping0)
+            }
+        }
+        if let multiMeasureMappings = self.multiMeasureMappings {
+            try encodeContainer.encode(multiMeasureMappings, forKey: .multiMeasureMappings)
+        }
+        if let timeColumn = self.timeColumn {
+            try encodeContainer.encode(timeColumn, forKey: .timeColumn)
+        }
+        if let timeUnit = self.timeUnit {
+            try encodeContainer.encode(timeUnit.rawValue, forKey: .timeUnit)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timeColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeColumn)
+        timeColumn = timeColumnDecoded
+        let timeUnitDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.TimeUnit.self, forKey: .timeUnit)
+        timeUnit = timeUnitDecoded
+        let dimensionMappingsContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.DimensionMapping?].self, forKey: .dimensionMappings)
+        var dimensionMappingsDecoded0:[TimestreamWriteClientTypes.DimensionMapping]? = nil
+        if let dimensionMappingsContainer = dimensionMappingsContainer {
+            dimensionMappingsDecoded0 = [TimestreamWriteClientTypes.DimensionMapping]()
+            for structure0 in dimensionMappingsContainer {
+                if let structure0 = structure0 {
+                    dimensionMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dimensionMappings = dimensionMappingsDecoded0
+        let multiMeasureMappingsDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.MultiMeasureMappings.self, forKey: .multiMeasureMappings)
+        multiMeasureMappings = multiMeasureMappingsDecoded
+        let mixedMeasureMappingsContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.MixedMeasureMapping?].self, forKey: .mixedMeasureMappings)
+        var mixedMeasureMappingsDecoded0:[TimestreamWriteClientTypes.MixedMeasureMapping]? = nil
+        if let mixedMeasureMappingsContainer = mixedMeasureMappingsContainer {
+            mixedMeasureMappingsDecoded0 = [TimestreamWriteClientTypes.MixedMeasureMapping]()
+            for structure0 in mixedMeasureMappingsContainer {
+                if let structure0 = structure0 {
+                    mixedMeasureMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mixedMeasureMappings = mixedMeasureMappingsDecoded0
+        let measureNameColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .measureNameColumn)
+        measureNameColumn = measureNameColumnDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Data model for a batch load task.
+    public struct DataModel: Swift.Equatable {
+        /// Source to target mappings for dimensions.
+        /// This member is required.
+        public var dimensionMappings: [TimestreamWriteClientTypes.DimensionMapping]?
+        ///
+        public var measureNameColumn: Swift.String?
+        /// Source to target mappings for measures.
+        public var mixedMeasureMappings: [TimestreamWriteClientTypes.MixedMeasureMapping]?
+        /// Source to target mappings for multi-measure records.
+        public var multiMeasureMappings: TimestreamWriteClientTypes.MultiMeasureMappings?
+        /// Source column to be mapped to time.
+        public var timeColumn: Swift.String?
+        /// The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds, or other supported values. Default is MILLISECONDS.
+        public var timeUnit: TimestreamWriteClientTypes.TimeUnit?
+
+        public init (
+            dimensionMappings: [TimestreamWriteClientTypes.DimensionMapping]? = nil,
+            measureNameColumn: Swift.String? = nil,
+            mixedMeasureMappings: [TimestreamWriteClientTypes.MixedMeasureMapping]? = nil,
+            multiMeasureMappings: TimestreamWriteClientTypes.MultiMeasureMappings? = nil,
+            timeColumn: Swift.String? = nil,
+            timeUnit: TimestreamWriteClientTypes.TimeUnit? = nil
+        )
+        {
+            self.dimensionMappings = dimensionMappings
+            self.measureNameColumn = measureNameColumn
+            self.mixedMeasureMappings = mixedMeasureMappings
+            self.multiMeasureMappings = multiMeasureMappings
+            self.timeColumn = timeColumn
+            self.timeUnit = timeUnit
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DataModelConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataModel = "DataModel"
+        case dataModelS3Configuration = "DataModelS3Configuration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataModel = self.dataModel {
+            try encodeContainer.encode(dataModel, forKey: .dataModel)
+        }
+        if let dataModelS3Configuration = self.dataModelS3Configuration {
+            try encodeContainer.encode(dataModelS3Configuration, forKey: .dataModelS3Configuration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataModelDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataModel.self, forKey: .dataModel)
+        dataModel = dataModelDecoded
+        let dataModelS3ConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataModelS3Configuration.self, forKey: .dataModelS3Configuration)
+        dataModelS3Configuration = dataModelS3ConfigurationDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct DataModelConfiguration: Swift.Equatable {
+        ///
+        public var dataModel: TimestreamWriteClientTypes.DataModel?
+        ///
+        public var dataModelS3Configuration: TimestreamWriteClientTypes.DataModelS3Configuration?
+
+        public init (
+            dataModel: TimestreamWriteClientTypes.DataModel? = nil,
+            dataModelS3Configuration: TimestreamWriteClientTypes.DataModelS3Configuration? = nil
+        )
+        {
+            self.dataModel = dataModel
+            self.dataModelS3Configuration = dataModelS3Configuration
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DataModelS3Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case objectKey = "ObjectKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let objectKey = self.objectKey {
+            try encodeContainer.encode(objectKey, forKey: .objectKey)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let objectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectKey)
+        objectKey = objectKeyDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct DataModelS3Configuration: Swift.Equatable {
+        ///
+        public var bucketName: Swift.String?
+        ///
+        public var objectKey: Swift.String?
+
+        public init (
+            bucketName: Swift.String? = nil,
+            objectKey: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.objectKey = objectKey
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DataSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case csvConfiguration = "CsvConfiguration"
+        case dataFormat = "DataFormat"
+        case dataSourceS3Configuration = "DataSourceS3Configuration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let csvConfiguration = self.csvConfiguration {
+            try encodeContainer.encode(csvConfiguration, forKey: .csvConfiguration)
+        }
+        if let dataFormat = self.dataFormat {
+            try encodeContainer.encode(dataFormat.rawValue, forKey: .dataFormat)
+        }
+        if let dataSourceS3Configuration = self.dataSourceS3Configuration {
+            try encodeContainer.encode(dataSourceS3Configuration, forKey: .dataSourceS3Configuration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceS3ConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.DataSourceS3Configuration.self, forKey: .dataSourceS3Configuration)
+        dataSourceS3Configuration = dataSourceS3ConfigurationDecoded
+        let csvConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.CsvConfiguration.self, forKey: .csvConfiguration)
+        csvConfiguration = csvConfigurationDecoded
+        let dataFormatDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadDataFormat.self, forKey: .dataFormat)
+        dataFormat = dataFormatDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Defines configuration details about the data source.
+    public struct DataSourceConfiguration: Swift.Equatable {
+        /// A delimited data format where the column separator can be a comma and the record separator is a newline character.
+        public var csvConfiguration: TimestreamWriteClientTypes.CsvConfiguration?
+        /// This is currently CSV.
+        /// This member is required.
+        public var dataFormat: TimestreamWriteClientTypes.BatchLoadDataFormat?
+        /// Configuration of an S3 location for a file which contains data to load.
+        /// This member is required.
+        public var dataSourceS3Configuration: TimestreamWriteClientTypes.DataSourceS3Configuration?
+
+        public init (
+            csvConfiguration: TimestreamWriteClientTypes.CsvConfiguration? = nil,
+            dataFormat: TimestreamWriteClientTypes.BatchLoadDataFormat? = nil,
+            dataSourceS3Configuration: TimestreamWriteClientTypes.DataSourceS3Configuration? = nil
+        )
+        {
+            self.csvConfiguration = csvConfiguration
+            self.dataFormat = dataFormat
+            self.dataSourceS3Configuration = dataSourceS3Configuration
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DataSourceS3Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case objectKeyPrefix = "ObjectKeyPrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let objectKeyPrefix = self.objectKeyPrefix {
+            try encodeContainer.encode(objectKeyPrefix, forKey: .objectKeyPrefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let objectKeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectKeyPrefix)
+        objectKeyPrefix = objectKeyPrefixDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct DataSourceS3Configuration: Swift.Equatable {
+        /// The bucket name of the customer S3 bucket.
+        /// This member is required.
+        public var bucketName: Swift.String?
+        ///
+        public var objectKeyPrefix: Swift.String?
+
+        public init (
+            bucketName: Swift.String? = nil,
+            objectKeyPrefix: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+    }
+
+}
+
 extension TimestreamWriteClientTypes.Database: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -503,7 +1495,7 @@ extension TimestreamWriteClientTypes.Database: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// A top level container for a table. Databases and tables are the fundamental management concepts in Amazon Timestream. All tables in a database are encrypted with the same KMS key.
+    /// A top-level container for a table. Databases and tables are the fundamental management concepts in Amazon Timestream. All tables in a database are encrypted with the same KMS key.
     public struct Database: Swift.Equatable {
         /// The Amazon Resource Name that uniquely identifies this database.
         public var arn: Swift.String?
@@ -729,6 +1721,126 @@ extension DeleteTableOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteTableOutputResponse: Swift.Equatable {
 
     public init () { }
+}
+
+extension DescribeBatchLoadTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId = "TaskId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+    }
+}
+
+extension DescribeBatchLoadTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeBatchLoadTaskInput: Swift.Equatable {
+    /// The ID of the batch load task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init (
+        taskId: Swift.String? = nil
+    )
+    {
+        self.taskId = taskId
+    }
+}
+
+struct DescribeBatchLoadTaskInputBody: Swift.Equatable {
+    let taskId: Swift.String?
+}
+
+extension DescribeBatchLoadTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId = "TaskId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+    }
+}
+
+extension DescribeBatchLoadTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeBatchLoadTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeBatchLoadTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidEndpointException(InvalidEndpointException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeBatchLoadTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeBatchLoadTaskOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.batchLoadTaskDescription = output.batchLoadTaskDescription
+        } else {
+            self.batchLoadTaskDescription = nil
+        }
+    }
+}
+
+public struct DescribeBatchLoadTaskOutputResponse: Swift.Equatable {
+    /// Description of the batch load task.
+    /// This member is required.
+    public var batchLoadTaskDescription: TimestreamWriteClientTypes.BatchLoadTaskDescription?
+
+    public init (
+        batchLoadTaskDescription: TimestreamWriteClientTypes.BatchLoadTaskDescription? = nil
+    )
+    {
+        self.batchLoadTaskDescription = batchLoadTaskDescription
+    }
+}
+
+struct DescribeBatchLoadTaskOutputResponseBody: Swift.Equatable {
+    let batchLoadTaskDescription: TimestreamWriteClientTypes.BatchLoadTaskDescription?
+}
+
+extension DescribeBatchLoadTaskOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchLoadTaskDescription = "BatchLoadTaskDescription"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let batchLoadTaskDescriptionDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadTaskDescription.self, forKey: .batchLoadTaskDescription)
+        batchLoadTaskDescription = batchLoadTaskDescriptionDecoded
+    }
 }
 
 extension DescribeDatabaseInput: Swift.Encodable {
@@ -1123,11 +2235,11 @@ extension TimestreamWriteClientTypes.Dimension: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions.
+    /// Represents the metadata attributes of the time series. For example, the name and Availability Zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions.
     public struct Dimension: Swift.Equatable {
-        /// The data type of the dimension for the time series data point.
+        /// The data type of the dimension for the time-series data point.
         public var dimensionValueType: TimestreamWriteClientTypes.DimensionValueType?
-        /// Dimension represents the meta data attributes of the time series. For example, the name and availability zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions. For constraints on Dimension names, see [Naming Constraints](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming).
+        /// Dimension represents the metadata attributes of the time series. For example, the name and Availability Zone of an EC2 instance or the name of the manufacturer of a wind turbine are dimensions. For constraints on dimension names, see [Naming Constraints](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming).
         /// This member is required.
         public var name: Swift.String?
         /// The value of the dimension.
@@ -1143,6 +2255,51 @@ extension TimestreamWriteClientTypes {
             self.dimensionValueType = dimensionValueType
             self.name = name
             self.value = value
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.DimensionMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationColumn = "DestinationColumn"
+        case sourceColumn = "SourceColumn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinationColumn = self.destinationColumn {
+            try encodeContainer.encode(destinationColumn, forKey: .destinationColumn)
+        }
+        if let sourceColumn = self.sourceColumn {
+            try encodeContainer.encode(sourceColumn, forKey: .sourceColumn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceColumn)
+        sourceColumn = sourceColumnDecoded
+        let destinationColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationColumn)
+        destinationColumn = destinationColumnDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct DimensionMapping: Swift.Equatable {
+        ///
+        public var destinationColumn: Swift.String?
+        ///
+        public var sourceColumn: Swift.String?
+
+        public init (
+            destinationColumn: Swift.String? = nil,
+            sourceColumn: Swift.String? = nil
+        )
+        {
+            self.destinationColumn = destinationColumn
+            self.sourceColumn = sourceColumn
         }
     }
 
@@ -1203,7 +2360,7 @@ extension TimestreamWriteClientTypes.Endpoint: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Represents an available endpoint against which to make API calls agaisnt, as well as the TTL for that endpoint.
+    /// Represents an available endpoint against which to make API calls against, as well as the TTL for that endpoint.
     public struct Endpoint: Swift.Equatable {
         /// An endpoint address.
         /// This member is required.
@@ -1294,7 +2451,7 @@ extension InvalidEndpointException {
     }
 }
 
-/// The requested endpoint was invalid.
+/// The requested endpoint was not valid.
 public struct InvalidEndpointException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -1326,6 +2483,167 @@ extension InvalidEndpointExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension ListBatchLoadTasksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case taskStatus = "TaskStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let taskStatus = self.taskStatus {
+            try encodeContainer.encode(taskStatus.rawValue, forKey: .taskStatus)
+        }
+    }
+}
+
+extension ListBatchLoadTasksInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListBatchLoadTasksInput: Swift.Equatable {
+    /// The total number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
+    public var maxResults: Swift.Int?
+    /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
+    public var nextToken: Swift.String?
+    /// Status of the batch load task.
+    public var taskStatus: TimestreamWriteClientTypes.BatchLoadStatus?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        taskStatus: TimestreamWriteClientTypes.BatchLoadStatus? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.taskStatus = taskStatus
+    }
+}
+
+struct ListBatchLoadTasksInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let taskStatus: TimestreamWriteClientTypes.BatchLoadStatus?
+}
+
+extension ListBatchLoadTasksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case taskStatus = "TaskStatus"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let taskStatusDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.BatchLoadStatus.self, forKey: .taskStatus)
+        taskStatus = taskStatusDecoded
+    }
+}
+
+extension ListBatchLoadTasksOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListBatchLoadTasksOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListBatchLoadTasksOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidEndpointException(InvalidEndpointException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListBatchLoadTasksOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListBatchLoadTasksOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.batchLoadTasks = output.batchLoadTasks
+            self.nextToken = output.nextToken
+        } else {
+            self.batchLoadTasks = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBatchLoadTasksOutputResponse: Swift.Equatable {
+    /// A list of batch load task details.
+    public var batchLoadTasks: [TimestreamWriteClientTypes.BatchLoadTask]?
+    /// A token to specify where to start paginating. Provide the next ListBatchLoadTasksRequest.
+    public var nextToken: Swift.String?
+
+    public init (
+        batchLoadTasks: [TimestreamWriteClientTypes.BatchLoadTask]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.batchLoadTasks = batchLoadTasks
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBatchLoadTasksOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let batchLoadTasks: [TimestreamWriteClientTypes.BatchLoadTask]?
+}
+
+extension ListBatchLoadTasksOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchLoadTasks = "BatchLoadTasks"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let batchLoadTasksContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.BatchLoadTask?].self, forKey: .batchLoadTasks)
+        var batchLoadTasksDecoded0:[TimestreamWriteClientTypes.BatchLoadTask]? = nil
+        if let batchLoadTasksContainer = batchLoadTasksContainer {
+            batchLoadTasksDecoded0 = [TimestreamWriteClientTypes.BatchLoadTask]()
+            for structure0 in batchLoadTasksContainer {
+                if let structure0 = structure0 {
+                    batchLoadTasksDecoded0?.append(structure0)
+                }
+            }
+        }
+        batchLoadTasks = batchLoadTasksDecoded0
     }
 }
 
@@ -1880,15 +3198,15 @@ extension TimestreamWriteClientTypes.MeasureValue: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// MeasureValue represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures. MeasureValue has both name and value. MeasureValue is only allowed for type MULTI. Using MULTI type, you can pass multiple data attributes associated with the same time series in a single record
+    /// Represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures. MeasureValue has both name and value. MeasureValue is only allowed for type MULTI. Using MULTI type, you can pass multiple data attributes associated with the same time series in a single record
     public struct MeasureValue: Swift.Equatable {
-        /// Name of the MeasureValue. For constraints on MeasureValue names, refer to [ Naming Constraints](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming) in the Timestream developer guide.
+        /// The name of the MeasureValue. For constraints on MeasureValue names, see [ Naming Constraints](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.naming) in the Amazon Timestream Developer Guide.
         /// This member is required.
         public var name: Swift.String?
-        /// Contains the data type of the MeasureValue for the time series data point.
+        /// Contains the data type of the MeasureValue for the time-series data point.
         /// This member is required.
         public var type: TimestreamWriteClientTypes.MeasureValueType?
-        /// Value for the MeasureValue.
+        /// The value for the MeasureValue.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1948,6 +3266,208 @@ extension TimestreamWriteClientTypes {
             self = MeasureValueType(rawValue: rawValue) ?? MeasureValueType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension TimestreamWriteClientTypes.MixedMeasureMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case measureName = "MeasureName"
+        case measureValueType = "MeasureValueType"
+        case multiMeasureAttributeMappings = "MultiMeasureAttributeMappings"
+        case sourceColumn = "SourceColumn"
+        case targetMeasureName = "TargetMeasureName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let measureName = self.measureName {
+            try encodeContainer.encode(measureName, forKey: .measureName)
+        }
+        if let measureValueType = self.measureValueType {
+            try encodeContainer.encode(measureValueType.rawValue, forKey: .measureValueType)
+        }
+        if let multiMeasureAttributeMappings = multiMeasureAttributeMappings {
+            var multiMeasureAttributeMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiMeasureAttributeMappings)
+            for multimeasureattributemapping0 in multiMeasureAttributeMappings {
+                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemapping0)
+            }
+        }
+        if let sourceColumn = self.sourceColumn {
+            try encodeContainer.encode(sourceColumn, forKey: .sourceColumn)
+        }
+        if let targetMeasureName = self.targetMeasureName {
+            try encodeContainer.encode(targetMeasureName, forKey: .targetMeasureName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let measureNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .measureName)
+        measureName = measureNameDecoded
+        let sourceColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceColumn)
+        sourceColumn = sourceColumnDecoded
+        let targetMeasureNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetMeasureName)
+        targetMeasureName = targetMeasureNameDecoded
+        let measureValueTypeDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.MeasureValueType.self, forKey: .measureValueType)
+        measureValueType = measureValueTypeDecoded
+        let multiMeasureAttributeMappingsContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.MultiMeasureAttributeMapping?].self, forKey: .multiMeasureAttributeMappings)
+        var multiMeasureAttributeMappingsDecoded0:[TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil
+        if let multiMeasureAttributeMappingsContainer = multiMeasureAttributeMappingsContainer {
+            multiMeasureAttributeMappingsDecoded0 = [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]()
+            for structure0 in multiMeasureAttributeMappingsContainer {
+                if let structure0 = structure0 {
+                    multiMeasureAttributeMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        multiMeasureAttributeMappings = multiMeasureAttributeMappingsDecoded0
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct MixedMeasureMapping: Swift.Equatable {
+        ///
+        public var measureName: Swift.String?
+        ///
+        /// This member is required.
+        public var measureValueType: TimestreamWriteClientTypes.MeasureValueType?
+        ///
+        public var multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]?
+        ///
+        public var sourceColumn: Swift.String?
+        ///
+        public var targetMeasureName: Swift.String?
+
+        public init (
+            measureName: Swift.String? = nil,
+            measureValueType: TimestreamWriteClientTypes.MeasureValueType? = nil,
+            multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil,
+            sourceColumn: Swift.String? = nil,
+            targetMeasureName: Swift.String? = nil
+        )
+        {
+            self.measureName = measureName
+            self.measureValueType = measureValueType
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.sourceColumn = sourceColumn
+            self.targetMeasureName = targetMeasureName
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.MultiMeasureAttributeMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case measureValueType = "MeasureValueType"
+        case sourceColumn = "SourceColumn"
+        case targetMultiMeasureAttributeName = "TargetMultiMeasureAttributeName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let measureValueType = self.measureValueType {
+            try encodeContainer.encode(measureValueType.rawValue, forKey: .measureValueType)
+        }
+        if let sourceColumn = self.sourceColumn {
+            try encodeContainer.encode(sourceColumn, forKey: .sourceColumn)
+        }
+        if let targetMultiMeasureAttributeName = self.targetMultiMeasureAttributeName {
+            try encodeContainer.encode(targetMultiMeasureAttributeName, forKey: .targetMultiMeasureAttributeName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceColumnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceColumn)
+        sourceColumn = sourceColumnDecoded
+        let targetMultiMeasureAttributeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetMultiMeasureAttributeName)
+        targetMultiMeasureAttributeName = targetMultiMeasureAttributeNameDecoded
+        let measureValueTypeDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.ScalarMeasureValueType.self, forKey: .measureValueType)
+        measureValueType = measureValueTypeDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct MultiMeasureAttributeMapping: Swift.Equatable {
+        ///
+        public var measureValueType: TimestreamWriteClientTypes.ScalarMeasureValueType?
+        ///
+        /// This member is required.
+        public var sourceColumn: Swift.String?
+        ///
+        public var targetMultiMeasureAttributeName: Swift.String?
+
+        public init (
+            measureValueType: TimestreamWriteClientTypes.ScalarMeasureValueType? = nil,
+            sourceColumn: Swift.String? = nil,
+            targetMultiMeasureAttributeName: Swift.String? = nil
+        )
+        {
+            self.measureValueType = measureValueType
+            self.sourceColumn = sourceColumn
+            self.targetMultiMeasureAttributeName = targetMultiMeasureAttributeName
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.MultiMeasureMappings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case multiMeasureAttributeMappings = "MultiMeasureAttributeMappings"
+        case targetMultiMeasureName = "TargetMultiMeasureName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let multiMeasureAttributeMappings = multiMeasureAttributeMappings {
+            var multiMeasureAttributeMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .multiMeasureAttributeMappings)
+            for multimeasureattributemapping0 in multiMeasureAttributeMappings {
+                try multiMeasureAttributeMappingsContainer.encode(multimeasureattributemapping0)
+            }
+        }
+        if let targetMultiMeasureName = self.targetMultiMeasureName {
+            try encodeContainer.encode(targetMultiMeasureName, forKey: .targetMultiMeasureName)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetMultiMeasureNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetMultiMeasureName)
+        targetMultiMeasureName = targetMultiMeasureNameDecoded
+        let multiMeasureAttributeMappingsContainer = try containerValues.decodeIfPresent([TimestreamWriteClientTypes.MultiMeasureAttributeMapping?].self, forKey: .multiMeasureAttributeMappings)
+        var multiMeasureAttributeMappingsDecoded0:[TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil
+        if let multiMeasureAttributeMappingsContainer = multiMeasureAttributeMappingsContainer {
+            multiMeasureAttributeMappingsDecoded0 = [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]()
+            for structure0 in multiMeasureAttributeMappingsContainer {
+                if let structure0 = structure0 {
+                    multiMeasureAttributeMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        multiMeasureAttributeMappings = multiMeasureAttributeMappingsDecoded0
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct MultiMeasureMappings: Swift.Equatable {
+        ///
+        /// This member is required.
+        public var multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]?
+        ///
+        public var targetMultiMeasureName: Swift.String?
+
+        public init (
+            multiMeasureAttributeMappings: [TimestreamWriteClientTypes.MultiMeasureAttributeMapping]? = nil,
+            targetMultiMeasureName: Swift.String? = nil
+        )
+        {
+            self.multiMeasureAttributeMappings = multiMeasureAttributeMappings
+            self.targetMultiMeasureName = targetMultiMeasureName
+        }
+    }
+
 }
 
 extension TimestreamWriteClientTypes.Record: Swift.Codable {
@@ -2036,23 +3556,23 @@ extension TimestreamWriteClientTypes.Record: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Record represents a time series data point being written into Timestream. Each record contains an array of dimensions. Dimensions represent the meta data attributes of a time series data point such as the instance name or availability zone of an EC2 instance. A record also contains the measure name which is the name of the measure being collected for example the CPU utilization of an EC2 instance. A record also contains the measure value and the value type which is the data type of the measure value. In addition, the record contains the timestamp when the measure was collected that the timestamp unit which represents the granularity of the timestamp. Records have a Version field, which is a 64-bit long that you can use for updating data points. Writes of a duplicate record with the same dimension, timestamp, and measure name but different measure value will only succeed if the Version attribute of the record in the write request is higher than that of the existing record. Timestream defaults to a Version of 1 for records without the Version field.
+    /// Represents a time-series data point being written into Timestream. Each record contains an array of dimensions. Dimensions represent the metadata attributes of a time-series data point, such as the instance name or Availability Zone of an EC2 instance. A record also contains the measure name, which is the name of the measure being collected (for example, the CPU utilization of an EC2 instance). Additionally, a record contains the measure value and the value type, which is the data type of the measure value. Also, the record contains the timestamp of when the measure was collected and the timestamp unit, which represents the granularity of the timestamp. Records have a Version field, which is a 64-bit long that you can use for updating data points. Writes of a duplicate record with the same dimension, timestamp, and measure name but different measure value will only succeed if the Version attribute of the record in the write request is higher than that of the existing record. Timestream defaults to a Version of 1 for records without the Version field.
     public struct Record: Swift.Equatable {
-        /// Contains the list of dimensions for time series data points.
+        /// Contains the list of dimensions for time-series data points.
         public var dimensions: [TimestreamWriteClientTypes.Dimension]?
         /// Measure represents the data attribute of the time series. For example, the CPU utilization of an EC2 instance or the RPM of a wind turbine are measures.
         public var measureName: Swift.String?
-        /// Contains the measure value for the time series data point.
+        /// Contains the measure value for the time-series data point.
         public var measureValue: Swift.String?
-        /// Contains the data type of the measure value for the time series data point. Default type is DOUBLE.
+        /// Contains the data type of the measure value for the time-series data point. Default type is DOUBLE.
         public var measureValueType: TimestreamWriteClientTypes.MeasureValueType?
-        /// Contains the list of MeasureValue for time series data points. This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the Record directly.
+        /// Contains the list of MeasureValue for time-series data points. This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the record directly.
         public var measureValues: [TimestreamWriteClientTypes.MeasureValue]?
         /// Contains the time at which the measure value for the data point was collected. The time value plus the unit provides the time elapsed since the epoch. For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
         public var time: Swift.String?
-        /// The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values. Default is MILLISECONDS.
+        /// The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds, or other supported values. Default is MILLISECONDS.
         public var timeUnit: TimestreamWriteClientTypes.TimeUnit?
-        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated . Default value is 1. Version must be 1 or greater, or you will receive a ValidationException error.
+        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated. Default value is 1. Version must be 1 or greater, or you will receive a ValidationException error.
         public var version: Swift.Int?
 
         public init (
@@ -2166,7 +3686,7 @@ extension TimestreamWriteClientTypes.RejectedRecord: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Records that were not successfully inserted into Timestream due to data validation issues that must be resolved prior to reinserting time series data into the system.
+    /// Represents records that were not successfully inserted into Timestream due to data validation issues that must be resolved before reinserting time-series data into the system.
     public struct RejectedRecord: Swift.Equatable {
         /// The existing version of the record. This value is populated in scenarios where an identical record exists with a higher version than the version in the write request.
         public var existingVersion: Swift.Int?
@@ -2176,12 +3696,12 @@ extension TimestreamWriteClientTypes {
         ///
         /// * Measure values are different
         ///
-        /// * Version is not present in the request or the value of version in the new record is equal to or lower than the existing value
+        /// * Version is not present in the request, or the value of version in the new record is equal to or lower than the existing value
         ///
         ///
         /// If Timestream rejects data for this case, the ExistingVersion field in the RejectedRecords response will indicate the current record’s version. To force an update, you can resend the request with a version for the record set to a value greater than the ExistingVersion.
         ///
-        /// * Records with timestamps that lie outside the retention duration of the memory store When the retention window is updated, you will receive a RejectedRecords exception if you immediately try to ingest data within the new window. To avoid a RejectedRecords exception, wait until the duration of the new window to ingest new data. For further information, see [ Best Practices for Configuring Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/best-practices.html#configuration) and [the explanation of how storage works in Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html).
+        /// * Records with timestamps that lie outside the retention duration of the memory store. When the retention window is updated, you will receive a RejectedRecords exception if you immediately try to ingest data within the new window. To avoid a RejectedRecords exception, wait until the duration of the new window to ingest new data. For further information, see [ Best Practices for Configuring Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/best-practices.html#configuration) and [the explanation of how storage works in Timestream](https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html).
         ///
         /// * Records with dimensions or measures that exceed the Timestream defined limits.
         ///
@@ -2235,12 +3755,12 @@ extension RejectedRecordsException {
 ///
 /// In this case, if Timestream rejects data, the ExistingVersion field in the RejectedRecords response will indicate the current record’s version. To force an update, you can resend the request with a version for the record set to a value greater than the ExistingVersion.
 ///
-/// * Records with timestamps that lie outside the retention duration of the memory store
+/// * Records with timestamps that lie outside the retention duration of the memory store.
 ///
 /// * Records with dimensions or measures that exceed the Timestream defined limits.
 ///
 ///
-/// For more information, see [Quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Timestream Developer Guide.
+/// For more information, see [Quotas](https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html) in the Amazon Timestream Developer Guide.
 public struct RejectedRecordsException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2250,6 +3770,7 @@ public struct RejectedRecordsException: AWSClientRuntime.AWSHttpServiceError, Sw
     public var _isThrottling: Swift.Bool = false
     public var _type: ClientRuntime.ErrorType = .client
     public var message: Swift.String?
+    ///
     public var rejectedRecords: [TimestreamWriteClientTypes.RejectedRecord]?
 
     public init (
@@ -2289,6 +3810,107 @@ extension RejectedRecordsExceptionBody: Swift.Decodable {
         }
         rejectedRecords = rejectedRecordsDecoded0
     }
+}
+
+extension TimestreamWriteClientTypes.ReportConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportS3Configuration = "ReportS3Configuration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportS3Configuration = self.reportS3Configuration {
+            try encodeContainer.encode(reportS3Configuration, forKey: .reportS3Configuration)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportS3ConfigurationDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.ReportS3Configuration.self, forKey: .reportS3Configuration)
+        reportS3Configuration = reportS3ConfigurationDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    /// Report configuration for a batch load task. This contains details about where error reports are stored.
+    public struct ReportConfiguration: Swift.Equatable {
+        /// Configuration of an S3 location to write error reports and events for a batch load.
+        public var reportS3Configuration: TimestreamWriteClientTypes.ReportS3Configuration?
+
+        public init (
+            reportS3Configuration: TimestreamWriteClientTypes.ReportS3Configuration? = nil
+        )
+        {
+            self.reportS3Configuration = reportS3Configuration
+        }
+    }
+
+}
+
+extension TimestreamWriteClientTypes.ReportS3Configuration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketName = "BucketName"
+        case encryptionOption = "EncryptionOption"
+        case kmsKeyId = "KmsKeyId"
+        case objectKeyPrefix = "ObjectKeyPrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketName = self.bucketName {
+            try encodeContainer.encode(bucketName, forKey: .bucketName)
+        }
+        if let encryptionOption = self.encryptionOption {
+            try encodeContainer.encode(encryptionOption.rawValue, forKey: .encryptionOption)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let objectKeyPrefix = self.objectKeyPrefix {
+            try encodeContainer.encode(objectKeyPrefix, forKey: .objectKeyPrefix)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketName)
+        bucketName = bucketNameDecoded
+        let objectKeyPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectKeyPrefix)
+        objectKeyPrefix = objectKeyPrefixDecoded
+        let encryptionOptionDecoded = try containerValues.decodeIfPresent(TimestreamWriteClientTypes.S3EncryptionOption.self, forKey: .encryptionOption)
+        encryptionOption = encryptionOptionDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension TimestreamWriteClientTypes {
+    ///
+    public struct ReportS3Configuration: Swift.Equatable {
+        ///
+        /// This member is required.
+        public var bucketName: Swift.String?
+        ///
+        public var encryptionOption: TimestreamWriteClientTypes.S3EncryptionOption?
+        ///
+        public var kmsKeyId: Swift.String?
+        ///
+        public var objectKeyPrefix: Swift.String?
+
+        public init (
+            bucketName: Swift.String? = nil,
+            encryptionOption: TimestreamWriteClientTypes.S3EncryptionOption? = nil,
+            kmsKeyId: Swift.String? = nil,
+            objectKeyPrefix: Swift.String? = nil
+        )
+        {
+            self.bucketName = bucketName
+            self.encryptionOption = encryptionOption
+            self.kmsKeyId = kmsKeyId
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+    }
+
 }
 
 extension ResourceNotFoundException {
@@ -2343,6 +3965,96 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension ResumeBatchLoadTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId = "TaskId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskId = self.taskId {
+            try encodeContainer.encode(taskId, forKey: .taskId)
+        }
+    }
+}
+
+extension ResumeBatchLoadTaskInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ResumeBatchLoadTaskInput: Swift.Equatable {
+    /// The ID of the batch load task to resume.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init (
+        taskId: Swift.String? = nil
+    )
+    {
+        self.taskId = taskId
+    }
+}
+
+struct ResumeBatchLoadTaskInputBody: Swift.Equatable {
+    let taskId: Swift.String?
+}
+
+extension ResumeBatchLoadTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskId = "TaskId"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+    }
+}
+
+extension ResumeBatchLoadTaskOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ResumeBatchLoadTaskOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidEndpointException" : self = .invalidEndpointException(try InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ResumeBatchLoadTaskOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case invalidEndpointException(InvalidEndpointException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ResumeBatchLoadTaskOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct ResumeBatchLoadTaskOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
 extension TimestreamWriteClientTypes.RetentionProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case magneticStoreRetentionPeriodInDays = "MagneticStoreRetentionPeriodInDays"
@@ -2369,7 +4081,7 @@ extension TimestreamWriteClientTypes.RetentionProperties: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Retention properties contain the duration for which your time series data must be stored in the magnetic store and the memory store.
+    /// Retention properties contain the duration for which your time-series data must be stored in the magnetic store and the memory store.
     public struct RetentionProperties: Swift.Equatable {
         /// The duration for which data must be stored in the magnetic store.
         /// This member is required.
@@ -2428,15 +4140,15 @@ extension TimestreamWriteClientTypes.S3Configuration: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Configuration specifing an S3 location.
+    /// The configuration that specifies an S3 location.
     public struct S3Configuration: Swift.Equatable {
-        /// >Bucket name of the customer S3 bucket.
+        /// The bucket name of the customer S3 bucket.
         public var bucketName: Swift.String?
-        /// Encryption option for the customer s3 location. Options are S3 server side encryption with an S3-managed key or KMS managed key.
+        /// The encryption option for the customer S3 location. Options are S3 server-side encryption with an S3 managed key or Amazon Web Services managed key.
         public var encryptionOption: TimestreamWriteClientTypes.S3EncryptionOption?
-        /// KMS key id for the customer s3 location when encrypting with a KMS managed key.
+        /// The KMS key ID for the customer S3 location when encrypting with an Amazon Web Services managed key.
         public var kmsKeyId: Swift.String?
-        /// Object key preview for the customer S3 location.
+        /// The object key preview for the customer S3 location.
         public var objectKeyPrefix: Swift.String?
 
         public init (
@@ -2487,6 +4199,47 @@ extension TimestreamWriteClientTypes {
     }
 }
 
+extension TimestreamWriteClientTypes {
+    public enum ScalarMeasureValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bigint
+        case boolean
+        case double
+        case timestamp
+        case varchar
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScalarMeasureValueType] {
+            return [
+                .bigint,
+                .boolean,
+                .double,
+                .timestamp,
+                .varchar,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bigint: return "BIGINT"
+            case .boolean: return "BOOLEAN"
+            case .double: return "DOUBLE"
+            case .timestamp: return "TIMESTAMP"
+            case .varchar: return "VARCHAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScalarMeasureValueType(rawValue: rawValue) ?? ScalarMeasureValueType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ServiceQuotaExceededException {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         if case .stream(let reader) = httpResponse.body,
@@ -2504,7 +4257,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// Instance quota of resource exceeded for this account.
+/// The instance quota of resource exceeded for this account.
 public struct ServiceQuotaExceededException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2601,7 +4354,7 @@ extension TimestreamWriteClientTypes.Table: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// Table represents a database table in Timestream. Tables contain one or more related time series. You can modify the retention duration of the memory store and the magnetic store for a table.
+    /// Represents a database table in Timestream. Tables contain one or more related time series. You can modify the retention duration of the memory store and the magnetic store for a table.
     public struct Table: Swift.Equatable {
         /// The Amazon Resource Name that uniquely identifies this table.
         public var arn: Swift.String?
@@ -2652,12 +4405,14 @@ extension TimestreamWriteClientTypes {
     public enum TableStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
         case deleting
+        case restoring
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TableStatus] {
             return [
                 .active,
                 .deleting,
+                .restoring,
                 .sdkUnknown("")
             ]
         }
@@ -2669,6 +4424,7 @@ extension TimestreamWriteClientTypes {
             switch self {
             case .active: return "ACTIVE"
             case .deleting: return "DELETING"
+            case .restoring: return "RESTORING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2706,7 +4462,7 @@ extension TimestreamWriteClientTypes.Tag: Swift.Codable {
 }
 
 extension TimestreamWriteClientTypes {
-    /// A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize databases and/or tables, for example, by purpose, owner, or environment.
+    /// A tag is a label that you assign to a Timestream database and/or table. Each tag consists of a key and an optional value, both of which you define. With tags, you can categorize databases and/or tables, for example, by purpose, owner, or environment.
     public struct Tag: Swift.Equatable {
         /// The key of the tag. Tag keys are case sensitive.
         /// This member is required.
@@ -2857,7 +4613,7 @@ extension ThrottlingException {
     }
 }
 
-/// Too many requests were made by a user exceeding service quotas. The request was throttled.
+/// Too many requests were made by a user and they exceeded the service quotas. The request was throttled.
 public struct ThrottlingException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3161,7 +4917,7 @@ extension UpdateDatabaseOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateDatabaseOutputResponse: Swift.Equatable {
-    /// A top level container for a table. Databases and tables are the fundamental management concepts in Amazon Timestream. All tables in a database are encrypted with the same KMS key.
+    /// A top-level container for a table. Databases and tables are the fundamental management concepts in Amazon Timestream. All tables in a database are encrypted with the same KMS key.
     public var database: TimestreamWriteClientTypes.Database?
 
     public init (
@@ -3363,7 +5119,7 @@ extension ValidationException {
     }
 }
 
-/// Invalid or malformed request.
+/// An invalid or malformed request.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -3434,12 +5190,12 @@ extension WriteRecordsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct WriteRecordsInput: Swift.Equatable {
-    /// A record containing the common measure, dimension, time, and version attributes shared across all the records in the request. The measure and dimension attributes specified will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. Dimensions may not overlap, or a ValidationException will be thrown. In other words, a record must contain dimensions with unique names.
+    /// A record that contains the common measure, dimension, time, and version attributes shared across all the records in the request. The measure and dimension attributes specified will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. Dimensions may not overlap, or a ValidationException will be thrown. In other words, a record must contain dimensions with unique names.
     public var commonAttributes: TimestreamWriteClientTypes.Record?
     /// The name of the Timestream database.
     /// This member is required.
     public var databaseName: Swift.String?
-    /// An array of records containing the unique measure, dimension, time, and version attributes for each time series data point.
+    /// An array of records that contain the unique measure, dimension, time, and version attributes for each time-series data point.
     /// This member is required.
     public var records: [TimestreamWriteClientTypes.Record]?
     /// The name of the Timestream table.

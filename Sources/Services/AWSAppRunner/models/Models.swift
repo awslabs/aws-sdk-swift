@@ -4574,7 +4574,7 @@ extension ListAutoScalingConfigurationsInput: Swift.Encodable {
         if let autoScalingConfigurationName = self.autoScalingConfigurationName {
             try encodeContainer.encode(autoScalingConfigurationName, forKey: .autoScalingConfigurationName)
         }
-        if latestOnly != false {
+        if let latestOnly = self.latestOnly {
             try encodeContainer.encode(latestOnly, forKey: .latestOnly)
         }
         if let maxResults = self.maxResults {
@@ -4596,7 +4596,7 @@ public struct ListAutoScalingConfigurationsInput: Swift.Equatable {
     /// The name of the App Runner auto scaling configuration that you want to list. If specified, App Runner lists revisions that share this name. If not specified, App Runner returns revisions of all active configurations.
     public var autoScalingConfigurationName: Swift.String?
     /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
-    public var latestOnly: Swift.Bool
+    public var latestOnly: Swift.Bool?
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -4604,7 +4604,7 @@ public struct ListAutoScalingConfigurationsInput: Swift.Equatable {
 
     public init (
         autoScalingConfigurationName: Swift.String? = nil,
-        latestOnly: Swift.Bool = false,
+        latestOnly: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
@@ -4618,7 +4618,7 @@ public struct ListAutoScalingConfigurationsInput: Swift.Equatable {
 
 struct ListAutoScalingConfigurationsInputBody: Swift.Equatable {
     let autoScalingConfigurationName: Swift.String?
-    let latestOnly: Swift.Bool
+    let latestOnly: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4635,7 +4635,7 @@ extension ListAutoScalingConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingConfigurationName)
         autoScalingConfigurationName = autoScalingConfigurationNameDecoded
-        let latestOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestOnly) ?? false
+        let latestOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestOnly)
         latestOnly = latestOnlyDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -4895,7 +4895,7 @@ extension ListObservabilityConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if latestOnly != false {
+        if let latestOnly = self.latestOnly {
             try encodeContainer.encode(latestOnly, forKey: .latestOnly)
         }
         if let maxResults = self.maxResults {
@@ -4918,7 +4918,7 @@ extension ListObservabilityConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListObservabilityConfigurationsInput: Swift.Equatable {
     /// Set to true to list only the latest revision for each requested configuration name. Set to false to list all revisions for each requested configuration name. Default: true
-    public var latestOnly: Swift.Bool
+    public var latestOnly: Swift.Bool?
     /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
     public var maxResults: Swift.Int?
     /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
@@ -4927,7 +4927,7 @@ public struct ListObservabilityConfigurationsInput: Swift.Equatable {
     public var observabilityConfigurationName: Swift.String?
 
     public init (
-        latestOnly: Swift.Bool = false,
+        latestOnly: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         observabilityConfigurationName: Swift.String? = nil
@@ -4942,7 +4942,7 @@ public struct ListObservabilityConfigurationsInput: Swift.Equatable {
 
 struct ListObservabilityConfigurationsInputBody: Swift.Equatable {
     let observabilityConfigurationName: Swift.String?
-    let latestOnly: Swift.Bool
+    let latestOnly: Swift.Bool?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4959,7 +4959,7 @@ extension ListObservabilityConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let observabilityConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .observabilityConfigurationName)
         observabilityConfigurationName = observabilityConfigurationNameDecoded
-        let latestOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestOnly) ?? false
+        let latestOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latestOnly)
         latestOnly = latestOnlyDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -6212,6 +6212,7 @@ extension AppRunnerClientTypes {
         case pauseService
         case resumeService
         case startDeployment
+        case updateService
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperationType] {
@@ -6221,6 +6222,7 @@ extension AppRunnerClientTypes {
                 .pauseService,
                 .resumeService,
                 .startDeployment,
+                .updateService,
                 .sdkUnknown("")
             ]
         }
@@ -6235,6 +6237,7 @@ extension AppRunnerClientTypes {
             case .pauseService: return "PAUSE_SERVICE"
             case .resumeService: return "RESUME_SERVICE"
             case .startDeployment: return "START_DEPLOYMENT"
+            case .updateService: return "UPDATE_SERVICE"
             case let .sdkUnknown(s): return s
             }
         }

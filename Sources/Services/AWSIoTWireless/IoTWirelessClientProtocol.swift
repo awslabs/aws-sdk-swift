@@ -107,7 +107,7 @@ public protocol IoTWirelessClientProtocol {
     func getResourceEventConfiguration(input: GetResourceEventConfigurationInput) async throws -> GetResourceEventConfigurationOutputResponse
     /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device or a wireless gateway.
     func getResourceLogLevel(input: GetResourceLogLevelInput) async throws -> GetResourceLogLevelOutputResponse
-    /// Get the position information for a given wireless device or a wireless gateway resource. The postion information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutputResponse
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     func getServiceEndpoint(input: GetServiceEndpointInput) async throws -> GetServiceEndpointOutputResponse
@@ -206,7 +206,7 @@ public protocol IoTWirelessClientProtocol {
     func updatePosition(input: UpdatePositionInput) async throws -> UpdatePositionOutputResponse
     /// Update the event configuration for a particular resource identifier.
     func updateResourceEventConfiguration(input: UpdateResourceEventConfigurationInput) async throws -> UpdateResourceEventConfigurationOutputResponse
-    /// Update the position information of a given wireless device or a wireless gateway resource. The postion coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutputResponse
     /// Updates properties of a wireless device.
     func updateWirelessDevice(input: UpdateWirelessDeviceInput) async throws -> UpdateWirelessDeviceOutputResponse

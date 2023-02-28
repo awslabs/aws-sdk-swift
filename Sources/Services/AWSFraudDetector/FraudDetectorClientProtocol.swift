@@ -19,6 +19,8 @@ public protocol FraudDetectorClientProtocol {
     func createBatchPredictionJob(input: CreateBatchPredictionJobInput) async throws -> CreateBatchPredictionJobOutputResponse
     /// Creates a detector version. The detector version starts in a DRAFT status.
     func createDetectorVersion(input: CreateDetectorVersionInput) async throws -> CreateDetectorVersionOutputResponse
+    /// Creates a list. List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
+    func createList(input: CreateListInput) async throws -> CreateListOutputResponse
     /// Creates a model using the specified model type.
     func createModel(input: CreateModelInput) async throws -> CreateModelOutputResponse
     /// Creates a version of the model using the specified model type and model id.
@@ -47,6 +49,8 @@ public protocol FraudDetectorClientProtocol {
     func deleteExternalModel(input: DeleteExternalModelInput) async throws -> DeleteExternalModelOutputResponse
     /// Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
     func deleteLabel(input: DeleteLabelInput) async throws -> DeleteLabelOutputResponse
+    /// Deletes the list, provided it is not used in a rule. When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
+    func deleteList(input: DeleteListInput) async throws -> DeleteListOutputResponse
     /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
     func deleteModel(input: DeleteModelInput) async throws -> DeleteModelOutputResponse
     /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
@@ -87,6 +91,10 @@ public protocol FraudDetectorClientProtocol {
     func getKMSEncryptionKey(input: GetKMSEncryptionKeyInput) async throws -> GetKMSEncryptionKeyOutputResponse
     /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
     func getLabels(input: GetLabelsInput) async throws -> GetLabelsOutputResponse
+    /// Gets all the elements in the specified list.
+    func getListElements(input: GetListElementsInput) async throws -> GetListElementsOutputResponse
+    /// Gets the metadata of either all the lists under the account or the specified list.
+    func getListsMetadata(input: GetListsMetadataInput) async throws -> GetListsMetadataOutputResponse
     /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     func getModels(input: GetModelsInput) async throws -> GetModelsOutputResponse
     /// Gets the details of the specified model version.
@@ -129,6 +137,8 @@ public protocol FraudDetectorClientProtocol {
     func updateDetectorVersionStatus(input: UpdateDetectorVersionStatusInput) async throws -> UpdateDetectorVersionStatusOutputResponse
     /// Updates the specified event with a new label.
     func updateEventLabel(input: UpdateEventLabelInput) async throws -> UpdateEventLabelOutputResponse
+    /// Updates a list.
+    func updateList(input: UpdateListInput) async throws -> UpdateListOutputResponse
     /// Updates model description.
     func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
     /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.

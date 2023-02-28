@@ -174,7 +174,7 @@ public protocol AuditManagerClientProtocol {
     func updateAssessmentStatus(input: UpdateAssessmentStatusInput) async throws -> UpdateAssessmentStatusOutputResponse
     /// Updates a custom control in Audit Manager.
     func updateControl(input: UpdateControlInput) async throws -> UpdateControlOutputResponse
-    /// Updates Audit Manager settings for the current user account.
+    /// Updates Audit Manager settings for the current account.
     func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutputResponse
     /// Validates the integrity of an assessment report in Audit Manager.
     func validateAssessmentReportIntegrity(input: ValidateAssessmentReportIntegrityInput) async throws -> ValidateAssessmentReportIntegrityOutputResponse

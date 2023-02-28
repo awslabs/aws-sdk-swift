@@ -311,7 +311,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
+    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -440,7 +440,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using [Invite Members](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html).
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, use this action after GuardDuty has bee enabled in potential member accounts and before using [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html).
     public func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -518,7 +518,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
+    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     public func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -861,7 +861,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func describeMalwareScans(input: DescribeMalwareScansInput) async throws -> DescribeMalwareScansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -896,7 +896,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Returns information about the account selected as the delegated administrator for GuardDuty.
+    /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1162,7 +1162,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
+    /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1360,7 +1360,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Returns the details of the malware scan settings.
+    /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func getMalwareScanSettings(input: GetMalwareScanSettingsInput) async throws -> GetMalwareScanSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1425,7 +1425,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Describes which data sources are enabled for the member account's detector.
+    /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func getMemberDetectors(input: GetMemberDetectorsInput) async throws -> GetMemberDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2136,7 +2136,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Updates the Amazon GuardDuty detector specified by the detectorId.
+    /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func updateDetector(input: UpdateDetectorInput) async throws -> UpdateDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2276,7 +2276,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Updates the malware scan settings.
+    /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2311,7 +2311,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Contains information on member accounts to be updated.
+    /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2346,7 +2346,7 @@ extension GuardDutyClient: GuardDutyClientProtocol {
         return result
     }
 
-    /// Updates the delegated administrator account with the values provided.
+    /// Updates the delegated administrator account with the values provided. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

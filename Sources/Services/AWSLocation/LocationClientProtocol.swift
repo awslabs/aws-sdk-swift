@@ -40,26 +40,32 @@ public protocol LocationClientProtocol {
     func calculateRouteMatrix(input: CalculateRouteMatrixInput) async throws -> CalculateRouteMatrixOutputResponse
     /// Creates a geofence collection, which manages and stores geofences.
     func createGeofenceCollection(input: CreateGeofenceCollectionInput) async throws -> CreateGeofenceCollectionOutputResponse
-    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [AWS service terms](http://aws.amazon.com/service-terms) for more details.
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant geo:GetMap* actions for Amazon Location Map resources to the API key bearer. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
+    /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     func createMap(input: CreateMapInput) async throws -> CreateMapOutputResponse
-    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [AWS service terms](http://aws.amazon.com/service-terms) for more details.
+    /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     func createPlaceIndex(input: CreatePlaceIndexInput) async throws -> CreatePlaceIndexOutputResponse
-    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [AWS service terms](http://aws.amazon.com/service-terms) for more details.
+    /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     func createRouteCalculator(input: CreateRouteCalculatorInput) async throws -> CreateRouteCalculatorOutputResponse
-    /// Creates a tracker resource in your AWS account, which lets you retrieve current and historical location of devices.
+    /// Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
     func createTracker(input: CreateTrackerInput) async throws -> CreateTrackerOutputResponse
-    /// Deletes a geofence collection from your AWS account. This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
+    /// Deletes a geofence collection from your Amazon Web Services account. This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
     func deleteGeofenceCollection(input: DeleteGeofenceCollectionInput) async throws -> DeleteGeofenceCollectionOutputResponse
-    /// Deletes a map resource from your AWS account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
+    /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
+    func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutputResponse
+    /// Deletes a map resource from your Amazon Web Services account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
     func deleteMap(input: DeleteMapInput) async throws -> DeleteMapOutputResponse
-    /// Deletes a place index resource from your AWS account. This operation deletes the resource permanently.
+    /// Deletes a place index resource from your Amazon Web Services account. This operation deletes the resource permanently.
     func deletePlaceIndex(input: DeletePlaceIndexInput) async throws -> DeletePlaceIndexOutputResponse
-    /// Deletes a route calculator resource from your AWS account. This operation deletes the resource permanently.
+    /// Deletes a route calculator resource from your Amazon Web Services account. This operation deletes the resource permanently.
     func deleteRouteCalculator(input: DeleteRouteCalculatorInput) async throws -> DeleteRouteCalculatorOutputResponse
-    /// Deletes a tracker resource from your AWS account. This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
+    /// Deletes a tracker resource from your Amazon Web Services account. This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
     func deleteTracker(input: DeleteTrackerInput) async throws -> DeleteTrackerOutputResponse
     /// Retrieves the geofence collection details.
     func describeGeofenceCollection(input: DescribeGeofenceCollectionInput) async throws -> DescribeGeofenceCollectionOutputResponse
+    /// Retrieves the API key resource details. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    func describeKey(input: DescribeKeyInput) async throws -> DescribeKeyOutputResponse
     /// Retrieves the map resource details.
     func describeMap(input: DescribeMapInput) async throws -> DescribeMapOutputResponse
     /// Retrieves the place index resource details.
@@ -86,29 +92,31 @@ public protocol LocationClientProtocol {
     func getMapTile(input: GetMapTileInput) async throws -> GetMapTileOutputResponse
     /// Finds a place by its unique ID. A PlaceId is returned by other search operations. A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.
     ///
-    /// * Customer AWS account
+    /// * Customer Amazon Web Services account
     ///
-    /// * AWS Region
+    /// * Amazon Web Services Region
     ///
     /// * Data provider specified in the place index resource
     func getPlace(input: GetPlaceInput) async throws -> GetPlaceOutputResponse
     /// A batch request to retrieve all device positions.
     func listDevicePositions(input: ListDevicePositionsInput) async throws -> ListDevicePositionsOutputResponse
-    /// Lists geofence collections in your AWS account.
+    /// Lists geofence collections in your Amazon Web Services account.
     func listGeofenceCollections(input: ListGeofenceCollectionsInput) async throws -> ListGeofenceCollectionsOutputResponse
     /// Lists geofences stored in a given geofence collection.
     func listGeofences(input: ListGeofencesInput) async throws -> ListGeofencesOutputResponse
-    /// Lists map resources in your AWS account.
+    /// Lists API key resources in your Amazon Web Services account. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
+    /// Lists map resources in your Amazon Web Services account.
     func listMaps(input: ListMapsInput) async throws -> ListMapsOutputResponse
-    /// Lists place index resources in your AWS account.
+    /// Lists place index resources in your Amazon Web Services account.
     func listPlaceIndexes(input: ListPlaceIndexesInput) async throws -> ListPlaceIndexesOutputResponse
-    /// Lists route calculator resources in your AWS account.
+    /// Lists route calculator resources in your Amazon Web Services account.
     func listRouteCalculators(input: ListRouteCalculatorsInput) async throws -> ListRouteCalculatorsOutputResponse
     /// Returns a list of tags that are applied to the specified Amazon Location resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists geofence collections currently associated to the given tracker resource.
     func listTrackerConsumers(input: ListTrackerConsumersInput) async throws -> ListTrackerConsumersOutputResponse
-    /// Lists tracker resources in your AWS account.
+    /// Lists tracker resources in your Amazon Web Services account.
     func listTrackers(input: ListTrackersInput) async throws -> ListTrackersOutputResponse
     /// Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
     func putGeofence(input: PutGeofenceInput) async throws -> PutGeofenceOutputResponse
@@ -124,6 +132,8 @@ public protocol LocationClientProtocol {
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the specified properties of a given geofence collection.
     func updateGeofenceCollection(input: UpdateGeofenceCollectionInput) async throws -> UpdateGeofenceCollectionOutputResponse
+    /// Updates the specified properties of a given API key resource. The API keys feature is in preview. We may add, change, or remove features before announcing general availability. For more information, see [Using API keys](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html).
+    func updateKey(input: UpdateKeyInput) async throws -> UpdateKeyOutputResponse
     /// Updates the specified properties of a given map resource.
     func updateMap(input: UpdateMapInput) async throws -> UpdateMapOutputResponse
     /// Updates the specified properties of a given place index resource.

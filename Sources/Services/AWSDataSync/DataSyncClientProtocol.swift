@@ -25,9 +25,9 @@ public protocol DataSyncClientProtocol {
     func createLocationNfs(input: CreateLocationNfsInput) async throws -> CreateLocationNfsOutputResponse
     /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
     func createLocationObjectStorage(input: CreateLocationObjectStorageInput) async throws -> CreateLocationObjectStorageOutputResponse
-    /// Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For more information, see [Create an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli) in the DataSync User Guide.
+    /// Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For more information, see [Create an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli).
     func createLocationS3(input: CreateLocationS3Input) async throws -> CreateLocationS3OutputResponse
-    /// Defines a file system on a Server Message Block (SMB) server that can be read from or written to.
+    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can access for a transfer. For more information, see [Creating an SMB location](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
     func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
     /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options).
     func createTask(input: CreateTaskInput) async throws -> CreateTaskOutputResponse
@@ -37,7 +37,7 @@ public protocol DataSyncClientProtocol {
     func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutputResponse
     /// Deletes an DataSync task.
     func deleteTask(input: DeleteTaskInput) async throws -> DeleteTaskOutputResponse
-    /// Returns metadata such as the name, the network interfaces, and the status (that is, whether the agent is running or not) for an agent. To specify which agent to describe, use the Amazon Resource Name (ARN) of the agent in your request.
+    /// Returns metadata about an DataSync agent, such as its name, endpoint type, and status.
     func describeAgent(input: DescribeAgentInput) async throws -> DescribeAgentOutputResponse
     /// Returns metadata about your DataSync location for an Amazon EFS file system.
     func describeLocationEfs(input: DescribeLocationEfsInput) async throws -> DescribeLocationEfsOutputResponse
@@ -63,7 +63,7 @@ public protocol DataSyncClientProtocol {
     func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutputResponse
     /// Returns detailed metadata about a task that is being executed.
     func describeTaskExecution(input: DescribeTaskExecutionInput) async throws -> DescribeTaskExecutionOutputResponse
-    /// Returns a list of agents owned by an Amazon Web Services account in the Amazon Web Services Region specified in the request. The returned list is ordered by agent Amazon Resource Name (ARN). By default, this operation returns a maximum of 100 agents. This operation supports pagination that enables you to optionally reduce the number of agents returned in a response. If you have more agents than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a marker that you can specify in your next request to fetch the next page of agents.
+    /// Returns a list of DataSync agents that belong to an Amazon Web Services account in the Amazon Web Services Region specified in the request. With pagination, you can reduce the number of agents returned in a response. If you get a truncated list of agents in a response, the response contains a marker that you can specify in your next request to fetch the next page of agents. ListAgents is eventually consistent. This means the result of running the operation might not reflect that you just created or deleted an agent. For example, if you create an agent with [CreateAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateAgent.html) and then immediately run ListAgents, that agent might not show up in the list right away. In situations like this, you can always confirm whether an agent has been created (or deleted) by using [DescribeAgent](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeAgent.html).
     func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutputResponse
     /// Returns a list of source and destination locations. If you have more locations than are returned in a response (that is, the response returns only a truncated list of your agents), the response contains a token that you can specify in your next request to fetch the next page of locations.
     func listLocations(input: ListLocationsInput) async throws -> ListLocationsOutputResponse

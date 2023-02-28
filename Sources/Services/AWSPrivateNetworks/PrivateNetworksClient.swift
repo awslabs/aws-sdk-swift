@@ -915,6 +915,41 @@ extension PrivateNetworksClient: PrivateNetworksClientProtocol {
         return result
     }
 
+    /// Starts an update of the specified network resource. After you submit a request to replace or return a network resource, the status of the network resource is CREATING_SHIPPING_LABEL. The shipping label is available when the status of the network resource is PENDING_RETURN. After the network resource is successfully returned, its status is DELETED. For more information, see [Return a radio unit](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html#return-radio-unit).
+    public func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startNetworkResourceUpdate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "private-networks")
+                      .withSigningRegion(value: config.signingRegion)
+        var operation = ClientRuntime.OperationStack<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(id: "startNetworkResourceUpdate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartNetworkResourceUpdateInput, StartNetworkResourceUpdateOutputResponse>(xmlName: "StartNetworkResourceUpdateRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryerMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(retryer: config.retryer))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .before, middleware: ClientRuntime.LoggerMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>(clientLogMode: config.clientLogMode))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartNetworkResourceUpdateOutputResponse, StartNetworkResourceUpdateOutputError>())
+        let result = try await operation.handleMiddleware(context: context.build(), input: input, next: client.getHandler())
+        return result
+    }
+
     /// Adds tags to the specified resource.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {

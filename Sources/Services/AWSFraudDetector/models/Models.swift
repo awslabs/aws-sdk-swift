@@ -389,6 +389,92 @@ extension FraudDetectorClientTypes {
 
 }
 
+extension FraudDetectorClientTypes.AllowDenyList: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case createdTime
+        case description
+        case name
+        case updatedTime
+        case variableType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encode(createdTime, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updatedTime = self.updatedTime {
+            try encodeContainer.encode(updatedTime, forKey: .updatedTime)
+        }
+        if let variableType = self.variableType {
+            try encodeContainer.encode(variableType, forKey: .variableType)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let variableTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .variableType)
+        variableType = variableTypeDecoded
+        let createdTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let updatedTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedTime)
+        updatedTime = updatedTimeDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension FraudDetectorClientTypes {
+    /// The metadata of a list.
+    public struct AllowDenyList: Swift.Equatable {
+        /// The ARN of the list.
+        public var arn: Swift.String?
+        /// The time the list was created.
+        public var createdTime: Swift.String?
+        /// The description of the list.
+        public var description: Swift.String?
+        /// The name of the list.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The time the list was last updated.
+        public var updatedTime: Swift.String?
+        /// The variable type of the list.
+        public var variableType: Swift.String?
+
+        public init (
+            arn: Swift.String? = nil,
+            createdTime: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            updatedTime: Swift.String? = nil,
+            variableType: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.name = name
+            self.updatedTime = updatedTime
+            self.variableType = variableType
+        }
+    }
+
+}
+
 extension FraudDetectorClientTypes {
     public enum AsyncJobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case canceled
@@ -2032,6 +2118,164 @@ extension CreateDetectorVersionOutputResponseBody: Swift.Decodable {
         let statusDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.DetectorVersionStatus.self, forKey: .status)
         status = statusDecoded
     }
+}
+
+extension CreateListInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case elements
+        case name
+        case tags
+        case variableType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let elements = elements {
+            var elementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elements)
+            for elements0 in elements {
+                try elementsContainer.encode(elements0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let variableType = self.variableType {
+            try encodeContainer.encode(variableType, forKey: .variableType)
+        }
+    }
+}
+
+extension CreateListInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateListInput: Swift.Equatable {
+    /// The description of the list.
+    public var description: Swift.String?
+    /// The names of the elements, if providing. You can also create an empty list and add elements later using the [UpdateList](https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html) API.
+    public var elements: [Swift.String]?
+    /// The name of the list.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A collection of the key and value pairs.
+    public var tags: [FraudDetectorClientTypes.Tag]?
+    /// The variable type of the list. You can only assign the variable type with String data type. For more information, see [Variable types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types).
+    public var variableType: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        elements: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        tags: [FraudDetectorClientTypes.Tag]? = nil,
+        variableType: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.elements = elements
+        self.name = name
+        self.tags = tags
+        self.variableType = variableType
+    }
+}
+
+struct CreateListInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let elements: [Swift.String]?
+    let variableType: Swift.String?
+    let description: Swift.String?
+    let tags: [FraudDetectorClientTypes.Tag]?
+}
+
+extension CreateListInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case elements
+        case name
+        case tags
+        case variableType
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let elementsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .elements)
+        var elementsDecoded0:[Swift.String]? = nil
+        if let elementsContainer = elementsContainer {
+            elementsDecoded0 = [Swift.String]()
+            for string0 in elementsContainer {
+                if let string0 = string0 {
+                    elementsDecoded0?.append(string0)
+                }
+            }
+        }
+        elements = elementsDecoded0
+        let variableTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .variableType)
+        variableType = variableTypeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([FraudDetectorClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[FraudDetectorClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [FraudDetectorClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateListOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateListOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateListOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateListOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct CreateListOutputResponse: Swift.Equatable {
+
+    public init () { }
 }
 
 extension CreateModelInput: Swift.Encodable {
@@ -3906,6 +4150,94 @@ extension DeleteLabelOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteLabelOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteListInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension DeleteListInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteListInput: Swift.Equatable {
+    /// The name of the list to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init (
+        name: Swift.String? = nil
+    )
+    {
+        self.name = name
+    }
+}
+
+struct DeleteListInputBody: Swift.Equatable {
+    let name: Swift.String?
+}
+
+extension DeleteListInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension DeleteListOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteListOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteListOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteListOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteListOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -8644,6 +8976,329 @@ extension GetLabelsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetListElementsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case name
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension GetListElementsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetListElementsInput: Swift.Equatable {
+    /// The maximum number of objects to return for the request.
+    public var maxResults: Swift.Int?
+    /// The name of the list.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The next token for the subsequent request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+    }
+}
+
+struct GetListElementsInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension GetListElementsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case name
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension GetListElementsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetListElementsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetListElementsOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetListElementsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetListElementsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.elements = output.elements
+            self.nextToken = output.nextToken
+        } else {
+            self.elements = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetListElementsOutputResponse: Swift.Equatable {
+    /// The list elements.
+    public var elements: [Swift.String]?
+    /// The next page token.
+    public var nextToken: Swift.String?
+
+    public init (
+        elements: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.elements = elements
+        self.nextToken = nextToken
+    }
+}
+
+struct GetListElementsOutputResponseBody: Swift.Equatable {
+    let elements: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension GetListElementsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case elements
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let elementsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .elements)
+        var elementsDecoded0:[Swift.String]? = nil
+        if let elementsContainer = elementsContainer {
+            elementsDecoded0 = [Swift.String]()
+            for string0 in elementsContainer {
+                if let string0 = string0 {
+                    elementsDecoded0?.append(string0)
+                }
+            }
+        }
+        elements = elementsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension GetListsMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case name
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension GetListsMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetListsMetadataInput: Swift.Equatable {
+    /// The maximum number of objects to return for the request.
+    public var maxResults: Swift.Int?
+    /// The name of the list.
+    public var name: Swift.String?
+    /// The next token for the subsequent request.
+    public var nextToken: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+    }
+}
+
+struct GetListsMetadataInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension GetListsMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case name
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension GetListsMetadataOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension GetListsMetadataOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum GetListsMetadataOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension GetListsMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: GetListsMetadataOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.lists = output.lists
+            self.nextToken = output.nextToken
+        } else {
+            self.lists = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetListsMetadataOutputResponse: Swift.Equatable {
+    /// The metadata of the specified list or all lists under the account.
+    public var lists: [FraudDetectorClientTypes.AllowDenyList]?
+    /// The next page token.
+    public var nextToken: Swift.String?
+
+    public init (
+        lists: [FraudDetectorClientTypes.AllowDenyList]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.lists = lists
+        self.nextToken = nextToken
+    }
+}
+
+struct GetListsMetadataOutputResponseBody: Swift.Equatable {
+    let lists: [FraudDetectorClientTypes.AllowDenyList]?
+    let nextToken: Swift.String?
+}
+
+extension GetListsMetadataOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lists
+        case nextToken
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listsContainer = try containerValues.decodeIfPresent([FraudDetectorClientTypes.AllowDenyList?].self, forKey: .lists)
+        var listsDecoded0:[FraudDetectorClientTypes.AllowDenyList]? = nil
+        if let listsContainer = listsContainer {
+            listsDecoded0 = [FraudDetectorClientTypes.AllowDenyList]()
+            for structure0 in listsContainer {
+                if let structure0 = structure0 {
+                    listsDecoded0?.append(structure0)
+                }
+            }
+        }
+        lists = listsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension GetModelVersionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modelId
@@ -10360,6 +11015,41 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension FraudDetectorClientTypes {
+    public enum ListUpdateMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case append
+        case remove
+        case replace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListUpdateMode] {
+            return [
+                .append,
+                .remove,
+                .replace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .append: return "APPEND"
+            case .remove: return "REMOVE"
+            case .replace: return "REPLACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListUpdateMode(rawValue: rawValue) ?? ListUpdateMode.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -14692,6 +15382,162 @@ extension UpdateEventLabelOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateEventLabelOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension UpdateListInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case elements
+        case name
+        case updateMode
+        case variableType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let elements = elements {
+            var elementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .elements)
+            for elements0 in elements {
+                try elementsContainer.encode(elements0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let updateMode = self.updateMode {
+            try encodeContainer.encode(updateMode.rawValue, forKey: .updateMode)
+        }
+        if let variableType = self.variableType {
+            try encodeContainer.encode(variableType, forKey: .variableType)
+        }
+    }
+}
+
+extension UpdateListInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateListInput: Swift.Equatable {
+    /// The new description.
+    public var description: Swift.String?
+    /// One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use. If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements).
+    public var elements: [Swift.String]?
+    /// The name of the list to update.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The update mode (type).
+    ///
+    /// * Use APPEND if you are adding elements to the list.
+    ///
+    /// * Use REPLACE if you replacing existing elements in the list.
+    ///
+    /// * Use REMOVE if you are removing elements from the list.
+    public var updateMode: FraudDetectorClientTypes.ListUpdateMode?
+    /// The variable type you want to assign to the list. You cannot update a variable type of a list that already has a variable type assigned to it. You can assign a variable type to a list only if the list does not already have a variable type.
+    public var variableType: Swift.String?
+
+    public init (
+        description: Swift.String? = nil,
+        elements: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        updateMode: FraudDetectorClientTypes.ListUpdateMode? = nil,
+        variableType: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.elements = elements
+        self.name = name
+        self.updateMode = updateMode
+        self.variableType = variableType
+    }
+}
+
+struct UpdateListInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let elements: [Swift.String]?
+    let description: Swift.String?
+    let updateMode: FraudDetectorClientTypes.ListUpdateMode?
+    let variableType: Swift.String?
+}
+
+extension UpdateListInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case elements
+        case name
+        case updateMode
+        case variableType
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let elementsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .elements)
+        var elementsDecoded0:[Swift.String]? = nil
+        if let elementsContainer = elementsContainer {
+            elementsDecoded0 = [Swift.String]()
+            for string0 in elementsContainer {
+                if let string0 = string0 {
+                    elementsDecoded0?.append(string0)
+                }
+            }
+        }
+        elements = elementsDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let updateModeDecoded = try containerValues.decodeIfPresent(FraudDetectorClientTypes.ListUpdateMode.self, forKey: .updateMode)
+        updateMode = updateModeDecoded
+        let variableTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .variableType)
+        variableType = variableTypeDecoded
+    }
+}
+
+extension UpdateListOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateListOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateListOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateListOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct UpdateListOutputResponse: Swift.Equatable {
 
     public init () { }
 }

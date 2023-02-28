@@ -3,15 +3,19 @@
 import AWSClientRuntime
 import ClientRuntime
 
-/// Welcome to the Amazon Connect Cases API Reference. This guide provides information about the Amazon Connect Cases API, which you can use to create, update, get, and list Cases domains, fields, field options, layouts, templates, cases, related items, and tags. For more information about Amazon Connect Cases, see [Amazon Connect Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) in the Amazon Connect Administrator Guide.
+/// With Amazon Connect Cases, your agents can track and manage customer issues that require multiple interactions, follow-up tasks, and teams in your contact center. A case represents a customer issue. It records the issue, the steps and interactions taken to resolve the issue, and the outcome. For more information, see [Amazon Connect Cases](https://docs.aws.amazon.com/connect/latest/adminguide/cases.html) in the Amazon Connect Administrator Guide.
 public protocol ConnectCasesClientProtocol {
     /// Returns the description for the list of fields in the request parameters.
     func batchGetField(input: BatchGetFieldInput) async throws -> BatchGetFieldOutputResponse
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutputResponse
-    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. customer_id is a required field when creating a case.
+    /// Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:
+    ///
+    /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID
+    ///
+    /// * title
     func createCase(input: CreateCaseInput) async throws -> CreateCaseOutputResponse
-    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API.
+    /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     func createField(input: CreateFieldInput) async throws -> CreateFieldOutputResponse
@@ -28,6 +32,8 @@ public protocol ConnectCasesClientProtocol {
     func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutputResponse
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
     func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
+    /// Deletes a domain.
+    func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     /// Returns information about a specific case if it exists.
     func getCase(input: GetCaseInput) async throws -> GetCaseOutputResponse
     /// Returns the case event publishing configuration.
@@ -54,7 +60,7 @@ public protocol ConnectCasesClientProtocol {
     func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     /// API for adding case event publishing configuration
     func putCaseEventConfiguration(input: PutCaseEventConfigurationInput) async throws -> PutCaseEventConfigurationOutputResponse
-    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents.
+    /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     func searchCases(input: SearchCasesInput) async throws -> SearchCasesOutputResponse
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
     func searchRelatedItems(input: SearchRelatedItemsInput) async throws -> SearchRelatedItemsOutputResponse
