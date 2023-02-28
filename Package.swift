@@ -1072,6 +1072,6 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.13.0"))
     ]
 }
