@@ -1358,7 +1358,7 @@ extension DevOpsGuruClientTypes {
     public struct CostEstimationResourceCollectionFilter: Swift.Equatable {
         /// An object that specifies the CloudFormation stack that defines the Amazon Web Services resources used to create a monthly estimate for DevOps Guru.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCostEstimationResourceCollectionFilter?
-        /// The Amazon Web Services tags used to filter the resource collection that is used for a cost estimate. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+        /// The Amazon Web Services tags used to filter the resource collection that is used for a cost estimate. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
         ///
         /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
         ///
@@ -2865,7 +2865,7 @@ public struct DescribeOrganizationResourceCollectionHealthOutputResponse: Swift.
     public var nextToken: Swift.String?
     /// An array of ServiceHealth objects that describes the health of the Amazon Web Services services associated with the resources in the collection.
     public var service: [DevOpsGuruClientTypes.ServiceHealth]?
-    /// Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+    /// Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
     ///
     /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
     ///
@@ -3061,7 +3061,7 @@ public struct DescribeResourceCollectionHealthOutputResponse: Swift.Equatable {
     public var nextToken: Swift.String?
     /// An array of ServiceHealth objects that describes the health of the Amazon Web Services services associated with the resources in the collection.
     public var service: [DevOpsGuruClientTypes.ServiceHealth]?
-    /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+    /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
     ///
     /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
     ///
@@ -7407,6 +7407,7 @@ extension DevOpsGuruClientTypes.ProactiveAnomaly: Swift.Codable {
         case anomalyResources = "AnomalyResources"
         case anomalyTimeRange = "AnomalyTimeRange"
         case associatedInsightId = "AssociatedInsightId"
+        case description = "Description"
         case id = "Id"
         case limit = "Limit"
         case predictionTimeRange = "PredictionTimeRange"
@@ -7434,6 +7435,9 @@ extension DevOpsGuruClientTypes.ProactiveAnomaly: Swift.Codable {
         }
         if let associatedInsightId = self.associatedInsightId {
             try encodeContainer.encode(associatedInsightId, forKey: .associatedInsightId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -7501,6 +7505,8 @@ extension DevOpsGuruClientTypes.ProactiveAnomaly: Swift.Codable {
             }
         }
         anomalyResources = anomalyResourcesDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
@@ -7515,6 +7521,8 @@ extension DevOpsGuruClientTypes {
         public var anomalyTimeRange: DevOpsGuruClientTypes.AnomalyTimeRange?
         /// The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public var associatedInsightId: Swift.String?
+        /// A description of the proactive anomaly.
+        public var description: Swift.String?
         /// The ID of a proactive anomaly.
         public var id: Swift.String?
         /// A threshold that was exceeded by behavior in analyzed resources. Exceeding this threshold is related to the anomalous behavior that generated this anomaly.
@@ -7539,6 +7547,7 @@ extension DevOpsGuruClientTypes {
             anomalyResources: [DevOpsGuruClientTypes.AnomalyResource]? = nil,
             anomalyTimeRange: DevOpsGuruClientTypes.AnomalyTimeRange? = nil,
             associatedInsightId: Swift.String? = nil,
+            description: Swift.String? = nil,
             id: Swift.String? = nil,
             limit: Swift.Double? = nil,
             predictionTimeRange: DevOpsGuruClientTypes.PredictionTimeRange? = nil,
@@ -7554,6 +7563,7 @@ extension DevOpsGuruClientTypes {
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.description = description
             self.id = id
             self.limit = limit
             self.predictionTimeRange = predictionTimeRange
@@ -7574,6 +7584,7 @@ extension DevOpsGuruClientTypes.ProactiveAnomalySummary: Swift.Codable {
         case anomalyResources = "AnomalyResources"
         case anomalyTimeRange = "AnomalyTimeRange"
         case associatedInsightId = "AssociatedInsightId"
+        case description = "Description"
         case id = "Id"
         case limit = "Limit"
         case predictionTimeRange = "PredictionTimeRange"
@@ -7601,6 +7612,9 @@ extension DevOpsGuruClientTypes.ProactiveAnomalySummary: Swift.Codable {
         }
         if let associatedInsightId = self.associatedInsightId {
             try encodeContainer.encode(associatedInsightId, forKey: .associatedInsightId)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -7668,6 +7682,8 @@ extension DevOpsGuruClientTypes.ProactiveAnomalySummary: Swift.Codable {
             }
         }
         anomalyResources = anomalyResourcesDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
@@ -7682,6 +7698,8 @@ extension DevOpsGuruClientTypes {
         public var anomalyTimeRange: DevOpsGuruClientTypes.AnomalyTimeRange?
         /// The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public var associatedInsightId: Swift.String?
+        /// A description of the proactive anomaly.
+        public var description: Swift.String?
         /// The ID of the anomaly.
         public var id: Swift.String?
         /// A threshold that was exceeded by behavior in analyzed resources. Exceeding this threshold is related to the anomalous behavior that generated this anomaly.
@@ -7706,6 +7724,7 @@ extension DevOpsGuruClientTypes {
             anomalyResources: [DevOpsGuruClientTypes.AnomalyResource]? = nil,
             anomalyTimeRange: DevOpsGuruClientTypes.AnomalyTimeRange? = nil,
             associatedInsightId: Swift.String? = nil,
+            description: Swift.String? = nil,
             id: Swift.String? = nil,
             limit: Swift.Double? = nil,
             predictionTimeRange: DevOpsGuruClientTypes.PredictionTimeRange? = nil,
@@ -7721,6 +7740,7 @@ extension DevOpsGuruClientTypes {
             self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.description = description
             self.id = id
             self.limit = limit
             self.predictionTimeRange = predictionTimeRange
@@ -9422,7 +9442,7 @@ extension DevOpsGuruClientTypes {
     public struct ResourceCollection: Swift.Equatable {
         /// An array of the names of Amazon Web Services CloudFormation stacks. The stacks define Amazon Web Services resources that DevOps Guru analyzes. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCollection?
-        /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+        /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
         ///
         /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
         ///
@@ -9486,7 +9506,7 @@ extension DevOpsGuruClientTypes {
     public struct ResourceCollectionFilter: Swift.Equatable {
         /// Information about Amazon Web Services CloudFormation stacks. You can use up to 500 stacks to specify which Amazon Web Services resources in your account to analyze. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCollectionFilter?
-        /// The Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+        /// The Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
         ///
         /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
         ///
@@ -9819,7 +9839,7 @@ extension DevOpsGuruClientTypes.SearchInsightsFilters: Swift.Codable {
 }
 
 extension DevOpsGuruClientTypes {
-    /// Specifies one or more severity values and one or more status values that are used to search for insights.
+    /// Specifies values used to filter responses when searching for insights. You can use a ResourceCollection, ServiceCollection, array of severities, and an array of status values. Each filter type contains one or more values to search for. If you specify multiple filter types, the filter types are joined with an AND, and the request returns only results that match all of the specified filters.
     public struct SearchInsightsFilters: Swift.Equatable {
         /// A collection of Amazon Web Services resources supported by DevOps Guru. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var resourceCollection: DevOpsGuruClientTypes.ResourceCollection?
@@ -11008,7 +11028,7 @@ extension DevOpsGuruClientTypes.TagCollection: Swift.Codable {
 }
 
 extension DevOpsGuruClientTypes {
-    /// A collection of Amazon Web Services tags. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+    /// A collection of Amazon Web Services tags. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
     ///
     /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
     ///
@@ -11552,7 +11572,7 @@ extension DevOpsGuruClientTypes {
     public struct UpdateResourceCollectionFilter: Swift.Equatable {
         /// A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var cloudFormation: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter?
-        /// The updated Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf) whitepaper. Each Amazon Web Services tag has two parts.
+        /// The updated Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
         ///
         /// * A tag key (for example, CostCenter, Environment, Project, or Secret). Tag keys are case-sensitive.
         ///

@@ -173,6 +173,7 @@ let package = Package(
         .library(name: "AWSImagebuilder", targets: ["AWSImagebuilder"]),
         .library(name: "AWSInspector", targets: ["AWSInspector"]),
         .library(name: "AWSInspector2", targets: ["AWSInspector2"]),
+        .library(name: "AWSInternetMonitor", targets: ["AWSInternetMonitor"]),
         .library(name: "AWSIoT", targets: ["AWSIoT"]),
         .library(name: "AWSIoT1ClickDevicesService", targets: ["AWSIoT1ClickDevicesService"]),
         .library(name: "AWSIoT1ClickProjects", targets: ["AWSIoT1ClickProjects"]),
@@ -346,6 +347,7 @@ let package = Package(
         .library(name: "AWSTextract", targets: ["AWSTextract"]),
         .library(name: "AWSTimestreamQuery", targets: ["AWSTimestreamQuery"]),
         .library(name: "AWSTimestreamWrite", targets: ["AWSTimestreamWrite"]),
+        .library(name: "AWSTnb", targets: ["AWSTnb"]),
         .library(name: "AWSTranscribe", targets: ["AWSTranscribe"]),
         .library(name: "AWSTranscribeStreaming", targets: ["AWSTranscribeStreaming"]),
         .library(name: "AWSTransfer", targets: ["AWSTransfer"]),
@@ -523,6 +525,7 @@ let package = Package(
         .target(name: "AWSImagebuilder", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSImagebuilder"),
         .target(name: "AWSInspector", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSInspector"),
         .target(name: "AWSInspector2", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSInspector2"),
+        .target(name: "AWSInternetMonitor", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSInternetMonitor"),
         .target(name: "AWSIoT", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIoT"),
         .target(name: "AWSIoT1ClickDevicesService", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIoT1ClickDevicesService"),
         .target(name: "AWSIoT1ClickProjects", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSIoT1ClickProjects"),
@@ -696,6 +699,7 @@ let package = Package(
         .target(name: "AWSTextract", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTextract"),
         .target(name: "AWSTimestreamQuery", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTimestreamQuery"),
         .target(name: "AWSTimestreamWrite", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTimestreamWrite"),
+        .target(name: "AWSTnb", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTnb"),
         .target(name: "AWSTranscribe", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTranscribe"),
         .target(name: "AWSTranscribeStreaming", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTranscribeStreaming"),
         .target(name: "AWSTransfer", dependencies: [clientRuntime, "AWSClientRuntime"], path: "./Sources/Services/AWSTransfer"),
@@ -863,6 +867,7 @@ let package = Package(
         .testTarget(name: "AWSImagebuilderTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSImagebuilder", smithyTestUtil], path: "./Tests/Services/AWSImagebuilderTests"),
         .testTarget(name: "AWSInspectorTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSInspector", smithyTestUtil], path: "./Tests/Services/AWSInspectorTests"),
         .testTarget(name: "AWSInspector2Tests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSInspector2", smithyTestUtil], path: "./Tests/Services/AWSInspector2Tests"),
+        .testTarget(name: "AWSInternetMonitorTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSInternetMonitor", smithyTestUtil], path: "./Tests/Services/AWSInternetMonitorTests"),
         .testTarget(name: "AWSIoTTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIoT", smithyTestUtil], path: "./Tests/Services/AWSIoTTests"),
         .testTarget(name: "AWSIoT1ClickDevicesServiceTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIoT1ClickDevicesService", smithyTestUtil], path: "./Tests/Services/AWSIoT1ClickDevicesServiceTests"),
         .testTarget(name: "AWSIoT1ClickProjectsTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSIoT1ClickProjects", smithyTestUtil], path: "./Tests/Services/AWSIoT1ClickProjectsTests"),
@@ -1036,6 +1041,7 @@ let package = Package(
         .testTarget(name: "AWSTextractTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTextract", smithyTestUtil], path: "./Tests/Services/AWSTextractTests"),
         .testTarget(name: "AWSTimestreamQueryTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTimestreamQuery", smithyTestUtil], path: "./Tests/Services/AWSTimestreamQueryTests"),
         .testTarget(name: "AWSTimestreamWriteTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTimestreamWrite", smithyTestUtil], path: "./Tests/Services/AWSTimestreamWriteTests"),
+        .testTarget(name: "AWSTnbTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTnb", smithyTestUtil], path: "./Tests/Services/AWSTnbTests"),
         .testTarget(name: "AWSTranscribeTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTranscribe", smithyTestUtil], path: "./Tests/Services/AWSTranscribeTests"),
         .testTarget(name: "AWSTranscribeStreamingTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTranscribeStreaming", smithyTestUtil], path: "./Tests/Services/AWSTranscribeStreamingTests"),
         .testTarget(name: "AWSTransferTests", dependencies: [awsCommonRuntimeKit, clientRuntime, "AWSClientRuntime", "AWSTransfer", smithyTestUtil], path: "./Tests/Services/AWSTransferTests"),
@@ -1072,6 +1078,6 @@ case (false, true):
     ]
 case (false, false):
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0"))
+        .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.13.0"))
     ]
 }

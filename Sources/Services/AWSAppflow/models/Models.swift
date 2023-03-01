@@ -4109,7 +4109,7 @@ extension DeleteConnectorProfileInput: Swift.Encodable {
         if let connectorProfileName = self.connectorProfileName {
             try encodeContainer.encode(connectorProfileName, forKey: .connectorProfileName)
         }
-        if forceDelete != false {
+        if let forceDelete = self.forceDelete {
             try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
     }
@@ -4126,11 +4126,11 @@ public struct DeleteConnectorProfileInput: Swift.Equatable {
     /// This member is required.
     public var connectorProfileName: Swift.String?
     /// Indicates whether Amazon AppFlow should delete the profile, even if it is currently in use in one or more flows.
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init (
         connectorProfileName: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.connectorProfileName = connectorProfileName
@@ -4140,7 +4140,7 @@ public struct DeleteConnectorProfileInput: Swift.Equatable {
 
 struct DeleteConnectorProfileInputBody: Swift.Equatable {
     let connectorProfileName: Swift.String?
-    let forceDelete: Swift.Bool
+    let forceDelete: Swift.Bool?
 }
 
 extension DeleteConnectorProfileInputBody: Swift.Decodable {
@@ -4153,7 +4153,7 @@ extension DeleteConnectorProfileInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorProfileName)
         connectorProfileName = connectorProfileNameDecoded
-        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete) ?? false
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
         forceDelete = forceDeleteDecoded
     }
 }
@@ -4205,7 +4205,7 @@ extension DeleteFlowInput: Swift.Encodable {
         if let flowName = self.flowName {
             try encodeContainer.encode(flowName, forKey: .flowName)
         }
-        if forceDelete != false {
+        if let forceDelete = self.forceDelete {
             try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
     }
@@ -4222,11 +4222,11 @@ public struct DeleteFlowInput: Swift.Equatable {
     /// This member is required.
     public var flowName: Swift.String?
     /// Indicates whether Amazon AppFlow should delete the flow, even if it is currently in use.
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init (
         flowName: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.flowName = flowName
@@ -4236,7 +4236,7 @@ public struct DeleteFlowInput: Swift.Equatable {
 
 struct DeleteFlowInputBody: Swift.Equatable {
     let flowName: Swift.String?
-    let forceDelete: Swift.Bool
+    let forceDelete: Swift.Bool?
 }
 
 extension DeleteFlowInputBody: Swift.Decodable {
@@ -4249,7 +4249,7 @@ extension DeleteFlowInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let flowNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowName)
         flowName = flowNameDecoded
-        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete) ?? false
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
         forceDelete = forceDeleteDecoded
     }
 }
@@ -11489,6 +11489,7 @@ extension AppflowClientTypes.SalesforceConnectorProfileProperties: Swift.Codable
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceUrl
         case isSandboxEnvironment
+        case usePrivateLinkForMetadataAndAuthorization
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11499,6 +11500,9 @@ extension AppflowClientTypes.SalesforceConnectorProfileProperties: Swift.Codable
         if isSandboxEnvironment != false {
             try encodeContainer.encode(isSandboxEnvironment, forKey: .isSandboxEnvironment)
         }
+        if usePrivateLinkForMetadataAndAuthorization != false {
+            try encodeContainer.encode(usePrivateLinkForMetadataAndAuthorization, forKey: .usePrivateLinkForMetadataAndAuthorization)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -11507,6 +11511,8 @@ extension AppflowClientTypes.SalesforceConnectorProfileProperties: Swift.Codable
         instanceUrl = instanceUrlDecoded
         let isSandboxEnvironmentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSandboxEnvironment) ?? false
         isSandboxEnvironment = isSandboxEnvironmentDecoded
+        let usePrivateLinkForMetadataAndAuthorizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .usePrivateLinkForMetadataAndAuthorization) ?? false
+        usePrivateLinkForMetadataAndAuthorization = usePrivateLinkForMetadataAndAuthorizationDecoded
     }
 }
 
@@ -11517,14 +11523,36 @@ extension AppflowClientTypes {
         public var instanceUrl: Swift.String?
         /// Indicates whether the connector profile applies to a sandbox or production environment.
         public var isSandboxEnvironment: Swift.Bool
+        /// If the connection mode for the connector profile is private, this parameter sets whether Amazon AppFlow uses the private network to send metadata and authorization calls to Salesforce. Amazon AppFlow sends private calls through Amazon Web Services PrivateLink. These calls travel through Amazon Web Services infrastructure without being exposed to the public internet. Set either of the following values: true Amazon AppFlow sends all calls to Salesforce over the private network. These private calls are:
+        ///
+        /// * Calls to get metadata about your Salesforce records. This metadata describes your Salesforce objects and their fields.
+        ///
+        /// * Calls to get or refresh access tokens that allow Amazon AppFlow to access your Salesforce records.
+        ///
+        /// * Calls to transfer your Salesforce records as part of a flow run.
+        ///
+        ///
+        /// false The default value. Amazon AppFlow sends some calls to Salesforce privately and other calls over the public internet. The public calls are:
+        ///
+        /// * Calls to get metadata about your Salesforce records.
+        ///
+        /// * Calls to get or refresh access tokens.
+        ///
+        ///
+        /// The private calls are:
+        ///
+        /// * Calls to transfer your Salesforce records as part of a flow run.
+        public var usePrivateLinkForMetadataAndAuthorization: Swift.Bool
 
         public init (
             instanceUrl: Swift.String? = nil,
-            isSandboxEnvironment: Swift.Bool = false
+            isSandboxEnvironment: Swift.Bool = false,
+            usePrivateLinkForMetadataAndAuthorization: Swift.Bool = false
         )
         {
             self.instanceUrl = instanceUrl
             self.isSandboxEnvironment = isSandboxEnvironment
+            self.usePrivateLinkForMetadataAndAuthorization = usePrivateLinkForMetadataAndAuthorization
         }
     }
 
@@ -14243,7 +14271,7 @@ extension UnregisterConnectorInput: Swift.Encodable {
         if let connectorLabel = self.connectorLabel {
             try encodeContainer.encode(connectorLabel, forKey: .connectorLabel)
         }
-        if forceDelete != false {
+        if let forceDelete = self.forceDelete {
             try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
     }
@@ -14260,11 +14288,11 @@ public struct UnregisterConnectorInput: Swift.Equatable {
     /// This member is required.
     public var connectorLabel: Swift.String?
     /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init (
         connectorLabel: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.connectorLabel = connectorLabel
@@ -14274,7 +14302,7 @@ public struct UnregisterConnectorInput: Swift.Equatable {
 
 struct UnregisterConnectorInputBody: Swift.Equatable {
     let connectorLabel: Swift.String?
-    let forceDelete: Swift.Bool
+    let forceDelete: Swift.Bool?
 }
 
 extension UnregisterConnectorInputBody: Swift.Decodable {
@@ -14287,7 +14315,7 @@ extension UnregisterConnectorInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectorLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorLabel)
         connectorLabel = connectorLabelDecoded
-        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete) ?? false
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
         forceDelete = forceDeleteDecoded
     }
 }

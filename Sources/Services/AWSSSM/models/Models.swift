@@ -389,7 +389,7 @@ extension SSMClientTypes {
         /// The name of the CloudWatch alarm specified in the configuration.
         /// This member is required.
         public var alarms: [SSMClientTypes.Alarm]?
-        /// If you specify true for this value, your automation or command continue to run even if we can't gather information about the state of your CloudWatch alarm. The default value is false.
+        /// When this value is true, your automation or command continues to run in cases where we can’t retrieve alarm status information from CloudWatch. In cases where we successfully retrieve an alarm status of OK or INSUFFICIENT_DATA, the automation or command continues to run, regardless of this value. Default is false.
         public var ignorePollAlarmFailure: Swift.Bool
 
         public init (
@@ -7251,7 +7251,7 @@ extension CreateAssociationInput: Swift.Encodable {
         if let alarmConfiguration = self.alarmConfiguration {
             try encodeContainer.encode(alarmConfiguration, forKey: .alarmConfiguration)
         }
-        if applyOnlyAtCronInterval != false {
+        if let applyOnlyAtCronInterval = self.applyOnlyAtCronInterval {
             try encodeContainer.encode(applyOnlyAtCronInterval, forKey: .applyOnlyAtCronInterval)
         }
         if let associationName = self.associationName {
@@ -7348,7 +7348,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you create it. This parameter isn't supported for rate expressions.
-    public var applyOnlyAtCronInterval: Swift.Bool
+    public var applyOnlyAtCronInterval: Swift.Bool?
     /// Specify a descriptive name for the association.
     public var associationName: Swift.String?
     /// Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a capability of Amazon Web Services Systems Manager.
@@ -7365,7 +7365,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     public var maxConcurrency: Swift.String?
     /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
     public var maxErrors: Swift.String?
-    /// The name of the SSM Command document or Automation runbook that contains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format: arn:partition:ssm:region:account-id:document/document-name  For example: arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+    /// The name of the SSM Command document or Automation runbook that contains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another Amazon Web Services account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format: arn:partition:ssm:region:account-id:document/document-name  For example: arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
     /// This member is required.
     public var name: Swift.String?
     /// An Amazon Simple Storage Service (Amazon S3) bucket where you want to store the output details of the request.
@@ -7389,7 +7389,7 @@ public struct CreateAssociationInput: Swift.Equatable {
 
     public init (
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
-        applyOnlyAtCronInterval: Swift.Bool = false,
+        applyOnlyAtCronInterval: Swift.Bool? = nil,
         associationName: Swift.String? = nil,
         automationTargetParameterName: Swift.String? = nil,
         calendarNames: [Swift.String]? = nil,
@@ -7447,7 +7447,7 @@ struct CreateAssociationInputBody: Swift.Equatable {
     let maxConcurrency: Swift.String?
     let complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
     let syncCompliance: SSMClientTypes.AssociationSyncCompliance?
-    let applyOnlyAtCronInterval: Swift.Bool
+    let applyOnlyAtCronInterval: Swift.Bool?
     let calendarNames: [Swift.String]?
     let targetLocations: [SSMClientTypes.TargetLocation]?
     let scheduleOffset: Swift.Int?
@@ -7533,7 +7533,7 @@ extension CreateAssociationInputBody: Swift.Decodable {
         complianceSeverity = complianceSeverityDecoded
         let syncComplianceDecoded = try containerValues.decodeIfPresent(SSMClientTypes.AssociationSyncCompliance.self, forKey: .syncCompliance)
         syncCompliance = syncComplianceDecoded
-        let applyOnlyAtCronIntervalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyOnlyAtCronInterval) ?? false
+        let applyOnlyAtCronIntervalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyOnlyAtCronInterval)
         applyOnlyAtCronInterval = applyOnlyAtCronIntervalDecoded
         let calendarNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .calendarNames)
         var calendarNamesDecoded0:[Swift.String]? = nil
@@ -7756,7 +7756,7 @@ extension CreateDocumentInput: ClientRuntime.URLPathProvider {
 public struct CreateDocumentInput: Swift.Equatable {
     /// A list of key-value pairs that describe attachments to a version of a document.
     public var attachments: [SSMClientTypes.AttachmentsSource]?
-    /// The content for the new SSM document in JSON or YAML format. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide.
+    /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide.
     ///
     /// * [Create an SSM document (Amazon Web Services API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html)
     ///
@@ -7997,19 +7997,19 @@ extension CreateMaintenanceWindowInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if allowUnassociatedTargets != false {
+        if let allowUnassociatedTargets = self.allowUnassociatedTargets {
             try encodeContainer.encode(allowUnassociatedTargets, forKey: .allowUnassociatedTargets)
         }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
-        if cutoff != 0 {
+        if let cutoff = self.cutoff {
             try encodeContainer.encode(cutoff, forKey: .cutoff)
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if duration != 0 {
+        if let duration = self.duration {
             try encodeContainer.encode(duration, forKey: .duration)
         }
         if let endDate = self.endDate {
@@ -8048,17 +8048,17 @@ extension CreateMaintenanceWindowInput: ClientRuntime.URLPathProvider {
 public struct CreateMaintenanceWindowInput: Swift.Equatable {
     /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
     /// This member is required.
-    public var allowUnassociatedTargets: Swift.Bool
+    public var allowUnassociatedTargets: Swift.Bool?
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// The number of hours before the end of the maintenance window that Amazon Web Services Systems Manager stops scheduling new tasks for execution.
     /// This member is required.
-    public var cutoff: Swift.Int
+    public var cutoff: Swift.Int?
     /// An optional description for the maintenance window. We recommend specifying a description to help you organize your maintenance windows.
     public var description: Swift.String?
     /// The duration of the maintenance window in hours.
     /// This member is required.
-    public var duration: Swift.Int
+    public var duration: Swift.Int?
     /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become inactive. EndDate allows you to set a date and time in the future when the maintenance window will no longer run.
     public var endDate: Swift.String?
     /// The name of the maintenance window.
@@ -8086,11 +8086,11 @@ public struct CreateMaintenanceWindowInput: Swift.Equatable {
     public var tags: [SSMClientTypes.Tag]?
 
     public init (
-        allowUnassociatedTargets: Swift.Bool = false,
+        allowUnassociatedTargets: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
-        cutoff: Swift.Int = 0,
+        cutoff: Swift.Int? = nil,
         description: Swift.String? = nil,
-        duration: Swift.Int = 0,
+        duration: Swift.Int? = nil,
         endDate: Swift.String? = nil,
         name: Swift.String? = nil,
         schedule: Swift.String? = nil,
@@ -8123,9 +8123,9 @@ struct CreateMaintenanceWindowInputBody: Swift.Equatable {
     let schedule: Swift.String?
     let scheduleTimezone: Swift.String?
     let scheduleOffset: Swift.Int?
-    let duration: Swift.Int
-    let cutoff: Swift.Int
-    let allowUnassociatedTargets: Swift.Bool
+    let duration: Swift.Int?
+    let cutoff: Swift.Int?
+    let allowUnassociatedTargets: Swift.Bool?
     let clientToken: Swift.String?
     let tags: [SSMClientTypes.Tag]?
 }
@@ -8162,11 +8162,11 @@ extension CreateMaintenanceWindowInputBody: Swift.Decodable {
         scheduleTimezone = scheduleTimezoneDecoded
         let scheduleOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduleOffset)
         scheduleOffset = scheduleOffsetDecoded
-        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let cutoffDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cutoff) ?? 0
+        let cutoffDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cutoff)
         cutoff = cutoffDecoded
-        let allowUnassociatedTargetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUnassociatedTargets) ?? false
+        let allowUnassociatedTargetsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUnassociatedTargets)
         allowUnassociatedTargets = allowUnassociatedTargetsDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -9489,7 +9489,7 @@ extension DeleteDocumentInput: Swift.Encodable {
         if let documentVersion = self.documentVersion {
             try encodeContainer.encode(documentVersion, forKey: .documentVersion)
         }
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let name = self.name {
@@ -9511,7 +9511,7 @@ public struct DeleteDocumentInput: Swift.Equatable {
     /// The version of the document that you want to delete. If not provided, all versions of the document are deleted.
     public var documentVersion: Swift.String?
     /// Some SSM document types require that you specify a Force flag before you can delete the document. For example, you must specify a Force flag to delete a document of type ApplicationConfigurationSchema. You can restrict access to the Force flag in an Identity and Access Management (IAM) policy.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The name of the document.
     /// This member is required.
     public var name: Swift.String?
@@ -9520,7 +9520,7 @@ public struct DeleteDocumentInput: Swift.Equatable {
 
     public init (
         documentVersion: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         name: Swift.String? = nil,
         versionName: Swift.String? = nil
     )
@@ -9536,7 +9536,7 @@ struct DeleteDocumentInputBody: Swift.Equatable {
     let name: Swift.String?
     let documentVersion: Swift.String?
     let versionName: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension DeleteDocumentInputBody: Swift.Decodable {
@@ -9555,7 +9555,7 @@ extension DeleteDocumentInputBody: Swift.Decodable {
         documentVersion = documentVersionDecoded
         let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
         versionName = versionNameDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -9611,7 +9611,7 @@ extension DeleteInventoryInput: Swift.Encodable {
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let schemaDeleteOption = self.schemaDeleteOption {
@@ -9633,7 +9633,7 @@ public struct DeleteInventoryInput: Swift.Equatable {
     /// User-provided idempotency token.
     public var clientToken: Swift.String?
     /// Use this option to view a summary of the deletion request without deleting any data or the data type. This option is useful when you only want to understand what will be deleted. Once you validate that the data to be deleted is what you intend to delete, you can run the same command without specifying the DryRun option.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Use the SchemaDeleteOption to delete a custom inventory type (schema). If you don't choose this option, the system only deletes existing inventory data associated with the custom inventory type. Choose one of the following options: DisableSchema: If you choose this option, the system ignores all inventory data for the specified version, and any earlier versions. To enable this schema again, you must call the PutInventory operation for a version greater than the disabled version. DeleteSchema: This option deletes the specified custom type from the Inventory service. You can recreate the schema later, if you want.
     public var schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption?
     /// The name of the custom inventory type for which you want to delete either all previously collected data or the inventory type itself.
@@ -9642,7 +9642,7 @@ public struct DeleteInventoryInput: Swift.Equatable {
 
     public init (
         clientToken: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption? = nil,
         typeName: Swift.String? = nil
     )
@@ -9657,7 +9657,7 @@ public struct DeleteInventoryInput: Swift.Equatable {
 struct DeleteInventoryInputBody: Swift.Equatable {
     let typeName: Swift.String?
     let schemaDeleteOption: SSMClientTypes.InventorySchemaDeleteOption?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
     let clientToken: Swift.String?
 }
 
@@ -9675,7 +9675,7 @@ extension DeleteInventoryInputBody: Swift.Decodable {
         typeName = typeNameDecoded
         let schemaDeleteOptionDecoded = try containerValues.decodeIfPresent(SSMClientTypes.InventorySchemaDeleteOption.self, forKey: .schemaDeleteOption)
         schemaDeleteOption = schemaDeleteOptionDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -17446,7 +17446,7 @@ extension SSMClientTypes {
         public var latestVersion: Swift.String?
         /// The name of the SSM document.
         public var name: Swift.String?
-        /// The Amazon Web Services user account that created the document.
+        /// The Amazon Web Services user that created the document.
         public var owner: Swift.String?
         /// A description of the parameters for a document.
         public var parameters: [SSMClientTypes.DocumentParameter]?
@@ -17851,7 +17851,7 @@ extension SSMClientTypes {
         public var documentVersion: Swift.String?
         /// The name of the SSM document.
         public var name: Swift.String?
-        /// The Amazon Web Services user account that created the document.
+        /// The Amazon Web Services user that created the document.
         public var owner: Swift.String?
         /// The operating system platform.
         public var platformTypes: [SSMClientTypes.PlatformType]?
@@ -18168,7 +18168,7 @@ extension SSMClientTypes.DocumentParameter: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// Parameters specified in a System Manager document that run on the server when the command is run.
+    /// Parameters specified in a Systems Manager document that run on the server when the command is run.
     public struct DocumentParameter: Swift.Equatable {
         /// If specified, the default values for the parameters. Parameters without a default value are required. Parameters with a default value are optional.
         public var defaultValue: Swift.String?
@@ -18244,7 +18244,7 @@ extension DocumentPermissionLimit {
     }
 }
 
-/// The document can't be shared with more Amazon Web Services user accounts. You can specify a maximum of 20 accounts per API operation to share a private document. By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents. If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
+/// The document can't be shared with more Amazon Web Services accounts. You can specify a maximum of 20 accounts per API operation to share a private document. By default, you can share a private document with a maximum of 1,000 accounts and publicly share up to five documents. If you need to increase the quota for privately or publicly shared Systems Manager documents, contact Amazon Web Services Support.
 public struct DocumentPermissionLimit: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -20977,7 +20977,7 @@ extension GetInventorySchemaInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if aggregator != false {
+        if let aggregator = self.aggregator {
             try encodeContainer.encode(aggregator, forKey: .aggregator)
         }
         if let maxResults = self.maxResults {
@@ -21003,7 +21003,7 @@ extension GetInventorySchemaInput: ClientRuntime.URLPathProvider {
 
 public struct GetInventorySchemaInput: Swift.Equatable {
     /// Returns inventory schemas that support aggregation. For example, this call returns the AWS:InstanceInformation type, because it supports aggregation based on the PlatformName, PlatformType, and PlatformVersion attributes.
-    public var aggregator: Swift.Bool
+    public var aggregator: Swift.Bool?
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -21014,7 +21014,7 @@ public struct GetInventorySchemaInput: Swift.Equatable {
     public var typeName: Swift.String?
 
     public init (
-        aggregator: Swift.Bool = false,
+        aggregator: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         subType: Swift.Bool? = nil,
@@ -21033,7 +21033,7 @@ struct GetInventorySchemaInputBody: Swift.Equatable {
     let typeName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
-    let aggregator: Swift.Bool
+    let aggregator: Swift.Bool?
     let subType: Swift.Bool?
 }
 
@@ -21054,7 +21054,7 @@ extension GetInventorySchemaInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
-        let aggregatorDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .aggregator) ?? false
+        let aggregatorDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .aggregator)
         aggregator = aggregatorDecoded
         let subTypeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .subType)
         subType = subTypeDecoded
@@ -24307,6 +24307,8 @@ extension GetServiceSettingInput: ClientRuntime.URLPathProvider {
 /// The request body of the GetServiceSetting API operation.
 public struct GetServiceSettingInput: Swift.Equatable {
     /// The ID of the service setting to get. The setting ID can be one of the following.
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///
@@ -29848,7 +29850,7 @@ extension ListCommandInvocationsInput: Swift.Encodable {
         if let commandId = self.commandId {
             try encodeContainer.encode(commandId, forKey: .commandId)
         }
-        if details != false {
+        if let details = self.details {
             try encodeContainer.encode(details, forKey: .details)
         }
         if let filters = filters {
@@ -29879,7 +29881,7 @@ public struct ListCommandInvocationsInput: Swift.Equatable {
     /// (Optional) The invocations for a specific command ID.
     public var commandId: Swift.String?
     /// (Optional) If set this returns the response of the command executions and any command output. The default value is false.
-    public var details: Swift.Bool
+    public var details: Swift.Bool?
     /// (Optional) One or more filters. Use a filter to return a more specific list of results.
     public var filters: [SSMClientTypes.CommandFilter]?
     /// (Optional) The command execution details for a specific managed node ID.
@@ -29891,7 +29893,7 @@ public struct ListCommandInvocationsInput: Swift.Equatable {
 
     public init (
         commandId: Swift.String? = nil,
-        details: Swift.Bool = false,
+        details: Swift.Bool? = nil,
         filters: [SSMClientTypes.CommandFilter]? = nil,
         instanceId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
@@ -29913,7 +29915,7 @@ struct ListCommandInvocationsInputBody: Swift.Equatable {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [SSMClientTypes.CommandFilter]?
-    let details: Swift.Bool
+    let details: Swift.Bool?
 }
 
 extension ListCommandInvocationsInputBody: Swift.Decodable {
@@ -29947,7 +29949,7 @@ extension ListCommandInvocationsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let detailsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .details) ?? false
+        let detailsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .details)
         details = detailsDecoded
     }
 }
@@ -34165,9 +34167,9 @@ extension ModifyDocumentPermissionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ModifyDocumentPermissionInput: Swift.Equatable {
-    /// The Amazon Web Services user accounts that should have access to the document. The account IDs can either be a group of account IDs or All.
+    /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All.
     public var accountIdsToAdd: [Swift.String]?
-    /// The Amazon Web Services user accounts that should no longer have access to the document. The Amazon Web Services user account can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an account ID to add and the same ID to remove, the system removes access to the document.
+    /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document.
     public var accountIdsToRemove: [Swift.String]?
     /// The name of the document that you want to share.
     /// This member is required.
@@ -40306,13 +40308,11 @@ public struct PutParameterInput: Swift.Equatable {
     /// * aws:ssm:integration
     ///
     ///
-    /// When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. For more information, see [Native parameter support for Amazon Machine Image (AMI) IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html) in the Amazon Web Services Systems Manager User Guide.
+    /// When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html). For more information about AMI format validation , see [Native parameter support for Amazon Machine Image (AMI) IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
     public var dataType: Swift.String?
     /// Information about the parameter that you want to add to the system. Optional but recommended. Don't enter personally identifiable information in this field.
     public var description: Swift.String?
-    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Either the default KMS key automatically assigned to your Amazon Web Services account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account.
-    ///
-    /// * To use your default KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.
+    /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account which is not as secure as using a custom key.
     ///
     /// * To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
     public var keyId: Swift.String?
@@ -44648,7 +44648,7 @@ extension SSMClientTypes {
         public var maxSessionDuration: Swift.String?
         /// Reserved for future use.
         public var outputUrl: SSMClientTypes.SessionManagerOutputUrl?
-        /// The ID of the Amazon Web Services user account that started the session.
+        /// The ID of the Amazon Web Services user that started the session.
         public var owner: Swift.String?
         /// The reason for connecting to the instance.
         public var reason: Swift.String?
@@ -44730,7 +44730,7 @@ extension SSMClientTypes {
         ///
         /// * Target: Specify a managed node to which session connections have been made.
         ///
-        /// * Owner: Specify an Amazon Web Services user account to see a list of sessions started by that user.
+        /// * Owner: Specify an Amazon Web Services user to see a list of sessions started by that user.
         ///
         /// * Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:
         ///
@@ -45568,7 +45568,7 @@ extension StartChangeRequestExecutionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoApprove != false {
+        if let autoApprove = self.autoApprove {
             try encodeContainer.encode(autoApprove, forKey: .autoApprove)
         }
         if let changeDetails = self.changeDetails {
@@ -45624,7 +45624,7 @@ extension StartChangeRequestExecutionInput: ClientRuntime.URLPathProvider {
 
 public struct StartChangeRequestExecutionInput: Swift.Equatable {
     /// Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review. Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
-    public var autoApprove: Swift.Bool
+    public var autoApprove: Swift.Bool?
     /// User-provided details about the change. If no details are provided, content specified in the Template information section of the associated change template is added.
     public var changeDetails: Swift.String?
     /// The name of the change request associated with the runbook workflow to be run.
@@ -45653,7 +45653,7 @@ public struct StartChangeRequestExecutionInput: Swift.Equatable {
     public var tags: [SSMClientTypes.Tag]?
 
     public init (
-        autoApprove: Swift.Bool = false,
+        autoApprove: Swift.Bool? = nil,
         changeDetails: Swift.String? = nil,
         changeRequestName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
@@ -45687,7 +45687,7 @@ struct StartChangeRequestExecutionInputBody: Swift.Equatable {
     let parameters: [Swift.String:[Swift.String]]?
     let changeRequestName: Swift.String?
     let clientToken: Swift.String?
-    let autoApprove: Swift.Bool
+    let autoApprove: Swift.Bool?
     let runbooks: [SSMClientTypes.Runbook]?
     let tags: [SSMClientTypes.Tag]?
     let scheduledEndTime: ClientRuntime.Date?
@@ -45739,7 +45739,7 @@ extension StartChangeRequestExecutionInputBody: Swift.Decodable {
         changeRequestName = changeRequestNameDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
-        let autoApproveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoApprove) ?? false
+        let autoApproveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoApprove)
         autoApprove = autoApproveDecoded
         let runbooksContainer = try containerValues.decodeIfPresent([SSMClientTypes.Runbook?].self, forKey: .runbooks)
         var runbooksDecoded0:[SSMClientTypes.Runbook]? = nil
@@ -47866,7 +47866,7 @@ extension UpdateAssociationInput: Swift.Encodable {
         if let alarmConfiguration = self.alarmConfiguration {
             try encodeContainer.encode(alarmConfiguration, forKey: .alarmConfiguration)
         }
-        if applyOnlyAtCronInterval != false {
+        if let applyOnlyAtCronInterval = self.applyOnlyAtCronInterval {
             try encodeContainer.encode(applyOnlyAtCronInterval, forKey: .applyOnlyAtCronInterval)
         }
         if let associationId = self.associationId {
@@ -47960,7 +47960,7 @@ public struct UpdateAssociationInput: Swift.Equatable {
     /// The details for the CloudWatch alarm you want to apply to an automation or command.
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
-    public var applyOnlyAtCronInterval: Swift.Bool
+    public var applyOnlyAtCronInterval: Swift.Bool?
     /// The ID of the association you want to update.
     /// This member is required.
     public var associationId: Swift.String?
@@ -48001,7 +48001,7 @@ public struct UpdateAssociationInput: Swift.Equatable {
 
     public init (
         alarmConfiguration: SSMClientTypes.AlarmConfiguration? = nil,
-        applyOnlyAtCronInterval: Swift.Bool = false,
+        applyOnlyAtCronInterval: Swift.Bool? = nil,
         associationId: Swift.String? = nil,
         associationName: Swift.String? = nil,
         associationVersion: Swift.String? = nil,
@@ -48060,7 +48060,7 @@ struct UpdateAssociationInputBody: Swift.Equatable {
     let maxConcurrency: Swift.String?
     let complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
     let syncCompliance: SSMClientTypes.AssociationSyncCompliance?
-    let applyOnlyAtCronInterval: Swift.Bool
+    let applyOnlyAtCronInterval: Swift.Bool?
     let calendarNames: [Swift.String]?
     let targetLocations: [SSMClientTypes.TargetLocation]?
     let scheduleOffset: Swift.Int?
@@ -48147,7 +48147,7 @@ extension UpdateAssociationInputBody: Swift.Decodable {
         complianceSeverity = complianceSeverityDecoded
         let syncComplianceDecoded = try containerValues.decodeIfPresent(SSMClientTypes.AssociationSyncCompliance.self, forKey: .syncCompliance)
         syncCompliance = syncComplianceDecoded
-        let applyOnlyAtCronIntervalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyOnlyAtCronInterval) ?? false
+        let applyOnlyAtCronIntervalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyOnlyAtCronInterval)
         applyOnlyAtCronInterval = applyOnlyAtCronIntervalDecoded
         let calendarNamesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .calendarNames)
         var calendarNamesDecoded0:[Swift.String]? = nil
@@ -51211,6 +51211,8 @@ extension UpdateServiceSettingInput: ClientRuntime.URLPathProvider {
 /// The request body of the UpdateServiceSetting API operation.
 public struct UpdateServiceSettingInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the service setting to reset. For example, arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled. The setting ID can be one of the following.
+    ///
+    /// * /ssm/managed-instance/default-ec2-instance-management-role
     ///
     /// * /ssm/automation/customer-script-log-destination
     ///

@@ -12,17 +12,17 @@ public protocol GuardDutyClientProtocol {
     func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
     /// Archives GuardDuty findings that are specified by the list of finding IDs. Only the administrator account can archive findings. Member accounts don't have permission to archive findings from their accounts.
     func archiveFindings(input: ArchiveFindingsInput) async throws -> ArchiveFindingsOutputResponse
-    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default.
+    /// Creates a single Amazon GuardDuty detector. A detector is a resource that represents the GuardDuty service. To start using GuardDuty, you must create a detector in each Region where you enable the service. You can have only one detector per account per Region. All data sources are enabled in a new detector by default. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func createDetector(input: CreateDetectorInput) async throws -> CreateDetectorOutputResponse
     /// Creates a filter using the specified finding criteria.
     func createFilter(input: CreateFilterInput) async throws -> CreateFilterOutputResponse
     /// Creates a new IPSet, which is called a trusted IP list in the console user interface. An IPSet is a list of IP addresses that are trusted for secure communication with Amazon Web Services infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are included in IPSets. Only users from the administrator account can use this operation.
     func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutputResponse
-    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation use this action after GuardDuty has been enabled in potential member accounts and before using [Invite Members](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html).
+    /// Creates member accounts of the current Amazon Web Services account by specifying a list of Amazon Web Services account IDs. This step is a prerequisite for managing the associated member accounts either by invitation or through an organization. When using Create Members as an organizations delegated administrator this action will enable GuardDuty in the added member accounts, with the exception of the organization delegated administrator account, which must enable GuardDuty prior to being added as a member. If you are adding accounts by invitation, use this action after GuardDuty has bee enabled in potential member accounts and before using [InviteMembers](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html).
     func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
     /// Creates a publishing destination to export findings to. The resource to export findings to must exist before you use this operation.
     func createPublishingDestination(input: CreatePublishingDestinationInput) async throws -> CreatePublishingDestinationOutputResponse
-    /// Generates example findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates example findings of all supported finding types.
+    /// Generates sample findings of types specified by the list of finding types. If 'NULL' is specified for findingTypes, the API generates sample findings of all supported finding types.
     func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutputResponse
     /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator account can use this operation.
     func createThreatIntelSet(input: CreateThreatIntelSetInput) async throws -> CreateThreatIntelSetOutputResponse
@@ -42,9 +42,9 @@ public protocol GuardDutyClientProtocol {
     func deletePublishingDestination(input: DeletePublishingDestinationInput) async throws -> DeletePublishingDestinationOutputResponse
     /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
     func deleteThreatIntelSet(input: DeleteThreatIntelSetInput) async throws -> DeleteThreatIntelSetOutputResponse
-    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts.
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all the member accounts. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func describeMalwareScans(input: DescribeMalwareScansInput) async throws -> DescribeMalwareScansOutputResponse
-    /// Returns information about the account selected as the delegated administrator for GuardDuty.
+    /// Returns information about the account selected as the delegated administrator for GuardDuty. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     /// Returns information about the publishing destination specified by the provided destinationId.
     func describePublishingDestination(input: DescribePublishingDestinationInput) async throws -> DescribePublishingDestinationOutputResponse
@@ -61,7 +61,7 @@ public protocol GuardDutyClientProtocol {
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
-    /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
+    /// Retrieves an Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func getDetector(input: GetDetectorInput) async throws -> GetDetectorOutputResponse
     /// Returns the details of the filter specified by the filter name.
     func getFilter(input: GetFilterInput) async throws -> GetFilterOutputResponse
@@ -73,12 +73,12 @@ public protocol GuardDutyClientProtocol {
     func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutputResponse
     /// Retrieves the IPSet specified by the ipSetId.
     func getIPSet(input: GetIPSetInput) async throws -> GetIPSetOutputResponse
-    /// Returns the details of the malware scan settings.
+    /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func getMalwareScanSettings(input: GetMalwareScanSettingsInput) async throws -> GetMalwareScanSettingsOutputResponse
     /// Provides the details for the GuardDuty administrator account associated with the current GuardDuty member account.
     @available(*, deprecated, message: "This operation is deprecated, use GetAdministratorAccount instead")
     func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutputResponse
-    /// Describes which data sources are enabled for the member account's detector.
+    /// Describes which data sources are enabled for the member account's detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func getMemberDetectors(input: GetMemberDetectorsInput) async throws -> GetMemberDetectorsOutputResponse
     /// Retrieves GuardDuty member accounts (of the current GuardDuty administrator account) specified by the account IDs.
     func getMembers(input: GetMembersInput) async throws -> GetMembersOutputResponse
@@ -120,7 +120,7 @@ public protocol GuardDutyClientProtocol {
     func unarchiveFindings(input: UnarchiveFindingsInput) async throws -> UnarchiveFindingsOutputResponse
     /// Removes tags from a resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
-    /// Updates the Amazon GuardDuty detector specified by the detectorId.
+    /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateDetector(input: UpdateDetectorInput) async throws -> UpdateDetectorOutputResponse
     /// Updates the filter specified by the filter name.
     func updateFilter(input: UpdateFilterInput) async throws -> UpdateFilterOutputResponse
@@ -128,11 +128,11 @@ public protocol GuardDutyClientProtocol {
     func updateFindingsFeedback(input: UpdateFindingsFeedbackInput) async throws -> UpdateFindingsFeedbackOutputResponse
     /// Updates the IPSet specified by the IPSet ID.
     func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutputResponse
-    /// Updates the malware scan settings.
+    /// Updates the malware scan settings. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateMalwareScanSettings(input: UpdateMalwareScanSettingsInput) async throws -> UpdateMalwareScanSettingsOutputResponse
-    /// Contains information on member accounts to be updated.
+    /// Contains information on member accounts to be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateMemberDetectors(input: UpdateMemberDetectorsInput) async throws -> UpdateMemberDetectorsOutputResponse
-    /// Updates the delegated administrator account with the values provided.
+    /// Updates the delegated administrator account with the values provided. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     /// Updates information about the publishing destination specified by the destinationId.
     func updatePublishingDestination(input: UpdatePublishingDestinationInput) async throws -> UpdatePublishingDestinationOutputResponse

@@ -119,7 +119,7 @@ public protocol ConnectClientProtocol {
     func describeSecurityProfile(input: DescribeSecurityProfileInput) async throws -> DescribeSecurityProfileOutputResponse
     /// Gets details and status of a traffic distribution group.
     func describeTrafficDistributionGroup(input: DescribeTrafficDistributionGroupInput) async throws -> DescribeTrafficDistributionGroupOutputResponse
-    /// Describes the specified user account. You can find the instance ID in the console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
+    /// Describes the specified user account. You can [find the instance ID in the Amazon Connect console](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     /// Describes the specified hierarchy group.
     func describeUserHierarchyGroup(input: DescribeUserHierarchyGroupInput) async throws -> DescribeUserHierarchyGroupOutputResponse

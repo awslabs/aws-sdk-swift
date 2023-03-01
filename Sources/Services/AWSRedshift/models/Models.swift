@@ -1906,7 +1906,7 @@ public struct AuthorizeSnapshotAccessInput: Swift.Equatable {
     public var accountWithRestoreAccess: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
     public var snapshotArn: Swift.String?
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The identifier of the snapshot the account is authorized to restore.
     public var snapshotIdentifier: Swift.String?
@@ -5597,7 +5597,7 @@ extension CopyClusterSnapshotInput: ClientRuntime.URLPathProvider {
 public struct CopyClusterSnapshotInput: Swift.Equatable {
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:
+    /// The identifier of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints:
     ///
     /// * Must be the identifier for a valid cluster.
     public var sourceSnapshotClusterIdentifier: Swift.String?
@@ -6154,7 +6154,7 @@ public struct CreateClusterInput: Swift.Equatable {
     public var maintenanceTrackName: Swift.String?
     /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The password associated with the admin user account for the cluster that is being created. Constraints:
+    /// The password associated with the admin user for the cluster that is being created. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -6167,7 +6167,7 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
     /// This member is required.
     public var masterUserPassword: Swift.String?
-    /// The user name associated with the admin user account for the cluster that is being created. Constraints:
+    /// The user name associated with the admin user for the cluster that is being created. Constraints:
     ///
     /// * Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.
     ///
@@ -10748,7 +10748,7 @@ extension DeleteClusterSnapshotInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct DeleteClusterSnapshotInput: Swift.Equatable {
-    /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
+    /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
     public var snapshotClusterIdentifier: Swift.String?
     /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
     /// This member is required.
@@ -10812,7 +10812,7 @@ extension RedshiftClientTypes.DeleteClusterSnapshotMessage: Swift.Codable {
 extension RedshiftClientTypes {
     ///
     public struct DeleteClusterSnapshotMessage: Swift.Equatable {
-        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
+        /// The unique identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name. Constraints: Must be the name of valid cluster.
         public var snapshotClusterIdentifier: Swift.String?
         /// The unique identifier of the manual snapshot to be deleted. Constraints: Must be the name of an existing snapshot that is in the available, failed, or cancelled state.
         /// This member is required.
@@ -13312,7 +13312,7 @@ public struct DescribeClusterSnapshotsInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeClusterSnapshots] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
-    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 100.
+    /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value. Default: 100 Constraints: minimum 20, maximum 500.
     public var maxRecords: Swift.Int?
     /// The Amazon Web Services account used to create or copy the snapshot. Use this field to filter the results to snapshots owned by a particular account. To describe snapshots you own, either specify your Amazon Web Services account, or do not specify the parameter.
     public var ownerAccount: Swift.String?
@@ -25993,7 +25993,7 @@ public struct ModifyClusterInput: Swift.Equatable {
     public var maintenanceTrackName: Swift.String?
     /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var manualSnapshotRetentionPeriod: Swift.Int?
-    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost. Default: Uses existing setting. Constraints:
+    /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Operations never return the password, so this operation provides a way to regain access to the admin user for a cluster if the password is lost. Default: Uses existing setting. Constraints:
     ///
     /// * Must be between 8 and 64 characters in length.
     ///
@@ -31810,7 +31810,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var reservedNodeId: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
     public var snapshotArn: Swift.String?
-    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. You must specify this parameter or snapshotArn, but not both. Example: my-snapshot-id
     public var snapshotIdentifier: Swift.String?
@@ -33174,7 +33174,7 @@ public struct RevokeSnapshotAccessInput: Swift.Equatable {
     public var accountWithRestoreAccess: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot associated with the message to revoke access.
     public var snapshotArn: Swift.String?
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user or role has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
     public var snapshotClusterIdentifier: Swift.String?
     /// The identifier of the snapshot that the account can no longer access.
     public var snapshotIdentifier: Swift.String?

@@ -660,7 +660,7 @@ extension AssociateApprovedOriginInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateApprovedOriginInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The domain to add to your allow list.
@@ -764,7 +764,7 @@ extension AssociateBotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateBotInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Configuration information of an Amazon Lex bot.
@@ -874,7 +874,7 @@ extension AssociateDefaultVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateDefaultVocabularyInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -978,7 +978,7 @@ extension AssociateInstanceStorageConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateInstanceStorageConfigInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -1119,7 +1119,7 @@ public struct AssociateLambdaFunctionInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -1216,7 +1216,7 @@ extension AssociateLexBotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateLexBotInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Lex bot to associate with the instance.
@@ -1323,7 +1323,7 @@ public struct AssociatePhoneNumberContactFlowInput: Swift.Equatable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
@@ -1431,7 +1431,7 @@ extension AssociateQueueQuickConnectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateQueueQuickConnectsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -1549,7 +1549,7 @@ extension AssociateRoutingProfileQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateRoutingProfileQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The queues to associate with this routing profile.
@@ -1659,7 +1659,7 @@ extension AssociateSecurityKeyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateSecurityKeyInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid security key in PEM format.
@@ -3553,7 +3553,7 @@ public struct CreateAgentStatusInput: Swift.Equatable {
     public var description: Swift.String?
     /// The display order of the status.
     public var displayOrder: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the status.
@@ -3876,7 +3876,7 @@ public struct CreateContactFlowModuleInput: Swift.Equatable {
     public var content: Swift.String?
     /// The description of the flow module.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow module.
@@ -4172,7 +4172,7 @@ public struct CreateHoursOfOperationInput: Swift.Equatable {
     public var config: [ConnectClientTypes.HoursOfOperationConfig]?
     /// The description of the hours of operation.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation.
@@ -4579,7 +4579,7 @@ extension CreateIntegrationAssociationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateIntegrationAssociationInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Resource Name (ARN) of the integration. When integrating with Amazon Pinpoint, the Amazon Connect and Amazon Pinpoint instances must be in the same account.
@@ -4801,7 +4801,7 @@ public struct CreateQueueInput: Swift.Equatable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of contacts that can be in the queue before it is considered full.
@@ -5021,7 +5021,7 @@ extension CreateQuickConnectInput: ClientRuntime.URLPathProvider {
 public struct CreateQuickConnectInput: Swift.Equatable {
     /// The description of the quick connect.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the quick connect.
@@ -5229,7 +5229,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
     /// Description of the routing profile. Must not be more than 250 characters.
     /// This member is required.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
@@ -5465,7 +5465,7 @@ public struct CreateRuleInput: Swift.Equatable {
     /// The conditions of the rule.
     /// This member is required.
     public var function: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique name for the rule.
@@ -5689,7 +5689,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// The description of the security profile.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Permissions assigned to the security profile. For a list of valid permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
@@ -5946,7 +5946,7 @@ public struct CreateTaskTemplateInput: Swift.Equatable {
     /// Fields that are part of the template.
     /// This member is required.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the task template.
@@ -6346,7 +6346,7 @@ extension CreateUseCaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateUseCaseInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -6516,7 +6516,7 @@ extension CreateUserHierarchyGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateUserHierarchyGroupInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the user hierarchy group. Must not be more than 100 characters.
@@ -6726,7 +6726,7 @@ public struct CreateUserInput: Swift.Equatable {
     public var hierarchyGroupId: Swift.String?
     /// The information about the identity of the user.
     public var identityInfo: ConnectClientTypes.UserIdentityInfo?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
@@ -6970,7 +6970,7 @@ public struct CreateVocabularyInput: Swift.Equatable {
     /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see [Create a custom vocabulary using a table](https://docs.aws.amazon.com/transcribe/latest/dg/custom-vocabulary.html#create-vocabulary-table).
     /// This member is required.
     public var content: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -7552,7 +7552,7 @@ extension ConnectClientTypes.DefaultVocabulary: Swift.Codable {
 extension ConnectClientTypes {
     /// Contains information about a default vocabulary.
     public struct DefaultVocabulary: Swift.Equatable {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         /// This member is required.
         public var instanceId: Swift.String?
         /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -7597,7 +7597,7 @@ public struct DeleteContactFlowInput: Swift.Equatable {
     /// The identifier of the flow.
     /// This member is required.
     public var contactFlowId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -7636,7 +7636,7 @@ public struct DeleteContactFlowModuleInput: Swift.Equatable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -7759,7 +7759,7 @@ public struct DeleteHoursOfOperationInput: Swift.Equatable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -7832,7 +7832,7 @@ extension DeleteInstanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteInstanceInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -7902,7 +7902,7 @@ extension DeleteIntegrationAssociationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteIntegrationAssociationInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -7979,7 +7979,7 @@ extension DeleteQuickConnectInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteQuickConnectInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the quick connect.
@@ -8058,7 +8058,7 @@ extension DeleteRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteRuleInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the rule.
@@ -8137,7 +8137,7 @@ extension DeleteSecurityProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteSecurityProfileInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the security profle.
@@ -8220,7 +8220,7 @@ extension DeleteTaskTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteTaskTemplateInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the task template.
@@ -8373,7 +8373,7 @@ extension DeleteUseCaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteUseCaseInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -8458,7 +8458,7 @@ public struct DeleteUserHierarchyGroupInput: Swift.Equatable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -8536,7 +8536,7 @@ extension DeleteUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteUserInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user.
@@ -8615,7 +8615,7 @@ extension DeleteVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteVocabularyInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the custom vocabulary.
@@ -8753,7 +8753,7 @@ public struct DescribeAgentStatusInput: Swift.Equatable {
     /// The identifier for the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -8902,7 +8902,7 @@ public struct DescribeContactFlowModuleInput: Swift.Equatable {
     /// The identifier of the flow module.
     /// This member is required.
     public var contactFlowModuleId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -9087,7 +9087,7 @@ public struct DescribeContactInput: Swift.Equatable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -9197,7 +9197,7 @@ public struct DescribeHoursOfOperationInput: Swift.Equatable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -9307,7 +9307,7 @@ public struct DescribeInstanceAttributeInput: Swift.Equatable {
     /// The type of attribute.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -9411,7 +9411,7 @@ extension DescribeInstanceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeInstanceInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -9530,7 +9530,7 @@ public struct DescribeInstanceStorageConfigInput: Swift.Equatable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -9744,7 +9744,7 @@ extension DescribeQueueInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeQueueInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -9854,7 +9854,7 @@ extension DescribeQuickConnectInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeQuickConnectInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the quick connect.
@@ -9964,7 +9964,7 @@ extension DescribeRoutingProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRoutingProfileInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -10074,7 +10074,7 @@ extension DescribeRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeRuleInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the rule.
@@ -10185,7 +10185,7 @@ extension DescribeSecurityProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeSecurityProfileInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the security profle.
@@ -10400,7 +10400,7 @@ public struct DescribeUserHierarchyGroupInput: Swift.Equatable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -10504,7 +10504,7 @@ extension DescribeUserHierarchyStructureInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeUserHierarchyStructureInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -10609,7 +10609,7 @@ extension DescribeUserInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeUserInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -10719,7 +10719,7 @@ extension DescribeVocabularyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeVocabularyInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the custom vocabulary.
@@ -10985,7 +10985,7 @@ extension DisassociateApprovedOriginInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateApprovedOriginInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The domain URL of the integrated application.
@@ -11078,7 +11078,7 @@ extension DisassociateBotInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateBotInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Configuration information of an Amazon Lex bot.
@@ -11187,7 +11187,7 @@ public struct DisassociateInstanceStorageConfigInput: Swift.Equatable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -11283,7 +11283,7 @@ public struct DisassociateLambdaFunctionInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
     /// This member is required.
     public var functionArn: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance..
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance..
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -11380,7 +11380,7 @@ public struct DisassociateLexBotInput: Swift.Equatable {
     /// The name of the Amazon Lex bot. Maximum character limit of 50.
     /// This member is required.
     public var botName: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
@@ -11473,7 +11473,7 @@ extension DisassociatePhoneNumberContactFlowInput: ClientRuntime.URLPathProvider
 }
 
 public struct DisassociatePhoneNumberContactFlowInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A unique identifier for the phone number.
@@ -11568,7 +11568,7 @@ extension DisassociateQueueQuickConnectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateQueueQuickConnectsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -11684,7 +11684,7 @@ extension DisassociateRoutingProfileQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateRoutingProfileQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The queues to disassociate from this routing profile.
@@ -11787,7 +11787,7 @@ public struct DisassociateSecurityKeyInput: Swift.Equatable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -12131,7 +12131,7 @@ extension ConnectClientTypes {
         /// The type of encryption.
         /// This member is required.
         public var encryptionType: ConnectClientTypes.EncryptionType?
-        /// The full ARN of the encryption key. Be sure to provide the full ARN of the encryption key, not just the ID.
+        /// The full ARN of the encryption key. Be sure to provide the full ARN of the encryption key, not just the ID. Amazon Connect supports only KMS keys with the default key spec of [SYMMETRIC_DEFAULT](https://docs.aws.amazon.com/kms/latest/developerguide/asymmetric-key-specs.html#key-spec-symmetric-default).
         /// This member is required.
         public var keyId: Swift.String?
 
@@ -12537,7 +12537,7 @@ public struct GetCurrentMetricDataInput: Swift.Equatable {
     ///
     /// * If no Grouping is included in the request, a summary of metrics is returned.
     public var groupings: [ConnectClientTypes.Grouping]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -12789,7 +12789,7 @@ public struct GetCurrentUserDataInput: Swift.Equatable {
     /// The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.UserDataFilters?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -12945,7 +12945,7 @@ extension GetFederationTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetFederationTokenInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -13133,7 +13133,7 @@ public struct GetMetricDataInput: Swift.Equatable {
     /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see [Historical Metrics Definitions](https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html) in the Amazon Connect Administrator Guide. This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list). ABANDON_TIME Unit: SECONDS Statistic: AVG AFTER_CONTACT_WORK_TIME Unit: SECONDS Statistic: AVG API_CONTACTS_HANDLED Unit: COUNT Statistic: SUM CALLBACK_CONTACTS_HANDLED Unit: COUNT Statistic: SUM CONTACTS_ABANDONED Unit: COUNT Statistic: SUM CONTACTS_AGENT_HUNG_UP_FIRST Unit: COUNT Statistic: SUM CONTACTS_CONSULTED Unit: COUNT Statistic: SUM CONTACTS_HANDLED Unit: COUNT Statistic: SUM CONTACTS_HANDLED_INCOMING Unit: COUNT Statistic: SUM CONTACTS_HANDLED_OUTBOUND Unit: COUNT Statistic: SUM CONTACTS_HOLD_ABANDONS Unit: COUNT Statistic: SUM CONTACTS_MISSED Unit: COUNT Statistic: SUM CONTACTS_QUEUED Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_IN Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_IN_FROM_QUEUE Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_OUT Unit: COUNT Statistic: SUM CONTACTS_TRANSFERRED_OUT_FROM_QUEUE Unit: COUNT Statistic: SUM HANDLE_TIME Unit: SECONDS Statistic: AVG HOLD_TIME Unit: SECONDS Statistic: AVG INTERACTION_AND_HOLD_TIME Unit: SECONDS Statistic: AVG INTERACTION_TIME Unit: SECONDS Statistic: AVG OCCUPANCY Unit: PERCENT Statistic: AVG QUEUE_ANSWER_TIME Unit: SECONDS Statistic: AVG QUEUED_TIME Unit: SECONDS Statistic: MAX SERVICE_LEVEL You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").
     /// This member is required.
     public var historicalMetrics: [ConnectClientTypes.HistoricalMetric]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -13340,7 +13340,7 @@ extension GetTaskTemplateInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetTaskTemplateInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The system generated version of a task template that is associated with a task, when the task is created.
@@ -13456,7 +13456,7 @@ public struct GetTaskTemplateOutputResponse: Swift.Equatable {
     /// A unique identifier for the task template.
     /// This member is required.
     public var id: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The timestamp when the task template was last modified.
     public var lastModifiedTime: ClientRuntime.Date?
@@ -15136,7 +15136,7 @@ extension ConnectClientTypes {
         public var arn: Swift.String?
         /// When the instance was created.
         public var createdTime: ClientRuntime.Date?
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var id: Swift.String?
         /// The identity management type.
         public var identityManagementType: ConnectClientTypes.DirectoryType?
@@ -15396,8 +15396,10 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
     public enum InstanceStorageResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case agentEvents
+        case attachments
         case callRecordings
         case chatTranscripts
+        case contactEvaluations
         case contactTraceRecords
         case mediaStreams
         case realTimeContactAnalysisSegments
@@ -15407,8 +15409,10 @@ extension ConnectClientTypes {
         public static var allCases: [InstanceStorageResourceType] {
             return [
                 .agentEvents,
+                .attachments,
                 .callRecordings,
                 .chatTranscripts,
+                .contactEvaluations,
                 .contactTraceRecords,
                 .mediaStreams,
                 .realTimeContactAnalysisSegments,
@@ -15423,8 +15427,10 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .agentEvents: return "AGENT_EVENTS"
+            case .attachments: return "ATTACHMENTS"
             case .callRecordings: return "CALL_RECORDINGS"
             case .chatTranscripts: return "CHAT_TRANSCRIPTS"
+            case .contactEvaluations: return "CONTACT_EVALUATIONS"
             case .contactTraceRecords: return "CONTACT_TRACE_RECORDS"
             case .mediaStreams: return "MEDIA_STREAMS"
             case .realTimeContactAnalysisSegments: return "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
@@ -15624,7 +15630,7 @@ extension ConnectClientTypes.IntegrationAssociationSummary: Swift.Codable {
 extension ConnectClientTypes {
     /// Contains summary information about the associated AppIntegrations.
     public struct IntegrationAssociationSummary: Swift.Equatable {
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The Amazon Resource Name (ARN) for the AppIntegration.
         public var integrationArn: Swift.String?
@@ -16185,8 +16191,10 @@ extension ConnectClientTypes {
     /// Configuration information of an Amazon Lex bot.
     public struct LexBot: Swift.Equatable {
         /// The Amazon Web Services Region where the Amazon Lex bot was created.
+        /// This member is required.
         public var lexRegion: Swift.String?
         /// The name of the Amazon Lex bot.
+        /// This member is required.
         public var name: Swift.String?
 
         public init (
@@ -16401,7 +16409,7 @@ extension ListAgentStatusesInput: ClientRuntime.URLPathProvider {
 public struct ListAgentStatusesInput: Swift.Equatable {
     /// Available agent status types.
     public var agentStatusTypes: [ConnectClientTypes.AgentStatusType]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -16549,7 +16557,7 @@ extension ListApprovedOriginsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListApprovedOriginsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -16701,7 +16709,7 @@ extension ListBotsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListBotsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The version of Amazon Lex or Amazon Lex V2.
@@ -16856,7 +16864,7 @@ extension ListContactFlowModulesInput: ClientRuntime.URLPathProvider {
 public struct ListContactFlowModulesInput: Swift.Equatable {
     /// The state of the flow module.
     public var contactFlowModuleState: ConnectClientTypes.ContactFlowModuleState?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -17014,7 +17022,7 @@ extension ListContactFlowsInput: ClientRuntime.URLPathProvider {
 public struct ListContactFlowsInput: Swift.Equatable {
     /// The type of flow.
     public var contactFlowTypes: [ConnectClientTypes.ContactFlowType]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -17172,7 +17180,7 @@ public struct ListContactReferencesInput: Swift.Equatable {
     /// The identifier of the initial contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. This is not expected to be set, because the value returned in the previous response is always null.
@@ -17325,7 +17333,7 @@ extension ListDefaultVocabulariesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListDefaultVocabulariesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -17489,7 +17497,7 @@ extension ListHoursOfOperationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListHoursOfOperationsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -17635,7 +17643,7 @@ extension ListInstanceAttributesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListInstanceAttributesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -17787,7 +17795,7 @@ extension ListInstanceStorageConfigsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListInstanceStorageConfigsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -18074,7 +18082,7 @@ extension ListIntegrationAssociationsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListIntegrationAssociationsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The integration type.
@@ -18222,7 +18230,7 @@ extension ListLambdaFunctionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLambdaFunctionsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -18368,7 +18376,7 @@ extension ListLexBotsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListLexBotsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. If no value is specified, the default is 10.
@@ -18526,7 +18534,7 @@ extension ListPhoneNumbersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPhoneNumbersInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19135,7 +19143,7 @@ extension ListQueueQuickConnectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListQueueQuickConnectsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19292,7 +19300,7 @@ extension ListQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19448,7 +19456,7 @@ extension ListQuickConnectsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListQuickConnectsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19601,7 +19609,7 @@ extension ListRoutingProfileQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRoutingProfileQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19752,7 +19760,7 @@ extension ListRoutingProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListRoutingProfilesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -19908,7 +19916,7 @@ extension ListRulesInput: ClientRuntime.URLPathProvider {
 public struct ListRulesInput: Swift.Equatable {
     /// The name of the event source.
     public var eventSourceName: ConnectClientTypes.EventSourceName?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20061,7 +20069,7 @@ extension ListSecurityKeysInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSecurityKeysInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20210,7 +20218,7 @@ extension ListSecurityProfilePermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSecurityProfilePermissionsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -20361,7 +20369,7 @@ extension ListSecurityProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListSecurityProfilesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -20490,7 +20498,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the resource.
+    /// The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see [Find your Amazon Connect instance ID/ARN](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html).
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -20626,7 +20634,7 @@ extension ListTaskTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTaskTemplatesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. It is not expected that you set this.
@@ -20781,7 +20789,7 @@ extension ListTrafficDistributionGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTrafficDistributionGroupsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -20928,7 +20936,7 @@ extension ListUseCasesInput: ClientRuntime.URLPathProvider {
 
 /// Provides summary information about the use cases for the specified integration association.
 public struct ListUseCasesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the integration association.
@@ -21077,7 +21085,7 @@ extension ListUserHierarchyGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListUserHierarchyGroupsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -21223,7 +21231,7 @@ extension ListUsersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListUsersInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -23440,7 +23448,7 @@ public struct PutUserStatusInput: Swift.Equatable {
     /// The identifier of the agent status.
     /// This member is required.
     public var agentStatusId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user.
@@ -24708,7 +24716,7 @@ extension ReplicateInstanceInput: ClientRuntime.URLPathProvider {
 public struct ReplicateInstanceInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance. You can provide the InstanceId, or the entire ARN.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The alias for the replicated instance. The ReplicaAlias must be unique.
@@ -25188,7 +25196,7 @@ public struct ResumeContactRecordingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -25368,7 +25376,7 @@ extension ConnectClientTypes {
         public var defaultOutboundQueueId: Swift.String?
         /// The description of the routing profile.
         public var description: Swift.String?
-        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
         public var instanceId: Swift.String?
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public var mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
@@ -26566,7 +26574,7 @@ extension SearchQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -26762,7 +26770,7 @@ extension SearchRoutingProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchRoutingProfilesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -26958,7 +26966,7 @@ extension SearchSecurityProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchSecurityProfilesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
@@ -27154,7 +27162,7 @@ extension SearchUsersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchUsersInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
@@ -27352,7 +27360,7 @@ extension SearchVocabulariesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct SearchVocabulariesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see [What is Amazon Transcribe?](https://docs.aws.amazon.com/transcribe/latest/dg/transcribe-whatis.html)
@@ -28263,7 +28271,7 @@ public struct StartChatContactInput: Swift.Equatable {
     public var contactFlowId: Swift.String?
     /// The initial message to be sent to the newly created chat.
     public var initialMessage: ConnectClientTypes.ChatMessage?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information identifying the participant.
@@ -28503,7 +28511,7 @@ public struct StartContactRecordingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The person being recorded.
@@ -28631,7 +28639,7 @@ public struct StartContactStreamingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -28822,7 +28830,7 @@ public struct StartOutboundVoiceContactInput: Swift.Equatable {
     /// The phone number of the customer, in E.164 format.
     /// This member is required.
     public var destinationPhoneNumber: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the flow is used. If you do not specify a queue, you must specify a source phone number.
@@ -29005,6 +29013,7 @@ extension StartTaskContactInput: Swift.Encodable {
         case previousContactId = "PreviousContactId"
         case quickConnectId = "QuickConnectId"
         case references = "References"
+        case relatedContactId = "RelatedContactId"
         case scheduledTime = "ScheduledTime"
         case taskTemplateId = "TaskTemplateId"
     }
@@ -29044,6 +29053,9 @@ extension StartTaskContactInput: Swift.Encodable {
                 try referencesContainer.encode(contactReferences0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let relatedContactId = self.relatedContactId {
+            try encodeContainer.encode(relatedContactId, forKey: .relatedContactId)
+        }
         if let scheduledTime = self.scheduledTime {
             try encodeContainer.encodeTimestamp(scheduledTime, format: .epochSeconds, forKey: .scheduledTime)
         }
@@ -29068,7 +29080,7 @@ public struct StartTaskContactInput: Swift.Equatable {
     public var contactFlowId: Swift.String?
     /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of a task that is shown to an agent in the Contact Control Panel (CCP).
@@ -29080,6 +29092,8 @@ public struct StartTaskContactInput: Swift.Equatable {
     public var quickConnectId: Swift.String?
     /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
     public var references: [Swift.String:ConnectClientTypes.Reference]?
+    /// The contactId that is [related](https://docs.aws.amazon.com/connect/latest/adminguide/tasks.html#linked-tasks) to this contact.
+    public var relatedContactId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     public var scheduledTime: ClientRuntime.Date?
     /// A unique identifier for the task template.
@@ -29095,6 +29109,7 @@ public struct StartTaskContactInput: Swift.Equatable {
         previousContactId: Swift.String? = nil,
         quickConnectId: Swift.String? = nil,
         references: [Swift.String:ConnectClientTypes.Reference]? = nil,
+        relatedContactId: Swift.String? = nil,
         scheduledTime: ClientRuntime.Date? = nil,
         taskTemplateId: Swift.String? = nil
     )
@@ -29108,6 +29123,7 @@ public struct StartTaskContactInput: Swift.Equatable {
         self.previousContactId = previousContactId
         self.quickConnectId = quickConnectId
         self.references = references
+        self.relatedContactId = relatedContactId
         self.scheduledTime = scheduledTime
         self.taskTemplateId = taskTemplateId
     }
@@ -29125,6 +29141,7 @@ struct StartTaskContactInputBody: Swift.Equatable {
     let scheduledTime: ClientRuntime.Date?
     let taskTemplateId: Swift.String?
     let quickConnectId: Swift.String?
+    let relatedContactId: Swift.String?
 }
 
 extension StartTaskContactInputBody: Swift.Decodable {
@@ -29138,6 +29155,7 @@ extension StartTaskContactInputBody: Swift.Decodable {
         case previousContactId = "PreviousContactId"
         case quickConnectId = "QuickConnectId"
         case references = "References"
+        case relatedContactId = "RelatedContactId"
         case scheduledTime = "ScheduledTime"
         case taskTemplateId = "TaskTemplateId"
     }
@@ -29184,6 +29202,8 @@ extension StartTaskContactInputBody: Swift.Decodable {
         taskTemplateId = taskTemplateIdDecoded
         let quickConnectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quickConnectId)
         quickConnectId = quickConnectIdDecoded
+        let relatedContactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relatedContactId)
+        relatedContactId = relatedContactIdDecoded
     }
 }
 
@@ -29322,7 +29342,7 @@ public struct StopContactInput: Swift.Equatable {
     /// The ID of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -29430,7 +29450,7 @@ public struct StopContactRecordingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -29537,7 +29557,7 @@ public struct StopContactStreamingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the streaming configuration enabled.
@@ -29825,7 +29845,7 @@ public struct SuspendContactRecordingInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31125,7 +31145,7 @@ public struct TransferContactInput: Swift.Equatable {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -31449,7 +31469,7 @@ public struct UpdateAgentStatusInput: Swift.Equatable {
     public var description: Swift.String?
     /// The display order of the agent status.
     public var displayOrder: Swift.Int?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the agent status.
@@ -31592,7 +31612,7 @@ public struct UpdateContactAttributesInput: Swift.Equatable {
     /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
     /// This member is required.
     public var initialContactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -31826,7 +31846,7 @@ public struct UpdateContactFlowMetadataInput: Swift.Equatable {
     public var contactFlowState: ConnectClientTypes.ContactFlowState?
     /// The description of the flow.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow.
@@ -31946,7 +31966,7 @@ public struct UpdateContactFlowModuleContentInput: Swift.Equatable {
     /// The content of the flow module.
     /// This member is required.
     public var content: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -32059,7 +32079,7 @@ public struct UpdateContactFlowModuleMetadataInput: Swift.Equatable {
     public var contactFlowModuleId: Swift.String?
     /// The description of the flow module.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the flow module.
@@ -32310,7 +32330,7 @@ public struct UpdateContactInput: Swift.Equatable {
     public var contactId: Swift.String?
     /// The description of the contact.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the contact.
@@ -32438,7 +32458,7 @@ public struct UpdateContactScheduleInput: Swift.Equatable {
     /// The identifier of the contact.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
@@ -32571,7 +32591,7 @@ public struct UpdateHoursOfOperationInput: Swift.Equatable {
     /// The identifier of the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hours of operation.
@@ -32705,7 +32725,7 @@ public struct UpdateInstanceAttributeInput: Swift.Equatable {
     /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The value for the attribute. Maximum character limit is 100.
@@ -32824,7 +32844,7 @@ public struct UpdateInstanceStorageConfigInput: Swift.Equatable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
     public var associationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// A valid resource type.
@@ -32973,7 +32993,7 @@ public struct UpdateParticipantRoleConfigInput: Swift.Equatable {
     /// The identifier of the contact in this instance of Amazon Connect.
     /// This member is required.
     public var contactId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -33229,7 +33249,7 @@ public struct UpdateQueueHoursOfOperationInput: Swift.Equatable {
     /// The identifier for the hours of operation.
     /// This member is required.
     public var hoursOfOperationId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -33330,7 +33350,7 @@ extension UpdateQueueMaxContactsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQueueMaxContactsInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of contacts that can be in the queue before it is considered full.
@@ -33439,7 +33459,7 @@ extension UpdateQueueNameInput: ClientRuntime.URLPathProvider {
 public struct UpdateQueueNameInput: Swift.Equatable {
     /// The description of the queue.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the queue.
@@ -33550,7 +33570,7 @@ extension UpdateQueueOutboundCallerConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQueueOutboundCallerConfigInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The outbound caller ID name, number, and outbound whisper flow.
@@ -33654,7 +33674,7 @@ extension UpdateQueueStatusInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQueueStatusInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier for the queue.
@@ -33758,7 +33778,7 @@ extension UpdateQuickConnectConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateQuickConnectConfigInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information about the configuration settings for the quick connect.
@@ -33868,7 +33888,7 @@ extension UpdateQuickConnectNameInput: ClientRuntime.URLPathProvider {
 public struct UpdateQuickConnectNameInput: Swift.Equatable {
     /// The description of the quick connect.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the quick connect.
@@ -33980,7 +34000,7 @@ extension UpdateRoutingProfileConcurrencyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRoutingProfileConcurrencyInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The channels that agents can handle in the Contact Control Panel (CCP).
@@ -34096,7 +34116,7 @@ public struct UpdateRoutingProfileDefaultOutboundQueueInput: Swift.Equatable {
     /// The identifier for the default outbound queue.
     /// This member is required.
     public var defaultOutboundQueueId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile.
@@ -34203,7 +34223,7 @@ extension UpdateRoutingProfileNameInput: ClientRuntime.URLPathProvider {
 public struct UpdateRoutingProfileNameInput: Swift.Equatable {
     /// The description of the routing profile. Must not be more than 250 characters.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the routing profile. Must not be more than 127 characters.
@@ -34317,7 +34337,7 @@ extension UpdateRoutingProfileQueuesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateRoutingProfileQueuesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
@@ -34451,7 +34471,7 @@ public struct UpdateRuleInput: Swift.Equatable {
     /// The conditions of the rule.
     /// This member is required.
     public var function: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
@@ -34612,7 +34632,7 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// The description of the security profile.
     public var description: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The permissions granted to a security profile. For a list of valid permissions, see [List of security profile permissions](https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-list.html).
@@ -34799,7 +34819,7 @@ public struct UpdateTaskTemplateInput: Swift.Equatable {
     public var description: Swift.String?
     /// Fields that are part of the template.
     public var fields: [ConnectClientTypes.TaskTemplateField]?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the task template.
@@ -34967,7 +34987,7 @@ public struct UpdateTaskTemplateOutputResponse: Swift.Equatable {
     public var fields: [ConnectClientTypes.TaskTemplateField]?
     /// The identifier of the task template resource.
     public var id: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
     /// The timestamp when the task template was last modified.
     public var lastModifiedTime: ClientRuntime.Date?
@@ -35201,7 +35221,7 @@ public struct UpdateUserHierarchyGroupNameInput: Swift.Equatable {
     /// The identifier of the hierarchy group.
     /// This member is required.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The name of the hierarchy group. Must not be more than 100 characters.
@@ -35306,7 +35326,7 @@ extension UpdateUserHierarchyInput: ClientRuntime.URLPathProvider {
 public struct UpdateUserHierarchyInput: Swift.Equatable {
     /// The identifier of the hierarchy group.
     public var hierarchyGroupId: Swift.String?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -35407,7 +35427,7 @@ public struct UpdateUserHierarchyStructureInput: Swift.Equatable {
     /// The hierarchy levels to update.
     /// This member is required.
     public var hierarchyStructure: ConnectClientTypes.HierarchyStructureUpdate?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -35508,7 +35528,7 @@ public struct UpdateUserIdentityInfoInput: Swift.Equatable {
     /// The identity information for the user.
     /// This member is required.
     public var identityInfo: ConnectClientTypes.UserIdentityInfo?
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the user account.
@@ -35609,7 +35629,7 @@ extension UpdateUserPhoneConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUserPhoneConfigInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// Information about phone configuration settings for the user.
@@ -35713,7 +35733,7 @@ extension UpdateUserRoutingProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUserRoutingProfileInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifier of the routing profile for the user.
@@ -35820,7 +35840,7 @@ extension UpdateUserSecurityProfilesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateUserSecurityProfilesInput: Swift.Equatable {
-    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The identifiers of the security profiles for the user.

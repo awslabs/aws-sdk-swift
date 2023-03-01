@@ -258,6 +258,120 @@ extension OpenSearchClientTypes {
 
 }
 
+extension OpenSearchClientTypes {
+    public enum ActionSeverity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionSeverity] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionSeverity(rawValue: rawValue) ?? ActionSeverity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum ActionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case completed
+        case eligible
+        case failed
+        case inProgress
+        case notEligible
+        case pendingUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionStatus] {
+            return [
+                .completed,
+                .eligible,
+                .failed,
+                .inProgress,
+                .notEligible,
+                .pendingUpdate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .eligible: return "ELIGIBLE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .notEligible: return "NOT_ELIGIBLE"
+            case .pendingUpdate: return "PENDING_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionStatus(rawValue: rawValue) ?? ActionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+    public enum ActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case jvmHeapSizeTuning
+        case jvmYoungGenTuning
+        case serviceSoftwareUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionType] {
+            return [
+                .jvmHeapSizeTuning,
+                .jvmYoungGenTuning,
+                .serviceSoftwareUpdate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .jvmHeapSizeTuning: return "JVM_HEAP_SIZE_TUNING"
+            case .jvmYoungGenTuning: return "JVM_YOUNG_GEN_TUNING"
+            case .serviceSoftwareUpdate: return "SERVICE_SOFTWARE_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionType(rawValue: rawValue) ?? ActionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AddTagsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "ARN"
@@ -1130,7 +1244,7 @@ extension OpenSearchClientTypes.AutoTuneMaintenanceSchedule: Swift.Codable {
 }
 
 extension OpenSearchClientTypes {
-    /// The Auto-Tune maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
+    /// This object is deprecated. Use the domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) to schedule Auto-Tune optimizations. For migration instructions, see [Migrating from Auto-Tune maintenance windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html#off-peak-migrate). The Auto-Tune maintenance schedule. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
     public struct AutoTuneMaintenanceSchedule: Swift.Equatable {
         /// A cron expression for a recurring maintenance schedule during which Auto-Tune can deploy changes.
         public var cronExpressionForRecurrence: Swift.String?
@@ -1158,6 +1272,7 @@ extension OpenSearchClientTypes.AutoTuneOptions: Swift.Codable {
         case desiredState = "DesiredState"
         case maintenanceSchedules = "MaintenanceSchedules"
         case rollbackOnDisable = "RollbackOnDisable"
+        case useOffPeakWindow = "UseOffPeakWindow"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1173,6 +1288,9 @@ extension OpenSearchClientTypes.AutoTuneOptions: Swift.Codable {
         }
         if let rollbackOnDisable = self.rollbackOnDisable {
             try encodeContainer.encode(rollbackOnDisable.rawValue, forKey: .rollbackOnDisable)
+        }
+        if let useOffPeakWindow = self.useOffPeakWindow {
+            try encodeContainer.encode(useOffPeakWindow, forKey: .useOffPeakWindow)
         }
     }
 
@@ -1193,6 +1311,8 @@ extension OpenSearchClientTypes.AutoTuneOptions: Swift.Codable {
             }
         }
         maintenanceSchedules = maintenanceSchedulesDecoded0
+        let useOffPeakWindowDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useOffPeakWindow)
+        useOffPeakWindow = useOffPeakWindowDecoded
     }
 }
 
@@ -1201,20 +1321,24 @@ extension OpenSearchClientTypes {
     public struct AutoTuneOptions: Swift.Equatable {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
-        /// A list of maintenance schedules during which Auto-Tune can deploy changes.
+        /// DEPRECATED. Use [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html) instead. A list of maintenance schedules during which Auto-Tune can deploy changes.
         public var maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]?
         /// When disabling Auto-Tune, specify NO_ROLLBACK to retain all prior Auto-Tune settings or DEFAULT_ROLLBACK to revert to the OpenSearch Service defaults. If you specify DEFAULT_ROLLBACK, you must include a MaintenanceSchedule in the request. Otherwise, OpenSearch Service is unable to perform the rollback.
         public var rollbackOnDisable: OpenSearchClientTypes.RollbackOnDisable?
+        /// Whether to use the domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html) to deploy configuration changes on the domain rather than a maintenance schedule.
+        public var useOffPeakWindow: Swift.Bool?
 
         public init (
             desiredState: OpenSearchClientTypes.AutoTuneDesiredState? = nil,
             maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]? = nil,
-            rollbackOnDisable: OpenSearchClientTypes.RollbackOnDisable? = nil
+            rollbackOnDisable: OpenSearchClientTypes.RollbackOnDisable? = nil,
+            useOffPeakWindow: Swift.Bool? = nil
         )
         {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
             self.rollbackOnDisable = rollbackOnDisable
+            self.useOffPeakWindow = useOffPeakWindow
         }
     }
 
@@ -1224,6 +1348,7 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredState = "DesiredState"
         case maintenanceSchedules = "MaintenanceSchedules"
+        case useOffPeakWindow = "UseOffPeakWindow"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1236,6 +1361,9 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput: Swift.Codable {
             for autotunemaintenanceschedule0 in maintenanceSchedules {
                 try maintenanceSchedulesContainer.encode(autotunemaintenanceschedule0)
             }
+        }
+        if let useOffPeakWindow = self.useOffPeakWindow {
+            try encodeContainer.encode(useOffPeakWindow, forKey: .useOffPeakWindow)
         }
     }
 
@@ -1254,24 +1382,30 @@ extension OpenSearchClientTypes.AutoTuneOptionsInput: Swift.Codable {
             }
         }
         maintenanceSchedules = maintenanceSchedulesDecoded0
+        let useOffPeakWindowDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useOffPeakWindow)
+        useOffPeakWindow = useOffPeakWindowDecoded
     }
 }
 
 extension OpenSearchClientTypes {
-    /// Options for configuring Auto-Tune. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
+    /// Options for configuring Auto-Tune. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html)
     public struct AutoTuneOptionsInput: Swift.Equatable {
         /// Whether Auto-Tune is enabled or disabled.
         public var desiredState: OpenSearchClientTypes.AutoTuneDesiredState?
-        /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance schedules are overwrite, not append. If your request includes no schedules, the request deletes all existing schedules. To preserve existing schedules, make a call to DescribeDomainConfig first and use the MaintenanceSchedules portion of the response as the basis for this section.
+        /// A list of maintenance schedules during which Auto-Tune can deploy changes. Maintenance windows are deprecated and have been replaced with [off-peak windows](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
         public var maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]?
+        /// Whether to schedule Auto-Tune optimizations that require blue/green deployments during the domain's configured daily off-peak window.
+        public var useOffPeakWindow: Swift.Bool?
 
         public init (
             desiredState: OpenSearchClientTypes.AutoTuneDesiredState? = nil,
-            maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]? = nil
+            maintenanceSchedules: [OpenSearchClientTypes.AutoTuneMaintenanceSchedule]? = nil,
+            useOffPeakWindow: Swift.Bool? = nil
         )
         {
             self.desiredState = desiredState
             self.maintenanceSchedules = maintenanceSchedules
+            self.useOffPeakWindow = useOffPeakWindow
         }
     }
 
@@ -1281,6 +1415,7 @@ extension OpenSearchClientTypes.AutoTuneOptionsOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage = "ErrorMessage"
         case state = "State"
+        case useOffPeakWindow = "UseOffPeakWindow"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1291,6 +1426,9 @@ extension OpenSearchClientTypes.AutoTuneOptionsOutput: Swift.Codable {
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
+        if let useOffPeakWindow = self.useOffPeakWindow {
+            try encodeContainer.encode(useOffPeakWindow, forKey: .useOffPeakWindow)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
@@ -1299,6 +1437,8 @@ extension OpenSearchClientTypes.AutoTuneOptionsOutput: Swift.Codable {
         state = stateDecoded
         let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
         errorMessage = errorMessageDecoded
+        let useOffPeakWindowDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useOffPeakWindow)
+        useOffPeakWindow = useOffPeakWindowDecoded
     }
 }
 
@@ -1309,14 +1449,18 @@ extension OpenSearchClientTypes {
         public var errorMessage: Swift.String?
         /// The current state of Auto-Tune on the domain.
         public var state: OpenSearchClientTypes.AutoTuneState?
+        /// Whether the domain's off-peak window will be used to deploy Auto-Tune changes rather than a maintenance schedule.
+        public var useOffPeakWindow: Swift.Bool?
 
         public init (
             errorMessage: Swift.String? = nil,
-            state: OpenSearchClientTypes.AutoTuneState? = nil
+            state: OpenSearchClientTypes.AutoTuneState? = nil,
+            useOffPeakWindow: Swift.Bool? = nil
         )
         {
             self.errorMessage = errorMessage
             self.state = state
+            self.useOffPeakWindow = useOffPeakWindow
         }
     }
 
@@ -1368,7 +1512,7 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
-    /// The Auto-Tune state for the domain. For valid states see [ Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
+    /// The Auto-Tune state for the domain. For valid states see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
     public enum AutoTuneState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case disabledAndRollbackComplete
@@ -2356,7 +2500,7 @@ extension ConflictException {
     }
 }
 
-/// An error occurred because the client attempts to remove a resource that's currently in use.
+/// An error occurred because the client attempts to remove a resource that is currently in use.
 public struct ConflictException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -2479,7 +2623,9 @@ extension CreateDomainInput: Swift.Encodable {
         case engineVersion = "EngineVersion"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case tagList = "TagList"
         case vpcOptions = "VPCOptions"
     }
@@ -2531,8 +2677,14 @@ extension CreateDomainInput: Swift.Encodable {
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
             try encodeContainer.encode(nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
         }
+        if let offPeakWindowOptions = self.offPeakWindowOptions {
+            try encodeContainer.encode(offPeakWindowOptions, forKey: .offPeakWindowOptions)
+        }
         if let snapshotOptions = self.snapshotOptions {
             try encodeContainer.encode(snapshotOptions, forKey: .snapshotOptions)
+        }
+        if let softwareUpdateOptions = self.softwareUpdateOptions {
+            try encodeContainer.encode(softwareUpdateOptions, forKey: .softwareUpdateOptions)
         }
         if let tagList = tagList {
             var tagListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagList)
@@ -2591,8 +2743,12 @@ public struct CreateDomainInput: Swift.Equatable {
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
     /// Enables node-to-node encryption.
     public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
+    /// Specifies a daily 10-hour time block during which OpenSearch Service can perform configuration changes on the domain, including service software updates and Auto-Tune enhancements that require a blue/green deployment. If no options are specified, the default start time of 10:00 P.M. local time (for the Region that the domain is created in) is used.
+    public var offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions?
     /// DEPRECATED. Container for the parameters required to configure automated snapshots of domain indexes.
     public var snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
+    /// Software update options for the domain.
+    public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
     /// List of tags to add to the domain upon creation.
     public var tagList: [OpenSearchClientTypes.Tag]?
     /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
@@ -2612,7 +2768,9 @@ public struct CreateDomainInput: Swift.Equatable {
         engineVersion: Swift.String? = nil,
         logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
+        offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
+        softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         tagList: [OpenSearchClientTypes.Tag]? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     )
@@ -2630,7 +2788,9 @@ public struct CreateDomainInput: Swift.Equatable {
         self.engineVersion = engineVersion
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+        self.offPeakWindowOptions = offPeakWindowOptions
         self.snapshotOptions = snapshotOptions
+        self.softwareUpdateOptions = softwareUpdateOptions
         self.tagList = tagList
         self.vpcOptions = vpcOptions
     }
@@ -2653,6 +2813,8 @@ struct CreateDomainInputBody: Swift.Equatable {
     let advancedSecurityOptions: OpenSearchClientTypes.AdvancedSecurityOptionsInput?
     let tagList: [OpenSearchClientTypes.Tag]?
     let autoTuneOptions: OpenSearchClientTypes.AutoTuneOptionsInput?
+    let offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions?
+    let softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
 }
 
 extension CreateDomainInputBody: Swift.Decodable {
@@ -2670,7 +2832,9 @@ extension CreateDomainInputBody: Swift.Decodable {
         case engineVersion = "EngineVersion"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case tagList = "TagList"
         case vpcOptions = "VPCOptions"
     }
@@ -2736,6 +2900,10 @@ extension CreateDomainInputBody: Swift.Decodable {
         tagList = tagListDecoded0
         let autoTuneOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.AutoTuneOptionsInput.self, forKey: .autoTuneOptions)
         autoTuneOptions = autoTuneOptionsDecoded
+        let offPeakWindowOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindowOptions.self, forKey: .offPeakWindowOptions)
+        offPeakWindowOptions = offPeakWindowOptionsDecoded
+        let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptions.self, forKey: .softwareUpdateOptions)
+        softwareUpdateOptions = softwareUpdateOptionsDecoded
     }
 }
 
@@ -5869,7 +6037,7 @@ extension DisabledOperationException {
     }
 }
 
-/// An error occured because the client wanted to access an unsupported operation.
+/// An error occured because the client wanted to access a not supported operation.
 public struct DisabledOperationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -6034,7 +6202,9 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         case engineVersion = "EngineVersion"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case vpcOptions = "VPCOptions"
     }
 
@@ -6079,8 +6249,14 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
             try encodeContainer.encode(nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
         }
+        if let offPeakWindowOptions = self.offPeakWindowOptions {
+            try encodeContainer.encode(offPeakWindowOptions, forKey: .offPeakWindowOptions)
+        }
         if let snapshotOptions = self.snapshotOptions {
             try encodeContainer.encode(snapshotOptions, forKey: .snapshotOptions)
+        }
+        if let softwareUpdateOptions = self.softwareUpdateOptions {
+            try encodeContainer.encode(softwareUpdateOptions, forKey: .softwareUpdateOptions)
         }
         if let vpcOptions = self.vpcOptions {
             try encodeContainer.encode(vpcOptions, forKey: .vpcOptions)
@@ -6119,6 +6295,10 @@ extension OpenSearchClientTypes.DomainConfig: Swift.Codable {
         autoTuneOptions = autoTuneOptionsDecoded
         let changeProgressDetailsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ChangeProgressDetails.self, forKey: .changeProgressDetails)
         changeProgressDetails = changeProgressDetailsDecoded
+        let offPeakWindowOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindowOptionsStatus.self, forKey: .offPeakWindowOptions)
+        offPeakWindowOptions = offPeakWindowOptionsDecoded
+        let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptionsStatus.self, forKey: .softwareUpdateOptions)
+        softwareUpdateOptions = softwareUpdateOptionsDecoded
     }
 }
 
@@ -6141,7 +6321,7 @@ extension OpenSearchClientTypes {
         public var cognitoOptions: OpenSearchClientTypes.CognitoOptionsStatus?
         /// Additional options for the domain endpoint, such as whether to require HTTPS for all traffic.
         public var domainEndpointOptions: OpenSearchClientTypes.DomainEndpointOptionsStatus?
-        /// Container for EBS options configured for an OpenSearch Service domain.
+        /// Container for EBS options configured for the domain.
         public var ebsOptions: OpenSearchClientTypes.EBSOptionsStatus?
         /// Key-value pairs to enable encryption at rest.
         public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptionsStatus?
@@ -6151,8 +6331,12 @@ extension OpenSearchClientTypes {
         public var logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus?
         /// Whether node-to-node encryption is enabled or disabled.
         public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus?
+        /// Container for off-peak window options for the domain.
+        public var offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus?
         /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public var snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus?
+        /// Software update options for the domain.
+        public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus?
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public var vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus?
 
@@ -6170,7 +6354,9 @@ extension OpenSearchClientTypes {
             engineVersion: OpenSearchClientTypes.VersionStatus? = nil,
             logPublishingOptions: OpenSearchClientTypes.LogPublishingOptionsStatus? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptionsStatus? = nil,
+            offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptionsStatus? = nil,
             snapshotOptions: OpenSearchClientTypes.SnapshotOptionsStatus? = nil,
+            softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptionsStatus? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfoStatus? = nil
         )
         {
@@ -6187,7 +6373,9 @@ extension OpenSearchClientTypes {
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.vpcOptions = vpcOptions
         }
     }
@@ -6578,9 +6766,11 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         case engineVersion = "EngineVersion"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case processing = "Processing"
         case serviceSoftwareOptions = "ServiceSoftwareOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case upgradeProcessing = "UpgradeProcessing"
         case vpcOptions = "VPCOptions"
     }
@@ -6656,6 +6846,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
             try encodeContainer.encode(nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
         }
+        if let offPeakWindowOptions = self.offPeakWindowOptions {
+            try encodeContainer.encode(offPeakWindowOptions, forKey: .offPeakWindowOptions)
+        }
         if let processing = self.processing {
             try encodeContainer.encode(processing, forKey: .processing)
         }
@@ -6664,6 +6857,9 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         }
         if let snapshotOptions = self.snapshotOptions {
             try encodeContainer.encode(snapshotOptions, forKey: .snapshotOptions)
+        }
+        if let softwareUpdateOptions = self.softwareUpdateOptions {
+            try encodeContainer.encode(softwareUpdateOptions, forKey: .softwareUpdateOptions)
         }
         if let upgradeProcessing = self.upgradeProcessing {
             try encodeContainer.encode(upgradeProcessing, forKey: .upgradeProcessing)
@@ -6752,6 +6948,10 @@ extension OpenSearchClientTypes.DomainStatus: Swift.Codable {
         autoTuneOptions = autoTuneOptionsDecoded
         let changeProgressDetailsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ChangeProgressDetails.self, forKey: .changeProgressDetails)
         changeProgressDetails = changeProgressDetailsDecoded
+        let offPeakWindowOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindowOptions.self, forKey: .offPeakWindowOptions)
+        offPeakWindowOptions = offPeakWindowOptionsDecoded
+        let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptions.self, forKey: .softwareUpdateOptions)
+        softwareUpdateOptions = softwareUpdateOptionsDecoded
     }
 }
 
@@ -6802,12 +7002,16 @@ extension OpenSearchClientTypes {
         public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
         /// Whether node-to-node encryption is enabled or disabled.
         public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
+        /// Options that specify a custom 10-hour window during which OpenSearch Service can perform configuration changes on the domain.
+        public var offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions?
         /// The status of the domain configuration. True if OpenSearch Service is processing configuration changes. False if the configuration is active.
         public var processing: Swift.Bool?
         /// The current status of the domain's service software.
         public var serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions?
         /// DEPRECATED. Container for parameters required to configure automated snapshots of domain indexes.
         public var snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
+        /// Service software update options for the domain.
+        public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
         /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public var upgradeProcessing: Swift.Bool?
         /// The VPC configuration for the domain.
@@ -6834,9 +7038,11 @@ extension OpenSearchClientTypes {
             engineVersion: Swift.String? = nil,
             logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
             nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
+            offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
             processing: Swift.Bool? = nil,
             serviceSoftwareOptions: OpenSearchClientTypes.ServiceSoftwareOptions? = nil,
             snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
+            softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
             upgradeProcessing: Swift.Bool? = nil,
             vpcOptions: OpenSearchClientTypes.VPCDerivedInfo? = nil
         )
@@ -6861,9 +7067,11 @@ extension OpenSearchClientTypes {
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+            self.offPeakWindowOptions = offPeakWindowOptions
             self.processing = processing
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
+            self.softwareUpdateOptions = softwareUpdateOptions
             self.upgradeProcessing = upgradeProcessing
             self.vpcOptions = vpcOptions
         }
@@ -9220,6 +9428,152 @@ extension ListPackagesForDomainOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListScheduledActionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListScheduledActionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/scheduledActions"
+    }
+}
+
+public struct ListScheduledActionsInput: Swift.Equatable {
+    /// The name of the domain.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
+    public var maxResults: Swift.Int?
+    /// If your initial ListScheduledActions operation returns a nextToken, you can include the returned nextToken in subsequent ListScheduledActions operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init (
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListScheduledActionsInputBody: Swift.Equatable {
+}
+
+extension ListScheduledActionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListScheduledActionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListScheduledActionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidPaginationTokenException" : self = .invalidPaginationTokenException(try InvalidPaginationTokenException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListScheduledActionsOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case internalException(InternalException)
+    case invalidPaginationTokenException(InvalidPaginationTokenException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListScheduledActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListScheduledActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.scheduledActions = output.scheduledActions
+        } else {
+            self.nextToken = nil
+            self.scheduledActions = nil
+        }
+    }
+}
+
+public struct ListScheduledActionsOutputResponse: Swift.Equatable {
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+    /// A list of actions that are scheduled for the domain.
+    public var scheduledActions: [OpenSearchClientTypes.ScheduledAction]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        scheduledActions: [OpenSearchClientTypes.ScheduledAction]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.scheduledActions = scheduledActions
+    }
+}
+
+struct ListScheduledActionsOutputResponseBody: Swift.Equatable {
+    let scheduledActions: [OpenSearchClientTypes.ScheduledAction]?
+    let nextToken: Swift.String?
+}
+
+extension ListScheduledActionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case scheduledActions = "ScheduledActions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduledActionsContainer = try containerValues.decodeIfPresent([OpenSearchClientTypes.ScheduledAction?].self, forKey: .scheduledActions)
+        var scheduledActionsDecoded0:[OpenSearchClientTypes.ScheduledAction]? = nil
+        if let scheduledActionsContainer = scheduledActionsContainer {
+            scheduledActionsDecoded0 = [OpenSearchClientTypes.ScheduledAction]()
+            for structure0 in scheduledActionsContainer {
+                if let structure0 = structure0 {
+                    scheduledActionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        scheduledActions = scheduledActionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListTagsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -10166,6 +10520,131 @@ extension OpenSearchClientTypes {
 
         public init (
             options: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        )
+        {
+            self.options = options
+            self.status = status
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.OffPeakWindow: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case windowStartTime = "WindowStartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let windowStartTime = self.windowStartTime {
+            try encodeContainer.encode(windowStartTime, forKey: .windowStartTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let windowStartTimeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.WindowStartTime.self, forKey: .windowStartTime)
+        windowStartTime = windowStartTimeDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// A custom 10-hour, low-traffic window during which OpenSearch Service can perform mandatory configuration changes on the domain. These actions can include scheduled service software updates and blue/green Auto-Tune enhancements. OpenSearch Service will schedule these actions during the window that you specify. If you don't specify a window start time, it defaults to 10:00 P.M. local time. For more information, see [Defining off-peak maintenance windows for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/off-peak.html).
+    public struct OffPeakWindow: Swift.Equatable {
+        /// A custom start time for the off-peak window, in Coordinated Universal Time (UTC). The window length will always be 10 hours, so you can't specify an end time. For example, if you specify 11:00 P.M. UTC as a start time, the end time will automatically be set to 9:00 A.M.
+        public var windowStartTime: OpenSearchClientTypes.WindowStartTime?
+
+        public init (
+            windowStartTime: OpenSearchClientTypes.WindowStartTime? = nil
+        )
+        {
+            self.windowStartTime = windowStartTime
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.OffPeakWindowOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case offPeakWindow = "OffPeakWindow"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let offPeakWindow = self.offPeakWindow {
+            try encodeContainer.encode(offPeakWindow, forKey: .offPeakWindow)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let offPeakWindowDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindow.self, forKey: .offPeakWindow)
+        offPeakWindow = offPeakWindowDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Options for a domain's [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html), during which OpenSearch Service can perform mandatory configuration changes on the domain.
+    public struct OffPeakWindowOptions: Swift.Equatable {
+        /// Whether to enable an off-peak window. This option is only available when modifying a domain created prior to February 13, 2023, not when creating a new domain. All domains created after this date have the off-peak window enabled by default. You can't disable the off-peak window after it's enabled for a domain.
+        public var enabled: Swift.Bool?
+        /// Off-peak window settings for the domain.
+        public var offPeakWindow: OpenSearchClientTypes.OffPeakWindow?
+
+        public init (
+            enabled: Swift.Bool? = nil,
+            offPeakWindow: OpenSearchClientTypes.OffPeakWindow? = nil
+        )
+        {
+            self.enabled = enabled
+            self.offPeakWindow = offPeakWindow
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.OffPeakWindowOptionsStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case options = "Options"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindowOptions.self, forKey: .options)
+        options = optionsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OptionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The status of [off-peak window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html) options for a domain.
+    public struct OffPeakWindowOptionsStatus: Swift.Equatable {
+        /// The domain's off-peak window configuration.
+        public var options: OpenSearchClientTypes.OffPeakWindowOptions?
+        /// The current status of off-peak window options.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init (
+            options: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
             status: OpenSearchClientTypes.OptionStatus? = nil
         )
         {
@@ -12031,7 +12510,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// An exception for accessing or deleting a resource that doesn't exist.
+/// An exception for accessing or deleting a resource that does not exist..
 public struct ResourceNotFoundException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -12419,6 +12898,160 @@ extension OpenSearchClientTypes {
 }
 
 extension OpenSearchClientTypes {
+    public enum ScheduleAt: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case now
+        case offPeakWindow
+        case timestamp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduleAt] {
+            return [
+                .now,
+                .offPeakWindow,
+                .timestamp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .now: return "NOW"
+            case .offPeakWindow: return "OFF_PEAK_WINDOW"
+            case .timestamp: return "TIMESTAMP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScheduleAt(rawValue: rawValue) ?? ScheduleAt.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OpenSearchClientTypes.ScheduledAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cancellable = "Cancellable"
+        case description = "Description"
+        case id = "Id"
+        case mandatory = "Mandatory"
+        case scheduledBy = "ScheduledBy"
+        case scheduledTime = "ScheduledTime"
+        case severity = "Severity"
+        case status = "Status"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cancellable = self.cancellable {
+            try encodeContainer.encode(cancellable, forKey: .cancellable)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let mandatory = self.mandatory {
+            try encodeContainer.encode(mandatory, forKey: .mandatory)
+        }
+        if let scheduledBy = self.scheduledBy {
+            try encodeContainer.encode(scheduledBy.rawValue, forKey: .scheduledBy)
+        }
+        if let scheduledTime = self.scheduledTime {
+            try encodeContainer.encode(scheduledTime, forKey: .scheduledTime)
+        }
+        if let severity = self.severity {
+            try encodeContainer.encode(severity.rawValue, forKey: .severity)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ActionType.self, forKey: .type)
+        type = typeDecoded
+        let severityDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ActionSeverity.self, forKey: .severity)
+        severity = severityDecoded
+        let scheduledTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledTime)
+        scheduledTime = scheduledTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let scheduledByDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ScheduledBy.self, forKey: .scheduledBy)
+        scheduledBy = scheduledByDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ActionStatus.self, forKey: .status)
+        status = statusDecoded
+        let mandatoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .mandatory)
+        mandatory = mandatoryDecoded
+        let cancellableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .cancellable)
+        cancellable = cancellableDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Information about a scheduled configuration change for an OpenSearch Service domain. This actions can be a [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
+    public struct ScheduledAction: Swift.Equatable {
+        /// Whether or not the scheduled action is cancellable.
+        public var cancellable: Swift.Bool?
+        /// A description of the action to be taken.
+        public var description: Swift.String?
+        /// The unique identifier of the scheduled action.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Whether the action is required or optional.
+        public var mandatory: Swift.Bool?
+        /// Whether the action was scheduled manually (CUSTOMER, or by OpenSearch Service automatically (SYSTEM).
+        public var scheduledBy: OpenSearchClientTypes.ScheduledBy?
+        /// The time when the change is scheduled to happen.
+        /// This member is required.
+        public var scheduledTime: Swift.Int?
+        /// The severity of the action.
+        /// This member is required.
+        public var severity: OpenSearchClientTypes.ActionSeverity?
+        /// The current status of the scheduled action.
+        public var status: OpenSearchClientTypes.ActionStatus?
+        /// The type of action that will be taken on the domain.
+        /// This member is required.
+        public var type: OpenSearchClientTypes.ActionType?
+
+        public init (
+            cancellable: Swift.Bool? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            mandatory: Swift.Bool? = nil,
+            scheduledBy: OpenSearchClientTypes.ScheduledBy? = nil,
+            scheduledTime: Swift.Int? = nil,
+            severity: OpenSearchClientTypes.ActionSeverity? = nil,
+            status: OpenSearchClientTypes.ActionStatus? = nil,
+            type: OpenSearchClientTypes.ActionType? = nil
+        )
+        {
+            self.cancellable = cancellable
+            self.description = description
+            self.id = id
+            self.mandatory = mandatory
+            self.scheduledBy = scheduledBy
+            self.scheduledTime = scheduledTime
+            self.severity = severity
+            self.status = status
+            self.type = type
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes {
     /// The Auto-Tune action type.
     public enum ScheduledAutoTuneActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case jvmHeapSizeTuning
@@ -12552,6 +13185,38 @@ extension OpenSearchClientTypes {
     }
 }
 
+extension OpenSearchClientTypes {
+    public enum ScheduledBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case customer
+        case system
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScheduledBy] {
+            return [
+                .customer,
+                .system,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .customer: return "CUSTOMER"
+            case .system: return "SYSTEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ScheduledBy(rawValue: rawValue) ?? ScheduledBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OpenSearchClientTypes.ServiceSoftwareOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case automatedUpdateDate = "AutomatedUpdateDate"
@@ -12657,6 +13322,78 @@ extension OpenSearchClientTypes {
 
 }
 
+extension SlotNotAvailableException {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: SlotNotAvailableExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
+            self.slotSuggestions = output.slotSuggestions
+        } else {
+            self.slotSuggestions = nil
+            self.message = nil
+        }
+        self._headers = httpResponse.headers
+        self._statusCode = httpResponse.statusCode
+        self._requestID = requestID
+        self._message = message
+    }
+}
+
+/// An exception for attempting to schedule a domain action during an unavailable time slot.
+public struct SlotNotAvailableException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
+    public var _headers: ClientRuntime.Headers?
+    public var _statusCode: ClientRuntime.HttpStatusCode?
+    public var _message: Swift.String?
+    public var _requestID: Swift.String?
+    public var _retryable: Swift.Bool = false
+    public var _isThrottling: Swift.Bool = false
+    public var _type: ClientRuntime.ErrorType = .client
+    /// A description of the error.
+    public var message: Swift.String?
+    /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.
+    public var slotSuggestions: [Swift.Int]?
+
+    public init (
+        message: Swift.String? = nil,
+        slotSuggestions: [Swift.Int]? = nil
+    )
+    {
+        self.message = message
+        self.slotSuggestions = slotSuggestions
+    }
+}
+
+struct SlotNotAvailableExceptionBody: Swift.Equatable {
+    let slotSuggestions: [Swift.Int]?
+    let message: Swift.String?
+}
+
+extension SlotNotAvailableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case slotSuggestions = "SlotSuggestions"
+        case message
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let slotSuggestionsContainer = try containerValues.decodeIfPresent([Swift.Int?].self, forKey: .slotSuggestions)
+        var slotSuggestionsDecoded0:[Swift.Int]? = nil
+        if let slotSuggestionsContainer = slotSuggestionsContainer {
+            slotSuggestionsDecoded0 = [Swift.Int]()
+            for long0 in slotSuggestionsContainer {
+                if let long0 = long0 {
+                    slotSuggestionsDecoded0?.append(long0)
+                }
+            }
+        }
+        slotSuggestions = slotSuggestionsDecoded0
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension OpenSearchClientTypes.SnapshotOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case automatedSnapshotStartHour = "AutomatedSnapshotStartHour"
@@ -12739,15 +13476,103 @@ extension OpenSearchClientTypes {
 
 }
 
-extension StartServiceSoftwareUpdateInput: Swift.Encodable {
+extension OpenSearchClientTypes.SoftwareUpdateOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case domainName = "DomainName"
+        case autoSoftwareUpdateEnabled = "AutoSoftwareUpdateEnabled"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoSoftwareUpdateEnabled = self.autoSoftwareUpdateEnabled {
+            try encodeContainer.encode(autoSoftwareUpdateEnabled, forKey: .autoSoftwareUpdateEnabled)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoSoftwareUpdateEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoSoftwareUpdateEnabled)
+        autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabledDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// Options for configuring service software updates for a domain.
+    public struct SoftwareUpdateOptions: Swift.Equatable {
+        /// Whether automatic service software updates are enabled for the domain.
+        public var autoSoftwareUpdateEnabled: Swift.Bool?
+
+        public init (
+            autoSoftwareUpdateEnabled: Swift.Bool? = nil
+        )
+        {
+            self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.SoftwareUpdateOptionsStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case options = "Options"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let options = self.options {
+            try encodeContainer.encode(options, forKey: .options)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let optionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptions.self, forKey: .options)
+        options = optionsDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OptionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The status of the service software options for a domain.
+    public struct SoftwareUpdateOptionsStatus: Swift.Equatable {
+        /// The service software update options for a domain.
+        public var options: OpenSearchClientTypes.SoftwareUpdateOptions?
+        /// The status of service software update options, including creation date and last updated date.
+        public var status: OpenSearchClientTypes.OptionStatus?
+
+        public init (
+            options: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
+            status: OpenSearchClientTypes.OptionStatus? = nil
+        )
+        {
+            self.options = options
+            self.status = status
+        }
+    }
+
+}
+
+extension StartServiceSoftwareUpdateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredStartTime = "DesiredStartTime"
+        case domainName = "DomainName"
+        case scheduleAt = "ScheduleAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let desiredStartTime = self.desiredStartTime {
+            try encodeContainer.encode(desiredStartTime, forKey: .desiredStartTime)
+        }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let scheduleAt = self.scheduleAt {
+            try encodeContainer.encode(scheduleAt.rawValue, forKey: .scheduleAt)
         }
     }
 }
@@ -12760,31 +13585,56 @@ extension StartServiceSoftwareUpdateInput: ClientRuntime.URLPathProvider {
 
 /// Container for the request parameters to the StartServiceSoftwareUpdate operation.
 public struct StartServiceSoftwareUpdateInput: Swift.Equatable {
+    /// The Epoch timestamp when you want the service software update to start. You only need to specify this parameter if you set ScheduleAt to TIMESTAMP.
+    public var desiredStartTime: Swift.Int?
     /// The name of the domain that you want to update to the latest service software.
     /// This member is required.
     public var domainName: Swift.String?
+    /// When to start the service software update.
+    ///
+    /// * NOW - Immediately schedules the update to happen in the current hour if there's capacity available.
+    ///
+    /// * TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.
+    ///
+    /// * OFF_PEAK_WINDOW - Marks the update to be picked up during an upcoming off-peak window. There's no guarantee that the update will happen during the next immediate window. Depending on capacity, it might happen in subsequent days.
+    ///
+    ///
+    /// Default: NOW if you don't specify a value for DesiredStartTime, and TIMESTAMP if you do.
+    public var scheduleAt: OpenSearchClientTypes.ScheduleAt?
 
     public init (
-        domainName: Swift.String? = nil
+        desiredStartTime: Swift.Int? = nil,
+        domainName: Swift.String? = nil,
+        scheduleAt: OpenSearchClientTypes.ScheduleAt? = nil
     )
     {
+        self.desiredStartTime = desiredStartTime
         self.domainName = domainName
+        self.scheduleAt = scheduleAt
     }
 }
 
 struct StartServiceSoftwareUpdateInputBody: Swift.Equatable {
     let domainName: Swift.String?
+    let scheduleAt: OpenSearchClientTypes.ScheduleAt?
+    let desiredStartTime: Swift.Int?
 }
 
 extension StartServiceSoftwareUpdateInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case desiredStartTime = "DesiredStartTime"
         case domainName = "DomainName"
+        case scheduleAt = "ScheduleAt"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
         domainName = domainNameDecoded
+        let scheduleAtDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ScheduleAt.self, forKey: .scheduleAt)
+        scheduleAt = scheduleAtDecoded
+        let desiredStartTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredStartTime)
+        desiredStartTime = desiredStartTimeDecoded
     }
 }
 
@@ -13118,7 +13968,9 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case vpcOptions = "VPCOptions"
     }
 
@@ -13169,8 +14021,14 @@ extension UpdateDomainConfigInput: Swift.Encodable {
         if let nodeToNodeEncryptionOptions = self.nodeToNodeEncryptionOptions {
             try encodeContainer.encode(nodeToNodeEncryptionOptions, forKey: .nodeToNodeEncryptionOptions)
         }
+        if let offPeakWindowOptions = self.offPeakWindowOptions {
+            try encodeContainer.encode(offPeakWindowOptions, forKey: .offPeakWindowOptions)
+        }
         if let snapshotOptions = self.snapshotOptions {
             try encodeContainer.encode(snapshotOptions, forKey: .snapshotOptions)
+        }
+        if let softwareUpdateOptions = self.softwareUpdateOptions {
+            try encodeContainer.encode(softwareUpdateOptions, forKey: .softwareUpdateOptions)
         }
         if let vpcOptions = self.vpcOptions {
             try encodeContainer.encode(vpcOptions, forKey: .vpcOptions)
@@ -13229,12 +14087,16 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
     public var ebsOptions: OpenSearchClientTypes.EBSOptions?
     /// Encryption at rest options for the domain.
     public var encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions?
-    /// Options to publish OpenSearch lots to Amazon CloudWatch Logs.
+    /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     public var logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]?
-    /// Node-To-Node Encryption options for the domain.
+    /// Node-to-node encryption options for the domain.
     public var nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions?
+    /// Off-peak window options for the domain.
+    public var offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions?
     /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
     public var snapshotOptions: OpenSearchClientTypes.SnapshotOptions?
+    /// Service software update options for the domain.
+    public var softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
     /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see [Launching your Amazon OpenSearch Service domains using a VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html).
     public var vpcOptions: OpenSearchClientTypes.VPCOptions?
 
@@ -13253,7 +14115,9 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         encryptionAtRestOptions: OpenSearchClientTypes.EncryptionAtRestOptions? = nil,
         logPublishingOptions: [Swift.String:OpenSearchClientTypes.LogPublishingOption]? = nil,
         nodeToNodeEncryptionOptions: OpenSearchClientTypes.NodeToNodeEncryptionOptions? = nil,
+        offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions? = nil,
         snapshotOptions: OpenSearchClientTypes.SnapshotOptions? = nil,
+        softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions? = nil,
         vpcOptions: OpenSearchClientTypes.VPCOptions? = nil
     )
     {
@@ -13271,7 +14135,9 @@ public struct UpdateDomainConfigInput: Swift.Equatable {
         self.encryptionAtRestOptions = encryptionAtRestOptions
         self.logPublishingOptions = logPublishingOptions
         self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
+        self.offPeakWindowOptions = offPeakWindowOptions
         self.snapshotOptions = snapshotOptions
+        self.softwareUpdateOptions = softwareUpdateOptions
         self.vpcOptions = vpcOptions
     }
 }
@@ -13292,6 +14158,8 @@ struct UpdateDomainConfigInputBody: Swift.Equatable {
     let autoTuneOptions: OpenSearchClientTypes.AutoTuneOptions?
     let dryRun: Swift.Bool?
     let dryRunMode: OpenSearchClientTypes.DryRunMode?
+    let offPeakWindowOptions: OpenSearchClientTypes.OffPeakWindowOptions?
+    let softwareUpdateOptions: OpenSearchClientTypes.SoftwareUpdateOptions?
 }
 
 extension UpdateDomainConfigInputBody: Swift.Decodable {
@@ -13309,7 +14177,9 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         case encryptionAtRestOptions = "EncryptionAtRestOptions"
         case logPublishingOptions = "LogPublishingOptions"
         case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
+        case offPeakWindowOptions = "OffPeakWindowOptions"
         case snapshotOptions = "SnapshotOptions"
+        case softwareUpdateOptions = "SoftwareUpdateOptions"
         case vpcOptions = "VPCOptions"
     }
 
@@ -13363,6 +14233,10 @@ extension UpdateDomainConfigInputBody: Swift.Decodable {
         dryRun = dryRunDecoded
         let dryRunModeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.DryRunMode.self, forKey: .dryRunMode)
         dryRunMode = dryRunModeDecoded
+        let offPeakWindowOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.OffPeakWindowOptions.self, forKey: .offPeakWindowOptions)
+        offPeakWindowOptions = offPeakWindowOptionsDecoded
+        let softwareUpdateOptionsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.SoftwareUpdateOptions.self, forKey: .softwareUpdateOptions)
+        softwareUpdateOptions = softwareUpdateOptionsDecoded
     }
 }
 
@@ -13618,6 +14492,181 @@ extension UpdatePackageOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let packageDetailsDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.PackageDetails.self, forKey: .packageDetails)
         packageDetails = packageDetailsDecoded
+    }
+}
+
+extension UpdateScheduledActionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionID = "ActionID"
+        case actionType = "ActionType"
+        case desiredStartTime = "DesiredStartTime"
+        case scheduleAt = "ScheduleAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionID = self.actionID {
+            try encodeContainer.encode(actionID, forKey: .actionID)
+        }
+        if let actionType = self.actionType {
+            try encodeContainer.encode(actionType.rawValue, forKey: .actionType)
+        }
+        if let desiredStartTime = self.desiredStartTime {
+            try encodeContainer.encode(desiredStartTime, forKey: .desiredStartTime)
+        }
+        if let scheduleAt = self.scheduleAt {
+            try encodeContainer.encode(scheduleAt.rawValue, forKey: .scheduleAt)
+        }
+    }
+}
+
+extension UpdateScheduledActionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let domainName = domainName else {
+            return nil
+        }
+        return "/2021-01-01/opensearch/domain/\(domainName.urlPercentEncoding())/scheduledAction/update"
+    }
+}
+
+public struct UpdateScheduledActionInput: Swift.Equatable {
+    /// The unique identifier of the action to reschedule. To retrieve this ID, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html) request.
+    /// This member is required.
+    public var actionID: Swift.String?
+    /// The type of action to reschedule. Can be one of SERVICE_SOFTWARE_UPDATE, JVM_HEAP_SIZE_TUNING, or JVM_YOUNG_GEN_TUNING. To retrieve this value, send a [ListScheduledActions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html) request.
+    /// This member is required.
+    public var actionType: OpenSearchClientTypes.ActionType?
+    /// The time to implement the change, in Coordinated Universal Time (UTC). Only specify this parameter if you set ScheduleAt to TIMESTAMP.
+    public var desiredStartTime: Swift.Int?
+    /// The name of the domain to reschedule an action for.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// When to schedule the action.
+    ///
+    /// * NOW - Immediately schedules the update to happen in the current hour if there's capacity available.
+    ///
+    /// * TIMESTAMP - Lets you specify a custom date and time to apply the update. If you specify this value, you must also provide a value for DesiredStartTime.
+    ///
+    /// * OFF_PEAK_WINDOW - Marks the action to be picked up during an upcoming off-peak window. There's no guarantee that the change will be implemented during the next immediate window. Depending on capacity, it might happen in subsequent days.
+    /// This member is required.
+    public var scheduleAt: OpenSearchClientTypes.ScheduleAt?
+
+    public init (
+        actionID: Swift.String? = nil,
+        actionType: OpenSearchClientTypes.ActionType? = nil,
+        desiredStartTime: Swift.Int? = nil,
+        domainName: Swift.String? = nil,
+        scheduleAt: OpenSearchClientTypes.ScheduleAt? = nil
+    )
+    {
+        self.actionID = actionID
+        self.actionType = actionType
+        self.desiredStartTime = desiredStartTime
+        self.domainName = domainName
+        self.scheduleAt = scheduleAt
+    }
+}
+
+struct UpdateScheduledActionInputBody: Swift.Equatable {
+    let actionID: Swift.String?
+    let actionType: OpenSearchClientTypes.ActionType?
+    let scheduleAt: OpenSearchClientTypes.ScheduleAt?
+    let desiredStartTime: Swift.Int?
+}
+
+extension UpdateScheduledActionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionID = "ActionID"
+        case actionType = "ActionType"
+        case desiredStartTime = "DesiredStartTime"
+        case scheduleAt = "ScheduleAt"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionID)
+        actionID = actionIDDecoded
+        let actionTypeDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ActionType.self, forKey: .actionType)
+        actionType = actionTypeDecoded
+        let scheduleAtDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ScheduleAt.self, forKey: .scheduleAt)
+        scheduleAt = scheduleAtDecoded
+        let desiredStartTimeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredStartTime)
+        desiredStartTime = desiredStartTimeDecoded
+    }
+}
+
+extension UpdateScheduledActionOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateScheduledActionOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "BaseException" : self = .baseException(try BaseException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "SlotNotAvailableException" : self = .slotNotAvailableException(try SlotNotAvailableException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateScheduledActionOutputError: Swift.Error, Swift.Equatable {
+    case baseException(BaseException)
+    case conflictException(ConflictException)
+    case internalException(InternalException)
+    case limitExceededException(LimitExceededException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case slotNotAvailableException(SlotNotAvailableException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateScheduledActionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateScheduledActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.scheduledAction = output.scheduledAction
+        } else {
+            self.scheduledAction = nil
+        }
+    }
+}
+
+public struct UpdateScheduledActionOutputResponse: Swift.Equatable {
+    /// Information about the rescheduled action.
+    public var scheduledAction: OpenSearchClientTypes.ScheduledAction?
+
+    public init (
+        scheduledAction: OpenSearchClientTypes.ScheduledAction? = nil
+    )
+    {
+        self.scheduledAction = scheduledAction
+    }
+}
+
+struct UpdateScheduledActionOutputResponseBody: Swift.Equatable {
+    let scheduledAction: OpenSearchClientTypes.ScheduledAction?
+}
+
+extension UpdateScheduledActionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scheduledAction = "ScheduledAction"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let scheduledActionDecoded = try containerValues.decodeIfPresent(OpenSearchClientTypes.ScheduledAction.self, forKey: .scheduledAction)
+        scheduledAction = scheduledActionDecoded
     }
 }
 
@@ -14470,7 +15519,7 @@ extension ValidationException {
     }
 }
 
-/// An exception for missing or invalid input fields.
+/// An exception for accessing or deleting a resource that doesn't exist.
 public struct ValidationException: AWSClientRuntime.AWSHttpServiceError, Swift.Equatable {
     public var _headers: ClientRuntime.Headers?
     public var _statusCode: ClientRuntime.HttpStatusCode?
@@ -14916,6 +15965,53 @@ extension OpenSearchClientTypes {
             self.status = status
             self.vpcEndpointId = vpcEndpointId
             self.vpcEndpointOwner = vpcEndpointOwner
+        }
+    }
+
+}
+
+extension OpenSearchClientTypes.WindowStartTime: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hours = "Hours"
+        case minutes = "Minutes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if hours != 0 {
+            try encodeContainer.encode(hours, forKey: .hours)
+        }
+        if minutes != 0 {
+            try encodeContainer.encode(minutes, forKey: .minutes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let hoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hours) ?? 0
+        hours = hoursDecoded
+        let minutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minutes) ?? 0
+        minutes = minutesDecoded
+    }
+}
+
+extension OpenSearchClientTypes {
+    /// The desired start time for an [off-peak maintenance window](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_OffPeakWindow.html).
+    public struct WindowStartTime: Swift.Equatable {
+        /// The start hour of the window in Coordinated Universal Time (UTC), using 24-hour time. For example, 17 refers to 5:00 P.M. UTC.
+        /// This member is required.
+        public var hours: Swift.Int
+        /// The start minute of the window, in UTC.
+        /// This member is required.
+        public var minutes: Swift.Int
+
+        public init (
+            hours: Swift.Int = 0,
+            minutes: Swift.Int = 0
+        )
+        {
+            self.hours = hours
+            self.minutes = minutes
         }
     }
 

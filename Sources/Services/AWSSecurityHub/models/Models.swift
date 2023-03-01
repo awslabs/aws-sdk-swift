@@ -818,6 +818,38 @@ extension SecurityHubClientTypes {
 }
 
 extension SecurityHubClientTypes {
+    public enum AssociationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssociationStatus(rawValue: rawValue) ?? AssociationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
     public enum AutoEnableStandards: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
         case `none`
@@ -978,9 +1010,9 @@ extension SecurityHubClientTypes {
         public var callerType: Swift.String?
         /// Provided if CallerType is domain. Provides information about the DNS domain that the API call originated from.
         public var domainDetails: SecurityHubClientTypes.AwsApiCallActionDomainDetails?
-        /// An ISO8601-formatted timestamp that indicates when the API call was first observed.
+        /// An ISO8601-formatted timestamp that indicates when the API call was first observed. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var firstSeen: Swift.String?
-        /// An ISO8601-formatted timestamp that indicates when the API call was most recently observed.
+        /// An ISO8601-formatted timestamp that indicates when the API call was most recently observed. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var lastSeen: Swift.String?
         /// Provided if CallerType is remoteIp. Provides information about the remote IP address that the API call originated from.
         public var remoteIpDetails: SecurityHubClientTypes.ActionRemoteIpDetails?
@@ -1446,7 +1478,7 @@ extension SecurityHubClientTypes {
         public var apiKeySource: Swift.String?
         /// The list of binary media types supported by the REST API.
         public var binaryMediaTypes: [Swift.String]?
-        /// Indicates when the API was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the API was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// A description of the REST API.
         public var description: Swift.String?
@@ -1635,7 +1667,7 @@ extension SecurityHubClientTypes {
         public var canarySettings: SecurityHubClientTypes.AwsApiGatewayCanarySettings?
         /// The identifier of the client certificate for the stage.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// The identifier of the deployment that the stage points to.
         public var deploymentId: Swift.String?
@@ -1643,7 +1675,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The version of the API documentation that is associated with the stage.
         public var documentationVersion: Swift.String?
-        /// Indicates when the stage was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastUpdatedDate: Swift.String?
         /// Defines the method settings for the stage.
         public var methodSettings: [SecurityHubClientTypes.AwsApiGatewayMethodSettings]?
@@ -1786,7 +1818,7 @@ extension SecurityHubClientTypes {
         public var apiKeySelectionExpression: Swift.String?
         /// A cross-origin resource sharing (CORS) configuration. Supported only for HTTP APIs.
         public var corsConfiguration: SecurityHubClientTypes.AwsCorsConfiguration?
-        /// Indicates when the API was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the API was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// A description of the API.
         public var description: Swift.String?
@@ -2016,7 +2048,7 @@ extension SecurityHubClientTypes {
         public var autoDeploy: Swift.Bool
         /// The identifier of a client certificate for a stage. Supported only for WebSocket API calls.
         public var clientCertificateId: Swift.String?
-        /// Indicates when the stage was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// Default route settings for the stage.
         public var defaultRouteSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -2026,7 +2058,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// The status of the last deployment of a stage. Supported only if the stage has automatic deployment enabled.
         public var lastDeploymentStatusMessage: Swift.String?
-        /// Indicates when the stage was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastUpdatedDate: Swift.String?
         /// The route settings for the stage.
         public var routeSettings: SecurityHubClientTypes.AwsApiGatewayV2RouteSettings?
@@ -2208,7 +2240,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates whether capacity rebalancing is enabled.
         public var capacityRebalance: Swift.Bool
-        /// Indicates when the auto scaling group was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the auto scaling group was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
         public var healthCheckGracePeriod: Swift.Int
@@ -2944,7 +2976,7 @@ extension SecurityHubClientTypes {
         public var classicLinkVpcId: Swift.String?
         /// The identifiers of one or more security groups for the VPC that is specified in ClassicLinkVPCId.
         public var classicLinkVpcSecurityGroups: [Swift.String]?
-        /// The creation date and time for the launch configuration. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The creation date and time for the launch configuration. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// Whether the launch configuration is optimized for Amazon EBS I/O.
         public var ebsOptimized: Swift.Bool
@@ -3658,7 +3690,7 @@ extension SecurityHubClientTypes {
         ///
         /// * S3_BACKUP_OBJECT_FAILED | S3_RESTORE_OBJECT_FAILED
         public var backupVaultEvents: [Swift.String]?
-        /// An ARN that uniquely identifies the Amazon SNS topic for a backup vault’s events.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon SNS topic for a backup vault's events.
         public var snsTopicArn: Swift.String?
 
         public init (
@@ -4273,7 +4305,7 @@ extension SecurityHubClientTypes {
     public struct AwsCertificateManagerCertificateDetails: Swift.Equatable {
         /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
         public var certificateAuthorityArn: Swift.String?
-        /// Indicates when the certificate was requested. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was requested. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
         /// The fully qualified domain name (FQDN), such as www.example.com, that is secured by the certificate.
         public var domainName: Swift.String?
@@ -4283,11 +4315,11 @@ extension SecurityHubClientTypes {
         public var extendedKeyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateExtendedKeyUsage]?
         /// For a failed certificate request, the reason for the failure. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var failureReason: Swift.String?
-        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var importedAt: Swift.String?
         /// The list of ARNs for the Amazon Web Services resources that use the certificate.
         public var inUseBy: [Swift.String]?
-        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var issuedAt: Swift.String?
         /// The name of the certificate authority that issued and signed the certificate.
         public var issuer: Swift.String?
@@ -4295,9 +4327,9 @@ extension SecurityHubClientTypes {
         public var keyAlgorithm: Swift.String?
         /// A list of key usage X.509 v3 extension objects.
         public var keyUsages: [SecurityHubClientTypes.AwsCertificateManagerCertificateKeyUsage]?
-        /// The time after which the certificate becomes invalid. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The time after which the certificate becomes invalid. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var notAfter: Swift.String?
-        /// The time before which the certificate is not valid. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The time before which the certificate is not valid. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var notBefore: Swift.String?
         /// Provides a value that specifies whether to add the certificate to a transparency log.
         public var options: SecurityHubClientTypes.AwsCertificateManagerCertificateOptions?
@@ -4646,7 +4678,7 @@ extension SecurityHubClientTypes {
         public var renewalStatus: Swift.String?
         /// The reason that a renewal request was unsuccessful. This attribute is used only when RenewalStatus is FAILED. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER
         public var renewalStatusReason: Swift.String?
-        /// Indicates when the renewal summary was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the renewal summary was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var updatedAt: Swift.String?
 
         public init (
@@ -5248,7 +5280,7 @@ extension SecurityHubClientTypes {
         public var domainName: Swift.String?
         /// The entity tag is a hash of the object.
         public var eTag: Swift.String?
-        /// Indicates when that the distribution was last modified. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when that the distribution was last modified. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastModifiedTime: Swift.String?
         /// A complex type that controls whether access logs are written for the distribution.
         public var logging: SecurityHubClientTypes.AwsCloudFrontDistributionLogging?
@@ -7437,7 +7469,7 @@ extension SecurityHubClientTypes {
     public struct AwsDynamoDbTableBillingModeSummary: Swift.Equatable {
         /// The method used to charge for read and write throughput and to manage capacity.
         public var billingMode: Swift.String?
-        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// If the billing mode is PAY_PER_REQUEST, indicates when the billing mode was set to that value. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastUpdateToPayPerRequestDateTime: Swift.String?
 
         public init (
@@ -7646,7 +7678,7 @@ extension SecurityHubClientTypes {
         public var attributeDefinitions: [SecurityHubClientTypes.AwsDynamoDbTableAttributeDefinition]?
         /// Information about the billing for read/write capacity on the table.
         public var billingModeSummary: SecurityHubClientTypes.AwsDynamoDbTableBillingModeSummary?
-        /// Indicates when the table was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the table was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDateTime: Swift.String?
         /// List of global secondary indexes for the table.
         public var globalSecondaryIndexes: [SecurityHubClientTypes.AwsDynamoDbTableGlobalSecondaryIndex]?
@@ -8107,9 +8139,9 @@ extension SecurityHubClientTypes.AwsDynamoDbTableProvisionedThroughput: Swift.Co
 extension SecurityHubClientTypes {
     /// Information about the provisioned throughput for the table or for a global secondary index.
     public struct AwsDynamoDbTableProvisionedThroughput: Swift.Equatable {
-        /// Indicates when the provisioned throughput was last decreased. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the provisioned throughput was last decreased. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastDecreaseDateTime: Swift.String?
-        /// Indicates when the provisioned throughput was last increased. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the provisioned throughput was last increased. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastIncreaseDateTime: Swift.String?
         /// The number of times during the current UTC calendar day that the provisioned throughput was decreased.
         public var numberOfDecreasesToday: Swift.Int
@@ -8363,7 +8395,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableRestoreSummary: Swift.Codable {
 extension SecurityHubClientTypes {
     /// Information about the restore for the table.
     public struct AwsDynamoDbTableRestoreSummary: Swift.Equatable {
-        /// Indicates the point in time that the table was restored to. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates the point in time that the table was restored to. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var restoreDateTime: Swift.String?
         /// Whether a restore is currently in progress.
         public var restoreInProgress: Swift.Bool
@@ -8428,7 +8460,7 @@ extension SecurityHubClientTypes.AwsDynamoDbTableSseDescription: Swift.Codable {
 extension SecurityHubClientTypes {
     /// Information about the server-side encryption for the table.
     public struct AwsDynamoDbTableSseDescription: Swift.Equatable {
-        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// If the key is inaccessible, the date and time when DynamoDB detected that the key was inaccessible. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var inaccessibleEncryptionDateTime: Swift.String?
         /// The ARN of the KMS key that is used for the KMS encryption.
         public var kmsMasterKeyArn: Swift.String?
@@ -8757,7 +8789,7 @@ extension SecurityHubClientTypes {
         public var ipV6Addresses: [Swift.String]?
         /// The key name associated with the instance.
         public var keyName: Swift.String?
-        /// Indicates when the instance was launched. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the instance was launched. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var launchedAt: Swift.String?
         /// Details about the metadata options for the Amazon EC2 instance.
         public var metadataOptions: SecurityHubClientTypes.AwsEc2InstanceMetadataOptions?
@@ -10371,11 +10403,11 @@ extension SecurityHubClientTypes {
         public var memoryMiB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsMemoryMiBDetails?
         /// The minimum and maximum number of network interfaces.
         public var networkInterfaceCount: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsNetworkInterfaceCountDetails?
-        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        /// The price protection threshold for On-Demand Instances. This is the maximum you'll pay for an On-Demand Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
         public var onDemandMaxPricePercentageOverLowestPrice: Swift.Int
         /// Indicates whether instance types must support hibernation for On-Demand Instances.
         public var requireHibernateSupport: Swift.Bool
-        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
+        /// The price protection threshold for Spot Instances. This is the maximum you'll pay for a Spot Instance, expressed as a percentage above the least expensive current generation M, C, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it excludes instance types priced above your threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. A high value, such as 999999, turns off price protection.
         public var spotMaxPricePercentageOverLowestPrice: Swift.Int
         /// The minimum and maximum amount of total local storage, in GB.
         public var totalLocalStorageGB: SecurityHubClientTypes.AwsEc2LaunchTemplateDataInstanceRequirementsTotalLocalStorageGBDetails?
@@ -10773,7 +10805,7 @@ extension SecurityHubClientTypes.AwsEc2LaunchTemplateDataMetadataOptionsDetails:
 extension SecurityHubClientTypes {
     /// Specifies the metadata options for an Amazon EC2 instance.
     public struct AwsEc2LaunchTemplateDataMetadataOptionsDetails: Swift.Equatable {
-        /// Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won’t be able to access your instance metadata.
+        /// Enables or disables the HTTP metadata endpoint on your instances. If the parameter is not specified, the default state is enabled, and you won't be able to access your instance metadata.
         public var httpEndpoint: Swift.String?
         /// Enables or disables the IPv6 endpoint for the instance metadata service.
         public var httpProtocolIpv6: Swift.String?
@@ -11824,7 +11856,7 @@ extension SecurityHubClientTypes.AwsEc2NetworkInterfaceAttachment: Swift.Codable
 extension SecurityHubClientTypes {
     /// Information about the network interface attachment.
     public struct AwsEc2NetworkInterfaceAttachment: Swift.Equatable {
-        /// Indicates when the attachment initiated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the attachment initiated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var attachTime: Swift.String?
         /// The identifier of the network interface attachment
         public var attachmentId: Swift.String?
@@ -13064,7 +13096,7 @@ extension SecurityHubClientTypes {
     public struct AwsEc2VolumeDetails: Swift.Equatable {
         /// The volume attachments.
         public var attachments: [SecurityHubClientTypes.AwsEc2VolumeAttachment]?
-        /// Indicates when the volume was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the volume was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createTime: Swift.String?
         /// The device name for the volume that is attached to the instance.
         public var deviceName: Swift.String?
@@ -14289,7 +14321,7 @@ extension SecurityHubClientTypes {
         public var acceptedRouteCount: Swift.Int
         /// The ARN of the VPN tunnel endpoint certificate.
         public var certificateArn: Swift.String?
-        /// The date and time of the last change in status. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date and time of the last change in status. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastStatusChange: Swift.String?
         /// The Internet-routable IP address of the virtual private gateway's outside interface.
         public var outsideIpAddress: Swift.String?
@@ -14392,7 +14424,7 @@ extension SecurityHubClientTypes {
         public var architecture: Swift.String?
         /// The sha256 digest of the image manifest.
         public var imageDigest: Swift.String?
-        /// The date and time when the image was pushed to the repository. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date and time when the image was pushed to the repository. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var imagePublishedAt: Swift.String?
         /// The list of tags that are associated with the image.
         public var imageTags: [Swift.String]?
@@ -21112,7 +21144,7 @@ extension SecurityHubClientTypes {
         public var canonicalHostedZoneName: Swift.String?
         /// The ID of the Amazon Route 53 hosted zone for the load balancer.
         public var canonicalHostedZoneNameID: Swift.String?
-        /// Indicates when the load balancer was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the load balancer was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// The DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -21726,7 +21758,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [SecurityHubClientTypes.AvailabilityZone]?
         /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
         public var canonicalHostedZoneId: Swift.String?
-        /// Indicates when the load balancer was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the load balancer was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdTime: Swift.String?
         /// The public DNS name of the load balancer.
         public var dnsName: Swift.String?
@@ -21849,7 +21881,7 @@ extension SecurityHubClientTypes {
         public var accessKeyId: Swift.String?
         /// The Amazon Web Services account ID of the account for the key.
         public var accountId: Swift.String?
-        /// Indicates when the IAM access key was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the IAM access key was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
         /// The ID of the principal associated with an access key.
         public var principalId: Swift.String?
@@ -21964,7 +21996,7 @@ extension SecurityHubClientTypes.AwsIamAccessKeySessionContextAttributes: Swift.
 extension SecurityHubClientTypes {
     /// Attributes of the session that the key was used for.
     public struct AwsIamAccessKeySessionContextAttributes: Swift.Equatable {
-        /// Indicates when the session was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the session was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDate: Swift.String?
         /// Indicates whether the session used multi-factor authentication (MFA).
         public var mfaAuthenticated: Swift.Bool
@@ -22211,7 +22243,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamGroupDetails: Swift.Equatable {
         /// A list of the managed policies that are attached to the IAM group.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the IAM group was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the IAM group was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The identifier of the IAM group.
         public var groupId: Swift.String?
@@ -22343,7 +22375,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamInstanceProfile: Swift.Equatable {
         /// The ARN of the instance profile.
         public var arn: Swift.String?
-        /// Indicates when the instance profile was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the instance profile was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The identifier of the instance profile.
         public var instanceProfileId: Swift.String?
@@ -22430,7 +22462,7 @@ extension SecurityHubClientTypes {
         public var arn: Swift.String?
         /// The policy that grants an entity permission to assume the role.
         public var assumeRolePolicyDocument: Swift.String?
-        /// Indicates when the role was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the role was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The path to the role.
         public var path: Swift.String?
@@ -22600,7 +22632,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamPolicyDetails: Swift.Equatable {
         /// The number of users, groups, and roles that the policy is attached to.
         public var attachmentCount: Swift.Int
-        /// When the policy was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// When the policy was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The identifier of the default version of the policy.
         public var defaultVersionId: Swift.String?
@@ -22618,7 +22650,7 @@ extension SecurityHubClientTypes {
         public var policyName: Swift.String?
         /// List of versions of the policy.
         public var policyVersionList: [SecurityHubClientTypes.AwsIamPolicyVersion]?
-        /// When the policy was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// When the policy was most recently updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var updateDate: Swift.String?
 
         public init (
@@ -22685,7 +22717,7 @@ extension SecurityHubClientTypes.AwsIamPolicyVersion: Swift.Codable {
 extension SecurityHubClientTypes {
     /// A version of an IAM policy.
     public struct AwsIamPolicyVersion: Swift.Equatable {
-        /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// Whether the version is the default version.
         public var isDefaultVersion: Swift.Bool
@@ -22822,7 +22854,7 @@ extension SecurityHubClientTypes {
         public var assumeRolePolicyDocument: Swift.String?
         /// The list of the managed policies that are attached to the role.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the role was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the role was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// The list of instance profiles that contain this role.
         public var instanceProfileList: [SecurityHubClientTypes.AwsIamInstanceProfile]?
@@ -23004,7 +23036,7 @@ extension SecurityHubClientTypes {
     public struct AwsIamUserDetails: Swift.Equatable {
         /// A list of the managed policies that are attached to the user.
         public var attachedManagedPolicies: [SecurityHubClientTypes.AwsIamAttachedManagedPolicy]?
-        /// Indicates when the user was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the user was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createDate: Swift.String?
         /// A list of IAM groups that the user belongs to.
         public var groupList: [Swift.String]?
@@ -23264,7 +23296,7 @@ extension SecurityHubClientTypes {
     public struct AwsKmsKeyDetails: Swift.Equatable {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public var awsAccountId: Swift.String?
-        /// Indicates when the KMS key was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the KMS key was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var creationDate: Swift.Double
         /// A description of the KMS key.
         public var description: Swift.String?
@@ -23589,7 +23621,7 @@ extension SecurityHubClientTypes {
         public var handler: Swift.String?
         /// The KMS key that is used to encrypt the function's environment variables. This key is only returned if you've configured a customer managed customer managed key.
         public var kmsKeyArn: Swift.String?
-        /// Indicates when the function was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the function was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastModified: Swift.String?
         /// The function's layers.
         public var layers: [SecurityHubClientTypes.AwsLambdaFunctionLayer]?
@@ -23971,7 +24003,7 @@ extension SecurityHubClientTypes {
     public struct AwsLambdaLayerVersionDetails: Swift.Equatable {
         /// The layer's compatible runtimes. Maximum number of five items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided
         public var compatibleRuntimes: [Swift.String]?
-        /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
         /// The version number.
         public var version: Swift.Int
@@ -25688,7 +25720,7 @@ extension SecurityHubClientTypes {
         public var availabilityZones: [Swift.String]?
         /// The number of days for which automated backups are retained.
         public var backupRetentionPeriod: Swift.Int
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var clusterCreateTime: Swift.String?
         /// Whether tags are copied from the DB cluster to snapshots of the DB cluster.
         public var copyTagsToSnapshot: Swift.Bool
@@ -26101,7 +26133,7 @@ extension SecurityHubClientTypes {
         public var allocatedStorage: Swift.Int
         /// A list of Availability Zones where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
-        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB cluster was created, in Universal Coordinated Time (UTC). Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var clusterCreateTime: Swift.String?
         /// The DB cluster identifier.
         public var dbClusterIdentifier: Swift.String?
@@ -26123,7 +26155,7 @@ extension SecurityHubClientTypes {
         public var percentProgress: Swift.Int
         /// The port number on which the DB instances in the DB cluster accept connections.
         public var port: Swift.Int
-        /// Indicates when the snapshot was taken. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the snapshot was taken. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var snapshotCreateTime: Swift.String?
         /// The type of DB cluster snapshot.
         public var snapshotType: Swift.String?
@@ -26852,13 +26884,13 @@ extension SecurityHubClientTypes {
         ///
         /// * Aurora 5.6 or higher
         public var iamDatabaseAuthenticationEnabled: Swift.Bool
-        /// Indicates when the DB instance was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the DB instance was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var instanceCreateTime: Swift.String?
         /// Specifies the provisioned IOPS (I/O operations per second) for this DB instance.
         public var iops: Swift.Int
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted DB instance.
         public var kmsKeyId: Swift.String?
-        /// Specifies the latest time to which a database can be restored with point-in-time restore. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Specifies the latest time to which a database can be restored with point-in-time restore. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var latestRestorableTime: Swift.String?
         /// License model information for this DB instance.
         public var licenseModel: Swift.String?
@@ -28399,7 +28431,7 @@ extension SecurityHubClientTypes {
         public var sourceType: Swift.String?
         /// The status of the event notification subscription. Valid values: creating | modifying | deleting | active | no-permission | topic-not-exist
         public var status: Swift.String?
-        /// The datetime when the event notification subscription was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The datetime when the event notification subscription was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var subscriptionCreationTime: Swift.String?
 
         public init (
@@ -28759,11 +28791,11 @@ extension SecurityHubClientTypes.AwsRedshiftClusterClusterSnapshotCopyStatus: Sw
 }
 
 extension SecurityHubClientTypes {
-    /// Information about a cross-Region snapshot copy.
+    /// You can configure Amazon Redshift to copy snapshots for a cluster to another Amazon Web Services Region. This parameter provides information about a cross-Region snapshot copy.
     public struct AwsRedshiftClusterClusterSnapshotCopyStatus: Swift.Equatable {
         /// The destination Region that snapshots are automatically copied to when cross-Region snapshot copy is enabled.
         public var destinationRegion: Swift.String?
-        /// The number of days that manual snapshots are retained in the destination region after they are copied from a source region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
+        /// The number of days that manual snapshots are retained in the destination Region after they are copied from a source Region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
         public var manualSnapshotRetentionPeriod: Swift.Int
         /// The number of days to retain automated snapshots in the destination Region after they are copied from a source Region.
         public var retentionPeriod: Swift.Int
@@ -28820,11 +28852,11 @@ extension SecurityHubClientTypes.AwsRedshiftClusterDeferredMaintenanceWindow: Sw
 extension SecurityHubClientTypes {
     /// A time windows during which maintenance was deferred for an Amazon Redshift cluster.
     public struct AwsRedshiftClusterDeferredMaintenanceWindow: Swift.Equatable {
-        /// The end of the time window for which maintenance was deferred. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The end of the time window for which maintenance was deferred. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var deferMaintenanceEndTime: Swift.String?
         /// The identifier of the maintenance window.
         public var deferMaintenanceIdentifier: Swift.String?
-        /// The start of the time window for which maintenance was deferred. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The start of the time window for which maintenance was deferred. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var deferMaintenanceStartTime: Swift.String?
 
         public init (
@@ -29223,7 +29255,7 @@ extension SecurityHubClientTypes {
         ///
         /// * Failed - The cluster failed and is not available for queries.
         public var clusterAvailabilityStatus: Swift.String?
-        /// Indicates when the cluster was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the cluster was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var clusterCreateTime: Swift.String?
         /// The unique identifier of the cluster.
         public var clusterIdentifier: Swift.String?
@@ -29259,7 +29291,7 @@ extension SecurityHubClientTypes {
         public var endpoint: SecurityHubClientTypes.AwsRedshiftClusterEndpoint?
         /// Indicates whether to create the cluster with enhanced VPC routing enabled.
         public var enhancedVpcRouting: Swift.Bool
-        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var expectedNextSnapshotScheduleTime: Swift.String?
         /// The status of the next expected snapshot. Valid values: OnTrack | Pending
         public var expectedNextSnapshotScheduleTimeStatus: Swift.String?
@@ -29277,7 +29309,7 @@ extension SecurityHubClientTypes {
         public var manualSnapshotRetentionPeriod: Swift.Int
         /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
         public var masterUsername: Swift.String?
-        /// Indicates the start of the next maintenance window. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates the start of the next maintenance window. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var nextMaintenanceWindowStartTime: Swift.String?
         /// The node type for the nodes in the cluster.
         public var nodeType: Swift.String?
@@ -29646,9 +29678,9 @@ extension SecurityHubClientTypes {
         public var bucketName: Swift.String?
         /// The message indicating that the logs failed to be delivered.
         public var lastFailureMessage: Swift.String?
-        /// The last time when logs failed to be delivered. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The last time when logs failed to be delivered. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastFailureTime: Swift.String?
-        /// The last time that logs were delivered successfully. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The last time that logs were delivered successfully. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastSuccessfulDeliveryTime: Swift.String?
         /// Indicates whether logging is enabled.
         public var loggingEnabled: Swift.Bool
@@ -30240,7 +30272,7 @@ extension SecurityHubClientTypes {
     public struct AwsS3BucketBucketLifecycleConfigurationRulesDetails: Swift.Equatable {
         /// How Amazon S3 responds when a multipart upload is incomplete. Specifically, provides a number of days before Amazon S3 cancels the entire upload.
         public var abortIncompleteMultipartUpload: SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesAbortIncompleteMultipartUploadDetails?
-        /// The date when objects are moved or deleted. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The date when objects are moved or deleted. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var expirationDate: Swift.String?
         /// The length in days of the lifetime for objects that are subject to the rule.
         public var expirationInDays: Swift.Int
@@ -30627,7 +30659,7 @@ extension SecurityHubClientTypes.AwsS3BucketBucketLifecycleConfigurationRulesTra
 extension SecurityHubClientTypes {
     /// A rule for when objects transition to specific storage classes.
     public struct AwsS3BucketBucketLifecycleConfigurationRulesTransitionsDetails: Swift.Equatable {
-        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// A date on which to transition objects to the specified storage class. If you provide Date, you cannot provide Days. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var date: Swift.String?
         /// The number of days after which to transition the object to the specified storage class. If you provide Days, you cannot provide Date.
         public var days: Swift.Int
@@ -30803,7 +30835,7 @@ extension SecurityHubClientTypes {
         public var bucketVersioningConfiguration: SecurityHubClientTypes.AwsS3BucketBucketVersioningConfiguration?
         /// The website configuration parameters for the S3 bucket.
         public var bucketWebsiteConfiguration: SecurityHubClientTypes.AwsS3BucketWebsiteConfiguration?
-        /// Indicates when the S3 bucket was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the S3 bucket was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdAt: Swift.String?
         /// The Amazon Web Services account identifier of the account that owns the S3 bucket.
         public var ownerAccountId: Swift.String?
@@ -31652,7 +31684,7 @@ extension SecurityHubClientTypes {
         public var contentType: Swift.String?
         /// The opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public var eTag: Swift.String?
-        /// Indicates when the object was last modified. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the object was last modified. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastModified: Swift.String?
         /// If the object is stored using server-side encryption, the value of the server-side encryption algorithm used when storing this object in Amazon S3.
         public var serverSideEncryption: Swift.String?
@@ -32510,7 +32542,7 @@ extension SecurityHubClientTypes {
         public var compliance: SecurityHubClientTypes.Compliance?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: Swift.Int
-        /// Indicates when the security-findings provider created the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider created the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         /// This member is required.
         public var createdAt: Swift.String?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
@@ -32520,7 +32552,7 @@ extension SecurityHubClientTypes {
         public var description: Swift.String?
         /// In a BatchImportFindings request, finding providers use FindingProviderFields to provide and update their own values for confidence, criticality, related findings, severity, and types.
         public var findingProviderFields: SecurityHubClientTypes.FindingProviderFields?
-        /// Indicates when the security-findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var firstObservedAt: Swift.String?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         /// This member is required.
@@ -32528,7 +32560,7 @@ extension SecurityHubClientTypes {
         /// The security findings provider-specific identifier for a finding.
         /// This member is required.
         public var id: Swift.String?
-        /// Indicates when the security-findings provider most recently observed the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider most recently observed the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastObservedAt: Swift.String?
         /// A list of malware related to a finding.
         public var malware: [SecurityHubClientTypes.Malware]?
@@ -32578,7 +32610,7 @@ extension SecurityHubClientTypes {
         public var title: Swift.String?
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public var types: [Swift.String]?
-        /// Indicates when the security-findings provider last updated the finding record. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the security-findings provider last updated the finding record. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         /// This member is required.
         public var updatedAt: Swift.String?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
@@ -34457,7 +34489,7 @@ extension SecurityHubClientTypes {
         public var complianceStatus: [SecurityHubClientTypes.StringFilter]?
         /// A finding's confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
         public var confidence: [SecurityHubClientTypes.NumberFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider captured the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider captured the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var createdAt: [SecurityHubClientTypes.DateFilter]?
         /// The level of importance assigned to the resources associated with the finding. A score of 0 means that the underlying resources have no criticality, and a score of 100 is reserved for the most critical resources.
         public var criticality: [SecurityHubClientTypes.NumberFilter]?
@@ -34477,7 +34509,7 @@ extension SecurityHubClientTypes {
         public var findingProviderFieldsSeverityOriginal: [SecurityHubClientTypes.StringFilter]?
         /// One or more finding types that the finding provider assigned to the finding. Uses the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
         public var findingProviderFieldsTypes: [SecurityHubClientTypes.StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider first observed the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var firstObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security-findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         public var generatorId: [SecurityHubClientTypes.StringFilter]?
@@ -34486,7 +34518,7 @@ extension SecurityHubClientTypes {
         /// A keyword for a finding.
         @available(*, deprecated, message: "The Keyword property is deprecated.")
         public var keyword: [SecurityHubClientTypes.KeywordFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider most recently observed the potential security issue that a finding captured.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider most recently observed the potential security issue that a finding captured. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var lastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the malware that was observed.
         public var malwareName: [SecurityHubClientTypes.StringFilter]?
@@ -34524,7 +34556,7 @@ extension SecurityHubClientTypes {
         public var noteUpdatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The principal that created a note.
         public var noteUpdatedBy: [SecurityHubClientTypes.StringFilter]?
-        /// The date/time that the process was launched.
+        /// A timestamp that identifies when the process was launched. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var processLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the process.
         public var processName: [SecurityHubClientTypes.StringFilter]?
@@ -34534,7 +34566,7 @@ extension SecurityHubClientTypes {
         public var processPath: [SecurityHubClientTypes.StringFilter]?
         /// The process ID.
         public var processPid: [SecurityHubClientTypes.NumberFilter]?
-        /// The date/time that the process was terminated.
+        /// A timestamp that identifies when the process was terminated. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var processTerminatedAt: [SecurityHubClientTypes.DateFilter]?
         /// The ARN generated by Security Hub that uniquely identifies a third-party company (security findings provider) after this provider's product (solution that generates findings) is registered with Security Hub.
         public var productArn: [SecurityHubClientTypes.StringFilter]?
@@ -34589,7 +34621,7 @@ extension SecurityHubClientTypes {
         public var resourceContainerImageId: [SecurityHubClientTypes.StringFilter]?
         /// The name of the image related to a finding.
         public var resourceContainerImageName: [SecurityHubClientTypes.StringFilter]?
-        /// The date/time that the container was started.
+        /// A timestamp that identifies when the container was started. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var resourceContainerLaunchedAt: [SecurityHubClientTypes.DateFilter]?
         /// The name of the container related to a finding.
         public var resourceContainerName: [SecurityHubClientTypes.StringFilter]?
@@ -34619,7 +34651,7 @@ extension SecurityHubClientTypes {
         public var sourceUrl: [SecurityHubClientTypes.StringFilter]?
         /// The category of a threat intelligence indicator.
         public var threatIntelIndicatorCategory: [SecurityHubClientTypes.StringFilter]?
-        /// The date/time of the last observation of a threat intelligence indicator.
+        /// A timestamp that identifies the last observation of a threat intelligence indicator.
         public var threatIntelIndicatorLastObservedAt: [SecurityHubClientTypes.DateFilter]?
         /// The source of the threat intelligence.
         public var threatIntelIndicatorSource: [SecurityHubClientTypes.StringFilter]?
@@ -34633,7 +34665,7 @@ extension SecurityHubClientTypes {
         public var title: [SecurityHubClientTypes.StringFilter]?
         /// A finding type in the format of namespace/category/classifier that classifies a finding.
         public var type: [SecurityHubClientTypes.StringFilter]?
-        /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record.
+        /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var updatedAt: [SecurityHubClientTypes.DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
         public var userDefinedFields: [SecurityHubClientTypes.MapFilter]?
@@ -38022,6 +38054,322 @@ extension BatchEnableStandardsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BatchGetSecurityControlsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityControlIds = "SecurityControlIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityControlIds = securityControlIds {
+            var securityControlIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .securityControlIds)
+            for nonemptystring0 in securityControlIds {
+                try securityControlIdsContainer.encode(nonemptystring0)
+            }
+        }
+    }
+}
+
+extension BatchGetSecurityControlsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/securityControls/batchGet"
+    }
+}
+
+public struct BatchGetSecurityControlsInput: Swift.Equatable {
+    /// A list of security controls (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters). The security control ID or Amazon Resource Name (ARN) is the same across standards.
+    /// This member is required.
+    public var securityControlIds: [Swift.String]?
+
+    public init (
+        securityControlIds: [Swift.String]? = nil
+    )
+    {
+        self.securityControlIds = securityControlIds
+    }
+}
+
+struct BatchGetSecurityControlsInputBody: Swift.Equatable {
+    let securityControlIds: [Swift.String]?
+}
+
+extension BatchGetSecurityControlsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityControlIds = "SecurityControlIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .securityControlIds)
+        var securityControlIdsDecoded0:[Swift.String]? = nil
+        if let securityControlIdsContainer = securityControlIdsContainer {
+            securityControlIdsDecoded0 = [Swift.String]()
+            for string0 in securityControlIdsContainer {
+                if let string0 = string0 {
+                    securityControlIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        securityControlIds = securityControlIdsDecoded0
+    }
+}
+
+extension BatchGetSecurityControlsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchGetSecurityControlsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchGetSecurityControlsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidAccessException(InvalidAccessException)
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetSecurityControlsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: BatchGetSecurityControlsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.securityControls = output.securityControls
+            self.unprocessedIds = output.unprocessedIds
+        } else {
+            self.securityControls = nil
+            self.unprocessedIds = nil
+        }
+    }
+}
+
+public struct BatchGetSecurityControlsOutputResponse: Swift.Equatable {
+    /// An array that returns the identifier, Amazon Resource Name (ARN), and other details about a security control. The same information is returned whether the request includes SecurityControlId or SecurityControlArn.
+    /// This member is required.
+    public var securityControls: [SecurityHubClientTypes.SecurityControl]?
+    /// A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which details cannot be returned.
+    public var unprocessedIds: [SecurityHubClientTypes.UnprocessedSecurityControl]?
+
+    public init (
+        securityControls: [SecurityHubClientTypes.SecurityControl]? = nil,
+        unprocessedIds: [SecurityHubClientTypes.UnprocessedSecurityControl]? = nil
+    )
+    {
+        self.securityControls = securityControls
+        self.unprocessedIds = unprocessedIds
+    }
+}
+
+struct BatchGetSecurityControlsOutputResponseBody: Swift.Equatable {
+    let securityControls: [SecurityHubClientTypes.SecurityControl]?
+    let unprocessedIds: [SecurityHubClientTypes.UnprocessedSecurityControl]?
+}
+
+extension BatchGetSecurityControlsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityControls = "SecurityControls"
+        case unprocessedIds = "UnprocessedIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.SecurityControl?].self, forKey: .securityControls)
+        var securityControlsDecoded0:[SecurityHubClientTypes.SecurityControl]? = nil
+        if let securityControlsContainer = securityControlsContainer {
+            securityControlsDecoded0 = [SecurityHubClientTypes.SecurityControl]()
+            for structure0 in securityControlsContainer {
+                if let structure0 = structure0 {
+                    securityControlsDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityControls = securityControlsDecoded0
+        let unprocessedIdsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedSecurityControl?].self, forKey: .unprocessedIds)
+        var unprocessedIdsDecoded0:[SecurityHubClientTypes.UnprocessedSecurityControl]? = nil
+        if let unprocessedIdsContainer = unprocessedIdsContainer {
+            unprocessedIdsDecoded0 = [SecurityHubClientTypes.UnprocessedSecurityControl]()
+            for structure0 in unprocessedIdsContainer {
+                if let structure0 = structure0 {
+                    unprocessedIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedIds = unprocessedIdsDecoded0
+    }
+}
+
+extension BatchGetStandardsControlAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsControlAssociationIds = "StandardsControlAssociationIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let standardsControlAssociationIds = standardsControlAssociationIds {
+            var standardsControlAssociationIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standardsControlAssociationIds)
+            for standardscontrolassociationid0 in standardsControlAssociationIds {
+                try standardsControlAssociationIdsContainer.encode(standardscontrolassociationid0)
+            }
+        }
+    }
+}
+
+extension BatchGetStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/associations/batchGet"
+    }
+}
+
+public struct BatchGetStandardsControlAssociationsInput: Swift.Equatable {
+    /// An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards.
+    /// This member is required.
+    public var standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]?
+
+    public init (
+        standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]? = nil
+    )
+    {
+        self.standardsControlAssociationIds = standardsControlAssociationIds
+    }
+}
+
+struct BatchGetStandardsControlAssociationsInputBody: Swift.Equatable {
+    let standardsControlAssociationIds: [SecurityHubClientTypes.StandardsControlAssociationId]?
+}
+
+extension BatchGetStandardsControlAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsControlAssociationIds = "StandardsControlAssociationIds"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationIdsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StandardsControlAssociationId?].self, forKey: .standardsControlAssociationIds)
+        var standardsControlAssociationIdsDecoded0:[SecurityHubClientTypes.StandardsControlAssociationId]? = nil
+        if let standardsControlAssociationIdsContainer = standardsControlAssociationIdsContainer {
+            standardsControlAssociationIdsDecoded0 = [SecurityHubClientTypes.StandardsControlAssociationId]()
+            for structure0 in standardsControlAssociationIdsContainer {
+                if let structure0 = structure0 {
+                    standardsControlAssociationIdsDecoded0?.append(structure0)
+                }
+            }
+        }
+        standardsControlAssociationIds = standardsControlAssociationIdsDecoded0
+    }
+}
+
+extension BatchGetStandardsControlAssociationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchGetStandardsControlAssociationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchGetStandardsControlAssociationsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidAccessException(InvalidAccessException)
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchGetStandardsControlAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: BatchGetStandardsControlAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.standardsControlAssociationDetails = output.standardsControlAssociationDetails
+            self.unprocessedAssociations = output.unprocessedAssociations
+        } else {
+            self.standardsControlAssociationDetails = nil
+            self.unprocessedAssociations = nil
+        }
+    }
+}
+
+public struct BatchGetStandardsControlAssociationsOutputResponse: Swift.Equatable {
+    /// Provides the enablement status of a security control in a specified standard and other details for the control in relation to the specified standard.
+    /// This member is required.
+    public var standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]?
+    /// A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement status in a specified standard cannot be returned.
+    public var unprocessedAssociations: [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]?
+
+    public init (
+        standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]? = nil,
+        unprocessedAssociations: [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]? = nil
+    )
+    {
+        self.standardsControlAssociationDetails = standardsControlAssociationDetails
+        self.unprocessedAssociations = unprocessedAssociations
+    }
+}
+
+struct BatchGetStandardsControlAssociationsOutputResponseBody: Swift.Equatable {
+    let standardsControlAssociationDetails: [SecurityHubClientTypes.StandardsControlAssociationDetail]?
+    let unprocessedAssociations: [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]?
+}
+
+extension BatchGetStandardsControlAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsControlAssociationDetails = "StandardsControlAssociationDetails"
+        case unprocessedAssociations = "UnprocessedAssociations"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationDetailsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StandardsControlAssociationDetail?].self, forKey: .standardsControlAssociationDetails)
+        var standardsControlAssociationDetailsDecoded0:[SecurityHubClientTypes.StandardsControlAssociationDetail]? = nil
+        if let standardsControlAssociationDetailsContainer = standardsControlAssociationDetailsContainer {
+            standardsControlAssociationDetailsDecoded0 = [SecurityHubClientTypes.StandardsControlAssociationDetail]()
+            for structure0 in standardsControlAssociationDetailsContainer {
+                if let structure0 = structure0 {
+                    standardsControlAssociationDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        standardsControlAssociationDetails = standardsControlAssociationDetailsDecoded0
+        let unprocessedAssociationsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedStandardsControlAssociation?].self, forKey: .unprocessedAssociations)
+        var unprocessedAssociationsDecoded0:[SecurityHubClientTypes.UnprocessedStandardsControlAssociation]? = nil
+        if let unprocessedAssociationsContainer = unprocessedAssociationsContainer {
+            unprocessedAssociationsDecoded0 = [SecurityHubClientTypes.UnprocessedStandardsControlAssociation]()
+            for structure0 in unprocessedAssociationsContainer {
+                if let structure0 = structure0 {
+                    unprocessedAssociationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedAssociations = unprocessedAssociationsDecoded0
+    }
+}
+
 extension BatchImportFindingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case findings = "Findings"
@@ -38583,6 +38931,144 @@ extension SecurityHubClientTypes {
         }
     }
 
+}
+
+extension BatchUpdateStandardsControlAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsControlAssociationUpdates = "StandardsControlAssociationUpdates"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let standardsControlAssociationUpdates = standardsControlAssociationUpdates {
+            var standardsControlAssociationUpdatesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standardsControlAssociationUpdates)
+            for standardscontrolassociationupdate0 in standardsControlAssociationUpdates {
+                try standardsControlAssociationUpdatesContainer.encode(standardscontrolassociationupdate0)
+            }
+        }
+    }
+}
+
+extension BatchUpdateStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/associations"
+    }
+}
+
+public struct BatchUpdateStandardsControlAssociationsInput: Swift.Equatable {
+    /// Updates the enablement status of a security control in a specified standard.
+    /// This member is required.
+    public var standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
+
+    public init (
+        standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]? = nil
+    )
+    {
+        self.standardsControlAssociationUpdates = standardsControlAssociationUpdates
+    }
+}
+
+struct BatchUpdateStandardsControlAssociationsInputBody: Swift.Equatable {
+    let standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
+}
+
+extension BatchUpdateStandardsControlAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardsControlAssociationUpdates = "StandardsControlAssociationUpdates"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationUpdatesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StandardsControlAssociationUpdate?].self, forKey: .standardsControlAssociationUpdates)
+        var standardsControlAssociationUpdatesDecoded0:[SecurityHubClientTypes.StandardsControlAssociationUpdate]? = nil
+        if let standardsControlAssociationUpdatesContainer = standardsControlAssociationUpdatesContainer {
+            standardsControlAssociationUpdatesDecoded0 = [SecurityHubClientTypes.StandardsControlAssociationUpdate]()
+            for structure0 in standardsControlAssociationUpdatesContainer {
+                if let structure0 = structure0 {
+                    standardsControlAssociationUpdatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        standardsControlAssociationUpdates = standardsControlAssociationUpdatesDecoded0
+    }
+}
+
+extension BatchUpdateStandardsControlAssociationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension BatchUpdateStandardsControlAssociationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum BatchUpdateStandardsControlAssociationsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidAccessException(InvalidAccessException)
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension BatchUpdateStandardsControlAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: BatchUpdateStandardsControlAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.unprocessedAssociationUpdates = output.unprocessedAssociationUpdates
+        } else {
+            self.unprocessedAssociationUpdates = nil
+        }
+    }
+}
+
+public struct BatchUpdateStandardsControlAssociationsOutputResponse: Swift.Equatable {
+    /// A security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) whose enablement status in a specified standard couldn't be updated.
+    public var unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]?
+
+    public init (
+        unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]? = nil
+    )
+    {
+        self.unprocessedAssociationUpdates = unprocessedAssociationUpdates
+    }
+}
+
+struct BatchUpdateStandardsControlAssociationsOutputResponseBody: Swift.Equatable {
+    let unprocessedAssociationUpdates: [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]?
+}
+
+extension BatchUpdateStandardsControlAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case unprocessedAssociationUpdates = "UnprocessedAssociationUpdates"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let unprocessedAssociationUpdatesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate?].self, forKey: .unprocessedAssociationUpdates)
+        var unprocessedAssociationUpdatesDecoded0:[SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]? = nil
+        if let unprocessedAssociationUpdatesContainer = unprocessedAssociationUpdatesContainer {
+            unprocessedAssociationUpdatesDecoded0 = [SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate]()
+            for structure0 in unprocessedAssociationUpdatesContainer {
+                if let structure0 = structure0 {
+                    unprocessedAssociationUpdatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        unprocessedAssociationUpdates = unprocessedAssociationUpdatesDecoded0
+    }
 }
 
 extension SecurityHubClientTypes.BooleanFilter: Swift.Codable {
@@ -39151,7 +39637,7 @@ extension SecurityHubClientTypes {
         public var imageId: Swift.String?
         /// The name of the container image related to a finding.
         public var imageName: Swift.String?
-        /// Indicates when the container started. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the container started. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var launchedAt: Swift.String?
         /// The name of the container related to a finding.
         public var name: Swift.String?
@@ -39180,6 +39666,38 @@ extension SecurityHubClientTypes {
         }
     }
 
+}
+
+extension SecurityHubClientTypes {
+    public enum ControlFindingGenerator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case securityControl
+        case standardControl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlFindingGenerator] {
+            return [
+                .securityControl,
+                .standardControl,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .securityControl: return "SECURITY_CONTROL"
+            case .standardControl: return "STANDARD_CONTROL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ControlFindingGenerator(rawValue: rawValue) ?? ControlFindingGenerator.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SecurityHubClientTypes {
@@ -39377,7 +39895,7 @@ extension CreateActionTargetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateActionTargetOutputResponse: Swift.Equatable {
-    /// The ARN for the custom action target.
+    /// The Amazon Resource Name (ARN) for the custom action target.
     /// This member is required.
     public var actionTargetArn: Swift.String?
 
@@ -40169,9 +40687,9 @@ extension SecurityHubClientTypes {
     public struct DateFilter: Swift.Equatable {
         /// A date range for the date filter.
         public var dateRange: SecurityHubClientTypes.DateRange?
-        /// An end date for the date filter.
+        /// A timestamp that provides the end date for the date filter. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var end: Swift.String?
-        /// A start date for the date filter.
+        /// A timestamp that provides the start date for the date filter. A correctly formatted example is 2020-05-21T20:16:34.724Z. The value cannot contain spaces, and date and time should be separated by T. For more information, see [RFC 3339 section 5.6, Internet Date/Time Format](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var start: Swift.String?
 
         public init (
@@ -40410,7 +40928,7 @@ extension DeleteActionTargetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteActionTargetInput: Swift.Equatable {
-    /// The ARN of the custom action target to delete.
+    /// The Amazon Resource Name (ARN) of the custom action target to delete.
     /// This member is required.
     public var actionTargetArn: Swift.String?
 
@@ -41206,10 +41724,12 @@ extension DescribeHubOutputResponse: ClientRuntime.HttpResponseBinding {
             let data = reader.toBytes().getData()
             let output: DescribeHubOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.autoEnableControls = output.autoEnableControls
+            self.controlFindingGenerator = output.controlFindingGenerator
             self.hubArn = output.hubArn
             self.subscribedAt = output.subscribedAt
         } else {
             self.autoEnableControls = false
+            self.controlFindingGenerator = nil
             self.hubArn = nil
             self.subscribedAt = nil
         }
@@ -41219,6 +41739,8 @@ extension DescribeHubOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeHubOutputResponse: Swift.Equatable {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. If set to true, then new controls for enabled standards are enabled automatically. If set to false, then new controls are not enabled.
     public var autoEnableControls: Swift.Bool
+    /// Specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 9, 2023.
+    public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// The ARN of the Hub resource that was retrieved.
     public var hubArn: Swift.String?
     /// The date and time when Security Hub was enabled in the account.
@@ -41226,11 +41748,13 @@ public struct DescribeHubOutputResponse: Swift.Equatable {
 
     public init (
         autoEnableControls: Swift.Bool = false,
+        controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil,
         hubArn: Swift.String? = nil,
         subscribedAt: Swift.String? = nil
     )
     {
         self.autoEnableControls = autoEnableControls
+        self.controlFindingGenerator = controlFindingGenerator
         self.hubArn = hubArn
         self.subscribedAt = subscribedAt
     }
@@ -41240,11 +41764,13 @@ struct DescribeHubOutputResponseBody: Swift.Equatable {
     let hubArn: Swift.String?
     let subscribedAt: Swift.String?
     let autoEnableControls: Swift.Bool
+    let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 }
 
 extension DescribeHubOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnableControls = "AutoEnableControls"
+        case controlFindingGenerator = "ControlFindingGenerator"
         case hubArn = "HubArn"
         case subscribedAt = "SubscribedAt"
     }
@@ -41257,6 +41783,8 @@ extension DescribeHubOutputResponseBody: Swift.Decodable {
         subscribedAt = subscribedAtDecoded
         let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls) ?? false
         autoEnableControls = autoEnableControlsDecoded
+        let controlFindingGeneratorDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlFindingGenerator.self, forKey: .controlFindingGenerator)
+        controlFindingGenerator = controlFindingGeneratorDecoded
     }
 }
 
@@ -42489,12 +43017,16 @@ public struct EnableOrganizationAdminAccountOutputResponse: Swift.Equatable {
 
 extension EnableSecurityHubInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlFindingGenerator = "ControlFindingGenerator"
         case enableDefaultStandards = "EnableDefaultStandards"
         case tags = "Tags"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let controlFindingGenerator = self.controlFindingGenerator {
+            try encodeContainer.encode(controlFindingGenerator.rawValue, forKey: .controlFindingGenerator)
+        }
         if let enableDefaultStandards = self.enableDefaultStandards {
             try encodeContainer.encode(enableDefaultStandards, forKey: .enableDefaultStandards)
         }
@@ -42514,16 +43046,20 @@ extension EnableSecurityHubInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableSecurityHubInput: Swift.Equatable {
+    /// This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 9, 2023.
+    public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
     /// Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
     public var enableDefaultStandards: Swift.Bool?
     /// The tags to add to the hub resource when you enable Security Hub.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
+        controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil,
         enableDefaultStandards: Swift.Bool? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.controlFindingGenerator = controlFindingGenerator
         self.enableDefaultStandards = enableDefaultStandards
         self.tags = tags
     }
@@ -42532,10 +43068,12 @@ public struct EnableSecurityHubInput: Swift.Equatable {
 struct EnableSecurityHubInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let enableDefaultStandards: Swift.Bool?
+    let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 }
 
 extension EnableSecurityHubInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlFindingGenerator = "ControlFindingGenerator"
         case enableDefaultStandards = "EnableDefaultStandards"
         case tags = "Tags"
     }
@@ -42555,6 +43093,8 @@ extension EnableSecurityHubInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let enableDefaultStandardsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableDefaultStandards)
         enableDefaultStandards = enableDefaultStandardsDecoded
+        let controlFindingGeneratorDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlFindingGenerator.self, forKey: .controlFindingGenerator)
+        controlFindingGenerator = controlFindingGeneratorDecoded
     }
 }
 
@@ -46015,6 +46555,299 @@ extension ListOrganizationAdminAccountsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListSecurityControlDefinitionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let standardsArn = standardsArn {
+                let standardsArnQueryItem = ClientRuntime.URLQueryItem(name: "StandardsArn".urlPercentEncoding(), value: Swift.String(standardsArn).urlPercentEncoding())
+                items.append(standardsArnQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListSecurityControlDefinitionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/securityControls/definitions"
+    }
+}
+
+public struct ListSecurityControlDefinitionsInput: Swift.Equatable {
+    /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 security controls that apply to the specified standard. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 controls. This repeats until all controls for the standard are returned.
+    public var maxResults: Swift.Int?
+    /// Optional pagination parameter.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the standard that you want to view controls for.
+    public var standardsArn: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        standardsArn: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.standardsArn = standardsArn
+    }
+}
+
+struct ListSecurityControlDefinitionsInputBody: Swift.Equatable {
+}
+
+extension ListSecurityControlDefinitionsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListSecurityControlDefinitionsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListSecurityControlDefinitionsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListSecurityControlDefinitionsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidAccessException(InvalidAccessException)
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListSecurityControlDefinitionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListSecurityControlDefinitionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.securityControlDefinitions = output.securityControlDefinitions
+        } else {
+            self.nextToken = nil
+            self.securityControlDefinitions = nil
+        }
+    }
+}
+
+public struct ListSecurityControlDefinitionsOutputResponse: Swift.Equatable {
+    /// A pagination parameter that's included in the response only if it was included in the request.
+    public var nextToken: Swift.String?
+    /// An array of controls that apply to the specified standard.
+    /// This member is required.
+    public var securityControlDefinitions: [SecurityHubClientTypes.SecurityControlDefinition]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        securityControlDefinitions: [SecurityHubClientTypes.SecurityControlDefinition]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.securityControlDefinitions = securityControlDefinitions
+    }
+}
+
+struct ListSecurityControlDefinitionsOutputResponseBody: Swift.Equatable {
+    let securityControlDefinitions: [SecurityHubClientTypes.SecurityControlDefinition]?
+    let nextToken: Swift.String?
+}
+
+extension ListSecurityControlDefinitionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case securityControlDefinitions = "SecurityControlDefinitions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlDefinitionsContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.SecurityControlDefinition?].self, forKey: .securityControlDefinitions)
+        var securityControlDefinitionsDecoded0:[SecurityHubClientTypes.SecurityControlDefinition]? = nil
+        if let securityControlDefinitionsContainer = securityControlDefinitionsContainer {
+            securityControlDefinitionsDecoded0 = [SecurityHubClientTypes.SecurityControlDefinition]()
+            for structure0 in securityControlDefinitionsContainer {
+                if let structure0 = structure0 {
+                    securityControlDefinitionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        securityControlDefinitions = securityControlDefinitionsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListStandardsControlAssociationsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let securityControlId = securityControlId else {
+                let message = "Creating a URL Query Item failed. securityControlId is required and must not be nil."
+                throw ClientRuntime.ClientError.queryItemCreationFailed(message)
+            }
+            let securityControlIdQueryItem = ClientRuntime.URLQueryItem(name: "SecurityControlId".urlPercentEncoding(), value: Swift.String(securityControlId).urlPercentEncoding())
+            items.append(securityControlIdQueryItem)
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListStandardsControlAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/associations"
+    }
+}
+
+public struct ListStandardsControlAssociationsInput: Swift.Equatable {
+    /// An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
+    public var maxResults: Swift.Int?
+    /// Optional pagination parameter.
+    public var nextToken: Swift.String?
+    /// The identifier of the control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) that you want to determine the enablement status of in each enabled standard.
+    /// This member is required.
+    public var securityControlId: Swift.String?
+
+    public init (
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        securityControlId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.securityControlId = securityControlId
+    }
+}
+
+struct ListStandardsControlAssociationsInputBody: Swift.Equatable {
+}
+
+extension ListStandardsControlAssociationsInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListStandardsControlAssociationsOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListStandardsControlAssociationsOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalException" : self = .internalException(try InternalException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidAccessException" : self = .invalidAccessException(try InvalidAccessException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InvalidInputException" : self = .invalidInputException(try InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "LimitExceededException" : self = .limitExceededException(try LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListStandardsControlAssociationsOutputError: Swift.Error, Swift.Equatable {
+    case internalException(InternalException)
+    case invalidAccessException(InvalidAccessException)
+    case invalidInputException(InvalidInputException)
+    case limitExceededException(LimitExceededException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListStandardsControlAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListStandardsControlAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.standardsControlAssociationSummaries = output.standardsControlAssociationSummaries
+        } else {
+            self.nextToken = nil
+            self.standardsControlAssociationSummaries = nil
+        }
+    }
+}
+
+public struct ListStandardsControlAssociationsOutputResponse: Swift.Equatable {
+    /// A pagination parameter that's included in the response only if it was included in the request.
+    public var nextToken: Swift.String?
+    /// An array that provides the enablement status and other details for each security control that applies to each enabled standard.
+    /// This member is required.
+    public var standardsControlAssociationSummaries: [SecurityHubClientTypes.StandardsControlAssociationSummary]?
+
+    public init (
+        nextToken: Swift.String? = nil,
+        standardsControlAssociationSummaries: [SecurityHubClientTypes.StandardsControlAssociationSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.standardsControlAssociationSummaries = standardsControlAssociationSummaries
+    }
+}
+
+struct ListStandardsControlAssociationsOutputResponseBody: Swift.Equatable {
+    let standardsControlAssociationSummaries: [SecurityHubClientTypes.StandardsControlAssociationSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListStandardsControlAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case standardsControlAssociationSummaries = "StandardsControlAssociationSummaries"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationSummariesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.StandardsControlAssociationSummary?].self, forKey: .standardsControlAssociationSummaries)
+        var standardsControlAssociationSummariesDecoded0:[SecurityHubClientTypes.StandardsControlAssociationSummary]? = nil
+        if let standardsControlAssociationSummariesContainer = standardsControlAssociationSummariesContainer {
+            standardsControlAssociationSummariesDecoded0 = [SecurityHubClientTypes.StandardsControlAssociationSummary]()
+            for structure0 in standardsControlAssociationSummariesContainer {
+                if let structure0 = structure0 {
+                    standardsControlAssociationSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        standardsControlAssociationSummaries = standardsControlAssociationSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let resourceArn = resourceArn else {
@@ -47024,7 +47857,7 @@ extension SecurityHubClientTypes {
         /// The text of a note.
         /// This member is required.
         public var text: Swift.String?
-        /// The timestamp of when the note was updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// The timestamp of when the note was updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         /// This member is required.
         public var updatedAt: Swift.String?
         /// The principal that created a note.
@@ -47471,9 +48304,9 @@ extension SecurityHubClientTypes {
         public var missingCount: Swift.Int
         /// The type of patch operation performed. For Patch Manager, the values are SCAN and INSTALL.
         public var operation: Swift.String?
-        /// Indicates when the operation completed. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the operation completed. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var operationEndTime: Swift.String?
-        /// Indicates when the operation started. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the operation started. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var operationStartTime: Swift.String?
         /// The reboot option specified for the instance.
         public var rebootOption: Swift.String?
@@ -47762,7 +48595,7 @@ extension SecurityHubClientTypes.ProcessDetails: Swift.Codable {
 extension SecurityHubClientTypes {
     /// The details of process-related information about a finding.
     public struct ProcessDetails: Swift.Equatable {
-        /// Indicates when the process was launched. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the process was launched. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var launchedAt: Swift.String?
         /// The name of the process.
         public var name: Swift.String?
@@ -47772,7 +48605,7 @@ extension SecurityHubClientTypes {
         public var path: Swift.String?
         /// The process ID.
         public var pid: Swift.Int
-        /// Indicates when the process was terminated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the process was terminated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var terminatedAt: Swift.String?
 
         public init (
@@ -48114,6 +48947,38 @@ extension SecurityHubClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = RecordState(rawValue: rawValue) ?? RecordState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+    public enum RegionAvailabilityStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case unavailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionAvailabilityStatus] {
+            return [
+                .available,
+                .unavailable,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .unavailable: return "UNAVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RegionAvailabilityStatus(rawValue: rawValue) ?? RegionAvailabilityStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -50508,6 +51373,199 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.SecurityControl: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case remediationUrl = "RemediationUrl"
+        case securityControlArn = "SecurityControlArn"
+        case securityControlId = "SecurityControlId"
+        case securityControlStatus = "SecurityControlStatus"
+        case severityRating = "SeverityRating"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let remediationUrl = self.remediationUrl {
+            try encodeContainer.encode(remediationUrl, forKey: .remediationUrl)
+        }
+        if let securityControlArn = self.securityControlArn {
+            try encodeContainer.encode(securityControlArn, forKey: .securityControlArn)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let securityControlStatus = self.securityControlStatus {
+            try encodeContainer.encode(securityControlStatus.rawValue, forKey: .securityControlStatus)
+        }
+        if let severityRating = self.severityRating {
+            try encodeContainer.encode(severityRating.rawValue, forKey: .severityRating)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let securityControlArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlArn)
+        securityControlArn = securityControlArnDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let remediationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediationUrl)
+        remediationUrl = remediationUrlDecoded
+        let severityRatingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SeverityRating.self, forKey: .severityRating)
+        severityRating = severityRatingDecoded
+        let securityControlStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlStatus.self, forKey: .securityControlStatus)
+        securityControlStatus = securityControlStatusDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// A security control in Security Hub describes a security best practice related to a specific resource.
+    public struct SecurityControl: Swift.Equatable {
+        /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        /// This member is required.
+        public var remediationUrl: Swift.String?
+        /// The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        /// This member is required.
+        public var securityControlArn: Swift.String?
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The status of a security control based on the compliance status of its findings. For more information about how control status is determined, see [Determining the overall status of a control from its findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-overall-status.html) in the Security Hub User Guide.
+        /// This member is required.
+        public var securityControlStatus: SecurityHubClientTypes.ControlStatus?
+        /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
+        /// This member is required.
+        public var severityRating: SecurityHubClientTypes.SeverityRating?
+        /// The title of a security control.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init (
+            description: Swift.String? = nil,
+            remediationUrl: Swift.String? = nil,
+            securityControlArn: Swift.String? = nil,
+            securityControlId: Swift.String? = nil,
+            securityControlStatus: SecurityHubClientTypes.ControlStatus? = nil,
+            severityRating: SecurityHubClientTypes.SeverityRating? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.remediationUrl = remediationUrl
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.securityControlStatus = securityControlStatus
+            self.severityRating = severityRating
+            self.title = title
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.SecurityControlDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case currentRegionAvailability = "CurrentRegionAvailability"
+        case description = "Description"
+        case remediationUrl = "RemediationUrl"
+        case securityControlId = "SecurityControlId"
+        case severityRating = "SeverityRating"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let currentRegionAvailability = self.currentRegionAvailability {
+            try encodeContainer.encode(currentRegionAvailability.rawValue, forKey: .currentRegionAvailability)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let remediationUrl = self.remediationUrl {
+            try encodeContainer.encode(remediationUrl, forKey: .remediationUrl)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let severityRating = self.severityRating {
+            try encodeContainer.encode(severityRating.rawValue, forKey: .severityRating)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let remediationUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remediationUrl)
+        remediationUrl = remediationUrlDecoded
+        let severityRatingDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.SeverityRating.self, forKey: .severityRating)
+        severityRating = severityRatingDecoded
+        let currentRegionAvailabilityDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.RegionAvailabilityStatus.self, forKey: .currentRegionAvailability)
+        currentRegionAvailability = currentRegionAvailabilityDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides metadata for a security control, including its unique standard-agnostic identifier, title, description, severity, availability in Amazon Web Services Regions, and a link to remediation steps.
+    public struct SecurityControlDefinition: Swift.Equatable {
+        /// Specifies whether a security control is available in the current Amazon Web Services Region.
+        /// This member is required.
+        public var currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus?
+        /// The description of a security control across standards. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter doesn't reference a specific standard.
+        /// This member is required.
+        public var description: Swift.String?
+        /// A link to Security Hub documentation that explains how to remediate a failed finding for a security control.
+        /// This member is required.
+        public var remediationUrl: Swift.String?
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The severity of a security control. For more information about how Security Hub determines control severity, see [Assigning severity to control findings](https://docs.aws.amazon.com/securityhub/latest/userguide/controls-findings-create-update.html#control-findings-severity) in the Security Hub User Guide.
+        /// This member is required.
+        public var severityRating: SecurityHubClientTypes.SeverityRating?
+        /// The title of a security control.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init (
+            currentRegionAvailability: SecurityHubClientTypes.RegionAvailabilityStatus? = nil,
+            description: Swift.String? = nil,
+            remediationUrl: Swift.String? = nil,
+            securityControlId: Swift.String? = nil,
+            severityRating: SecurityHubClientTypes.SeverityRating? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.currentRegionAvailability = currentRegionAvailability
+            self.description = description
+            self.remediationUrl = remediationUrl
+            self.securityControlId = securityControlId
+            self.severityRating = severityRating
+            self.title = title
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.SensitiveDataDetections: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count = "Count"
@@ -50668,7 +51726,7 @@ extension SecurityHubClientTypes.Severity: Swift.Codable {
 }
 
 extension SecurityHubClientTypes {
-    /// The severity of the finding. The finding provider can provide the initial severity. The finding provider can only update the severity if it has not been updated using BatchUpdateFindings. The finding must have either Label or Normalized populated. If only one of these attributes is populated, then Security Hub automatically populates the other one. If neither attribute is populated, then the finding is invalid. Label is the preferred attribute.
+    /// The severity of the finding. The finding provider can provide the initial severity. The finding provider can only update the severity if it hasn't been updated using BatchUpdateFindings. The finding must have either Label or Normalized populated. If only one of these attributes is populated, then Security Hub automatically populates the other one. If neither attribute is populated, then the finding is invalid. Label is the preferred attribute.
     public struct Severity: Swift.Equatable {
         /// The severity value of the finding. The allowed values are the following.
         ///
@@ -51301,6 +52359,405 @@ extension SecurityHubClientTypes {
             self.severityRating = severityRating
             self.standardsControlArn = standardsControlArn
             self.title = title
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.StandardsControlAssociationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case relatedRequirements = "RelatedRequirements"
+        case securityControlArn = "SecurityControlArn"
+        case securityControlId = "SecurityControlId"
+        case standardsArn = "StandardsArn"
+        case standardsControlArns = "StandardsControlArns"
+        case standardsControlDescription = "StandardsControlDescription"
+        case standardsControlTitle = "StandardsControlTitle"
+        case updatedAt = "UpdatedAt"
+        case updatedReason = "UpdatedReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let relatedRequirements = relatedRequirements {
+            var relatedRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedRequirements)
+            for nonemptystring0 in relatedRequirements {
+                try relatedRequirementsContainer.encode(nonemptystring0)
+            }
+        }
+        if let securityControlArn = self.securityControlArn {
+            try encodeContainer.encode(securityControlArn, forKey: .securityControlArn)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let standardsArn = self.standardsArn {
+            try encodeContainer.encode(standardsArn, forKey: .standardsArn)
+        }
+        if let standardsControlArns = standardsControlArns {
+            var standardsControlArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .standardsControlArns)
+            for nonemptystring0 in standardsControlArns {
+                try standardsControlArnsContainer.encode(nonemptystring0)
+            }
+        }
+        if let standardsControlDescription = self.standardsControlDescription {
+            try encodeContainer.encode(standardsControlDescription, forKey: .standardsControlDescription)
+        }
+        if let standardsControlTitle = self.standardsControlTitle {
+            try encodeContainer.encode(standardsControlTitle, forKey: .standardsControlTitle)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+        if let updatedReason = self.updatedReason {
+            try encodeContainer.encode(updatedReason, forKey: .updatedReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsArn)
+        standardsArn = standardsArnDecoded
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let securityControlArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlArn)
+        securityControlArn = securityControlArnDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let relatedRequirementsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedRequirements)
+        var relatedRequirementsDecoded0:[Swift.String]? = nil
+        if let relatedRequirementsContainer = relatedRequirementsContainer {
+            relatedRequirementsDecoded0 = [Swift.String]()
+            for string0 in relatedRequirementsContainer {
+                if let string0 = string0 {
+                    relatedRequirementsDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedRequirements = relatedRequirementsDecoded0
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let updatedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedReason)
+        updatedReason = updatedReasonDecoded
+        let standardsControlTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsControlTitle)
+        standardsControlTitle = standardsControlTitleDecoded
+        let standardsControlDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsControlDescription)
+        standardsControlDescription = standardsControlDescriptionDecoded
+        let standardsControlArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .standardsControlArns)
+        var standardsControlArnsDecoded0:[Swift.String]? = nil
+        if let standardsControlArnsContainer = standardsControlArnsContainer {
+            standardsControlArnsDecoded0 = [Swift.String]()
+            for string0 in standardsControlArnsContainer {
+                if let string0 = string0 {
+                    standardsControlArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        standardsControlArns = standardsControlArnsDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about a control's enablement status in a specified standard.
+    public struct StandardsControlAssociationDetail: Swift.Equatable {
+        /// Specifies whether a control is enabled or disabled in a specified standard.
+        /// This member is required.
+        public var associationStatus: SecurityHubClientTypes.AssociationStatus?
+        /// The requirement that underlies a control in the compliance framework related to the standard.
+        public var relatedRequirements: [Swift.String]?
+        /// The ARN of a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        /// This member is required.
+        public var securityControlArn: Swift.String?
+        /// The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Service name and a number, such as APIGateway.3.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The Amazon Resource Name (ARN) of a security standard.
+        /// This member is required.
+        public var standardsArn: Swift.String?
+        /// Provides the input parameter that Security Hub uses to call the [UpdateStandardsControl](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_UpdateStandardsControl.html) API. This API can be used to enable or disable a control in a specified standard.
+        public var standardsControlArns: [Swift.String]?
+        /// The description of a control. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. This parameter may reference a specific standard.
+        public var standardsControlDescription: Swift.String?
+        /// The title of a control. This field may reference a specific standard.
+        public var standardsControlTitle: Swift.String?
+        /// The time at which the enablement status of the control in the specified standard was last updated.
+        public var updatedAt: ClientRuntime.Date?
+        /// The reason for updating the enablement status of a control in a specified standard.
+        public var updatedReason: Swift.String?
+
+        public init (
+            associationStatus: SecurityHubClientTypes.AssociationStatus? = nil,
+            relatedRequirements: [Swift.String]? = nil,
+            securityControlArn: Swift.String? = nil,
+            securityControlId: Swift.String? = nil,
+            standardsArn: Swift.String? = nil,
+            standardsControlArns: [Swift.String]? = nil,
+            standardsControlDescription: Swift.String? = nil,
+            standardsControlTitle: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            updatedReason: Swift.String? = nil
+        )
+        {
+            self.associationStatus = associationStatus
+            self.relatedRequirements = relatedRequirements
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.standardsControlArns = standardsControlArns
+            self.standardsControlDescription = standardsControlDescription
+            self.standardsControlTitle = standardsControlTitle
+            self.updatedAt = updatedAt
+            self.updatedReason = updatedReason
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.StandardsControlAssociationId: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case securityControlId = "SecurityControlId"
+        case standardsArn = "StandardsArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let standardsArn = self.standardsArn {
+            try encodeContainer.encode(standardsArn, forKey: .standardsArn)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let standardsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsArn)
+        standardsArn = standardsArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. The security control ID or ARN is the same across standards.
+    public struct StandardsControlAssociationId: Swift.Equatable {
+        /// The unique identifier (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) of a security control across standards.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The ARN of a standard.
+        /// This member is required.
+        public var standardsArn: Swift.String?
+
+        public init (
+            securityControlId: Swift.String? = nil,
+            standardsArn: Swift.String? = nil
+        )
+        {
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.StandardsControlAssociationSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case relatedRequirements = "RelatedRequirements"
+        case securityControlArn = "SecurityControlArn"
+        case securityControlId = "SecurityControlId"
+        case standardsArn = "StandardsArn"
+        case standardsControlDescription = "StandardsControlDescription"
+        case standardsControlTitle = "StandardsControlTitle"
+        case updatedAt = "UpdatedAt"
+        case updatedReason = "UpdatedReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let relatedRequirements = relatedRequirements {
+            var relatedRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relatedRequirements)
+            for nonemptystring0 in relatedRequirements {
+                try relatedRequirementsContainer.encode(nonemptystring0)
+            }
+        }
+        if let securityControlArn = self.securityControlArn {
+            try encodeContainer.encode(securityControlArn, forKey: .securityControlArn)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let standardsArn = self.standardsArn {
+            try encodeContainer.encode(standardsArn, forKey: .standardsArn)
+        }
+        if let standardsControlDescription = self.standardsControlDescription {
+            try encodeContainer.encode(standardsControlDescription, forKey: .standardsControlDescription)
+        }
+        if let standardsControlTitle = self.standardsControlTitle {
+            try encodeContainer.encode(standardsControlTitle, forKey: .standardsControlTitle)
+        }
+        if let updatedAt = self.updatedAt {
+            try encodeContainer.encodeTimestamp(updatedAt, format: .dateTime, forKey: .updatedAt)
+        }
+        if let updatedReason = self.updatedReason {
+            try encodeContainer.encode(updatedReason, forKey: .updatedReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsArn)
+        standardsArn = standardsArnDecoded
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let securityControlArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlArn)
+        securityControlArn = securityControlArnDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let relatedRequirementsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .relatedRequirements)
+        var relatedRequirementsDecoded0:[Swift.String]? = nil
+        if let relatedRequirementsContainer = relatedRequirementsContainer {
+            relatedRequirementsDecoded0 = [Swift.String]()
+            for string0 in relatedRequirementsContainer {
+                if let string0 = string0 {
+                    relatedRequirementsDecoded0?.append(string0)
+                }
+            }
+        }
+        relatedRequirements = relatedRequirementsDecoded0
+        let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedAt)
+        updatedAt = updatedAtDecoded
+        let updatedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedReason)
+        updatedReason = updatedReasonDecoded
+        let standardsControlTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsControlTitle)
+        standardsControlTitle = standardsControlTitleDecoded
+        let standardsControlDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsControlDescription)
+        standardsControlDescription = standardsControlDescriptionDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An array that provides the enablement status and other details for each control that applies to each enabled standard.
+    public struct StandardsControlAssociationSummary: Swift.Equatable {
+        /// The enablement status of a control in a specific standard.
+        /// This member is required.
+        public var associationStatus: SecurityHubClientTypes.AssociationStatus?
+        /// The requirement that underlies this control in the compliance framework related to the standard.
+        public var relatedRequirements: [Swift.String]?
+        /// The ARN of a control, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
+        /// This member is required.
+        public var securityControlArn: Swift.String?
+        /// A unique standard-agnostic identifier for a control. Values for this field typically consist of an Amazon Web Service and a number, such as APIGateway.5. This field doesn't reference a specific standard.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The Amazon Resource Name (ARN) of a standard.
+        /// This member is required.
+        public var standardsArn: Swift.String?
+        /// The description of a control. This typically summarizes how Security Hub evaluates the control and the conditions under which it produces a failed finding. The parameter may reference a specific standard.
+        public var standardsControlDescription: Swift.String?
+        /// The title of a control.
+        public var standardsControlTitle: Swift.String?
+        /// The last time that a control's enablement status in a specified standard was updated.
+        public var updatedAt: ClientRuntime.Date?
+        /// The reason for updating the control's enablement status in a specified standard.
+        public var updatedReason: Swift.String?
+
+        public init (
+            associationStatus: SecurityHubClientTypes.AssociationStatus? = nil,
+            relatedRequirements: [Swift.String]? = nil,
+            securityControlArn: Swift.String? = nil,
+            securityControlId: Swift.String? = nil,
+            standardsArn: Swift.String? = nil,
+            standardsControlDescription: Swift.String? = nil,
+            standardsControlTitle: Swift.String? = nil,
+            updatedAt: ClientRuntime.Date? = nil,
+            updatedReason: Swift.String? = nil
+        )
+        {
+            self.associationStatus = associationStatus
+            self.relatedRequirements = relatedRequirements
+            self.securityControlArn = securityControlArn
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.standardsControlDescription = standardsControlDescription
+            self.standardsControlTitle = standardsControlTitle
+            self.updatedAt = updatedAt
+            self.updatedReason = updatedReason
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.StandardsControlAssociationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationStatus = "AssociationStatus"
+        case securityControlId = "SecurityControlId"
+        case standardsArn = "StandardsArn"
+        case updatedReason = "UpdatedReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationStatus = self.associationStatus {
+            try encodeContainer.encode(associationStatus.rawValue, forKey: .associationStatus)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+        if let standardsArn = self.standardsArn {
+            try encodeContainer.encode(standardsArn, forKey: .standardsArn)
+        }
+        if let updatedReason = self.updatedReason {
+            try encodeContainer.encode(updatedReason, forKey: .updatedReason)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .standardsArn)
+        standardsArn = standardsArnDecoded
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let associationStatusDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.AssociationStatus.self, forKey: .associationStatus)
+        associationStatus = associationStatusDecoded
+        let updatedReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedReason)
+        updatedReason = updatedReasonDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// An array of requested updates to the enablement status of controls in specified standards. The objects in the array include a security control ID, the Amazon Resource Name (ARN) of the standard, the requested enablement status, and the reason for updating the enablement status.
+    public struct StandardsControlAssociationUpdate: Swift.Equatable {
+        /// The desired enablement status of the control in the standard.
+        /// This member is required.
+        public var associationStatus: SecurityHubClientTypes.AssociationStatus?
+        /// The unique identifier for the security control whose enablement status you want to update.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the standard in which you want to update the control's enablement status.
+        /// This member is required.
+        public var standardsArn: Swift.String?
+        /// The reason for updating the control's enablement status in the standard.
+        public var updatedReason: Swift.String?
+
+        public init (
+            associationStatus: SecurityHubClientTypes.AssociationStatus? = nil,
+            securityControlId: Swift.String? = nil,
+            standardsArn: Swift.String? = nil,
+            updatedReason: Swift.String? = nil
+        )
+        {
+            self.associationStatus = associationStatus
+            self.securityControlId = securityControlId
+            self.standardsArn = standardsArn
+            self.updatedReason = updatedReason
         }
     }
 
@@ -52122,7 +53579,7 @@ extension SecurityHubClientTypes {
     public struct ThreatIntelIndicator: Swift.Equatable {
         /// The category of a threat intelligence indicator.
         public var category: SecurityHubClientTypes.ThreatIntelIndicatorCategory?
-        /// Indicates when the most recent instance of a threat intelligence indicator was observed. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the most recent instance of a threat intelligence indicator was observed. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var lastObservedAt: Swift.String?
         /// The source of the threat intelligence indicator.
         public var source: Swift.String?
@@ -52254,6 +53711,215 @@ extension SecurityHubClientTypes {
             self = ThreatIntelIndicatorType(rawValue: rawValue) ?? ThreatIntelIndicatorType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SecurityHubClientTypes {
+    public enum UnprocessedErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accessDenied
+        case invalidInput
+        case limitExceeded
+        case notFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnprocessedErrorCode] {
+            return [
+                .accessDenied,
+                .invalidInput,
+                .limitExceeded,
+                .notFound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .invalidInput: return "INVALID_INPUT"
+            case .limitExceeded: return "LIMIT_EXCEEDED"
+            case .notFound: return "NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnprocessedErrorCode(rawValue: rawValue) ?? UnprocessedErrorCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.UnprocessedSecurityControl: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorReason = "ErrorReason"
+        case securityControlId = "SecurityControlId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorReason = self.errorReason {
+            try encodeContainer.encode(errorReason, forKey: .errorReason)
+        }
+        if let securityControlId = self.securityControlId {
+            try encodeContainer.encode(securityControlId, forKey: .securityControlId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let securityControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityControlId)
+        securityControlId = securityControlIdDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.UnprocessedErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about a security control for which a response couldn't be returned.
+    public struct UnprocessedSecurityControl: Swift.Equatable {
+        /// The error code for the unprocessed security control.
+        /// This member is required.
+        public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
+        /// The reason why the security control was unprocessed.
+        public var errorReason: Swift.String?
+        /// The control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) for which a response couldn't be returned.
+        /// This member is required.
+        public var securityControlId: Swift.String?
+
+        public init (
+            errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
+            errorReason: Swift.String? = nil,
+            securityControlId: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.securityControlId = securityControlId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.UnprocessedStandardsControlAssociation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorReason = "ErrorReason"
+        case standardsControlAssociationId = "StandardsControlAssociationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorReason = self.errorReason {
+            try encodeContainer.encode(errorReason, forKey: .errorReason)
+        }
+        if let standardsControlAssociationId = self.standardsControlAssociationId {
+            try encodeContainer.encode(standardsControlAssociationId, forKey: .standardsControlAssociationId)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationIdDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.StandardsControlAssociationId.self, forKey: .standardsControlAssociationId)
+        standardsControlAssociationId = standardsControlAssociationIdDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.UnprocessedErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about which control's enablement status couldn't be retrieved in a specified standard when calling [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html). This parameter also provides details about why the request was unprocessed.
+    public struct UnprocessedStandardsControlAssociation: Swift.Equatable {
+        /// The error code for the unprocessed standard and control association.
+        /// This member is required.
+        public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
+        /// The reason why the standard and control association was unprocessed.
+        public var errorReason: Swift.String?
+        /// An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard. This parameter shows the specific controls for which the enablement status couldn't be retrieved in specified standards when calling [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html).
+        /// This member is required.
+        public var standardsControlAssociationId: SecurityHubClientTypes.StandardsControlAssociationId?
+
+        public init (
+            errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
+            errorReason: Swift.String? = nil,
+            standardsControlAssociationId: SecurityHubClientTypes.StandardsControlAssociationId? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.standardsControlAssociationId = standardsControlAssociationId
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorReason = "ErrorReason"
+        case standardsControlAssociationUpdate = "StandardsControlAssociationUpdate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorReason = self.errorReason {
+            try encodeContainer.encode(errorReason, forKey: .errorReason)
+        }
+        if let standardsControlAssociationUpdate = self.standardsControlAssociationUpdate {
+            try encodeContainer.encode(standardsControlAssociationUpdate, forKey: .standardsControlAssociationUpdate)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardsControlAssociationUpdateDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.StandardsControlAssociationUpdate.self, forKey: .standardsControlAssociationUpdate)
+        standardsControlAssociationUpdate = standardsControlAssociationUpdateDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.UnprocessedErrorCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorReason)
+        errorReason = errorReasonDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about which control's enablement status could not be updated in a specified standard when calling the [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html) API. This parameter also provides details about why the request was unprocessed.
+    public struct UnprocessedStandardsControlAssociationUpdate: Swift.Equatable {
+        /// The error code for the unprocessed update of the control's enablement status in the specified standard.
+        /// This member is required.
+        public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
+        /// The reason why a control's enablement status in the specified standard couldn't be updated.
+        public var errorReason: Swift.String?
+        /// An array of control and standard associations for which an update failed when calling [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html).
+        /// This member is required.
+        public var standardsControlAssociationUpdate: SecurityHubClientTypes.StandardsControlAssociationUpdate?
+
+        public init (
+            errorCode: SecurityHubClientTypes.UnprocessedErrorCode? = nil,
+            errorReason: Swift.String? = nil,
+            standardsControlAssociationUpdate: SecurityHubClientTypes.StandardsControlAssociationUpdate? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorReason = errorReason
+            self.standardsControlAssociationUpdate = standardsControlAssociationUpdate
+        }
+    }
+
 }
 
 extension UntagResourceInput: ClientRuntime.QueryItemProvider {
@@ -52985,12 +54651,16 @@ public struct UpdateOrganizationConfigurationOutputResponse: Swift.Equatable {
 extension UpdateSecurityHubConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnableControls = "AutoEnableControls"
+        case controlFindingGenerator = "ControlFindingGenerator"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoEnableControls = self.autoEnableControls {
             try encodeContainer.encode(autoEnableControls, forKey: .autoEnableControls)
+        }
+        if let controlFindingGenerator = self.controlFindingGenerator {
+            try encodeContainer.encode(controlFindingGenerator.rawValue, forKey: .controlFindingGenerator)
         }
     }
 }
@@ -53004,28 +54674,36 @@ extension UpdateSecurityHubConfigurationInput: ClientRuntime.URLPathProvider {
 public struct UpdateSecurityHubConfigurationInput: Swift.Equatable {
     /// Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.
     public var autoEnableControls: Swift.Bool?
+    /// Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
+    public var controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 
     public init (
-        autoEnableControls: Swift.Bool? = nil
+        autoEnableControls: Swift.Bool? = nil,
+        controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator? = nil
     )
     {
         self.autoEnableControls = autoEnableControls
+        self.controlFindingGenerator = controlFindingGenerator
     }
 }
 
 struct UpdateSecurityHubConfigurationInputBody: Swift.Equatable {
     let autoEnableControls: Swift.Bool?
+    let controlFindingGenerator: SecurityHubClientTypes.ControlFindingGenerator?
 }
 
 extension UpdateSecurityHubConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoEnableControls = "AutoEnableControls"
+        case controlFindingGenerator = "ControlFindingGenerator"
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoEnableControlsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnableControls)
         autoEnableControls = autoEnableControlsDecoded
+        let controlFindingGeneratorDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.ControlFindingGenerator.self, forKey: .controlFindingGenerator)
+        controlFindingGenerator = controlFindingGeneratorDecoded
     }
 }
 
@@ -53618,11 +55296,11 @@ extension SecurityHubClientTypes {
         public var name: Swift.String?
         /// The URL of the vulnerability advisory.
         public var url: Swift.String?
-        /// Indicates when the vulnerability advisory was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the vulnerability advisory was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var vendorCreatedAt: Swift.String?
         /// The severity that the vendor assigned to the vulnerability.
         public var vendorSeverity: Swift.String?
-        /// Indicates when the vulnerability advisory was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        /// Indicates when the vulnerability advisory was last updated. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var vendorUpdatedAt: Swift.String?
 
         public init (

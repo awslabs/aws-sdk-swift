@@ -4758,6 +4758,108 @@ public struct CancelStatementOutputResponse: Swift.Equatable {
     public init () { }
 }
 
+extension GlueClientTypes.CatalogDeltaSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDeltaOptions = "AdditionalDeltaOptions"
+        case database = "Database"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalDeltaOptions = additionalDeltaOptions {
+            var additionalDeltaOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDeltaOptions)
+            for (dictKey0, additionalOptions0) in additionalDeltaOptions {
+                try additionalDeltaOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let additionalDeltaOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalDeltaOptions)
+        var additionalDeltaOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalDeltaOptionsContainer = additionalDeltaOptionsContainer {
+            additionalDeltaOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalDeltaOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalDeltaOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalDeltaOptions = additionalDeltaOptionsDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog.
+    public struct CatalogDeltaSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalDeltaOptions: [Swift.String:Swift.String]?
+        /// The name of the database to read from.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The name of the Delta Lake data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Delta Lake source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// The name of the table in the database to read from.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalDeltaOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+    }
+
+}
+
 extension GlueClientTypes {
     public enum CatalogEncryptionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -5667,12 +5769,14 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case aggregate = "Aggregate"
         case applyMapping = "ApplyMapping"
         case athenaConnectorSource = "AthenaConnectorSource"
+        case catalogDeltaSource = "CatalogDeltaSource"
         case catalogHudiSource = "CatalogHudiSource"
         case catalogKafkaSource = "CatalogKafkaSource"
         case catalogKinesisSource = "CatalogKinesisSource"
         case catalogSource = "CatalogSource"
         case catalogTarget = "CatalogTarget"
         case customCode = "CustomCode"
+        case directJDBCSource = "DirectJDBCSource"
         case directKafkaSource = "DirectKafkaSource"
         case directKinesisSource = "DirectKinesisSource"
         case dropDuplicates = "DropDuplicates"
@@ -5702,10 +5806,14 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         case redshiftTarget = "RedshiftTarget"
         case relationalCatalogSource = "RelationalCatalogSource"
         case renameField = "RenameField"
+        case s3CatalogDeltaSource = "S3CatalogDeltaSource"
         case s3CatalogHudiSource = "S3CatalogHudiSource"
         case s3CatalogSource = "S3CatalogSource"
         case s3CatalogTarget = "S3CatalogTarget"
         case s3CsvSource = "S3CsvSource"
+        case s3DeltaCatalogTarget = "S3DeltaCatalogTarget"
+        case s3DeltaDirectTarget = "S3DeltaDirectTarget"
+        case s3DeltaSource = "S3DeltaSource"
         case s3DirectTarget = "S3DirectTarget"
         case s3GlueParquetTarget = "S3GlueParquetTarget"
         case s3HudiCatalogTarget = "S3HudiCatalogTarget"
@@ -5734,6 +5842,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         if let athenaConnectorSource = self.athenaConnectorSource {
             try encodeContainer.encode(athenaConnectorSource, forKey: .athenaConnectorSource)
         }
+        if let catalogDeltaSource = self.catalogDeltaSource {
+            try encodeContainer.encode(catalogDeltaSource, forKey: .catalogDeltaSource)
+        }
         if let catalogHudiSource = self.catalogHudiSource {
             try encodeContainer.encode(catalogHudiSource, forKey: .catalogHudiSource)
         }
@@ -5751,6 +5862,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let customCode = self.customCode {
             try encodeContainer.encode(customCode, forKey: .customCode)
+        }
+        if let directJDBCSource = self.directJDBCSource {
+            try encodeContainer.encode(directJDBCSource, forKey: .directJDBCSource)
         }
         if let directKafkaSource = self.directKafkaSource {
             try encodeContainer.encode(directKafkaSource, forKey: .directKafkaSource)
@@ -5839,6 +5953,9 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         if let renameField = self.renameField {
             try encodeContainer.encode(renameField, forKey: .renameField)
         }
+        if let s3CatalogDeltaSource = self.s3CatalogDeltaSource {
+            try encodeContainer.encode(s3CatalogDeltaSource, forKey: .s3CatalogDeltaSource)
+        }
         if let s3CatalogHudiSource = self.s3CatalogHudiSource {
             try encodeContainer.encode(s3CatalogHudiSource, forKey: .s3CatalogHudiSource)
         }
@@ -5850,6 +5967,15 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         }
         if let s3CsvSource = self.s3CsvSource {
             try encodeContainer.encode(s3CsvSource, forKey: .s3CsvSource)
+        }
+        if let s3DeltaCatalogTarget = self.s3DeltaCatalogTarget {
+            try encodeContainer.encode(s3DeltaCatalogTarget, forKey: .s3DeltaCatalogTarget)
+        }
+        if let s3DeltaDirectTarget = self.s3DeltaDirectTarget {
+            try encodeContainer.encode(s3DeltaDirectTarget, forKey: .s3DeltaDirectTarget)
+        }
+        if let s3DeltaSource = self.s3DeltaSource {
+            try encodeContainer.encode(s3DeltaSource, forKey: .s3DeltaSource)
         }
         if let s3DirectTarget = self.s3DirectTarget {
             try encodeContainer.encode(s3DirectTarget, forKey: .s3DirectTarget)
@@ -6014,6 +6140,18 @@ extension GlueClientTypes.CodeGenConfigurationNode: Swift.Codable {
         s3HudiCatalogTarget = s3HudiCatalogTargetDecoded
         let s3HudiDirectTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3HudiDirectTarget.self, forKey: .s3HudiDirectTarget)
         s3HudiDirectTarget = s3HudiDirectTargetDecoded
+        let directJDBCSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DirectJDBCSource.self, forKey: .directJDBCSource)
+        directJDBCSource = directJDBCSourceDecoded
+        let s3CatalogDeltaSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3CatalogDeltaSource.self, forKey: .s3CatalogDeltaSource)
+        s3CatalogDeltaSource = s3CatalogDeltaSourceDecoded
+        let catalogDeltaSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CatalogDeltaSource.self, forKey: .catalogDeltaSource)
+        catalogDeltaSource = catalogDeltaSourceDecoded
+        let s3DeltaSourceDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DeltaSource.self, forKey: .s3DeltaSource)
+        s3DeltaSource = s3DeltaSourceDecoded
+        let s3DeltaCatalogTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DeltaCatalogTarget.self, forKey: .s3DeltaCatalogTarget)
+        s3DeltaCatalogTarget = s3DeltaCatalogTargetDecoded
+        let s3DeltaDirectTargetDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DeltaDirectTarget.self, forKey: .s3DeltaDirectTarget)
+        s3DeltaDirectTarget = s3DeltaDirectTargetDecoded
     }
 }
 
@@ -6026,6 +6164,8 @@ extension GlueClientTypes {
         public var applyMapping: GlueClientTypes.ApplyMapping?
         /// Specifies a connector to an Amazon Athena data source.
         public var athenaConnectorSource: GlueClientTypes.AthenaConnectorSource?
+        /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog.
+        public var catalogDeltaSource: GlueClientTypes.CatalogDeltaSource?
         /// Specifies a Hudi data source that is registered in the Glue Data Catalog.
         public var catalogHudiSource: GlueClientTypes.CatalogHudiSource?
         /// Specifies an Apache Kafka data store in the Data Catalog.
@@ -6038,6 +6178,8 @@ extension GlueClientTypes {
         public var catalogTarget: GlueClientTypes.BasicCatalogTarget?
         /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
         public var customCode: GlueClientTypes.CustomCode?
+        /// Specifies the direct JDBC source connection.
+        public var directJDBCSource: GlueClientTypes.DirectJDBCSource?
         /// Specifies an Apache Kafka data store.
         public var directKafkaSource: GlueClientTypes.DirectKafkaSource?
         /// Specifies a direct Amazon Kinesis data source.
@@ -6096,7 +6238,9 @@ extension GlueClientTypes {
         public var relationalCatalogSource: GlueClientTypes.RelationalCatalogSource?
         /// Specifies a transform that renames a single data property key.
         public var renameField: GlueClientTypes.RenameField?
-        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The Hudi data source must be stored in Amazon S3.
+        /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
+        public var s3CatalogDeltaSource: GlueClientTypes.S3CatalogDeltaSource?
+        /// Specifies a Hudi data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
         public var s3CatalogHudiSource: GlueClientTypes.S3CatalogHudiSource?
         /// Specifies an Amazon S3 data store in the Glue Data Catalog.
         public var s3CatalogSource: GlueClientTypes.S3CatalogSource?
@@ -6104,6 +6248,12 @@ extension GlueClientTypes {
         public var s3CatalogTarget: GlueClientTypes.S3CatalogTarget?
         /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
         public var s3CsvSource: GlueClientTypes.S3CsvSource?
+        /// Specifies a target that writes to a Delta Lake data source in the Glue Data Catalog.
+        public var s3DeltaCatalogTarget: GlueClientTypes.S3DeltaCatalogTarget?
+        /// Specifies a target that writes to a Delta Lake data source in Amazon S3.
+        public var s3DeltaDirectTarget: GlueClientTypes.S3DeltaDirectTarget?
+        /// Specifies a Delta Lake data source stored in Amazon S3.
+        public var s3DeltaSource: GlueClientTypes.S3DeltaSource?
         /// Specifies a data target that writes to Amazon S3.
         public var s3DirectTarget: GlueClientTypes.S3DirectTarget?
         /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
@@ -6139,12 +6289,14 @@ extension GlueClientTypes {
             aggregate: GlueClientTypes.Aggregate? = nil,
             applyMapping: GlueClientTypes.ApplyMapping? = nil,
             athenaConnectorSource: GlueClientTypes.AthenaConnectorSource? = nil,
+            catalogDeltaSource: GlueClientTypes.CatalogDeltaSource? = nil,
             catalogHudiSource: GlueClientTypes.CatalogHudiSource? = nil,
             catalogKafkaSource: GlueClientTypes.CatalogKafkaSource? = nil,
             catalogKinesisSource: GlueClientTypes.CatalogKinesisSource? = nil,
             catalogSource: GlueClientTypes.CatalogSource? = nil,
             catalogTarget: GlueClientTypes.BasicCatalogTarget? = nil,
             customCode: GlueClientTypes.CustomCode? = nil,
+            directJDBCSource: GlueClientTypes.DirectJDBCSource? = nil,
             directKafkaSource: GlueClientTypes.DirectKafkaSource? = nil,
             directKinesisSource: GlueClientTypes.DirectKinesisSource? = nil,
             dropDuplicates: GlueClientTypes.DropDuplicates? = nil,
@@ -6174,10 +6326,14 @@ extension GlueClientTypes {
             redshiftTarget: GlueClientTypes.RedshiftTarget? = nil,
             relationalCatalogSource: GlueClientTypes.RelationalCatalogSource? = nil,
             renameField: GlueClientTypes.RenameField? = nil,
+            s3CatalogDeltaSource: GlueClientTypes.S3CatalogDeltaSource? = nil,
             s3CatalogHudiSource: GlueClientTypes.S3CatalogHudiSource? = nil,
             s3CatalogSource: GlueClientTypes.S3CatalogSource? = nil,
             s3CatalogTarget: GlueClientTypes.S3CatalogTarget? = nil,
             s3CsvSource: GlueClientTypes.S3CsvSource? = nil,
+            s3DeltaCatalogTarget: GlueClientTypes.S3DeltaCatalogTarget? = nil,
+            s3DeltaDirectTarget: GlueClientTypes.S3DeltaDirectTarget? = nil,
+            s3DeltaSource: GlueClientTypes.S3DeltaSource? = nil,
             s3DirectTarget: GlueClientTypes.S3DirectTarget? = nil,
             s3GlueParquetTarget: GlueClientTypes.S3GlueParquetTarget? = nil,
             s3HudiCatalogTarget: GlueClientTypes.S3HudiCatalogTarget? = nil,
@@ -6198,12 +6354,14 @@ extension GlueClientTypes {
             self.aggregate = aggregate
             self.applyMapping = applyMapping
             self.athenaConnectorSource = athenaConnectorSource
+            self.catalogDeltaSource = catalogDeltaSource
             self.catalogHudiSource = catalogHudiSource
             self.catalogKafkaSource = catalogKafkaSource
             self.catalogKinesisSource = catalogKinesisSource
             self.catalogSource = catalogSource
             self.catalogTarget = catalogTarget
             self.customCode = customCode
+            self.directJDBCSource = directJDBCSource
             self.directKafkaSource = directKafkaSource
             self.directKinesisSource = directKinesisSource
             self.dropDuplicates = dropDuplicates
@@ -6233,10 +6391,14 @@ extension GlueClientTypes {
             self.redshiftTarget = redshiftTarget
             self.relationalCatalogSource = relationalCatalogSource
             self.renameField = renameField
+            self.s3CatalogDeltaSource = s3CatalogDeltaSource
             self.s3CatalogHudiSource = s3CatalogHudiSource
             self.s3CatalogSource = s3CatalogSource
             self.s3CatalogTarget = s3CatalogTarget
             self.s3CsvSource = s3CsvSource
+            self.s3DeltaCatalogTarget = s3DeltaCatalogTarget
+            self.s3DeltaDirectTarget = s3DeltaDirectTarget
+            self.s3DeltaSource = s3DeltaSource
             self.s3DirectTarget = s3DirectTarget
             self.s3GlueParquetTarget = s3GlueParquetTarget
             self.s3HudiCatalogTarget = s3HudiCatalogTarget
@@ -6645,8 +6807,11 @@ extension GlueClientTypes.ColumnRowFilter: Swift.Codable {
 }
 
 extension GlueClientTypes {
+    /// A filter that uses both column-level and row-level filtering.
     public struct ColumnRowFilter: Swift.Equatable {
+        /// A string containing the name of the column.
         public var columnName: Swift.String?
+        /// A string containing the row-level filter expression.
         public var rowFilterExpression: Swift.String?
 
         public init (
@@ -7559,7 +7724,7 @@ extension GlueClientTypes {
         ///
         /// * ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD - The encrypted version of the Kafka client key password (if the user has the Glue encrypt passwords setting selected).
         ///
-        /// * KAFKA_SASL_MECHANISM - "SCRAM-SHA-512" or "GSSAPI". These are the two supported [SASL Mechanisms](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml).
+        /// * KAFKA_SASL_MECHANISM - "SCRAM-SHA-512", "GSSAPI", or "AWS_MSK_IAM". These are the supported [SASL Mechanisms](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml).
         ///
         /// * KAFKA_SASL_SCRAM_USERNAME - A plaintext username used to authenticate with the "SCRAM-SHA-512" mechanism.
         ///
@@ -7699,27 +7864,65 @@ extension GlueClientTypes {
         public var connectionProperties: [Swift.String:Swift.String]?
         /// The type of the connection. Currently, these types are supported:
         ///
-        /// * JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).
+        /// * JDBC - Designates a connection to a database through Java Database Connectivity (JDBC). JDBC Connections use the following ConnectionParameters.
         ///
-        /// * KAFKA - Designates a connection to an Apache Kafka streaming platform.
+        /// * Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.
         ///
-        /// * MONGODB - Designates a connection to a MongoDB document database.
+        /// * Required: All of (USERNAME, PASSWORD) or SECRET_ID.
         ///
-        /// * NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).
+        /// * Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION. These parameters are used to configure SSL with JDBC.
         ///
-        /// * MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.
+        ///
+        ///
+        ///
+        /// * KAFKA - Designates a connection to an Apache Kafka streaming platform. KAFKA Connections use the following ConnectionParameters.
+        ///
+        /// * Required: KAFKA_BOOTSTRAP_SERVERS.
+        ///
+        /// * Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.
+        ///
+        /// * Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.
+        ///
+        /// * Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.
+        ///
+        /// * Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.
+        ///
+        /// * Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.
+        ///
+        ///
+        ///
+        ///
+        /// * MONGODB - Designates a connection to a MongoDB document database. MONGODB Connections use the following ConnectionParameters.
+        ///
+        /// * Required: CONNECTION_URL.
+        ///
+        /// * Required: All of (USERNAME, PASSWORD) or SECRET_ID.
+        ///
+        ///
+        ///
+        ///
+        /// * NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC). NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.
+        ///
+        /// * MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue. MARKETPLACE Connections use the following ConnectionParameters.
+        ///
+        /// * Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.
+        ///
+        /// * Required for JDBCCONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.
+        ///
+        ///
+        ///
         ///
         /// * CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.
         ///
         ///
-        /// SFTP is not supported.
+        /// SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult [Glue connection properties](https://docs.aws.amazon.com/glue/latest/dg/connection-defining.html). For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult [Using connectors and connections](https://docs.aws.amazon.com/glue/latest/ug/connectors-chapter.html).
         /// This member is required.
         public var connectionType: GlueClientTypes.ConnectionType?
         /// The description of the connection.
         public var description: Swift.String?
         /// A list of criteria that can be used in selecting this connection.
         public var matchCriteria: [Swift.String]?
-        /// The name of the connection.
+        /// The name of the connection. Connection will not function as expected without a name.
         /// This member is required.
         public var name: Swift.String?
         /// A map of physical connection requirements, such as virtual private cloud (VPC) and SecurityGroup, that are needed to successfully make this connection.
@@ -15839,7 +16042,7 @@ extension GlueClientTypes {
     public struct Database: Swift.Equatable {
         /// The ID of the Data Catalog in which the database resides.
         public var catalogId: Swift.String?
-        /// Creates a set of default permissions on the table for principals.
+        /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
         public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
         /// The time at which the metadata database was created in the catalog.
         public var createTime: ClientRuntime.Date?
@@ -16000,7 +16203,7 @@ extension GlueClientTypes.DatabaseInput: Swift.Codable {
 extension GlueClientTypes {
     /// The structure used to create or update a database.
     public struct DatabaseInput: Swift.Equatable {
-        /// Creates a set of default permissions on the table for principals.
+        /// Creates a set of default permissions on the table for principals. Used by Lake Formation. Not used in the normal course of Glue operations.
         public var createTableDefaultPermissions: [GlueClientTypes.PrincipalPermissions]?
         /// A description of the database.
         public var description: Swift.String?
@@ -19246,6 +19449,38 @@ extension GlueClientTypes {
 
 }
 
+extension GlueClientTypes {
+    public enum DeltaTargetCompressionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case snappy
+        case uncompressed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeltaTargetCompressionType] {
+            return [
+                .snappy,
+                .uncompressed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .snappy: return "snappy"
+            case .uncompressed: return "uncompressed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeltaTargetCompressionType(rawValue: rawValue) ?? DeltaTargetCompressionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GlueClientTypes.DevEndpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arguments = "Arguments"
@@ -19611,6 +19846,96 @@ extension GlueClientTypes {
         {
             self.extraJarsS3Path = extraJarsS3Path
             self.extraPythonLibsS3Path = extraPythonLibsS3Path
+        }
+    }
+
+}
+
+extension GlueClientTypes.DirectJDBCSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectionName = "ConnectionName"
+        case connectionType = "ConnectionType"
+        case database = "Database"
+        case name = "Name"
+        case redshiftTmpDir = "RedshiftTmpDir"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectionName = self.connectionName {
+            try encodeContainer.encode(connectionName, forKey: .connectionName)
+        }
+        if let connectionType = self.connectionType {
+            try encodeContainer.encode(connectionType.rawValue, forKey: .connectionType)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let redshiftTmpDir = self.redshiftTmpDir {
+            try encodeContainer.encode(redshiftTmpDir, forKey: .redshiftTmpDir)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let connectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectionName)
+        connectionName = connectionNameDecoded
+        let connectionTypeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.JDBCConnectionType.self, forKey: .connectionType)
+        connectionType = connectionTypeDecoded
+        let redshiftTmpDirDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .redshiftTmpDir)
+        redshiftTmpDir = redshiftTmpDirDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies the direct JDBC source connection.
+    public struct DirectJDBCSource: Swift.Equatable {
+        /// The connection name of the JDBC source.
+        /// This member is required.
+        public var connectionName: Swift.String?
+        /// The connection type of the JDBC source.
+        /// This member is required.
+        public var connectionType: GlueClientTypes.JDBCConnectionType?
+        /// The database of the JDBC source connection.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The name of the JDBC source connection.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The temp directory of the JDBC Redshift source.
+        public var redshiftTmpDir: Swift.String?
+        /// The table of the JDBC source connection.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            connectionName: Swift.String? = nil,
+            connectionType: GlueClientTypes.JDBCConnectionType? = nil,
+            database: Swift.String? = nil,
+            name: Swift.String? = nil,
+            redshiftTmpDir: Swift.String? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.connectionName = connectionName
+            self.connectionType = connectionType
+            self.database = database
+            self.name = name
+            self.redshiftTmpDir = redshiftTmpDir
+            self.table = table
         }
     }
 
@@ -31233,16 +31558,21 @@ extension GetUnfilteredPartitionMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetUnfilteredPartitionMetadataInput: Swift.Equatable {
-    /// A structure containing information for audit.
+    /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
+    /// The catalog ID where the partition resides.
     /// This member is required.
     public var catalogId: Swift.String?
+    /// (Required) Specifies the name of a database that contains the partition.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// (Required) A list of partition key values.
     /// This member is required.
     public var partitionValues: [Swift.String]?
+    /// (Required) A list of supported permission types.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
+    /// (Required) Specifies the name of a table that contains the partition.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -31368,9 +31698,11 @@ extension GetUnfilteredPartitionMetadataOutputResponse: ClientRuntime.HttpRespon
 }
 
 public struct GetUnfilteredPartitionMetadataOutputResponse: Swift.Equatable {
+    /// A list of column names that the user has been granted access to.
     public var authorizedColumns: [Swift.String]?
+    /// A Boolean value that indicates whether the partition location is registered with Lake Formation.
     public var isRegisteredWithLakeFormation: Swift.Bool
-    /// Represents a slice of table data.
+    /// A Partition object containing the partition metadata.
     public var partition: GlueClientTypes.Partition?
 
     public init (
@@ -31473,19 +31805,47 @@ extension GetUnfilteredPartitionsMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetUnfilteredPartitionsMetadataInput: Swift.Equatable {
-    /// A structure containing information for audit.
+    /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
+    /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
     /// This member is required.
     public var catalogId: Swift.String?
+    /// The name of the catalog database where the partitions reside.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser [JSQLParser](http://jsqlparser.sourceforge.net/home.php) parses the expression. Operators: The following are the operators that you can use in the Expression API call: = Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20. (a = b) is not true. < > Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a < > b) is true. > Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a > b) is not true. < Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a < b) is true. >= Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a >= b) is not true. <= Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a <= b) is true. AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL Logical operators. Supported Partition Key Types: The following are the supported partition keys.
+    ///
+    /// * string
+    ///
+    /// * date
+    ///
+    /// * timestamp
+    ///
+    /// * int
+    ///
+    /// * bigint
+    ///
+    /// * long
+    ///
+    /// * tinyint
+    ///
+    /// * smallint
+    ///
+    /// * decimal
+    ///
+    ///
+    /// If an type is encountered that is not valid, an exception is thrown.
     public var expression: Swift.String?
+    /// The maximum number of partitions to return in a single response.
     public var maxResults: Swift.Int?
+    /// A continuation token, if this is not the first call to retrieve these partitions.
     public var nextToken: Swift.String?
-    /// Defines a non-overlapping region of a table's partitions, allowing multiple requests to be run in parallel.
+    /// The segment of the table's partitions to scan in this request.
     public var segment: GlueClientTypes.Segment?
+    /// A list of supported permission types.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
+    /// The name of the table that contains the partition.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -31618,7 +31978,9 @@ extension GetUnfilteredPartitionsMetadataOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct GetUnfilteredPartitionsMetadataOutputResponse: Swift.Equatable {
+    /// A continuation token, if the returned list of partitions does not include the last one.
     public var nextToken: Swift.String?
+    /// A list of requested partitions.
     public var unfilteredPartitions: [GlueClientTypes.UnfilteredPartition]?
 
     public init (
@@ -31699,14 +32061,18 @@ extension GetUnfilteredTableMetadataInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
-    /// A structure containing information for audit.
+    /// A structure containing Lake Formation audit context information.
     public var auditContext: GlueClientTypes.AuditContext?
+    /// The catalog ID where the table resides.
     /// This member is required.
     public var catalogId: Swift.String?
+    /// (Required) Specifies the name of a database that contains the table.
     /// This member is required.
     public var databaseName: Swift.String?
+    /// (Required) Specifies the name of a table for which you are requesting metadata.
     /// This member is required.
     public var name: Swift.String?
+    /// (Required) A list of supported permission types.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
 
@@ -31819,10 +32185,13 @@ extension GetUnfilteredTableMetadataOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct GetUnfilteredTableMetadataOutputResponse: Swift.Equatable {
+    /// A list of column names that the user has been granted access to.
     public var authorizedColumns: [Swift.String]?
+    /// A list of column row filters.
     public var cellFilters: [GlueClientTypes.ColumnRowFilter]?
+    /// A Boolean value that indicates whether the partition location is registered with Lake Formation.
     public var isRegisteredWithLakeFormation: Swift.Bool
-    /// Represents a collection of related data organized in columns and rows.
+    /// A Table object containing the table metadata.
     public var table: GlueClientTypes.Table?
 
     public init (
@@ -33990,6 +34359,47 @@ extension InvalidStateExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension GlueClientTypes {
+    public enum JDBCConnectionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mysql
+        case oracle
+        case postgresql
+        case redshift
+        case sqlserver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JDBCConnectionType] {
+            return [
+                .mysql,
+                .oracle,
+                .postgresql,
+                .redshift,
+                .sqlserver,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mysql: return "mysql"
+            case .oracle: return "oracle"
+            case .postgresql: return "postgresql"
+            case .redshift: return "redshift"
+            case .sqlserver: return "sqlserver"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JDBCConnectionType(rawValue: rawValue) ?? JDBCConnectionType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -45870,6 +46280,108 @@ extension RunStatementOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GlueClientTypes.S3CatalogDeltaSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDeltaOptions = "AdditionalDeltaOptions"
+        case database = "Database"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalDeltaOptions = additionalDeltaOptions {
+            var additionalDeltaOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDeltaOptions)
+            for (dictKey0, additionalOptions0) in additionalDeltaOptions {
+                try additionalDeltaOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let additionalDeltaOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalDeltaOptions)
+        var additionalDeltaOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalDeltaOptionsContainer = additionalDeltaOptionsContainer {
+            additionalDeltaOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalDeltaOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalDeltaOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalDeltaOptions = additionalDeltaOptionsDecoded0
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Delta Lake data source that is registered in the Glue Data Catalog. The data source must be stored in Amazon S3.
+    public struct S3CatalogDeltaSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalDeltaOptions: [Swift.String:Swift.String]?
+        /// The name of the database to read from.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The name of the Delta Lake data source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Delta Lake source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// The name of the table in the database to read from.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalDeltaOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.database = database
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.table = table
+        }
+    }
+
+}
+
 extension GlueClientTypes.S3CatalogHudiSource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalHudiOptions = "AdditionalHudiOptions"
@@ -46425,6 +46937,424 @@ extension GlueClientTypes {
             self.skipFirst = skipFirst
             self.withHeader = withHeader
             self.writeHeader = writeHeader
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3DeltaCatalogTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalOptions = "AdditionalOptions"
+        case database = "Database"
+        case inputs = "Inputs"
+        case name = "Name"
+        case partitionKeys = "PartitionKeys"
+        case schemaChangePolicy = "SchemaChangePolicy"
+        case table = "Table"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let partitionKeys = partitionKeys {
+            var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
+                }
+            }
+        }
+        if let schemaChangePolicy = self.schemaChangePolicy {
+            try encodeContainer.encode(schemaChangePolicy, forKey: .schemaChangePolicy)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let partitionKeysContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .partitionKeys)
+        var partitionKeysDecoded0:[[Swift.String]]? = nil
+        if let partitionKeysContainer = partitionKeysContainer {
+            partitionKeysDecoded0 = [[Swift.String]]()
+            for list0 in partitionKeysContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    partitionKeysDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        partitionKeys = partitionKeysDecoded0
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let schemaChangePolicyDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CatalogSchemaChangePolicy.self, forKey: .schemaChangePolicy)
+        schemaChangePolicy = schemaChangePolicyDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target that writes to a Delta Lake data source in the Glue Data Catalog.
+    public struct S3DeltaCatalogTarget: Swift.Equatable {
+        /// Specifies additional connection options for the connector.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// The name of the database to write to.
+        /// This member is required.
+        public var database: Swift.String?
+        /// The nodes that are inputs to the data target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data target.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies native partitioning using a sequence of keys.
+        public var partitionKeys: [[Swift.String]]?
+        /// A policy that specifies update behavior for the crawler.
+        public var schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        /// This member is required.
+        public var table: Swift.String?
+
+        public init (
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            database: Swift.String? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            schemaChangePolicy: GlueClientTypes.CatalogSchemaChangePolicy? = nil,
+            table: Swift.String? = nil
+        )
+        {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3DeltaDirectTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalOptions = "AdditionalOptions"
+        case compression = "Compression"
+        case format = "Format"
+        case inputs = "Inputs"
+        case name = "Name"
+        case partitionKeys = "PartitionKeys"
+        case path = "Path"
+        case schemaChangePolicy = "SchemaChangePolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalOptions = additionalOptions {
+            var additionalOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalOptions)
+            for (dictKey0, additionalOptions0) in additionalOptions {
+                try additionalOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let compression = self.compression {
+            try encodeContainer.encode(compression.rawValue, forKey: .compression)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let inputs = inputs {
+            var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
+            for nodeid0 in inputs {
+                try inputsContainer.encode(nodeid0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let partitionKeys = partitionKeys {
+            var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
+            for enclosedinstringproperties0 in partitionKeys {
+                var enclosedinstringproperties0Container = partitionKeysContainer.nestedUnkeyedContainer()
+                for enclosedinstringproperty1 in enclosedinstringproperties0 {
+                    try enclosedinstringproperties0Container.encode(enclosedinstringproperty1)
+                }
+            }
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+        if let schemaChangePolicy = self.schemaChangePolicy {
+            try encodeContainer.encode(schemaChangePolicy, forKey: .schemaChangePolicy)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let inputsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .inputs)
+        var inputsDecoded0:[Swift.String]? = nil
+        if let inputsContainer = inputsContainer {
+            inputsDecoded0 = [Swift.String]()
+            for string0 in inputsContainer {
+                if let string0 = string0 {
+                    inputsDecoded0?.append(string0)
+                }
+            }
+        }
+        inputs = inputsDecoded0
+        let partitionKeysContainer = try containerValues.decodeIfPresent([[Swift.String?]?].self, forKey: .partitionKeys)
+        var partitionKeysDecoded0:[[Swift.String]]? = nil
+        if let partitionKeysContainer = partitionKeysContainer {
+            partitionKeysDecoded0 = [[Swift.String]]()
+            for list0 in partitionKeysContainer {
+                var list0Decoded0: [Swift.String]? = nil
+                if let list0 = list0 {
+                    list0Decoded0 = [Swift.String]()
+                    for string1 in list0 {
+                        if let string1 = string1 {
+                            list0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                if let list0Decoded0 = list0Decoded0 {
+                    partitionKeysDecoded0?.append(list0Decoded0)
+                }
+            }
+        }
+        partitionKeys = partitionKeysDecoded0
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+        let compressionDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DeltaTargetCompressionType.self, forKey: .compression)
+        compression = compressionDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(GlueClientTypes.TargetFormat.self, forKey: .format)
+        format = formatDecoded
+        let additionalOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalOptions)
+        var additionalOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalOptionsContainer = additionalOptionsContainer {
+            additionalOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalOptions = additionalOptionsDecoded0
+        let schemaChangePolicyDecoded = try containerValues.decodeIfPresent(GlueClientTypes.DirectSchemaChangePolicy.self, forKey: .schemaChangePolicy)
+        schemaChangePolicy = schemaChangePolicyDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a target that writes to a Delta Lake data source in Amazon S3.
+    public struct S3DeltaDirectTarget: Swift.Equatable {
+        /// Specifies additional connection options for the connector.
+        public var additionalOptions: [Swift.String:Swift.String]?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        /// This member is required.
+        public var compression: GlueClientTypes.DeltaTargetCompressionType?
+        /// Specifies the data output format for the target.
+        /// This member is required.
+        public var format: GlueClientTypes.TargetFormat?
+        /// The nodes that are inputs to the data target.
+        /// This member is required.
+        public var inputs: [Swift.String]?
+        /// The name of the data target.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies native partitioning using a sequence of keys.
+        public var partitionKeys: [[Swift.String]]?
+        /// The Amazon S3 path of your Delta Lake data source to write to.
+        /// This member is required.
+        public var path: Swift.String?
+        /// A policy that specifies update behavior for the crawler.
+        public var schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy?
+
+        public init (
+            additionalOptions: [Swift.String:Swift.String]? = nil,
+            compression: GlueClientTypes.DeltaTargetCompressionType? = nil,
+            format: GlueClientTypes.TargetFormat? = nil,
+            inputs: [Swift.String]? = nil,
+            name: Swift.String? = nil,
+            partitionKeys: [[Swift.String]]? = nil,
+            path: Swift.String? = nil,
+            schemaChangePolicy: GlueClientTypes.DirectSchemaChangePolicy? = nil
+        )
+        {
+            self.additionalOptions = additionalOptions
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+    }
+
+}
+
+extension GlueClientTypes.S3DeltaSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalDeltaOptions = "AdditionalDeltaOptions"
+        case additionalOptions = "AdditionalOptions"
+        case name = "Name"
+        case outputSchemas = "OutputSchemas"
+        case paths = "Paths"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalDeltaOptions = additionalDeltaOptions {
+            var additionalDeltaOptionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalDeltaOptions)
+            for (dictKey0, additionalOptions0) in additionalDeltaOptions {
+                try additionalDeltaOptionsContainer.encode(additionalOptions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let additionalOptions = self.additionalOptions {
+            try encodeContainer.encode(additionalOptions, forKey: .additionalOptions)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let outputSchemas = outputSchemas {
+            var outputSchemasContainer = encodeContainer.nestedUnkeyedContainer(forKey: .outputSchemas)
+            for glueschema0 in outputSchemas {
+                try outputSchemasContainer.encode(glueschema0)
+            }
+        }
+        if let paths = paths {
+            var pathsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .paths)
+            for enclosedinstringproperty0 in paths {
+                try pathsContainer.encode(enclosedinstringproperty0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let pathsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .paths)
+        var pathsDecoded0:[Swift.String]? = nil
+        if let pathsContainer = pathsContainer {
+            pathsDecoded0 = [Swift.String]()
+            for string0 in pathsContainer {
+                if let string0 = string0 {
+                    pathsDecoded0?.append(string0)
+                }
+            }
+        }
+        paths = pathsDecoded0
+        let additionalDeltaOptionsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalDeltaOptions)
+        var additionalDeltaOptionsDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalDeltaOptionsContainer = additionalDeltaOptionsContainer {
+            additionalDeltaOptionsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, enclosedinstringproperty0) in additionalDeltaOptionsContainer {
+                if let enclosedinstringproperty0 = enclosedinstringproperty0 {
+                    additionalDeltaOptionsDecoded0?[key0] = enclosedinstringproperty0
+                }
+            }
+        }
+        additionalDeltaOptions = additionalDeltaOptionsDecoded0
+        let additionalOptionsDecoded = try containerValues.decodeIfPresent(GlueClientTypes.S3DirectSourceAdditionalOptions.self, forKey: .additionalOptions)
+        additionalOptions = additionalOptionsDecoded
+        let outputSchemasContainer = try containerValues.decodeIfPresent([GlueClientTypes.GlueSchema?].self, forKey: .outputSchemas)
+        var outputSchemasDecoded0:[GlueClientTypes.GlueSchema]? = nil
+        if let outputSchemasContainer = outputSchemasContainer {
+            outputSchemasDecoded0 = [GlueClientTypes.GlueSchema]()
+            for structure0 in outputSchemasContainer {
+                if let structure0 = structure0 {
+                    outputSchemasDecoded0?.append(structure0)
+                }
+            }
+        }
+        outputSchemas = outputSchemasDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// Specifies a Delta Lake data source stored in Amazon S3.
+    public struct S3DeltaSource: Swift.Equatable {
+        /// Specifies additional connection options.
+        public var additionalDeltaOptions: [Swift.String:Swift.String]?
+        /// Specifies additional options for the connector.
+        public var additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions?
+        /// The name of the Delta Lake source.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies the data schema for the Delta Lake source.
+        public var outputSchemas: [GlueClientTypes.GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        /// This member is required.
+        public var paths: [Swift.String]?
+
+        public init (
+            additionalDeltaOptions: [Swift.String:Swift.String]? = nil,
+            additionalOptions: GlueClientTypes.S3DirectSourceAdditionalOptions? = nil,
+            name: Swift.String? = nil,
+            outputSchemas: [GlueClientTypes.GlueSchema]? = nil,
+            paths: [Swift.String]? = nil
+        )
+        {
+            self.additionalDeltaOptions = additionalDeltaOptions
+            self.additionalOptions = additionalOptions
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
         }
     }
 
@@ -53554,7 +54484,7 @@ extension GlueClientTypes {
         public var retention: Swift.Int
         /// A storage descriptor containing information about the physical storage of this table.
         public var storageDescriptor: GlueClientTypes.StorageDescriptor?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        /// The type of this table. Glue will create tables with the EXTERNAL_TABLE type. Other services, such as Athena, may create tables with additional table types. Glue related table types: EXTERNAL_TABLE Hive compatible attribute - indicates a non-Hive managed table. GOVERNED Used by Lake Formation. The Glue Data Catalog understands GOVERNED.
         public var tableType: Swift.String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public var targetTable: GlueClientTypes.TableIdentifier?
@@ -53562,9 +54492,9 @@ extension GlueClientTypes {
         public var updateTime: ClientRuntime.Date?
         /// The ID of the table version.
         public var versionId: Swift.String?
-        /// If the table is a view, the expanded text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public var viewExpandedText: Swift.String?
-        /// If the table is a view, the original text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public var viewOriginalText: Swift.String?
 
         public init (
@@ -53842,7 +54772,7 @@ extension GlueClientTypes {
         /// The table name. For Hive compatibility, this is folded to lowercase when it is stored.
         /// This member is required.
         public var name: Swift.String?
-        /// The table owner.
+        /// The table owner. Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public var owner: Swift.String?
         /// These key-value pairs define properties associated with the table.
         public var parameters: [Swift.String:Swift.String]?
@@ -53852,13 +54782,13 @@ extension GlueClientTypes {
         public var retention: Swift.Int
         /// A storage descriptor containing information about the physical storage of this table.
         public var storageDescriptor: GlueClientTypes.StorageDescriptor?
-        /// The type of this table (EXTERNAL_TABLE, VIRTUAL_VIEW, etc.).
+        /// The type of this table. Glue will create tables with the EXTERNAL_TABLE type. Other services, such as Athena, may create tables with additional table types. Glue related table types: EXTERNAL_TABLE Hive compatible attribute - indicates a non-Hive managed table. GOVERNED Used by Lake Formation. The Glue Data Catalog understands GOVERNED.
         public var tableType: Swift.String?
         /// A TableIdentifier structure that describes a target table for resource linking.
         public var targetTable: GlueClientTypes.TableIdentifier?
-        /// If the table is a view, the expanded text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public var viewExpandedText: Swift.String?
-        /// If the table is a view, the original text of the view; otherwise null.
+        /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
         public var viewOriginalText: Swift.String?
 
         public init (
@@ -54110,6 +55040,7 @@ extension GlueClientTypes {
     public enum TargetFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case avro
         case csv
+        case delta
         case hudi
         case json
         case orc
@@ -54120,6 +55051,7 @@ extension GlueClientTypes {
             return [
                 .avro,
                 .csv,
+                .delta,
                 .hudi,
                 .json,
                 .orc,
@@ -54135,6 +55067,7 @@ extension GlueClientTypes {
             switch self {
             case .avro: return "avro"
             case .csv: return "csv"
+            case .delta: return "delta"
             case .hudi: return "hudi"
             case .json: return "json"
             case .orc: return "orc"
@@ -55465,10 +56398,13 @@ extension GlueClientTypes.UnfilteredPartition: Swift.Codable {
 }
 
 extension GlueClientTypes {
+    /// A partition that contains unfiltered metadata.
     public struct UnfilteredPartition: Swift.Equatable {
+        /// The list of columns the user has permissions to access.
         public var authorizedColumns: [Swift.String]?
+        /// A Boolean value indicating that the partition location is registered with Lake Formation.
         public var isRegisteredWithLakeFormation: Swift.Bool
-        /// Represents a slice of table data.
+        /// The partition object.
         public var partition: GlueClientTypes.Partition?
 
         public init (

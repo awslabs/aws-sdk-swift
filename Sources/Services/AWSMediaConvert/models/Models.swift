@@ -3517,6 +3517,132 @@ extension BadRequestExceptionBody: Swift.Decodable {
     }
 }
 
+extension MediaConvertClientTypes.BandwidthReductionFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sharpening = "sharpening"
+        case strength = "strength"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sharpening = self.sharpening {
+            try encodeContainer.encode(sharpening.rawValue, forKey: .sharpening)
+        }
+        if let strength = self.strength {
+            try encodeContainer.encode(strength.rawValue, forKey: .strength)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sharpeningDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BandwidthReductionFilterSharpening.self, forKey: .sharpening)
+        sharpening = sharpeningDecoded
+        let strengthDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BandwidthReductionFilterStrength.self, forKey: .strength)
+        strength = strengthDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy.Outputs that use this feature incur pro-tier pricing.When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+    public struct BandwidthReductionFilter: Swift.Equatable {
+        /// Optionally specify the level of sharpening to apply when you use the Bandwidth reduction filter. Sharpening adds contrast to the edges of your video content and can reduce softness. Keep the default value Off to apply no sharpening. Set Sharpening strength to Low to apply a minimal amount of sharpening, or High to apply a maximum amount of sharpening.
+        public var sharpening: MediaConvertClientTypes.BandwidthReductionFilterSharpening?
+        /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto. Your output bandwidth will be reduced by at least 8 percent with no perceptual decrease in video quality. If your output bandwidth isn't constrained, set Filter strength to Low or Medium. Low results in minimal to no impact in perceptual quality. For more bandwidth reduction, choose High. The filter helps equalize quality between all scenes and increases video softness. We recommend that you choose High for low bitrate outputs.
+        public var strength: MediaConvertClientTypes.BandwidthReductionFilterStrength?
+
+        public init (
+            sharpening: MediaConvertClientTypes.BandwidthReductionFilterSharpening? = nil,
+            strength: MediaConvertClientTypes.BandwidthReductionFilterStrength? = nil
+        )
+        {
+            self.sharpening = sharpening
+            self.strength = strength
+        }
+    }
+
+}
+
+extension MediaConvertClientTypes {
+    /// Optionally specify the level of sharpening to apply when you use the Bandwidth reduction filter. Sharpening adds contrast to the edges of your video content and can reduce softness. Keep the default value Off to apply no sharpening. Set Sharpening strength to Low to apply a minimal amount of sharpening, or High to apply a maximum amount of sharpening.
+    public enum BandwidthReductionFilterSharpening: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case off
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BandwidthReductionFilterSharpening] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .off,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .off: return "OFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BandwidthReductionFilterSharpening(rawValue: rawValue) ?? BandwidthReductionFilterSharpening.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the strength of the Bandwidth reduction filter. For most workflows, we recommend that you choose Auto. Your output bandwidth will be reduced by at least 8 percent with no perceptual decrease in video quality. If your output bandwidth isn't constrained, set Filter strength to Low or Medium. Low results in minimal to no impact in perceptual quality. For more bandwidth reduction, choose High. The filter helps equalize quality between all scenes and increases video softness. We recommend that you choose High for low bitrate outputs.
+    public enum BandwidthReductionFilterStrength: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case high
+        case low
+        case medium
+        case off
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BandwidthReductionFilterStrength] {
+            return [
+                .auto,
+                .high,
+                .low,
+                .medium,
+                .off,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .off: return "OFF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BandwidthReductionFilterStrength(rawValue: rawValue) ?? BandwidthReductionFilterStrength.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaConvertClientTypes {
     /// The tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up.
     public enum BillingTagsSource: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -6526,9 +6652,9 @@ extension MediaConvertClientTypes {
         public var timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion?
-        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataSchemeIdUri: Swift.String?
-        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataValue: Swift.String?
 
         public init (
@@ -6640,6 +6766,7 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         case colorSpaceConversion = "colorSpaceConversion"
         case contrast = "contrast"
         case hdr10Metadata = "hdr10Metadata"
+        case hdrToSdrToneMapper = "hdrToSdrToneMapper"
         case hue = "hue"
         case sampleRangeConversion = "sampleRangeConversion"
         case saturation = "saturation"
@@ -6662,6 +6789,9 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         }
         if let hdr10Metadata = self.hdr10Metadata {
             try encodeContainer.encode(hdr10Metadata, forKey: .hdr10Metadata)
+        }
+        if let hdrToSdrToneMapper = self.hdrToSdrToneMapper {
+            try encodeContainer.encode(hdrToSdrToneMapper.rawValue, forKey: .hdrToSdrToneMapper)
         }
         if let hue = self.hue {
             try encodeContainer.encode(hue, forKey: .hue)
@@ -6689,6 +6819,8 @@ extension MediaConvertClientTypes.ColorCorrector: Swift.Codable {
         contrast = contrastDecoded
         let hdr10MetadataDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Hdr10Metadata.self, forKey: .hdr10Metadata)
         hdr10Metadata = hdr10MetadataDecoded
+        let hdrToSdrToneMapperDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.HDRToSDRToneMapper.self, forKey: .hdrToSdrToneMapper)
+        hdrToSdrToneMapper = hdrToSdrToneMapperDecoded
         let hueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .hue)
         hue = hueDecoded
         let sampleRangeConversionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.SampleRangeConversion.self, forKey: .sampleRangeConversion)
@@ -6713,6 +6845,8 @@ extension MediaConvertClientTypes {
         public var contrast: Swift.Int?
         /// Use these settings when you convert to the HDR 10 color space. Specify the SMPTE ST 2086 Mastering Display Color Volume static metadata that you want signaled in the output. These values don't affect the pixel values that are encoded in the video stream. They are intended to help the downstream video player display content in a way that reflects the intentions of the the content creator. When you set Color space conversion (ColorSpaceConversion) to HDR 10 (FORCE_HDR10), these settings are required. You must set values for Max frame average light level (maxFrameAverageLightLevel) and Max content light level (maxContentLightLevel); these settings don't have a default value. The default values for the other HDR 10 metadata settings are defined by the P3D65 color space. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public var hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata?
+        /// Specify how MediaConvert maps brightness and colors from your HDR input to your SDR output. The mode that you select represents a creative choice, with different tradeoffs in the details and tones of your output. To maintain details in bright or saturated areas of your output: Choose Preserve details. For some sources, your SDR output may look less bright and less saturated when compared to your HDR source. MediaConvert automatically applies this mode for HLG sources, regardless of your choice. For a bright and saturated output: Choose Vibrant. We recommend that you choose this mode when any of your source content is HDR10, and for the best results when it is mastered for 1000 nits. You may notice loss of details in bright or saturated areas of your output. HDR to SDR tone mapping has no effect when your input is SDR.
+        public var hdrToSdrToneMapper: MediaConvertClientTypes.HDRToSDRToneMapper?
         /// Hue in degrees.
         public var hue: Swift.Int?
         /// Specify how MediaConvert limits the color sample range for this output. To create a limited range output from a full range input: Choose Limited range squeeze. For full range inputs, MediaConvert performs a linear offset to color samples equally across all pixels and frames. Color samples in 10-bit outputs are limited to 64 through 940, and 8-bit outputs are limited to 16 through 235. Note: For limited range inputs, values for color samples are passed through to your output unchanged. MediaConvert does not limit the sample range. To correct pixels in your input that are out of range or out of gamut: Choose Limited range clip. Use for broadcast applications. MediaConvert conforms any pixels outside of the values that you specify under Minimum YUV and Maximum YUV to limited range bounds. MediaConvert also corrects any YUV values that, when converted to RGB, would be outside the bounds you specify under Minimum RGB tolerance and Maximum RGB tolerance. With either limited range conversion, MediaConvert writes the sample range metadata in the output.
@@ -6728,6 +6862,7 @@ extension MediaConvertClientTypes {
             colorSpaceConversion: MediaConvertClientTypes.ColorSpaceConversion? = nil,
             contrast: Swift.Int? = nil,
             hdr10Metadata: MediaConvertClientTypes.Hdr10Metadata? = nil,
+            hdrToSdrToneMapper: MediaConvertClientTypes.HDRToSDRToneMapper? = nil,
             hue: Swift.Int? = nil,
             sampleRangeConversion: MediaConvertClientTypes.SampleRangeConversion? = nil,
             saturation: Swift.Int? = nil,
@@ -6739,6 +6874,7 @@ extension MediaConvertClientTypes {
             self.colorSpaceConversion = colorSpaceConversion
             self.contrast = contrast
             self.hdr10Metadata = hdr10Metadata
+            self.hdrToSdrToneMapper = hdrToSdrToneMapper
             self.hue = hue
             self.sampleRangeConversion = sampleRangeConversion
             self.saturation = saturation
@@ -7174,7 +7310,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// The action to take on content advisory XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
+    /// The action to take on copy and redistribution control XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
     public enum CopyProtectionAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case passthrough
         case strip
@@ -12662,7 +12798,7 @@ extension MediaConvertClientTypes.ExtendedDataServices: Swift.Codable {
 extension MediaConvertClientTypes {
     /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
     public struct ExtendedDataServices: Swift.Equatable {
-        /// The action to take on content advisory XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
+        /// The action to take on copy and redistribution control XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
         public var copyProtectionAction: MediaConvertClientTypes.CopyProtectionAction?
         /// The action to take on content advisory XDS packets. If you select PASSTHROUGH, packets will not be changed. If you select STRIP, any packets will be removed in output captions.
         public var vchipAction: MediaConvertClientTypes.VchipAction?
@@ -14391,6 +14527,7 @@ extension MediaConvertClientTypes {
 extension MediaConvertClientTypes.H264Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adaptiveQuantization = "adaptiveQuantization"
+        case bandwidthReductionFilter = "bandwidthReductionFilter"
         case bitrate = "bitrate"
         case codecLevel = "codecLevel"
         case codecProfile = "codecProfile"
@@ -14437,6 +14574,9 @@ extension MediaConvertClientTypes.H264Settings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adaptiveQuantization = self.adaptiveQuantization {
             try encodeContainer.encode(adaptiveQuantization.rawValue, forKey: .adaptiveQuantization)
+        }
+        if let bandwidthReductionFilter = self.bandwidthReductionFilter {
+            try encodeContainer.encode(bandwidthReductionFilter, forKey: .bandwidthReductionFilter)
         }
         if let bitrate = self.bitrate {
             try encodeContainer.encode(bitrate, forKey: .bitrate)
@@ -14564,6 +14704,8 @@ extension MediaConvertClientTypes.H264Settings: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let adaptiveQuantizationDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.H264AdaptiveQuantization.self, forKey: .adaptiveQuantization)
         adaptiveQuantization = adaptiveQuantizationDecoded
+        let bandwidthReductionFilterDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BandwidthReductionFilter.self, forKey: .bandwidthReductionFilter)
+        bandwidthReductionFilter = bandwidthReductionFilterDecoded
         let bitrateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bitrate)
         bitrate = bitrateDecoded
         let codecLevelDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.H264CodecLevel.self, forKey: .codecLevel)
@@ -14652,6 +14794,8 @@ extension MediaConvertClientTypes {
     public struct H264Settings: Swift.Equatable {
         /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert automatically apply the best types of quantization for your video content. When you want to apply your quantization settings manually, you must set H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting to specify the strength of any adaptive quantization filters that you enable. If you don't want MediaConvert to do any adaptive quantization in this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off (OFF). Related settings: The value that you choose here applies to the following settings: H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
         public var adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization?
+        /// The Bandwidth reduction filter increases the video quality of your output relative to its bitrate. Use to lower the bitrate of your constant quality QVBR output, with little or no perceptual decrease in quality. Or, use to increase the video quality of outputs with other rate control modes relative to the bitrate that you specify. Bandwidth reduction increases further when your input is low quality or noisy.Outputs that use this feature incur pro-tier pricing.When you include Bandwidth reduction filter, you cannot include the Noise reducer preprocessor.
+        public var bandwidthReductionFilter: MediaConvertClientTypes.BandwidthReductionFilter?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
         public var bitrate: Swift.Int?
         /// Specify an H.264 level that is consistent with your output video settings. If you aren't sure what level to specify, choose Auto (AUTO).
@@ -14735,6 +14879,7 @@ extension MediaConvertClientTypes {
 
         public init (
             adaptiveQuantization: MediaConvertClientTypes.H264AdaptiveQuantization? = nil,
+            bandwidthReductionFilter: MediaConvertClientTypes.BandwidthReductionFilter? = nil,
             bitrate: Swift.Int? = nil,
             codecLevel: MediaConvertClientTypes.H264CodecLevel? = nil,
             codecProfile: MediaConvertClientTypes.H264CodecProfile? = nil,
@@ -14778,6 +14923,7 @@ extension MediaConvertClientTypes {
         )
         {
             self.adaptiveQuantization = adaptiveQuantization
+            self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
@@ -16434,6 +16580,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = H265WriteMp4PackagingType(rawValue: rawValue) ?? H265WriteMp4PackagingType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify how MediaConvert maps brightness and colors from your HDR input to your SDR output. The mode that you select represents a creative choice, with different tradeoffs in the details and tones of your output. To maintain details in bright or saturated areas of your output: Choose Preserve details. For some sources, your SDR output may look less bright and less saturated when compared to your HDR source. MediaConvert automatically applies this mode for HLG sources, regardless of your choice. For a bright and saturated output: Choose Vibrant. We recommend that you choose this mode when any of your source content is HDR10, and for the best results when it is mastered for 1000 nits. You may notice loss of details in bright or saturated areas of your output. HDR to SDR tone mapping has no effect when your input is SDR.
+    public enum HDRToSDRToneMapper: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case preserveDetails
+        case vibrant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HDRToSDRToneMapper] {
+            return [
+                .preserveDetails,
+                .vibrant,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .preserveDetails: return "PRESERVE_DETAILS"
+            case .vibrant: return "VIBRANT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HDRToSDRToneMapper(rawValue: rawValue) ?? HDRToSDRToneMapper.sdkUnknown(rawValue)
         }
     }
 }
@@ -24947,9 +25126,9 @@ extension MediaConvertClientTypes {
         public var timedMetadata: MediaConvertClientTypes.MpdTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion?
-        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) scheme ID URI (scheme_id_uri) for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the default value: https://aomedia.org/emsg/ID3 When you specify a value for ID3 metadata scheme ID URI, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataSchemeIdUri: Swift.String?
-        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more informaiton, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
+        /// Specify the event message box (eMSG) value for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata Value, you must also set ID3 metadata (timedMetadata) to Passthrough.
         public var timedMetadataValue: Swift.String?
 
         public init (
@@ -27039,7 +27218,7 @@ extension MediaConvertClientTypes.NoiseReducer: Swift.Codable {
 }
 
 extension MediaConvertClientTypes {
-    /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer (NoiseReducer), you must also select a value for Noise reducer filter (NoiseReducerFilter).
+    /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
     public struct NoiseReducer: Swift.Equatable {
         /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public var filter: MediaConvertClientTypes.NoiseReducerFilter?
@@ -32805,7 +32984,7 @@ extension MediaConvertClientTypes {
         public var hdr10Plus: MediaConvertClientTypes.Hdr10Plus?
         /// Enable the Image inserter (ImageInserter) feature to include a graphic overlay on your video. Enable or disable this feature for each output individually. This setting is disabled by default.
         public var imageInserter: MediaConvertClientTypes.ImageInserter?
-        /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
+        /// Enable the Noise reducer feature to remove noise from your video output if necessary. Enable or disable this feature for each output individually. This setting is disabled by default. When you enable Noise reducer, you must also select a value for Noise reducer filter. For AVC outputs, when you include Noise reducer, you cannot include the Bandwidth reduction filter.
         public var noiseReducer: MediaConvertClientTypes.NoiseReducer?
         /// If you work with a third party video watermarking partner, use the group of settings that correspond with your watermarking partner to include watermarks in your output.
         public var partnerWatermarking: MediaConvertClientTypes.PartnerWatermarking?

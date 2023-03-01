@@ -50998,6 +50998,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.S3Parameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case manifestFileLocation = "ManifestFileLocation"
+        case roleArn = "RoleArn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -51005,12 +51006,17 @@ extension QuickSightClientTypes.S3Parameters: Swift.Codable {
         if let manifestFileLocation = self.manifestFileLocation {
             try encodeContainer.encode(manifestFileLocation, forKey: .manifestFileLocation)
         }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
     }
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let manifestFileLocationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ManifestFileLocation.self, forKey: .manifestFileLocation)
         manifestFileLocation = manifestFileLocationDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
     }
 }
 
@@ -51020,12 +51026,16 @@ extension QuickSightClientTypes {
         /// Location of the Amazon S3 manifest file. This is NULL if the manifest file was uploaded into Amazon QuickSight.
         /// This member is required.
         public var manifestFileLocation: QuickSightClientTypes.ManifestFileLocation?
+        /// Use the RoleArn structure to override an account-wide role for a specific S3 data source. For example, say an account administrator has turned off all S3 access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow S3 access for the single S3 data source that is specified in the structure, even if the account-wide role forbidding S3 access is still active.
+        public var roleArn: Swift.String?
 
         public init (
-            manifestFileLocation: QuickSightClientTypes.ManifestFileLocation? = nil
+            manifestFileLocation: QuickSightClientTypes.ManifestFileLocation? = nil,
+            roleArn: Swift.String? = nil
         )
         {
             self.manifestFileLocation = manifestFileLocation
+            self.roleArn = roleArn
         }
     }
 
