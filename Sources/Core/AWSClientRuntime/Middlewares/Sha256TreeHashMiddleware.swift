@@ -34,8 +34,20 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput: HttpResponseBinding
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: sha256)
                   }
               case .stream(let stream):
-                  let streamBytes = try stream.readToEnd()
-                  try stream.seek(toOffset: 0)
+                  let streamBytes: Data?
+                  let currentPosition = stream.position
+                  if stream.isSeekable {
+                      streamBytes = try stream.readToEnd()
+                      try stream.seek(toOffset: currentPosition)
+                  } else {
+                      // If the stream is not seekable, we need to cache the stream in memory
+                      // so we can compute the hash and still be able to send the stream to the service.
+                      // This is not ideal, but it is the best we can do.
+                      let cachingStream = CachingStream(base: stream)
+                      streamBytes = try cachingStream.readToEnd()
+                      try cachingStream.seek(toOffset: currentPosition)
+                      input.withBody(.stream(cachingStream))
+                  }
                   guard let streamBytes = streamBytes, !streamBytes.isEmpty else {
                       return try await next.handle(context: context, input: input)
                   }
