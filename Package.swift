@@ -364,6 +364,10 @@ let package = Package(
         .library(name: "AWSWorkSpacesWeb", targets: ["AWSWorkSpacesWeb"]),
         .library(name: "AWSXRay", targets: ["AWSXRay"]),
     ],
+    // TODO: revert to exact before merging to main
+    // dependencies: [
+    //     .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1"))
+    // ],
     targets: [
         // MARK: - Core Targets
         .target(name: "AWSClientRuntime", dependencies: [awsCommonRuntimeKit, clientRuntime], path: "./Sources/Core/AWSClientRuntime"),
@@ -1062,16 +1066,16 @@ case (true, true):
 case (true, false):
     package.dependencies += [
         .package(path: "../smithy-swift"),
-        .package(path: "../aws-crt-swift"),
+        .package(path: "../aws-crt-swift"), // TODO: change to aws-crt-swift repo once merged
     ]
 case (false, true):
     package.dependencies += [
         .package(url: "https://github.com/awslabs/smithy-swift", branch: "main"),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", branch: "main"), // TODO: change to aws-crt-swift repo once merged
     ]
 case (false, false):
     package.dependencies += [
         .package(url: "https://github.com/awslabs/smithy-swift", .exact("0.12.0")),
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1")),
+        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact("0.6.1")), // TODO: change to aws-crt-swift repo once merged
     ]
 }
