@@ -2210,10 +2210,10 @@ extension CreatePortfolioShareInput: Swift.Encodable {
         if let portfolioId = self.portfolioId {
             try encodeContainer.encode(portfolioId, forKey: .portfolioId)
         }
-        if sharePrincipals != false {
+        if let sharePrincipals = self.sharePrincipals {
             try encodeContainer.encode(sharePrincipals, forKey: .sharePrincipals)
         }
-        if shareTagOptions != false {
+        if let shareTagOptions = self.shareTagOptions {
             try encodeContainer.encode(shareTagOptions, forKey: .shareTagOptions)
         }
     }
@@ -2242,17 +2242,17 @@ public struct CreatePortfolioShareInput: Swift.Equatable {
     /// This member is required.
     public var portfolioId: Swift.String?
     /// Enables or disables Principal sharing when creating the portfolio share. If this flag is not provided, principal sharing is disabled. When you enable Principal Name Sharing for a portfolio share, the share recipient account end users with a principal that matches any of the associated IAM patterns can provision products from the portfolio. Once shared, the share recipient can view associations of PrincipalType: IAM_PATTERN on their portfolio. You can create the principals in the recipient account before or after creating the share.
-    public var sharePrincipals: Swift.Bool
+    public var sharePrincipals: Swift.Bool?
     /// Enables or disables TagOptions  sharing when creating the portfolio share. If this flag is not provided, TagOptions sharing is disabled.
-    public var shareTagOptions: Swift.Bool
+    public var shareTagOptions: Swift.Bool?
 
     public init (
         acceptLanguage: Swift.String? = nil,
         accountId: Swift.String? = nil,
         organizationNode: ServiceCatalogClientTypes.OrganizationNode? = nil,
         portfolioId: Swift.String? = nil,
-        sharePrincipals: Swift.Bool = false,
-        shareTagOptions: Swift.Bool = false
+        sharePrincipals: Swift.Bool? = nil,
+        shareTagOptions: Swift.Bool? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
@@ -2269,8 +2269,8 @@ struct CreatePortfolioShareInputBody: Swift.Equatable {
     let portfolioId: Swift.String?
     let accountId: Swift.String?
     let organizationNode: ServiceCatalogClientTypes.OrganizationNode?
-    let shareTagOptions: Swift.Bool
-    let sharePrincipals: Swift.Bool
+    let shareTagOptions: Swift.Bool?
+    let sharePrincipals: Swift.Bool?
 }
 
 extension CreatePortfolioShareInputBody: Swift.Decodable {
@@ -2293,9 +2293,9 @@ extension CreatePortfolioShareInputBody: Swift.Decodable {
         accountId = accountIdDecoded
         let organizationNodeDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.OrganizationNode.self, forKey: .organizationNode)
         organizationNode = organizationNodeDecoded
-        let shareTagOptionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareTagOptions) ?? false
+        let shareTagOptionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareTagOptions)
         shareTagOptions = shareTagOptionsDecoded
-        let sharePrincipalsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sharePrincipals) ?? false
+        let sharePrincipalsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sharePrincipals)
         sharePrincipals = sharePrincipalsDecoded
     }
 }
@@ -3995,7 +3995,7 @@ extension DeleteProvisionedProductPlanInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if ignoreErrors != false {
+        if let ignoreErrors = self.ignoreErrors {
             try encodeContainer.encode(ignoreErrors, forKey: .ignoreErrors)
         }
         if let planId = self.planId {
@@ -4020,14 +4020,14 @@ public struct DeleteProvisionedProductPlanInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
-    public var ignoreErrors: Swift.Bool
+    public var ignoreErrors: Swift.Bool?
     /// The plan identifier.
     /// This member is required.
     public var planId: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        ignoreErrors: Swift.Bool = false,
+        ignoreErrors: Swift.Bool? = nil,
         planId: Swift.String? = nil
     )
     {
@@ -4040,7 +4040,7 @@ public struct DeleteProvisionedProductPlanInput: Swift.Equatable {
 struct DeleteProvisionedProductPlanInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let planId: Swift.String?
-    let ignoreErrors: Swift.Bool
+    let ignoreErrors: Swift.Bool?
 }
 
 extension DeleteProvisionedProductPlanInputBody: Swift.Decodable {
@@ -4056,7 +4056,7 @@ extension DeleteProvisionedProductPlanInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let planIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .planId)
         planId = planIdDecoded
-        let ignoreErrorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreErrors) ?? false
+        let ignoreErrorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreErrors)
         ignoreErrors = ignoreErrorsDecoded
     }
 }
@@ -5069,7 +5069,7 @@ extension DescribePortfolioSharesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -5092,7 +5092,7 @@ extension DescribePortfolioSharesInput: ClientRuntime.URLPathProvider {
 
 public struct DescribePortfolioSharesInput: Swift.Equatable {
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The unique identifier of the portfolio for which shares will be retrieved.
@@ -5103,7 +5103,7 @@ public struct DescribePortfolioSharesInput: Swift.Equatable {
     public var type: ServiceCatalogClientTypes.DescribePortfolioShareType?
 
     public init (
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         type: ServiceCatalogClientTypes.DescribePortfolioShareType? = nil
@@ -5120,7 +5120,7 @@ struct DescribePortfolioSharesInputBody: Swift.Equatable {
     let portfolioId: Swift.String?
     let type: ServiceCatalogClientTypes.DescribePortfolioShareType?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension DescribePortfolioSharesInputBody: Swift.Decodable {
@@ -5139,7 +5139,7 @@ extension DescribePortfolioSharesInputBody: Swift.Decodable {
         type = typeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -5982,7 +5982,7 @@ extension DescribeProvisionedProductPlanInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -6010,7 +6010,7 @@ public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The plan identifier.
@@ -6019,7 +6019,7 @@ public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         planId: Swift.String? = nil
     )
@@ -6034,7 +6034,7 @@ public struct DescribeProvisionedProductPlanInput: Swift.Equatable {
 struct DescribeProvisionedProductPlanInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let planId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -6052,7 +6052,7 @@ extension DescribeProvisionedProductPlanInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let planIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .planId)
         planId = planIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -6180,7 +6180,7 @@ extension DescribeProvisioningArtifactInput: Swift.Encodable {
         if let provisioningArtifactName = self.provisioningArtifactName {
             try encodeContainer.encode(provisioningArtifactName, forKey: .provisioningArtifactName)
         }
-        if verbose != false {
+        if let verbose = self.verbose {
             try encodeContainer.encode(verbose, forKey: .verbose)
         }
     }
@@ -6210,7 +6210,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
     /// The provisioning artifact name.
     public var provisioningArtifactName: Swift.String?
     /// Indicates whether a verbose level of detail is enabled.
-    public var verbose: Swift.Bool
+    public var verbose: Swift.Bool?
 
     public init (
         acceptLanguage: Swift.String? = nil,
@@ -6218,7 +6218,7 @@ public struct DescribeProvisioningArtifactInput: Swift.Equatable {
         productName: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil,
         provisioningArtifactName: Swift.String? = nil,
-        verbose: Swift.Bool = false
+        verbose: Swift.Bool? = nil
     )
     {
         self.acceptLanguage = acceptLanguage
@@ -6236,7 +6236,7 @@ struct DescribeProvisioningArtifactInputBody: Swift.Equatable {
     let productId: Swift.String?
     let provisioningArtifactName: Swift.String?
     let productName: Swift.String?
-    let verbose: Swift.Bool
+    let verbose: Swift.Bool?
 }
 
 extension DescribeProvisioningArtifactInputBody: Swift.Decodable {
@@ -6261,7 +6261,7 @@ extension DescribeProvisioningArtifactInputBody: Swift.Decodable {
         provisioningArtifactName = provisioningArtifactNameDecoded
         let productNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productName)
         productName = productNameDecoded
-        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose) ?? false
+        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose)
         verbose = verboseDecoded
     }
 }
@@ -6681,7 +6681,7 @@ extension DescribeRecordInput: Swift.Encodable {
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -6709,14 +6709,14 @@ public struct DescribeRecordInput: Swift.Equatable {
     /// This member is required.
     public var id: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
         id: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil
     )
     {
@@ -6731,7 +6731,7 @@ struct DescribeRecordInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let id: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension DescribeRecordInputBody: Swift.Decodable {
@@ -6750,7 +6750,7 @@ extension DescribeRecordInputBody: Swift.Decodable {
         id = idDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -8569,7 +8569,7 @@ extension GetProvisionedProductOutputsInput: Swift.Encodable {
                 try outputKeysContainer.encode(outputkey0)
             }
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -8602,7 +8602,7 @@ public struct GetProvisionedProductOutputsInput: Swift.Equatable {
     /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provisioned product.
     public var outputKeys: [Swift.String]?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The identifier of the provisioned product that you want the outputs from.
@@ -8613,7 +8613,7 @@ public struct GetProvisionedProductOutputsInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         outputKeys: [Swift.String]? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil
@@ -8633,7 +8633,7 @@ struct GetProvisionedProductOutputsInputBody: Swift.Equatable {
     let provisionedProductId: Swift.String?
     let provisionedProductName: Swift.String?
     let outputKeys: [Swift.String]?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -8666,7 +8666,7 @@ extension GetProvisionedProductOutputsInputBody: Swift.Decodable {
             }
         }
         outputKeys = outputKeysDecoded0
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -9364,7 +9364,7 @@ extension ListAcceptedPortfolioSharesInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -9392,7 +9392,7 @@ public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The type of shared portfolios to list. The default is to list imported portfolios.
@@ -9406,7 +9406,7 @@ public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType? = nil
     )
@@ -9421,7 +9421,7 @@ public struct ListAcceptedPortfolioSharesInput: Swift.Equatable {
 struct ListAcceptedPortfolioSharesInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let portfolioShareType: ServiceCatalogClientTypes.PortfolioShareType?
 }
 
@@ -9439,7 +9439,7 @@ extension ListAcceptedPortfolioSharesInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let portfolioShareTypeDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.PortfolioShareType.self, forKey: .portfolioShareType)
         portfolioShareType = portfolioShareTypeDecoded
@@ -9543,7 +9543,7 @@ extension ListBudgetsForResourceInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -9571,7 +9571,7 @@ public struct ListBudgetsForResourceInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The resource identifier.
@@ -9580,7 +9580,7 @@ public struct ListBudgetsForResourceInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         resourceId: Swift.String? = nil
     )
@@ -9595,7 +9595,7 @@ public struct ListBudgetsForResourceInput: Swift.Equatable {
 struct ListBudgetsForResourceInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let resourceId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -9613,7 +9613,7 @@ extension ListBudgetsForResourceInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
         resourceId = resourceIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -9718,7 +9718,7 @@ extension ListConstraintsForPortfolioInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -9749,7 +9749,7 @@ public struct ListConstraintsForPortfolioInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The portfolio identifier.
@@ -9760,7 +9760,7 @@ public struct ListConstraintsForPortfolioInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productId: Swift.String? = nil
@@ -9778,7 +9778,7 @@ struct ListConstraintsForPortfolioInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
     let productId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -9799,7 +9799,7 @@ extension ListConstraintsForPortfolioInputBody: Swift.Decodable {
         portfolioId = portfolioIdDecoded
         let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
         productId = productIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -9903,7 +9903,7 @@ extension ListLaunchPathsInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -9931,7 +9931,7 @@ public struct ListLaunchPathsInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The product identifier.
@@ -9940,7 +9940,7 @@ public struct ListLaunchPathsInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
     )
@@ -9955,7 +9955,7 @@ public struct ListLaunchPathsInput: Swift.Equatable {
 struct ListLaunchPathsInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -9973,7 +9973,7 @@ extension ListLaunchPathsInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
         productId = productIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -10081,7 +10081,7 @@ extension ListOrganizationPortfolioAccessInput: Swift.Encodable {
         if let organizationNodeType = self.organizationNodeType {
             try encodeContainer.encode(organizationNodeType.rawValue, forKey: .organizationNodeType)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10118,7 +10118,7 @@ public struct ListOrganizationPortfolioAccessInput: Swift.Equatable {
     /// This member is required.
     public var organizationNodeType: ServiceCatalogClientTypes.OrganizationNodeType?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The portfolio identifier. For example, port-2abcdext3y5fk.
@@ -10128,7 +10128,7 @@ public struct ListOrganizationPortfolioAccessInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         organizationNodeType: ServiceCatalogClientTypes.OrganizationNodeType? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -10146,7 +10146,7 @@ struct ListOrganizationPortfolioAccessInputBody: Swift.Equatable {
     let portfolioId: Swift.String?
     let organizationNodeType: ServiceCatalogClientTypes.OrganizationNodeType?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension ListOrganizationPortfolioAccessInputBody: Swift.Decodable {
@@ -10168,7 +10168,7 @@ extension ListOrganizationPortfolioAccessInputBody: Swift.Decodable {
         organizationNodeType = organizationNodeTypeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -10276,7 +10276,7 @@ extension ListPortfolioAccessInput: Swift.Encodable {
         if let organizationParentId = self.organizationParentId {
             try encodeContainer.encode(organizationParentId, forKey: .organizationParentId)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10306,7 +10306,7 @@ public struct ListPortfolioAccessInput: Swift.Equatable {
     /// The ID of an organization node the portfolio is shared with. All children of this node with an inherited portfolio share will be returned.
     public var organizationParentId: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The portfolio identifier.
@@ -10316,7 +10316,7 @@ public struct ListPortfolioAccessInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         organizationParentId: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -10334,7 +10334,7 @@ struct ListPortfolioAccessInputBody: Swift.Equatable {
     let portfolioId: Swift.String?
     let organizationParentId: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension ListPortfolioAccessInputBody: Swift.Decodable {
@@ -10356,7 +10356,7 @@ extension ListPortfolioAccessInputBody: Swift.Decodable {
         organizationParentId = organizationParentIdDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -10458,7 +10458,7 @@ extension ListPortfoliosForProductInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10486,7 +10486,7 @@ public struct ListPortfoliosForProductInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The product identifier.
@@ -10495,7 +10495,7 @@ public struct ListPortfoliosForProductInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil
     )
@@ -10511,7 +10511,7 @@ struct ListPortfoliosForProductInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let productId: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension ListPortfoliosForProductInputBody: Swift.Decodable {
@@ -10530,7 +10530,7 @@ extension ListPortfoliosForProductInputBody: Swift.Decodable {
         productId = productIdDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -10631,7 +10631,7 @@ extension ListPortfoliosInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10656,13 +10656,13 @@ public struct ListPortfoliosInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil
     )
     {
@@ -10675,7 +10675,7 @@ public struct ListPortfoliosInput: Swift.Equatable {
 struct ListPortfoliosInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension ListPortfoliosInputBody: Swift.Decodable {
@@ -10691,7 +10691,7 @@ extension ListPortfoliosInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -10791,7 +10791,7 @@ extension ListPrincipalsForPortfolioInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10819,7 +10819,7 @@ public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The portfolio identifier.
@@ -10828,7 +10828,7 @@ public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil
     )
@@ -10843,7 +10843,7 @@ public struct ListPrincipalsForPortfolioInput: Swift.Equatable {
 struct ListPrincipalsForPortfolioInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let portfolioId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -10861,7 +10861,7 @@ extension ListPrincipalsForPortfolioInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let portfolioIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .portfolioId)
         portfolioId = portfolioIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -10969,7 +10969,7 @@ extension ListProvisionedProductPlansInput: Swift.Encodable {
         if let accessLevelFilter = self.accessLevelFilter {
             try encodeContainer.encode(accessLevelFilter, forKey: .accessLevelFilter)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -10999,7 +10999,7 @@ public struct ListProvisionedProductPlansInput: Swift.Equatable {
     /// The access level to use to obtain results. The default is User.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The product identifier.
@@ -11008,7 +11008,7 @@ public struct ListProvisionedProductPlansInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         provisionProductId: Swift.String? = nil
     )
@@ -11024,7 +11024,7 @@ public struct ListProvisionedProductPlansInput: Swift.Equatable {
 struct ListProvisionedProductPlansInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let provisionProductId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
 }
@@ -11044,7 +11044,7 @@ extension ListProvisionedProductPlansInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let provisionProductIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisionProductId)
         provisionProductId = provisionProductIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -11150,7 +11150,7 @@ extension ListProvisioningArtifactsForServiceActionInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -11178,7 +11178,7 @@ public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The self-service action identifier. For example, act-fs7abcd89wxyz.
@@ -11187,7 +11187,7 @@ public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         serviceActionId: Swift.String? = nil
     )
@@ -11201,7 +11201,7 @@ public struct ListProvisioningArtifactsForServiceActionInput: Swift.Equatable {
 
 struct ListProvisioningArtifactsForServiceActionInputBody: Swift.Equatable {
     let serviceActionId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
     let acceptLanguage: Swift.String?
 }
@@ -11218,7 +11218,7 @@ extension ListProvisioningArtifactsForServiceActionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let serviceActionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceActionId)
         serviceActionId = serviceActionIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -11478,7 +11478,7 @@ extension ListRecordHistoryInput: Swift.Encodable {
         if let accessLevelFilter = self.accessLevelFilter {
             try encodeContainer.encode(accessLevelFilter, forKey: .accessLevelFilter)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -11508,7 +11508,7 @@ public struct ListRecordHistoryInput: Swift.Equatable {
     /// The access level to use to obtain results. The default is User.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The search filter to scope the results.
@@ -11517,7 +11517,7 @@ public struct ListRecordHistoryInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         searchFilter: ServiceCatalogClientTypes.ListRecordHistorySearchFilter? = nil
     )
@@ -11534,7 +11534,7 @@ struct ListRecordHistoryInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     let searchFilter: ServiceCatalogClientTypes.ListRecordHistorySearchFilter?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -11555,7 +11555,7 @@ extension ListRecordHistoryInputBody: Swift.Decodable {
         accessLevelFilter = accessLevelFilterDecoded
         let searchFilterDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.ListRecordHistorySearchFilter.self, forKey: .searchFilter)
         searchFilter = searchFilterDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -11709,7 +11709,7 @@ extension ListResourcesForTagOptionInput: ClientRuntime.URLPathProvider {
 
 public struct ListResourcesForTagOptionInput: Swift.Equatable {
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The resource type.
@@ -11723,7 +11723,7 @@ public struct ListResourcesForTagOptionInput: Swift.Equatable {
     public var tagOptionId: Swift.String?
 
     public init (
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         tagOptionId: Swift.String? = nil
@@ -11845,7 +11845,7 @@ extension ListServiceActionsForProvisioningArtifactInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -11876,7 +11876,7 @@ public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The product identifier. For example, prod-abcdzk7xy33qa.
@@ -11888,7 +11888,7 @@ public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         productId: Swift.String? = nil,
         provisioningArtifactId: Swift.String? = nil
@@ -11905,7 +11905,7 @@ public struct ListServiceActionsForProvisioningArtifactInput: Swift.Equatable {
 struct ListServiceActionsForProvisioningArtifactInputBody: Swift.Equatable {
     let productId: Swift.String?
     let provisioningArtifactId: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
     let acceptLanguage: Swift.String?
 }
@@ -11925,7 +11925,7 @@ extension ListServiceActionsForProvisioningArtifactInputBody: Swift.Decodable {
         productId = productIdDecoded
         let provisioningArtifactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .provisioningArtifactId)
         provisioningArtifactId = provisioningArtifactIdDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -12030,7 +12030,7 @@ extension ListServiceActionsInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -12055,13 +12055,13 @@ public struct ListServiceActionsInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil
     )
     {
@@ -12073,7 +12073,7 @@ public struct ListServiceActionsInput: Swift.Equatable {
 
 struct ListServiceActionsInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -12088,7 +12088,7 @@ extension ListServiceActionsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let acceptLanguageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceptLanguage)
         acceptLanguage = acceptLanguageDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -12190,7 +12190,7 @@ extension ListStackInstancesForProvisionedProductInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -12218,7 +12218,7 @@ public struct ListStackInstancesForProvisionedProductInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The identifier of the provisioned product.
@@ -12227,7 +12227,7 @@ public struct ListStackInstancesForProvisionedProductInput: Swift.Equatable {
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         provisionedProductId: Swift.String? = nil
     )
@@ -12243,7 +12243,7 @@ struct ListStackInstancesForProvisionedProductInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let provisionedProductId: Swift.String?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
 }
 
 extension ListStackInstancesForProvisionedProductInputBody: Swift.Decodable {
@@ -12262,7 +12262,7 @@ extension ListStackInstancesForProvisionedProductInputBody: Swift.Decodable {
         provisionedProductId = provisionedProductIdDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
     }
 }
@@ -12418,7 +12418,7 @@ extension ListTagOptionsInput: Swift.Encodable {
         if let filters = self.filters {
             try encodeContainer.encode(filters, forKey: .filters)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -12437,13 +12437,13 @@ public struct ListTagOptionsInput: Swift.Equatable {
     /// The search filters. If no search filters are specified, the output includes all TagOptions.
     public var filters: ServiceCatalogClientTypes.ListTagOptionsFilters?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
 
     public init (
         filters: ServiceCatalogClientTypes.ListTagOptionsFilters? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil
     )
     {
@@ -12455,7 +12455,7 @@ public struct ListTagOptionsInput: Swift.Equatable {
 
 struct ListTagOptionsInputBody: Swift.Equatable {
     let filters: ServiceCatalogClientTypes.ListTagOptionsFilters?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -12470,7 +12470,7 @@ extension ListTagOptionsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let filtersDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.ListTagOptionsFilters.self, forKey: .filters)
         filters = filtersDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -16592,7 +16592,7 @@ extension ScanProvisionedProductsInput: Swift.Encodable {
         if let accessLevelFilter = self.accessLevelFilter {
             try encodeContainer.encode(accessLevelFilter, forKey: .accessLevelFilter)
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -16619,14 +16619,14 @@ public struct ScanProvisionedProductsInput: Swift.Equatable {
     /// The access level to use to obtain results. The default is User.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil
     )
     {
@@ -16640,7 +16640,7 @@ public struct ScanProvisionedProductsInput: Swift.Equatable {
 struct ScanProvisionedProductsInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -16658,7 +16658,7 @@ extension ScanProvisionedProductsInputBody: Swift.Decodable {
         acceptLanguage = acceptLanguageDecoded
         let accessLevelFilterDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.AccessLevelFilter.self, forKey: .accessLevelFilter)
         accessLevelFilter = accessLevelFilterDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -16773,7 +16773,7 @@ extension SearchProductsAsAdminInput: Swift.Encodable {
                 }
             }
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -16812,7 +16812,7 @@ public struct SearchProductsAsAdminInput: Swift.Equatable {
     /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The portfolio identifier.
@@ -16827,7 +16827,7 @@ public struct SearchProductsAsAdminInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         filters: [Swift.String:[Swift.String]]? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         portfolioId: Swift.String? = nil,
         productSource: ServiceCatalogClientTypes.ProductSource? = nil,
@@ -16853,7 +16853,7 @@ struct SearchProductsAsAdminInputBody: Swift.Equatable {
     let sortBy: ServiceCatalogClientTypes.ProductViewSortBy?
     let sortOrder: ServiceCatalogClientTypes.SortOrder?
     let pageToken: Swift.String?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let productSource: ServiceCatalogClientTypes.ProductSource?
 }
 
@@ -16899,7 +16899,7 @@ extension SearchProductsAsAdminInputBody: Swift.Decodable {
         sortOrder = sortOrderDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let productSourceDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.ProductSource.self, forKey: .productSource)
         productSource = productSourceDecoded
@@ -17014,7 +17014,7 @@ extension SearchProductsInput: Swift.Encodable {
                 }
             }
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -17047,7 +17047,7 @@ public struct SearchProductsInput: Swift.Equatable {
     /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The sort field. If no value is specified, the results are not sorted.
@@ -17058,7 +17058,7 @@ public struct SearchProductsInput: Swift.Equatable {
     public init (
         acceptLanguage: Swift.String? = nil,
         filters: [Swift.String:[Swift.String]]? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         sortBy: ServiceCatalogClientTypes.ProductViewSortBy? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
@@ -17076,7 +17076,7 @@ public struct SearchProductsInput: Swift.Equatable {
 struct SearchProductsInputBody: Swift.Equatable {
     let acceptLanguage: Swift.String?
     let filters: [Swift.String:[Swift.String]]?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let sortBy: ServiceCatalogClientTypes.ProductViewSortBy?
     let sortOrder: ServiceCatalogClientTypes.SortOrder?
     let pageToken: Swift.String?
@@ -17114,7 +17114,7 @@ extension SearchProductsInputBody: Swift.Decodable {
             }
         }
         filters = filtersDecoded0
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let sortByDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.ProductViewSortBy.self, forKey: .sortBy)
         sortBy = sortByDecoded
@@ -17261,7 +17261,7 @@ extension SearchProvisionedProductsInput: Swift.Encodable {
                 }
             }
         }
-        if pageSize != 0 {
+        if let pageSize = self.pageSize {
             try encodeContainer.encode(pageSize, forKey: .pageSize)
         }
         if let pageToken = self.pageToken {
@@ -17296,7 +17296,7 @@ public struct SearchProvisionedProductsInput: Swift.Equatable {
     /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of items to return with this call.
-    public var pageSize: Swift.Int
+    public var pageSize: Swift.Int?
     /// The page token for the next set of results. To retrieve the first set of results, use null.
     public var pageToken: Swift.String?
     /// The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name, and lastRecordId.
@@ -17308,7 +17308,7 @@ public struct SearchProvisionedProductsInput: Swift.Equatable {
         acceptLanguage: Swift.String? = nil,
         accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter? = nil,
         filters: [Swift.String:[Swift.String]]? = nil,
-        pageSize: Swift.Int = 0,
+        pageSize: Swift.Int? = nil,
         pageToken: Swift.String? = nil,
         sortBy: Swift.String? = nil,
         sortOrder: ServiceCatalogClientTypes.SortOrder? = nil
@@ -17330,7 +17330,7 @@ struct SearchProvisionedProductsInputBody: Swift.Equatable {
     let filters: [Swift.String:[Swift.String]]?
     let sortBy: Swift.String?
     let sortOrder: ServiceCatalogClientTypes.SortOrder?
-    let pageSize: Swift.Int
+    let pageSize: Swift.Int?
     let pageToken: Swift.String?
 }
 
@@ -17373,7 +17373,7 @@ extension SearchProvisionedProductsInputBody: Swift.Decodable {
         sortBy = sortByDecoded
         let sortOrderDecoded = try containerValues.decodeIfPresent(ServiceCatalogClientTypes.SortOrder.self, forKey: .sortOrder)
         sortOrder = sortOrderDecoded
-        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize) ?? 0
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
         pageSize = pageSizeDecoded
         let pageTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pageToken)
         pageToken = pageTokenDecoded
@@ -18556,7 +18556,7 @@ extension TerminateProvisionedProductInput: Swift.Encodable {
         if let acceptLanguage = self.acceptLanguage {
             try encodeContainer.encode(acceptLanguage, forKey: .acceptLanguage)
         }
-        if ignoreErrors != false {
+        if let ignoreErrors = self.ignoreErrors {
             try encodeContainer.encode(ignoreErrors, forKey: .ignoreErrors)
         }
         if let provisionedProductId = self.provisionedProductId {
@@ -18565,7 +18565,7 @@ extension TerminateProvisionedProductInput: Swift.Encodable {
         if let provisionedProductName = self.provisionedProductName {
             try encodeContainer.encode(provisionedProductName, forKey: .provisionedProductName)
         }
-        if retainPhysicalResources != false {
+        if let retainPhysicalResources = self.retainPhysicalResources {
             try encodeContainer.encode(retainPhysicalResources, forKey: .retainPhysicalResources)
         }
         if let terminateToken = self.terminateToken {
@@ -18590,23 +18590,23 @@ public struct TerminateProvisionedProductInput: Swift.Equatable {
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
     /// If set to true, Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
-    public var ignoreErrors: Swift.Bool
+    public var ignoreErrors: Swift.Bool?
     /// The identifier of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
     public var provisionedProductId: Swift.String?
     /// The name of the provisioned product. You cannot specify both ProvisionedProductName and ProvisionedProductId.
     public var provisionedProductName: Swift.String?
     /// When this boolean parameter is set to true, the TerminateProvisionedProduct API deletes the Service Catalog provisioned product. However, it does not remove the CloudFormation stack, stack set, or the underlying resources of the deleted provisioned product. The default value is false.
-    public var retainPhysicalResources: Swift.Bool
+    public var retainPhysicalResources: Swift.Bool?
     /// An idempotency token that uniquely identifies the termination request. This token is only valid during the termination process. After the provisioned product is terminated, subsequent requests to terminate the same provisioned product always return ResourceNotFound.
     /// This member is required.
     public var terminateToken: Swift.String?
 
     public init (
         acceptLanguage: Swift.String? = nil,
-        ignoreErrors: Swift.Bool = false,
+        ignoreErrors: Swift.Bool? = nil,
         provisionedProductId: Swift.String? = nil,
         provisionedProductName: Swift.String? = nil,
-        retainPhysicalResources: Swift.Bool = false,
+        retainPhysicalResources: Swift.Bool? = nil,
         terminateToken: Swift.String? = nil
     )
     {
@@ -18623,9 +18623,9 @@ struct TerminateProvisionedProductInputBody: Swift.Equatable {
     let provisionedProductName: Swift.String?
     let provisionedProductId: Swift.String?
     let terminateToken: Swift.String?
-    let ignoreErrors: Swift.Bool
+    let ignoreErrors: Swift.Bool?
     let acceptLanguage: Swift.String?
-    let retainPhysicalResources: Swift.Bool
+    let retainPhysicalResources: Swift.Bool?
 }
 
 extension TerminateProvisionedProductInputBody: Swift.Decodable {
@@ -18646,11 +18646,11 @@ extension TerminateProvisionedProductInputBody: Swift.Decodable {
         provisionedProductId = provisionedProductIdDecoded
         let terminateTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .terminateToken)
         terminateToken = terminateTokenDecoded
-        let ignoreErrorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreErrors) ?? false
+        let ignoreErrorsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignoreErrors)
         ignoreErrors = ignoreErrorsDecoded
         let acceptLanguageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .acceptLanguage)
         acceptLanguage = acceptLanguageDecoded
-        let retainPhysicalResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainPhysicalResources) ?? false
+        let retainPhysicalResourcesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainPhysicalResources)
         retainPhysicalResources = retainPhysicalResourcesDecoded
     }
 }

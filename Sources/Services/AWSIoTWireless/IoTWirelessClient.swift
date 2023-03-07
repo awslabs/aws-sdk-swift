@@ -1948,7 +1948,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
         return result
     }
 
-    /// Get the position information for a given wireless device or a wireless gateway resource. The postion information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     public func getResourcePosition(input: GetResourcePositionInput) async throws -> GetResourcePositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3568,7 +3568,7 @@ extension IoTWirelessClient: IoTWirelessClientProtocol {
         return result
     }
 
-    /// Update the position information of a given wireless device or a wireless gateway resource. The postion coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
+    /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     public func updateResourcePosition(input: UpdateResourcePositionInput) async throws -> UpdateResourcePositionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

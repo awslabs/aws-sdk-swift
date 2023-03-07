@@ -2025,7 +2025,7 @@ extension CancelExportTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CancelExportTaskInput: Swift.Equatable {
-    /// The identifier of the snapshot export task to cancel.
+    /// The identifier of the snapshot or cluster export task to cancel.
     /// This member is required.
     public var exportTaskIdentifier: Swift.String?
 
@@ -2119,47 +2119,59 @@ extension CancelExportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Contains the details of a snapshot export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
+/// Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
 public struct CancelExportTaskOutputResponse: Swift.Equatable {
-    /// The data exported from the snapshot. Valid values are the following:
+    /// The data exported from the snapshot or cluster. Valid values are the following:
     ///
     /// * database - Export all the data from a specified database.
     ///
-    /// * database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
+    /// * database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
     ///
-    /// * database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
+    /// * database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     ///
     /// * database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     public var exportOnly: [Swift.String]?
-    /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to.
+    /// A unique identifier for the snapshot or cluster export task. This ID isn't an identifier for the Amazon S3 bucket where the data is exported.
     public var exportTaskIdentifier: Swift.String?
     /// The reason the export failed, if it failed.
     public var failureCause: Swift.String?
-    /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot.
+    /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot or cluster.
     public var iamRoleArn: Swift.String?
-    /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key.
+    /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
     public var kmsKeyId: Swift.String?
-    /// The progress of the snapshot export task as a percentage.
+    /// The progress of the snapshot or cluster export task as a percentage.
     public var percentProgress: Swift.Int
-    /// The Amazon S3 bucket that the snapshot is exported to.
+    /// The Amazon S3 bucket that the snapshot or cluster is exported to.
     public var s3Bucket: Swift.String?
-    /// The Amazon S3 bucket prefix that is the file name and path of the exported snapshot.
+    /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
     public var s3Prefix: Swift.String?
     /// The time that the snapshot was created.
     public var snapshotTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+    /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     public var sourceArn: Swift.String?
     /// The type of source for the export.
     public var sourceType: RDSClientTypes.ExportSourceType?
-    /// The progress status of the export task.
+    /// The progress status of the export task. The status can be one of the following:
+    ///
+    /// * CANCELED
+    ///
+    /// * CANCELING
+    ///
+    /// * COMPLETE
+    ///
+    /// * FAILED
+    ///
+    /// * IN_PROGRESS
+    ///
+    /// * STARTING
     public var status: Swift.String?
-    /// The time that the snapshot export task completed.
+    /// The time that the snapshot or cluster export task ended.
     public var taskEndTime: ClientRuntime.Date?
-    /// The time that the snapshot export task started.
+    /// The time that the snapshot or cluster export task started.
     public var taskStartTime: ClientRuntime.Date?
     /// The total amount of data exported, in gigabytes.
     public var totalExtractedDataInGB: Swift.Int
-    /// A warning about the snapshot export task.
+    /// A warning about the snapshot or cluster export task.
     public var warningMessage: Swift.String?
 
     public init (
@@ -5745,7 +5757,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// Valid for: Multi-AZ DB clusters only
     public var publiclyAccessible: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for: Aurora DB clusters only
+    /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for: Aurora DB clusters and RDS for PostgreSQL Multi-AZ DB clusters
     public var replicationSourceIdentifier: Swift.String?
     /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for: Aurora DB clusters only
     public var scalingConfiguration: RDSClientTypes.ScalingConfiguration?
@@ -7887,7 +7899,7 @@ extension CreateDBInstanceReadReplicaInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
-    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your read replica so that the create operation can succeed. You can also allocate additional memory for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the read replica during the maintenance window. This setting doesn't apply to RDS Custom. Default: Inherits from the source DB instance
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -8938,7 +8950,7 @@ extension CreateDBProxyInput: Swift.Encodable {
         if let dbProxyName = dbProxyName {
             try container.encode(dbProxyName, forKey: ClientRuntime.Key("DBProxyName"))
         }
-        if debugLogging != false {
+        if let debugLogging = debugLogging {
             try container.encode(debugLogging, forKey: ClientRuntime.Key("DebugLogging"))
         }
         if let engineFamily = engineFamily {
@@ -8947,7 +8959,7 @@ extension CreateDBProxyInput: Swift.Encodable {
         if let idleClientTimeout = idleClientTimeout {
             try container.encode(idleClientTimeout, forKey: ClientRuntime.Key("IdleClientTimeout"))
         }
-        if requireTLS != false {
+        if let requireTLS = requireTLS {
             try container.encode(requireTLS, forKey: ClientRuntime.Key("RequireTLS"))
         }
         if let roleArn = roleArn {
@@ -9008,14 +9020,14 @@ public struct CreateDBProxyInput: Swift.Equatable {
     /// This member is required.
     public var dbProxyName: Swift.String?
     /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
-    public var debugLogging: Swift.Bool
+    public var debugLogging: Swift.Bool?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
     public var engineFamily: RDSClientTypes.EngineFamily?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
     /// A Boolean parameter that specifies whether Transport Layer Security (TLS) encryption is required for connections to the proxy. By enabling this setting, you can enforce encrypted TLS connections to the proxy.
-    public var requireTLS: Swift.Bool
+    public var requireTLS: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the IAM role that the proxy uses to access secrets in Amazon Web Services Secrets Manager.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -9030,10 +9042,10 @@ public struct CreateDBProxyInput: Swift.Equatable {
     public init (
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
-        debugLogging: Swift.Bool = false,
+        debugLogging: Swift.Bool? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
-        requireTLS: Swift.Bool = false,
+        requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -9060,9 +9072,9 @@ struct CreateDBProxyInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let vpcSubnetIds: [Swift.String]?
     let vpcSecurityGroupIds: [Swift.String]?
-    let requireTLS: Swift.Bool
+    let requireTLS: Swift.Bool?
     let idleClientTimeout: Swift.Int?
-    let debugLogging: Swift.Bool
+    let debugLogging: Swift.Bool?
     let tags: [RDSClientTypes.Tag]?
 }
 
@@ -9145,11 +9157,11 @@ extension CreateDBProxyInputBody: Swift.Decodable {
         } else {
             vpcSecurityGroupIds = nil
         }
-        let requireTLSDecoded = try containerValues.decode(Swift.Bool.self, forKey: .requireTLS)
+        let requireTLSDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .requireTLS)
         requireTLS = requireTLSDecoded
         let idleClientTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleClientTimeout)
         idleClientTimeout = idleClientTimeoutDecoded
-        let debugLoggingDecoded = try containerValues.decode(Swift.Bool.self, forKey: .debugLogging)
+        let debugLoggingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .debugLogging)
         debugLogging = debugLoggingDecoded
         if containerValues.contains(.tags) {
             struct KeyVal0{struct Tag{}}
@@ -19208,7 +19220,7 @@ public struct DeleteBlueGreenDeploymentInput: Swift.Equatable {
     /// * Must match an existing blue/green deployment identifier.
     /// This member is required.
     public var blueGreenDeploymentIdentifier: Swift.String?
-    /// A value that indicates whether to delete the resources in the green environment.
+    /// A value that indicates whether to delete the resources in the green environment. You can't specify this option if the blue/green deployment [status](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_BlueGreenDeployment.html) is SWITCHOVER_COMPLETED.
     public var deleteTarget: Swift.Bool?
 
     public init (
@@ -27997,15 +28009,15 @@ extension DescribeExportTasksInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeExportTasksInput: Swift.Equatable {
-    /// The identifier of the snapshot export task to be described.
+    /// The identifier of the snapshot or cluster export task to be described.
     public var exportTaskIdentifier: Swift.String?
-    /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Filter names and values are case-sensitive. Supported filters include the following:
+    /// Filters specify one or more snapshot or cluster exports to describe. The filters are specified as name-value pairs that define what to include in the output. Filter names and values are case-sensitive. Supported filters include the following:
     ///
-    /// * export-task-identifier - An identifier for the snapshot export task.
+    /// * export-task-identifier - An identifier for the snapshot or cluster export task.
     ///
-    /// * s3-bucket - The Amazon S3 bucket the snapshot is exported to.
+    /// * s3-bucket - The Amazon S3 bucket the data is exported to.
     ///
-    /// * source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3
+    /// * source-arn - The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     ///
     /// * status - The status of the export task. Must be lowercase. Valid statuses are the following:
     ///
@@ -28025,7 +28037,7 @@ public struct DescribeExportTasksInput: Swift.Equatable {
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified value, a pagination token called a marker is included in the response. You can use the marker in a later DescribeExportTasks request to retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
     public var maxRecords: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+    /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     public var sourceArn: Swift.String?
     /// The type of source for the export.
     public var sourceType: RDSClientTypes.ExportSourceType?
@@ -28138,7 +28150,7 @@ extension DescribeExportTasksOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeExportTasksOutputResponse: Swift.Equatable {
-    /// Information about an export of a snapshot to Amazon S3.
+    /// Information about an export of a snapshot or cluster to Amazon S3.
     public var exportTasks: [RDSClientTypes.ExportTask]?
     /// A pagination token that can be used in a later DescribeExportTasks request. A marker is used for pagination to identify the location to begin output for the next response of DescribeExportTasks.
     public var marker: Swift.String?
@@ -31383,47 +31395,59 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
 }
 
 extension RDSClientTypes {
-    /// Contains the details of a snapshot export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
+    /// Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
     public struct ExportTask: Swift.Equatable {
-        /// The data exported from the snapshot. Valid values are the following:
+        /// The data exported from the snapshot or cluster. Valid values are the following:
         ///
         /// * database - Export all the data from a specified database.
         ///
-        /// * database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
+        /// * database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
         ///
-        /// * database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
+        /// * database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         ///
         /// * database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         public var exportOnly: [Swift.String]?
-        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to.
+        /// A unique identifier for the snapshot or cluster export task. This ID isn't an identifier for the Amazon S3 bucket where the data is exported.
         public var exportTaskIdentifier: Swift.String?
         /// The reason the export failed, if it failed.
         public var failureCause: Swift.String?
-        /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot.
+        /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot or cluster.
         public var iamRoleArn: Swift.String?
-        /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key.
+        /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
         public var kmsKeyId: Swift.String?
-        /// The progress of the snapshot export task as a percentage.
+        /// The progress of the snapshot or cluster export task as a percentage.
         public var percentProgress: Swift.Int
-        /// The Amazon S3 bucket that the snapshot is exported to.
+        /// The Amazon S3 bucket that the snapshot or cluster is exported to.
         public var s3Bucket: Swift.String?
-        /// The Amazon S3 bucket prefix that is the file name and path of the exported snapshot.
+        /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
         public var s3Prefix: Swift.String?
         /// The time that the snapshot was created.
         public var snapshotTime: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+        /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
         public var sourceArn: Swift.String?
         /// The type of source for the export.
         public var sourceType: RDSClientTypes.ExportSourceType?
-        /// The progress status of the export task.
+        /// The progress status of the export task. The status can be one of the following:
+        ///
+        /// * CANCELED
+        ///
+        /// * CANCELING
+        ///
+        /// * COMPLETE
+        ///
+        /// * FAILED
+        ///
+        /// * IN_PROGRESS
+        ///
+        /// * STARTING
         public var status: Swift.String?
-        /// The time that the snapshot export task completed.
+        /// The time that the snapshot or cluster export task ended.
         public var taskEndTime: ClientRuntime.Date?
-        /// The time that the snapshot export task started.
+        /// The time that the snapshot or cluster export task started.
         public var taskStartTime: ClientRuntime.Date?
         /// The total amount of data exported, in gigabytes.
         public var totalExtractedDataInGB: Swift.Int
-        /// A warning about the snapshot export task.
+        /// A warning about the snapshot or cluster export task.
         public var warningMessage: Swift.String?
 
         public init (
@@ -34528,7 +34552,7 @@ extension ModifyActivityStreamInput: ClientRuntime.URLPathProvider {
 public struct ModifyActivityStreamInput: Swift.Equatable {
     /// The audit policy state. When a policy is unlocked, it is read/write. When it is locked, it is read-only. You can edit your audit policy only when the activity stream is unlocked or stopped.
     public var auditPolicyState: RDSClientTypes.AuditPolicyState?
-    /// The Amazon Resource Name (ARN) of the RDS for Oracle DB instance, for example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
+    /// The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL Server DB instance. For example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
     public var resourceArn: Swift.String?
 
     public init (
@@ -46898,7 +46922,7 @@ extension RestoreDBInstanceFromDBSnapshotInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -46919,7 +46943,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom.
     public var customIamInstanceProfile: Swift.String?
-    /// The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ deployments with two readable standby DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
+    /// The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Must match the identifier of an existing Multi-AZ DB cluster snapshot.
     ///
@@ -47650,7 +47674,7 @@ extension RestoreDBInstanceFromS3Input: ClientRuntime.URLPathProvider {
 }
 
 public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -48473,7 +48497,7 @@ extension RestoreDBInstanceToPointInTimeInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
-    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
+    /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     public var allocatedStorage: Swift.Int?
     /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
     public var autoMinorVersionUpgrade: Swift.Bool?
@@ -50062,7 +50086,7 @@ extension StartActivityStreamInput: ClientRuntime.URLPathProvider {
 public struct StartActivityStreamInput: Swift.Equatable {
     /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
     public var applyImmediately: Swift.Bool?
-    /// Specifies whether the database activity stream includes engine-native audit fields. This option only applies to an Oracle DB instance. By default, no engine-native audit fields are included.
+    /// Specifies whether the database activity stream includes engine-native audit fields. This option applies to an Oracle or Microsoft SQL Server DB instance. By default, no engine-native audit fields are included.
     public var engineNativeAuditFieldsIncluded: Swift.Bool?
     /// The Amazon Web Services KMS key identifier for encrypting messages in the database activity stream. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.
     /// This member is required.
@@ -50682,23 +50706,23 @@ extension StartExportTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartExportTaskInput: Swift.Equatable {
-    /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:
+    /// The data to be exported from the snapshot or cluster. If this parameter is not provided, all of the data is exported. Valid values are the following:
     ///
     /// * database - Export all the data from a specified database.
     ///
-    /// * database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
+    /// * database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
     ///
-    /// * database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
+    /// * database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     ///
     /// * database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     public var exportOnly: [Swift.String]?
-    /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to.
+    /// A unique identifier for the export task. This ID isn't an identifier for the Amazon S3 bucket where the data is to be exported.
     /// This member is required.
     public var exportTaskIdentifier: Swift.String?
-    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot.
+    /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot or cluster.
     /// This member is required.
     public var iamRoleArn: Swift.String?
-    /// The ID of the Amazon Web Services KMS key to use to encrypt the snapshot exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
+    /// The ID of the Amazon Web Services KMS key to use to encrypt the data exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. The caller of this operation must be authorized to run the following operations. These can be set in the Amazon Web Services KMS key policy:
     ///
     /// * kms:Encrypt
     ///
@@ -50719,12 +50743,12 @@ public struct StartExportTaskInput: Swift.Equatable {
     /// * kms:RetireGrant
     /// This member is required.
     public var kmsKeyId: Swift.String?
-    /// The name of the Amazon S3 bucket to export the snapshot to.
+    /// The name of the Amazon S3 bucket to export the snapshot or cluster data to.
     /// This member is required.
     public var s3BucketName: Swift.String?
-    /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
+    /// The Amazon S3 bucket prefix to use as the file name and path of the exported data.
     public var s3Prefix: Swift.String?
-    /// The Amazon Resource Name (ARN) of the snapshot to export to Amazon S3.
+    /// The Amazon Resource Name (ARN) of the snapshot or cluster to export to Amazon S3.
     /// This member is required.
     public var sourceArn: Swift.String?
 
@@ -50887,47 +50911,59 @@ extension StartExportTaskOutputResponse: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// Contains the details of a snapshot export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
+/// Contains the details of a snapshot or cluster export to Amazon S3. This data type is used as a response element in the DescribeExportTasks action.
 public struct StartExportTaskOutputResponse: Swift.Equatable {
-    /// The data exported from the snapshot. Valid values are the following:
+    /// The data exported from the snapshot or cluster. Valid values are the following:
     ///
     /// * database - Export all the data from a specified database.
     ///
-    /// * database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
+    /// * database.table table-name - Export a table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.
     ///
-    /// * database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
+    /// * database.schema schema-name - Export a database schema of the snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     ///
     /// * database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
     public var exportOnly: [Swift.String]?
-    /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to.
+    /// A unique identifier for the snapshot or cluster export task. This ID isn't an identifier for the Amazon S3 bucket where the data is exported.
     public var exportTaskIdentifier: Swift.String?
     /// The reason the export failed, if it failed.
     public var failureCause: Swift.String?
-    /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot.
+    /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot or cluster.
     public var iamRoleArn: Swift.String?
-    /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key.
+    /// The key identifier of the Amazon Web Services KMS key that is used to encrypt the data when it's exported to Amazon S3. The KMS key identifier is its key ARN, key ID, alias ARN, or alias name. The IAM role used for the export must have encryption and decryption permissions to use this KMS key.
     public var kmsKeyId: Swift.String?
-    /// The progress of the snapshot export task as a percentage.
+    /// The progress of the snapshot or cluster export task as a percentage.
     public var percentProgress: Swift.Int
-    /// The Amazon S3 bucket that the snapshot is exported to.
+    /// The Amazon S3 bucket that the snapshot or cluster is exported to.
     public var s3Bucket: Swift.String?
-    /// The Amazon S3 bucket prefix that is the file name and path of the exported snapshot.
+    /// The Amazon S3 bucket prefix that is the file name and path of the exported data.
     public var s3Prefix: Swift.String?
     /// The time that the snapshot was created.
     public var snapshotTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+    /// The Amazon Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.
     public var sourceArn: Swift.String?
     /// The type of source for the export.
     public var sourceType: RDSClientTypes.ExportSourceType?
-    /// The progress status of the export task.
+    /// The progress status of the export task. The status can be one of the following:
+    ///
+    /// * CANCELED
+    ///
+    /// * CANCELING
+    ///
+    /// * COMPLETE
+    ///
+    /// * FAILED
+    ///
+    /// * IN_PROGRESS
+    ///
+    /// * STARTING
     public var status: Swift.String?
-    /// The time that the snapshot export task completed.
+    /// The time that the snapshot or cluster export task ended.
     public var taskEndTime: ClientRuntime.Date?
-    /// The time that the snapshot export task started.
+    /// The time that the snapshot or cluster export task started.
     public var taskStartTime: ClientRuntime.Date?
     /// The total amount of data exported, in gigabytes.
     public var totalExtractedDataInGB: Swift.Int
-    /// A warning about the snapshot export task.
+    /// A warning about the snapshot or cluster export task.
     public var warningMessage: Swift.String?
 
     public init (

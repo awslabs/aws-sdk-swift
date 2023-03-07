@@ -4639,6 +4639,7 @@ extension GlueClient: GlueClientProtocol {
         return result
     }
 
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
     public func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4674,6 +4675,7 @@ extension GlueClient: GlueClientProtocol {
         return result
     }
 
+    /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
     public func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4709,6 +4711,7 @@ extension GlueClient: GlueClientProtocol {
         return result
     }
 
+    /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     public func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

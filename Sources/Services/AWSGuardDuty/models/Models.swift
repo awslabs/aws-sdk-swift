@@ -1570,7 +1570,7 @@ extension CreateDetectorInput: Swift.Encodable {
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
         }
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
         if let findingPublishingFrequency = self.findingPublishingFrequency {
@@ -1594,11 +1594,11 @@ extension CreateDetectorInput: ClientRuntime.URLPathProvider {
 public struct CreateDetectorInput: Swift.Equatable {
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// Describes which data sources will be enabled for the detector.
+    /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     /// A Boolean value that specifies whether the detector is to be enabled.
     /// This member is required.
-    public var enable: Swift.Bool
+    public var enable: Swift.Bool?
     /// A value that specifies how frequently updated findings are exported.
     public var findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     /// The tags to be added to a new detector resource.
@@ -1607,7 +1607,7 @@ public struct CreateDetectorInput: Swift.Equatable {
     public init (
         clientToken: Swift.String? = nil,
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
-        enable: Swift.Bool = false,
+        enable: Swift.Bool? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -1621,7 +1621,7 @@ public struct CreateDetectorInput: Swift.Equatable {
 }
 
 struct CreateDetectorInputBody: Swift.Equatable {
-    let enable: Swift.Bool
+    let enable: Swift.Bool?
     let clientToken: Swift.String?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
@@ -1639,7 +1639,7 @@ extension CreateDetectorInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -1764,7 +1764,7 @@ extension CreateFilterInput: Swift.Encodable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
-        if rank != 0 {
+        if let rank = self.rank {
             try encodeContainer.encode(rank, forKey: .rank)
         }
         if let tags = tags {
@@ -1790,7 +1790,7 @@ public struct CreateFilterInput: Swift.Equatable {
     public var action: GuardDutyClientTypes.FilterAction?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// The description of the filter. Valid special characters include period (.), underscore (_), dash (-), and whitespace. The new line character is considered to be an invalid input for description.
+    /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as -, ., :, { }, [ ], ( ), /, \t, \n, \x0B, \f, \r, _, and whitespace.
     public var description: Swift.String?
     /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
     /// This member is required.
@@ -1800,8 +1800,6 @@ public struct CreateFilterInput: Swift.Equatable {
     /// * accountId
     ///
     /// * region
-    ///
-    /// * confidence
     ///
     /// * id
     ///
@@ -1901,8 +1899,6 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * resource.s3BucketDetails.type
     ///
-    /// * service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.
-    ///
     /// * service.resourceRole
     ///
     /// * severity
@@ -1916,7 +1912,7 @@ public struct CreateFilterInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
     /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
     /// The tags to be added to a new filter resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1927,7 +1923,7 @@ public struct CreateFilterInput: Swift.Equatable {
         detectorId: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
         name: Swift.String? = nil,
-        rank: Swift.Int = 0,
+        rank: Swift.Int? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -1946,7 +1942,7 @@ struct CreateFilterInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
-    let rank: Swift.Int
+    let rank: Swift.Int?
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -1971,7 +1967,7 @@ extension CreateFilterInputBody: Swift.Decodable {
         description = descriptionDecoded
         let actionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
         let findingCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingCriteria.self, forKey: .findingCriteria)
         findingCriteria = findingCriteriaDecoded
@@ -2069,7 +2065,7 @@ extension CreateIPSetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activate != false {
+        if let activate = self.activate {
             try encodeContainer.encode(activate, forKey: .activate)
         }
         if let clientToken = self.clientToken {
@@ -2105,7 +2101,7 @@ extension CreateIPSetInput: ClientRuntime.URLPathProvider {
 public struct CreateIPSetInput: Swift.Equatable {
     /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
     /// This member is required.
-    public var activate: Swift.Bool
+    public var activate: Swift.Bool?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
     /// The unique ID of the detector of the GuardDuty account that you want to create an IPSet for.
@@ -2117,14 +2113,14 @@ public struct CreateIPSetInput: Swift.Equatable {
     /// The URI of the file that contains the IPSet.
     /// This member is required.
     public var location: Swift.String?
-    /// The user-friendly name to identify the IPSet. Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
+    /// The user-friendly name to identify the IPSet. Allowed characters are alphanumeric, whitespace, dash (-), and underscores (_).
     /// This member is required.
     public var name: Swift.String?
     /// The tags to be added to a new IP set resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init (
-        activate: Swift.Bool = false,
+        activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
         format: GuardDutyClientTypes.IpSetFormat? = nil,
@@ -2147,7 +2143,7 @@ struct CreateIPSetInputBody: Swift.Equatable {
     let name: Swift.String?
     let format: GuardDutyClientTypes.IpSetFormat?
     let location: Swift.String?
-    let activate: Swift.Bool
+    let activate: Swift.Bool?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2170,7 +2166,7 @@ extension CreateIPSetInputBody: Swift.Decodable {
         format = formatDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
-        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate) ?? false
+        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate)
         activate = activateDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -2657,7 +2653,7 @@ extension CreateThreatIntelSetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activate != false {
+        if let activate = self.activate {
             try encodeContainer.encode(activate, forKey: .activate)
         }
         if let clientToken = self.clientToken {
@@ -2693,7 +2689,7 @@ extension CreateThreatIntelSetInput: ClientRuntime.URLPathProvider {
 public struct CreateThreatIntelSetInput: Swift.Equatable {
     /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
     /// This member is required.
-    public var activate: Swift.Bool
+    public var activate: Swift.Bool?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
     /// The unique ID of the detector of the GuardDuty account that you want to create a threatIntelSet for.
@@ -2712,7 +2708,7 @@ public struct CreateThreatIntelSetInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init (
-        activate: Swift.Bool = false,
+        activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
         format: GuardDutyClientTypes.ThreatIntelSetFormat? = nil,
@@ -2735,7 +2731,7 @@ struct CreateThreatIntelSetInputBody: Swift.Equatable {
     let name: Swift.String?
     let format: GuardDutyClientTypes.ThreatIntelSetFormat?
     let location: Swift.String?
-    let activate: Swift.Bool
+    let activate: Swift.Bool?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2758,7 +2754,7 @@ extension CreateThreatIntelSetInputBody: Swift.Decodable {
         format = formatDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
-        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate) ?? false
+        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate)
         activate = activateDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
@@ -4090,7 +4086,7 @@ extension DescribeMalwareScansInput: Swift.Encodable {
         if let filterCriteria = self.filterCriteria {
             try encodeContainer.encode(filterCriteria, forKey: .filterCriteria)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -4118,16 +4114,16 @@ public struct DescribeMalwareScansInput: Swift.Equatable {
     /// Represents the criteria to be used in the filter for describing scan entries.
     public var filterCriteria: GuardDutyClientTypes.FilterCriteria?
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
-    /// Represents the criteria used for sorting scan entries.
+    /// Represents the criteria used for sorting scan entries. The [attributeName](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_SortCriteria.html#guardduty-Type-SortCriteria-attributeName) is required and it must be scanStartTime.
     public var sortCriteria: GuardDutyClientTypes.SortCriteria?
 
     public init (
         detectorId: Swift.String? = nil,
         filterCriteria: GuardDutyClientTypes.FilterCriteria? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
     )
@@ -4142,7 +4138,7 @@ public struct DescribeMalwareScansInput: Swift.Equatable {
 
 struct DescribeMalwareScansInputBody: Swift.Equatable {
     let nextToken: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let filterCriteria: GuardDutyClientTypes.FilterCriteria?
     let sortCriteria: GuardDutyClientTypes.SortCriteria?
 }
@@ -4159,7 +4155,7 @@ extension DescribeMalwareScansInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let filterCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FilterCriteria.self, forKey: .filterCriteria)
         filterCriteria = filterCriteriaDecoded
@@ -8345,7 +8341,7 @@ extension GetUsageStatisticsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -8377,7 +8373,7 @@ public struct GetUsageStatisticsInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// The maximum number of results to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
     /// The currency unit you would like to view your usage statistics in. Current valid values are USD.
@@ -8391,7 +8387,7 @@ public struct GetUsageStatisticsInput: Swift.Equatable {
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         unit: Swift.String? = nil,
         usageCriteria: GuardDutyClientTypes.UsageCriteria? = nil,
@@ -8411,7 +8407,7 @@ struct GetUsageStatisticsInputBody: Swift.Equatable {
     let usageStatisticType: GuardDutyClientTypes.UsageStatisticType?
     let usageCriteria: GuardDutyClientTypes.UsageCriteria?
     let unit: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -8432,7 +8428,7 @@ extension GetUsageStatisticsInputBody: Swift.Decodable {
         usageCriteria = usageCriteriaDecoded
         let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
         unit = unitDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -8983,7 +8979,7 @@ extension InviteMembersInput: Swift.Encodable {
                 try accountIdsContainer.encode(accountid0)
             }
         }
-        if disableEmailNotification != false {
+        if let disableEmailNotification = self.disableEmailNotification {
             try encodeContainer.encode(disableEmailNotification, forKey: .disableEmailNotification)
         }
         if let message = self.message {
@@ -9009,14 +9005,14 @@ public struct InviteMembersInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// A Boolean value that specifies whether you want to disable email notification to the accounts that you are inviting to GuardDuty as members.
-    public var disableEmailNotification: Swift.Bool
+    public var disableEmailNotification: Swift.Bool?
     /// The invitation message that you want to send to the accounts that you're inviting to GuardDuty as members.
     public var message: Swift.String?
 
     public init (
         accountIds: [Swift.String]? = nil,
         detectorId: Swift.String? = nil,
-        disableEmailNotification: Swift.Bool = false,
+        disableEmailNotification: Swift.Bool? = nil,
         message: Swift.String? = nil
     )
     {
@@ -9029,7 +9025,7 @@ public struct InviteMembersInput: Swift.Equatable {
 
 struct InviteMembersInputBody: Swift.Equatable {
     let accountIds: [Swift.String]?
-    let disableEmailNotification: Swift.Bool
+    let disableEmailNotification: Swift.Bool?
     let message: Swift.String?
 }
 
@@ -9053,7 +9049,7 @@ extension InviteMembersInputBody: Swift.Decodable {
             }
         }
         accountIds = accountIdsDecoded0
-        let disableEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableEmailNotification) ?? false
+        let disableEmailNotificationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .disableEmailNotification)
         disableEmailNotification = disableEmailNotificationDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
@@ -9751,7 +9747,7 @@ extension ListDetectorsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9768,12 +9764,12 @@ extension ListDetectorsInput: ClientRuntime.URLPathProvider {
 
 public struct ListDetectorsInput: Swift.Equatable {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -9884,7 +9880,7 @@ extension ListFiltersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -9907,13 +9903,13 @@ public struct ListFiltersInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10030,7 +10026,7 @@ extension ListFindingsInput: Swift.Encodable {
         if let findingCriteria = self.findingCriteria {
             try encodeContainer.encode(findingCriteria, forKey: .findingCriteria)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -10154,7 +10150,7 @@ public struct ListFindingsInput: Swift.Equatable {
     /// * updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
     public var findingCriteria: GuardDutyClientTypes.FindingCriteria?
     /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
     /// Represents the criteria used for sorting findings.
@@ -10163,7 +10159,7 @@ public struct ListFindingsInput: Swift.Equatable {
     public init (
         detectorId: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         sortCriteria: GuardDutyClientTypes.SortCriteria? = nil
     )
@@ -10179,7 +10175,7 @@ public struct ListFindingsInput: Swift.Equatable {
 struct ListFindingsInputBody: Swift.Equatable {
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
     let sortCriteria: GuardDutyClientTypes.SortCriteria?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -10197,7 +10193,7 @@ extension ListFindingsInputBody: Swift.Decodable {
         findingCriteria = findingCriteriaDecoded
         let sortCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.SortCriteria.self, forKey: .sortCriteria)
         sortCriteria = sortCriteriaDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -10297,7 +10293,7 @@ extension ListIPSetsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10320,13 +10316,13 @@ public struct ListIPSetsInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10438,7 +10434,7 @@ extension ListInvitationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10455,12 +10451,12 @@ extension ListInvitationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListInvitationsInput: Swift.Equatable {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10570,7 +10566,7 @@ extension ListMembersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10597,7 +10593,7 @@ public struct ListMembersInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
     /// Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated). Member accounts must have been previously associated with the GuardDuty administrator account using [Create Members](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_CreateMembers.html).
@@ -10605,7 +10601,7 @@ public struct ListMembersInput: Swift.Equatable {
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         onlyAssociated: Swift.String? = nil
     )
@@ -10718,7 +10714,7 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10735,12 +10731,12 @@ extension ListOrganizationAdminAccountsInput: ClientRuntime.URLPathProvider {
 
 public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
     /// The maximum number of results to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
     public init (
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -10850,7 +10846,7 @@ extension ListPublishingDestinationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -10873,13 +10869,13 @@ public struct ListPublishingDestinationsInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// The maximum number of results to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
     public var nextToken: Swift.String?
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -11096,7 +11092,7 @@ extension ListThreatIntelSetsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -11119,13 +11115,13 @@ public struct ListThreatIntelSetsInput: Swift.Equatable {
     /// This member is required.
     public var detectorId: Swift.String?
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
     public var nextToken: Swift.String?
 
     public init (
         detectorId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -13148,7 +13144,7 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Contains information about the Amazon Web Services resource associated with the activity that prompted GuardDuty to generate a finding.
     public struct Resource: Swift.Equatable {
-        /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
+        /// The IAM access key details (user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public var accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails?
         /// Details of a container.
         public var containerDetails: GuardDutyClientTypes.Container?
@@ -14529,7 +14525,7 @@ extension GuardDutyClientTypes.SortCriteria: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Contains information about the criteria used for sorting findings.
     public struct SortCriteria: Swift.Equatable {
-        /// Represents the finding attribute (for example, accountId) to sort findings by.
+        /// Represents the finding attribute, such as accountId, that sorts the findings.
         public var attributeName: Swift.String?
         /// The order by which the sorted findings are to be displayed.
         public var orderBy: GuardDutyClientTypes.OrderBy?
@@ -15314,7 +15310,7 @@ extension GuardDutyClientTypes {
     public struct TriggerDetails: Swift.Equatable {
         /// The description of the scan trigger.
         public var description: Swift.String?
-        /// The ID of the GuardDuty finding that triggered the BirdDog scan.
+        /// The ID of the GuardDuty finding that triggered the malware scan.
         public var guardDutyFindingId: Swift.String?
 
         public init (
@@ -15612,7 +15608,7 @@ extension UpdateDetectorInput: Swift.Encodable {
         if let dataSources = self.dataSources {
             try encodeContainer.encode(dataSources, forKey: .dataSources)
         }
-        if enable != false {
+        if let enable = self.enable {
             try encodeContainer.encode(enable, forKey: .enable)
         }
         if let findingPublishingFrequency = self.findingPublishingFrequency {
@@ -15631,20 +15627,20 @@ extension UpdateDetectorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateDetectorInput: Swift.Equatable {
-    /// Describes which data sources will be updated.
+    /// Describes which data sources will be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     /// The unique ID of the detector to update.
     /// This member is required.
     public var detectorId: Swift.String?
     /// Specifies whether the detector is enabled or not enabled.
-    public var enable: Swift.Bool
+    public var enable: Swift.Bool?
     /// An enum value that specifies how frequently findings are exported, such as to CloudWatch Events.
     public var findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
 
     public init (
         dataSources: GuardDutyClientTypes.DataSourceConfigurations? = nil,
         detectorId: Swift.String? = nil,
-        enable: Swift.Bool = false,
+        enable: Swift.Bool? = nil,
         findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency? = nil
     )
     {
@@ -15656,7 +15652,7 @@ public struct UpdateDetectorInput: Swift.Equatable {
 }
 
 struct UpdateDetectorInputBody: Swift.Equatable {
-    let enable: Swift.Bool
+    let enable: Swift.Bool?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
 }
@@ -15670,7 +15666,7 @@ extension UpdateDetectorInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable) ?? false
+        let enableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enable)
         enable = enableDecoded
         let findingPublishingFrequencyDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingPublishingFrequency.self, forKey: .findingPublishingFrequency)
         findingPublishingFrequency = findingPublishingFrequencyDecoded
@@ -15732,7 +15728,7 @@ extension UpdateFilterInput: Swift.Encodable {
         if let findingCriteria = self.findingCriteria {
             try encodeContainer.encode(findingCriteria, forKey: .findingCriteria)
         }
-        if rank != 0 {
+        if let rank = self.rank {
             try encodeContainer.encode(rank, forKey: .rank)
         }
     }
@@ -15753,7 +15749,7 @@ extension UpdateFilterInput: ClientRuntime.URLPathProvider {
 public struct UpdateFilterInput: Swift.Equatable {
     /// Specifies the action that is to be applied to the findings that match the filter.
     public var action: GuardDutyClientTypes.FilterAction?
-    /// The description of the filter. Valid special characters include period (.), underscore (_), dash (-), and whitespace. The new line character is considered to be an invalid input for description.
+    /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
     public var description: Swift.String?
     /// The unique ID of the detector that specifies the GuardDuty service where you want to update a filter.
     /// This member is required.
@@ -15764,7 +15760,7 @@ public struct UpdateFilterInput: Swift.Equatable {
     /// Represents the criteria to be used in the filter for querying findings.
     public var findingCriteria: GuardDutyClientTypes.FindingCriteria?
     /// Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings.
-    public var rank: Swift.Int
+    public var rank: Swift.Int?
 
     public init (
         action: GuardDutyClientTypes.FilterAction? = nil,
@@ -15772,7 +15768,7 @@ public struct UpdateFilterInput: Swift.Equatable {
         detectorId: Swift.String? = nil,
         filterName: Swift.String? = nil,
         findingCriteria: GuardDutyClientTypes.FindingCriteria? = nil,
-        rank: Swift.Int = 0
+        rank: Swift.Int? = nil
     )
     {
         self.action = action
@@ -15787,7 +15783,7 @@ public struct UpdateFilterInput: Swift.Equatable {
 struct UpdateFilterInputBody: Swift.Equatable {
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
-    let rank: Swift.Int
+    let rank: Swift.Int?
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
 }
 
@@ -15805,7 +15801,7 @@ extension UpdateFilterInputBody: Swift.Decodable {
         description = descriptionDecoded
         let actionDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FilterAction.self, forKey: .action)
         action = actionDecoded
-        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank)
         rank = rankDecoded
         let findingCriteriaDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.FindingCriteria.self, forKey: .findingCriteria)
         findingCriteria = findingCriteriaDecoded
@@ -16014,7 +16010,7 @@ extension UpdateIPSetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activate != false {
+        if let activate = self.activate {
             try encodeContainer.encode(activate, forKey: .activate)
         }
         if let location = self.location {
@@ -16040,7 +16036,7 @@ extension UpdateIPSetInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateIPSetInput: Swift.Equatable {
     /// The updated Boolean value that specifies whether the IPSet is active or not.
-    public var activate: Swift.Bool
+    public var activate: Swift.Bool?
     /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -16053,7 +16049,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     public var name: Swift.String?
 
     public init (
-        activate: Swift.Bool = false,
+        activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
         ipSetId: Swift.String? = nil,
         location: Swift.String? = nil,
@@ -16071,7 +16067,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
 struct UpdateIPSetInputBody: Swift.Equatable {
     let name: Swift.String?
     let location: Swift.String?
-    let activate: Swift.Bool
+    let activate: Swift.Bool?
 }
 
 extension UpdateIPSetInputBody: Swift.Decodable {
@@ -16087,7 +16083,7 @@ extension UpdateIPSetInputBody: Swift.Decodable {
         name = nameDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
-        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate) ?? false
+        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate)
         activate = activateDecoded
     }
 }
@@ -16390,7 +16386,7 @@ extension UpdateOrganizationConfigurationInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoEnable != false {
+        if let autoEnable = self.autoEnable {
             try encodeContainer.encode(autoEnable, forKey: .autoEnable)
         }
         if let dataSources = self.dataSources {
@@ -16411,7 +16407,7 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     /// Indicates whether to automatically enable member accounts in the organization.
     /// This member is required.
-    public var autoEnable: Swift.Bool
+    public var autoEnable: Swift.Bool?
     /// Describes which data sources will be updated.
     public var dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations?
     /// The ID of the detector to update the delegated administrator for.
@@ -16419,7 +16415,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     public var detectorId: Swift.String?
 
     public init (
-        autoEnable: Swift.Bool = false,
+        autoEnable: Swift.Bool? = nil,
         dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations? = nil,
         detectorId: Swift.String? = nil
     )
@@ -16431,7 +16427,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
 }
 
 struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
-    let autoEnable: Swift.Bool
+    let autoEnable: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations?
 }
 
@@ -16443,7 +16439,7 @@ extension UpdateOrganizationConfigurationInputBody: Swift.Decodable {
 
     public init (from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable) ?? false
+        let autoEnableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoEnable)
         autoEnable = autoEnableDecoded
         let dataSourcesDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.OrganizationDataSourceConfigurations.self, forKey: .dataSources)
         dataSources = dataSourcesDecoded
@@ -16590,7 +16586,7 @@ extension UpdateThreatIntelSetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if activate != false {
+        if let activate = self.activate {
             try encodeContainer.encode(activate, forKey: .activate)
         }
         if let location = self.location {
@@ -16616,7 +16612,7 @@ extension UpdateThreatIntelSetInput: ClientRuntime.URLPathProvider {
 
 public struct UpdateThreatIntelSetInput: Swift.Equatable {
     /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
-    public var activate: Swift.Bool
+    public var activate: Swift.Bool?
     /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -16629,7 +16625,7 @@ public struct UpdateThreatIntelSetInput: Swift.Equatable {
     public var threatIntelSetId: Swift.String?
 
     public init (
-        activate: Swift.Bool = false,
+        activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -16647,7 +16643,7 @@ public struct UpdateThreatIntelSetInput: Swift.Equatable {
 struct UpdateThreatIntelSetInputBody: Swift.Equatable {
     let name: Swift.String?
     let location: Swift.String?
-    let activate: Swift.Bool
+    let activate: Swift.Bool?
 }
 
 extension UpdateThreatIntelSetInputBody: Swift.Decodable {
@@ -16663,7 +16659,7 @@ extension UpdateThreatIntelSetInputBody: Swift.Decodable {
         name = nameDecoded
         let locationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .location)
         location = locationDecoded
-        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate) ?? false
+        let activateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .activate)
         activate = activateDecoded
     }
 }

@@ -2495,6 +2495,7 @@ extension RUMClientTypes.MetricDefinition: Swift.Codable {
         case eventPattern = "EventPattern"
         case metricDefinitionId = "MetricDefinitionId"
         case name = "Name"
+        case namespace = "Namespace"
         case unitLabel = "UnitLabel"
         case valueKey = "ValueKey"
     }
@@ -2515,6 +2516,9 @@ extension RUMClientTypes.MetricDefinition: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
         }
         if let unitLabel = self.unitLabel {
             try encodeContainer.encode(unitLabel, forKey: .unitLabel)
@@ -2547,6 +2551,8 @@ extension RUMClientTypes.MetricDefinition: Swift.Codable {
         dimensionKeys = dimensionKeysDecoded0
         let eventPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventPattern)
         eventPattern = eventPatternDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
     }
 }
 
@@ -2563,6 +2569,8 @@ extension RUMClientTypes {
         /// The name of the metric that is defined in this structure.
         /// This member is required.
         public var name: Swift.String?
+        /// If this metric definition is for a custom metric instead of an extended metric, this field displays the metric namespace that the custom metric is published to.
+        public var namespace: Swift.String?
         /// Use this field only if you are sending this metric to CloudWatch. It defines the CloudWatch metric unit that this metric is measured in.
         public var unitLabel: Swift.String?
         /// The field within the event object that the metric value is sourced from.
@@ -2573,6 +2581,7 @@ extension RUMClientTypes {
             eventPattern: Swift.String? = nil,
             metricDefinitionId: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
         )
@@ -2581,6 +2590,7 @@ extension RUMClientTypes {
             self.eventPattern = eventPattern
             self.metricDefinitionId = metricDefinitionId
             self.name = name
+            self.namespace = namespace
             self.unitLabel = unitLabel
             self.valueKey = valueKey
         }
@@ -2593,6 +2603,7 @@ extension RUMClientTypes.MetricDefinitionRequest: Swift.Codable {
         case dimensionKeys = "DimensionKeys"
         case eventPattern = "EventPattern"
         case name = "Name"
+        case namespace = "Namespace"
         case unitLabel = "UnitLabel"
         case valueKey = "ValueKey"
     }
@@ -2610,6 +2621,9 @@ extension RUMClientTypes.MetricDefinitionRequest: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
         }
         if let unitLabel = self.unitLabel {
             try encodeContainer.encode(unitLabel, forKey: .unitLabel)
@@ -2640,11 +2654,17 @@ extension RUMClientTypes.MetricDefinitionRequest: Swift.Codable {
         dimensionKeys = dimensionKeysDecoded0
         let eventPatternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventPattern)
         eventPattern = eventPatternDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
     }
 }
 
 extension RUMClientTypes {
-    /// Use this structure to define one extended metric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see [ Additional metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html). Only certain combinations of values for Name, ValueKey, and EventPattern are valid. In addition to what is displayed in the list below, the EventPattern can also include information used by the DimensionKeys field.
+    /// Use this structure to define one extended metric or custom metric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see [ Additional metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html). This structure is validated differently for extended metrics and custom metrics. For extended metrics that are sent to the AWS/RUM namespace, the following validations apply:
+    ///
+    /// * The Namespace parameter must be omitted or set to AWS/RUM.
+    ///
+    /// * Only certain combinations of values for Name, ValueKey, and EventPattern are valid. In addition to what is displayed in the list below, the EventPattern can also include information used by the DimensionKeys field.
     ///
     /// * If Name is PerformanceNavigationDuration, then ValueKeymust be event_details.duration and the EventPattern must include {"event_type":["com.amazon.rum.performance_navigation_event"]}
     ///
@@ -2667,8 +2687,63 @@ extension RUMClientTypes {
     /// * If Name is HttpErrorCount, then ValueKeymust be null and the EventPattern must include {"event_type":["com.amazon.rum.http_event"]}
     ///
     /// * If Name is SessionCount, then ValueKeymust be null and the EventPattern must include {"event_type":["com.amazon.rum.session_start_event"]}
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For custom metrics, the following validation rules apply:
+    ///
+    /// * The namespace can't be omitted and can't be AWS/RUM. You can use the AWS/RUM namespace only for extended metrics.
+    ///
+    /// * All dimensions listed in the DimensionKeys field must be present in the value of EventPattern.
+    ///
+    /// * The values that you specify for ValueKey, EventPattern, and DimensionKeys must be fields in RUM events, so all first-level keys in these fields must be one of the keys in the list later in this section.
+    ///
+    /// * If you set a value for EventPattern, it must be a JSON object.
+    ///
+    /// * For every non-empty event_details, there must be a non-empty event_type.
+    ///
+    /// * If EventPattern contains an event_details field, it must also contain an event_type. For every built-in event_type that you use, you must use a value for event_details that corresponds to that event_type. For information about event details that correspond to event types, see [ RUM event details](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-datacollected.html#CloudWatch-RUM-datacollected-eventDetails).
+    ///
+    /// * In EventPattern, any JSON array must contain only one value.
+    ///
+    ///
+    /// Valid key values for first-level keys in the ValueKey, EventPattern, and DimensionKeys fields:
+    ///
+    /// * account_id
+    ///
+    /// * application_Id
+    ///
+    /// * application_version
+    ///
+    /// * application_name
+    ///
+    /// * batch_id
+    ///
+    /// * event_details
+    ///
+    /// * event_id
+    ///
+    /// * event_interaction
+    ///
+    /// * event_timestamp
+    ///
+    /// * event_type
+    ///
+    /// * event_version
+    ///
+    /// * log_stream
+    ///
+    /// * metadata
+    ///
+    /// * sessionId
+    ///
+    /// * user_details
+    ///
+    /// * userId
     public struct MetricDefinitionRequest: Swift.Equatable {
-        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. Valid values for the entries in this field are the following:
+        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. For extended metrics, valid values for the entries in this field are the following:
         ///
         /// * "metadata.pageId": "PageId"
         ///
@@ -2683,7 +2758,7 @@ extension RUMClientTypes {
         /// * "event_details.fileType": "FileType"
         ///
         ///
-        /// All dimensions listed in this field must also be included in EventPattern.
+        /// For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern.
         public var dimensionKeys: [Swift.String:Swift.String]?
         /// The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns:
         ///
@@ -2696,7 +2771,7 @@ extension RUMClientTypes {
         ///
         /// If the metrics destination' is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
         public var eventPattern: Swift.String?
-        /// The name for the metric that is defined in this structure. Valid values are the following:
+        /// The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For extended metrics, valid values are the following:
         ///
         /// * PerformanceNavigationDuration
         ///
@@ -2721,6 +2796,8 @@ extension RUMClientTypes {
         /// * SessionCount
         /// This member is required.
         public var name: Swift.String?
+        /// If this structure is for a custom metric instead of an extended metrics, use this parameter to define the metric namespace for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace.
+        public var namespace: Swift.String?
         /// The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit.
         public var unitLabel: Swift.String?
         /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you just want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw and Evidently will handle data extraction from the event.
@@ -2730,6 +2807,7 @@ extension RUMClientTypes {
             dimensionKeys: [Swift.String:Swift.String]? = nil,
             eventPattern: Swift.String? = nil,
             name: Swift.String? = nil,
+            namespace: Swift.String? = nil,
             unitLabel: Swift.String? = nil,
             valueKey: Swift.String? = nil
         )
@@ -2737,6 +2815,7 @@ extension RUMClientTypes {
             self.dimensionKeys = dimensionKeys
             self.eventPattern = eventPattern
             self.name = name
+            self.namespace = namespace
             self.unitLabel = unitLabel
             self.valueKey = valueKey
         }

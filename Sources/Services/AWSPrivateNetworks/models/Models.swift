@@ -1435,6 +1435,7 @@ extension DeleteNetworkOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteNetworkOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1444,6 +1445,7 @@ extension DeleteNetworkOutputError {
 }
 
 public enum DeleteNetworkOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -1551,6 +1553,7 @@ extension DeleteNetworkSiteOutputError: ClientRuntime.HttpResponseBinding {
 extension DeleteNetworkSiteOutputError {
     public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
         switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
         case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
@@ -1560,6 +1563,7 @@ extension DeleteNetworkSiteOutputError {
 }
 
 public enum DeleteNetworkSiteOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
     case internalServerException(InternalServerException)
     case resourceNotFoundException(ResourceNotFoundException)
     case validationException(ValidationException)
@@ -3891,6 +3895,7 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
         case networkSiteArn
         case orderArn
         case position
+        case returnInformation
         case serialNumber
         case status
         case statusReason
@@ -3932,6 +3937,9 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
         }
         if let position = self.position {
             try encodeContainer.encode(position, forKey: .position)
+        }
+        if let returnInformation = self.returnInformation {
+            try encodeContainer.encode(returnInformation, forKey: .returnInformation)
         }
         if let serialNumber = self.serialNumber {
             try encodeContainer.encode(serialNumber, forKey: .serialNumber)
@@ -3991,6 +3999,8 @@ extension PrivateNetworksClientTypes.NetworkResource: Swift.Codable {
         position = positionDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
         createdAt = createdAtDecoded
+        let returnInformationDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.ReturnInformation.self, forKey: .returnInformation)
+        returnInformation = returnInformationDecoded
     }
 }
 
@@ -4017,6 +4027,8 @@ extension PrivateNetworksClientTypes {
         public var orderArn: Swift.String?
         /// The position of the network resource.
         public var position: PrivateNetworksClientTypes.Position?
+        /// Information about a request to return the network resource.
+        public var returnInformation: PrivateNetworksClientTypes.ReturnInformation?
         /// The serial number of the network resource.
         public var serialNumber: Swift.String?
         /// The status of the network resource.
@@ -4039,6 +4051,7 @@ extension PrivateNetworksClientTypes {
             networkSiteArn: Swift.String? = nil,
             orderArn: Swift.String? = nil,
             position: PrivateNetworksClientTypes.Position? = nil,
+            returnInformation: PrivateNetworksClientTypes.ReturnInformation? = nil,
             serialNumber: Swift.String? = nil,
             status: PrivateNetworksClientTypes.NetworkResourceStatus? = nil,
             statusReason: Swift.String? = nil,
@@ -4056,6 +4069,7 @@ extension PrivateNetworksClientTypes {
             self.networkSiteArn = networkSiteArn
             self.orderArn = orderArn
             self.position = position
+            self.returnInformation = returnInformation
             self.serialNumber = serialNumber
             self.status = status
             self.statusReason = statusReason
@@ -4202,6 +4216,7 @@ extension PrivateNetworksClientTypes {
 extension PrivateNetworksClientTypes {
     public enum NetworkResourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
+        case creatingShippingLabel
         case deleted
         case deleting
         case pending
@@ -4214,6 +4229,7 @@ extension PrivateNetworksClientTypes {
         public static var allCases: [NetworkResourceStatus] {
             return [
                 .available,
+                .creatingShippingLabel,
                 .deleted,
                 .deleting,
                 .pending,
@@ -4231,6 +4247,7 @@ extension PrivateNetworksClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "AVAILABLE"
+            case .creatingShippingLabel: return "CREATING_SHIPPING_LABEL"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .pending: return "PENDING"
@@ -4901,6 +4918,71 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension PrivateNetworksClientTypes.ReturnInformation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replacementOrderArn
+        case returnReason
+        case shippingAddress
+        case shippingLabel
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let replacementOrderArn = self.replacementOrderArn {
+            try encodeContainer.encode(replacementOrderArn, forKey: .replacementOrderArn)
+        }
+        if let returnReason = self.returnReason {
+            try encodeContainer.encode(returnReason, forKey: .returnReason)
+        }
+        if let shippingAddress = self.shippingAddress {
+            try encodeContainer.encode(shippingAddress, forKey: .shippingAddress)
+        }
+        if let shippingLabel = self.shippingLabel {
+            try encodeContainer.encode(shippingLabel, forKey: .shippingLabel)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shippingAddressDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.Address.self, forKey: .shippingAddress)
+        shippingAddress = shippingAddressDecoded
+        let returnReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnReason)
+        returnReason = returnReasonDecoded
+        let replacementOrderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replacementOrderArn)
+        replacementOrderArn = replacementOrderArnDecoded
+        let shippingLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shippingLabel)
+        shippingLabel = shippingLabelDecoded
+    }
+}
+
+extension PrivateNetworksClientTypes {
+    /// Information about a request to return a network resource.
+    public struct ReturnInformation: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the replacement order.
+        public var replacementOrderArn: Swift.String?
+        /// The reason for the return. If the return request did not include a reason for the return, this value is null.
+        public var returnReason: Swift.String?
+        /// The shipping address.
+        public var shippingAddress: PrivateNetworksClientTypes.Address?
+        /// The URL of the shipping label. The shipping label is available for download only if the status of the network resource is PENDING_RETURN. For more information, see [Return a radio unit](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html#return-radio-unit).
+        public var shippingLabel: Swift.String?
+
+        public init (
+            replacementOrderArn: Swift.String? = nil,
+            returnReason: Swift.String? = nil,
+            shippingAddress: PrivateNetworksClientTypes.Address? = nil,
+            shippingLabel: Swift.String? = nil
+        )
+        {
+            self.replacementOrderArn = replacementOrderArn
+            self.returnReason = returnReason
+            self.shippingAddress = shippingAddress
+            self.shippingLabel = shippingLabel
+        }
+    }
+
+}
+
 extension PrivateNetworksClientTypes.SitePlan: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case options
@@ -4968,6 +5050,162 @@ extension PrivateNetworksClientTypes {
         }
     }
 
+}
+
+extension StartNetworkResourceUpdateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkResourceArn
+        case returnReason
+        case shippingAddress
+        case updateType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let networkResourceArn = self.networkResourceArn {
+            try encodeContainer.encode(networkResourceArn, forKey: .networkResourceArn)
+        }
+        if let returnReason = self.returnReason {
+            try encodeContainer.encode(returnReason, forKey: .returnReason)
+        }
+        if let shippingAddress = self.shippingAddress {
+            try encodeContainer.encode(shippingAddress, forKey: .shippingAddress)
+        }
+        if let updateType = self.updateType {
+            try encodeContainer.encode(updateType.rawValue, forKey: .updateType)
+        }
+    }
+}
+
+extension StartNetworkResourceUpdateInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v1/network-resources/update"
+    }
+}
+
+public struct StartNetworkResourceUpdateInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the network resource.
+    /// This member is required.
+    public var networkResourceArn: Swift.String?
+    /// The reason for the return. Providing a reason for a return is optional.
+    public var returnReason: Swift.String?
+    /// The shipping address. If you don't provide a shipping address when replacing or returning a network resource, we use the address from the original order for the network resource.
+    public var shippingAddress: PrivateNetworksClientTypes.Address?
+    /// The update type.
+    ///
+    /// * REPLACE - Submits a request to replace a defective radio unit. We provide a shipping label that you can use for the return process and we ship a replacement radio unit to you.
+    ///
+    /// * RETURN - Submits a request to replace a radio unit that you no longer need. We provide a shipping label that you can use for the return process.
+    /// This member is required.
+    public var updateType: PrivateNetworksClientTypes.UpdateType?
+
+    public init (
+        networkResourceArn: Swift.String? = nil,
+        returnReason: Swift.String? = nil,
+        shippingAddress: PrivateNetworksClientTypes.Address? = nil,
+        updateType: PrivateNetworksClientTypes.UpdateType? = nil
+    )
+    {
+        self.networkResourceArn = networkResourceArn
+        self.returnReason = returnReason
+        self.shippingAddress = shippingAddress
+        self.updateType = updateType
+    }
+}
+
+struct StartNetworkResourceUpdateInputBody: Swift.Equatable {
+    let networkResourceArn: Swift.String?
+    let updateType: PrivateNetworksClientTypes.UpdateType?
+    let shippingAddress: PrivateNetworksClientTypes.Address?
+    let returnReason: Swift.String?
+}
+
+extension StartNetworkResourceUpdateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkResourceArn
+        case returnReason
+        case shippingAddress
+        case updateType
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkResourceArn)
+        networkResourceArn = networkResourceArnDecoded
+        let updateTypeDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.UpdateType.self, forKey: .updateType)
+        updateType = updateTypeDecoded
+        let shippingAddressDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.Address.self, forKey: .shippingAddress)
+        shippingAddress = shippingAddressDecoded
+        let returnReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnReason)
+        returnReason = returnReasonDecoded
+    }
+}
+
+extension StartNetworkResourceUpdateOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension StartNetworkResourceUpdateOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum StartNetworkResourceUpdateOutputError: Swift.Error, Swift.Equatable {
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension StartNetworkResourceUpdateOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: StartNetworkResourceUpdateOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.networkResource = output.networkResource
+        } else {
+            self.networkResource = nil
+        }
+    }
+}
+
+public struct StartNetworkResourceUpdateOutputResponse: Swift.Equatable {
+    /// The network resource.
+    public var networkResource: PrivateNetworksClientTypes.NetworkResource?
+
+    public init (
+        networkResource: PrivateNetworksClientTypes.NetworkResource? = nil
+    )
+    {
+        self.networkResource = networkResource
+    }
+}
+
+struct StartNetworkResourceUpdateOutputResponseBody: Swift.Equatable {
+    let networkResource: PrivateNetworksClientTypes.NetworkResource?
+}
+
+extension StartNetworkResourceUpdateOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case networkResource
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkResourceDecoded = try containerValues.decodeIfPresent(PrivateNetworksClientTypes.NetworkResource.self, forKey: .networkResource)
+        networkResource = networkResourceDecoded
+    }
 }
 
 extension TagResourceInput: Swift.CustomDebugStringConvertible {
@@ -5592,6 +5830,38 @@ extension UpdateNetworkSitePlanOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+    }
+}
+
+extension PrivateNetworksClientTypes {
+    public enum UpdateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case replace
+        case `return`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateType] {
+            return [
+                .replace,
+                .return,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .replace: return "REPLACE"
+            case .return: return "RETURN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateType(rawValue: rawValue) ?? UpdateType.sdkUnknown(rawValue)
+        }
     }
 }
 

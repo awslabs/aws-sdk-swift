@@ -370,3 +370,65 @@ extension PaginatorSequence where Input == ListOrganizationAdminAccountsInput, O
         return try await self.asyncCompactMap { item in item.adminAccounts }
     }
 }
+extension SecurityHubClient {
+    /// Paginate over `[ListSecurityControlDefinitionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityControlDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityControlDefinitionsOutputResponse`
+    public func listSecurityControlDefinitionsPaginated(input: ListSecurityControlDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSecurityControlDefinitionsInput, ListSecurityControlDefinitionsOutputResponse>(input: input, inputKey: \ListSecurityControlDefinitionsInput.nextToken, outputKey: \ListSecurityControlDefinitionsOutputResponse.nextToken, paginationFunction: self.listSecurityControlDefinitions(input:))
+    }
+}
+
+extension ListSecurityControlDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSecurityControlDefinitionsInput {
+        return ListSecurityControlDefinitionsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            standardsArn: self.standardsArn
+        )}
+}
+
+extension PaginatorSequence where Input == ListSecurityControlDefinitionsInput, Output == ListSecurityControlDefinitionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityControlDefinitionsPaginated`
+    /// to access the nested member `[SecurityHubClientTypes.SecurityControlDefinition]`
+    /// - Returns: `[SecurityHubClientTypes.SecurityControlDefinition]`
+    public func securityControlDefinitions() async throws -> [SecurityHubClientTypes.SecurityControlDefinition] {
+        return try await self.asyncCompactMap { item in item.securityControlDefinitions }
+    }
+}
+extension SecurityHubClient {
+    /// Paginate over `[ListStandardsControlAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListStandardsControlAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListStandardsControlAssociationsOutputResponse`
+    public func listStandardsControlAssociationsPaginated(input: ListStandardsControlAssociationsInput) -> ClientRuntime.PaginatorSequence<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListStandardsControlAssociationsInput, ListStandardsControlAssociationsOutputResponse>(input: input, inputKey: \ListStandardsControlAssociationsInput.nextToken, outputKey: \ListStandardsControlAssociationsOutputResponse.nextToken, paginationFunction: self.listStandardsControlAssociations(input:))
+    }
+}
+
+extension ListStandardsControlAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListStandardsControlAssociationsInput {
+        return ListStandardsControlAssociationsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityControlId: self.securityControlId
+        )}
+}
+
+extension PaginatorSequence where Input == ListStandardsControlAssociationsInput, Output == ListStandardsControlAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listStandardsControlAssociationsPaginated`
+    /// to access the nested member `[SecurityHubClientTypes.StandardsControlAssociationSummary]`
+    /// - Returns: `[SecurityHubClientTypes.StandardsControlAssociationSummary]`
+    public func standardsControlAssociationSummaries() async throws -> [SecurityHubClientTypes.StandardsControlAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.standardsControlAssociationSummaries }
+    }
+}

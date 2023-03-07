@@ -5430,7 +5430,7 @@ extension GetClusterSessionCredentialsOutputResponse: ClientRuntime.HttpResponse
 }
 
 public struct GetClusterSessionCredentialsOutputResponse: Swift.Equatable {
-    /// The credentials that you can use to connect to cluster endpoints that support username-based and password-based authentication.
+    /// The credentials that you can use to connect to cluster endpoints that support username and password authentication.
     public var credentials: EMRClientTypes.Credentials?
     /// The time when the credentials that are returned by the GetClusterSessionCredentials API expire.
     public var expiresAt: ClientRuntime.Date?
@@ -6133,6 +6133,7 @@ extension EMRClientTypes.InstanceFleet: Swift.Codable {
         case name = "Name"
         case provisionedOnDemandCapacity = "ProvisionedOnDemandCapacity"
         case provisionedSpotCapacity = "ProvisionedSpotCapacity"
+        case resizeSpecifications = "ResizeSpecifications"
         case status = "Status"
         case targetOnDemandCapacity = "TargetOnDemandCapacity"
         case targetSpotCapacity = "TargetSpotCapacity"
@@ -6163,6 +6164,9 @@ extension EMRClientTypes.InstanceFleet: Swift.Codable {
         }
         if let provisionedSpotCapacity = self.provisionedSpotCapacity {
             try encodeContainer.encode(provisionedSpotCapacity, forKey: .provisionedSpotCapacity)
+        }
+        if let resizeSpecifications = self.resizeSpecifications {
+            try encodeContainer.encode(resizeSpecifications, forKey: .resizeSpecifications)
         }
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
@@ -6206,6 +6210,8 @@ extension EMRClientTypes.InstanceFleet: Swift.Codable {
         instanceTypeSpecifications = instanceTypeSpecificationsDecoded0
         let launchSpecificationsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.InstanceFleetProvisioningSpecifications.self, forKey: .launchSpecifications)
         launchSpecifications = launchSpecificationsDecoded
+        let resizeSpecificationsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.InstanceFleetResizingSpecifications.self, forKey: .resizeSpecifications)
+        resizeSpecifications = resizeSpecificationsDecoded
     }
 }
 
@@ -6226,6 +6232,8 @@ extension EMRClientTypes {
         public var provisionedOnDemandCapacity: Swift.Int?
         /// The number of Spot units that have been provisioned for this instance fleet to fulfill TargetSpotCapacity. This provisioned capacity might be less than or greater than TargetSpotCapacity.
         public var provisionedSpotCapacity: Swift.Int?
+        /// The resize specification for the instance fleet.
+        public var resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications?
         /// The current status of the instance fleet.
         public var status: EMRClientTypes.InstanceFleetStatus?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand Instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand Instances as specified by [InstanceTypeConfig]. Each instance configuration has a specified WeightedCapacity. When an On-Demand Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. You can use [InstanceFleet$ProvisionedOnDemandCapacity] to determine the Spot capacity units that have been provisioned for the instance fleet. If not specified or set to 0, only Spot Instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
@@ -6241,6 +6249,7 @@ extension EMRClientTypes {
             name: Swift.String? = nil,
             provisionedOnDemandCapacity: Swift.Int? = nil,
             provisionedSpotCapacity: Swift.Int? = nil,
+            resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
             status: EMRClientTypes.InstanceFleetStatus? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
@@ -6253,6 +6262,7 @@ extension EMRClientTypes {
             self.name = name
             self.provisionedOnDemandCapacity = provisionedOnDemandCapacity
             self.provisionedSpotCapacity = provisionedSpotCapacity
+            self.resizeSpecifications = resizeSpecifications
             self.status = status
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
@@ -6267,6 +6277,7 @@ extension EMRClientTypes.InstanceFleetConfig: Swift.Codable {
         case instanceTypeConfigs = "InstanceTypeConfigs"
         case launchSpecifications = "LaunchSpecifications"
         case name = "Name"
+        case resizeSpecifications = "ResizeSpecifications"
         case targetOnDemandCapacity = "TargetOnDemandCapacity"
         case targetSpotCapacity = "TargetSpotCapacity"
     }
@@ -6287,6 +6298,9 @@ extension EMRClientTypes.InstanceFleetConfig: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resizeSpecifications = self.resizeSpecifications {
+            try encodeContainer.encode(resizeSpecifications, forKey: .resizeSpecifications)
         }
         if let targetOnDemandCapacity = self.targetOnDemandCapacity {
             try encodeContainer.encode(targetOnDemandCapacity, forKey: .targetOnDemandCapacity)
@@ -6319,6 +6333,8 @@ extension EMRClientTypes.InstanceFleetConfig: Swift.Codable {
         instanceTypeConfigs = instanceTypeConfigsDecoded0
         let launchSpecificationsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.InstanceFleetProvisioningSpecifications.self, forKey: .launchSpecifications)
         launchSpecifications = launchSpecificationsDecoded
+        let resizeSpecificationsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.InstanceFleetResizingSpecifications.self, forKey: .resizeSpecifications)
+        resizeSpecifications = resizeSpecificationsDecoded
     }
 }
 
@@ -6334,6 +6350,8 @@ extension EMRClientTypes {
         public var launchSpecifications: EMRClientTypes.InstanceFleetProvisioningSpecifications?
         /// The friendly name of the instance fleet.
         public var name: Swift.String?
+        /// The resize specification for the instance fleet.
+        public var resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications?
         /// The target capacity of On-Demand units for the instance fleet, which determines how many On-Demand Instances to provision. When the instance fleet launches, Amazon EMR tries to provision On-Demand Instances as specified by [InstanceTypeConfig]. Each instance configuration has a specified WeightedCapacity. When an On-Demand Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. If not specified or set to 0, only Spot Instances are provisioned for the instance fleet using TargetSpotCapacity. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
         public var targetOnDemandCapacity: Swift.Int?
         /// The target capacity of Spot units for the instance fleet, which determines how many Spot Instances to provision. When the instance fleet launches, Amazon EMR tries to provision Spot Instances as specified by [InstanceTypeConfig]. Each instance configuration has a specified WeightedCapacity. When a Spot Instance is provisioned, the WeightedCapacity units count toward the target capacity. Amazon EMR provisions instances until the target capacity is totally fulfilled, even if this results in an overage. For example, if there are 2 units remaining to fulfill capacity, and Amazon EMR can only provision an instance with a WeightedCapacity of 5 units, the instance is provisioned, and the target capacity is exceeded by 3 units. If not specified or set to 0, only On-Demand Instances are provisioned for the instance fleet. At least one of TargetSpotCapacity and TargetOnDemandCapacity should be greater than 0. For a master instance fleet, only one of TargetSpotCapacity and TargetOnDemandCapacity can be specified, and its value must be 1.
@@ -6344,6 +6362,7 @@ extension EMRClientTypes {
             instanceTypeConfigs: [EMRClientTypes.InstanceTypeConfig]? = nil,
             launchSpecifications: EMRClientTypes.InstanceFleetProvisioningSpecifications? = nil,
             name: Swift.String? = nil,
+            resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
         )
@@ -6352,6 +6371,7 @@ extension EMRClientTypes {
             self.instanceTypeConfigs = instanceTypeConfigs
             self.launchSpecifications = launchSpecifications
             self.name = name
+            self.resizeSpecifications = resizeSpecifications
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
         }
@@ -6362,6 +6382,7 @@ extension EMRClientTypes {
 extension EMRClientTypes.InstanceFleetModifyConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceFleetId = "InstanceFleetId"
+        case resizeSpecifications = "ResizeSpecifications"
         case targetOnDemandCapacity = "TargetOnDemandCapacity"
         case targetSpotCapacity = "TargetSpotCapacity"
     }
@@ -6370,6 +6391,9 @@ extension EMRClientTypes.InstanceFleetModifyConfig: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let instanceFleetId = self.instanceFleetId {
             try encodeContainer.encode(instanceFleetId, forKey: .instanceFleetId)
+        }
+        if let resizeSpecifications = self.resizeSpecifications {
+            try encodeContainer.encode(resizeSpecifications, forKey: .resizeSpecifications)
         }
         if let targetOnDemandCapacity = self.targetOnDemandCapacity {
             try encodeContainer.encode(targetOnDemandCapacity, forKey: .targetOnDemandCapacity)
@@ -6387,6 +6411,8 @@ extension EMRClientTypes.InstanceFleetModifyConfig: Swift.Codable {
         targetOnDemandCapacity = targetOnDemandCapacityDecoded
         let targetSpotCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .targetSpotCapacity)
         targetSpotCapacity = targetSpotCapacityDecoded
+        let resizeSpecificationsDecoded = try containerValues.decodeIfPresent(EMRClientTypes.InstanceFleetResizingSpecifications.self, forKey: .resizeSpecifications)
+        resizeSpecifications = resizeSpecificationsDecoded
     }
 }
 
@@ -6396,6 +6422,8 @@ extension EMRClientTypes {
         /// A unique identifier for the instance fleet.
         /// This member is required.
         public var instanceFleetId: Swift.String?
+        /// The resize specification for the instance fleet.
+        public var resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications?
         /// The target capacity of On-Demand units for the instance fleet. For more information see [InstanceFleetConfig$TargetOnDemandCapacity].
         public var targetOnDemandCapacity: Swift.Int?
         /// The target capacity of Spot units for the instance fleet. For more information, see [InstanceFleetConfig$TargetSpotCapacity].
@@ -6403,11 +6431,13 @@ extension EMRClientTypes {
 
         public init (
             instanceFleetId: Swift.String? = nil,
+            resizeSpecifications: EMRClientTypes.InstanceFleetResizingSpecifications? = nil,
             targetOnDemandCapacity: Swift.Int? = nil,
             targetSpotCapacity: Swift.Int? = nil
         )
         {
             self.instanceFleetId = instanceFleetId
+            self.resizeSpecifications = resizeSpecifications
             self.targetOnDemandCapacity = targetOnDemandCapacity
             self.targetSpotCapacity = targetSpotCapacity
         }
@@ -6441,11 +6471,11 @@ extension EMRClientTypes.InstanceFleetProvisioningSpecifications: Swift.Codable 
 }
 
 extension EMRClientTypes {
-    /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot Instance allocation strategies are available in Amazon EMR version 5.12.1 and later.
+    /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand and Spot instance allocation strategies are available in Amazon EMR version 5.12.1 and later.
     public struct InstanceFleetProvisioningSpecifications: Swift.Equatable {
         /// The launch specification for On-Demand Instances in the instance fleet, which determines the allocation strategy. The instance fleet configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. On-Demand Instances allocation strategy is available in Amazon EMR version 5.12.1 and later.
         public var onDemandSpecification: EMRClientTypes.OnDemandProvisioningSpecification?
-        /// The launch specification for Spot Instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
+        /// The launch specification for Spot instances in the fleet, which determines the defined duration, provisioning timeout behavior, and allocation strategy.
         public var spotSpecification: EMRClientTypes.SpotProvisioningSpecification?
 
         public init (
@@ -6455,6 +6485,51 @@ extension EMRClientTypes {
         {
             self.onDemandSpecification = onDemandSpecification
             self.spotSpecification = spotSpecification
+        }
+    }
+
+}
+
+extension EMRClientTypes.InstanceFleetResizingSpecifications: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case onDemandResizeSpecification = "OnDemandResizeSpecification"
+        case spotResizeSpecification = "SpotResizeSpecification"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let onDemandResizeSpecification = self.onDemandResizeSpecification {
+            try encodeContainer.encode(onDemandResizeSpecification, forKey: .onDemandResizeSpecification)
+        }
+        if let spotResizeSpecification = self.spotResizeSpecification {
+            try encodeContainer.encode(spotResizeSpecification, forKey: .spotResizeSpecification)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let spotResizeSpecificationDecoded = try containerValues.decodeIfPresent(EMRClientTypes.SpotResizingSpecification.self, forKey: .spotResizeSpecification)
+        spotResizeSpecification = spotResizeSpecificationDecoded
+        let onDemandResizeSpecificationDecoded = try containerValues.decodeIfPresent(EMRClientTypes.OnDemandResizingSpecification.self, forKey: .onDemandResizeSpecification)
+        onDemandResizeSpecification = onDemandResizeSpecificationDecoded
+    }
+}
+
+extension EMRClientTypes {
+    /// The resize specification for On-Demand and Spot Instances in the fleet.
+    public struct InstanceFleetResizingSpecifications: Swift.Equatable {
+        /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
+        public var onDemandResizeSpecification: EMRClientTypes.OnDemandResizingSpecification?
+        /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
+        public var spotResizeSpecification: EMRClientTypes.SpotResizingSpecification?
+
+        public init (
+            onDemandResizeSpecification: EMRClientTypes.OnDemandResizingSpecification? = nil,
+            spotResizeSpecification: EMRClientTypes.SpotResizingSpecification? = nil
+        )
+        {
+            self.onDemandResizeSpecification = onDemandResizeSpecification
+            self.spotResizeSpecification = spotResizeSpecification
         }
     }
 
@@ -12161,6 +12236,42 @@ extension EMRClientTypes {
 
 }
 
+extension EMRClientTypes.OnDemandResizingSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timeoutDurationMinutes = "TimeoutDurationMinutes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timeoutDurationMinutes = self.timeoutDurationMinutes {
+            try encodeContainer.encode(timeoutDurationMinutes, forKey: .timeoutDurationMinutes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timeoutDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutDurationMinutes)
+        timeoutDurationMinutes = timeoutDurationMinutesDecoded
+    }
+}
+
+extension EMRClientTypes {
+    /// The resize specification for On-Demand Instances in the instance fleet, which contains the resize timeout period.
+    public struct OnDemandResizingSpecification: Swift.Equatable {
+        /// On-Demand resize timeout in minutes. If On-Demand Instances are not provisioned within this time, the resize workflow stops. The minimum value is 5 minutes, and the maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
+        /// This member is required.
+        public var timeoutDurationMinutes: Swift.Int?
+
+        public init (
+            timeoutDurationMinutes: Swift.Int? = nil
+        )
+        {
+            self.timeoutDurationMinutes = timeoutDurationMinutes
+        }
+    }
+
+}
+
 extension EMRClientTypes.PlacementGroupConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instanceRole = "InstanceRole"
@@ -13384,7 +13495,7 @@ extension RunJobFlowInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -13477,7 +13588,7 @@ public struct RunJobFlowInput: Swift.Equatable {
     /// A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
     public var tags: [EMRClientTypes.Tag]?
     /// The VisibleToAllUsers parameter is no longer supported. By default, the value is set to true. Setting it to false now has no effect. Set this value to true so that IAM principals in the Amazon Web Services account associated with the cluster can perform EMR actions on the cluster that their IAM policies allow. This value defaults to true for clusters created using the EMR API or the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command. When set to false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions for the cluster, regardless of the IAM permissions policies attached to other IAM principals. For more information, see [Understanding the EMR Cluster VisibleToAllUsers Setting](https://docs.aws.amazon.com/emr/latest/ManagementGuide/security_iam_emr-with-iam.html#security_set_visible_to_all_users) in the Amazon EMRManagement Guide.
-    public var visibleToAllUsers: Swift.Bool
+    public var visibleToAllUsers: Swift.Bool?
 
     public init (
         additionalInfo: Swift.String? = nil,
@@ -13508,7 +13619,7 @@ public struct RunJobFlowInput: Swift.Equatable {
         steps: [EMRClientTypes.StepConfig]? = nil,
         supportedProducts: [Swift.String]? = nil,
         tags: [EMRClientTypes.Tag]? = nil,
-        visibleToAllUsers: Swift.Bool = false
+        visibleToAllUsers: Swift.Bool? = nil
     )
     {
         self.additionalInfo = additionalInfo
@@ -13557,7 +13668,7 @@ struct RunJobFlowInputBody: Swift.Equatable {
     let newSupportedProducts: [EMRClientTypes.SupportedProductConfig]?
     let applications: [EMRClientTypes.Application]?
     let configurations: [EMRClientTypes.Configuration]?
-    let visibleToAllUsers: Swift.Bool
+    let visibleToAllUsers: Swift.Bool?
     let jobFlowRole: Swift.String?
     let serviceRole: Swift.String?
     let tags: [EMRClientTypes.Tag]?
@@ -13690,7 +13801,7 @@ extension RunJobFlowInputBody: Swift.Decodable {
             }
         }
         configurations = configurationsDecoded0
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let jobFlowRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobFlowRole)
         jobFlowRole = jobFlowRoleDecoded
@@ -14343,7 +14454,7 @@ extension SetTerminationProtectionInput: Swift.Encodable {
                 try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
-        if terminationProtected != false {
+        if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
     }
@@ -14362,11 +14473,11 @@ public struct SetTerminationProtectionInput: Swift.Equatable {
     public var jobFlowIds: [Swift.String]?
     /// A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
     /// This member is required.
-    public var terminationProtected: Swift.Bool
+    public var terminationProtected: Swift.Bool?
 
     public init (
         jobFlowIds: [Swift.String]? = nil,
-        terminationProtected: Swift.Bool = false
+        terminationProtected: Swift.Bool? = nil
     )
     {
         self.jobFlowIds = jobFlowIds
@@ -14376,7 +14487,7 @@ public struct SetTerminationProtectionInput: Swift.Equatable {
 
 struct SetTerminationProtectionInputBody: Swift.Equatable {
     let jobFlowIds: [Swift.String]?
-    let terminationProtected: Swift.Bool
+    let terminationProtected: Swift.Bool?
 }
 
 extension SetTerminationProtectionInputBody: Swift.Decodable {
@@ -14398,7 +14509,7 @@ extension SetTerminationProtectionInputBody: Swift.Decodable {
             }
         }
         jobFlowIds = jobFlowIdsDecoded0
-        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected) ?? false
+        let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
     }
 }
@@ -14449,7 +14560,7 @@ extension SetVisibleToAllUsersInput: Swift.Encodable {
                 try jobFlowIdsContainer.encode(xmlstring0)
             }
         }
-        if visibleToAllUsers != false {
+        if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
     }
@@ -14468,11 +14579,11 @@ public struct SetVisibleToAllUsersInput: Swift.Equatable {
     public var jobFlowIds: [Swift.String]?
     /// A value of true indicates that an IAM principal in the Amazon Web Services account can perform EMR actions on the cluster that the IAM policies attached to the principal allow. A value of false indicates that only the IAM principal that created the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
     /// This member is required.
-    public var visibleToAllUsers: Swift.Bool
+    public var visibleToAllUsers: Swift.Bool?
 
     public init (
         jobFlowIds: [Swift.String]? = nil,
-        visibleToAllUsers: Swift.Bool = false
+        visibleToAllUsers: Swift.Bool? = nil
     )
     {
         self.jobFlowIds = jobFlowIds
@@ -14482,7 +14593,7 @@ public struct SetVisibleToAllUsersInput: Swift.Equatable {
 
 struct SetVisibleToAllUsersInputBody: Swift.Equatable {
     let jobFlowIds: [Swift.String]?
-    let visibleToAllUsers: Swift.Bool
+    let visibleToAllUsers: Swift.Bool?
 }
 
 extension SetVisibleToAllUsersInputBody: Swift.Decodable {
@@ -14504,7 +14615,7 @@ extension SetVisibleToAllUsersInputBody: Swift.Decodable {
             }
         }
         jobFlowIds = jobFlowIdsDecoded0
-        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers) ?? false
+        let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
     }
 }
@@ -14763,7 +14874,7 @@ extension EMRClientTypes {
         /// The action to take when TargetSpotCapacity has not been fulfilled when the TimeoutDurationMinutes has expired; that is, when all Spot Instances could not be provisioned within the Spot provisioning timeout. Valid values are TERMINATE_CLUSTER and SWITCH_TO_ON_DEMAND. SWITCH_TO_ON_DEMAND specifies that if no Spot Instances are available, On-Demand Instances should be provisioned to fulfill any remaining Spot capacity.
         /// This member is required.
         public var timeoutAction: EMRClientTypes.SpotProvisioningTimeoutAction?
-        /// The spot provisioning timeout period in minutes. If Spot Instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
+        /// The Spot provisioning timeout period in minutes. If Spot Instances are not provisioned within this time period, the TimeOutAction is taken. Minimum value is 5 and maximum value is 1440. The timeout applies only during initial provisioning, when the cluster is first created.
         /// This member is required.
         public var timeoutDurationMinutes: Swift.Int?
 
@@ -14813,6 +14924,42 @@ extension EMRClientTypes {
             self = SpotProvisioningTimeoutAction(rawValue: rawValue) ?? SpotProvisioningTimeoutAction.sdkUnknown(rawValue)
         }
     }
+}
+
+extension EMRClientTypes.SpotResizingSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timeoutDurationMinutes = "TimeoutDurationMinutes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timeoutDurationMinutes = self.timeoutDurationMinutes {
+            try encodeContainer.encode(timeoutDurationMinutes, forKey: .timeoutDurationMinutes)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timeoutDurationMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutDurationMinutes)
+        timeoutDurationMinutes = timeoutDurationMinutesDecoded
+    }
+}
+
+extension EMRClientTypes {
+    /// The resize specification for Spot Instances in the instance fleet, which contains the resize timeout period.
+    public struct SpotResizingSpecification: Swift.Equatable {
+        /// Spot resize timeout in minutes. If Spot Instances are not provisioned within this time, the resize workflow will stop provisioning of Spot instances. Minimum value is 5 minutes and maximum value is 10,080 minutes (7 days). The timeout applies to all resize workflows on the Instance Fleet. The resize could be triggered by Amazon EMR Managed Scaling or by the customer (via Amazon EMR Console, Amazon EMR CLI modify-instance-fleet or Amazon EMR SDK ModifyInstanceFleet API) or by Amazon EMR due to Amazon EC2 Spot Reclamation.
+        /// This member is required.
+        public var timeoutDurationMinutes: Swift.Int?
+
+        public init (
+            timeoutDurationMinutes: Swift.Int? = nil
+        )
+        {
+            self.timeoutDurationMinutes = timeoutDurationMinutes
+        }
+    }
+
 }
 
 extension StartNotebookExecutionInput: Swift.Encodable {

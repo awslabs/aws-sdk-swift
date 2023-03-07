@@ -1182,7 +1182,7 @@ extension CreateDeploymentStrategyInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
-        if finalBakeTimeInMinutes != 0 {
+        if let finalBakeTimeInMinutes = self.finalBakeTimeInMinutes {
             try encodeContainer.encode(finalBakeTimeInMinutes, forKey: .finalBakeTimeInMinutes)
         }
         if let growthFactor = self.growthFactor {
@@ -1219,7 +1219,7 @@ public struct CreateDeploymentStrategyInput: Swift.Equatable {
     /// A description of the deployment strategy.
     public var description: Swift.String?
     /// Specifies the amount of time AppConfig monitors for Amazon CloudWatch alarms after the configuration has been deployed to 100% of its targets, before considering the deployment to be complete. If an alarm is triggered during this time, AppConfig rolls back the deployment. You must configure permissions for AppConfig to roll back based on CloudWatch alarms. For more information, see [Configuring permissions for rollback based on Amazon CloudWatch alarms](https://docs.aws.amazon.com/appconfig/latest/userguide/getting-started-with-appconfig-cloudwatch-alarms-permissions.html) in the AppConfig User Guide.
-    public var finalBakeTimeInMinutes: Swift.Int
+    public var finalBakeTimeInMinutes: Swift.Int?
     /// The percentage of targets to receive a deployed configuration during each interval.
     /// This member is required.
     public var growthFactor: Swift.Float?
@@ -1239,7 +1239,7 @@ public struct CreateDeploymentStrategyInput: Swift.Equatable {
     public init (
         deploymentDurationInMinutes: Swift.Int? = nil,
         description: Swift.String? = nil,
-        finalBakeTimeInMinutes: Swift.Int = 0,
+        finalBakeTimeInMinutes: Swift.Int? = nil,
         growthFactor: Swift.Float? = nil,
         growthType: AppConfigClientTypes.GrowthType? = nil,
         name: Swift.String? = nil,
@@ -1262,7 +1262,7 @@ struct CreateDeploymentStrategyInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let deploymentDurationInMinutes: Swift.Int?
-    let finalBakeTimeInMinutes: Swift.Int
+    let finalBakeTimeInMinutes: Swift.Int?
     let growthFactor: Swift.Float?
     let growthType: AppConfigClientTypes.GrowthType?
     let replicateTo: AppConfigClientTypes.ReplicateTo?
@@ -1289,7 +1289,7 @@ extension CreateDeploymentStrategyInputBody: Swift.Decodable {
         description = descriptionDecoded
         let deploymentDurationInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .deploymentDurationInMinutes)
         deploymentDurationInMinutes = deploymentDurationInMinutesDecoded
-        let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes) ?? 0
+        let finalBakeTimeInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .finalBakeTimeInMinutes)
         finalBakeTimeInMinutes = finalBakeTimeInMinutesDecoded
         let growthFactorDecoded = try containerValues.decodeIfPresent(Swift.Float.self, forKey: .growthFactor)
         growthFactor = growthFactorDecoded
@@ -2276,7 +2276,7 @@ public struct CreateHostedConfigurationVersionInputBodyMiddleware: ClientRuntime
 
 extension CreateHostedConfigurationVersionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateHostedConfigurationVersionInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), latestVersionNumber: \(Swift.String(describing: latestVersionNumber)), content: \"CONTENT_REDACTED\")"}
+        "CreateHostedConfigurationVersionInput(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), latestVersionNumber: \(Swift.String(describing: latestVersionNumber)), versionLabel: \(Swift.String(describing: versionLabel)), content: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateHostedConfigurationVersionInput: Swift.Encodable {
@@ -2303,6 +2303,9 @@ extension CreateHostedConfigurationVersionInput: ClientRuntime.HeaderProvider {
         }
         if let latestVersionNumber = latestVersionNumber {
             items.add(Header(name: "Latest-Version-Number", value: Swift.String(latestVersionNumber)))
+        }
+        if let versionLabel = versionLabel {
+            items.add(Header(name: "VersionLabel", value: Swift.String(versionLabel)))
         }
         return items
     }
@@ -2337,6 +2340,8 @@ public struct CreateHostedConfigurationVersionInput: Swift.Equatable {
     public var description: Swift.String?
     /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
     public var latestVersionNumber: Swift.Int?
+    /// An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
+    public var versionLabel: Swift.String?
 
     public init (
         applicationId: Swift.String? = nil,
@@ -2344,7 +2349,8 @@ public struct CreateHostedConfigurationVersionInput: Swift.Equatable {
         content: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
-        latestVersionNumber: Swift.Int? = nil
+        latestVersionNumber: Swift.Int? = nil,
+        versionLabel: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
@@ -2353,6 +2359,7 @@ public struct CreateHostedConfigurationVersionInput: Swift.Equatable {
         self.contentType = contentType
         self.description = description
         self.latestVersionNumber = latestVersionNumber
+        self.versionLabel = versionLabel
     }
 }
 
@@ -2406,7 +2413,7 @@ public enum CreateHostedConfigurationVersionOutputError: Swift.Error, Swift.Equa
 
 extension CreateHostedConfigurationVersionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateHostedConfigurationVersionOutputResponse(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), versionNumber: \(Swift.String(describing: versionNumber)), content: \"CONTENT_REDACTED\")"}
+        "CreateHostedConfigurationVersionOutputResponse(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), versionLabel: \(Swift.String(describing: versionLabel)), versionNumber: \(Swift.String(describing: versionNumber)), content: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateHostedConfigurationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2430,6 +2437,11 @@ extension CreateHostedConfigurationVersionOutputResponse: ClientRuntime.HttpResp
             self.description = descriptionHeaderValue
         } else {
             self.description = nil
+        }
+        if let versionLabelHeaderValue = httpResponse.headers.value(for: "VersionLabel") {
+            self.versionLabel = versionLabelHeaderValue
+        } else {
+            self.versionLabel = nil
         }
         if let versionNumberHeaderValue = httpResponse.headers.value(for: "Version-Number") {
             self.versionNumber = Swift.Int(versionNumberHeaderValue) ?? 0
@@ -2455,6 +2467,8 @@ public struct CreateHostedConfigurationVersionOutputResponse: Swift.Equatable {
     public var contentType: Swift.String?
     /// A description of the configuration.
     public var description: Swift.String?
+    /// A user-defined label for an AppConfig hosted configuration version.
+    public var versionLabel: Swift.String?
     /// The configuration version.
     public var versionNumber: Swift.Int
 
@@ -2464,6 +2478,7 @@ public struct CreateHostedConfigurationVersionOutputResponse: Swift.Equatable {
         content: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
+        versionLabel: Swift.String? = nil,
         versionNumber: Swift.Int = 0
     )
     {
@@ -2472,6 +2487,7 @@ public struct CreateHostedConfigurationVersionOutputResponse: Swift.Equatable {
         self.content = content
         self.contentType = contentType
         self.description = description
+        self.versionLabel = versionLabel
         self.versionNumber = versionNumber
     }
 }
@@ -2939,6 +2955,9 @@ extension DeleteHostedConfigurationVersionInput: ClientRuntime.URLPathProvider {
         guard let configurationProfileId = configurationProfileId else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/applications/\(applicationId.urlPercentEncoding())/configurationprofiles/\(configurationProfileId.urlPercentEncoding())/hostedconfigurationversions/\(versionNumber)"
     }
 }
@@ -2952,12 +2971,12 @@ public struct DeleteHostedConfigurationVersionInput: Swift.Equatable {
     public var configurationProfileId: Swift.String?
     /// The versions number to delete.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.applicationId = applicationId
@@ -5185,6 +5204,9 @@ extension GetHostedConfigurationVersionInput: ClientRuntime.URLPathProvider {
         guard let configurationProfileId = configurationProfileId else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/applications/\(applicationId.urlPercentEncoding())/configurationprofiles/\(configurationProfileId.urlPercentEncoding())/hostedconfigurationversions/\(versionNumber)"
     }
 }
@@ -5198,12 +5220,12 @@ public struct GetHostedConfigurationVersionInput: Swift.Equatable {
     public var configurationProfileId: Swift.String?
     /// The version.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.applicationId = applicationId
@@ -5249,7 +5271,7 @@ public enum GetHostedConfigurationVersionOutputError: Swift.Error, Swift.Equatab
 
 extension GetHostedConfigurationVersionOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetHostedConfigurationVersionOutputResponse(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), versionNumber: \(Swift.String(describing: versionNumber)), content: \"CONTENT_REDACTED\")"}
+        "GetHostedConfigurationVersionOutputResponse(applicationId: \(Swift.String(describing: applicationId)), configurationProfileId: \(Swift.String(describing: configurationProfileId)), contentType: \(Swift.String(describing: contentType)), description: \(Swift.String(describing: description)), versionLabel: \(Swift.String(describing: versionLabel)), versionNumber: \(Swift.String(describing: versionNumber)), content: \"CONTENT_REDACTED\")"}
 }
 
 extension GetHostedConfigurationVersionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5273,6 +5295,11 @@ extension GetHostedConfigurationVersionOutputResponse: ClientRuntime.HttpRespons
             self.description = descriptionHeaderValue
         } else {
             self.description = nil
+        }
+        if let versionLabelHeaderValue = httpResponse.headers.value(for: "VersionLabel") {
+            self.versionLabel = versionLabelHeaderValue
+        } else {
+            self.versionLabel = nil
         }
         if let versionNumberHeaderValue = httpResponse.headers.value(for: "Version-Number") {
             self.versionNumber = Swift.Int(versionNumberHeaderValue) ?? 0
@@ -5298,6 +5325,8 @@ public struct GetHostedConfigurationVersionOutputResponse: Swift.Equatable {
     public var contentType: Swift.String?
     /// A description of the configuration.
     public var description: Swift.String?
+    /// A user-defined label for an AppConfig hosted configuration version.
+    public var versionLabel: Swift.String?
     /// The configuration version.
     public var versionNumber: Swift.Int
 
@@ -5307,6 +5336,7 @@ public struct GetHostedConfigurationVersionOutputResponse: Swift.Equatable {
         content: ClientRuntime.Data? = nil,
         contentType: Swift.String? = nil,
         description: Swift.String? = nil,
+        versionLabel: Swift.String? = nil,
         versionNumber: Swift.Int = 0
     )
     {
@@ -5315,6 +5345,7 @@ public struct GetHostedConfigurationVersionOutputResponse: Swift.Equatable {
         self.content = content
         self.contentType = contentType
         self.description = description
+        self.versionLabel = versionLabel
         self.versionNumber = versionNumber
     }
 }
@@ -5373,6 +5404,7 @@ extension AppConfigClientTypes.HostedConfigurationVersionSummary: Swift.Codable 
         case configurationProfileId = "ConfigurationProfileId"
         case contentType = "ContentType"
         case description = "Description"
+        case versionLabel = "VersionLabel"
         case versionNumber = "VersionNumber"
     }
 
@@ -5389,6 +5421,9 @@ extension AppConfigClientTypes.HostedConfigurationVersionSummary: Swift.Codable 
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let versionLabel = self.versionLabel {
+            try encodeContainer.encode(versionLabel, forKey: .versionLabel)
         }
         if versionNumber != 0 {
             try encodeContainer.encode(versionNumber, forKey: .versionNumber)
@@ -5407,6 +5442,8 @@ extension AppConfigClientTypes.HostedConfigurationVersionSummary: Swift.Codable 
         description = descriptionDecoded
         let contentTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentType)
         contentType = contentTypeDecoded
+        let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
+        versionLabel = versionLabelDecoded
     }
 }
 
@@ -5421,6 +5458,8 @@ extension AppConfigClientTypes {
         public var contentType: Swift.String?
         /// A description of the configuration.
         public var description: Swift.String?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public var versionLabel: Swift.String?
         /// The configuration version.
         public var versionNumber: Swift.Int
 
@@ -5429,6 +5468,7 @@ extension AppConfigClientTypes {
             configurationProfileId: Swift.String? = nil,
             contentType: Swift.String? = nil,
             description: Swift.String? = nil,
+            versionLabel: Swift.String? = nil,
             versionNumber: Swift.Int = 0
         )
         {
@@ -5436,6 +5476,7 @@ extension AppConfigClientTypes {
             self.configurationProfileId = configurationProfileId
             self.contentType = contentType
             self.description = description
+            self.versionLabel = versionLabel
             self.versionNumber = versionNumber
         }
     }
@@ -6583,6 +6624,10 @@ extension ListHostedConfigurationVersionsInput: ClientRuntime.QueryItemProvider 
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max_results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
+            if let versionLabel = versionLabel {
+                let versionLabelQueryItem = ClientRuntime.URLQueryItem(name: "version_label".urlPercentEncoding(), value: Swift.String(versionLabel).urlPercentEncoding())
+                items.append(versionLabelQueryItem)
+            }
             return items
         }
     }
@@ -6611,18 +6656,22 @@ public struct ListHostedConfigurationVersionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token to start the list. Use this token to get the next set of results.
     public var nextToken: Swift.String?
+    /// An optional filter that can be used to specify the version label of an AppConfig hosted configuration version. This parameter supports filtering by prefix using a wildcard, for example "v2*". If you don't specify an asterisk at the end of the value, only an exact match is returned.
+    public var versionLabel: Swift.String?
 
     public init (
         applicationId: Swift.String? = nil,
         configurationProfileId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        versionLabel: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
         self.configurationProfileId = configurationProfileId
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.versionLabel = versionLabel
     }
 }
 
@@ -7198,7 +7247,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     /// The configuration profile ID.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// The configuration version to deploy.
+    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label.
     /// This member is required.
     public var configurationVersion: Swift.String?
     /// The deployment strategy ID.

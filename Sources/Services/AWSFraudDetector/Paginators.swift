@@ -181,6 +181,50 @@ extension GetLabelsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension FraudDetectorClient {
+    /// Paginate over `[GetListElementsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetListElementsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetListElementsOutputResponse`
+    public func getListElementsPaginated(input: GetListElementsInput) -> ClientRuntime.PaginatorSequence<GetListElementsInput, GetListElementsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetListElementsInput, GetListElementsOutputResponse>(input: input, inputKey: \GetListElementsInput.nextToken, outputKey: \GetListElementsOutputResponse.nextToken, paginationFunction: self.getListElements(input:))
+    }
+}
+
+extension GetListElementsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetListElementsInput {
+        return GetListElementsInput(
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token
+        )}
+}
+extension FraudDetectorClient {
+    /// Paginate over `[GetListsMetadataOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetListsMetadataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetListsMetadataOutputResponse`
+    public func getListsMetadataPaginated(input: GetListsMetadataInput) -> ClientRuntime.PaginatorSequence<GetListsMetadataInput, GetListsMetadataOutputResponse> {
+        return ClientRuntime.PaginatorSequence<GetListsMetadataInput, GetListsMetadataOutputResponse>(input: input, inputKey: \GetListsMetadataInput.nextToken, outputKey: \GetListsMetadataOutputResponse.nextToken, paginationFunction: self.getListsMetadata(input:))
+    }
+}
+
+extension GetListsMetadataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetListsMetadataInput {
+        return GetListsMetadataInput(
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token
+        )}
+}
+extension FraudDetectorClient {
     /// Paginate over `[GetModelsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

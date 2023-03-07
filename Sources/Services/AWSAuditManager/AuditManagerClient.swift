@@ -2220,7 +2220,7 @@ extension AuditManagerClient: AuditManagerClientProtocol {
         return result
     }
 
-    /// Updates Audit Manager settings for the current user account.
+    /// Updates Audit Manager settings for the current account.
     public func updateSettings(input: UpdateSettingsInput) async throws -> UpdateSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

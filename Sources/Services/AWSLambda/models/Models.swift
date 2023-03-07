@@ -165,6 +165,9 @@ extension AddLayerVersionPermissionInput: ClientRuntime.URLPathProvider {
         guard let layerName = layerName else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)/policy"
     }
 }
@@ -188,7 +191,7 @@ public struct AddLayerVersionPermissionInput: Swift.Equatable {
     public var statementId: Swift.String?
     /// The version number.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         action: Swift.String? = nil,
@@ -197,7 +200,7 @@ public struct AddLayerVersionPermissionInput: Swift.Equatable {
         principal: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.action = action
@@ -408,7 +411,7 @@ public struct AddPermissionInput: Swift.Equatable {
     /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
     /// The Amazon Web Service or Amazon Web Services account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
@@ -1701,6 +1704,7 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case enabled = "Enabled"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
@@ -1734,6 +1738,9 @@ extension CreateEventSourceMappingInput: Swift.Encodable {
         }
         if let destinationConfig = self.destinationConfig {
             try encodeContainer.encode(destinationConfig, forKey: .destinationConfig)
+        }
+        if let documentDBEventSourceConfig = self.documentDBEventSourceConfig {
+            try encodeContainer.encode(documentDBEventSourceConfig, forKey: .documentDBEventSourceConfig)
         }
         if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
@@ -1831,6 +1838,8 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
     public var enabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the event source.
@@ -1895,6 +1904,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         enabled: Swift.Bool? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
@@ -1919,6 +1929,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.enabled = enabled
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
@@ -1963,6 +1974,7 @@ struct CreateEventSourceMappingInputBody: Swift.Equatable {
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension CreateEventSourceMappingInputBody: Swift.Decodable {
@@ -1971,6 +1983,7 @@ extension CreateEventSourceMappingInputBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case enabled = "Enabled"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
@@ -2073,6 +2086,8 @@ extension CreateEventSourceMappingInputBody: Swift.Decodable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -2116,6 +2131,7 @@ extension CreateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = output.batchSize
             self.bisectBatchOnFunctionError = output.bisectBatchOnFunctionError
             self.destinationConfig = output.destinationConfig
+            self.documentDBEventSourceConfig = output.documentDBEventSourceConfig
             self.eventSourceArn = output.eventSourceArn
             self.filterCriteria = output.filterCriteria
             self.functionArn = output.functionArn
@@ -2143,6 +2159,7 @@ extension CreateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = nil
             self.bisectBatchOnFunctionError = nil
             self.destinationConfig = nil
+            self.documentDBEventSourceConfig = nil
             self.eventSourceArn = nil
             self.filterCriteria = nil
             self.functionArn = nil
@@ -2179,6 +2196,8 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -2229,6 +2248,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionArn: Swift.String? = nil,
@@ -2257,6 +2277,7 @@ public struct CreateEventSourceMappingOutputResponse: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
         self.functionArn = functionArn
@@ -2309,6 +2330,7 @@ struct CreateEventSourceMappingOutputResponseBody: Swift.Equatable {
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -2317,6 +2339,7 @@ extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
         case functionArn = "FunctionArn"
@@ -2431,6 +2454,8 @@ extension CreateEventSourceMappingOutputResponseBody: Swift.Decodable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -2517,7 +2542,7 @@ extension CreateFunctionInput: Swift.Encodable {
         if let packageType = self.packageType {
             try encodeContainer.encode(packageType.rawValue, forKey: .packageType)
         }
-        if publish != false {
+        if let publish = self.publish {
             try encodeContainer.encode(publish, forKey: .publish)
         }
         if let role = self.role {
@@ -2587,7 +2612,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var handler: Swift.String?
     /// Container image [configuration values](https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html#configuration-images-settings) that override the values in the container image Dockerfile.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
@@ -2596,11 +2621,11 @@ public struct CreateFunctionInput: Swift.Equatable {
     /// The type of deployment package. Set to Image for container image and set to Zip for .zip file archive.
     public var packageType: LambdaClientTypes.PackageType?
     /// Set to true to publish the first version of the function during creation.
-    public var publish: Swift.Bool
+    public var publish: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the function's execution role.
     /// This member is required.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive.
+    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -2629,7 +2654,7 @@ public struct CreateFunctionInput: Swift.Equatable {
         layers: [Swift.String]? = nil,
         memorySize: Swift.Int? = nil,
         packageType: LambdaClientTypes.PackageType? = nil,
-        publish: Swift.Bool = false,
+        publish: Swift.Bool? = nil,
         role: Swift.String? = nil,
         runtime: LambdaClientTypes.Runtime? = nil,
         snapStart: LambdaClientTypes.SnapStart? = nil,
@@ -2674,7 +2699,7 @@ struct CreateFunctionInputBody: Swift.Equatable {
     let description: Swift.String?
     let timeout: Swift.Int?
     let memorySize: Swift.Int?
-    let publish: Swift.Bool
+    let publish: Swift.Bool?
     let vpcConfig: LambdaClientTypes.VpcConfig?
     let packageType: LambdaClientTypes.PackageType?
     let deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
@@ -2736,7 +2761,7 @@ extension CreateFunctionInputBody: Swift.Decodable {
         timeout = timeoutDecoded
         let memorySizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .memorySize)
         memorySize = memorySizeDecoded
-        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish) ?? false
+        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish)
         publish = publishDecoded
         let vpcConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.VpcConfig.self, forKey: .vpcConfig)
         vpcConfig = vpcConfigDecoded
@@ -2950,7 +2975,7 @@ public struct CreateFunctionOutputResponse: Swift.Equatable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -3292,7 +3317,7 @@ extension CreateFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateFunctionUrlConfigInput: Swift.Equatable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -3398,7 +3423,7 @@ extension CreateFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct CreateFunctionUrlConfigOutputResponse: Swift.Equatable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -3722,6 +3747,7 @@ extension DeleteEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = output.batchSize
             self.bisectBatchOnFunctionError = output.bisectBatchOnFunctionError
             self.destinationConfig = output.destinationConfig
+            self.documentDBEventSourceConfig = output.documentDBEventSourceConfig
             self.eventSourceArn = output.eventSourceArn
             self.filterCriteria = output.filterCriteria
             self.functionArn = output.functionArn
@@ -3749,6 +3775,7 @@ extension DeleteEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = nil
             self.bisectBatchOnFunctionError = nil
             self.destinationConfig = nil
+            self.documentDBEventSourceConfig = nil
             self.eventSourceArn = nil
             self.filterCriteria = nil
             self.functionArn = nil
@@ -3785,6 +3812,8 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -3835,6 +3864,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionArn: Swift.String? = nil,
@@ -3863,6 +3893,7 @@ public struct DeleteEventSourceMappingOutputResponse: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
         self.functionArn = functionArn
@@ -3915,6 +3946,7 @@ struct DeleteEventSourceMappingOutputResponseBody: Swift.Equatable {
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -3923,6 +3955,7 @@ extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
         case functionArn = "FunctionArn"
@@ -4037,6 +4070,8 @@ extension DeleteEventSourceMappingOutputResponseBody: Swift.Decodable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -4496,6 +4531,9 @@ extension DeleteLayerVersionInput: ClientRuntime.URLPathProvider {
         guard let layerName = layerName else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)"
     }
 }
@@ -4506,11 +4544,11 @@ public struct DeleteLayerVersionInput: Swift.Equatable {
     public var layerName: Swift.String?
     /// The version number.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.layerName = layerName
@@ -4701,6 +4739,61 @@ extension LambdaClientTypes {
         {
             self.onFailure = onFailure
             self.onSuccess = onSuccess
+        }
+    }
+
+}
+
+extension LambdaClientTypes.DocumentDBEventSourceConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case collectionName = "CollectionName"
+        case databaseName = "DatabaseName"
+        case fullDocument = "FullDocument"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let collectionName = self.collectionName {
+            try encodeContainer.encode(collectionName, forKey: .collectionName)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let fullDocument = self.fullDocument {
+            try encodeContainer.encode(fullDocument.rawValue, forKey: .fullDocument)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let collectionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionName)
+        collectionName = collectionNameDecoded
+        let fullDocumentDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.FullDocument.self, forKey: .fullDocument)
+        fullDocument = fullDocumentDecoded
+    }
+}
+
+extension LambdaClientTypes {
+    /// Specific configuration settings for a DocumentDB event source.
+    public struct DocumentDBEventSourceConfig: Swift.Equatable {
+        /// The name of the collection to consume within the database. If you do not specify a collection, Lambda consumes all collections.
+        public var collectionName: Swift.String?
+        /// The name of the database to consume within the DocumentDB cluster.
+        public var databaseName: Swift.String?
+        /// Determines what DocumentDB sends to your event stream during document update operations. If set to UpdateLookup, DocumentDB sends a delta describing the changes, along with a copy of the entire document. Otherwise, DocumentDB sends only a partial document that contains the changes.
+        public var fullDocument: LambdaClientTypes.FullDocument?
+
+        public init (
+            collectionName: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            fullDocument: LambdaClientTypes.FullDocument? = nil
+        )
+        {
+            self.collectionName = collectionName
+            self.databaseName = databaseName
+            self.fullDocument = fullDocument
         }
     }
 
@@ -5438,6 +5531,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
         case functionArn = "FunctionArn"
@@ -5475,6 +5569,9 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         }
         if let destinationConfig = self.destinationConfig {
             try encodeContainer.encode(destinationConfig, forKey: .destinationConfig)
+        }
+        if let documentDBEventSourceConfig = self.documentDBEventSourceConfig {
+            try encodeContainer.encode(documentDBEventSourceConfig, forKey: .documentDBEventSourceConfig)
         }
         if let eventSourceArn = self.eventSourceArn {
             try encodeContainer.encode(eventSourceArn, forKey: .eventSourceArn)
@@ -5646,6 +5743,8 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -5660,6 +5759,8 @@ extension LambdaClientTypes {
         public var bisectBatchOnFunctionError: Swift.Bool?
         /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
+        /// Specific configuration settings for a DocumentDB event source.
+        public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public var eventSourceArn: Swift.String?
         /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -5710,6 +5811,7 @@ extension LambdaClientTypes {
             batchSize: Swift.Int? = nil,
             bisectBatchOnFunctionError: Swift.Bool? = nil,
             destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+            documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
             eventSourceArn: Swift.String? = nil,
             filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
             functionArn: Swift.String? = nil,
@@ -5738,6 +5840,7 @@ extension LambdaClientTypes {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
+            self.documentDBEventSourceConfig = documentDBEventSourceConfig
             self.eventSourceArn = eventSourceArn
             self.filterCriteria = filterCriteria
             self.functionArn = functionArn
@@ -5927,6 +6030,38 @@ extension LambdaClientTypes {
         }
     }
 
+}
+
+extension LambdaClientTypes {
+    public enum FullDocument: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `default`
+        case updatelookup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FullDocument] {
+            return [
+                .default,
+                .updatelookup,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "Default"
+            case .updatelookup: return "UpdateLookup"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FullDocument(rawValue: rawValue) ?? FullDocument.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension LambdaClientTypes.FunctionCode: Swift.Codable {
@@ -6360,7 +6495,7 @@ extension LambdaClientTypes {
         public var handler: Swift.String?
         /// The function's image configuration values.
         public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-        /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+        /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
         public var kmsKeyArn: Swift.String?
         /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
         public var lastModified: Swift.String?
@@ -6680,7 +6815,7 @@ extension LambdaClientTypes.FunctionUrlConfig: Swift.Codable {
 extension LambdaClientTypes {
     /// Details about a Lambda function URL.
     public struct FunctionUrlConfig: Swift.Equatable {
-        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
         /// This member is required.
         public var authType: LambdaClientTypes.FunctionUrlAuthType?
         /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -7178,6 +7313,7 @@ extension GetEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBinding
             self.batchSize = output.batchSize
             self.bisectBatchOnFunctionError = output.bisectBatchOnFunctionError
             self.destinationConfig = output.destinationConfig
+            self.documentDBEventSourceConfig = output.documentDBEventSourceConfig
             self.eventSourceArn = output.eventSourceArn
             self.filterCriteria = output.filterCriteria
             self.functionArn = output.functionArn
@@ -7205,6 +7341,7 @@ extension GetEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBinding
             self.batchSize = nil
             self.bisectBatchOnFunctionError = nil
             self.destinationConfig = nil
+            self.documentDBEventSourceConfig = nil
             self.eventSourceArn = nil
             self.filterCriteria = nil
             self.functionArn = nil
@@ -7241,6 +7378,8 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -7291,6 +7430,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionArn: Swift.String? = nil,
@@ -7319,6 +7459,7 @@ public struct GetEventSourceMappingOutputResponse: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
         self.functionArn = functionArn
@@ -7371,6 +7512,7 @@ struct GetEventSourceMappingOutputResponseBody: Swift.Equatable {
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -7379,6 +7521,7 @@ extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
         case functionArn = "FunctionArn"
@@ -7493,6 +7636,8 @@ extension GetEventSourceMappingOutputResponseBody: Swift.Decodable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -7927,7 +8072,7 @@ public struct GetFunctionConfigurationOutputResponse: Swift.Equatable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -8692,7 +8837,7 @@ extension GetFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct GetFunctionUrlConfigOutputResponse: Swift.Equatable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -8980,6 +9125,9 @@ extension GetLayerVersionInput: ClientRuntime.URLPathProvider {
         guard let layerName = layerName else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)"
     }
 }
@@ -8990,11 +9138,11 @@ public struct GetLayerVersionInput: Swift.Equatable {
     public var layerName: Swift.String?
     /// The version number.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.layerName = layerName
@@ -9183,6 +9331,9 @@ extension GetLayerVersionPolicyInput: ClientRuntime.URLPathProvider {
         guard let layerName = layerName else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         return "/2018-10-31/layers/\(layerName.urlPercentEncoding())/versions/\(versionNumber)/policy"
     }
 }
@@ -9193,11 +9344,11 @@ public struct GetLayerVersionPolicyInput: Swift.Equatable {
     public var layerName: Swift.String?
     /// The version number.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         layerName: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.layerName = layerName
@@ -9701,9 +9852,11 @@ extension GetRuntimeManagementConfigOutputResponse: ClientRuntime.HttpResponseBi
             let responseDecoder = decoder {
             let data = reader.toBytes().getData()
             let output: GetRuntimeManagementConfigOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.functionArn = output.functionArn
             self.runtimeVersionArn = output.runtimeVersionArn
             self.updateRuntimeOn = output.updateRuntimeOn
         } else {
+            self.functionArn = nil
             self.runtimeVersionArn = nil
             self.updateRuntimeOn = nil
         }
@@ -9711,16 +9864,20 @@ extension GetRuntimeManagementConfigOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct GetRuntimeManagementConfigOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of your function.
+    public var functionArn: Swift.String?
     /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null is returned.
     public var runtimeVersionArn: Swift.String?
     /// The current runtime update mode of the function.
     public var updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
 
     public init (
+        functionArn: Swift.String? = nil,
         runtimeVersionArn: Swift.String? = nil,
         updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn? = nil
     )
     {
+        self.functionArn = functionArn
         self.runtimeVersionArn = runtimeVersionArn
         self.updateRuntimeOn = updateRuntimeOn
     }
@@ -9729,10 +9886,12 @@ public struct GetRuntimeManagementConfigOutputResponse: Swift.Equatable {
 struct GetRuntimeManagementConfigOutputResponseBody: Swift.Equatable {
     let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
     let runtimeVersionArn: Swift.String?
+    let functionArn: Swift.String?
 }
 
 extension GetRuntimeManagementConfigOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functionArn = "FunctionArn"
         case runtimeVersionArn = "RuntimeVersionArn"
         case updateRuntimeOn = "UpdateRuntimeOn"
     }
@@ -9743,6 +9902,8 @@ extension GetRuntimeManagementConfigOutputResponseBody: Swift.Decodable {
         updateRuntimeOn = updateRuntimeOnDecoded
         let runtimeVersionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runtimeVersionArn)
         runtimeVersionArn = runtimeVersionArnDecoded
+        let functionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .functionArn)
+        functionArn = functionArnDecoded
     }
 }
 
@@ -14372,7 +14533,7 @@ public struct PublishVersionOutputResponse: Swift.Equatable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -15618,6 +15779,9 @@ extension RemoveLayerVersionPermissionInput: ClientRuntime.URLPathProvider {
         guard let layerName = layerName else {
             return nil
         }
+        guard let versionNumber = versionNumber else {
+            return nil
+        }
         guard let statementId = statementId else {
             return nil
         }
@@ -15636,13 +15800,13 @@ public struct RemoveLayerVersionPermissionInput: Swift.Equatable {
     public var statementId: Swift.String?
     /// The version number.
     /// This member is required.
-    public var versionNumber: Swift.Int
+    public var versionNumber: Swift.Int?
 
     public init (
         layerName: Swift.String? = nil,
         revisionId: Swift.String? = nil,
         statementId: Swift.String? = nil,
-        versionNumber: Swift.Int = 0
+        versionNumber: Swift.Int? = nil
     )
     {
         self.layerName = layerName
@@ -18024,6 +18188,7 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case enabled = "Enabled"
         case filterCriteria = "FilterCriteria"
         case functionName = "FunctionName"
@@ -18047,6 +18212,9 @@ extension UpdateEventSourceMappingInput: Swift.Encodable {
         }
         if let destinationConfig = self.destinationConfig {
             try encodeContainer.encode(destinationConfig, forKey: .destinationConfig)
+        }
+        if let documentDBEventSourceConfig = self.documentDBEventSourceConfig {
+            try encodeContainer.encode(documentDBEventSourceConfig, forKey: .documentDBEventSourceConfig)
         }
         if let enabled = self.enabled {
             try encodeContainer.encode(enabled, forKey: .enabled)
@@ -18118,6 +18286,8 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
     public var enabled: Swift.Bool?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -18159,6 +18329,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         enabled: Swift.Bool? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionName: Swift.String? = nil,
@@ -18176,6 +18347,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.enabled = enabled
         self.filterCriteria = filterCriteria
         self.functionName = functionName
@@ -18206,6 +18378,7 @@ struct UpdateEventSourceMappingInputBody: Swift.Equatable {
     let tumblingWindowInSeconds: Swift.Int?
     let functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension UpdateEventSourceMappingInputBody: Swift.Decodable {
@@ -18213,6 +18386,7 @@ extension UpdateEventSourceMappingInputBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case enabled = "Enabled"
         case filterCriteria = "FilterCriteria"
         case functionName = "FunctionName"
@@ -18274,6 +18448,8 @@ extension UpdateEventSourceMappingInputBody: Swift.Decodable {
         functionResponseTypes = functionResponseTypesDecoded0
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -18319,6 +18495,7 @@ extension UpdateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = output.batchSize
             self.bisectBatchOnFunctionError = output.bisectBatchOnFunctionError
             self.destinationConfig = output.destinationConfig
+            self.documentDBEventSourceConfig = output.documentDBEventSourceConfig
             self.eventSourceArn = output.eventSourceArn
             self.filterCriteria = output.filterCriteria
             self.functionArn = output.functionArn
@@ -18346,6 +18523,7 @@ extension UpdateEventSourceMappingOutputResponse: ClientRuntime.HttpResponseBind
             self.batchSize = nil
             self.bisectBatchOnFunctionError = nil
             self.destinationConfig = nil
+            self.documentDBEventSourceConfig = nil
             self.eventSourceArn = nil
             self.filterCriteria = nil
             self.functionArn = nil
@@ -18382,6 +18560,8 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
     public var bisectBatchOnFunctionError: Swift.Bool?
     /// (Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
     /// The Amazon Resource Name (ARN) of the event source.
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
@@ -18432,6 +18612,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
         batchSize: Swift.Int? = nil,
         bisectBatchOnFunctionError: Swift.Bool? = nil,
         destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
         eventSourceArn: Swift.String? = nil,
         filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
         functionArn: Swift.String? = nil,
@@ -18460,6 +18641,7 @@ public struct UpdateEventSourceMappingOutputResponse: Swift.Equatable {
         self.batchSize = batchSize
         self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
         self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
         self.eventSourceArn = eventSourceArn
         self.filterCriteria = filterCriteria
         self.functionArn = functionArn
@@ -18512,6 +18694,7 @@ struct UpdateEventSourceMappingOutputResponseBody: Swift.Equatable {
     let amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     let selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
     let scalingConfig: LambdaClientTypes.ScalingConfig?
+    let documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
 }
 
 extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
@@ -18520,6 +18703,7 @@ extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
         case batchSize = "BatchSize"
         case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
         case destinationConfig = "DestinationConfig"
+        case documentDBEventSourceConfig = "DocumentDBEventSourceConfig"
         case eventSourceArn = "EventSourceArn"
         case filterCriteria = "FilterCriteria"
         case functionArn = "FunctionArn"
@@ -18634,6 +18818,8 @@ extension UpdateEventSourceMappingOutputResponseBody: Swift.Decodable {
         selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfigDecoded
         let scalingConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.ScalingConfig.self, forKey: .scalingConfig)
         scalingConfig = scalingConfigDecoded
+        let documentDBEventSourceConfigDecoded = try containerValues.decodeIfPresent(LambdaClientTypes.DocumentDBEventSourceConfig.self, forKey: .documentDBEventSourceConfig)
+        documentDBEventSourceConfig = documentDBEventSourceConfigDecoded
     }
 }
 
@@ -18663,13 +18849,13 @@ extension UpdateFunctionCodeInput: Swift.Encodable {
                 try architecturesContainer.encode(architecture0.rawValue)
             }
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let imageUri = self.imageUri {
             try encodeContainer.encode(imageUri, forKey: .imageUri)
         }
-        if publish != false {
+        if let publish = self.publish {
             try encodeContainer.encode(publish, forKey: .publish)
         }
         if let revisionId = self.revisionId {
@@ -18703,7 +18889,7 @@ public struct UpdateFunctionCodeInput: Swift.Equatable {
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Set to true to validate the request parameters and access permissions without modifying the function code.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -18719,7 +18905,7 @@ public struct UpdateFunctionCodeInput: Swift.Equatable {
     /// URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
     public var imageUri: Swift.String?
     /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling [PublishVersion] separately.
-    public var publish: Swift.Bool
+    public var publish: Swift.Bool?
     /// Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
     public var revisionId: Swift.String?
     /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
@@ -18733,10 +18919,10 @@ public struct UpdateFunctionCodeInput: Swift.Equatable {
 
     public init (
         architectures: [LambdaClientTypes.Architecture]? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         functionName: Swift.String? = nil,
         imageUri: Swift.String? = nil,
-        publish: Swift.Bool = false,
+        publish: Swift.Bool? = nil,
         revisionId: Swift.String? = nil,
         s3Bucket: Swift.String? = nil,
         s3Key: Swift.String? = nil,
@@ -18763,8 +18949,8 @@ struct UpdateFunctionCodeInputBody: Swift.Equatable {
     let s3Key: Swift.String?
     let s3ObjectVersion: Swift.String?
     let imageUri: Swift.String?
-    let publish: Swift.Bool
-    let dryRun: Swift.Bool
+    let publish: Swift.Bool?
+    let dryRun: Swift.Bool?
     let revisionId: Swift.String?
     let architectures: [LambdaClientTypes.Architecture]?
 }
@@ -18794,9 +18980,9 @@ extension UpdateFunctionCodeInputBody: Swift.Decodable {
         s3ObjectVersion = s3ObjectVersionDecoded
         let imageUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .imageUri)
         imageUri = imageUriDecoded
-        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish) ?? false
+        let publishDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publish)
         publish = publishDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
         let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
         revisionId = revisionIdDecoded
@@ -18961,7 +19147,7 @@ public struct UpdateFunctionCodeOutputResponse: Swift.Equatable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -19382,7 +19568,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var handler: Swift.String?
     /// [Container image configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html) that override the values in the container image Docker file.
     public var imageConfig: LambdaClientTypes.ImageConfig?
-    /// The ARN of the Key Management Service (KMS) key that's used to encrypt your function's environment variables. If it's not provided, Lambda uses a default service key.
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt your function's snapshot. If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?
     /// A list of [function layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) to add to the function's execution environment. Specify each layer by its ARN, including the version.
     public var layers: [Swift.String]?
@@ -19392,7 +19578,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var revisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the function's execution role.
     public var role: Swift.String?
-    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive.
+    /// The identifier of the function's [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var runtime: LambdaClientTypes.Runtime?
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
     public var snapStart: LambdaClientTypes.SnapStart?
@@ -19688,7 +19874,7 @@ public struct UpdateFunctionConfigurationOutputResponse: Swift.Equatable {
     public var handler: Swift.String?
     /// The function's image configuration values.
     public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The KMS key that's used to encrypt the function's environment variables. This key is returned only if you've configured a customer managed key.
+    /// The KMS key that's used to encrypt the function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, this key is also used to encrypt the function's snapshot. This key is returned only if you've configured a customer managed key.
     public var kmsKeyArn: Swift.String?
     /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
     public var lastModified: Swift.String?
@@ -20262,7 +20448,7 @@ extension UpdateFunctionUrlConfigInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
     public var cors: LambdaClientTypes.Cors?
@@ -20369,7 +20555,7 @@ extension UpdateFunctionUrlConfigOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct UpdateFunctionUrlConfigOutputResponse: Swift.Equatable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.

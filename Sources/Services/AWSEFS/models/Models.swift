@@ -176,7 +176,7 @@ extension EFSClientTypes {
         public var lifeCycleState: EFSClientTypes.LifeCycleState?
         /// The name of the access point. This is the value of the Name tag.
         public var name: Swift.String?
-        /// Identified the Amazon Web Services account that owns the access point resource.
+        /// Identifies the Amazon Web Services account that owns the access point resource.
         public var ownerId: Swift.String?
         /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point that is used for all file operations by NFS clients using the access point.
         public var posixUser: EFSClientTypes.PosixUser?
@@ -700,7 +700,7 @@ public struct CreateAccessPointOutputResponse: Swift.Equatable {
     public var lifeCycleState: EFSClientTypes.LifeCycleState?
     /// The name of the access point. This is the value of the Name tag.
     public var name: Swift.String?
-    /// Identified the Amazon Web Services account that owns the access point resource.
+    /// Identifies the Amazon Web Services account that owns the access point resource.
     public var ownerId: Swift.String?
     /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point that is used for all file operations by NFS clients using the access point.
     public var posixUser: EFSClientTypes.PosixUser?
@@ -1071,7 +1071,7 @@ public struct CreateFileSystemOutputResponse: Swift.Equatable {
     /// The current number of mount targets that the file system has. For more information, see [CreateMountTarget].
     /// This member is required.
     public var numberOfMountTargets: Swift.Int
-    /// The Amazon Web Services account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+    /// The Amazon Web Services account that created the file system.
     /// This member is required.
     public var ownerId: Swift.String?
     /// The performance mode of the file system.
@@ -4100,7 +4100,7 @@ extension EFSClientTypes {
         /// The current number of mount targets that the file system has. For more information, see [CreateMountTarget].
         /// This member is required.
         public var numberOfMountTargets: Swift.Int
-        /// The Amazon Web Services account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+        /// The Amazon Web Services account that created the file system.
         /// This member is required.
         public var ownerId: Swift.String?
         /// The performance mode of the file system.
@@ -5940,7 +5940,7 @@ extension PutFileSystemPolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassPolicyLockoutSafetyCheck != false {
+        if let bypassPolicyLockoutSafetyCheck = self.bypassPolicyLockoutSafetyCheck {
             try encodeContainer.encode(bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
         }
         if let policy = self.policy {
@@ -5960,7 +5960,7 @@ extension PutFileSystemPolicyInput: ClientRuntime.URLPathProvider {
 
 public struct PutFileSystemPolicyInput: Swift.Equatable {
     /// (Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check. The lockout safety check determines whether the policy in the request will lock out, or prevent, the IAM principal that is making the request from making future PutFileSystemPolicy requests on this file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the IAM principal that is making the request from making subsequent PutFileSystemPolicy requests on this file system. The default value is False.
-    public var bypassPolicyLockoutSafetyCheck: Swift.Bool
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -5969,7 +5969,7 @@ public struct PutFileSystemPolicyInput: Swift.Equatable {
     public var policy: Swift.String?
 
     public init (
-        bypassPolicyLockoutSafetyCheck: Swift.Bool = false,
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
         fileSystemId: Swift.String? = nil,
         policy: Swift.String? = nil
     )
@@ -5982,7 +5982,7 @@ public struct PutFileSystemPolicyInput: Swift.Equatable {
 
 struct PutFileSystemPolicyInputBody: Swift.Equatable {
     let policy: Swift.String?
-    let bypassPolicyLockoutSafetyCheck: Swift.Bool
+    let bypassPolicyLockoutSafetyCheck: Swift.Bool?
 }
 
 extension PutFileSystemPolicyInputBody: Swift.Decodable {
@@ -5995,7 +5995,7 @@ extension PutFileSystemPolicyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
-        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck) ?? false
+        let bypassPolicyLockoutSafetyCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassPolicyLockoutSafetyCheck)
         bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheckDecoded
     }
 }
@@ -7617,7 +7617,7 @@ public struct UpdateFileSystemOutputResponse: Swift.Equatable {
     /// The current number of mount targets that the file system has. For more information, see [CreateMountTarget].
     /// This member is required.
     public var numberOfMountTargets: Swift.Int
-    /// The Amazon Web Services account that created the file system. If the file system was created by an IAM user, the parent account to which the user belongs is the owner.
+    /// The Amazon Web Services account that created the file system.
     /// This member is required.
     public var ownerId: Swift.String?
     /// The performance mode of the file system.

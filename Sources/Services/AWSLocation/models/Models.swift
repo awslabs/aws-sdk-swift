@@ -55,6 +55,154 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension LocationClientTypes.ApiKeyFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyStatus = "KeyStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyStatus = self.keyStatus {
+            try encodeContainer.encode(keyStatus.rawValue, forKey: .keyStatus)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyStatusDecoded = try containerValues.decodeIfPresent(LocationClientTypes.Status.self, forKey: .keyStatus)
+        keyStatus = keyStatusDecoded
+    }
+}
+
+extension LocationClientTypes {
+    /// Options for filtering API keys.
+    public struct ApiKeyFilter: Swift.Equatable {
+        /// Filter on Active or Expired API keys.
+        public var keyStatus: LocationClientTypes.Status?
+
+        public init (
+            keyStatus: LocationClientTypes.Status? = nil
+        )
+        {
+            self.keyStatus = keyStatus
+        }
+    }
+
+}
+
+extension LocationClientTypes.ApiKeyRestrictions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowActions = "AllowActions"
+        case allowReferers = "AllowReferers"
+        case allowResources = "AllowResources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowActions = allowActions {
+            var allowActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowActions)
+            for apikeyaction0 in allowActions {
+                try allowActionsContainer.encode(apikeyaction0)
+            }
+        }
+        if let allowReferers = allowReferers {
+            var allowReferersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowReferers)
+            for refererpattern0 in allowReferers {
+                try allowReferersContainer.encode(refererpattern0)
+            }
+        }
+        if let allowResources = allowResources {
+            var allowResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowResources)
+            for geoarn0 in allowResources {
+                try allowResourcesContainer.encode(geoarn0)
+            }
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowActionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowActions)
+        var allowActionsDecoded0:[Swift.String]? = nil
+        if let allowActionsContainer = allowActionsContainer {
+            allowActionsDecoded0 = [Swift.String]()
+            for string0 in allowActionsContainer {
+                if let string0 = string0 {
+                    allowActionsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowActions = allowActionsDecoded0
+        let allowResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowResources)
+        var allowResourcesDecoded0:[Swift.String]? = nil
+        if let allowResourcesContainer = allowResourcesContainer {
+            allowResourcesDecoded0 = [Swift.String]()
+            for string0 in allowResourcesContainer {
+                if let string0 = string0 {
+                    allowResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowResources = allowResourcesDecoded0
+        let allowReferersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowReferers)
+        var allowReferersDecoded0:[Swift.String]? = nil
+        if let allowReferersContainer = allowReferersContainer {
+            allowReferersDecoded0 = [Swift.String]()
+            for string0 in allowReferersContainer {
+                if let string0 = string0 {
+                    allowReferersDecoded0?.append(string0)
+                }
+            }
+        }
+        allowReferers = allowReferersDecoded0
+    }
+}
+
+extension LocationClientTypes {
+    /// API Restrictions on the allowed actions, resources, and referers for an API key resource.
+    public struct ApiKeyRestrictions: Swift.Equatable {
+        /// A list of allowed actions that an API key resource grants permissions to perform Currently, the only valid action is geo:GetMap* as an input to the list. For example, ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not.
+        /// This member is required.
+        public var allowActions: [Swift.String]?
+        /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:
+        ///
+        /// * Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&
+        ///
+        /// * May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes.
+        ///
+        /// * May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (including hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits).
+        ///
+        /// * No spaces allowed. For example, https://example.com.
+        public var allowReferers: [Swift.String]?
+        /// A list of allowed resource ARNs that a API key bearer can perform actions on For more information about ARN format, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). In this preview, you can allow only map resources. Requirements:
+        ///
+        /// * Must be prefixed with arn.
+        ///
+        /// * partition and service must not be empty and should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).
+        ///
+        /// * region and account-id can be empty or should begin with only alphanumeric characters (A–Z, a–z, 0–9) and contain only alphanumeric numbers, hyphens (-) and periods (.).
+        ///
+        /// * resource-id can begin with any character except for forward slash (/) and contain any characters after, including forward slashes to form a path. resource-id can also include wildcard characters, denoted by an asterisk (*).
+        ///
+        /// * arn, partition, service, region, account-id and resource-id must be delimited by a colon (:).
+        ///
+        /// * No spaces allowed. For example, arn:aws:geo:region:account-id:map/ExampleMap*.
+        /// This member is required.
+        public var allowResources: [Swift.String]?
+
+        public init (
+            allowActions: [Swift.String]? = nil,
+            allowReferers: [Swift.String]? = nil,
+            allowResources: [Swift.String]? = nil
+        )
+        {
+            self.allowActions = allowActions
+            self.allowReferers = allowReferers
+            self.allowResources = allowResources
+        }
+    }
+
+}
+
 extension AssociateTrackerConsumerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case consumerArn = "ConsumerArn"
@@ -78,7 +226,7 @@ extension AssociateTrackerConsumerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateTrackerConsumerInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the geofence collection to be associated to tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
     /// This member is required.
@@ -2778,7 +2926,7 @@ public struct CreateGeofenceCollectionInput: Swift.Equatable {
     public var collectionName: Swift.String?
     /// An optional description for the geofence collection.
     public var description: Swift.String?
-    /// A key identifier for an [AWS KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
+    /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
     public var kmsKeyId: Swift.String?
     /// No longer used. If included, the only allowed value is RequestBasedUsage.
     @available(*, deprecated, message: "Deprecated. If included, the only allowed value is RequestBasedUsage. API deprecated since 2022-02-01")
@@ -2914,7 +3062,7 @@ extension CreateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct CreateGeofenceCollectionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
     /// This member is required.
@@ -2957,6 +3105,259 @@ extension CreateGeofenceCollectionOutputResponseBody: Swift.Decodable {
         collectionName = collectionNameDecoded
         let collectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionArn)
         collectionArn = collectionArnDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+    }
+}
+
+extension CreateKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case keyName = "KeyName"
+        case noExpiry = "NoExpiry"
+        case restrictions = "Restrictions"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let expireTime = self.expireTime {
+            try encodeContainer.encodeTimestamp(expireTime, format: .dateTime, forKey: .expireTime)
+        }
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let noExpiry = self.noExpiry {
+            try encodeContainer.encode(noExpiry, forKey: .noExpiry)
+        }
+        if let restrictions = self.restrictions {
+            try encodeContainer.encode(restrictions, forKey: .restrictions)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/metadata/v0/keys"
+    }
+}
+
+public struct CreateKeyInput: Swift.Equatable {
+    /// An optional description for the API key resource.
+    public var description: Swift.String?
+    /// The optional timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. One of NoExpiry or ExpireTime must be set.
+    public var expireTime: ClientRuntime.Date?
+    /// A custom name for the API key resource. Requirements:
+    ///
+    /// * Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).
+    ///
+    /// * Must be a unique API key name.
+    ///
+    /// * No spaces allowed. For example, ExampleAPIKey.
+    /// This member is required.
+    public var keyName: Swift.String?
+    /// Optionally set to true to set no expiration time for the API key. One of NoExpiry or ExpireTime must be set.
+    public var noExpiry: Swift.Bool?
+    /// The API key restrictions for the API key resource.
+    /// This member is required.
+    public var restrictions: LocationClientTypes.ApiKeyRestrictions?
+    /// Applies one or more tags to the map resource. A tag is a key-value pair that helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value" Restrictions:
+    ///
+    /// * Maximum 50 tags per resource
+    ///
+    /// * Each resource tag must be unique with a maximum of one value.
+    ///
+    /// * Maximum key length: 128 Unicode characters in UTF-8
+    ///
+    /// * Maximum value length: 256 Unicode characters in UTF-8
+    ///
+    /// * Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.
+    ///
+    /// * Cannot use "aws:" as a prefix for a key.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init (
+        description: Swift.String? = nil,
+        expireTime: ClientRuntime.Date? = nil,
+        keyName: Swift.String? = nil,
+        noExpiry: Swift.Bool? = nil,
+        restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.expireTime = expireTime
+        self.keyName = keyName
+        self.noExpiry = noExpiry
+        self.restrictions = restrictions
+        self.tags = tags
+    }
+}
+
+struct CreateKeyInputBody: Swift.Equatable {
+    let keyName: Swift.String?
+    let restrictions: LocationClientTypes.ApiKeyRestrictions?
+    let description: Swift.String?
+    let expireTime: ClientRuntime.Date?
+    let noExpiry: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case keyName = "KeyName"
+        case noExpiry = "NoExpiry"
+        case restrictions = "Restrictions"
+        case tags = "Tags"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let restrictionsDecoded = try containerValues.decodeIfPresent(LocationClientTypes.ApiKeyRestrictions.self, forKey: .restrictions)
+        restrictions = restrictionsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let expireTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expireTime)
+        expireTime = expireTimeDecoded
+        let noExpiryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noExpiry)
+        noExpiry = noExpiryDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension CreateKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ConflictException" : self = .conflictException(try ConflictException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ServiceQuotaExceededException" : self = .serviceQuotaExceededException(try ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum CreateKeyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case conflictException(ConflictException)
+    case internalServerException(InternalServerException)
+    case serviceQuotaExceededException(ServiceQuotaExceededException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension CreateKeyOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateKeyOutputResponse(createTime: \(Swift.String(describing: createTime)), keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: CreateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createTime = output.createTime
+            self.key = output.key
+            self.keyArn = output.keyArn
+            self.keyName = output.keyName
+        } else {
+            self.createTime = nil
+            self.key = nil
+            self.keyArn = nil
+            self.keyName = nil
+        }
+    }
+}
+
+public struct CreateKeyOutputResponse: Swift.Equatable {
+    /// The timestamp for when the API key resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var createTime: ClientRuntime.Date?
+    /// The key value/string of an API key. This value is used when making API calls to authorize the call. For example, see [GetMapGlyphs](https://docs.aws.amazon.com/location/latest/APIReference/API_GetMapGlyphs.html).
+    /// This member is required.
+    public var key: Swift.String?
+    /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.
+    ///
+    /// * Format example: arn:aws:geo:region:account-id:key/ExampleKey
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The name of the API key resource.
+    /// This member is required.
+    public var keyName: Swift.String?
+
+    public init (
+        createTime: ClientRuntime.Date? = nil,
+        key: Swift.String? = nil,
+        keyArn: Swift.String? = nil,
+        keyName: Swift.String? = nil
+    )
+    {
+        self.createTime = createTime
+        self.key = key
+        self.keyArn = keyArn
+        self.keyName = keyName
+    }
+}
+
+struct CreateKeyOutputResponseBody: Swift.Equatable {
+    let key: Swift.String?
+    let keyArn: Swift.String?
+    let keyName: Swift.String?
+    let createTime: ClientRuntime.Date?
+}
+
+extension CreateKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case key = "Key"
+        case keyArn = "KeyArn"
+        case keyName = "KeyName"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let keyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyArn)
+        keyArn = keyArnDecoded
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
         let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
         createTime = createTimeDecoded
     }
@@ -3143,7 +3544,7 @@ public struct CreateMapOutputResponse: Swift.Equatable {
     /// The timestamp for when the map resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
     public var createTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:map/ExampleMap
     /// This member is required.
@@ -3237,7 +3638,7 @@ public struct CreatePlaceIndexInput: Swift.Equatable {
     ///
     /// * Grab – Grab provides place index functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
     ///
-    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html). If you specify HERE Technologies (Here) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html) for locations in Japan. For more information, see the [AWS Service Terms](https://aws.amazon.com/service-terms/) for Amazon Location Service.
+    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html). If you specify HERE Technologies (Here) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html) for locations in Japan. For more information, see the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) for Amazon Location Service.
     ///
     ///
     /// For additional information , see [Data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html) on the Amazon Location Service Developer Guide.
@@ -3390,7 +3791,7 @@ public struct CreatePlaceIndexOutputResponse: Swift.Equatable {
     /// The timestamp for when the place index resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
     public var createTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.
+    /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
     /// This member is required.
@@ -3627,7 +4028,7 @@ extension CreateRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct CreateRouteCalculatorOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the route calculator resource. Use the ARN when you specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the route calculator resource. Use the ARN when you specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
     /// This member is required.
@@ -3728,7 +4129,7 @@ extension CreateTrackerInput: ClientRuntime.URLPathProvider {
 public struct CreateTrackerInput: Swift.Equatable {
     /// An optional description for the tracker resource.
     public var description: Swift.String?
-    /// A key identifier for an [AWS KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
+    /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html). Enter a key ID, key ARN, alias name, or alias ARN.
     public var kmsKeyId: Swift.String?
     /// Specifies the position filtering for the tracker resource. Valid values:
     ///
@@ -3891,7 +4292,7 @@ public struct CreateTrackerOutputResponse: Swift.Equatable {
     /// The timestamp for when the tracker resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
     public var createTime: ClientRuntime.Date?
-    /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
     /// This member is required.
@@ -4052,6 +4453,77 @@ extension DeleteGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct DeleteGeofenceCollectionOutputResponse: Swift.Equatable {
+
+    public init () { }
+}
+
+extension DeleteKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let keyName = keyName else {
+            return nil
+        }
+        return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKeyInput: Swift.Equatable {
+    /// The name of the API key to delete.
+    /// This member is required.
+    public var keyName: Swift.String?
+
+    public init (
+        keyName: Swift.String? = nil
+    )
+    {
+        self.keyName = keyName
+    }
+}
+
+struct DeleteKeyInputBody: Swift.Equatable {
+}
+
+extension DeleteKeyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DeleteKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DeleteKeyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DeleteKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+    }
+}
+
+public struct DeleteKeyOutputResponse: Swift.Equatable {
 
     public init () { }
 }
@@ -4431,7 +4903,7 @@ extension DescribeGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBi
 }
 
 public struct DescribeGeofenceCollectionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the geofence collection resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
     /// This member is required.
@@ -4445,7 +4917,7 @@ public struct DescribeGeofenceCollectionOutputResponse: Swift.Equatable {
     /// The optional description for the geofence collection.
     /// This member is required.
     public var description: Swift.String?
-    /// A key identifier for an [AWS KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource
+    /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource
     public var kmsKeyId: Swift.String?
     /// No longer used. Always returns RequestBasedUsage.
     @available(*, deprecated, message: "Deprecated. Always returns RequestBasedUsage. API deprecated since 2022-02-01")
@@ -4537,6 +5009,211 @@ extension DescribeGeofenceCollectionOutputResponseBody: Swift.Decodable {
         createTime = createTimeDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
+    }
+}
+
+extension DescribeKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let keyName = keyName else {
+            return nil
+        }
+        return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeKeyInput: Swift.Equatable {
+    /// The name of the API key resource.
+    /// This member is required.
+    public var keyName: Swift.String?
+
+    public init (
+        keyName: Swift.String? = nil
+    )
+    {
+        self.keyName = keyName
+    }
+}
+
+struct DescribeKeyInputBody: Swift.Equatable {
+}
+
+extension DescribeKeyInputBody: Swift.Decodable {
+
+    public init (from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension DescribeKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum DescribeKeyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension DescribeKeyOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeKeyOutputResponse(createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), expireTime: \(Swift.String(describing: expireTime)), keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), restrictions: \(Swift.String(describing: restrictions)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension DescribeKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: DescribeKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.createTime = output.createTime
+            self.description = output.description
+            self.expireTime = output.expireTime
+            self.key = output.key
+            self.keyArn = output.keyArn
+            self.keyName = output.keyName
+            self.restrictions = output.restrictions
+            self.tags = output.tags
+            self.updateTime = output.updateTime
+        } else {
+            self.createTime = nil
+            self.description = nil
+            self.expireTime = nil
+            self.key = nil
+            self.keyArn = nil
+            self.keyName = nil
+            self.restrictions = nil
+            self.tags = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct DescribeKeyOutputResponse: Swift.Equatable {
+    /// The timestamp for when the API key resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var createTime: ClientRuntime.Date?
+    /// The optional description for the API key resource.
+    public var description: Swift.String?
+    /// The timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var expireTime: ClientRuntime.Date?
+    /// The key value/string of an API key.
+    /// This member is required.
+    public var key: Swift.String?
+    /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.
+    ///
+    /// * Format example: arn:aws:geo:region:account-id:key/ExampleKey
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The name of the API key resource.
+    /// This member is required.
+    public var keyName: Swift.String?
+    /// API Restrictions on the allowed actions, resources, and referers for an API key resource.
+    /// This member is required.
+    public var restrictions: LocationClientTypes.ApiKeyRestrictions?
+    /// Tags associated with the API key resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The timestamp for when the API key resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init (
+        createTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        expireTime: ClientRuntime.Date? = nil,
+        key: Swift.String? = nil,
+        keyArn: Swift.String? = nil,
+        keyName: Swift.String? = nil,
+        restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.createTime = createTime
+        self.description = description
+        self.expireTime = expireTime
+        self.key = key
+        self.keyArn = keyArn
+        self.keyName = keyName
+        self.restrictions = restrictions
+        self.tags = tags
+        self.updateTime = updateTime
+    }
+}
+
+struct DescribeKeyOutputResponseBody: Swift.Equatable {
+    let key: Swift.String?
+    let keyArn: Swift.String?
+    let keyName: Swift.String?
+    let restrictions: LocationClientTypes.ApiKeyRestrictions?
+    let createTime: ClientRuntime.Date?
+    let expireTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+    let description: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension DescribeKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case key = "Key"
+        case keyArn = "KeyArn"
+        case keyName = "KeyName"
+        case restrictions = "Restrictions"
+        case tags = "Tags"
+        case updateTime = "UpdateTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let keyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyArn)
+        keyArn = keyArnDecoded
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let restrictionsDecoded = try containerValues.decodeIfPresent(LocationClientTypes.ApiKeyRestrictions.self, forKey: .restrictions)
+        restrictions = restrictionsDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let expireTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expireTime)
+        expireTime = expireTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -4643,7 +5320,7 @@ public struct DescribeMapOutputResponse: Swift.Equatable {
     /// The optional description for the map resource.
     /// This member is required.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the map resource. Used to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:map/ExampleMap
     /// This member is required.
@@ -4853,7 +5530,7 @@ public struct DescribePlaceIndexOutputResponse: Swift.Equatable {
     /// The optional description for the place index resource.
     /// This member is required.
     public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across AWS.
+    /// The Amazon Resource Name (ARN) for the place index resource. Used to specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:place-index/ExamplePlaceIndex
     /// This member is required.
@@ -5040,7 +5717,7 @@ extension DescribeRouteCalculatorOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct DescribeRouteCalculatorOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the Route calculator resource. Use the ARN when you specify a resource across AWS.
+    /// The Amazon Resource Name (ARN) for the Route calculator resource. Use the ARN when you specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:route-calculator/ExampleCalculator
     /// This member is required.
@@ -5253,7 +5930,7 @@ public struct DescribeTrackerOutputResponse: Swift.Equatable {
     /// The optional description for the tracker resource.
     /// This member is required.
     public var description: Swift.String?
-    /// A key identifier for an [AWS KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource.
+    /// A key identifier for an [Amazon Web Services KMS customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html) assigned to the Amazon Location resource.
     public var kmsKeyId: Swift.String?
     /// The position filtering method of the tracker resource.
     public var positionFiltering: LocationClientTypes.PositionFiltering?
@@ -5265,7 +5942,7 @@ public struct DescribeTrackerOutputResponse: Swift.Equatable {
     public var pricingPlanDataSource: Swift.String?
     /// The tags associated with the tracker resource.
     public var tags: [Swift.String:Swift.String]?
-    /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:tracker/ExampleTracker
     /// This member is required.
@@ -5633,7 +6310,7 @@ extension DisassociateTrackerConsumerInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateTrackerConsumerInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all AWS.
+    /// The Amazon Resource Name (ARN) for the geofence collection to be disassociated from the tracker resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer
     /// This member is required.
@@ -6364,6 +7041,24 @@ extension GetGeofenceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetMapGlyphsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMapGlyphsInput(fontStack: \(Swift.String(describing: fontStack)), fontUnicodeRange: \(Swift.String(describing: fontUnicodeRange)), mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension GetMapGlyphsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension GetMapGlyphsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let mapName = mapName else {
@@ -6416,6 +7111,8 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
     /// This member is required.
     public var fontUnicodeRange: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The map resource associated with the glyph ﬁle.
     /// This member is required.
     public var mapName: Swift.String?
@@ -6423,11 +7120,13 @@ public struct GetMapGlyphsInput: Swift.Equatable {
     public init (
         fontStack: Swift.String? = nil,
         fontUnicodeRange: Swift.String? = nil,
+        key: Swift.String? = nil,
         mapName: Swift.String? = nil
     )
     {
         self.fontStack = fontStack
         self.fontUnicodeRange = fontUnicodeRange
+        self.key = key
         self.mapName = mapName
     }
 }
@@ -6473,6 +7172,11 @@ public enum GetMapGlyphsOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMapGlyphsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            self.cacheControl = cacheControlHeaderValue
+        } else {
+            self.cacheControl = nil
+        }
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -6487,17 +7191,21 @@ extension GetMapGlyphsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetMapGlyphsOutputResponse: Swift.Equatable {
-    /// The blob's content type.
+    /// The glyph, as binary blob.
     public var blob: ClientRuntime.Data?
+    /// The HTTP Cache-Control directive for the value.
+    public var cacheControl: Swift.String?
     /// The map glyph content type. For example, application/octet-stream.
     public var contentType: Swift.String?
 
     public init (
         blob: ClientRuntime.Data? = nil,
+        cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
     {
         self.blob = blob
+        self.cacheControl = cacheControl
         self.contentType = contentType
     }
 }
@@ -6515,6 +7223,24 @@ extension GetMapGlyphsOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blobDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .blob)
         blob = blobDecoded
+    }
+}
+
+extension GetMapSpritesInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMapSpritesInput(fileName: \(Swift.String(describing: fileName)), mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension GetMapSpritesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
     }
 }
 
@@ -6545,16 +7271,20 @@ public struct GetMapSpritesInput: Swift.Equatable {
     /// * sprites@2x.json for high pixel density displays
     /// This member is required.
     public var fileName: Swift.String?
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The map resource associated with the sprite ﬁle.
     /// This member is required.
     public var mapName: Swift.String?
 
     public init (
         fileName: Swift.String? = nil,
+        key: Swift.String? = nil,
         mapName: Swift.String? = nil
     )
     {
         self.fileName = fileName
+        self.key = key
         self.mapName = mapName
     }
 }
@@ -6600,6 +7330,11 @@ public enum GetMapSpritesOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMapSpritesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            self.cacheControl = cacheControlHeaderValue
+        } else {
+            self.cacheControl = nil
+        }
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -6616,15 +7351,19 @@ extension GetMapSpritesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetMapSpritesOutputResponse: Swift.Equatable {
     /// Contains the body of the sprite sheet or JSON offset ﬁle.
     public var blob: ClientRuntime.Data?
+    /// The HTTP Cache-Control directive for the value.
+    public var cacheControl: Swift.String?
     /// The content type of the sprite sheet and offsets. For example, the sprite sheet content type is image/png, and the sprite offset JSON document is application/json.
     public var contentType: Swift.String?
 
     public init (
         blob: ClientRuntime.Data? = nil,
+        cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
     {
         self.blob = blob
+        self.cacheControl = cacheControl
         self.contentType = contentType
     }
 }
@@ -6645,6 +7384,24 @@ extension GetMapSpritesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetMapStyleDescriptorInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMapStyleDescriptorInput(mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension GetMapStyleDescriptorInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension GetMapStyleDescriptorInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let mapName = mapName else {
@@ -6655,14 +7412,18 @@ extension GetMapStyleDescriptorInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetMapStyleDescriptorInput: Swift.Equatable {
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The map resource to retrieve the style descriptor from.
     /// This member is required.
     public var mapName: Swift.String?
 
     public init (
+        key: Swift.String? = nil,
         mapName: Swift.String? = nil
     )
     {
+        self.key = key
         self.mapName = mapName
     }
 }
@@ -6708,6 +7469,11 @@ public enum GetMapStyleDescriptorOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMapStyleDescriptorOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            self.cacheControl = cacheControlHeaderValue
+        } else {
+            self.cacheControl = nil
+        }
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -6724,15 +7490,19 @@ extension GetMapStyleDescriptorOutputResponse: ClientRuntime.HttpResponseBinding
 public struct GetMapStyleDescriptorOutputResponse: Swift.Equatable {
     /// Contains the body of the style descriptor.
     public var blob: ClientRuntime.Data?
+    /// The HTTP Cache-Control directive for the value.
+    public var cacheControl: Swift.String?
     /// The style descriptor's content type. For example, application/json.
     public var contentType: Swift.String?
 
     public init (
         blob: ClientRuntime.Data? = nil,
+        cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
     {
         self.blob = blob
+        self.cacheControl = cacheControl
         self.contentType = contentType
     }
 }
@@ -6750,6 +7520,24 @@ extension GetMapStyleDescriptorOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let blobDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .blob)
         blob = blobDecoded
+    }
+}
+
+extension GetMapTileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMapTileInput(mapName: \(Swift.String(describing: mapName)), x: \(Swift.String(describing: x)), y: \(Swift.String(describing: y)), z: \(Swift.String(describing: z)), key: \"CONTENT_REDACTED\")"}
+}
+
+extension GetMapTileInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let key = key {
+                let keyQueryItem = ClientRuntime.URLQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
+                items.append(keyQueryItem)
+            }
+            return items
+        }
     }
 }
 
@@ -6772,6 +7560,8 @@ extension GetMapTileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetMapTileInput: Swift.Equatable {
+    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    public var key: Swift.String?
     /// The map resource to retrieve the map tiles from.
     /// This member is required.
     public var mapName: Swift.String?
@@ -6786,12 +7576,14 @@ public struct GetMapTileInput: Swift.Equatable {
     public var z: Swift.String?
 
     public init (
+        key: Swift.String? = nil,
         mapName: Swift.String? = nil,
         x: Swift.String? = nil,
         y: Swift.String? = nil,
         z: Swift.String? = nil
     )
     {
+        self.key = key
         self.mapName = mapName
         self.x = x
         self.y = y
@@ -6840,6 +7632,11 @@ public enum GetMapTileOutputError: Swift.Error, Swift.Equatable {
 
 extension GetMapTileOutputResponse: ClientRuntime.HttpResponseBinding {
     public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            self.cacheControl = cacheControlHeaderValue
+        } else {
+            self.cacheControl = nil
+        }
         if let contentTypeHeaderValue = httpResponse.headers.value(for: "Content-Type") {
             self.contentType = contentTypeHeaderValue
         } else {
@@ -6856,15 +7653,19 @@ extension GetMapTileOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct GetMapTileOutputResponse: Swift.Equatable {
     /// Contains Mapbox Vector Tile (MVT) data.
     public var blob: ClientRuntime.Data?
+    /// The HTTP Cache-Control directive for the value.
+    public var cacheControl: Swift.String?
     /// The map tile's content type. For example, application/vnd.mapbox-vector-tile.
     public var contentType: Swift.String?
 
     public init (
         blob: ClientRuntime.Data? = nil,
+        cacheControl: Swift.String? = nil,
         contentType: Swift.String? = nil
     )
     {
         self.blob = blob
+        self.cacheControl = cacheControl
         self.contentType = contentType
     }
 }
@@ -7671,7 +8472,7 @@ extension ListGeofenceCollectionsOutputResponse: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListGeofenceCollectionsOutputResponse: Swift.Equatable {
-    /// Lists the geofence collections that exist in your AWS account.
+    /// Lists the geofence collections that exist in your Amazon Web Services account.
     /// This member is required.
     public var entries: [LocationClientTypes.ListGeofenceCollectionsResponseEntry]?
     /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
@@ -8055,6 +8856,256 @@ extension ListGeofencesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListKeysInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListKeysInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/metadata/v0/list-keys"
+    }
+}
+
+public struct ListKeysInput: Swift.Equatable {
+    /// Optionally filter the list to only Active or Expired API keys.
+    public var filter: LocationClientTypes.ApiKeyFilter?
+    /// An optional limit for the number of resources returned in a single call. Default value: 100
+    public var maxResults: Swift.Int?
+    /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page. Default value: null
+    public var nextToken: Swift.String?
+
+    public init (
+        filter: LocationClientTypes.ApiKeyFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKeysInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let filter: LocationClientTypes.ApiKeyFilter?
+}
+
+extension ListKeysInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter = "Filter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(LocationClientTypes.ApiKeyFilter.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+extension ListKeysOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension ListKeysOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum ListKeysOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension ListKeysOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: ListKeysOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.entries = output.entries
+            self.nextToken = output.nextToken
+        } else {
+            self.entries = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListKeysOutputResponse: Swift.Equatable {
+    /// Contains API key resources in your Amazon Web Services account. Details include API key name, allowed referers and timestamp for when the API key will expire.
+    /// This member is required.
+    public var entries: [LocationClientTypes.ListKeysResponseEntry]?
+    /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
+    public var nextToken: Swift.String?
+
+    public init (
+        entries: [LocationClientTypes.ListKeysResponseEntry]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.entries = entries
+        self.nextToken = nextToken
+    }
+}
+
+struct ListKeysOutputResponseBody: Swift.Equatable {
+    let entries: [LocationClientTypes.ListKeysResponseEntry]?
+    let nextToken: Swift.String?
+}
+
+extension ListKeysOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entries = "Entries"
+        case nextToken = "NextToken"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entriesContainer = try containerValues.decodeIfPresent([LocationClientTypes.ListKeysResponseEntry?].self, forKey: .entries)
+        var entriesDecoded0:[LocationClientTypes.ListKeysResponseEntry]? = nil
+        if let entriesContainer = entriesContainer {
+            entriesDecoded0 = [LocationClientTypes.ListKeysResponseEntry]()
+            for structure0 in entriesContainer {
+                if let structure0 = structure0 {
+                    entriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        entries = entriesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension LocationClientTypes.ListKeysResponseEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime = "CreateTime"
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case keyName = "KeyName"
+        case restrictions = "Restrictions"
+        case updateTime = "UpdateTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createTime = self.createTime {
+            try encodeContainer.encodeTimestamp(createTime, format: .dateTime, forKey: .createTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let expireTime = self.expireTime {
+            try encodeContainer.encodeTimestamp(expireTime, format: .dateTime, forKey: .expireTime)
+        }
+        if let keyName = self.keyName {
+            try encodeContainer.encode(keyName, forKey: .keyName)
+        }
+        if let restrictions = self.restrictions {
+            try encodeContainer.encode(restrictions, forKey: .restrictions)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .dateTime, forKey: .updateTime)
+        }
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
+        let expireTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expireTime)
+        expireTime = expireTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let restrictionsDecoded = try containerValues.decodeIfPresent(LocationClientTypes.ApiKeyRestrictions.self, forKey: .restrictions)
+        restrictions = restrictionsDecoded
+        let createTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createTime)
+        createTime = createTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension LocationClientTypes {
+    /// An API key resource listed in your Amazon Web Services account.
+    public struct ListKeysResponseEntry: Swift.Equatable {
+        /// The timestamp of when the API key was created, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// This member is required.
+        public var createTime: ClientRuntime.Date?
+        /// The optional description for the API key resource.
+        public var description: Swift.String?
+        /// The timestamp for when the API key resource will expire, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// This member is required.
+        public var expireTime: ClientRuntime.Date?
+        /// The name of the API key resource.
+        /// This member is required.
+        public var keyName: Swift.String?
+        /// API Restrictions on the allowed actions, resources, and referers for an API key resource.
+        /// This member is required.
+        public var restrictions: LocationClientTypes.ApiKeyRestrictions?
+        /// The timestamp of when the API key was last updated, in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+
+        public init (
+            createTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            expireTime: ClientRuntime.Date? = nil,
+            keyName: Swift.String? = nil,
+            restrictions: LocationClientTypes.ApiKeyRestrictions? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.createTime = createTime
+            self.description = description
+            self.expireTime = expireTime
+            self.keyName = keyName
+            self.restrictions = restrictions
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
 extension ListMapsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -8158,7 +9209,7 @@ extension ListMapsOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListMapsOutputResponse: Swift.Equatable {
-    /// Contains a list of maps in your AWS account
+    /// Contains a list of maps in your Amazon Web Services account
     /// This member is required.
     public var entries: [LocationClientTypes.ListMapsResponseEntry]?
     /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
@@ -8253,7 +9304,7 @@ extension LocationClientTypes.ListMapsResponseEntry: Swift.Codable {
 }
 
 extension LocationClientTypes {
-    /// Contains details of an existing map resource in your AWS account.
+    /// Contains details of an existing map resource in your Amazon Web Services account.
     public struct ListMapsResponseEntry: Swift.Equatable {
         /// The timestamp for when the map resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
@@ -8397,7 +9448,7 @@ extension ListPlaceIndexesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListPlaceIndexesOutputResponse: Swift.Equatable {
-    /// Lists the place index resources that exist in your AWS account
+    /// Lists the place index resources that exist in your Amazon Web Services account
     /// This member is required.
     public var entries: [LocationClientTypes.ListPlaceIndexesResponseEntry]?
     /// A pagination token indicating that there are additional pages available. You can use the token in a new request to fetch the next page of results.
@@ -8492,7 +9543,7 @@ extension LocationClientTypes.ListPlaceIndexesResponseEntry: Swift.Codable {
 }
 
 extension LocationClientTypes {
-    /// A place index resource listed in your AWS account.
+    /// A place index resource listed in your Amazon Web Services account.
     public struct ListPlaceIndexesResponseEntry: Swift.Equatable {
         /// The timestamp for when the place index resource was created in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
         /// This member is required.
@@ -8645,7 +9696,7 @@ extension ListRouteCalculatorsOutputResponse: ClientRuntime.HttpResponseBinding 
 }
 
 public struct ListRouteCalculatorsOutputResponse: Swift.Equatable {
-    /// Lists the route calculator resources that exist in your AWS account
+    /// Lists the route calculator resources that exist in your Amazon Web Services account
     /// This member is required.
     public var entries: [LocationClientTypes.ListRouteCalculatorsResponseEntry]?
     /// A pagination token indicating there are additional pages available. You can use the token in a subsequent request to fetch the next set of results.
@@ -8740,7 +9791,7 @@ extension LocationClientTypes.ListRouteCalculatorsResponseEntry: Swift.Codable {
 }
 
 extension LocationClientTypes {
-    /// A route calculator resource listed in your AWS account.
+    /// A route calculator resource listed in your Amazon Web Services account.
     public struct ListRouteCalculatorsResponseEntry: Swift.Equatable {
         /// The name of the route calculator resource.
         /// This member is required.
@@ -9170,7 +10221,7 @@ extension ListTrackersOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTrackersOutputResponse: Swift.Equatable {
-    /// Contains tracker resources in your AWS account. Details include tracker name, description and timestamps for when the tracker was created and last updated.
+    /// Contains tracker resources in your Amazon Web Services account. Details include tracker name, description and timestamps for when the tracker was created and last updated.
     /// This member is required.
     public var entries: [LocationClientTypes.ListTrackersResponseEntry]?
     /// A pagination token indicating there are additional pages available. You can use the token in a following request to fetch the next set of results.
@@ -11421,6 +12472,40 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension LocationClientTypes {
+    public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// List all active API keys.
+        case active
+        /// List all expired API keys.
+        case expired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .active,
+                .expired,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Status(rawValue: rawValue) ?? Status.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LocationClientTypes.Step: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case distance = "Distance"
@@ -12142,7 +13227,7 @@ extension UpdateGeofenceCollectionOutputResponse: ClientRuntime.HttpResponseBind
 }
 
 public struct UpdateGeofenceCollectionOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to specify a resource across AWS.
+    /// The Amazon Resource Name (ARN) of the updated geofence collection. Used to specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollection
     /// This member is required.
@@ -12185,6 +13270,205 @@ extension UpdateGeofenceCollectionOutputResponseBody: Swift.Decodable {
         collectionName = collectionNameDecoded
         let collectionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .collectionArn)
         collectionArn = collectionArnDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension UpdateKeyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case forceUpdate = "ForceUpdate"
+        case noExpiry = "NoExpiry"
+        case restrictions = "Restrictions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let expireTime = self.expireTime {
+            try encodeContainer.encodeTimestamp(expireTime, format: .dateTime, forKey: .expireTime)
+        }
+        if let forceUpdate = self.forceUpdate {
+            try encodeContainer.encode(forceUpdate, forKey: .forceUpdate)
+        }
+        if let noExpiry = self.noExpiry {
+            try encodeContainer.encode(noExpiry, forKey: .noExpiry)
+        }
+        if let restrictions = self.restrictions {
+            try encodeContainer.encode(restrictions, forKey: .restrictions)
+        }
+    }
+}
+
+extension UpdateKeyInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let keyName = keyName else {
+            return nil
+        }
+        return "/metadata/v0/keys/\(keyName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateKeyInput: Swift.Equatable {
+    /// Updates the description for the API key resource.
+    public var description: Swift.String?
+    /// Updates the timestamp for when the API key resource will expire in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    public var expireTime: ClientRuntime.Date?
+    /// The boolean flag to be included for updating ExpireTime or Restrictions details. Must be set to true to update an API key resource that has been used in the past 7 days. False if force update is not preferred Default value: False
+    public var forceUpdate: Swift.Bool?
+    /// The name of the API key resource to update.
+    /// This member is required.
+    public var keyName: Swift.String?
+    /// Whether the API key should expire. Set to true to set the API key to have no expiration time.
+    public var noExpiry: Swift.Bool?
+    /// Updates the API key restrictions for the API key resource.
+    public var restrictions: LocationClientTypes.ApiKeyRestrictions?
+
+    public init (
+        description: Swift.String? = nil,
+        expireTime: ClientRuntime.Date? = nil,
+        forceUpdate: Swift.Bool? = nil,
+        keyName: Swift.String? = nil,
+        noExpiry: Swift.Bool? = nil,
+        restrictions: LocationClientTypes.ApiKeyRestrictions? = nil
+    )
+    {
+        self.description = description
+        self.expireTime = expireTime
+        self.forceUpdate = forceUpdate
+        self.keyName = keyName
+        self.noExpiry = noExpiry
+        self.restrictions = restrictions
+    }
+}
+
+struct UpdateKeyInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let expireTime: ClientRuntime.Date?
+    let noExpiry: Swift.Bool?
+    let forceUpdate: Swift.Bool?
+    let restrictions: LocationClientTypes.ApiKeyRestrictions?
+}
+
+extension UpdateKeyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case expireTime = "ExpireTime"
+        case forceUpdate = "ForceUpdate"
+        case noExpiry = "NoExpiry"
+        case restrictions = "Restrictions"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let expireTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .expireTime)
+        expireTime = expireTimeDecoded
+        let noExpiryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .noExpiry)
+        noExpiry = noExpiryDecoded
+        let forceUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceUpdate)
+        forceUpdate = forceUpdateDecoded
+        let restrictionsDecoded = try containerValues.decodeIfPresent(LocationClientTypes.ApiKeyRestrictions.self, forKey: .restrictions)
+        restrictions = restrictionsDecoded
+    }
+}
+
+extension UpdateKeyOutputError: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        let errorDetails = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.headers.value(for: X_AMZN_REQUEST_ID_HEADER)
+        try self.init(errorType: errorDetails.errorType, httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
+    }
+}
+
+extension UpdateKeyOutputError {
+    public init(errorType: Swift.String?, httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) throws {
+        switch errorType {
+        case "AccessDeniedException" : self = .accessDeniedException(try AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "InternalServerException" : self = .internalServerException(try InternalServerException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ResourceNotFoundException" : self = .resourceNotFoundException(try ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ThrottlingException" : self = .throttlingException(try ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        case "ValidationException" : self = .validationException(try ValidationException(httpResponse: httpResponse, decoder: decoder, message: message, requestID: requestID))
+        default : self = .unknown(UnknownAWSHttpServiceError(httpResponse: httpResponse, message: message, requestID: requestID, errorType: errorType))
+        }
+    }
+}
+
+public enum UpdateKeyOutputError: Swift.Error, Swift.Equatable {
+    case accessDeniedException(AccessDeniedException)
+    case internalServerException(InternalServerException)
+    case resourceNotFoundException(ResourceNotFoundException)
+    case throttlingException(ThrottlingException)
+    case validationException(ValidationException)
+    case unknown(UnknownAWSHttpServiceError)
+}
+
+extension UpdateKeyOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init (httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) throws {
+        if case .stream(let reader) = httpResponse.body,
+            let responseDecoder = decoder {
+            let data = reader.toBytes().getData()
+            let output: UpdateKeyOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.keyArn = output.keyArn
+            self.keyName = output.keyName
+            self.updateTime = output.updateTime
+        } else {
+            self.keyArn = nil
+            self.keyName = nil
+            self.updateTime = nil
+        }
+    }
+}
+
+public struct UpdateKeyOutputResponse: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.
+    ///
+    /// * Format example: arn:aws:geo:region:account-id:key/ExampleKey
+    /// This member is required.
+    public var keyArn: Swift.String?
+    /// The name of the API key resource.
+    /// This member is required.
+    public var keyName: Swift.String?
+    /// The timestamp for when the API key resource was last updated in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+
+    public init (
+        keyArn: Swift.String? = nil,
+        keyName: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.keyArn = keyArn
+        self.keyName = keyName
+        self.updateTime = updateTime
+    }
+}
+
+struct UpdateKeyOutputResponseBody: Swift.Equatable {
+    let keyArn: Swift.String?
+    let keyName: Swift.String?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateKeyOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyArn = "KeyArn"
+        case keyName = "KeyName"
+        case updateTime = "UpdateTime"
+    }
+
+    public init (from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyArn)
+        keyArn = keyArnDecoded
+        let keyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyName)
+        keyName = keyNameDecoded
         let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
         updateTime = updateTimeDecoded
     }
@@ -12482,7 +13766,7 @@ extension UpdatePlaceIndexOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdatePlaceIndexOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a resource across AWS.
+    /// The Amazon Resource Name (ARN) of the upated place index resource. Used to specify a resource across Amazon Web Services.
     ///
     /// * Format example: arn:aws:geo:region:account-id:place- index/ExamplePlaceIndex
     /// This member is required.

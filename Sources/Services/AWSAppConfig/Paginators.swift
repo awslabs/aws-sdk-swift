@@ -178,6 +178,7 @@ extension ListHostedConfigurationVersionsInput: ClientRuntime.PaginateToken {
             applicationId: self.applicationId,
             configurationProfileId: self.configurationProfileId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            versionLabel: self.versionLabel
         )}
 }
