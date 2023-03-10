@@ -6,7 +6,7 @@
 //
 
 import ClientRuntime
-import Foundation.NSUUID
+import Foundation
 
 let validMessageWithAllHeaders = EventStream.Message(
     headers: [

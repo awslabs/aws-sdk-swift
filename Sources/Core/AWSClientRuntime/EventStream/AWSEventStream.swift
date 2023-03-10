@@ -6,7 +6,6 @@
 //
 
 import AwsCommonRuntimeKit
-import Foundation.NSUUID
 import ClientRuntime
 
 /// Namespace for event stream related types

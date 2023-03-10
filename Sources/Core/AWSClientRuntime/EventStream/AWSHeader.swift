@@ -6,7 +6,7 @@
 //
 
 import AwsCommonRuntimeKit
-import Foundation.NSUUID
+import Foundation
 import ClientRuntime
 
 extension EventStream.Header {
