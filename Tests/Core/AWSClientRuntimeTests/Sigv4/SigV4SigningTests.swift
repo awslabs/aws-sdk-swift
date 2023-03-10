@@ -68,30 +68,36 @@ class Sigv4SigningTests: XCTestCase {
             payload: "test payload".data(using: .utf8)!
         )
 
+        // create Date with fractional seconds
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = TimeZone(identifier: "UTC")
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
-        print(epoch.timeIntervalSince1970)
-
-        let signingConfig = AWSSigningConfig(credentials: credentials,
-                                             signedBodyValue: .empty,
-                                             flags: .init(useDoubleURIEncode: false, shouldNormalizeURIPath: false, omitSessionToken: false),
-                                             date: epoch,
-                                             service: "testservice",
-                                             region: "us-east-1",
-                                             signatureType: .requestEvent,
-                                             signingAlgorithm: .sigv4)
+        
+        let credentialsProvider = try! AWSCredentialsProvider.fromStatic(
+            AWSCredentialsProviderStaticConfig(accessKey: "fake access key", secret: "fake secret key")
+        )
+        
+        let context = HttpContextBuilder()
+            .withSigningName(value: "testservice")
+            .withRegion(value: "us-east-1")
+            .withCredentialsProvider(value: credentialsProvider)
+            .build()
+        
+        let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())
 
         let prevSignature = try! "last message sts".data(using: .utf8)!.sha256().encodeToHexString()
 
         let messagePayload = try! encoder.encode(message: message)
 
-        let result = try! await AWSSigV4Signer.signEvent(payload: messagePayload, previousSignature: prevSignature, signingConfig: signingConfig)
+        let result = try! await AWSSigV4Signer.signEvent(payload: messagePayload,
+                                                         previousSignature: prevSignature,
+                                                         signingConfig: signingConfig)
         XCTAssertEqual(":date", result.output.headers[0].name)
 
         guard case let .timestamp(dateHeaderValue) = result.output.headers[0].value else {
-            fatalError()
+            XCTFail()
+            return
         }
 
         XCTAssertEqual(epoch.timeIntervalSince1970, dateHeaderValue.timeIntervalSince1970)
@@ -99,7 +105,8 @@ class Sigv4SigningTests: XCTestCase {
         XCTAssertEqual(":chunk-signature", result.output.headers[1].name)
         print(result.signature)
         guard case let .data(actualSignatureBuffer) = result.output.headers[1].value else {
-            fatalError()
+            XCTFail()
+            return
         }
         let actualSignature = actualSignatureBuffer.encodeToHexString()
         XCTAssertEqual(result.signature, actualSignature)

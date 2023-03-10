@@ -55,17 +55,12 @@ public class AWSSigV4Signer {
     static func signEvent(payload: Data,
                           previousSignature: String,
                           signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
-        let epoch = Int64(signingConfig.date.timeIntervalSince1970)
-        let dt = Date(timeIntervalSince1970: TimeInterval(epoch))
-        var config = signingConfig
-        config.date = dt
-
         let signature = try await Signer.signEvent(event: payload,
                                                    previousSignature: previousSignature,
-                                                   config: try config.toCRTType())
+                                                   config: try signingConfig.toCRTType())
         let binarySignature = signature.hexaData
 
-        let message = EventStream.Message(headers: [ .init(name: ":date", value: .timestamp(dt)),
+        let message = EventStream.Message(headers: [ .init(name: ":date", value: .timestamp(signingConfig.date)),
                                                      .init(name: ":chunk-signature", value: .data(binarySignature))],
                                            payload: payload)
 

@@ -45,7 +45,7 @@ extension HttpContext {
 
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
-    func makeEventStreamSigningConfig() async throws -> AWSSigningConfig {
+    func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds()) async throws -> AWSSigningConfig {
         let credentials = try await getCredentialsProvider()?.getCredentials()
         guard let service = getSigningName() else {
             fatalError("""
@@ -61,14 +61,13 @@ extension HttpContext {
             """)
         }
 
+        // default flags
         let flags = SigningFlags(useDoubleURIEncode: false,
                                  shouldNormalizeURIPath: false,
                                  omitSessionToken: false)
-        // always use the current date for event stream signing
-        let date = Date()
 
         return AWSSigningConfig(credentials: credentials,
-                                signedBodyValue: .empty,
+                                signedBodyValue: .empty, // there is no body, only payload needs to be signed
                                 flags: flags,
                                 date: date,
                                 service: service,
