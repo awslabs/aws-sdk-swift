@@ -9,7 +9,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 
 /// Namespace for event stream related types
-struct AWSEventStream {
+enum AWSEventStream {
 
 }
 
