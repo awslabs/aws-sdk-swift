@@ -32,8 +32,11 @@ extension AWSEventStream {
         /// - Parameter message: `Message` to sign
         /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
         public func sign(message: ClientRuntime.EventStream.Message) async throws -> ClientRuntime.EventStream.Message {
+            // encode to bytes
             let encodedMessage = try encoder.encode(message: message)
             let signingConfig = try await context.makeEventStreamSigningConfig()
+
+            // sign encoded bytes
             let signingResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
                                                                    previousSignature: previousSignature,
                                                                    signingConfig: signingConfig)
