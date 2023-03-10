@@ -36,6 +36,46 @@ extension HttpContext {
         }
         return AWSSigningAlgorithm(rawValue: algorithmRawValue)
     }
+
+    /// Returns the request signature for the event stream operation
+    /// - Returns: `String` request signature
+    func getRequestSignature() -> String? {
+        return attributes.get(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"))
+    }
+
+    /// Returns the signing config for the event stream message
+    /// - Returns: `AWSSigningConfig` for the event stream message
+    func makeEventStreamSigningConfig() async throws -> AWSSigningConfig {
+        let credentials = try await getCredentialsProvider()?.getCredentials()
+        guard let service = getSigningName() else {
+            fatalError("""
+                Signing name must not be nil,
+                it must be set by the middleware during the request
+            """)
+        }
+
+        guard let region = getSigningRegion() ?? getRegion() else {
+            fatalError("""
+                Signing region must not be nil,
+                it must be set by the middleware during the request
+            """)
+        }
+
+        let flags = SigningFlags(useDoubleURIEncode: false,
+                                 shouldNormalizeURIPath: false,
+                                 omitSessionToken: false)
+        // always use the current date for event stream signing
+        let date = Date()
+
+        return AWSSigningConfig(credentials: credentials,
+                                signedBodyValue: .empty,
+                                flags: flags,
+                                date: date,
+                                service: service,
+                                region: region,
+                                signatureType: .requestEvent,
+                                signingAlgorithm: .sigv4)
+    }
 }
 
 extension HttpContextBuilder {
@@ -67,6 +107,14 @@ extension HttpContextBuilder {
     @discardableResult
     public func withSigningAlgorithm(value: AWSSigningAlgorithm?) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKey<String>(name: "SigningAlgorithm"), value: value?.rawValue)
+        return self
+    }
+
+    /// Sets the request signature for the event stream operation
+    /// - Parameter value: `String` request signature
+    @discardableResult
+    public func withRequestSignature(value: String) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKey<String>(name: "AWS_HTTP_SIGNATURE"), value: value)
         return self
     }
 }
