@@ -8,7 +8,7 @@ import AwsCommonRuntimeKit
 import Foundation
 
 public struct AWSSigningConfig {
-    public internal(set) var credentials: AWSCredentials?
+    public let credentials: AWSCredentials?
     public let credentialsProvider: AWSCredentialsProvider?
     public let expiration: TimeInterval
     public let signedBodyHeader: AWSSignedBodyHeader
