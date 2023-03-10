@@ -71,7 +71,7 @@ extension EventStreamHeader {
     }
 }
 
-extension [EventStreamHeader] {
+extension Array where Element == EventStreamHeader {
 
     /// Converts CRT EventStreamHeader array to ClientRuntime EventStream.Header array
     func toHeaders() -> [EventStream.Header] {
