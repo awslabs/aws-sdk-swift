@@ -84,16 +84,6 @@ extension AWSEventStream {
             return message
         }
 
-        /// Returns all messages in the decoder's buffer
-        /// and removes them from the buffer.
-        func messages() throws -> [EventStream.Message] {
-            try throwIfErrorOccurred()
-
-            let messages = messageBuffer
-            messageBuffer = []
-            return messages
-        }
-
         private func throwIfErrorOccurred() throws {
             if let error = error {
                 throw error
