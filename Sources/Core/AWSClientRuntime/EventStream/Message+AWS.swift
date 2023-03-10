@@ -6,7 +6,6 @@
 //
 
 import AwsCommonRuntimeKit
-import Foundation
 import ClientRuntime
 
 extension EventStream {

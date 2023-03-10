@@ -5,9 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AwsCommonRuntimeKit
-import ClientRuntime
-
 /// Namespace for event stream related types
 enum AWSEventStream {
 
