@@ -52,6 +52,13 @@ public class AWSSigV4Signer {
         }
     }
 
+    /// Signs the event payload and returns the signed event with :date and :chunk-signature headers
+    /// - Parameters:
+    ///   - payload: The event payload to sign
+    ///   - previousSignature: The signature of the previous event, this is used to calculate the signature of
+    ///                        the current event payload like a rolling signature calculation.
+    ///   - signingConfig: The signing configuration
+    /// - Returns: The signed event with :date and :chunk-signature headers
     static func signEvent(payload: Data,
                           previousSignature: String,
                           signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
