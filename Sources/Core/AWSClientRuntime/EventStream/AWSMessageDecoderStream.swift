@@ -29,32 +29,28 @@ extension AWSEventStream {
                 self.decoder = decoder
             }
 
-            mutating func next() async -> EventStream.Message? {
-                do {
+            mutating func next() async throws -> EventStream.Message? {
+                // if we have a message in the decoder buffer, return it
+                if let message = try decoder.message() {
+                    return message
+                }
+
+                // read until the end of the stream
+                while let data = try stream.read(upToCount: Int.max) {
+                    // feed the data to the decoder
+                    // this may result in a message being returned
+                    try decoder.feed(data: data)
+
                     // if we have a message in the decoder buffer, return it
                     if let message = try decoder.message() {
                         return message
                     }
-
-                    // read until the end of the stream
-                    while let data = try stream.read(upToCount: Int.max) {
-                        // feed the data to the decoder
-                        // this may result in a message being returned
-                        try decoder.feed(data: data)
-
-                        // if we have a message in the decoder buffer, return it
-                        if let message = try decoder.message() {
-                            return message
-                        }
-                    }
-
-                    // this is the end of the stream
-                    // notify the decoder that the stream has ended
-                    try decoder.endOfStream()
-                    return nil
-                } catch {
-                    return nil
                 }
+
+                // this is the end of the stream
+                // notify the decoder that the stream has ended
+                try decoder.endOfStream()
+                return nil
             }
         }
 

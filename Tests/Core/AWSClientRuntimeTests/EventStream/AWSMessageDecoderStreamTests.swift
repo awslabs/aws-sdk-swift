@@ -10,7 +10,7 @@ import ClientRuntime
 @testable import AWSClientRuntime
 
 final class AWSMessageDecoderStreamTests: XCTestCase {
-    func testIterator() async {
+    func testIterator() async throws {
         let bufferedStream = BufferedStream(data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
                                             isClosed: true)
         let decoder = AWSEventStream.AWSMessageDecoder()

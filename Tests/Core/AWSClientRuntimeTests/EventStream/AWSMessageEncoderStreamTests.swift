@@ -10,7 +10,7 @@ import ClientRuntime
 @testable import AWSClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
-    func testIterator_EndMessageSent() async {
+    func testIterator_EndMessageSent() async throws {
         let baseStream = AsyncThrowingStream<EventStream.Message, Error> { continuation in
             Task {
                 continuation.yield(validMessageWithAllHeaders)
@@ -35,7 +35,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
                                           requestSignature: context.getRequestSignature()!)
 
         var actual: [Data] = []
-        for await data in sut {
+        for try await data in sut {
             actual.append(data)
         }
 

@@ -43,40 +43,36 @@ extension AWSEventStream {
                 self.signingConfig = signingConfig
             }
 
-            mutating func next() async -> Data? {
+            mutating func next() async throws -> Data? {
                 var iterator = stream.makeAsyncIterator()
-                do {
-                    guard let message = try await iterator.next() else {
-                        // There are no more messages in the base stream
-                        // if we have not sent the last message, send it now
-                        if !lastMessageSent {
-                            let signResult = try await AWSSigV4Signer.signEvent(payload: .init(),
-                                                                                previousSignature: previousSignature,
-                                                                                signingConfig: signingConfig)
-                            let data = try encoder.encode(message: signResult.output)
-                            lastMessageSent = true
-                            return data
-                        }
-
-                        // mark the stream as complete
-                        return nil
+                guard let message = try await iterator.next() else {
+                    // There are no more messages in the base stream
+                    // if we have not sent the last message, send it now
+                    if !lastMessageSent {
+                        let signResult = try await AWSSigV4Signer.signEvent(payload: .init(),
+                                                                            previousSignature: previousSignature,
+                                                                            signingConfig: signingConfig)
+                        let data = try encoder.encode(message: signResult.output)
+                        lastMessageSent = true
+                        return data
                     }
 
-                    // encode the message
-                    let encodedMessage = try encoder.encode(message: message)
-
-                    // sign the message
-                    let signResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
-                                                                        previousSignature: previousSignature,
-                                                                        signingConfig: signingConfig)
-                    previousSignature = signResult.signature
-
-                    // encode again the signed message
-                    let data = try encoder.encode(message: signResult.output)
-                    return data
-                } catch {
+                    // mark the stream as complete
                     return nil
                 }
+
+                // encode the message
+                let encodedMessage = try encoder.encode(message: message)
+
+                // sign the message
+                let signResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
+                                                                    previousSignature: previousSignature,
+                                                                    signingConfig: signingConfig)
+                previousSignature = signResult.signature
+
+                // encode again the signed message
+                let data = try encoder.encode(message: signResult.output)
+                return data
             }
         }
 
