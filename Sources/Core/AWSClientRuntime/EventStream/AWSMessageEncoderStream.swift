@@ -10,12 +10,12 @@ import ClientRuntime
 extension AWSEventStream {
     /// Stream adapter that encodes input into `Data` objects.
     public class AWSMessageEncoderStream<Element: MessageMarshaller>: MessageEncoderStream {
-        let stream: EventStream.AsyncInputStream<Element>
+        let stream: AsyncThrowingStream<Element, Error>
         let messageEncoder: MessageEncoder
         let messageSinger: MessageSigner
         let requestEncoder: RequestEncoder
 
-        public init(stream: EventStream.AsyncInputStream<Element>,
+        public init(stream: AsyncThrowingStream<Element, Error>,
                     messageEncoder: MessageEncoder,
                     requestEncoder: RequestEncoder,
                     messageSinger: MessageSigner) {
@@ -26,14 +26,14 @@ extension AWSEventStream {
         }
 
         public struct AsyncIterator: AsyncIteratorProtocol {
-            let stream: EventStream.AsyncInputStream<Element>
+            let stream: AsyncThrowingStream<Element, Error>
             let messageEncoder: MessageEncoder
             var messageSinger: MessageSigner
             let requestEncoder: RequestEncoder
 
             private var lastMessageSent: Bool = false
 
-            init(stream: EventStream.AsyncInputStream<Element>,
+            init(stream: AsyncThrowingStream<Element, Error>,
                  messageEncoder: MessageEncoder,
                  requestEncoder: RequestEncoder,
                  messageSinger: MessageSigner) {

@@ -11,14 +11,14 @@ import ClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     func testIterator_EndMessageSent() async throws {
-        let baseStream = EventStream.AsyncInputStream<TestEvent>(AsyncThrowingStream<TestEvent, Error> { continuation in
+        let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
             Task {
                 continuation.yield(.allHeaders)
                 continuation.yield(.emptyPayload)
                 continuation.yield(.noHeaders)
                 continuation.finish()
             }
-        })
+        }
 
         let messageEncoder = AWSEventStream.AWSMessageEncoder()
         let context = HttpContextBuilder().withSigningRegion(value: "us-east-2")
