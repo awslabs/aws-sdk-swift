@@ -45,6 +45,10 @@ extension AWSEventStream {
                     let message = EventStream.Message(headers: self.decodededHeaders.toHeaders(),
                                                       payload: self.decodedPayload)
                     self.messageBuffer.append(message)
+
+                    // This could be end of the stream, hence reset the state
+                    self.decodedPayload = Data()
+                    self.decodededHeaders = []
                 },
                 onError: { code, message in
                     self.logger.debug("onError: \(code): \(message)")

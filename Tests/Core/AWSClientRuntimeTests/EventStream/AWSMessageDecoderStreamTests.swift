@@ -13,17 +13,19 @@ final class AWSMessageDecoderStreamTests: XCTestCase {
     func testIterator() async throws {
         let bufferedStream = BufferedStream(data: validMessageDataWithAllHeaders + validMessageDataEmptyPayload + validMessageDataNoHeaders,
                                             isClosed: true)
-        let decoder = AWSEventStream.AWSMessageDecoder()
-        let sut = AWSEventStream.AWSMessageDecoderStream(stream: bufferedStream, decoder: decoder)
+        let messageDecoder = AWSEventStream.AWSMessageDecoder()
+        let sut = AWSEventStream.AWSMessageDecoderStream<TestEvent>(stream: bufferedStream,
+                                                                      messageDecoder: messageDecoder,
+                                                                      responseDecoder: JSONDecoder())
 
-        var decoded: [EventStream.Message] = []
-        for try await message in sut {
-            decoded.append(message)
+        var events: [TestEvent] = []
+        for try await evnt in sut {
+            events.append(evnt)
         }
 
-        XCTAssertEqual(3, decoded.count)
-        XCTAssertEqual(validMessageWithAllHeaders, decoded[0])
-        XCTAssertEqual(validMessageEmptyPayload, decoded[1])
-        XCTAssertEqual(validMessageNoHeaders, decoded[2])
+        XCTAssertEqual(3, events.count)
+        XCTAssertEqual(TestEvent.allHeaders, events[0])
+        XCTAssertEqual(TestEvent.emptyPayload, events[1])
+        XCTAssertEqual(TestEvent.noHeaders, events[2])
     }
 }

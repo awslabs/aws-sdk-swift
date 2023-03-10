@@ -11,16 +11,16 @@ import ClientRuntime
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     func testIterator_EndMessageSent() async throws {
-        let baseStream = AsyncThrowingStream<EventStream.Message, Error> { continuation in
+        let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
             Task {
-                continuation.yield(validMessageWithAllHeaders)
-                continuation.yield(validMessageEmptyPayload)
-                continuation.yield(validMessageNoHeaders)
+                continuation.yield(.allHeaders)
+                continuation.yield(.emptyPayload)
+                continuation.yield(.noHeaders)
                 continuation.finish()
             }
         }
 
-        let encoder = AWSEventStream.AWSMessageEncoder()
+        let messageEncoder = AWSEventStream.AWSMessageEncoder()
         let context = HttpContextBuilder().withSigningRegion(value: "us-east-2")
             .withSigningName(value: "test")
             .withRequestSignature(value: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
@@ -30,9 +30,10 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let signingConfig = try! await context.makeEventStreamSigningConfig()
 
         let sut = AWSEventStream.AWSMessageEncoderStream(stream: baseStream,
-                                          encoder: encoder,
-                                          signingConfig: signingConfig,
-                                          requestSignature: context.getRequestSignature()!)
+                                                         messageEncoder: messageEncoder,
+                                                         requestEncoder: JSONEncoder(),
+                                                         signingConfig: signingConfig,
+                                                         requestSignature: context.getRequestSignature()!)
 
         var actual: [Data] = []
         for try await data in sut {
